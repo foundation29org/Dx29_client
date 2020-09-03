@@ -1,7 +1,7 @@
 
 ![Dx29 logo](/src/assets/img/logo-Dx29.png)
-
 <div style="margin-bottom: 1%">
+	<img align="right" width="100px" src="/src/assets/img/logo-Dx29.png">
 </div>
 
 Dx29 client
@@ -125,7 +125,7 @@ You can consult the documentation on the [architecture of the dx29 project](http
     padding-right: 1%;
     padding-bottom: 0.1%;">
 	<div align="right">
-		<img width="150px" src="https://github.com/foundation29org/Dx29_client/tree/develop/src/assets/img/logo-foundation-twentynine-footer.png">
+		<img width="150px" src="/src/assets/img/logo-foundation-twentynine-footer.png">
 	</div>
 	<div align="right" style="padding-top: 0.5%">
 		<p align="right">	
