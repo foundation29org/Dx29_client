@@ -1,5 +1,5 @@
 
-![header image](https://github.com/foundation29org/Dx29_client/tree/develop/src/assets/img/logo-Dx29.png)
+![Dx29 logo](../tree/develop/src/assets/img/logo-Dx29.png?raw=true)
 
 <div style="margin-bottom: 1%">
 </div>
