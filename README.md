@@ -1,6 +1,4 @@
-
-![Dx29 logo](/src/assets/img/logo-Dx29.png)
-<div style="margin-bottom: 1%">
+<div style="margin-bottom: 1%; padding-bottom: 2%;">
 	<img align="right" width="100px" src="/src/assets/img/logo-Dx29.png">
 </div>
 
@@ -120,14 +118,14 @@ You can consult the documentation on the [architecture of the dx29 project](http
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
-<div style="border-top: 1px solid;
-	padding-top: 1%;
-    padding-right: 1%;
-    padding-bottom: 0.1%;">
+<div style="border-top: 1px solid !important;
+	padding-top: 1% !important;
+    padding-right: 1% !important;
+    padding-bottom: 0.1% !important;">
 	<div align="right">
 		<img width="150px" src="/src/assets/img/logo-foundation-twentynine-footer.png">
 	</div>
-	<div align="right" style="padding-top: 0.5%">
+	<div align="right" style="padding-top: 0.5% !important">
 		<p align="right">	
 			Copyright © 2020
 			<a style="color:#009DA0" href="https://www.foundation29.org/" target="_blank"> Foundation29</a>
