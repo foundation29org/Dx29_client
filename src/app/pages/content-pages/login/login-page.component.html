@@ -1,0 +1,101 @@
+<!--Login Page Starts-->
+<section id="login">
+  <ngb-alert *ngIf="haveMsg" type="light" class="mb-0 mt-3 alert-yellow" [dismissible]="false">
+    <div class="mt-3">
+      <h4>{{'InfoSystem.TitleNewVersion' | translate }} <span *ngIf="parts">in {{parts.days}}d {{parts.hours}}h {{parts.minutes}}m {{parts.seconds}}s </span></h4>
+      <p>{{'InfoSystem.SubtitleNewVersion1' | translate }} {{startTime|date:'h a'}} {{'generics.and' | translate }} {{finishTime|date:'h a'}} ({{finishTime|date:'z'}}) {{'InfoSystem.SubtitleNewVersion2' | translate }} {{finishTime|date:'MMM d, y'}}. {{'InfoSystem.SubtitleNewVersion3' | translate }}</p>
+    </div>
+    </ngb-alert>
+      <div class="container-fluid"><!-- gradient-red-pink-->
+          <div [ngClass]="(haveMsg==true)?'row almost-xl-height-vh':'row almost-full-height-vh'">
+            <div class="col-12 d-flex align-items-center justify-content-center">
+                <div class="card bg-blue-grey bg-darken-3 text-center width-400">
+                    <div class="card-body">
+                        <div class="card-block">
+                           <h2 style="margin-bottom: 1rem;" class="card-title font-large-1 text-center white mt-3">{{'login.Login' | translate }}</h2>
+                            <form  (ngSubmit)="onSubmit()" #f="ngForm">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <input type="email" class="form-control" name="email" id="email" placeholder="{{'generics.Email' | translate }}" ngModel required email #email="ngModel">
+                                        <small class="form-text text-muted danger" *ngIf="!email.valid && (email.dirty || email.touched)">{{'generics.entervalidemail' | translate }}</small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <input type="password" class="form-control" name="password" id="password" placeholder="{{'generics.Password' | translate }}" ngModel required #password="ngModel">
+                                        <small class="form-text text-muted danger" *ngIf="!password.valid && (password.dirty || password.touched)">{{'generics.required' | translate }}</small>
+                                    </div>
+                                </div>
+                                <!--<div class="form-group">
+                                  <div class="col-md-9">
+                                    <div class="card-body">
+                                        <div #recaptcha ></div>
+
+                                    </div>
+                                  </div>
+                                </div>-->
+                                <div class="form-group" *ngIf="!sending">
+                                    <div class="col-md-12">
+                                      <div *ngIf="f.valid;then formValid else formError"></div>
+                                      <ng-template #formValid><button class="btn btn-pink btn-block btn-foursquare" type="submit"> {{'login.Login' | translate }}</button></ng-template>
+                                      <ng-template #formError><button class="btn btn-pink btn-block btn-foursquare" type="button" (click)="submitInvalidForm()"> {{'login.Login' | translate }}</button></ng-template>
+                                    </div>
+                                    <!--<a class="white" (click)="launchDemo()">Demo</a>-->
+                                </div>
+                                <div  class="form-group" *ngIf="sending">
+                                  <i class="fa fa-spinner fa-spin fa-3x fa-fw white"></i>
+                                </div>
+                                <div *ngIf="isBlockedAccount" class="form-group">
+                                    <div class="col-md-12 danger">
+                                      {{'login.Account is temporarily locked' | translate }}
+                                    </div>
+                                </div>
+                                <div *ngIf="isLoginFailed" class="form-group">
+                                    <div class="col-md-12 danger">
+                                      {{'login.Login failed' | translate }}
+                                    </div>
+                                </div>
+                                <div *ngIf="isAccountActivated" class="form-group">
+                                    <div class="col-md-12 success">
+                                      {{'login.Account activated' | translate }}
+                                    </div>
+                                </div>
+                                <div *ngIf="supportContacted" class="form-group">
+                                    <div class="col-md-12 danger">
+                                      {{'login.supportContacted' | translate }}
+                                    </div>
+                                </div>
+                                <div *ngIf="emailResent" class="form-group">
+                                    <div class="col-md-12 danger">
+                                      {{'login.emailResent' | translate }}
+                                    </div>
+                                </div>
+                                <div *ngIf="errorAccountActivated" class="form-group">
+                                    <div class="col-md-12 danger">
+                                      {{'login.could not be activated' | translate }}
+                                    </div>
+                                </div>
+                                <div *ngIf="isActivationPending" class="form-group">
+                                    <div class="col-md-12 danger">
+                                      {{'login.The account is not activated' | translate }}
+                                    </div>
+                                </div>
+                                <div *ngIf="isBlocked" class="form-group">
+                                    <div class="col-md-12 danger">
+                                      {{'login.The account is blocked by an administrator' | translate }}
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-footer" style="background: none;">
+                        <div class="float-left white centerdiv"><a (click)="onForgotPassword()">{{'login.Recover Password' | translate }}</a></div>
+                        <div class="float-right white centerdiv"><a (click)="onRegister()">{{'login.Create User' | translate }}</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Login Page Ends-->

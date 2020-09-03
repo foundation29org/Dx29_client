@@ -1,0 +1,260 @@
+.mat-form-field {
+  width: 100%;
+}
+
+::ng-deep .mat-checkbox-inner-container {
+  height: 20px !important;
+  width: 20px !important;
+  margin-top: 0.5em !important;
+}
+
+::ng-deep .mat-select-value{
+    font-size: 12px;
+}
+
+::ng-deep .mat-select-content{
+    font-size: 12px;
+}
+
+.medium-link{
+  font-weight: 500;
+}
+
+:host /deep/ .tick text{
+  text-anchor: unset !important;
+  transform: translate(5px, -17px);
+}
+
+:host /deep/ nvd3 text {
+    font: normal 14px Arial, sans-serif;
+}
+
+:host /deep/ .tick line {
+display: none;
+}
+
+:host /deep/ .highcharts-credits {
+display: none;
+}
+
+:host /deep/ .highcharts-background {
+  fill: #f5f7fa00;
+}
+
+:host /deep/ .highcharts-label {
+  font-family: inherit;
+  stroke: #fff;
+  font-size: inherit;
+  font-weight: normal;
+  paint-order: stroke;
+  fill: #000 !important;
+  color: #fff !important;
+}
+
+:host /deep/ .highcharts-label > text{
+  fill: #000 !important;
+  color: #fff;
+}
+
+:host /deep/ .highcharts-label > text > tspan{
+  fill: #000 !important;
+  //color: #fff;
+  stroke-width: 0px !important;
+  font-weight: lighter
+}
+
+.smallInput{
+  width:4em;
+  display: inline-block;
+}
+
+:host /deep/ .datatable-row-wrapper:hover{
+  cursor: pointer;
+  border: gray;
+  border-style: solid;
+}
+
+.leftAlign{
+    text-align: right !important;
+}
+
+@media ( max-width: 960px ){
+
+  .mt-03{
+    margin-top: 0.3em;
+  }
+
+  .changeviewboton{
+      float:none;
+      margin-top: 0.5em;
+  }
+
+  .right-elements{
+    left: 80% !important;
+  }
+
+
+}
+@media ( max-width: 575px ){
+
+  .leftAlign{
+      text-align: left !important;
+  }
+  .alias{
+    display: block;
+  }
+  .right-elements{
+    left: 75% !important;
+  }
+  
+}
+
+@media ( max-width: 1600px ){
+  #moreinfoLinks{
+    display:grid !important;
+  }
+  #moreinfoLinks2ndcol{
+    margin-left: 0px !important;
+  }
+}
+
+table {
+  width: 100%;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+/*tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}*/
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+/*.example-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}*/
+
+.table{
+  background-color: transparent !important;
+}
+.mat-header-cell{
+  font-size: 1rem;
+  font-weight: bold;
+  color:black;
+  vertical-align: middle;
+}
+.mat-row{
+  cursor: pointer;
+}
+.mat-cell{
+  vertical-align: middle;
+}
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: #dee2e6;
+}
+.example-expanded-row{
+  background-color: #dee2e6;
+}
+.example-element-detail{
+  display: grid !important;
+}
+
+.tableScores th{
+  padding: 0.1rem !important;
+}
+.tableScores thead{
+  background-color: #dee2e6;
+}
+#dropLiterature{
+  position: relative !important;
+  transform: translate(0) !important;
+  padding: 2%;
+}
+
+#remarked{
+  padding:1%;
+  border-radius:  0.3em;
+}
+#remarkedOpacity{
+  padding:1%;
+  opacity: 0.7;
+  border-radius: 0.4em ;
+}
+#remarked1{
+  padding:1%;
+  border-radius:  0.4em 0 0 0.4em ;
+}
+#remarkedOpacity1{
+  padding:1%;
+  opacity: 0.7;
+  border-radius: 0.4em 0 0 0.4em;
+}
+#remarked2{
+  padding:1%;
+  border-radius: 0 0.4em 0.4em 0;
+}
+#remarkedOpacity2{
+  padding:1%;
+  opacity: 0.7;
+  border-radius: 0 0.4em 0.4em 0;
+}
+
+#remarkedSummary{
+  padding:0.5%;
+  border-radius:  0.3em;
+}
+#remarkedOpacitySummary{
+  padding:0.5%;
+  opacity: 0.7;
+  border-radius: 0.4em ;
+}
+#remarked1Summary{
+  padding:0.5%;
+  border-radius:  0.4em 0 0 0.4em ;
+}
+#remarkedOpacity1Summary{
+  padding:0.5%;
+  opacity: 0.7;
+  border-radius: 0.4em 0 0 0.4em;
+}
+#remarked2Summary{
+  padding:0.5%;
+  border-radius: 0 0.4em 0.4em 0;
+}
+#remarkedOpacity2Summary{
+  padding:0.5%;
+  opacity: 0.7;
+  border-radius: 0 0.4em 0.4em 0;
+}

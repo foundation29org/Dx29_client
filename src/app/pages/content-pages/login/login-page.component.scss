@@ -1,0 +1,13 @@
+.alert-yellow{
+  border-color: #f1da1f !important;
+  background-color: #f9c448 !important;
+  color: #000 !important;
+}
+
+@media ( max-width: 380px ){
+
+  .centerdiv{
+    clear: both;
+    float: none !important;
+  }
+}

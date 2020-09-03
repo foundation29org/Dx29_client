@@ -1,0 +1,126 @@
+/* You can add global styles to this file, and also import other style files */
+footer{
+  margin-top: 1em;
+}
+
+.fijado{
+  position: sticky;
+  top: 80px;
+  height: 100%;
+}
+.popover{
+  min-width: 300px;
+  max-width: 600px;
+}
+
+ .pointer{
+   cursor: pointer;
+ }
+
+.labelLower{
+  text-transform: lowercase;
+}
+/*.modal-dialog {
+    max-width: 90%;
+}*/
+
+.fa-1_5x{
+  font-size: 1.5em;
+}
+
+.fa-1_5x:hover {
+     background-color: #fff !important;
+     -webkit-transform: scale(2.2);
+     -moz-transform: scale(2.2);
+     -o-transform: scale(2.2);
+     -ms-transform: scale(2.2);
+     transform: scale(2.2)
+}
+
+.smart-table-container{
+    overflow-x: scroll;
+}
+
+.center-elements{
+  text-align: center;
+}
+
+.right-elements{
+  text-align: right;
+}
+.left-elements{
+  text-align: left;
+}
+
+.textExtractedNcr > a > b{
+  background-color: yellow;
+}
+.textExtractedNcr >  b{
+  background-color: yellow;
+}
+mark{
+  background-color: yellow;
+}
+
+.cdk-global-overlay-wrapper, .cdk-overlay-container {
+     z-index: 99999 !important;
+  }
+
+ .mat-expansion-panel-body {
+      padding: 0 !important;
+  }
+
+  .almost-full-height-vh{
+    height: 84vh !important;
+  }
+  .almost-xl-height-vh{
+    height: 60vh !important;
+  }
+
+  .ModalClass-xl .modal-dialog {
+    max-width: 98% !important;
+  }
+  .ModalClass-lg .modal-dialog {
+    max-width: 65% !important;
+  }
+
+  @media ( max-width: 900px ){
+    .ModalClass-lg .modal-dialog {
+      max-width: 98% !important;
+    }
+  }
+
+@media ( max-height: 550px ){
+  .full-height-vh{
+  	height: 100% !important;
+  }
+  .almost-full-height-vh{
+    height: 100% !important;
+  }
+}
+
+.form .form-actions {
+    border-top: none;
+  }
+
+.bt-n{
+  border-top: none;
+}
+.inactiveLink {
+   pointer-events: none;
+   cursor: default;
+}
+/* You can add global styles to this file, and also import other style files */
+
+/* @import url("assets/css/bootstrap.min.css"); */
+/* @import url("../src/assets/css/prism.min.css");
+@import url("../src/assets/css/sweetalert2.min.css");
+@import url("../src/assets/css/bootstrap-timepicker.min.css");
+@import url("../src/assets/css/wizard.css");
+@import url("../src/assets/css/leaflet.css");
+@import url("../src/assets/css/jquery-jvectormap-2.0.3.css");
+@import url("../src/assets/css/ng2-toastr.min.css");
+@import url("../src/assets/css/nouislider.min.css");
+@import url("../src/assets/css/data-table/index.css");
+@import url("../src/assets/css/data-table/icons.css");
+@import url("../src/assets/css/demo.css"); */

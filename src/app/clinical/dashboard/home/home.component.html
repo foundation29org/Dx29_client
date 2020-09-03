@@ -1,0 +1,157 @@
+<div class="col-md-12 center-elements" *ngIf="sending">
+	<div><p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p></div>
+</div>
+<div class="row" *ngIf="!loadingPatients && (patients.length>0 || listOfArchivedCases.length>0)">
+	<div class="col-md-3 mt-2" *ngIf="!sending">
+		<button id="newpatient" class="btn btn-raised btn-primary" type="button" (click)="callNewPatient(contentNewCaseName)">{{'diagnosis.New case' | translate }}</button>
+	</div>
+</div>
+<div class="d-flex" *ngIf="!loadingPatients && patients.length==0">
+	<div class="mat-accordion">
+		<div class="card col-md-12">
+			<div class="card-block">
+				<h3>{{'about.There are no cases in your profile' | translate }}</h3>
+				<p>
+					{{'about.Dx29 consists of four steps' | translate }}:
+				</p>
+				<ol>
+					<li>
+						<b>{{'about.Input patient symptoms' | translate }}</b> {{'about.Input patient symptoms description' | translate }} {{'about.The phenotype quality' | translate }}
+					</li>
+					<li>
+						<b>{{'about.Input genetic information' | translate }}</b> {{'about.Input genetic information description' | translate }}
+					</li>
+					<li>
+						<b>{{'about.Analysis' | translate }}</b> {{'about.Analysis description' | translate }}
+					</li>
+					<li>
+						<b>{{'about.Phenotype expansion and results' | translate }}</b> {{'about.Phenotype expansion and results description' | translate }}
+					</li>
+				</ol>
+				<p>
+					{{'about.These instructions can be found in the' | translate }}
+				</p>
+
+				<div class="col-md-12 center-elements" *ngIf="!sending">
+					<button id="newpatient" class="btn btn-lg btn-outline-primary" type="button" (click)="callNewPatient(contentNewCaseName)">{{'diagnosis.New case' | translate }}</button>
+					<button class="btn btn-lg btn-outline-primary" type="button" routerLink="/clinical/about">{{'about.title' | translate }}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<mat-accordion>
+	<mat-expansion-panel [expanded]="true" *ngIf="!loadingPatients && patients.length>0">
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				{{'diagnosis.Cases' | translate }}
+			</mat-panel-title>
+		</mat-expansion-panel-header>
+
+		<div class="center-elements" *ngIf="loadinglangs">
+			<div><p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p></div>
+		</div>
+		<div class="card-body table-responsive" *ngIf="!loadinglangs">
+			<ng2-smart-table [settings]="alertsettings" [source]="alertSource" (deleteConfirm)="onDeleteConfirm($event)" (custom)="onCustom($event, contentChangeCaseName)" (userRowSelect)="handleGridSelected($event)"></ng2-smart-table>
+		</div>
+
+	</mat-expansion-panel>
+	<mat-expansion-panel *ngIf="!loadingPatients && listOfArchivedCases.length>0">
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				{{'diagnosis.Archived cases' | translate }}
+			</mat-panel-title>
+		</mat-expansion-panel-header>
+		<div class="center-elements" *ngIf="loadinglangs">
+			<div><p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p></div>
+		</div>
+		<div class="card-body table-responsive" *ngIf="!loadinglangs">
+			<ng2-smart-table [settings]="alertsettingsCasesArchived" [source]="alertSourceCasesArchived" (deleteConfirm)="onDeleteConfirmArchive($event)" (custom)="onCustom($event, contentChangeCaseName)" (userRowSelect)="handleGridSelected($event)"></ng2-smart-table>
+		</div>
+	</mat-expansion-panel>
+	<mat-expansion-panel *ngIf="!loadingSharedCases && listOfSharedCases.length>0">
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				{{'diagnosis.Shared cases' | translate }}
+			</mat-panel-title>
+		</mat-expansion-panel-header>
+		<div class="center-elements" *ngIf="loadinglangs">
+			<div><p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p></div>
+		</div>
+		<div class="card-body table-responsive" *ngIf="!loadinglangs">
+			<ng2-smart-table [settings]="alertsettingsCasesShared" [source]="alertSourceCasesShared" (deleteConfirm)="onDeleteSharedCaseConfirm($event)" (custom)="onCustom($event, contentChangeSharedCaseName)" (userRowSelect)="handleGridSelectedShared($event)"></ng2-smart-table>
+		</div>
+	</mat-expansion-panel>
+</mat-accordion>
+<button id="openModalMoreInfoShared" [hidden]="true" (click)="showPanelMoreInfoShared(contentMoreInfoShared)">.</button>
+<div class="center-elements" *ngIf="loadingPatients">
+	<div><p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p></div>
+</div>
+<ng-template #contentChangeCaseName let-c="close" let-d="dismiss" appendTo="body">
+		<div class="modal-header" id="idHeader">
+				<h4 class="modal-title">{{'diagnosis.Case name' | translate }}</h4>
+		</div>
+		<div class="modal-body">
+			<label>{{'diagnosis.Dont enter any identifiable patient information' | translate }}</label>
+			<input type="text" class="form-control" name="patientName" [(ngModel)]="changeName.patientName">
+		</div>
+		<div class="modal-footer">
+			<div class="form-actions center" *ngIf="!sending">
+					<button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
+					<button type="button" class="btn btn-primary btn-raised" (click)="saveChangeCaseName()">{{'generics.Save' | translate }}</button>
+			</div>
+		</div>
+</ng-template>
+<ng-template #contentChangeSharedCaseName let-c="close" let-d="dismiss" appendTo="body">
+		<div class="modal-header" id="idHeader">
+				<h4 class="modal-title">{{'diagnosis.Case name' | translate }}</h4>
+		</div>
+		<div class="modal-body">
+			<label>{{'diagnosis.Dont enter any identifiable patient information' | translate }}</label>
+			<input type="text" class="form-control" name="alias" [(ngModel)]="changeNameShared.alias">
+		</div>
+		<div class="modal-footer">
+			<div class="form-actions center" *ngIf="!sending">
+					<button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
+					<button type="button" class="btn btn-primary btn-raised" (click)="saveChangeCaseNameShared()">{{'generics.Save' | translate }}</button>
+			</div>
+		</div>
+</ng-template>
+<ng-template #contentNewCaseName let-c="close" let-d="dismiss" appendTo="body">
+		<div class="modal-header" id="idHeader">
+				<h4 class="modal-title">{{'diagnosis.Case name' | translate }}</h4>
+		</div>
+		<div class="modal-body">
+			<label>{{'diagnosis.Dont enter any identifiable patient information' | translate }}</label>
+			<input type="text" class="form-control" name="patientName" [(ngModel)]="patient.patientName">
+		</div>
+		<div class="modal-footer">
+			<div class="form-actions center" *ngIf="!sending">
+					<button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
+					<button type="button" class="btn btn-primary btn-raised" (click)="saveNewCase()">{{'generics.Save' | translate }}</button>
+			</div>
+		</div>
+</ng-template>
+
+<ng-template #contentMoreInfoShared let-c="close" let-d="dismiss" appendTo="body">
+		<div class="modal-header" id="idHeader">
+				<h4 class="modal-title"><strong>{{moreInfoCaseEvent.patientName}}</strong> <span *ngIf="moreInfoCaseEvent.patientName!=moreInfoCaseEvent.alias" class="d-block font-small-2"> Alias: {{moreInfoCaseEvent.alias}}</span></h4>
+
+		</div>
+		<div class="center-elements" *ngIf="!loadedInfoPatient">
+			<div><p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p></div>
+		</div>
+		<div class="modal-body" *ngIf="loadedInfoPatient">
+			<!--<h4>{{'generics.Patient data' | translate }}</h4>-->
+			<p class="mb-0"><label><strong>{{'personalinfo.Gender' | translate }}:</strong></label> {{moreInfoCaseData.gender}}</p>
+			<p class="mb-0"><label><strong>{{'personalinfo.Birth Date' | translate }}:</strong></label> {{moreInfoCaseData.birthDate | date}}</p>
+			<!--<h4>{{'generics.Account data' | translate }}</h4>-->
+			<p class="mb-0"><label><strong>{{'generics.Email' | translate }}:</strong></label> {{patientEmail}}</p>
+			<p class="mb-0"><label><strong>{{'generics.Account name' | translate }}:</strong></label> {{moreInfoCaseEvent.userName}}</p>
+		</div>
+		<div class="modal-footer">
+			<div class="form-actions center">
+					<button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
+			</div>
+		</div>
+</ng-template>

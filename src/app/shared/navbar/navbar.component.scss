@@ -1,0 +1,14 @@
+@media ( max-width: 991.98px ){
+.navbar-container {
+    width: unset !important;
+  }
+
+  .navbar-header {
+      width: unset !important;
+    }
+}
+@media ( max-width: 600px ){
+.font-alert {
+    font-size: 0.7rem;
+  }
+}

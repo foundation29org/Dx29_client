@@ -1,0 +1,6 @@
+@import "../../../../assets/sass/scss/gradient-variables";
+
+:host /deep/ tbody tr:hover {
+background: #B3E2E3;
+cursor: pointer;
+}

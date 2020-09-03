@@ -1,0 +1,56 @@
+<footer class="empty-padding-left">
+  <div class="container col-md-12 ptbl">
+    <div class="col-md-12 mt-2">
+      <div class="row">
+        <div class="col-md-5 center-xs pts pbxl start-sm">
+          <nav>
+            <a href="https://www.foundation29.org" target="_blank"><img class="" src='assets/img/logo-foundation-twentynine-footer.png' /></a>
+            <p class="ptm mb-0">&copy;  {{currentDate | date: 'yyyy'}} {{'generics.Foundation 29' | translate }}</p>
+            <a class="danger" mailto="info@foundation29.org" href="mailto:info@foundation29.org">info@foundation29.org</a>
+          </nav>
+        </div>
+        <div class="col-md-2">
+          <div class="redes-line"></div>
+        </div>
+        <a id="contact"></a>
+        <div class="col-md-5 center-xs start-sm">
+          <div class="card-block">
+            <h3>{{'homedx.Contact us' | translate }}</h3>
+            <form class="form" (ngSubmit)="sendMsg()" #f="ngForm">
+              <div class="form-body">
+                <div class="">
+                  <div class="">
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="userName" id="userName" placeholder="{{'generics.Name' | translate }}" ngModel required #userName="ngModel">
+                      <small class="form-text text-muted danger" *ngIf="!userName.valid && (userName.dirty || userName.touched)">{{'generics.required' | translate }}</small>
+                    </div>
+                  </div>
+                  <div class="">
+                    <div class="form-group">
+                      <input type="email" class="form-control" name="email" id="email" placeholder="{{'generics.Email' | translate }}" ngModel required email #email="ngModel">
+                      <small class="form-text text-muted danger" *ngIf="!email.valid && (email.dirty || email.touched)">{{'generics.entervalidemail' | translate }}</small>
+                      </div>
+                  </div>
+                  <div class="">
+                    <div class="form-group">
+                      <textarea name="description" id="textarea1" (ngModelChange)="resizeTextArea()" placeholder="{{'support.Message' | translate }}" class="autoajustable form-control" ngModel required #description="ngModel" ></textarea>
+                      <small class="form-text text-muted danger" *ngIf="!description.valid && (description.dirty || description.touched)">{{'generics.required' | translate }}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="!sending" class="center-elements">
+                  <div *ngIf="f.valid;then formValid else formError"></div>
+                  <ng-template #formValid><button class="btn btn-outline-red mr-1" type="submit"> {{'support.Send' | translate }}</button></ng-template>
+                  <ng-template #formError><button class="btn btn-outline-red mr-1" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
+              </div>
+              <div class="form-actions" *ngIf="sending">
+                  <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,28 @@
+<div class="component">
+    <div *ngIf="!dataLoaded" class="">{{'dashboardpatient.Calculating your position on the map' | translate }}...</div>
+    <svg id = "svgData" ngShow="dataLoaded"
+        class="patient-visualizer border rounded mb-2"
+        width="100%"
+        height="100%"
+        xmlns="http://www.w3.org/2000/svg">
+    </svg>
+    <span class="legendmap">{{legend}}</span>
+    <div id="canvasSergio"></div>
+
+  <!--  <div *ngIf="dataLoaded">
+        <a class="btn btn-primary btn-raised" id="download" (click)="downloadImage()">
+            <i class="fa ft-download"></i> {{'generics.Download' | translate }}
+        </a>
+        <a class="btn btn-raised" style = "background-color: #3b5998;"href='https://facebook.com/sharer.php?u={{imagenUrl}}&[title]=This+is+my+dx29+map' target="_blank" rel="noopener" aria-label="" >
+            <i class= "icon-social-facebook" style = "color:white;"></i>
+        </a>
+        <a class="btn btn-raised" style = "background-color: #00acee;" target="_blank" rel="noopener" aria-label=""
+            href="http://www.twitter.com/share?text=This+is+my+dx29+map&url={{imagenUrl}}">
+            <i class= "icon-social-twitter" style = "color:white;"></i>
+        </a>
+        <a class="btn btn-raised" style = "background-color: #0e76a8;"href='https://www.linkedin.com/shareArticle?mini=true&url={{imagenUrl}}' target="_blank" rel="noopener" aria-label="">
+            <i style = "color:white; font-weight: bold"> in </i>
+        </a>
+
+    </div>-->
+</div>

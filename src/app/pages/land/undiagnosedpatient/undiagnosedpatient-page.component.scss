@@ -1,0 +1,175 @@
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 256px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #eee;
+    white-space: nowrap;
+    line-height: 32px;
+    /* Vertically center the text there */
+}
+
+/* Colors
+-------------------------------------------------- */
+.red {
+    background: red;
+}
+.green {
+    background: green;
+}
+.blue {
+    background: blue;
+}
+
+.text-red {
+    color: red;
+}
+.text-green {
+    color: green;
+}
+.text-blue {
+    color: blue;
+}
+
+/* Custom
+-------------------------------------------------- */
+
+.section h1 {
+    font-family: suisse,sans-serif;
+    font-size: 48px;
+    font-weight: 600;
+}
+
+.section h2 {
+    font-family: suisse,sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+}
+
+.section p {
+    font-family: suisse,sans-serif;
+    font-size: 22px;
+    font-weight: normal;
+}
+
+.section1 h1 {
+    font-family: suisse,sans-serif;
+    font-size: 48px;
+    font-weight: 600;
+}
+
+.section1 p {
+    font-family: suisse,sans-serif;
+    font-size: 22px;
+    font-weight: normal;
+}
+
+.section2 {
+    height: 100%;
+    min-height: 100%;
+}
+
+    .section2 h3 {
+        font-family: suisse,sans-serif;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .section2 p {
+        font-family: suisse,sans-serif;
+        font-size: 18px;
+        font-weight: normal;
+    }
+
+    .section2 button {
+        width: 220px;
+        word-wrap: break-word;
+        line-height: 1.25;
+    }
+
+        .section2 button.btn-link {
+            color: black;
+            text-decoration: underline;
+            line-height: 1.25;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+.donate p {
+    font-family: suisse,sans-serif;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.donate button {
+    width: 220px;
+    word-wrap: break-word;
+    line-height: 1.25;
+}
+
+img.logo {
+    height: 80px;
+}

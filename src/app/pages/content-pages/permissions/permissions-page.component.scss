@@ -1,0 +1,20 @@
+@media ( max-height: 580px ) and ( max-width: 508px ){
+  .mt-3, .my-3 {
+    margin-top: 0 !important;
+  }
+  .card-block{
+    padding: 0;
+  }
+}
+
+@media ( max-height: 520px ){
+  .mt-3, .my-3 {
+    margin-top: 0 !important;
+  }
+  .card-block{
+    padding: 0;
+  }
+  .pt-4, .py-4 {
+    padding-top: 0 !important;
+  }
+}

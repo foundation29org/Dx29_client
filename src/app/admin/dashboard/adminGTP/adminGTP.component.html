@@ -1,0 +1,92 @@
+<div class="col-md-12">
+    <div class="col-md-12 center-elements mt-3" *ngIf="loading">
+        <p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
+    </div>
+    <div class="col-md-12" *ngIf="!loading">
+        <div class="row mt-2">
+            <div class="col-md-12">
+                <mat-accordion>
+                    <mat-expansion-panel [expanded]="true">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{'adminGTP.GTP' | translate }}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <ng2-smart-table [settings]="alertsettingsProgramsInfo" [source]="alertSourceProgramsInfo" (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onEditConfirm($event)" (userRowSelect)="openMoreInfo($event)"></ng2-smart-table>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-1 mb-2">
+                            <button class="btn btn-icon round btn-outline-primary pull-right" (click)="downloadFile(true,programsInfo,'GTP')" style="cursor:pointer" [disabled]="!programsInfo.length>0"><i class="ft-download mr-1"></i> {{'generics.Download' | translate }}</button>
+                        </div>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{'adminGTP.GTP Error' | translate }}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <ng2-smart-table [settings]="alertsettingsProgramsInfoNotPatient" [source]="alertSourceProgramsInfoNotPatient" (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onEditConfirm($event)" (userRowSelect)="openMoreInfo($event)"></ng2-smart-table>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-1 mb-2">
+                            <button class="btn btn-icon round btn-outline-primary pull-right" (click)="downloadFile(false,programsInfoNotPatient,'GTP')" style="cursor:pointer" [disabled]="!programsInfoNotPatient.length>0"><i class="ft-download mr-1"></i> {{'generics.Download' | translate }}</button>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+    </div>
+    <button id="openModalMoreInfo" [hidden]="true" (click)="showPanelMoreInfo(contentMoreInfo)">.</button>
+</div>
+<ng-template #contentMoreInfo let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header" id="idHeader">
+        <h4 class="modal-title"><strong>{{moreInfoCaseEvent.applicationId}}</strong></h4>
+    </div>
+    <div class="modal-body">
+        <h5>{{'generics.Clinician data' | translate }}</h5>
+        <p class="mb-0"><label><strong>{{'generics.Name' | translate }}:</strong></label> {{moreInfoCaseEvent.clinicianName}}</p>
+        <p class="mb-0"><label><strong>{{'generics.Email' | translate }}:</strong></label> {{moreInfoCaseEvent.clinicialEmail}}</p>
+        <h5 class="mt-3">{{'generics.Patient data' | translate }}</h5>
+        <p class="mb-0"><label><strong>{{'generics.Name' | translate }}:</strong></label> {{moreInfoCaseEvent.patientName}}</p>
+        <p class="mb-0"><label><strong>{{'generics.Email' | translate }}:</strong></label> {{moreInfoCaseEvent.patientEmail}}</p>
+        <p class="mb-0" *ngIf='moreInfoCaseEvent.birthdate!="-"'><label><strong>{{'personalinfo.Birth date' | translate }}:</strong></label> {{moreInfoCaseEvent.birthdate | date}}</p>
+        <p class="mb-0" *ngIf='moreInfoCaseEvent.birthdate=="-"'><label><strong>{{'personalinfo.Birth date' | translate }}:</strong></label> - </p>
+        <p class="mb-0"><label><strong>{{'personalinfo.Gender' | translate }}:</strong></label> {{moreInfoCaseEvent.genre}}</p>
+        <div>
+            <p class="mb-0">
+                <label><strong>{{'adminGTP.List of symptoms' | translate }}:</strong></label>
+                <label *ngIf="moreInfoCaseEvent.listSymptoms.length==0">-</label>
+
+            </p>
+            <div *ngFor="let symptom of moreInfoCaseEvent.listSymptoms" class="ml-3">
+                <a (click)="openLinkMonarch(symptom.id)" href="javascript:void(0)" title="{{symptom.id}}" >{{symptom.name}}</a>
+            </div>
+        </div>
+        <div>
+            <p class="mb-0">
+                <label><strong>{{'adminGTP.Has medical reports' | translate }}:</strong></label> 
+                <label *ngIf="moreInfoCaseEvent.medicalRecords.reason==undefined">{{moreInfoCaseEvent.medicalRecords}}</label>
+            </p>
+            <div *ngIf="moreInfoCaseEvent.medicalRecords.result==true">
+                <div *ngFor="let medicalReportReason of moreInfoCaseEvent.medicalRecords.reason" class="ml-3">
+                    <a (click)="openLink(medicalReportReason.url)" href="javascript:void(0)">
+                        {{medicalReportReason.name}}
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+        <p class="mb-0"><label><strong>{{'adminGTP.Genetic data status' | translate }}:</strong></label> {{moreInfoCaseEvent.geneticDataStatus}}</p>
+        <p class="mb-0"><label><strong>{{'adminGTP.Genetic data analysis status' | translate }}:</strong></label> {{moreInfoCaseEvent.dataAnalysisStatus}}</p>
+    </div>
+    <div class="modal-footer">
+        <div class="form-actions center">
+            <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
+        </div>
+    </div>
+</ng-template>
+    

@@ -1,0 +1,77 @@
+<!-- Navbar (Header) Starts -->
+<nav class="navbar navbar-expand-lg navbar-light bg-faded damemarger" style="min-height: 3em;padding: 1.4em;">
+    <div class="container-fluid">
+      <div> <!--*ngIf="role != 'Clinical' && role != 'Lab'"-->
+          <button type="button" class="mt-2 d-lg-none navbar-toggle float-left" data-toggle="collapse" (click)="toggleSidebar()">
+              <span class="sr-only">{{'navbar.Toggle navigation' | translate }}</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </button>
+          <span class="navbar-header-logos">
+            <img *ngIf="isHomePage" class="logo-img" src='assets/img/logo-Dx29.png' />
+            <img *ngIf="!isHomePage" style="cursor:pointer;" class="logo-img" src='assets/img/logo-Dx29.png' routerLink="/."/>
+          </span>
+
+      </div>
+        <div class="d-none d-lg-block">
+          <div class="navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav m-r-0">
+                  <li class="nav-item mr-2">
+                      <a class="nav-link" [ngClass]="(!isClinicianPage)?'black':'black text-bold-500'" routerLink="/clinician">
+                        <span>{{'menu.Physicians' | translate }}</span>
+                      </a>
+                  </li>
+                  <li class="nav-item mr-2">
+                      <a class="nav-link" [ngClass]="(!isUndiagnosedPatientPage)?'black':'black text-bold-500'" routerLink="/undiagnosedpatient">
+                        <span>{{'menu.UndiagnosedPatients' | translate }}</span>
+                      </a>
+                  </li>
+                  <li class="nav-item mr-2">
+                      <a class="nav-link" [ngClass]="(!isPatientPage)?'black':'black text-bold-500'" routerLink="/diagnosedpatient">
+                        <span>{{'menu.DiagnosedPatients' | translate }}</span>
+                      </a>
+                  </li>
+                  <li class="nav-item mr-2">
+                      <a class="nav-link" [ngClass]="(!isEdHubPage)?'black':'black text-bold-500'" routerLink="/education">
+                        <span>{{'menu.Ed Hub' | translate }}</span>
+                      </a>
+                  </li>
+                  <li class="nav-item mr-2">
+                      <a class="nav-link" [ngClass]="(!isAttributionsPage)?'black':'black text-bold-500'" routerLink="/attributions">
+                        <span>{{'menu.Attributions' | translate }}</span>
+                      </a>
+                  </li>
+                </ul>
+            </div>
+        </div>
+        <div class="navbar-container pl-0">
+            <div  id="navbarSupportedContent">
+                <ul class="navbar-nav m-r-0">
+                    <li class="nav-item mr-2">
+                        <a class="btn btn-danger mr-1 btn-raised mb-0" [routerLink]="['/register', { role: role, subrole: subrole }]">
+                          <span>{{'login.Create User' | translate }}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item mr-2">
+                        <button class="btn btn-secondary mr-1 btn-raised mb-0" routerLink="/login">
+                          <span>{{'login.Login' | translate }}</span>
+                        </button>
+                    </li>
+                    <li class="nav-item mr-2" ngbDropdown display="dynamic" placement="bottom-right">
+                        <a class="position-relative colorlink" id="dropdownLang" ngbDropdownToggle>
+                            <u>{{currentLang}}</u>
+                        </a>
+                        <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
+                            <a *ngFor="let lang of langs" class="dropdown-item py-1 lang" href="javascript:;" (click)="ChangeLanguage(lang.code)">
+                                <span>{{lang.name}}</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Navbar (Header) Ends -->

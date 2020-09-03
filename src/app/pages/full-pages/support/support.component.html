@@ -1,0 +1,96 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="content-header">{{'support.New message' | translate }}</div>
+  </div>
+</div>
+<section>
+  <div class="row card">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-block">
+          <form class="form" (ngSubmit)="sendMsg()" #f="ngForm">
+            <div class="form-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="subject">{{'support.Subject' | translate }}</label>
+                    <input type="text" id="subject" class="form-control"  name="subject" [(ngModel)]="supportInfo.subject" required ngModel required #subject="ngModel">
+                    <small class="form-text text-muted danger" *ngIf="!subject.valid && (subject.dirty || subject.touched)">{{'generics.required' | translate }}</small>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="description">{{'support.Message' | translate }}</label>
+                    <textarea name="description" id="textarea1" (ngModelChange)="resizeTextArea()" class="autoajustable form-control" [(ngModel)]="supportInfo.description" name="description" required ngModel required #description="ngModel"></textarea>
+                    <small class="form-text text-muted danger" *ngIf="!description.valid && (description.dirty || description.touched)">{{'generics.required' | translate }}</small>
+                  </div>
+                </div>
+                <div class="mt-2 col-md-12" *ngFor="let eachfile of supportInfo.files ; let i = index">
+                  <p *ngIf="eachfile">
+                    <span>{{eachfile}}</span>
+                    <a class="btn btn-outline-danger mb-0" (click)="deleteDataAndFile(i);" href="javascript:void(0)"><i class="fa fa-times"></i></a>
+                </p>
+                </div>
+                <div class="mt-2 col-md-12" >
+                  <label for="distance">{{'support.New File' | translate }} <small>{{'support.Uploading a capture can help us a lot' | translate }}</small></label>
+                  <p style="margin: 0;"></p>
+                  <input type="text" class="form-control"  hidden>
+                  <label *ngIf="!uploadingFile" class="btn btn-outline-primary">
+                      <i class="fa ft-upload-cloud"></i> <input type="file" (change)="onFileChange($event);" style="display: none;">
+                  </label>
+                  <h4 *ngIf="uploadingFile" class="center-elements">{{'generics.Upload Progress' | translate }}: {{uploadProgress | async}}%</h4>
+
+                </div>
+              </div>
+            </div>
+            <div class="form-actions">
+              <span *ngIf="!sending">
+                <div *ngIf="f.valid;then formValid else formError"></div>
+                <ng-template #formValid><button class="btn btn-raised btn-primary" type="submit"> {{'support.Send' | translate }}</button></ng-template>
+                <ng-template #formError><button class="btn btn-raised btn-primary" type="button" (click)="submitInvalidForm()">{{'support.Send' | translate }}</button></ng-template>
+              </span>
+              <span *ngIf="sending">
+                <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+              </span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div *ngIf="msgList.length > 0">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="content-header">{{'support.Old messages' | translate }}</div>
+    </div>
+  </div>
+  <section>
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-block">
+            <table class="col-md-12 table text-center">
+    					<thead>
+    						<tr>
+    							<th>{{'support.Subject' | translate }}</th>
+    							<th>{{'support.Message' | translate }}</th>
+    							<th>{{'generics.Date' | translate }}</th>
+                  <th>{{'generics.Status' | translate }}</th>
+    						</tr>
+    					</thead>
+    					<tbody>
+    						<tr *ngFor="let msg of msgList ; let i = index">
+    							<td>{{msg.subject}}</td>
+                  <td>{{msg.description}}</td>
+                  <td>{{msg.date | date}}</td>
+                  <td>{{msg.status}}</td>
+    						</tr>
+    					</tbody>
+    				</table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

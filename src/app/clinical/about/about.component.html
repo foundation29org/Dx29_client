@@ -1,0 +1,111 @@
+<div class="row">
+  <div class="offset-md-1 col-md-10">
+    <div class="content-header">{{'about.welcome' | translate }}</div>
+    <p>
+        {{'about.Dx29 is an AI-based tool created and maintained by' | translate }} <a href="https://foundation29.org/" target="_blank">Foundation 29</a> {{'about.to support physicians to make better decisions' | translate }}
+    </p>
+  </div>
+</div>
+<section id="basic-form-layouts" style="margin-top:1em;">
+	<div class="row">
+      <div class="col-md-3" style="margin-bottom:1em;">
+          <span (click)="toggleMenu()" class="chat-app-sidebar-toggle ft-align-justify font-large-1 mr-2 d-none d-block d-sm-block d-md-none"></span>
+          <div class="chat-sidebar d-none d-sm-none d-md-block d-lg-block">
+            <a class="list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2" (click)="SetActive($event, 'panelFlujoTrabajo')">
+                {{'about.Summary of Dx29 workflow' | translate }}
+            </a>
+            <a class="list-group-item no-border" (click)="SetActive($event, 'panelResumenHerramientas')">
+                {{'about.Summary of Tools' | translate }}
+            </a>
+            <a class="list-group-item no-border" (click)="SetActive($event, 'PanelPuntuajesResultados')">
+                {{'about.Result scores' | translate }}
+            </a>
+          </div>
+        </div>
+
+        <div class="col-md-9">
+
+            <div *ngIf="activeTittleMenu == 'FlujoTrabajo'">
+                <h4>{{'about.Summary of Dx29 workflow' | translate }}</h4>
+                <p>
+                    {{'about.There are no cases in your profile' | translate }}
+                  </p>
+                  <p>
+                    {{'about.Dx29 consists of four steps' | translate }}:
+                  </p>
+                  <ol>
+                    <li>
+                      <b>{{'about.Input patient symptoms' | translate }}</b> {{'about.Input patient symptoms description' | translate }} {{'about.The phenotype quality' | translate }}
+                    </li>
+                    <li>
+                      <b>{{'about.Input genetic information' | translate }}</b> {{'about.Input genetic information description' | translate }}
+                    </li>
+                    <li>
+                      <b>{{'about.Analysis' | translate }}</b> {{'about.Analysis description' | translate }}
+                    </li>
+                    <li>
+                      <b>{{'about.Phenotype expansion and results' | translate }}</b> {{'about.Phenotype expansion and results description' | translate }}
+                    </li>
+                  </ol>
+                  <h4><b>{{'about.Detailed workflow' | translate }}:</b></h4>
+                  <p>
+                    {{'about.Dx29 allows processing multiple cases...' | translate }} <a href="https://hpo.jax.org/app/" target="_blank">Human Phenotype Ontology (HPO)</a> {{'about.system. The next step...' | translate }}
+                  </p>
+                  <p>
+                    {{'about.In the previous explanation...' | translate }}
+                  </p>
+                  <p>
+                    {{'about.A notable absence from this...' | translate }} <a href="https://github.com/ccmbioinfo/NeuralCR" target="_blank">NeuralCR</a>. {{'about.NCR is included here under MIT license.' | translate }}
+                  </p>
+            </div>
+
+            <div *ngIf="activeTittleMenu == 'ResumenHerramientas'">
+              <h4>{{'about.Summary of Tools' | translate }}</h4>
+                <h5>Exomiser:</h5>
+                <p>{{'about.Exomiser is a program...' | translate }}</p>
+                <p>{{'about.Using the genetic information...' | translate }}</p>
+                <p>
+                  {{'about.Exomiser is developed by the' | translate }} <a href="http://charite.github.io/" target="_blank">{{'about.Computational Biology and Bioinformatics group' | translate }}</a> {{'about.at the Institute for' | translate }} <a href="https://genetik.charite.de/" target="_blank">{{'about.Medical Genetics and Human Genetics' | translate }}</a> {{'about.of the' | translate }} <a href="https://www.charite.de/" target="_blank">{{'about.Charité - Universitätsmedizin Berlin' | translate }}</a>{{'about.the Mouse Informatics Group at the Sanger Institute and other members of the' | translate }} <a href="https://monarchinitiative.org/" target="_blank">{{'about.Monarch initiative' | translate }}</a>.
+                </p>
+                <p>
+                  {{'about.Exomiser is included...' | translate }}: <a href="https://monarch-exomiser-web-dev.monarchinitiative.org/exomiser/legal" target="_blank">https://monarch-exomiser-web-dev.monarchinitiative.org/exomiser/legal</a>
+                </p>
+                <h5>Phenolyzer:</h5>
+                <p>
+                  {{'about.Phenolyzer stands for...' | translate }}:
+                </p>
+                <ol>
+                  <li>{{'about.Finds all the genes having a reported association with the terms.' | translate }}</li>
+                  <li>{{'about.Grows the genes into gene-gene relation...' | translate }}</li>
+                  <li>{{'about.Integrates all the information...' | translate }}</li>
+                </ol>
+                <p>
+                  {{'about.Phenolyzer is developed at...' | translate }} <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4718403/" target="_blank">PubMed</a>). {{'about.Phenolyzer is included here thanks to out non-profit nature.' | translate }}
+                </p>
+                <h5>OwlSim:</h5>
+                <p>
+                  {{'about.OwlSim provides ontology-based...' | translate }}
+                </p>
+                <p>
+                  {{'about.OwlSim is developed by the OWL collaboration' | translate }} <a href="https://github.com/owlcollab/owltools/blob/master/LICENSE.txt" target="_blank">link</a>.
+                </p>
+            </div>
+            <div *ngIf="activeTittleMenu == 'PuntuajesResultados'">
+              <h4>{{'about.Result scores' | translate }}</h4>
+                <p>
+                    {{'about.The scores at the...' | translate }}:
+                  </p>
+                  <ul>
+                    <li>H1: {{'about.Number of symptoms given...' | translate }}</li>
+                    <li>H2: {{'about.Phenotype similarity score...' | translate }}</li>
+                    <li>H3: {{'about.Normalized gene score...' | translate }}</li>
+                    <li>H29: {{'about.Sum of scores' | translate }}.</li>
+                  </ul>
+                  <p>{{'about.are normalized to the 0-100 range...' | translate }}</p>
+                  <p><b>{{'about.The scores here included...' | translate }}</b> {{'about.This will be improved in the future...' | translate }}</p>
+                  <p>{{'about.It is the onus of the user...' | translate }}</p>
+            </div>
+          </div>
+
+  </div>
+</section>

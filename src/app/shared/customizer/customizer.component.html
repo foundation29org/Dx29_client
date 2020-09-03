@@ -1,0 +1,163 @@
+<!--Theme customizer Starts-->
+<div #customizer class="customizer border-left-blue-grey border-left-lighten-4 d-none d-sm-none d-md-block" [ngClass]="{open: isOpen}">
+  <a class="customizer-close" (click)="closeCustomizer()">
+    <i class="ft-x font-medium-3"></i>
+  </a>
+  <a class="customizer-toggle bg-danger" id="customizer-toggle-icon" (click)="toggleCustomizer()">
+    <i class="ft-settings font-medium-4 fa fa-spin white align-middle"></i>
+  </a>
+  <div [perfectScrollbar] class="customizer-content p-3 ps-container ps-theme-dark text-left" data-ps-id="df6a5ce4-a175-9172-4402-dabd98fc9c0a">
+    <h4 class="text-uppercase mb-0 text-bold-400">Theme Customizer</h4>
+    <p>Customize &amp; Preview in Real Time</p>
+    <hr>
+
+    <!-- Layout Options-->
+    <h6 class="text-center text-bold-500 mb-3 text-uppercase">Layout Options</h6>
+    <div class="layout-switch ml-4">
+      <div class="custom-control custom-radio d-inline-block custom-control-inline light-layout">
+        <input class="custom-control-input" id="ll-switch" type="radio" name="layout-switch" [checked]="config.layout.variant === 'Light'"  (click)="onLightLayout()" />
+        <label class="custom-control-label" for="ll-switch">Light</label>
+      </div>
+      <div class="custom-control custom-radio d-inline-block custom-control-inline dark-layout">
+        <input class="custom-control-input" id="dl-switch" type="radio" name="layout-switch" [checked]="config.layout.variant === 'Dark'" (click)="onDarkLayout()" />
+        <label class="custom-control-label" for="dl-switch">Dark</label>
+      </div>
+      <div class="custom-control custom-radio d-inline-block custom-control-inline transparent-layout">
+        <input class="custom-control-input" id="tl-switch" type="radio" name="layout-switch" [checked]="config.layout.variant === 'Transparent'" (click)="onTransparentLayout()" />
+        <label class="custom-control-label" for="tl-switch">Transparent</label>
+      </div>
+    </div>
+    <hr />
+
+    <!-- Sidebar Options Starts-->
+    <h6 class="text-center text-bold-500 mb-3 text-uppercase sb-options">Sidebar Color Options</h6>
+    <div class="cz-bg-color sb-color-options">
+      <div class="row p-1">
+        <div class="col"><span class="gradient-pomegranate d-block rounded-circle" style="width:20px; height:20px;"
+            data-bg-color="pomegranate" [ngClass]="{'selected': selectedBgColor === 'pomegranate'}" (click)="changeSidebarBgColor('pomegranate')"></span></div>
+        <div class="col"><span class="gradient-king-yna d-block rounded-circle" style="width:20px; height:20px;"
+            data-bg-color="king-yna" [ngClass]="{'selected': selectedBgColor === 'king-yna'}" (click)="changeSidebarBgColor('king-yna')"></span></div>
+        <div class="col"><span class="gradient-ibiza-sunset d-block rounded-circle" style="width:20px; height:20px;"
+            data-bg-color="ibiza-sunset" [ngClass]="{'selected': selectedBgColor === 'ibiza-sunset'}" (click)="changeSidebarBgColor('ibiza-sunset')"></span></div>
+        <div class="col"><span class="gradient-flickr d-block rounded-circle" style="width:20px; height:20px;"
+            data-bg-color="flickr" [ngClass]="{'selected': selectedBgColor === 'flickr'}" (click)="changeSidebarBgColor('flickr')"></span></div>
+        <div class="col"><span class="gradient-purple-bliss d-block rounded-circle" style="width:20px; height:20px;"
+            data-bg-color="purple-bliss" [ngClass]="{'selected': selectedBgColor === 'purple-bliss'}" (click)="changeSidebarBgColor('purple-bliss')"></span></div>
+        <div class="col"><span class="gradient-man-of-steel d-block rounded-circle" style="width:20px; height:20px;"
+            data-bg-color="man-of-steel" [ngClass]="{'selected': selectedBgColor === 'man-of-steel'}" (click)="changeSidebarBgColor('man-of-steel')"></span></div>
+        <div class="col"><span class="gradient-purple-love d-block rounded-circle" style="width:20px; height:20px;"
+            data-bg-color="purple-love" [ngClass]="{'selected': selectedBgColor === 'purple-love'}" (click)="changeSidebarBgColor('purple-love')"></span></div>
+      </div>
+      <div class="row p-1">
+        <div class="col"><span class="bg-black d-block rounded-circle" style="width:20px; height:20px;" data-bg-color="black" [ngClass]="{'selected': selectedBgColor === 'black'}" (click)="changeSidebarBgColor('black')"></span></div>
+        <div class="col"><span class="bg-grey d-block rounded-circle" style="width:20px; height:20px;" data-bg-color="white" [ngClass]="{'selected': selectedBgColor === 'white'}" (click)="changeSidebarBgColor('white')"></span></div>
+        <div class="col"><span class="bg-primary d-block rounded-circle" style="width:20px; height:20px;" data-bg-color="primary" [ngClass]="{'selected': selectedBgColor === 'primary'}" (click)="changeSidebarBgColor('primary')"></span></div>
+        <div class="col"><span class="bg-success d-block rounded-circle" style="width:20px; height:20px;" data-bg-color="success" [ngClass]="{'selected': selectedBgColor === 'success'}" (click)="changeSidebarBgColor('success')"></span></div>
+        <div class="col"><span class="bg-warning d-block rounded-circle" style="width:20px; height:20px;" data-bg-color="warning" [ngClass]="{'selected': selectedBgColor === 'warning'}" (click)="changeSidebarBgColor('warning')"></span></div>
+        <div class="col"><span class="bg-info d-block rounded-circle" style="width:20px; height:20px;" data-bg-color="info" [ngClass]="{'selected': selectedBgColor === 'info'}" (click)="changeSidebarBgColor('info')"></span></div>
+        <div class="col"><span class="bg-danger d-block rounded-circle" style="width:20px; height:20px;" data-bg-color="danger" [ngClass]="{'selected': selectedBgColor === 'danger'}" (click)="changeSidebarBgColor('danger')"></span></div>
+      </div>
+    </div>
+    <!-- Sidebar Options Ends-->
+    <!-- Transparent Layout Bg color Options-->
+    <h6 class="text-center text-bold-500 mb-3 text-uppercase tl-color-options d-none">Background Colors</h6>
+    <div class="cz-tl-bg-color d-none">
+      <div class="row p-1">
+        <div class="col"><span class="bg-hibiscus d-block rounded-circle" style="width:20px; height:20px;"
+            data-bg-color="bg-hibiscus" [ngClass]="{'selected': selectedTLBgColor === 'bg-hibiscus'}" (click)="changeSidebarTLBgColor('bg-hibiscus')"></span></div>
+        <div class="col"><span class="bg-purple-pizzazz d-block rounded-circle" style="width:20px; height:20px;"
+            data-bg-color="bg-purple-pizzazz" [ngClass]="{'selected': selectedTLBgColor === 'bg-purple-pizzazz'}" (click)="changeSidebarTLBgColor('bg-purple-pizzazz')"></span></div>
+        <div class="col"><span class="bg-blue-lagoon d-block rounded-circle" style="width:20px; height:20px;"
+            data-bg-color="bg-blue-lagoon" [ngClass]="{'selected': selectedTLBgColor === 'bg-blue-lagoon'}" (click)="changeSidebarTLBgColor('bg-blue-lagoon')"></span></div>
+        <div class="col"><span class="bg-electric-violet d-block rounded-circle" style="width:20px; height:20px;"
+            data-bg-color="bg-electric-violet" [ngClass]="{'selected': selectedTLBgColor === 'bg-electric-violet'}" (click)="changeSidebarTLBgColor('bg-electric-violet')"></span></div>
+        <div class="col"><span class="bg-portage d-block rounded-circle" style="width:20px; height:20px;" data-bg-color="bg-portage" [ngClass]="{'selected': selectedTLBgColor === 'bg-portage'}" (click)="changeSidebarTLBgColor('bg-portage')"></span></div>
+        <div class="col"><span class="bg-tundora d-block rounded-circle" style="width:20px; height:20px;" data-bg-color="bg-tundora" [ngClass]="{'selected': selectedTLBgColor === 'bg-tundora'}" (click)="changeSidebarTLBgColor('bg-tundora')"></span></div>
+      </div>
+    </div>
+    <!-- Transparent Layout Bg color Ends-->
+    <hr />
+    <!--Sidebar BG Image Starts-->
+    <h6 class="text-center text-bold-500 mb-3 text-uppercase sb-bg-img">Sidebar Bg Image</h6>
+    <div class="cz-bg-image row sb-bg-img">
+      <div class="col-sm-2 mb-3"><img class="rounded" src="assets/img/sidebar-bg/01.jpg" width="90"  [ngClass]="{'selected': selectedBgImage === 'assets/img/sidebar-bg/01.jpg'}" (click)="changeSidebarBgImage('assets/img/sidebar-bg/01.jpg')" /></div>
+      <div class="col-sm-2 mb-3"><img class="rounded" src="assets/img/sidebar-bg/02.jpg" width="90"  [ngClass]="{'selected': selectedBgImage === 'assets/img/sidebar-bg/02.jpg'}" (click)="changeSidebarBgImage('assets/img/sidebar-bg/02.jpg')" /></div>
+      <div class="col-sm-2 mb-3"><img class="rounded" src="assets/img/sidebar-bg/03.jpg" width="90"  [ngClass]="{'selected': selectedBgImage === 'assets/img/sidebar-bg/03.jpg'}" (click)="changeSidebarBgImage('assets/img/sidebar-bg/03.jpg')" /></div>
+      <div class="col-sm-2 mb-3"><img class="rounded" src="assets/img/sidebar-bg/04.jpg" width="90"  [ngClass]="{'selected': selectedBgImage === 'assets/img/sidebar-bg/04.jpg'}" (click)="changeSidebarBgImage('assets/img/sidebar-bg/04.jpg')" /></div>
+      <div class="col-sm-2 mb-3"><img class="rounded" src="assets/img/sidebar-bg/05.jpg" width="90"  [ngClass]="{'selected': selectedBgImage === 'assets/img/sidebar-bg/05.jpg'}" (click)="changeSidebarBgImage('assets/img/sidebar-bg/05.jpg')" /></div>
+      <div class="col-sm-2 mb-3"><img class="rounded" src="assets/img/sidebar-bg/06.jpg" width="90"  [ngClass]="{'selected': selectedBgImage === 'assets/img/sidebar-bg/06.jpg'}" (click)="changeSidebarBgImage('assets/img/sidebar-bg/06.jpg')" /></div>
+    </div>
+    <!-- Transparent BG Image Ends-->
+    <div class="tl-bg-img d-none">
+      <h6 class="text-center text-bold-500 text-uppercase">Background Images</h6>
+      <div class="cz-tl-bg-image row">
+        <div class="col-sm-3"><img class="rounded bg-glass-1" src="assets/img/gallery/bg-glass-1.jpg" width="90"  [ngClass]="{'selected': selectedTLBgImage === 'assets/img/gallery/bg-glass-1.jpg'}" (click)="changeSidebarTLBgImage('assets/img/gallery/bg-glass-1.jpg', 'bg-glass-1')" /></div>
+        <div class="col-sm-3"><img class="rounded bg-glass-2" src="assets/img/gallery/bg-glass-2.jpg" width="90"  [ngClass]="{'selected': selectedTLBgImage === 'assets/img/gallery/bg-glass-2.jpg'}" (click)="changeSidebarTLBgImage('assets/img/gallery/bg-glass-2.jpg', 'bg-glass-2')" /></div>
+        <div class="col-sm-3"><img class="rounded bg-glass-3" src="assets/img/gallery/bg-glass-3.jpg" width="90"  [ngClass]="{'selected': selectedTLBgImage === 'assets/img/gallery/bg-glass-3.jpg'}" (click)="changeSidebarTLBgImage('assets/img/gallery/bg-glass-3.jpg', 'bg-glass-3')" /></div>
+        <div class="col-sm-3"><img class="rounded bg-glass-4" src="assets/img/gallery/bg-glass-4.jpg" width="90"  [ngClass]="{'selected': selectedTLBgImage === 'assets/img/gallery/bg-glass-4.jpg'}" (click)="changeSidebarTLBgImage('assets/img/gallery/bg-glass-4.jpg', 'bg-glass-4')" /></div>
+      </div>
+    </div>
+
+    <hr />
+    <!-- Transparent BG Image Ends-->
+    <!--Sidebar BG Image Ends-->
+
+    <!--Sidebar BG Image Toggle Starts-->
+    <div class="togglebutton toggle-sb-bg-img">
+      <div class="switch switch border-0 d-flex justify-content-between w-100">
+        <span>Sidebar Bg Image</span>
+        <div class="float-right">
+          <div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+            <input type="checkbox" class="custom-control-input cz-bg-image-display" checked id="sidebar-bg-img" (change)="bgImageDisplay($event)">
+            <label class="custom-control-label d-block" for="sidebar-bg-img"></label>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <!--Sidebar BG Image Toggle Ends-->
+
+    <!--Compact Menu Starts-->
+    <div class="togglebutton">
+      <div class="switch switch border-0 d-flex justify-content-between w-100">
+        <span>Compact Menu</span>
+        <div class="float-right">
+          <div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+            <input type="checkbox" [checked]="config.layout.sidebar.collapsed" class="custom-control-input cz-compact-menu" id="cz-compact-menu" (change)="toggleCompactMenu($event)">
+            <label class="custom-control-label d-block" for="cz-compact-menu"></label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Compact Menu Ends-->
+    <hr>
+
+    <!--RTL Starts-->
+    <div class="togglebutton">
+      <div class="switch switch border-0 d-flex justify-content-between w-100">
+        <span>RTL</span>
+        <div class="float-right">
+          <div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+            <input type="checkbox" [checked]="options.direction == 'rtl' ? 'checked' : false" class="custom-control-input cz-rtl"
+              id="cz-rtl" (change)="options.direction = (options.direction == 'rtl' ? 'ltr' : 'rtl'); sendOptions()">
+            <label class="custom-control-label d-block" for="cz-rtl"></label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--RTL Ends-->
+    <hr>
+
+    <!--Sidebar Width Starts-->
+    <div>
+      <label for="cz-sidebar-width">Sidebar Width</label>
+      <select id="cz-sidebar-width" #width class="custom-select cz-sidebar-width float-right" (change)="changeSidebarWidth(width.value)">
+        <option value="sidebar-sm" [selected] = "size === 'sidebar-sm'">Small</option>
+        <option value="sidebar-md" [selected] = "size === 'sidebar-md'">Medium</option>
+        <option value="sidebar-lg" [selected] = "size === 'sidebar-lg'">Large</option>
+      </select>
+    </div>
+    <!--Sidebar Width Ends-->
+  </div>
+</div>
+<!--Theme customizer Ends-->

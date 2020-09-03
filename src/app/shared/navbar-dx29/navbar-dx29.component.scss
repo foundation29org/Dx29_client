@@ -1,0 +1,56 @@
+.navbar-expand-lg .navbar-nav .nav-link {
+  padding-right: .5rem;
+  padding-left: .5rem;
+}
+
+.not-allowed {
+     pointer-events: auto !important;
+     cursor: default !important;
+}
+
+.logo-img {
+  width: 60px;
+}
+
+i{
+  font-size: 1rem !important;
+}
+
+.dropdown-toggle::after{
+  //display: none;
+  vertical-align: 0.055em;
+}
+
+@media ( max-width: 991.98px ){
+.navbar-container {
+    width: unset !important;
+  }
+
+  .navbar-header {
+      width: unset !important;
+    }
+}
+
+@media (max-width: 481px) {
+
+
+  .navbar-header-logos{
+    max-width: 50px;
+  }
+
+  li{
+    margin-right: 0px !important;
+  }
+
+  span, i, li > a > u {
+    font-size: 0.7rem !important;
+  }
+
+}
+
+@media (max-width: 320px) {
+  .navbar .navbar-nav{
+    display: ruby-base !important;
+  }
+
+}
