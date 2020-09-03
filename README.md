@@ -1,5 +1,5 @@
 
-![Dx29 logo](../tree/develop/src/assets/img/logo-Dx29.png?raw=true)
+![Dx29 logo](/src/assets/img/logo-Dx29.png)
 
 <div style="margin-bottom: 1%">
 </div>
