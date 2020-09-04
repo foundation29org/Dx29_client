@@ -352,7 +352,12 @@ export class AppComponent implements OnInit, OnDestroy{
       .filter((route) => route.outlet === 'primary')
       .mergeMap((route) => route.data)
       .subscribe((event) => {
-        this.titleService.setTitle(this.translate.instant(event['title']));
+        (async () => {
+             await this.delay(500);
+             var titulo= this.translate.instant(event['title']);
+             this.titleService.setTitle(titulo);
+         })();
+
         this.secondsInactive=0;
         //para los anchor de la misma páginano hacer scroll hasta arriba
         if(this.actualPage != event['title']){
@@ -390,6 +395,9 @@ export class AppComponent implements OnInit, OnDestroy{
       }.bind(this));
     }
 
+    delay(ms: number) {
+      return new Promise( resolve => setTimeout(resolve, ms) );
+    }
      // when the component is destroyed, unsubscribe to prevent memory leaks
      ngOnDestroy(){
        if (this.loggerSubscription) {

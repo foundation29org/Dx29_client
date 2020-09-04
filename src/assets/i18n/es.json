@@ -594,6 +594,9 @@
   },
   "diagnosis":{
     "Symptoms": "Síntomas",
+    "Genetics": "Genetics",
+    "First results": "Primeros resultados",
+    "Summary": "Resumen",
     "Back to symptoms": "Volver a los síntomas",
     "Genes": "Genes",
     "Workbench": "Banco de trabajo",

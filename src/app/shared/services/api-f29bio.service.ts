@@ -136,4 +136,15 @@ export class Apif29BioService {
             return err;
         })
     }
+
+    getGroupsSymptoms(lang, listOfSymptoms){
+      return this.http.post(environment.f29bio+'/api/BioEntity/phenotype/groups/'+lang,listOfSymptoms)
+      .map( (res : any) => {
+          return res;
+      }, (err) => {
+          console.log(err);
+          return err;
+      })
+
+    }
 }
