@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<testsuite name="HeadlessChrome 85.0.4183 (Windows 10.0.0)" package="" timestamp="2020-09-07T15:26:30" id="0" hostname="DESKTOP-Q7AJJCE" tests="14" errors="0" failures="0" time="0.777">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/85.0.4183.83 Safari/537.36"/>
+  </properties>
+  <testcase name="Unit test: Admin GTP Admin-adminGTP dashboard component created" time="0.085" classname="Unit test: Admin GTP"/>
+  <testcase name="Unit test: Admin GTP Admin-adminGTP createTable:without info" time="0.007" classname="Unit test: Admin GTP"/>
+  <testcase name="Unit test: Admin GTP Admin-adminGTP loadGTPData: lists with programs info defined" time="0.005" classname="Unit test: Admin GTP"/>
+  <testcase name="Unit test: Exomiser Service functions Clinical Diagnosis component created" time="0.348" classname="Unit test: Exomiser Service functions"/>
+  <testcase name="Unit test: Exomiser Service functions Set actual token" time="0.013" classname="Unit test: Exomiser Service functions"/>
+  <testcase name="Unit test: Exomiser Service functions Get actual token" time="0.013" classname="Unit test: Exomiser Service functions"/>
+  <testcase name="Unit test: LoginComponent should create" time="0.046" classname="Unit test: LoginComponent"/>
+  <testcase name="Unit test: LoginComponent On submit" time="0.025" classname="Unit test: LoginComponent"/>
+  <testcase name="Unit test: LoginComponent Forgot password" time="0.019" classname="Unit test: LoginComponent"/>
+  <testcase name="Unit test: LoginComponent onRegister" time="0.017" classname="Unit test: LoginComponent"/>
+  <testcase name="Unit test: Search Filter Pipe Service functions: using no diagnosis patient Transform function without accents" time="0.168" classname="Unit test: Search Filter Pipe Service functions: using no diagnosis patient"/>
+  <testcase name="Unit test: Search Filter Pipe Service functions: using no diagnosis patient Transform function with accents" time="0.011" classname="Unit test: Search Filter Pipe Service functions: using no diagnosis patient"/>
+  <testcase name="Unit test: Search Filter Pipe Service functions: using no diagnosis patient Transform Diseases function without accents" time="0.013" classname="Unit test: Search Filter Pipe Service functions: using no diagnosis patient"/>
+  <testcase name="Unit test: Search Filter Pipe Service functions: using no diagnosis patient Transform Diseases function with accents" time="0.007" classname="Unit test: Search Filter Pipe Service functions: using no diagnosis patient"/>
+  <system-out>
+    <![CDATA[HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: 'ng on init'
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: 'cancel pending request'
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: 'cancel pending request'
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: 'load patients'
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: 'ng on init'
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: 'cancel pending request'
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: 'cancel pending request'
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: 'load patients'
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: 'ng on init'
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: 'cancel pending request'
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: 'cancel pending request'
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: 'load patients'
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: 'Extracted value: '
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: Object{}
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: 'Extracted value: '
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: Object{}
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: Object{email: 'marta@dx29.dev', password: 'mmmmmmmm'}
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: 'Sign in user'
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: 'Extracted value: '
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: Object{}
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: 'Extracted value: '
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: Object{}
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: [Object{id: 'prueba1_value1'}, Object{id: 'prueba1_value2'}, Object{id: 'prueba1_value3'}]
+,HeadlessChrome 85.0.4183 (Windows 10.0.0) LOG: [Object{id: 'prueba2_epiléptico'}, Object{id: 'prueba2_value2'}, Object{id: 'prueba2_value3'}]
+
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>

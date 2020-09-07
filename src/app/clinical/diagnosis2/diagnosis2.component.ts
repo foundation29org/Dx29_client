@@ -106,7 +106,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     text$.pipe(
       debounceTime(200),
       map(term => term === '' ? []
-        : ((phenotypesinfo.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase().trim()) > -1).slice(0, 100))).concat((phenotypesinfo.filter(v => v.id.toLowerCase().indexOf(term.toLowerCase().trim()) > -1).slice(0, 100)))
+        : ((phenotypesinfo.filter(v => v.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").indexOf(term.toLowerCase().trim()) > -1).slice(0, 100))).concat((phenotypesinfo.filter(v => v.id.toLowerCase().indexOf(term.toLowerCase().trim()) > -1).slice(0, 100)))
       )
     );
 
@@ -1343,10 +1343,13 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             //get genes
             this.subscription.add(this.apif29BioService.getGenesOfDiseases(this.listOfDiseases)
             .subscribe( (res1 : any) => {
+              console.log(res1)
               for(var i = 0; i < this.relatedConditions.length; i++) {
                 var foundeleme = false;
                 var idDesease = this.relatedConditions[i].name.id;
                 if(res1[idDesease] !=undefined){
+                  console.log(this.relatedConditions[i].name)
+                  console.log(res1[idDesease])
                   this.relatedConditions[i].iscondition=true;
                   if(Object.keys((res1[idDesease]).genes).length>0){
                     for(var k = 0; k < infoToExtractGenes.length && !foundeleme; k++){
