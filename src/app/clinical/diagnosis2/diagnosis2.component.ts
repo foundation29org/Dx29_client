@@ -1344,21 +1344,34 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             this.subscription.add(this.apif29BioService.getGenesOfDiseases(this.listOfDiseases)
             .subscribe( (res1 : any) => {
               console.log(res1)
+              var genRelationValuesListAccepted=["RO:0003303", "RO:0004012", "RO:0004013", "RO:0004014"]
               for(var i = 0; i < this.relatedConditions.length; i++) {
                 var foundeleme = false;
                 var idDesease = this.relatedConditions[i].name.id;
-                if(res1[idDesease] !=undefined){
-                  console.log(this.relatedConditions[i].name)
-                  console.log(res1[idDesease])
-                  this.relatedConditions[i].iscondition=true;
+                if((res1[idDesease] !=undefined)&&(res1[idDesease] !=null)){
                   if(Object.keys((res1[idDesease]).genes).length>0){
                     for(var k = 0; k < infoToExtractGenes.length && !foundeleme; k++){
                       var obttemp = (res1[idDesease]).genes;
-
+                      var genIncluded=false;
                         for(var gen in obttemp) {
+                          // Filter by "is_defined_by" (all that not have ONLY orphanet source)
+                          var definedByOnlyOrphanet=false;
+                          if(obttemp[gen].is_defined_by.indexOf('#orphanet')>-1){
+                            if(obttemp[gen].is_defined_by.indexOf('|')==-1){
+                              definedByOnlyOrphanet=true;
+                            }
+                          }
+                          if(definedByOnlyOrphanet==false){
+                            // Filter by relation
+                            // (condition) if gen relation value in list of relationValues accepted
+                            if(genRelationValuesListAccepted.includes(obttemp[gen].relation)==true){
+                              this.relatedConditions[i].iscondition=true;
+                              genIncluded=true;
+                            }
+                          }
+
                           var para3 = (infoToExtractGenes[k].name).toLowerCase();
                           var para4 = (obttemp[gen].label).toLowerCase();
-
                           if(para3==para4){
                             if(this.relatedConditions[i].scoregenes==0){
                               var scoregenes = 0;
@@ -1388,6 +1401,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                           if(!encposiel){
                             this.relatedConditions[i].genes.push({gen:obttemp[gen].label});
                           }
+                        }
+                        if(genIncluded==false){
+                          this.relatedConditions[i].iscondition=false;
                         }
                     }
                     if(this.relatedConditions[i].genes.length>0){
