@@ -100,6 +100,7 @@ export class AppComponent implements OnInit, OnDestroy{
       var date = Date.now();
       this.subscription.add( this.http.get(environment.settingsAccessToken.blobAccountUrl+'version.json'+environment.settingsAccessToken.sasToken+'&'+date)
        .subscribe( (res : any) => {
+         console.log(res)
          this.versionServer = res;
          if(this.versionServer.launchTime!=null){
             this.actualVersion.secondsNextRelease = this.getSecondsToNextRelease(this.versionServer.launchTime);
