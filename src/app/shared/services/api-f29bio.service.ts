@@ -77,7 +77,8 @@ export class Apif29BioService {
     }
 
     getGenesOfDiseases(listOfDiseases){
-        return this.http.post(environment.f29bio+'/api/BioEntity/disease/genes/tree/', listOfDiseases)
+        //return this.http.post(environment.f29bio+'/api/BioEntity/disease/genes/tree/', listOfDiseases)
+        return this.http.post(environment.f29bio+'/api/BioEntity/disease/gene/', listOfDiseases)
         .map( (res : any) => {
             return res;
         }, (err) => {
