@@ -91,6 +91,16 @@ export class BlobStorageService {
       var date='' + y + (m < 10 ? '0' : '') + m + (d < 10 ? '0' : '') + d;
       fileNameToSave='vcf/'+date+'/'+filename;
     }
+    if(fileNameToSave.indexOf("relatedConditions")>-1){
+      var now = new Date();
+      var y = now.getFullYear();
+      var m = now.getMonth() + 1;
+      var d = now.getDate();
+      var h = now.getHours();
+      var mm = now.getMinutes();
+      var date='' + y + (m < 10 ? '0' : '') + m + (d < 10 ? '0' : '') + d + h + mm;
+      fileNameToSave='relatedConditions/'+date+'/'+fileNameToSave
+    }
     return this.blobService.createBlockBlobFromBrowserFile(
       accessToken.containerName,
       fileNameToSave,

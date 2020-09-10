@@ -1243,33 +1243,59 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         infoToExtractGenes = this.infoGenesAndConditionsPhenolyzer;
         priorizeGenes=false;
       }
-      // De momento no lo vamos a hacer
-      /*if((infoToExtractGenes!= [])&&(priorizeGenes==true)&&(this.infoGenesAndConditionsExomizer.length>0)){
-        // Leo los genes de exomiser y pregunto a la API de Alvaro por las relatedConditions
-        // Comparo las relatedConditions que tenia en this.infoGenesAndConditionsExomizer y las de la respuesta de la API
-        //    - Si ya estaba -> No hago nada
-        //    - Si no estaba, la añado en la lista de condiciones para el gen
-        var listGenes_names=[];
-        for(var k = 0; k < infoToExtractGenes.length; k++){
-          // Llamar a monarch:/bioentity/gene/{id}/diseases con infoToExtractGenes[k].name
-        }
+      console.log(infoToExtractGenes)
+      if((infoToExtractGenes!= [])&&(priorizeGenes==true)&&(this.infoGenesAndConditionsExomizer.length>0)){
+        this.getRelatedConditionsExomiser(infoToExtractGenes);
+      }
+      else{
+        this.getRelatedConditionsPhenolyzer(infoToExtractGenes);
+      }
+    }
 
-      }*/
-      if(infoToExtractGenes!= []){
-        if(this.infoGenesAndConditionsExomizer.length>0){
-          for(var k = 0; k < infoToExtractGenes.length; k++){
-            for(var il = 0; il < infoToExtractGenes[k].data.length; il++){
-              if(infoToExtractGenes[k].data[il].idOrphanet!=null){
-                tempo.push({condition:infoToExtractGenes[k].data[il].condition, id: infoToExtractGenes[k].data[il].idOrphanet});
-              }else{
-                tempo.push({condition:infoToExtractGenes[k].data[il].condition, id: infoToExtractGenes[k].data[il].idOMIM});
+    getRelatedConditionsExomiser(infoToExtractGenes){
+      var tempo = [];
+      for(var k = 0; k < infoToExtractGenes.length; k++){
+        for(var il = 0; il < infoToExtractGenes[k].data.length; il++){
+          if(infoToExtractGenes[k].data[il].idOrphanet!=null){
+            tempo.push({condition:infoToExtractGenes[k].data[il].condition, id: infoToExtractGenes[k].data[il].idOrphanet});
+          }else{
+            tempo.push({condition:infoToExtractGenes[k].data[il].condition, id: infoToExtractGenes[k].data[il].idOMIM});
+          }
+        }
+      }
+      // Leo los genes de exomiser y pregunto a la API de Alvaro por las relatedConditions
+      // Comparo las relatedConditions que tenia en this.infoGenesAndConditionsExomizer y las de la respuesta de la API
+      //    - Si ya estaba -> No hago nada
+      //    - Si no estaba, la añado en la lista de condiciones para el gen
+      var listGenes_names=[];
+      for(var k = 0; k < infoToExtractGenes.length; k++){
+        listGenes_names.push(infoToExtractGenes[k].name)
+      }
+      // Llamar/bioentity/gene/diseases con infoToExtractGenes
+      this.subscription.add( this.apif29BioService.getDiseaseOfGenes(listGenes_names)
+      .subscribe( (resDiseases : any) => {
+        console.log(resDiseases);
+        for(var i=0;i<listGenes_names.length;i++){
+          var idGen = listGenes_names[i];
+          if((resDiseases[idGen] !=undefined)&&(resDiseases[idGen] !=null)){
+            if(Object.keys((resDiseases[idGen]).diseases).length>0){
+              var obttemp = (resDiseases[idGen]).diseases;
+              for(var disease in obttemp) {
+                var foundIntempo=false;
+                for(var j=0;j<tempo.length;j++){
+                  if(tempo[j].condition==obttemp[disease].label){
+                    foundIntempo=true;
+                  }
+                }
+                if(foundIntempo==false){
+                  tempo.push({condition:obttemp[disease].label, id: obttemp[disease].id});
+                }
               }
             }
           }
         }
-      }
-      // end Get list of diseases from Exomiser's genes
-      //Get list of diseases with Monarch (la de ahora).
+        // end Get list of diseases from Exomiser's genes
+        //Get list of diseases with Monarch (la de ahora).
         this.relatedConditions = [];
         var jsonPhenotype = { hpos: this.phenotype.data };
         var jsonHpos = [];
@@ -1285,74 +1311,63 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           if(infoToExtractGenes!= []){
             this.loadingInfoGenes = true;
             this.listOfDiseases = [];
-            if(priorizeGenes==true){
-              //Merge and keep unique diseases.
-              for(var i = 0; i < this.relatedConditions.length; i++) {
-                if(this.relatedConditions[i]!=undefined){
-                  if(this.relatedConditions[i].genes==undefined){
-                    this.relatedConditions[i].genes = [];
-                    this.relatedConditions[i].scoregenes = 0;
-                  }
-                  var foundElement = this.searchService.search(tempo,'condition', this.relatedConditions[i].name.label);
-                  if(!foundElement){
-                    tempo.push({condition:this.relatedConditions[i].name.label, id: this.relatedConditions[i].name.id});
-                  }
+            //Merge and keep unique diseases.
+            for(var i = 0; i < this.relatedConditions.length; i++) {
+              if(this.relatedConditions[i]!=undefined){
+                if(this.relatedConditions[i].genes==undefined){
+                  this.relatedConditions[i].genes = [];
+                  this.relatedConditions[i].scoregenes = 0;
+                }
+                var foundElement = this.searchService.search(tempo,'condition', this.relatedConditions[i].name.label);
+                if(!foundElement){
+                  tempo.push({condition:this.relatedConditions[i].name.label, id: this.relatedConditions[i].name.id});
+                }
 
+              }
+            }
+            // Scores y priorizacion de todas las condiciones: exomiser+f29bio+monarch
+            var temp2 = [];
+            for(var in1 = 0; in1 < tempo.length; in1++) {
+              var enc = false;
+              var posi = -1;
+              for(var in2 = 0; in2 < this.relatedConditions.length && !enc; in2++) {
+                var para1 = (tempo[in1].condition).toLowerCase();
+                var para2 = (this.relatedConditions[in2].name.label).toLowerCase();
+                if(para1 == para2){
+                  posi = in2;
+                  enc = true;
                 }
               }
-              var temp2 = [];
-              for(var in1 = 0; in1 < tempo.length; in1++) {
-                var enc = false;
-                var posi = -1;
-                for(var in2 = 0; in2 < this.relatedConditions.length && !enc; in2++) {
-                  var para1 = (tempo[in1].condition).toLowerCase();
-                  var para2 = (this.relatedConditions[in2].name.label).toLowerCase();
-                  if(para1 == para2){
-                    posi = in2;
-                    enc = true;
-                  }
-                }
-                if(!enc){
-                  temp2.push({"name":{label: tempo[in1].condition, id: tempo[in1].id} , "score": 0, "matches": [], genes: [], scoregenes: 0});
-                }else{
-                  var enctemp2 = false;
-                  for(var in3 = 0; in3 < temp2.length && !enctemp2; in3++) {
-                    if(temp2[in3].name.label == this.relatedConditions[posi].name.label){
-                      enctemp2 = true
-                      temp2[in3].score = this.relatedConditions[posi].score
-                    }
-                  }
-                  if(!enctemp2){
-                    temp2.push({"name":{label: tempo[in1].condition, id: tempo[in1].id} , "score": this.relatedConditions[posi].score, "matches": [], genes: [], scoregenes: 0});
-                  }
-
-                }
-              }
-              for(var in3 = 0; in3 < this.relatedConditions.length; in3++) {
+              if(!enc){
+                temp2.push({"name":{label: tempo[in1].condition, id: tempo[in1].id} , "score": 0, "matches": [], genes: [], scoregenes: 0});
+              }else{
                 var enctemp2 = false;
-                for(var in4 = 0; in4 < temp2.length && !enctemp2; in4++) {
-                  if(temp2[in4].name.label == this.relatedConditions[in3].name.label){
+                for(var in3 = 0; in3 < temp2.length && !enctemp2; in3++) {
+                  if(temp2[in3].name.label == this.relatedConditions[posi].name.label){
                     enctemp2 = true
+                    temp2[in3].score = this.relatedConditions[posi].score
                   }
                 }
                 if(!enctemp2){
-                  temp2.push(this.relatedConditions[in3]);
+                  temp2.push({"name":{label: tempo[in1].condition, id: tempo[in1].id} , "score": this.relatedConditions[posi].score, "matches": [], genes: [], scoregenes: 0});
                 }
-              }
-              this.relatedConditions = temp2;
-              console.log(temp2);
-            }
-            else{
-              for(var i = 0; i < this.relatedConditions.length; i++) {
-                if(this.relatedConditions[i]!=undefined){
-                  if(this.relatedConditions[i].genes==undefined){
-                    this.relatedConditions[i].genes = [];
-                    this.relatedConditions[i].scoregenes = 0;
-                  }
-                }
-              }
-            }
 
+              }
+            }
+            for(var in3 = 0; in3 < this.relatedConditions.length; in3++) {
+              var enctemp2 = false;
+              for(var in4 = 0; in4 < temp2.length && !enctemp2; in4++) {
+                if(temp2[in4].name.label == this.relatedConditions[in3].name.label){
+                  enctemp2 = true
+                }
+              }
+              if(!enctemp2){
+                temp2.push(this.relatedConditions[in3]);
+              }
+            }
+            this.relatedConditions = temp2;
+            console.log(temp2);
+          
             //quedarse con 100 this.listOfDiseases
             this.listOfDiseases = [];
             for(var in3 = 0; in3 < this.relatedConditions.length; in3++) {
@@ -1361,7 +1376,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
             //end Merge and keep unique diseases.
             //get genes
-            console.log(this.listOfDiseases)
             this.subscription.add(this.apif29BioService.getGenesOfDiseases(this.listOfDiseases)
             .subscribe( (res1 : any) => {
               console.log(res1)
@@ -1390,6 +1404,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                               genIncluded=true;
                             }
                           }
+
                           var para3 = (infoToExtractGenes[k].name).toLowerCase();
                           var para4 = (obttemp[gen].label).toLowerCase();
                           if(para3==para4){
@@ -1458,12 +1473,12 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
               //this.calcularScoreHealth29();
               this.getSymptomsApi();
 
-             }, (err) => {
-               console.log(err);
-               //tratar el error
-               this.reportError();
-               this.closeAndShowMsg();
-             }));
+            }, (err) => {
+              console.log(err);
+              //tratar el error
+              this.reportError();
+              this.closeAndShowMsg();
+            }));
 
 
           }else{
@@ -1477,7 +1492,162 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           this.toastr.error('', this.translate.instant("generics.error try again"));
           this.gettingRelatedConditions = false;
         }));
+      }, (err) => {
+        console.log(err);
+        //tratar el error
+        this.reportError();
+        this.toastr.error('', this.translate.instant("generics.error try again"));
+        this.gettingRelatedConditions = false;
+      }));
+    }
+    
+    getRelatedConditionsPhenolyzer(infoToExtractGenes){
+      // end Get list of diseases from Exomiser's genes
+      //Get list of diseases with Monarch (la de ahora).
+      this.relatedConditions = [];
+      var jsonPhenotype = { hpos: this.phenotype.data };
+      var jsonHpos = [];
+      for(var index in this.phenotype.data){
+        if(this.phenotype.data[index].checked){
+          jsonHpos.push(this.phenotype.data[index].id);
+        }
+      }
+      this.subscription.add( this.apiDx29ServerService.getRelatedConditions(jsonHpos)
+      .subscribe( (res : any) => {
+        console.log(res);
+        this.relatedConditions = res;
+        if(infoToExtractGenes!= []){
+          this.loadingInfoGenes = true;
+          this.listOfDiseases = [];
+          for(var i = 0; i < this.relatedConditions.length; i++) {
+            if(this.relatedConditions[i]!=undefined){
+              if(this.relatedConditions[i].genes==undefined){
+                this.relatedConditions[i].genes = [];
+                this.relatedConditions[i].scoregenes = 0;
+              }
+            }
+          }
+          //quedarse con 100 this.listOfDiseases
+          this.listOfDiseases = [];
+          for(var in3 = 0; in3 < this.relatedConditions.length; in3++) {
+            this.listOfDiseases.push(this.relatedConditions[in3].name.id);
+          }
+          //end Merge and keep unique diseases.
+          //get genes
+          this.subscription.add(this.apif29BioService.getGenesOfDiseases(this.listOfDiseases)
+          .subscribe( (res1 : any) => {
+            console.log(res1)
+            var genRelationValuesListAccepted=["RO:0003303", "RO:0004012", "RO:0004013", "RO:0004014"]
+            for(var i = 0; i < this.relatedConditions.length; i++) {
+              var foundeleme = false;
+              var idDesease = this.relatedConditions[i].name.id;
+              if((res1[idDesease] !=undefined)&&(res1[idDesease] !=null)){
+                if(Object.keys((res1[idDesease]).genes).length>0){
+                  for(var k = 0; k < infoToExtractGenes.length && !foundeleme; k++){
+                    var obttemp = (res1[idDesease]).genes;
+                    var genIncluded=false;
+                      for(var gen in obttemp) {
+                        // Filter by "is_defined_by" (all that not have ONLY orphanet source)
+                        var definedByOnlyOrphanet=false;
+                        if(obttemp[gen].is_defined_by.indexOf('#orphanet')>-1){
+                          if(obttemp[gen].is_defined_by.indexOf('|')==-1){
+                            definedByOnlyOrphanet=true;
+                          }
+                        }
+                        if(definedByOnlyOrphanet==false){
+                          // Filter by relation
+                          // (condition) if gen relation value in list of relationValues accepted
+                          if(genRelationValuesListAccepted.includes(obttemp[gen].relation)==true){
+                            this.relatedConditions[i].iscondition=true;
+                            genIncluded=true;
+                          }
+                        }
 
+                        var para3 = (infoToExtractGenes[k].name).toLowerCase();
+                        var para4 = (obttemp[gen].label).toLowerCase();
+                        if(para3==para4){
+                          if(this.relatedConditions[i].scoregenes==0){
+                            var scoregenes = 0;
+                            if(this.infoGenesAndConditionsExomizer.length>0){
+                              if(infoToExtractGenes[k].scoredx29 != undefined){
+                                scoregenes = parseInt(((infoToExtractGenes[k].score)*100).toFixed(0));
+                                this.relatedConditions[i].h29 = parseInt(((infoToExtractGenes[k].scoredx29)*100).toFixed(0));
+                              }else{
+                                scoregenes = parseInt(((infoToExtractGenes[k].score)*100).toFixed(0));
+                              }
+                            }else if(this.infoGenesAndConditionsPhenolyzer.length>0){
+                              scoregenes = parseInt(((infoToExtractGenes[k].score)*100).toFixed(0));
+
+                            }else{
+                              scoregenes = 100 - (k*5);
+                            }
+                            this.relatedConditions[i].scoregenes = scoregenes;
+                          }
+                          foundeleme = true;
+                        }
+                        var encposiel = false;
+                        for(var posiel = 0; posiel < this.relatedConditions[i].genes.length && !encposiel; posiel++) {
+                          if(this.relatedConditions[i].genes[posiel].gen == obttemp[gen].label){
+                            encposiel = true;
+                          }
+                        }
+                        if(!encposiel){
+                          this.relatedConditions[i].genes.push({gen:obttemp[gen].label});
+                        }
+                      }
+                      if(genIncluded==false){
+                        this.relatedConditions[i].iscondition=false;
+                      }
+                  }
+                  if(this.relatedConditions[i].genes.length>0){
+                    this.relatedConditions[i].genes.sort(this.sortService.GetSortOrder("gen"));
+                  }
+                }else{
+                  if(this.isUpperCase(this.relatedConditions[i].name.label)){
+                    this.relatedConditions[i].name.infogene = 'https://www.genecards.org/cgi-bin/carddisp.pl?gene='+this.relatedConditions[i].name.label+'#diseases';
+                  }else{
+                    this.relatedConditions[i].name.infogene = 'https://www.genecards.org/Search/Keyword?queryString='+this.relatedConditions[i].name.label;
+                  }
+                }
+              }else{
+                this.relatedConditions[i].iscondition=false;
+                if(this.isUpperCase(this.relatedConditions[i].name.label)){
+                  this.relatedConditions[i].name.infogene = 'https://www.genecards.org/cgi-bin/carddisp.pl?gene='+this.relatedConditions[i].name.label+'#diseases';
+                }else{
+                  this.relatedConditions[i].name.infogene = 'https://www.genecards.org/Search/Keyword?queryString='+this.relatedConditions[i].name.label;
+                }
+              }
+            }
+            var copyrelatedConditions2 = [];
+            console.log(this.relatedConditions);
+            for(var i = 0; i < this.relatedConditions.length; i++) {
+              if(this.relatedConditions[i].iscondition){
+                copyrelatedConditions2.push(this.relatedConditions[i]);
+              }
+            }
+            this.relatedConditions = copyrelatedConditions2;
+            console.log(this.relatedConditions);
+            this.loadingInfoGenes = false;
+            //this.calcularScoreHealth29();
+            this.getSymptomsApi();
+
+          }, (err) => {
+              console.log(err);
+              //tratar el error
+              this.reportError();
+              this.closeAndShowMsg();
+          }));
+        }else{
+          Swal.fire('Error', 'No exomiser or phenolyzer results have been found.', "error");
+        }
+        this.gettingRelatedConditions = false;
+      }, (err) => {
+        console.log(err);
+        //tratar el error
+        this.reportError();
+        this.toastr.error('', this.translate.instant("generics.error try again"));
+        this.gettingRelatedConditions = false;
+      }));
     }
 
     getSymptomsApi(){

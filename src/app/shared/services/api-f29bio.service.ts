@@ -86,6 +86,15 @@ export class Apif29BioService {
             return err;
         })
     }
+    getDiseaseOfGenes(listOfGenes){
+        return this.http.post(environment.f29bio+'/api/BioEntity/gene/disease', listOfGenes)
+        .map( (res : any) => {
+            return res;
+        }, (err) => {
+            console.log(err);
+            return err;
+        })
+    }
 
     getSuccessorsOfSymptoms(listOfSymptoms){
         return this.http.post(environment.f29bio+'/api/BioEntity/phenotype/successors/',listOfSymptoms)
