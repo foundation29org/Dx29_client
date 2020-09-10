@@ -99,7 +99,7 @@ export class BlobStorageService {
       var h = now.getHours();
       var mm = now.getMinutes();
       var date='' + y + (m < 10 ? '0' : '') + m + (d < 10 ? '0' : '') + d + h + mm;
-      fileNameToSave='relatedConditions/'+date+'/'+fileNameToSave
+      fileNameToSave='results/'+date+'/'+fileNameToSave
     }
     return this.blobService.createBlockBlobFromBrowserFile(
       accessToken.containerName,
