@@ -1272,6 +1272,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         listGenes_names.push(infoToExtractGenes[k].name)
       }
       // Llamar/bioentity/gene/diseases con infoToExtractGenes
+      var infoDiseasesDiscard_null=[];
+      var infoDiseasesAdded=[];
       this.subscription.add( this.apif29BioService.getDiseaseOfGenes(listGenes_names)
       .subscribe( (resDiseases : any) => {
         console.log(resDiseases);
@@ -1283,17 +1285,38 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
               for(var disease in obttemp) {
                 var foundIntempo=false;
                 for(var j=0;j<tempo.length;j++){
-                  if(tempo[j].condition==obttemp[disease].label){
+                  if(tempo[j].condition.toLowerCase()==obttemp[disease].label.toLowerCase()){
                     foundIntempo=true;
                   }
                 }
                 if(foundIntempo==false){
                   tempo.push({condition:obttemp[disease].label, id: obttemp[disease].id});
+                  infoDiseasesAdded.push(resDiseases[idGen])
                 }
               }
             }
           }
+          else{
+            infoDiseasesDiscard_null.push(listGenes_names[i])
+          }
         }
+
+        if(infoDiseasesDiscard_null.length>0){
+          var str = JSON.stringify(infoDiseasesDiscard_null);
+          var fileNameRelatedConditionsDiscard = "genesToDisease/relatedConditions"+"-"+'discardDiseases_null.json';
+          var file = new File([str],fileNameRelatedConditionsDiscard,{type:'application/json'});
+          this.uploadProgress = this.blob
+          .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
+        }
+
+        if(infoDiseasesAdded.length>0){
+          var str = JSON.stringify(infoDiseasesAdded);
+          var fileNameRelatedConditionsDiscard = "genesToDisease/relatedConditions"+"-"+'addDiseases.json';
+          var file = new File([str],fileNameRelatedConditionsDiscard,{type:'application/json'});
+          this.uploadProgress = this.blob
+          .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
+        }
+
         // end Get list of diseases from Exomiser's genes
         //Get list of diseases with Monarch (la de ahora).
         this.relatedConditions = [];
@@ -1380,6 +1403,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             .subscribe( (res1 : any) => {
               console.log(res1)
               var genRelationValuesListAccepted=["RO:0003303", "RO:0004012", "RO:0004013", "RO:0004014"]
+              var infoGenesDiscard_null=[];
+              var infoGenesDiscard_filter=[];
               for(var i = 0; i < this.relatedConditions.length; i++) {
                 var foundeleme = false;
                 var idDesease = this.relatedConditions[i].name.id;
@@ -1439,6 +1464,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                         }
                         if(genIncluded==false){
                           this.relatedConditions[i].iscondition=false;
+                          infoGenesDiscard_filter.push(res1[idDesease])
                         }
                     }
                     if(this.relatedConditions[i].genes.length>0){
@@ -1453,6 +1479,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                   }
                 }else{
                   this.relatedConditions[i].iscondition=false;
+                  infoGenesDiscard_null.push(this.relatedConditions[i])
                   if(this.isUpperCase(this.relatedConditions[i].name.label)){
                     this.relatedConditions[i].name.infogene = 'https://www.genecards.org/cgi-bin/carddisp.pl?gene='+this.relatedConditions[i].name.label+'#diseases';
                   }else{
@@ -1460,15 +1487,37 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                   }
                 }
               }
+
+              if(infoGenesDiscard_filter.length>0){
+                var str = JSON.stringify(infoGenesDiscard_filter);
+                var fileNameRelatedConditionsDiscard = "diseasesToGenes/relatedConditions"+"-"+'discardDiseases_filter.json';
+                var file = new File([str],fileNameRelatedConditionsDiscard,{type:'application/json'});
+                this.uploadProgress = this.blob
+                .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
+              }
+
+              if(infoGenesDiscard_null.length>0){
+                var str = JSON.stringify(infoGenesDiscard_null);
+                var fileNameRelatedConditionsDiscard = "diseasesToGenes/relatedConditions"+"-"+'discardDiseases_null.json';
+                var file = new File([str],fileNameRelatedConditionsDiscard,{type:'application/json'});
+                this.uploadProgress = this.blob
+                .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
+              }
+
+              // Info of the execution
+              var str = JSON.stringify({analyze:"exomiser",patientInfo:this.authService.getCurrentPatient(),data:{hpos:jsonHpos,genesExomiser:infoToExtractGenes}});
+              var fileNameRelatedConditions = "relatedConditions"+"-"+'executionParams.json';
+              var fileRelatedConditionsParams = new File([str],fileNameRelatedConditions,{type:'application/json'});
+              this.uploadProgress = this.blob
+              .uploadToBlobStorage(this.accessToken, fileRelatedConditionsParams, fileNameRelatedConditions, 'relatedConditions');
+
               var copyrelatedConditions2 = [];
-              console.log(this.relatedConditions);
               for(var i = 0; i < this.relatedConditions.length; i++) {
                 if(this.relatedConditions[i].iscondition){
                   copyrelatedConditions2.push(this.relatedConditions[i]);
                 }
               }
               this.relatedConditions = copyrelatedConditions2;
-              console.log(this.relatedConditions);
               this.loadingInfoGenes = false;
               //this.calcularScoreHealth29();
               this.getSymptomsApi();
@@ -1538,6 +1587,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           .subscribe( (res1 : any) => {
             console.log(res1)
             var genRelationValuesListAccepted=["RO:0003303", "RO:0004012", "RO:0004013", "RO:0004014"]
+            var infoGenesDiscard_null=[];
+            var infoGenesDiscard_filter=[];
             for(var i = 0; i < this.relatedConditions.length; i++) {
               var foundeleme = false;
               var idDesease = this.relatedConditions[i].name.id;
@@ -1597,6 +1648,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                       }
                       if(genIncluded==false){
                         this.relatedConditions[i].iscondition=false;
+                        infoGenesDiscard_filter.push(res1[idDesease])
                       }
                   }
                   if(this.relatedConditions[i].genes.length>0){
@@ -1611,6 +1663,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                 }
               }else{
                 this.relatedConditions[i].iscondition=false;
+                infoGenesDiscard_null.push(this.relatedConditions[i])
                 if(this.isUpperCase(this.relatedConditions[i].name.label)){
                   this.relatedConditions[i].name.infogene = 'https://www.genecards.org/cgi-bin/carddisp.pl?gene='+this.relatedConditions[i].name.label+'#diseases';
                 }else{
@@ -1618,6 +1671,33 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                 }
               }
             }
+
+            if(infoGenesDiscard_filter.length>0){
+              var str = JSON.stringify(infoGenesDiscard_filter);
+              var fileNameRelatedConditionsDiscard = "diseasesToGenes/relatedConditions"+"-"+'discardByGenes_filter.json';
+              var file = new File([str],fileNameRelatedConditionsDiscard,{type:'application/json'});
+              this.uploadProgress = this.blob
+              .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
+               
+            }
+
+            if(infoGenesDiscard_null.length>0){
+              var str = JSON.stringify(infoGenesDiscard_null);
+              var fileNameRelatedConditionsDiscard = "diseasesToGenes/relatedConditions"+"-"+'discardByGenes_null.json';
+              var file = new File([str],fileNameRelatedConditionsDiscard,{type:'application/json'});
+              this.uploadProgress = this.blob
+              .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
+               
+            }
+
+            // Info of the execution
+            var str = JSON.stringify({analyze:"phenolyzer",patientInfo:this.authService.getCurrentPatient(),data:{hpos:jsonHpos}});
+            var fileNameRelatedConditions = "relatedConditions"+"-"+'executionParams.json';
+            var fileRelatedConditionsParams = new File([str],fileNameRelatedConditions,{type:'application/json'});
+            this.uploadProgress = this.blob
+            .uploadToBlobStorage(this.accessToken, fileRelatedConditionsParams, fileNameRelatedConditions, 'relatedConditions');
+      
+
             var copyrelatedConditions2 = [];
             console.log(this.relatedConditions);
             for(var i = 0; i < this.relatedConditions.length; i++) {
@@ -1649,7 +1729,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         this.gettingRelatedConditions = false;
       }));
     }
-
     getSymptomsApi(){
       //get symtoms
       this.loadingSymptomsRelatedDiseases = true;

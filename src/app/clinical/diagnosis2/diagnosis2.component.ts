@@ -513,7 +513,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.accessToken.patientId = this.authService.getCurrentPatient().sub;
       this.subscription.add( this.apiDx29ServerService.getAzureBlobSasToken(this.accessToken.containerName)
       .subscribe( (res : any) => {
-        console.log(res);
+        //console.log(res);
         this.accessToken.sasToken = '?'+res;
         this.blob.init(this.accessToken);
         this.blobped.init(this.accessToken);
@@ -774,7 +774,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           }
         }));
 
-        console.log(this.accessToken);
+        //console.log(this.accessToken);
         this.blob.createContainerIfNotExists(this.accessToken, 'ncr');
         this.blob.createContainerIfNotExists(this.accessToken, '');
         this.blob.loadFilesOnBlobExomizer(this.accessToken.containerName,null);
