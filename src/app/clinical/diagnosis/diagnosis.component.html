@@ -1933,92 +1933,101 @@
 
 						<ng-template #contentGeneticProgram let-c="close" let-d="dismiss" appendTo="body">
 							<form #programRequestform="ngForm" name="form" (ngSubmit)="programRequest(programRequestform.form)" class="form form-register" validate>
-							<div class="modal-header" id="idHeader">
-						    <div class="content-header text-left">
-						      <h4>{{'GeneticProgram.Title' | translate }}</h4>
-									<div class="content-wrapper">
-										<div class="card-header pb-0">
-		                    <p class="content-sub-header">{{'GeneticProgram.SubTitle' | translate }} (<a href="assets/documents/moreinfo_{{lang}}.PDF" target="_blank">{{'generics.More information' | translate }}</a>)</p>
-		                </div>
+							  <div class="modal-header" id="idHeader">
+								<div class="content-header text-left">
+								<h4>{{'GeneticProgram.Title' | translate }}</h4>
+								  <div class="content-wrapper">
+									<div class="card-header pb-0">
+									  <p class="content-sub-header">{{'GeneticProgram.SubTitle' | translate }} </p>
+									  <div>
+										<p class="content-sub-header">{{'GeneticProgram.contentClinicianmsg1' | translate }} </p>
+										<ul>
+										  <li>{{'GeneticProgram.contentClinicianmsg1a' | translate }}</li>
+										  <li>{{'GeneticProgram.contentClinicianmsg1b' | translate }}</li>
+										</ul>
+									  </div>
+									  <p class="content-sub-header">{{'GeneticProgram.contentClinicianmsg2' | translate }} </p>
+									  <p class="content-sub-header">{{'GeneticProgram.contentClinicianmsg3a' | translate }} <a href="assets/documents/moreinfo_{{lang}}.PDF" target="_blank">{{'GeneticProgram.contentClinicianmsg3b' | translate }}</a></p>
 									</div>
-						    </div>
-						  </div>
-							<div class="content-wrapper" *ngIf="actualProgram.result">
+								  </div>
+								</div>
+							  </div>
+							  <div class="content-wrapper" *ngIf="actualProgram.result">
 								<div class="card-body row col-md-12">
-									<p *ngIf="!actualProgram.data[1].result" class="danger"> ** {{'GeneticProgram.requirements1' | translate }}</p>
-									<p>
-										<span *ngIf="isSharedCase">{{'GeneticProgram.ClinicinMsg0' | translate }} </span>
-										<span>{{'GeneticProgram.ClinicinMsg1' | translate }}</span>
-									</p>
-									<p *ngIf="isSharedCase">{{'GeneticProgram.ClinicinMsg2' | translate }}<p>
+								  <p *ngIf="!actualProgram.data[1].result" class="danger"> ** {{'GeneticProgram.requirements1' | translate }}</p>
+								  <p>
+									<span *ngIf="isSharedCase">{{'GeneticProgram.ClinicinMsg0' | translate }} </span>
+									<span>{{'GeneticProgram.ClinicinMsg1' | translate }}</span>
+								  </p>
+								  <p *ngIf="isSharedCase">{{'GeneticProgram.ClinicinMsg2' | translate }}<p>
 								</div>
-							</div>
-								<div class="content-wrapper" *ngIf="!actualProgram.result">
-									<div class="pb-0" style="padding: 1.rem 1.5rem;">
-									<span class="font-medium-2">{{'GeneticProgram.DataTitle' | translate }}</span>
+							  </div>
+							  <div class="content-wrapper" *ngIf="!actualProgram.result">
+								<div class="pb-0" style="padding: 1.rem 1.5rem;">
+								  <span class="font-medium-2">{{'GeneticProgram.DataTitle' | translate }}</span>
 								</div>
-								<!--<div class="card-body" *ngIf="!actualProgram.data[0].result || !actualProgram.data[1].result">
-									<p>{{'GeneticProgram.requirementsTitle' | translate }}</p>
-									<p *ngIf="!actualProgram.data[1].result" class="danger">- {{'GeneticProgram.requirements1' | translate }}.</p>
-								</div>-->
-								<p *ngIf="!actualProgram.data[1].result" class="danger"> ** {{'GeneticProgram.requirements1' | translate }}.</p>
-	                			<div class="card-body" *ngIf="actualProgram.data[0].result">
-											<div class="row mt-2">
-								        <div class="col-md-6">
-								          <div class="form-group">
-								            <label>{{'personalinfo.Birth Date' | translate }}</label>
-								            <div>
-								              <input type="date" id="birthDate" name="birthDate" ngModel required #birthDate="ngModel" name="birthDate">
-															<small class="form-text text-muted danger" *ngIf="!birthDate.valid && (birthDate.dirty || birthDate.touched)">{{'generics.required' | translate }}</small>
-								            </div>
-								          </div>
-								        </div>
-												<div class="col-md-6">
-								          <div class="form-group">
-														<label id="gender">{{'personalinfo.Gender' | translate }}</label>
-														<mat-radio-group
-														  aria-labelledby="gender"
-														  class="example-radio-group d-block" ngModel required #gender="ngModel" name="gender" id="gender">
-														  <mat-radio-button class="example-radio-button" value="male">
-														    {{'personalinfo.Male' | translate }}
-														  </mat-radio-button>
-															<mat-radio-button class="example-radio-button ml-1" value="female">
-															   {{'personalinfo.Female' | translate }}
-														  </mat-radio-button>
-														</mat-radio-group>
-								          </div>
-								        </div>
-												<div class="col-md-12">
-								          <div class="form-group">
-								            <label for="email">{{'GeneticProgram.dataField1' | translate }}</label>
-														<input type="email" class="form-control" name="email" id="email" placeholder="{{'generics.Email' | translate }}" ngModel required email #email="ngModel" autocomplete="email">
-														<small class="form-text text-muted danger" *ngIf="!email.valid && (email.dirty || email.touched)">{{'generics.entervalidemail' | translate }}</small>
-								          </div>
-								        </div>
-								        <div class="col-md-12">
-								          <div class="form-group">
-								            <label for="consent">{{'GeneticProgram.dataField2' | translate }}</label>
-								            <mat-checkbox class="example-margin ml-1" name="terms2" ngModel required #terms2="ngModel" id="terms2"></mat-checkbox>
-														<small class="form-text text-muted danger" *ngIf="!terms2.valid && (terms2.dirty || terms2.touched)">{{'generics.required' | translate }}</small>
-								          </div>
-								        </div>
-								      </div>
-
+								<div class="card-body" *ngIf="actualProgram.data[0].result">
+								  <div class="row">
+									<div class="col-md-12">
+									  <p *ngIf="!actualProgram.data[1].result" class="danger"> ** {{'GeneticProgram.requirements1' | translate }}.</p>
 									</div>
-								</div>
-								<div class="modal-footer d-block">
-									<div class="form-actions" *ngIf="!sending">
-										<button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
-										<span *ngIf="actualProgram.data[0].result">
-											<!--<button class="btn btn-primary btn-raised float-right" type="submit">{{'GeneticProgram.bannerbtn1' | translate }}</button>-->
-											<div *ngIf="programRequestform.valid;then formValid else formError"></div>
-											<ng-template #formValid><button class="btn btn-primary btn-raised float-right" type="submit">{{'GeneticProgram.bannerbtn1' | translate }}</button></ng-template>
-											<ng-template #formError><button class="btn btn-primary btn-raised float-right" type="button" [disabled]="true" (click)="submitInvalidForm()">{{'GeneticProgram.bannerbtn1' | translate }}<span class="d-block font-small-2">{{'GeneticProgram.requirementsFields' | translate }}</span></button></ng-template>
-										</span>
+								  </div>
+								  <div class="row">
+									<div class="col-md-6">
+									  <div class="form-group">
+									  <label>{{'personalinfo.Birth Date' | translate }}</label>
+									  <div>
+										<input type="date" id="birthDate" name="birthDate" ngModel required #birthDate="ngModel" name="birthDate">
+											  <small class="form-text text-muted danger" *ngIf="!birthDate.valid && (birthDate.dirty || birthDate.touched)">{{'generics.required' | translate }}</small>
+									  </div>
+									  </div>
 									</div>
-									<span *ngIf="sending">
-										<i class="fa fa-spinner fa-spin fa-3x fa-fw white"></i>
-									</span>
+									<div class="col-md-6">
+									  <div class="form-group">
+											<label id="gender">{{'personalinfo.Gender' | translate }}</label>
+											<mat-radio-group
+											  aria-labelledby="gender"
+											  class="example-radio-group d-block" ngModel required #gender="ngModel" name="gender" id="gender">
+											  <mat-radio-button class="example-radio-button" value="male">
+											  {{'personalinfo.Male' | translate }}
+											  </mat-radio-button>
+											  <mat-radio-button class="example-radio-button ml-1" value="female">
+												{{'personalinfo.Female' | translate }}
+											  </mat-radio-button>
+											</mat-radio-group>
+									  </div>
+									</div>
+									<div class="col-md-12">
+									  <div class="form-group">
+									  <label for="email">{{'GeneticProgram.dataField1' | translate }}</label>
+											<input type="email" class="form-control" name="email" id="email" placeholder="{{'generics.Email' | translate }}" ngModel required email #email="ngModel" autocomplete="email">
+											<small class="form-text text-muted danger" *ngIf="!email.valid && (email.dirty || email.touched)">{{'generics.entervalidemail' | translate }}</small>
+									  </div>
+									</div>
+									<div class="col-md-12">
+									  <div class="form-group">
+									  <label for="consent">{{'GeneticProgram.dataField2' | translate }}</label>
+									  <mat-checkbox class="example-margin ml-1" name="terms2" ngModel required #terms2="ngModel" id="terms2"></mat-checkbox>
+											<small class="form-text text-muted danger" *ngIf="!terms2.valid && (terms2.dirty || terms2.touched)">{{'generics.required' | translate }}</small>
+									  </div>
+									</div>
+								  </div>
+						  
 								</div>
-								</form>
+							  </div>
+							  <div class="modal-footer d-block">
+								<div class="form-actions" *ngIf="!sending">
+								  <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
+								  <span *ngIf="actualProgram.data[0].result">
+									<!--<button class="btn btn-primary btn-raised float-right" type="submit">{{'GeneticProgram.bannerbtn1' | translate }}</button>-->
+									<div *ngIf="programRequestform.valid;then formValid else formError"></div>
+									<ng-template #formValid><button class="btn btn-primary btn-raised float-right" type="submit">{{'GeneticProgram.bannerbtn1' | translate }}</button></ng-template>
+									<ng-template #formError><button class="btn btn-primary btn-raised float-right" type="button" [disabled]="true" (click)="submitInvalidForm()">{{'GeneticProgram.bannerbtn1' | translate }}<span class="d-block font-small-2">{{'GeneticProgram.requirementsFields' | translate }}</span></button></ng-template>
+								  </span>
+								</div>
+								<span *ngIf="sending">
+								  <i class="fa fa-spinner fa-spin fa-3x fa-fw white"></i>
+								</span>
+							  </div>
+							</form>
 						</ng-template>

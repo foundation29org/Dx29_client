@@ -1411,27 +1411,23 @@
       <h4>{{'GeneticProgram.Title' | translate }}</h4>
       <div class="content-wrapper">
         <div class="card-header pb-0">
-            <p class="content-sub-header">{{'GeneticProgram.SubTitle' | translate }} (<a href="assets/documents/moreinfo_{{lang}}.PDF" target="_blank">{{'generics.More information' | translate }}</a>)</p>
-            <p>{{'GeneticProgram.contentUsermsg1' | translate }}</p>
-            <p>{{'GeneticProgram.contentUsermsg2' | translate }} <span class="danger">{{'GeneticProgram.contentUsermsg3' | translate }}</span></p>
+            <p class="content-sub-header">{{'GeneticProgram.SubTitle' | translate }} </p>
+            <p>{{'GeneticProgram.contentUsermsg1a' | translate }} <a href="mailto:support@foundation29.org">{{'GeneticProgram.contentUsermsg1b' | translate }}</a> {{'GeneticProgram.contentUsermsg1c' | translate }} </p>
+            <p>{{'GeneticProgram.contentUsermsg2a' | translate }} <a href="assets/documents/moreinfo_{{lang}}.PDF" target="_blank">{{'GeneticProgram.contentUsermsg2b' | translate }}</a></p>
         </div>
       </div>
     </div>
   </div>
     <div class="content-wrapper">
-      <div class="pb-0" style="padding: 1.5rem 1.5rem;">
-          <span class="font-medium-2">{{'GeneticProgram.contentUsermsg4' | translate }}</span>
-          <p *ngIf="!actualProgram.data[1].result" class="danger">** {{'GeneticProgram.requirements1' | translate }}</p>
-      </div>
-      <!--div class="card-body" *ngIf="!actualProgram.data[1].result">
-        <p>{{'GeneticProgram.requirementsTitle' | translate }}</p>
-        <p *ngIf="!actualProgram.data[1].result" class="danger">** {{'GeneticProgram.requirements1' | translate }}</p>
-      </div>-->
       <div class="card-body" *ngIf="actualProgram.result">
-          <div class="row mt-2">
+          <div class="row">
+            <div class="col-md-12" *ngIf="!actualProgram.data[1].result">
+              <!--<div *ngIf="!actualProgram.data[1].result" class="pb-0" style="padding: 1.5rem 1.5rem;">-->
+              <p class="danger">** {{'GeneticProgram.requirements1' | translate }}</p>
+            </div>
             <div class="col-md-12">
               <div class="form-group">
-                <label for="email">{{'GeneticProgram.contentUsermsg5' | translate }}</label>
+                <p>{{'GeneticProgram.contentUsermsg2c' | translate }}</p>
                 <input type="email" class="form-control" name="email" id="email" placeholder="{{'generics.Email' | translate }}" ngModel required email #email="ngModel" autocomplete="email">
                 <small class="form-text text-muted danger" *ngIf="!email.valid && (email.dirty || email.touched)">{{'generics.entervalidemail' | translate }}</small>
               </div>
@@ -1450,7 +1446,7 @@
     </div>
     <div class="modal-footer d-block">
       <div class="form-actions" *ngIf="!sending">
-        <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
+        <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'GeneticProgram.contentUserclosebtn' | translate }}</button>
         <span *ngIf="actualProgram.result">
           <!--<button class="btn btn-primary btn-raised float-right" type="submit">{{'GeneticProgram.bannerbtn1' | translate }}</button>-->
           <div *ngIf="programRequestform.valid;then formValid else formError"></div>
