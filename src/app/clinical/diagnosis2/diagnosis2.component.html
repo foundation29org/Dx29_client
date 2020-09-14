@@ -1844,6 +1844,9 @@
                     <span style="word-wrap: anywhere;cursor: pointer;" title="{{elementInfo.mutation.alt}}">{{ (elementInfo.mutation.alt.length>9)? (elementInfo.mutation.alt | slice:0:9)+'...('+(elementInfo.mutation.alt.length)+')':(elementInfo.mutation.alt) }}</span>
                   </span>
                   <div class="mt-2">
+                    <span style="word-wrap: anywhere;cursor: pointer;">{{elementInfo.chromosomeInfo.chromosome}}:{{elementInfo.chromosomeInfo.position}}({{elementInfo.chromosomeInfo.assembly}})</span>
+                  </div>
+                  <div class="mt-2">
                     <span id="remarked" [ngStyle]="{'background-color': elementInfo.variantEffect.color[0],'color':elementInfo.variantEffect.color[1]}">{{(elementInfo.variantEffect.value).toLowerCase()}}</span>
                   </div>
                 </div>

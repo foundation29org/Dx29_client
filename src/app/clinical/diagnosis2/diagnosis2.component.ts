@@ -2432,7 +2432,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           for(var w=0; w<res.geneScores[j].contributingVariants.length;w++){
             var variantEffectInfo = this.variantEffectInfo(res.geneScores[j].contributingVariants[w].variantEffect)
             var clinVarInfo= this.clinVarInfo(res.geneScores[j].contributingVariants[w].pathogenicityData.clinVarData.primaryInterpretation)
-
+            var chromosomeInfo={chromosome:"chr"+res.geneScores[j].contributingVariants[w].chromosome,position:res.geneScores[j].contributingVariants[w].position,assembly:res.geneScores[j].contributingVariants[w].genomeAssembly}
             var transCriptAnnotationsLength=(res.geneScores[j].contributingVariants[w].transcriptAnnotations.length);
             var mutationInfomasterMind=[];
             if(transCriptAnnotationsLength>0){
@@ -2494,7 +2494,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               contributingVariants:contributingVariants,
               predictedPathogenicityScores:predictedPathogenicityScoresList,// List
               moreInfoSelected:false,
-              frequencyLinks:frequencyLinks
+              frequencyLinks:frequencyLinks,
+              chromosomeInfo:chromosomeInfo
             })
           }
         }
