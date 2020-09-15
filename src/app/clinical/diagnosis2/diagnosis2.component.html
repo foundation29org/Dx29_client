@@ -835,8 +835,9 @@
 													<span *ngIf="i!= selectedInfoSymptomIndex" class="align-middle">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
 													<span *ngIf="i!= selectedInfoSymptomIndex" class="align-middle d-block">
 														<span *ngFor="let text of hpo.text ; let j = index">
-															<p *ngIf="text.source && j< 3" class="font-small-2 mb-0">{{j+1}}. {{text.source}}</p>
-															<p *ngIf="!text.source && j< 3" class="font-small-2 mb-0">{{j+1}}. {{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</p>
+                              <p *ngIf="j<3" class="font-small-2 mb-0">{{j+1}}. {{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</p>
+															<!--<p *ngIf="text.source && j< 3" class="font-small-2 mb-0">{{j+1}}. {{text.source}}</p>
+															<p *ngIf="!text.source && j< 3" class="font-small-2 mb-0">{{j+1}}. {{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</p>-->
 														</span>
 													</span>
 												</span>
@@ -864,8 +865,9 @@
 												<span [ngClass]="(ncrResultView==true)?'col-md-8':'col-md-4'">
 													<h6 class="mb-0"># / {{'dashboardpatient.Apparitions' | translate }}</h6>
 													<span *ngFor="let text of hpo.text ; let j = index">
-														<p *ngIf="text.source && j< 3" class="font-small-2 mb-0">{{j+1}}. {{text.source}}</p>
-														<p *ngIf="!text.source && j< 3" class="font-small-2 mb-0">{{j+1}}. {{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</p>
+                            <p *ngIf="j<3" class="font-small-2 mb-0">{{j+1}}. {{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</p>
+														<!--<p *ngIf="text.source && j< 3" class="font-small-2 mb-0">{{j+1}}. {{text.source}}</p>
+														<p *ngIf="!text.source && j< 3" class="font-small-2 mb-0">{{j+1}}. {{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</p>-->
 													</span>
 												</span>
 											</div>

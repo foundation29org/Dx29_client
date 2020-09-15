@@ -3423,7 +3423,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     addTemporalSymptom(symptom, inputType){
       var foundElement = this.searchService.search(this.temporalSymptoms,'id', symptom.id);
       if(!foundElement){
-        this.temporalSymptoms.push({id: symptom.id,name: symptom.name, new: true, checked: undefined, percentile:-1, inputType: inputType, importance: '1', polarity: '0', similarity: symptom.similarity, positions: symptom.positions});
+        this.temporalSymptoms.push({id: symptom.id,name: symptom.name, new: true, checked: undefined, percentile:-1, inputType: inputType, importance: '1', polarity: '0', similarity: symptom.similarity, positions: symptom.positions, text: symptom.text});
       }else{
         //buscar el sintoma, mirar si tiene mejor prababilidad, y meter la nueva aparicion en posiciones
         var enc = false;
@@ -3433,6 +3433,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               this.temporalSymptoms[z].similarity = symptom.similarity;
             }
             this.temporalSymptoms[z].positions.push(symptom.positions[0]);
+            //this.temporalSymptoms[z].text.push(symptom.text)
             enc = true;
           }
         }
