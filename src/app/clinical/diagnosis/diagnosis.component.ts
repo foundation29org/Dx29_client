@@ -1248,6 +1248,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         this.getRelatedConditionsExomiser(infoToExtractGenes);
       }
       else{
+        // Añadir lo de los genes
         this.getRelatedConditionsPhenolyzer(infoToExtractGenes);
       }
     }
@@ -1562,20 +1563,114 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
     
     getRelatedConditionsPhenolyzer(infoToExtractGenes){
-      // end Get list of diseases from Exomiser's genes
-      //Get list of diseases with Monarch (la de ahora).
-      this.relatedConditions = [];
-      var jsonPhenotype = { hpos: this.phenotype.data };
-      var jsonHpos = [];
-      for(var index in this.phenotype.data){
-        if(this.phenotype.data[index].checked){
-          jsonHpos.push(this.phenotype.data[index].id);
+
+      var tempo = [];
+      for(var k = 0; k < infoToExtractGenes.length; k++){
+        for(var il = 0; il < infoToExtractGenes[k].data.length; il++){
+          if(infoToExtractGenes[k].data[il].idOrphanet!=null){
+            tempo.push({condition:infoToExtractGenes[k].data[il].condition, id: infoToExtractGenes[k].data[il].idOrphanet});
+          }else{
+            tempo.push({condition:infoToExtractGenes[k].data[il].condition, id: infoToExtractGenes[k].data[il].idOMIM});
+          }
         }
       }
-      this.subscription.add( this.apiDx29ServerService.getRelatedConditions(jsonHpos)
-      .subscribe( (res : any) => {
+      // Leo los genes de exomiser y pregunto a la API de Alvaro por las relatedConditions
+      // Comparo las relatedConditions que tenia en this.infoGenesAndConditionsExomizer y las de la respuesta de la API
+      //    - Si ya estaba -> No hago nada
+      //    - Si no estaba, la añado en la lista de condiciones para el gen
+      var listGenes_names=[];
+      for(var k = 0; k < infoToExtractGenes.length; k++){
+        listGenes_names.push(infoToExtractGenes[k].name)
+      }
+
+      // Delete duplicates
+      var mySet = new Set(listGenes_names);
+      listGenes_names = [...mySet];
+
+      // Llamar/bioentity/gene/diseases con infoToExtractGenes
+      var infoDiseasesDiscard_null= new Object();
+      infoDiseasesDiscard_null={};
+      var infoDiseasesAdded= new Object();
+      infoDiseasesAdded={};
+
+      this.subscription.add( this.apif29BioService.getDiseaseOfGenes(listGenes_names)
+      .subscribe( (resDiseases : any) => {
+        console.log(resDiseases);
+        for(var i=0;i<listGenes_names.length;i++){
+          var idGen = listGenes_names[i];
+          if((resDiseases[idGen] !=undefined)&&(resDiseases[idGen] !=null)){
+            if(Object.keys((resDiseases[idGen]).diseases).length>0){
+              var obttemp = (resDiseases[idGen]).diseases;
+              for(var disease in obttemp) {
+                var foundIntempo=false;
+                for(var j=0;j<tempo.length;j++){
+                  if(tempo[j].condition.toLowerCase()==obttemp[disease].label.toLowerCase()){
+                    foundIntempo=true;
+                  }
+                }
+                if(foundIntempo==false){
+                  tempo.push({condition:obttemp[disease].label, id: obttemp[disease].id});
+                  infoDiseasesAdded[resDiseases[idGen].id]={diseases:Object.keys(resDiseases[idGen].diseases)}
+                }
+              }
+            }
+          }
+          else{
+            infoDiseasesDiscard_null[listGenes_names[i]]={}
+          }
+        }
+
+        if(Object.keys(infoDiseasesDiscard_null).length>0){
+          var str = JSON.stringify(infoDiseasesDiscard_null);
+          var fileNameRelatedConditionsDiscard = "genesToDisease/relatedConditions"+"-"+'discardDiseases_null.json';
+          var file = new File([str],fileNameRelatedConditionsDiscard,{type:'application/json'});
+          this.uploadProgress = this.blob
+          .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
+        }
+
+        if(Object.keys(infoDiseasesAdded).length>0){
+          var str = JSON.stringify(infoDiseasesAdded);
+          var fileNameRelatedConditionsDiscard = "genesToDisease/relatedConditions"+"-"+'addDiseases.json';
+          var file = new File([str],fileNameRelatedConditionsDiscard,{type:'application/json'});
+          this.uploadProgress = this.blob
+          .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
+        }
+
+        console.log(infoToExtractGenes)
+        //Get list of diseases with Monarch (la de ahora).
+        this.relatedConditions = [];
+        var jsonPhenotype = { hpos: this.phenotype.data };
+        var jsonHpos = [];
+        for(var index in this.phenotype.data){
+          if(this.phenotype.data[index].checked){
+            jsonHpos.push(this.phenotype.data[index].id);
+          }
+        }
+        this.subscription.add( this.apiDx29ServerService.getRelatedConditions(jsonHpos)
+        .subscribe( (res : any) => {
         console.log(res);
         this.relatedConditions = res;
+
+        //Merge and keep unique diseases.
+        for(var i = 0; i < this.relatedConditions.length; i++) {
+          if(this.relatedConditions[i]!=undefined){
+            if(this.relatedConditions[i].genes==undefined){
+              this.relatedConditions[i].genes = [];
+              this.relatedConditions[i].scoregenes = 0;
+            }
+            var foundElement = this.searchService.search(tempo,'condition', this.relatedConditions[i].name.label);
+            if(!foundElement){
+              tempo.push({condition:this.relatedConditions[i].name.label, id: this.relatedConditions[i].name.id});
+            }
+
+          }
+        }
+        var temp2=[];
+        for(var in1=0;in1<tempo.length;in1++){
+          temp2.push({name:{label: tempo[in1].condition, id: tempo[in1].id}});
+        }
+
+        this.relatedConditions.concat(temp2);
         if(infoToExtractGenes!= []){
           this.loadingInfoGenes = true;
           this.listOfDiseases = [];
@@ -1739,6 +1834,14 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         this.toastr.error('', this.translate.instant("generics.error try again"));
         this.gettingRelatedConditions = false;
       }));
+    }, (err) => {
+      console.log(err);
+      //tratar el error
+      this.reportError();
+      this.toastr.error('', this.translate.instant("generics.error try again"));
+      this.gettingRelatedConditions = false;
+    }));
+    
     }
 
     getSymptomsApi(){
@@ -4126,7 +4229,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     addTemporalSymptom(symptom, inputType){
       var foundElement = this.searchService.search(this.temporalSymptoms,'id', symptom.id);
       if(!foundElement){
-        this.temporalSymptoms.push({id: symptom.id,name: symptom.name, new: true, checked: true, percentile:-1, inputType: inputType, importance: '1', polarity: '0', similarity: symptom.similarity, positions: symptom.positions});
+        this.temporalSymptoms.push({id: symptom.id,name: symptom.name, new: true, checked: undefined, percentile:-1, inputType: inputType, importance: '1', polarity: '0', similarity: symptom.similarity, positions: symptom.positions, text: symptom.text});
       }else{
         //buscar el sintoma, mirar si tiene mejor prababilidad, y meter la nueva aparicion en posiciones
         var enc = false;

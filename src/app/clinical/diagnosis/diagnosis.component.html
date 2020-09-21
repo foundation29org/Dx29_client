@@ -1498,7 +1498,7 @@
 																<td>
 																	<p class="mb-0">#: {{hpo.positions.length}} <span (click)="markAllText(copyResultTextNcr, hpo);"><i class="fa fa-search" style="cursor: pointer;" title="Shows the apparitions in the text."></i></span></p>
 																	<span *ngFor="let position of hpo.positions ; let j = index">
-																		<span style="cursor: pointer;" title="Shows the apparitions in the text." (click)="markText(copyResultTextNcr, position[0], position[1])">{{copyResultTextNcr | slice:position[0]:position[1]}} </span>
+																		<span style="cursor: pointer;" title="Shows the apparitions in the text." (click)="markText(copyResultTextNcr, position[0], position[1])">{{hpo.text[j].text}} </span>
 																		<span *ngIf="j<(hpo.positions.length-1)">, </span>
 																	</span>
 																</td>
