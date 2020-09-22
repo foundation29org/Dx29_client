@@ -1,13 +1,17 @@
 <div style="margin-bottom: 1%; padding-bottom: 2%;">
 	<img align="right" width="100px" src="/src/assets/img/logo-Dx29.png">
-</div>
+===============================================================================================================================
+
+[![Build Status](https://f29.visualstudio.com/Health29%20for%20Diagnosis/_apis/build/status/Dx29%20Client/Dev/Dx29%20-%20DEV%20-%20client-%20Github?branchName=develop)](https://f29.visualstudio.com/Health29%20for%20Diagnosis/_build/latest?definitionId=49&branchName=develop)
+=======
+</div>			
 
 Dx29 client
 ===============================================================================================================================
 
-[![Build Status](https://f29.visualstudio.com/Health29%20for%20Diagnosis/_apis/build/status/Dx29%20Client/Dev/Dx29%20-%20DEV%20-%20client-%20Github?branchName=develop)](https://f29.visualstudio.com/Health29%20for%20Diagnosis/_build/latest?definitionId=49&branchName=develop)
+[![Build Status](https://f29.visualstudio.com/Health29%20for%20Diagnosis/_apis/build/status/Dx29%20Client/Prod/Dx29%20-%20PROD%20-%20Client%20-%20Github?branchName=master)](https://f29.visualstudio.com/Health29%20for%20Diagnosis/_build/latest?definitionId=51&branchName=master)
 
-#### 1. Overview 
+#### 1. Overview
 
 Dx29 is a platform built to assist medical professionals during the diagnosis process to make it quicker and more accurate when dealing with rare diseases.
 
@@ -21,7 +25,7 @@ This project contains the core of the dx29 platform, the webapp from where the f
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.1.
 
-The project uses [gitflow workflow](https://nvie.com/posts/a-successful-git-branching-model/). 
+The project uses [gitflow workflow](https://nvie.com/posts/a-successful-git-branching-model/).
 According to this it has implemented a branch-based system to work with three different environments. Thus, there are two permanent branches in the project:
 >- The develop branch to work on the development environment.
 >- The master branch to work on the production environment
@@ -46,11 +50,11 @@ To execute the project it is necessary to implement or configure a list of exter
 Thus, we will mainly need:
 
 >- Two [Azure Blob storage](https://docs.microsoft.com/en-US/azure/storage/blobs/storage-blobs-introduction), one for settings and the other one for patient information.
->- [Exomiser service](https://github.com/foundation29org/Exomiser/edit/master/README.md) 
+>- [Exomiser service](https://github.com/foundation29org/Exomiser/edit/master/README.md)
 >- [Phenolyzer service](https://github.com/foundation29org/phenolyzer)
 >- F29 apis:
 >>- (svc,bio,api,ncr) -> TODO: URL to our opensource service
-    
+
 
 <p>&nbsp;</p>
 
@@ -66,24 +70,24 @@ Angular requires a [current, active LTS, or maintenance LTS](https://nodejs.org/
 
 Run `ng serve` or `ng serve -aot`. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-It is mandatory to run the [Dx29 server](https://github.com/foundation29org/Dx29_server) before. 
+It is mandatory to run the [Dx29 server](https://github.com/foundation29org/Dx29_server) before.
 
 <p>&nbsp;</p>
 
 #### 5. Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. 
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
 ##### Scripts
 
-In the package.json file different scripts have been implemented to perform the build of these environments: 
+In the package.json file different scripts have been implemented to perform the build of these environments:
 >- build for localhost
 >- buildDev for development
 >- buildStaging for test
 >- buildProd for production
 In each case the corresponding environment file is used.
 
-Run `npm run <script>` to build the project for each environment. The build artifacts will be stored in the `dist/` directory. 
+Run `npm run <script>` to build the project for each environment. The build artifacts will be stored in the `dist/` directory.
 
 <p>&nbsp;</p>
 
@@ -110,8 +114,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 You can consult the documentation on the [architecture of the dx29 project](https://dx29.readthedocs.io/en/latest/).
 
->- [Dx29 server](https://github.com/foundation29org/Dx29_server) 
->- [Exomiser service](https://github.com/foundation29org/Exomiser/edit/master/README.md) 
+>- [Dx29 server](https://github.com/foundation29org/Dx29_server)
+>- [Exomiser service](https://github.com/foundation29org/Exomiser/edit/master/README.md)
 >- [Phenolyzer service](https://github.com/foundation29org/phenolyzer)
 >- TODO: F29 API services github
 
@@ -126,7 +130,7 @@ You can consult the documentation on the [architecture of the dx29 project](http
 		<img width="150px" src="/src/assets/img/logo-foundation-twentynine-footer.png">
 	</div>
 	<div align="right" style="padding-top: 0.5% !important">
-		<p align="right">	
+		<p align="right">
 			Copyright © 2020
 			<a style="color:#009DA0" href="https://www.foundation29.org/" target="_blank"> Foundation29</a>
 		</p>

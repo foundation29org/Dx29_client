@@ -691,6 +691,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }
     }
 
+
     loadSymptoms(){
 
       //cargar los datos del usuario
@@ -3953,60 +3954,65 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }else{
         this.subscription.add( this.http.get(this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+this.filePhenolyzerOnBlob+this.accessToken.sasToken)
           .subscribe( (res : any) => {
+            console.log(res)
             this.infoGenesAndConditions = [];
             this.infoGenesAndConditionsPhenolyzer = [];
             this.sizeOfDiseases = 0;
             for (var i = 0; i < 100; i++) {
               var dataForGene = [];
-              for (var j = 0; j < res[i].Diseases.length ; j++) {
-                var codeomimorpha = null;
-                var tempinfo = [];
-                var isOmim = false;
-                if(res[i].Diseases[j].ORPHANET){
-                  codeomimorpha = res[i].Diseases[j].ORPHANET[0].Id;
+              if(res[i]!=undefined){
+                for (var j = 0; j < res[i].Diseases.length ; j++) {
+                  var codeomimorpha = null;
+                  var tempinfo = [];
+                  var isOmim = false;
+                  if(res[i].Diseases[j].ORPHANET){
+                    codeomimorpha = res[i].Diseases[j].ORPHANET[0].Id;
 
-                  codeomimorpha = codeomimorpha.replace("ORPHANET", "ORPHA");
-                  tempinfo = this.searchFilterPipe.transform(this.orphaOmim, 'ORPHA', codeomimorpha);
+                    codeomimorpha = codeomimorpha.replace("ORPHANET", "ORPHA");
+                    tempinfo = this.searchFilterPipe.transform(this.orphaOmim, 'ORPHA', codeomimorpha);
 
-                }else if(res[i].Diseases[j].OMIM){
-                  codeomimorpha = res[i].Diseases[j].OMIM[0].Id;
-                  isOmim = true;
-                  tempinfo = this.searchFilterPipe.transform(this.orphaOmim, 'OMIM', codeomimorpha);
-                  //codeomimorpha = codeomimorpha.replace("ORPHANET", "Orphanet");
-                }
-                 if(tempinfo.length == 0 ){
-                   if(codeomimorpha!=null){
-                     codeomimorpha = codeomimorpha.replace("ORPHA", "Orphanet");
-                   }
-                   if(isOmim){
-                     dataForGene.push({"condition": res[i].Diseases[j].OMIM[0].Condition, "idOrphanet": null, "idOMIM": codeomimorpha, "value": false});
-                   }else{
+                  }else if(res[i].Diseases[j].OMIM){
+                    codeomimorpha = res[i].Diseases[j].OMIM[0].Id;
+                    isOmim = true;
+                    tempinfo = this.searchFilterPipe.transform(this.orphaOmim, 'OMIM', codeomimorpha);
+                    //codeomimorpha = codeomimorpha.replace("ORPHANET", "Orphanet");
+                  }
+
+                   if(tempinfo.length == 0 ){
                      if(codeomimorpha!=null){
-                       codeomimorpha = codeomimorpha.replace("ORPHANET", "Orphanet");
+                       codeomimorpha = codeomimorpha.replace("ORPHA", "Orphanet");
                      }
+                     if(isOmim){
+                       dataForGene.push({"condition": res[i].Diseases[j].OMIM[0].Condition, "idOrphanet": null, "idOMIM": codeomimorpha, "value": false});
+                     }else{
+                       if(codeomimorpha!=null){
+                         codeomimorpha = codeomimorpha.replace("ORPHANET", "Orphanet");
+                       }
 
+                       if(res[i].Diseases[j].ORPHANET){
+                         dataForGene.push({"condition": res[i].Diseases[j].ORPHANET[0].Condition, "idOrphanet": codeomimorpha, "idOMIM": null, "value": false});
+                       }
+
+                     }
+                   }else{
+                     tempinfo[0].ORPHA = (tempinfo[0].ORPHA).replace("ORPHANET", "Orphanet");
+                     tempinfo[0].ORPHA = (tempinfo[0].ORPHA).replace("ORPHA", "Orphanet");
                      if(res[i].Diseases[j].ORPHANET){
-                       dataForGene.push({"condition": res[i].Diseases[j].ORPHANET[0].Condition, "idOrphanet": codeomimorpha, "idOMIM": null, "value": false});
+                       dataForGene.push({"condition": res[i].Diseases[j].ORPHANET[0].Condition, "idOrphanet": tempinfo[0].ORPHA, "idOMIM": tempinfo[0].OMIM, "value": false});
+                     }else if(res[i].Diseases[j].OMIM){
+                       dataForGene.push({"condition": res[i].Diseases[j].OMIM[0].Condition, "idOrphanet": tempinfo[0].ORPHA, "idOMIM": tempinfo[0].OMIM, "value": false});
                      }
 
                    }
-                 }else{
-                   tempinfo[0].ORPHA = (tempinfo[0].ORPHA).replace("ORPHANET", "Orphanet");
-                   tempinfo[0].ORPHA = (tempinfo[0].ORPHA).replace("ORPHA", "Orphanet");
-                   if(res[i].Diseases[j].ORPHANET){
-                     dataForGene.push({"condition": res[i].Diseases[j].ORPHANET[0].Condition, "idOrphanet": tempinfo[0].ORPHA, "idOMIM": tempinfo[0].OMIM, "value": false});
-                   }else if(res[i].Diseases[j].OMIM){
-                     dataForGene.push({"condition": res[i].Diseases[j].OMIM[0].Condition, "idOrphanet": tempinfo[0].ORPHA, "idOMIM": tempinfo[0].OMIM, "value": false});
-                   }
 
-                 }
-
-                 this.sizeOfDiseases++;
+                   this.sizeOfDiseases++;
+                }
+                this.infoGenesAndConditions.push({"name": res[i].Name, "data": dataForGene, "score": res[i].Score});
+                this.infoGenesAndConditionsPhenolyzer.push({"name": res[i].Name, "data": dataForGene, "score": res[i].Score});
+                /*this.infoGenesAndConditions.push({"name": res[i].Name, "data": dataForGene});
+                this.infoGenesAndConditionsPhenolyzer.push({"name": res[i].Name, "data": dataForGene});*/
               }
-              this.infoGenesAndConditions.push({"name": res[i].Name, "data": dataForGene, "score": res[i].Score});
-              this.infoGenesAndConditionsPhenolyzer.push({"name": res[i].Name, "data": dataForGene, "score": res[i].Score});
-              /*this.infoGenesAndConditions.push({"name": res[i].Name, "data": dataForGene});
-              this.infoGenesAndConditionsPhenolyzer.push({"name": res[i].Name, "data": dataForGene});*/
+
             }
 
             if(document.getElementById("idShowPanelWorkbench")!=null){
