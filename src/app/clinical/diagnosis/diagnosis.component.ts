@@ -360,6 +360,13 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           //console.log("finished loading and running docxtemplater.js. with a status of" + textStatus);
         });
 
+        this.subscription.add( this.http.get('assets/jsons/orpha-omim-orpha.json')
+          .subscribe( (res : any) => {
+            this.orphaOmim = res;
+          }, (err) => {
+            console.log(err);
+          }));
+
       /*$('#panelcillo a').click(function(e) {
           console.log(e);
             e.stopPropagation(); //stops default link action
@@ -384,279 +391,28 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
     ngOnInit() {
-      this.blob.init(this.accessToken);
-      this.blobped.init(this.accessToken);
-      this.lang = this.authService.getLang();
       console.log("ng on init")
-      this.getAzureBlobSasToken();
       this.exomiserHttpService.cancelPendingRequests();
-       this.loadMyEmail();
-       this.loadPatients();
-       this.loadTranslations();
-       this.initVariables();
-       this.initVarsPrograms();
-
-       this.subscription.add( this.blob.change.subscribe(uploaded => {
-          this.uploaded = uploaded;
-          console.log("subscription blob")
-          this.uploadingGenotype = false;
-
-
-        }));
-
-
-        this.subscription.add(this.blob.changeFilesBlob.subscribe(filesOnBlob => {
-          if(filesOnBlob.length>0){
-            filesOnBlob.sort(this.sortService.DateSort("lastModified"));
-          }
-          var mindate = 0;
-          for (var i = 0; i < filesOnBlob.length; i++) {
-            if(((filesOnBlob[i].name).indexOf('.vcf')!=-1)&&((filesOnBlob[i].name).indexOf('vcf/')!=-1)){
-              var d = new Date(filesOnBlob[i].lastModified);
-              //this.filename = filesOnBlob[i].name;
-              if(mindate<d.getTime()){
-                this.filename = filesOnBlob[i].name;
-                mindate = d.getTime();
-              }
-            }
-          }
-
-          if(this.uploaded){
-            if(document.getElementById("idShowPanelWorkbench")==null && document.getElementById("settingExomiser")==null){
-              //this.callExomizerSameVcf();
-            }else if(document.getElementById("settingExomiser")!=null){
-              this.blob.loadFilesOnNewBlobExomizerSetting(this.accessToken.containerName);
-            }
-          }else{
-            this.blob.loadFilesOnNewBlobExomizerSetting(this.accessToken.containerName);
-          }
-
-         }));
-
-        //si tiene VCF
-        this.subscription.add( this.blob.changeFilesExomizerBlobVcf.subscribe(vcfFilesOnBlob => {
-          this.loadingGeno = false;
-           if(vcfFilesOnBlob.length>0){
-            vcfFilesOnBlob.sort(this.sortService.DateSort("lastModified"));
-            for(var i=0;i<vcfFilesOnBlob.length;i++){
-              vcfFilesOnBlob[i].nameForShow=""
-            }
-            for(var i=0;i<vcfFilesOnBlob.length;i++){
-              if(vcfFilesOnBlob[i].name.indexOf('/')){
-                var sectionsVcfBlob = vcfFilesOnBlob[i].name.split('/');
-                vcfFilesOnBlob[i].nameForShow=sectionsVcfBlob[sectionsVcfBlob.length-1]
-              }
-              else{
-                vcfFilesOnBlob[i].nameForShow=vcfFilesOnBlob[i].name;
-              }
-            }
-            this.filesVcf = vcfFilesOnBlob;
-            this.filename = vcfFilesOnBlob[0].name;
-            this.hasVcf = true;
-            if(document.getElementById("idShowPanelWorkbench")!=null && document.getElementById("settingExomiser")==null){
-              //document.getElementById("idShowPanelWorkbench").click();
-            }
-           }else{
-             console.log('no tiene!');
-           }
-         }));
-
-         this.subscription.add( this.blob.changeFilesOnlyVcf.subscribe(vcfFilesOnBlob => {
-           this.loadingGeno = false;
-            if(vcfFilesOnBlob.length>0){
-              vcfFilesOnBlob.sort(this.sortService.DateSort("lastModified"));
-              for(var i=0;i<vcfFilesOnBlob.length;i++){
-                vcfFilesOnBlob[i].nameForShow=""
-              }
-              for(var i=0;i<vcfFilesOnBlob.length;i++){
-                if(vcfFilesOnBlob[i].name.indexOf('/')){
-                  var sectionsVcfBlob = vcfFilesOnBlob[i].name.split('/');
-                  vcfFilesOnBlob[i].nameForShow=sectionsVcfBlob[sectionsVcfBlob.length-1]
-                }
-                else{
-                  vcfFilesOnBlob[i].nameForShow=vcfFilesOnBlob[i].name;
-                }
-              }
-              this.filesVcf = vcfFilesOnBlob;
-              this.filename = vcfFilesOnBlob[0].name;
-              this.hasVcf = true;
-            }else{
-              console.log('no tiene!');
-            }
-          }));
-
-         //SI TIENE JSON DE EXOMIZER
-        this.subscription.add( this.blob.changeFilesExomizerBlob.subscribe(filesOnBlob => {
-          this.loadingGeno = false;
-           this.filesOnBlob = filesOnBlob;
-           //console.log(this.filesOnBlob);
-           this.filesOnBlob.sort(this.sortService.DateSort("lastModified"));
-           if(this.filesOnBlob.length>0){
-             if(this.newVcf){
-               this.loadFromBlob();
-               //this.newVcf = false;
-             }else{
-               this.loadFromBlob();
-               //document.getElementById("idShowPanelWorkbench").click();
-             }
-           }else{
-             console.log('change blob exomiser no tiene!');
-             this.uploadingGenotype = false;
-           }
-           this.loading = false;
-         }));
-
-         //SI TIENE ped file
-         this.subscription.add( this.blobped.change.subscribe(uploaded => {
-            this.uploadingPed = !uploaded;
-            this.blobped.loadFilesPedOnBlob(this.accessToken.containerName);
-          }));
-
-         this.subscription.add( this.blobped.changeFilesPedBlob.subscribe(filesPedOnBlob => {
-            if(filesPedOnBlob.length>0){
-              filesPedOnBlob.sort(this.sortService.DateSort("lastModified"));
-              for(var i=0;i<filesPedOnBlob.length;i++){
-                filesPedOnBlob[i].nameForShow=""
-              }
-              for(var i=0;i<filesPedOnBlob.length;i++){
-                if(filesPedOnBlob[i].name.indexOf('/')){
-                  var sectionsPedBlob = filesPedOnBlob[i].name.split('/');
-                  filesPedOnBlob[i].nameForShow=sectionsPedBlob[sectionsPedBlob.length-1]
-                }
-                else{
-                  filesPedOnBlob[i].nameForShow=filesPedOnBlob[i].name;
-                }
-              }
-              this.pedNameForShow=filesPedOnBlob[0].nameForShow
-              this.settingExomizer.PedBlobName = filesPedOnBlob[0].name;
-            }else{
-             console.log('no tiene!');
-            }
-          }));
-
-
-
-         //SI TIENE JSON DE PHENOLIZER
-        this.subscription.add( this.blob.changeFilesPhenolyzerBlob.subscribe(filesPhenolyzerOnBlob => {
-          this.loadingGeno = false;
-          //console.log(filesPhenolyzerOnBlob);
-           if(filesPhenolyzerOnBlob.length>0){
-             filesPhenolyzerOnBlob.sort(this.sortService.DateSort("lastModified"));
-             this.filePhenolyzerOnBlob = filesPhenolyzerOnBlob[0].name;
-             this.loadPhenolyzerFromBlob();
-           }else{
-            console.log('no tiene!');
-            this.launchingPhenolyzer = false;
-           }
-           this.loading = false;
-         }));
-
-         this.subscription.add( this.blob.changeNcrFilesPatientBlob.subscribe(filesNcr => {
-           //console.log(filesPhenolyzerOnBlob);
-            if(filesNcr.length>0){
-              this.checkPrograms();
-            }else{
-             console.log('no tiene ncr!');
-            }
-          }));
-
-
-         this.subscription.add( this.blob.changeFilesPatientBlob.subscribe(filesPatientBlob => {
-            if(filesPatientBlob.length>0){
-              filesPatientBlob.sort(this.sortService.DateSort("lastModified"));
-              var listPatientFiles = [];
-              for(var i = 0; i < filesPatientBlob.length; i++) {
-                var indexFileExecution1 = filesPatientBlob[i].name.split("-");
-                var indexFileExecution2 =[];
-                if((i+1)<filesPatientBlob.length){
-                  indexFileExecution2 = filesPatientBlob[i+1].name.split("-");
-                }
-                var extension1 = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.lastIndexOf('.'));
-                var extension2 = null;
-                var ncrresultfiles = false;
-                if(filesPatientBlob[(i + 1)]==undefined){
-                  if(indexFileExecution2[0]!=undefined) indexFileExecution2[0] = null;
-                  else indexFileExecution2.push(null)
-                }else{
-                  extension2 = filesPatientBlob[i+1].name.substr(filesPatientBlob[i+1].name.lastIndexOf('.'));
-                  if(filesPatientBlob[i].ncrresult || filesPatientBlob[i+1].ncrresult){
-                    ncrresultfiles=true;
-                  }
-                }
-                if((indexFileExecution1[0] == indexFileExecution2[0]) && ncrresultfiles){
-                  if(extension1 == '.json'){
-                    var name = filesPatientBlob[i+1].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
-                    filesPatientBlob[i].simplename = name;
-                    listPatientFiles.push({origenFile:filesPatientBlob[i+1], ncrResults:filesPatientBlob[i]})
-                  }else{
-                    var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
-                    filesPatientBlob[i].simplename = name;
-                    listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i+1]})
-                  }
-                  i=i+1;
-                }else{
-                  if(extension1 == '.json'){
-                    var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
-                    filesPatientBlob[i].simplename = name;
-                    //listPatientFiles.push({origenFile:undefined, ncrResults:filesPatientBlob[i]})
-                    listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i]})
-                  }else{
-                    var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
-                    filesPatientBlob[i].simplename = name;
-                    //listPatientFiles.push({origenFile:undefined, ncrResults:filesPatientBlob[i]})
-                    listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i]})
-                  }
-                  //i=i+1;
-                }
-              }
-              for(var i=0;i<listPatientFiles.length;i++){
-                listPatientFiles[i].origenFile.nameForShow=""
-              }
-              for(var i=0;i<listPatientFiles.length;i++){
-                if(listPatientFiles[i].origenFile.simplename!=undefined){
-                  if(listPatientFiles[i].origenFile.simplename.indexOf('/')!=-1){
-                    var sectionslistPatientFiles = listPatientFiles[i].origenFile.simplename.split('/');
-                    listPatientFiles[i].origenFile.nameForShow=sectionslistPatientFiles[sectionslistPatientFiles.length-1]
-                  }
-                  else{
-                    listPatientFiles[i].origenFile.nameForShow=listPatientFiles[i].origenFile.simplename;
-                  }
-                }
-              }
-              this.listPatientFiles = listPatientFiles;
-             // this.urlFileHtmlExomiserBlob = this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+filesPatientBlob[0].name+this.accessToken.sasToken;
-            }else{
-             console.log('no tiene!');
-             this.listPatientFiles = [];
-            }
-            Swal.close();
-            let ngbModalOptions: NgbModalOptions = {
-                  windowClass: 'ModalClass-lg',
-                  centered: true
-            };
-            this.modalReference = this.modalService.open(this.contentDownloadFiles, ngbModalOptions);
-          }));
-
-
-
-        this.subscription.add( this.blob.changeFilesHtmlExomiserBlob.subscribe(filesHtmlExomiserBlob => {
-           if(filesHtmlExomiserBlob.length>0){
-             this.loadingFileHtmlExomiserBlob = false;
-             filesHtmlExomiserBlob.sort(this.sortService.DateSort("lastModified"));
-             this.urlFileHtmlExomiserBlob = this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+filesHtmlExomiserBlob[0].name+this.accessToken.sasToken;
-           }else{
-             this.loadingFileHtmlExomiserBlob = false;
-            console.log('no tiene!');
-           }
-         }));
-
-      this.subscription.add( this.http.get('assets/jsons/orpha-omim-orpha.json')
-        .subscribe( (res : any) => {
-          this.orphaOmim = res;
-        }, (err) => {
-          console.log(err);
-        }));
+      this.lang = this.authService.getLang();
+      if(this.authService.getCurrentPatient()==null){
+        this.router.navigate(['clinical/dashboard/home']);
+      }else{
+        this.selectedPatient = this.authService.getCurrentPatient();
+        this.loadAllData();
+      }
     }
+
+    loadAllData(){
+      this.getAzureBlobSasToken();
+      this.loadMyEmail();
+      this.loadTranslations();
+      this.initVariables();
+      this.initVarsPrograms();
+      this.loadSymptoms();
+      this.getDiagnosisInfo();
+      this.checkServices(); //esto habría que ponerlo en el topnavbar tb
+    }
+
 
     onchangeparamgraph(){
       var namescore = "Dx29";
@@ -804,44 +560,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       //this.inputEl.nativeElement.focus();
     }
 
-    loadPatients(){
-      console.log("load patients")
-      this.subscription.add( this.patientService.getPatientsClinical()
-      .subscribe( (res : any) => {
-        res.sort(this.sortService.GetSortOrderNames("patientName"));
-        this.patients = [];
-        res.forEach(function(element) {
-          if(!element.isArchived){
-            this.patients.push(element);
-          }
-        }.bind(this));
-        this.loadSharedPatients();
-        //this.patients = JSON.parse(JSON.stringify(res));
-        if(this.authService.getCurrentPatient()!=null){
-          this.selectedPatient = this.authService.getCurrentPatient();
-          //this.getAzureBlobSasToken();
-
-          if(document.getElementById("idShowPanelSymptoms")!=null){
-            document.getElementById("idShowPanelSymptoms").click();
-          }
-        }
-      }, (err) => {
-        console.log(err);
-      }));
-    }
-
-    loadSharedPatients(){
-      this.subscription.add( this.http.get(environment.api+'/api/sharedcase/'+this.authService.getIdUser())
-      .subscribe( (res : any) => {
-        (res.listpatients).forEach(function(element) {
-          this.patients.push(element);
-        }.bind(this));
-        console.log(res);
-      }, (err) => {
-        console.log(err);
-      }));
-    }
-
     //traducir cosas
     loadTranslations(){
       this.translate.get('generics.Data saved successfully').subscribe((res: string) => {
@@ -972,32 +690,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         $('.chat-sidebar').removeClass('d-block d-sm-block').addClass('d-none d-sm-none');
       }
     }
-
-    onChangePatient(value){
-      console.log(value);
-      this.isSharedCase = false;
-      if(value.alias){
-        this.isSharedCase = true;
-      }
-
-      this.paramgraph = 'h29';
-      this.selectedItemsFilter = [];
-      this.selectedItemsFilterWithIndex = [{"id":"","index":""}];
-      this.authService.setCurrentPatient(value);
-      this.selectedPatient = this.authService.getCurrentPatient();
-      this.getAzureBlobSasToken();
-      if(document.getElementById("idShowPanelSymptoms")!=null){
-        document.getElementById("idShowPanelSymptoms").click();
-      }
-      if(this.modalReference!=undefined){
-        this.modalReference.close();
-      }
-    }
-
-    changePatient(contentChangePatient){
-      this.modalReference = this.modalService.open(contentChangePatient);
-    }
-
 
 
     loadSymptoms(){
@@ -2166,13 +1858,15 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
     goToGenesStep(){
       //comprobar genes
-      document.getElementById("idShowPanelGenes").click();
-      this.loadGenes();
+      if(document.getElementById("idShowPanelGenes")!=null){
+        document.getElementById("idShowPanelGenes").click();
+      }
+      //this.loadGenes();
     }
 
 
     loadGenes(){
-      //this.getAzureBlobSasToken();
+      this.getAzureBlobSasToken();
       this.blob.loadFilesOnBlobExomizer(this.accessToken.containerName,null);
       this.blob.loadFilesOnBlobPhenolyzer(this.accessToken.containerName);
       //quito el primer caracter, ya que solo deja poner contenedores de 63 caracteres, y tenemos 64
@@ -2187,23 +1881,283 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
     getAzureBlobSasToken(){
-      if(this.authService.getCurrentPatient()==null){
-        this.router.navigate(['clinical/dashboard/home']);
-      }else{
-        this.accessToken.containerName = this.authService.getCurrentPatient().sub.substr(1);
-        this.accessToken.patientId = this.authService.getCurrentPatient().sub;
-        
-        this.subscription.add( this.apiDx29ServerService.getAzureBlobSasToken(this.accessToken.containerName)
-        .subscribe( (res : any) => {
-          console.log(res);
-          //this.accessToken.sasToken = '?'+res;
-          //this.initVariables();
-          this.loadSymptoms();
-          this.getDiagnosisInfo();
-        }, (err) => {
-          console.log(err);
+      this.accessToken.containerName = this.authService.getCurrentPatient().sub.substr(1);
+      this.accessToken.patientId = this.authService.getCurrentPatient().sub;
+      this.subscription.add( this.apiDx29ServerService.getAzureBlobSasToken(this.accessToken.containerName)
+      .subscribe( (res : any) => {
+        //console.log(res);
+        this.accessToken.sasToken = '?'+res;
+        this.blob.init(this.accessToken);
+        this.blobped.init(this.accessToken);
+        this.loadBlobFiles();
+        /*
+        this.initVariables();
+        this.loadSymptoms();
+        this.getDiagnosisInfo();
+        */
+      }, (err) => {
+        console.log(err);
+      }));
+    }
+
+    loadBlobFiles(){
+      this.subscription.add( this.blob.change.subscribe(uploaded => {
+         this.uploaded = uploaded;
+         console.log("subscription blob")
+         this.uploadingGenotype = false;
+       }));
+
+       this.subscription.add(this.blob.changeFilesBlob.subscribe(filesOnBlob => {
+         if(filesOnBlob.length>0){
+           filesOnBlob.sort(this.sortService.DateSort("lastModified"));
+         }
+         var mindate = 0;
+         for (var i = 0; i < filesOnBlob.length; i++) {
+           if(((filesOnBlob[i].name).indexOf('.vcf')!=-1)&&((filesOnBlob[i].name).indexOf('vcf/')!=-1)){
+             var d = new Date(filesOnBlob[i].lastModified);
+             //this.filename = filesOnBlob[i].name;
+             if(mindate<d.getTime()){
+               this.filename = filesOnBlob[i].name;
+               mindate = d.getTime();
+             }
+           }
+         }
+
+         if(this.uploaded){
+           if(document.getElementById("idShowPanelWorkbench")==null && document.getElementById("settingExomiser")==null){
+             //this.callExomizerSameVcf();
+           }else if(document.getElementById("settingExomiser")!=null){
+             this.blob.loadFilesOnNewBlobExomizerSetting(this.accessToken.containerName);
+           }
+         }else{
+           this.blob.loadFilesOnNewBlobExomizerSetting(this.accessToken.containerName);
+         }
+
         }));
-      }
+
+       //si tiene VCF
+       this.subscription.add( this.blob.changeFilesExomizerBlobVcf.subscribe(vcfFilesOnBlob => {
+         this.loadingGeno = false;
+          if(vcfFilesOnBlob.length>0){
+           vcfFilesOnBlob.sort(this.sortService.DateSort("lastModified"));
+           for(var i=0;i<vcfFilesOnBlob.length;i++){
+             vcfFilesOnBlob[i].nameForShow=""
+           }
+           for(var i=0;i<vcfFilesOnBlob.length;i++){
+             if(vcfFilesOnBlob[i].name.indexOf('/')){
+               var sectionsVcfBlob = vcfFilesOnBlob[i].name.split('/');
+               vcfFilesOnBlob[i].nameForShow=sectionsVcfBlob[sectionsVcfBlob.length-1]
+             }
+             else{
+               vcfFilesOnBlob[i].nameForShow=vcfFilesOnBlob[i].name;
+             }
+           }
+           this.filesVcf = vcfFilesOnBlob;
+           this.filename = vcfFilesOnBlob[0].name;
+           this.hasVcf = true;
+           if(document.getElementById("idShowPanelWorkbench")!=null && document.getElementById("settingExomiser")==null){
+             //document.getElementById("idShowPanelWorkbench").click();
+           }
+          }else{
+            console.log('no tiene!');
+          }
+        }));
+
+        this.subscription.add( this.blob.changeFilesOnlyVcf.subscribe(vcfFilesOnBlob => {
+          this.loadingGeno = false;
+           if(vcfFilesOnBlob.length>0){
+             vcfFilesOnBlob.sort(this.sortService.DateSort("lastModified"));
+             for(var i=0;i<vcfFilesOnBlob.length;i++){
+               vcfFilesOnBlob[i].nameForShow=""
+             }
+             for(var i=0;i<vcfFilesOnBlob.length;i++){
+               if(vcfFilesOnBlob[i].name.indexOf('/')){
+                 var sectionsVcfBlob = vcfFilesOnBlob[i].name.split('/');
+                 vcfFilesOnBlob[i].nameForShow=sectionsVcfBlob[sectionsVcfBlob.length-1]
+               }
+               else{
+                 vcfFilesOnBlob[i].nameForShow=vcfFilesOnBlob[i].name;
+               }
+             }
+             this.filesVcf = vcfFilesOnBlob;
+             this.filename = vcfFilesOnBlob[0].name;
+             this.hasVcf = true;
+           }else{
+             console.log('no tiene!');
+           }
+         }));
+
+        //SI TIENE JSON DE EXOMIZER
+       this.subscription.add( this.blob.changeFilesExomizerBlob.subscribe(filesOnBlob => {
+         console.log(filesOnBlob);
+         this.loadingGeno = false;
+          this.filesOnBlob = filesOnBlob;
+          //console.log(this.filesOnBlob);
+          this.filesOnBlob.sort(this.sortService.DateSort("lastModified"));
+          if(this.filesOnBlob.length>0){
+            if(this.newVcf){
+              this.loadFromBlob();
+              //this.newVcf = false;
+            }else{
+              this.loadFromBlob();
+              //document.getElementById("idShowPanelWorkbench").click();
+            }
+          }else{
+            console.log('change blob exomiser no tiene!');
+            this.uploadingGenotype = false;
+          }
+          this.loading = false;
+        }));
+
+        //SI TIENE ped file
+        this.subscription.add( this.blobped.change.subscribe(uploaded => {
+           this.uploadingPed = !uploaded;
+           this.blobped.loadFilesPedOnBlob(this.accessToken.containerName);
+         }));
+
+        this.subscription.add( this.blobped.changeFilesPedBlob.subscribe(filesPedOnBlob => {
+           if(filesPedOnBlob.length>0){
+             filesPedOnBlob.sort(this.sortService.DateSort("lastModified"));
+             for(var i=0;i<filesPedOnBlob.length;i++){
+               filesPedOnBlob[i].nameForShow=""
+             }
+             for(var i=0;i<filesPedOnBlob.length;i++){
+               if(filesPedOnBlob[i].name.indexOf('/')){
+                 var sectionsPedBlob = filesPedOnBlob[i].name.split('/');
+                 filesPedOnBlob[i].nameForShow=sectionsPedBlob[sectionsPedBlob.length-1]
+               }
+               else{
+                 filesPedOnBlob[i].nameForShow=filesPedOnBlob[i].name;
+               }
+             }
+             this.pedNameForShow=filesPedOnBlob[0].nameForShow
+             this.settingExomizer.PedBlobName = filesPedOnBlob[0].name;
+           }else{
+            console.log('no tiene!');
+           }
+         }));
+
+        //SI TIENE JSON DE PHENOLIZER
+       this.subscription.add( this.blob.changeFilesPhenolyzerBlob.subscribe(filesPhenolyzerOnBlob => {
+         this.loadingGeno = false;
+         //console.log(filesPhenolyzerOnBlob);
+          if(filesPhenolyzerOnBlob.length>0){
+            filesPhenolyzerOnBlob.sort(this.sortService.DateSort("lastModified"));
+            this.filePhenolyzerOnBlob = filesPhenolyzerOnBlob[0].name;
+            this.loadPhenolyzerFromBlob();
+          }else{
+           console.log('no tiene!');
+           this.launchingPhenolyzer = false;
+          }
+          this.loading = false;
+        }));
+
+        this.subscription.add( this.blob.changeNcrFilesPatientBlob.subscribe(filesNcr => {
+          //console.log(filesPhenolyzerOnBlob);
+           if(filesNcr.length>0){
+             this.checkPrograms();
+           }else{
+            console.log('no tiene ncr!');
+           }
+         }));
+
+
+        this.subscription.add( this.blob.changeFilesPatientBlob.subscribe(filesPatientBlob => {
+           if(filesPatientBlob.length>0){
+             filesPatientBlob.sort(this.sortService.DateSort("lastModified"));
+             var listPatientFiles = [];
+             for(var i = 0; i < filesPatientBlob.length; i++) {
+               var indexFileExecution1 = filesPatientBlob[i].name.split("-");
+               var indexFileExecution2 =[];
+               if((i+1)<filesPatientBlob.length){
+                 indexFileExecution2 = filesPatientBlob[i+1].name.split("-");
+               }
+               var extension1 = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.lastIndexOf('.'));
+               var extension2 = null;
+               var ncrresultfiles = false;
+               if(filesPatientBlob[(i + 1)]==undefined){
+                 if(indexFileExecution2[0]!=undefined) indexFileExecution2[0] = null;
+                 else indexFileExecution2.push(null)
+               }else{
+                 extension2 = filesPatientBlob[i+1].name.substr(filesPatientBlob[i+1].name.lastIndexOf('.'));
+                 if(filesPatientBlob[i].ncrresult || filesPatientBlob[i+1].ncrresult){
+                   ncrresultfiles=true;
+                 }
+               }
+               if((indexFileExecution1[0] == indexFileExecution2[0]) && ncrresultfiles){
+                 if(extension1 == '.json'){
+                   var name = filesPatientBlob[i+1].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
+                   filesPatientBlob[i].simplename = name;
+                   listPatientFiles.push({origenFile:filesPatientBlob[i+1], ncrResults:filesPatientBlob[i]})
+                 }else{
+                   var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
+                   filesPatientBlob[i].simplename = name;
+                   listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i+1]})
+                 }
+                 i=i+1;
+               }else{
+                 if(extension1 == '.json'){
+                   var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
+                   filesPatientBlob[i].simplename = name;
+                   //listPatientFiles.push({origenFile:undefined, ncrResults:filesPatientBlob[i]})
+                   listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i]})
+                 }else{
+                   var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
+                   filesPatientBlob[i].simplename = name;
+                   //listPatientFiles.push({origenFile:undefined, ncrResults:filesPatientBlob[i]})
+                   listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i]})
+                 }
+                 //i=i+1;
+               }
+             }
+             for(var i=0;i<listPatientFiles.length;i++){
+               listPatientFiles[i].origenFile.nameForShow=""
+             }
+             for(var i=0;i<listPatientFiles.length;i++){
+               if(listPatientFiles[i].origenFile.simplename!=undefined){
+                 if(listPatientFiles[i].origenFile.simplename.indexOf('/')!=-1){
+                   var sectionslistPatientFiles = listPatientFiles[i].origenFile.simplename.split('/');
+                   listPatientFiles[i].origenFile.nameForShow=sectionslistPatientFiles[sectionslistPatientFiles.length-1]
+                 }
+                 else{
+                   listPatientFiles[i].origenFile.nameForShow=listPatientFiles[i].origenFile.simplename;
+                 }
+               }
+             }
+             this.listPatientFiles = listPatientFiles;
+            // this.urlFileHtmlExomiserBlob = this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+filesPatientBlob[0].name+this.accessToken.sasToken;
+           }else{
+            console.log('no tiene!');
+            this.listPatientFiles = [];
+           }
+           Swal.close();
+           let ngbModalOptions: NgbModalOptions = {
+                 windowClass: 'ModalClass-lg',
+                 centered: true
+           };
+           this.modalReference = this.modalService.open(this.contentDownloadFiles, ngbModalOptions);
+         }));
+
+
+
+       this.subscription.add( this.blob.changeFilesHtmlExomiserBlob.subscribe(filesHtmlExomiserBlob => {
+          if(filesHtmlExomiserBlob.length>0){
+            this.loadingFileHtmlExomiserBlob = false;
+            filesHtmlExomiserBlob.sort(this.sortService.DateSort("lastModified"));
+            this.urlFileHtmlExomiserBlob = this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+filesHtmlExomiserBlob[0].name+this.accessToken.sasToken;
+          }else{
+            this.loadingFileHtmlExomiserBlob = false;
+           console.log('no tiene!');
+          }
+        }));
+
+        //console.log(this.accessToken);
+        this.blob.createContainerIfNotExists(this.accessToken, 'ncr');
+        this.blob.createContainerIfNotExists(this.accessToken, '');
+        this.blob.loadFilesOnBlobExomizer(this.accessToken.containerName,null);
+        this.blob.loadFilesOnBlobPhenolyzer(this.accessToken.containerName);
+
+
 
     }
 
@@ -3629,17 +3583,17 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                   var isOmim = false;
                   if(res[i].Diseases[j].ORPHANET){
                     codeomimorpha = res[i].Diseases[j].ORPHANET[0].Id;
-  
+
                     codeomimorpha = codeomimorpha.replace("ORPHANET", "ORPHA");
                     tempinfo = this.searchFilterPipe.transform(this.orphaOmim, 'ORPHA', codeomimorpha);
-  
+
                   }else if(res[i].Diseases[j].OMIM){
                     codeomimorpha = res[i].Diseases[j].OMIM[0].Id;
                     isOmim = true;
                     tempinfo = this.searchFilterPipe.transform(this.orphaOmim, 'OMIM', codeomimorpha);
                     //codeomimorpha = codeomimorpha.replace("ORPHANET", "Orphanet");
                   }
-                  
+
                    if(tempinfo.length == 0 ){
                      if(codeomimorpha!=null){
                        codeomimorpha = codeomimorpha.replace("ORPHA", "Orphanet");
@@ -3650,11 +3604,11 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                        if(codeomimorpha!=null){
                          codeomimorpha = codeomimorpha.replace("ORPHANET", "Orphanet");
                        }
-  
+
                        if(res[i].Diseases[j].ORPHANET){
                          dataForGene.push({"condition": res[i].Diseases[j].ORPHANET[0].Condition, "idOrphanet": codeomimorpha, "idOMIM": null, "value": false});
                        }
-  
+
                      }
                    }else{
                      tempinfo[0].ORPHA = (tempinfo[0].ORPHA).replace("ORPHANET", "Orphanet");
@@ -3664,9 +3618,9 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                      }else if(res[i].Diseases[j].OMIM){
                        dataForGene.push({"condition": res[i].Diseases[j].OMIM[0].Condition, "idOrphanet": tempinfo[0].ORPHA, "idOMIM": tempinfo[0].OMIM, "value": false});
                      }
-  
+
                    }
-  
+
                    this.sizeOfDiseases++;
                 }
                 this.infoGenesAndConditions.push({"name": res[i].Name, "data": dataForGene, "score": res[i].Score});
@@ -3674,7 +3628,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                 /*this.infoGenesAndConditions.push({"name": res[i].Name, "data": dataForGene});
                 this.infoGenesAndConditionsPhenolyzer.push({"name": res[i].Name, "data": dataForGene});*/
               }
-              
+
             }
 
             if(document.getElementById("idShowPanelWorkbench")!=null){
