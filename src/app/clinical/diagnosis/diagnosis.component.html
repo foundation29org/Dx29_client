@@ -1,7 +1,7 @@
 <a id="idup"></a>
 <section id="basic-form-layouts">
 	<div class="row">
-		<div class="col-md-12 mt-2" *ngIf="selectedPatient.patientName && patients.length>0">
+		<div class="col-md-12 mt-2" *ngIf="selectedPatient.patientName">
       <h5 class="d-inline"><span class="d-inline">{{selectedPatient.patientName}}</span></h5>
 			<span *ngIf="selectedPatient.patientName!=selectedPatient.alias && selectedPatient.alias" class="alias"> (Alias: {{selectedPatient.alias}})</span>
 			<span class="d-block">
@@ -10,7 +10,6 @@
 					<a *ngIf="activeTittleMenu == 'Workbench' && selectedPatient.permissions.shareEmr" class="font-small-3 pointer" href="javascript:void(0)" (click)="loadFilesContainer(contentDownloadFiles)">View files</a>
 				</span>
 			</span>
-			<!--<a class="font-small-3 float-right right-elements pointer" href="javascript:void(0)" style="position: absolute;left: 90%;top: 0px;" (click)="changePatient(contentChangePatient)">{{'diagnosis.Change case' | translate }}</a>-->
 
 			<div class="offset-md-2 col-md-8" style="margin-top: -30px;" *ngIf="programs.length>0 && (activeTittleMenu == 'Workbench' || activeTittleMenu == 'Genes')">
 				<ngb-alert type="light" [dismissible]="false" style="border-radius: 10px;box-shadow: 2px 5px #888;" *ngFor="let program of programs ; let i = index">
@@ -26,14 +25,6 @@
 			</div>
 
 			<button id="openModalSymptomsNcrButton2" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr)">.</button>
-    </div>
-		<div class="col-md-12 mt-2"  *ngIf="!selectedPatient.patientName && patients.length>0">
-      <div class="form-group">
-        <label for="countrybirth">{{'diagnosis.Select case' | translate }}</label>
-        <select id="countrybirth" name="countrybirth" class="form-control"  [(ngModel)]="selectedPatient" (ngModelChange)="onChangePatient($event)">
-          <option *ngFor="let onepatient of patients" [ngValue]="onepatient"><span *ngIf="onepatient.alias">{{onepatient.alias}} ({{onepatient.patientName}})</span><span *ngIf="!onepatient.alias">{{onepatient.patientName}}</span></option>
-        </select>
-      </div>
     </div>
   </div>
 </section>
@@ -991,22 +982,6 @@
 						  		</div>
 								</div>
 						</ng-template>
-
-					<!--	<ng-template #contentChangePatient let-c="close" let-d="dismiss" appendTo="body">
-								<div class="modal-header" id="idHeader">
-										<h4 class="modal-title">{{'diagnosis.Select case' | translate }}</h4>
-								</div>
-								<div class="modal-body">
-					        <select id="countrybirth" name="countrybirth" class="form-control"  [(ngModel)]="selectedPatient" (ngModelChange)="onChangePatient($event)">
-					          <option *ngFor="let onepatient of patients" [ngValue]="onepatient"><span *ngIf="onepatient.alias">{{onepatient.alias}} ({{onepatient.patientName}})</span><span *ngIf="!onepatient.alias">{{onepatient.patientName}}</span></option>
-					        </select>
-								</div>
-								<div class="modal-footer">
-									<div class="form-actions center" *ngIf="!sending">
-											<button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
-									</div>
-					  		</div>
-						</ng-template>-->
 						<ng-template #contentSettingsExomiser let-d="dismiss" appendTo="body">
 								<div class="modal-header" id="idHeader">
 									<h4 class="modal-title">{{'diagnosis.Advanced Setting of Exomiser' | translate }}</h4>
@@ -1498,7 +1473,7 @@
 																<td>
 																	<p class="mb-0">#: {{hpo.positions.length}} <span (click)="markAllText(copyResultTextNcr, hpo);"><i class="fa fa-search" style="cursor: pointer;" title="Shows the apparitions in the text."></i></span></p>
 																	<span *ngFor="let position of hpo.positions ; let j = index">
-																		<span style="cursor: pointer;" title="Shows the apparitions in the text." (click)="markText(copyResultTextNcr, position[0], position[1])">{{hpo.text[j].text}} </span>
+																		<span style="cursor: pointer;" title="Shows the apparitions in the text." (click)="markText(copyResultTextNcr, position[0], position[1])">{{copyResultTextNcr | slice:position[0]:position[1]}} </span>
 																		<span *ngIf="j<(hpo.positions.length-1)">, </span>
 																	</span>
 																</td>
@@ -1776,7 +1751,7 @@
 								<div class="row col-md-12 mb-4 pr-0">
 
 									<mat-accordion class="col-md-4 mt-3 pl-0 pr-0">
-										<mat-expansion-panel [expanded]="false" *ngIf="!loadingPatients && patients.length>0">
+										<mat-expansion-panel [expanded]="false">
 											<mat-expansion-panel-header>
 												<mat-panel-title>
 													{{'diagnosis.List of case symptoms' | translate }}
@@ -2016,7 +1991,7 @@
 									  </div>
 									</div>
 								  </div>
-						  
+
 								</div>
 							  </div>
 							  <div class="modal-footer d-block">
