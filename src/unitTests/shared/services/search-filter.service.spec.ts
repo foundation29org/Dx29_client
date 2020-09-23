@@ -34,7 +34,7 @@ import { TokenService } from 'app/shared/auth/token.service';
 import { DatePipe } from '@angular/common';
 import { doesNotMatch } from 'assert';
 
-describe('Unit test: Search Filter Pipe Service functions: using no diagnosis patient', () => {
+describe('[Search Filter]', () => {
     let component: NodiagnosisComponent;
     let fixture: ComponentFixture<NodiagnosisComponent>;
 
@@ -57,44 +57,124 @@ describe('Unit test: Search Filter Pipe Service functions: using no diagnosis pa
         fixture.detectChanges();
     });
 
-    it('Transform function without accents',  () => {
+    // 1. Positive cases
+    // 1.a Diseases
+    it('Diseases.[List with accents - Search with accents]',()=>{
+        var listItemnsAccentsDisease=[]
+        listItemnsAccentsDisease.push({id:"prueba4_epiléptico",synonyms:["lalala"]})
+        listItemnsAccentsDisease.push({id:"prueba4_value2",synonyms:["lalala"]})
+        listItemnsAccentsDisease.push({id:"prueba4_value3",synonyms:["lalala"]})
+        var key="id";
+        var valueToFindAccents="prueba4_epiléptico"
+        var resultAccentsDisease = component.searchFilterPipe.transformDiseases(listItemnsAccentsDisease,key,valueToFindAccents);
+        expect(resultAccentsDisease[0].id).toEqual("prueba4_epiléptico")
+    })
+
+    it('Diseases. [List with accents - Search without accents]',()=>{
+        var listItemnsAccentsDisease=[]
+        listItemnsAccentsDisease.push({id:"prueba4_epiléptico",synonyms:["lalala"]})
+        listItemnsAccentsDisease.push({id:"prueba4_value2",synonyms:["lalala"]})
+        listItemnsAccentsDisease.push({id:"prueba4_value3",synonyms:["lalala"]})
+        var key="id";
+        var valueToFindAccents="prueba4_epileptico"
+        var resultAccentsDisease = component.searchFilterPipe.transformDiseases(listItemnsAccentsDisease,key,valueToFindAccents);
+        expect(resultAccentsDisease[0].id).toEqual("prueba4_epiléptico")
+    })
+
+    it('Diseases. [List without accents - Search with accents]',()=>{
+        var listItemnsAccentsDisease=[]
+        listItemnsAccentsDisease.push({id:"prueba4_epileptico",synonyms:["lalala"]})
+        listItemnsAccentsDisease.push({id:"prueba4_value2",synonyms:["lalala"]})
+        listItemnsAccentsDisease.push({id:"prueba4_value3",synonyms:["lalala"]})
+        var key="id";
+        var valueToFindAccents="prueba4_epiléptico"
+        var resultAccentsDisease = component.searchFilterPipe.transformDiseases(listItemnsAccentsDisease,key,valueToFindAccents);
+        expect(resultAccentsDisease[0].id).toEqual("prueba4_epileptico")
+    })
+    it('Diseases. [List without accents - Search without accents]',()=>{
+        var listItemnsAccentsDisease=[]
+        listItemnsAccentsDisease.push({id:"prueba4_epileptico",synonyms:["lalala"]})
+        listItemnsAccentsDisease.push({id:"prueba4_value2",synonyms:["lalala"]})
+        listItemnsAccentsDisease.push({id:"prueba4_value3",synonyms:["lalala"]})
+        var key="id";
+        var valueToFindAccents="prueba4_epileptico"
+        var resultAccentsDisease = component.searchFilterPipe.transformDiseases(listItemnsAccentsDisease,key,valueToFindAccents);
+        expect(resultAccentsDisease[0].id).toEqual("prueba4_epileptico")
+    })
+    // 1.b Symptoms
+    it('Symptoms. [List without accents - Search with accents]',  () => {
+        var listItems=[{id:"prueba1_value1"},{id:"prueba1_value2"},{id:"prueba1_value3"}];
+        var key="id";
+        var valueToFind="pruéba1_value1"
+        var result = component.searchFilterPipe.transform(listItems,key,valueToFind);
+        expect(result[0].id).toEqual("prueba1_value1")
+    });
+
+    it('Symptoms. [List without accents - Search without accents]',  () => {
         var listItems=[{id:"prueba1_value1"},{id:"prueba1_value2"},{id:"prueba1_value3"}];
         var key="id";
         var valueToFind="prueba1_value1"
         var result = component.searchFilterPipe.transform(listItems,key,valueToFind);
-        expect(result[0].id).toEqual(valueToFind)
+        expect(result[0].id).toEqual("prueba1_value1")
     });
 
-    it('Transform function with accents',  () => {
-        var listItemsAccents=[]
-        listItemsAccents.push({"id":"prueba2_epiléptico"})
-        listItemsAccents.push({"id":"prueba2_value2"})
-        listItemsAccents.push({"id":"prueba2_value3"})
+    it('Symptoms. [List with accents - Search with accents]',  () => {
+        var listItems=[{id:"pruéba1_value1"},{id:"prueba1_value2"},{id:"prueba1_value3"}];
         var key="id";
-        var valueToFind="prueba2_epileptico"
-        var resultAccents =  component.searchFilterPipe.transform(listItemsAccents,key,valueToFind);
-        expect(resultAccents[0].id).toEqual("prueba2_epiléptico");
+        var valueToFind="pruéba1_value1"
+        var result = component.searchFilterPipe.transform(listItems,key,valueToFind);
+        expect(result[0].id).toEqual("pruéba1_value1")
     });
 
-    it('Transform Diseases function without accents',  () => {
-        var listItemsDisease=[]
-        listItemsDisease.push({id2:"prueba3_epileptico",synonyms:["lalala"]})
-        listItemsDisease.push({id2:"prueba3_value2",synonyms:["lalala"]})
-        listItemsDisease.push({id2:"prueba3_value3",synonyms:["lalala"]})
-        var key="id2";
-        var valueToFindAccents="prueba3_epileptico"
-        var resultDiseases = component.searchFilterPipe.transformDiseases(listItemsDisease,key,valueToFindAccents);
-        expect(resultDiseases[0].id2).toEqual(valueToFindAccents)
+
+    it('Symptoms. [List with accents - Search without accents]',  () => {
+        var listItems=[{id:"pruéba1_value1"},{id:"prueba1_value2"},{id:"prueba1_value3"}];
+        var key="id";
+        var valueToFind="prueba1_value1"
+        var result = component.searchFilterPipe.transform(listItems,key,valueToFind);
+        expect(result[0].id).toEqual("pruéba1_value1")
     });
 
-    it('Transform Diseases function with accents',  () => {
+    // 2. Negative cases
+    // 2.a Diseases
+
+    it('Disease. [Not included in list - with accents]',()=>{
         var listItemnsAccentsDisease=[]
-        listItemnsAccentsDisease.push({id2:"prueba4_epiléptico",synonyms:["lalala"]})
-        listItemnsAccentsDisease.push({id2:"prueba4_value2",synonyms:["lalala"]})
-        listItemnsAccentsDisease.push({id2:"prueba4_value3",synonyms:["lalala"]})
-        var key="id2";
-        var valueToFindAccents="prueba4_epileptico"
+        listItemnsAccentsDisease.push({id:"prueba4_epiléptico",synonyms:["lalala"]})
+        listItemnsAccentsDisease.push({id:"prueba4_value2",synonyms:["lalala"]})
+        listItemnsAccentsDisease.push({id:"prueba4_value3",synonyms:["lalala"]})
+        var key="id";
+        var valueToFindAccents="acénto"
         var resultAccentsDisease = component.searchFilterPipe.transformDiseases(listItemnsAccentsDisease,key,valueToFindAccents);
-        expect(resultAccentsDisease[0].id2).toEqual("prueba4_epiléptico")
+        expect(resultAccentsDisease).toEqual([])
+    })
+
+    it('Disease. [Not included in list - without accents]',()=>{
+        var listItemnsAccentsDisease=[]
+        listItemnsAccentsDisease.push({id:"prueba4_epiléptico",synonyms:["lalala"]})
+        listItemnsAccentsDisease.push({id:"prueba4_value2",synonyms:["lalala"]})
+        listItemnsAccentsDisease.push({id:"prueba4_value3",synonyms:["lalala"]})
+        var key="id";
+        var valueToFindAccents="acento"
+        var resultAccentsDisease = component.searchFilterPipe.transformDiseases(listItemnsAccentsDisease,key,valueToFindAccents);
+        expect(resultAccentsDisease).toEqual([])
+    })
+
+    // 2.b Symptoms
+
+    it('Symptoms. [Not included in list - with accents]',  () => {
+        var listItems=[{id:"pruéba1_value1"},{id:"prueba1_value2"},{id:"prueba1_value3"}];
+        var key="id";
+        var valueToFind="acénto"
+        var result = component.searchFilterPipe.transform(listItems,key,valueToFind);
+        expect(result).toEqual([])
     });
-  });
+
+    it('Symptoms. [Not included in list - with accents]',  () => {
+        var listItems=[{id:"pruéba1_value1"},{id:"prueba1_value2"},{id:"prueba1_value3"}];
+        var key="id";
+        var valueToFind="acento"
+        var result = component.searchFilterPipe.transform(listItems,key,valueToFind);
+        expect(result).toEqual([])
+    });
+});
