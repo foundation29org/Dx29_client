@@ -54,7 +54,7 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['ChromeHeadless'],
+    browsers: ['ChromeHeadless'], // ChromeHeadless for pipelines. If you want to run test local: use Chrome better
     singleRun: false
   });
 };
