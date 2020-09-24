@@ -473,8 +473,18 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             if(res2.message=='something pending'){
               this.launchingPhenolyzer = true;
               this.getPhenolyzer(patientId);
+              if(document.getElementById("idShowPanelWorkbench")!=null){
+                document.getElementById("idShowPanelWorkbench").click();
+                setTimeout(function () {
+                  //se pone esta condición por si tb se ha lanzado exomiser, que no se vaya a phenolyzer.
+                  if(!this.uploadingGenotype){
+                    document.getElementById("tabPhenolyzer").click();
+                  }
+                }.bind(this), 200);
+              }
             }else{
               this.launchingPhenolyzer = false;
+              this.blob.loadFilesOnBlobPhenolyzer(this.accessToken.containerName);
             }
           }
          }, (err) => {
@@ -2430,7 +2440,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             this.loadPhenolyzerFromBlob();
           }else{
            console.log('no tiene!');
-           this.launchingPhenolyzer = false;
+           //this.launchingPhenolyzer = false;
           }
           this.loading = false;
         }));
@@ -3948,7 +3958,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
           }
         }
-        this.checkPhenolyzer();
+        //this.checkPhenolyzer();
 
 
       }else{
