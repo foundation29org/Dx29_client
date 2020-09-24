@@ -670,7 +670,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             this.loadPhenolyzerFromBlob();
           }else{
            console.log('no tiene!');
-           this.launchingPhenolyzer = false;
+           //this.launchingPhenolyzer = false;
           }
           this.loading = false;
         }));
@@ -1378,7 +1378,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             }
             this.relatedConditions = temp2;
             console.log(temp2);
-          
+
             //quedarse con 100 this.listOfDiseases
             this.listOfDiseases = [];
             for(var in3 = 0; in3 < this.relatedConditions.length; in3++) {
@@ -1540,7 +1540,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.gettingRelatedConditions = false;
       }));
     }
-    
+
     getRelatedConditionsPhenolyzer(infoToExtractGenes){
 
       var tempo = [];
@@ -1765,7 +1765,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               var file = new File([str],fileNameRelatedConditionsDiscard,{type:'application/json'});
               this.uploadProgress = this.blob
               .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
-               
+
             }
             if(Object.keys(infoGenesDiscard_null).length>0){
               var str = JSON.stringify(infoGenesDiscard_null);
@@ -1773,7 +1773,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               var file = new File([str],fileNameRelatedConditionsDiscard,{type:'application/json'});
               this.uploadProgress = this.blob
               .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
-               
+
             }
 
             // Info of the execution
@@ -1820,7 +1820,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.toastr.error('', this.translate.instant("generics.error try again"));
       this.gettingRelatedConditions = false;
     }));
-    
+
     }
 
     getSymptomsApi(){
@@ -3303,7 +3303,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
           }
         }
-        this.checkPhenolyzer();
+        //this.checkPhenolyzer();
 
 
       }else{

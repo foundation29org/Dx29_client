@@ -484,7 +484,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
               }
             }else{
               this.launchingPhenolyzer = false;
-              this.blob.loadFilesOnBlobPhenolyzer(this.accessToken.containerName);
+              //this.blob.loadFilesOnBlobPhenolyzer(this.accessToken.containerName);
             }
           }
          }, (err) => {
