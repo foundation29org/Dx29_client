@@ -82,7 +82,7 @@ describe('[Get related conditions]',  () => {
     let originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
 
     // Configuration
-    beforeEach(async() => {
+    beforeEach(() => {
        TestBed.configureTestingModule({
         imports:[HttpClientModule,HttpClientTestingModule,ToastrModule.forRoot(),TranslateModule.forRoot(),RouterTestingModule.withRoutes(
             [{path: 'clinical/dashboard/home', component: DiagnosisComponent},{path:'.',component:DiagnosisComponent}]),FormsModule],
@@ -95,14 +95,14 @@ describe('[Get related conditions]',  () => {
     });
 
     // Execution before each test
-    beforeEach(async() => {
+    beforeEach(() => {
         fixture = TestBed.createComponent(DiagnosisComponent);
         component = fixture.componentInstance;
         //component.authService.setCurrentPatient(patientforTest)
         fixture.detectChanges();
     });
 
-    beforeEach(async()=>{
+    beforeEach(()=>{
         jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000;
     })
 

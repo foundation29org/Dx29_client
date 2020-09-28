@@ -56,7 +56,7 @@ describe('[F29 bio service]',  () => {
     let expectedInfoOfDiseases = expectedInfoOfDiseasesData;
 
     // Configuration
-    beforeEach(async() => {
+    beforeEach(() => {
        TestBed.configureTestingModule({
         imports:[HttpClientModule,ToastrModule.forRoot(),TranslateModule.forRoot(),RouterTestingModule.withRoutes(
             [{path: 'clinical/dashboard/home', component: DiagnosisComponent}]),FormsModule],

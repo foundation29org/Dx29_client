@@ -51,7 +51,7 @@ describe('[F29 api server]',  () => {
     let originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
 
     // Configuration
-    beforeEach(async() => {
+    beforeEach(() => {
        TestBed.configureTestingModule({
         imports:[HttpClientModule,ToastrModule.forRoot(),TranslateModule.forRoot(),RouterTestingModule.withRoutes(
             [{path: 'clinical/dashboard/home', component: DiagnosisComponent},{path:'.',component:DiagnosisComponent}]),FormsModule],
