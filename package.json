@@ -9,7 +9,7 @@
     "buildDev": "ng build --configuration develop",
     "buildStaging": "ng build --configuration staging",
     "buildProd": "ng build --configuration production",
-    "test": "ng test --code-coverage=true --browsers=ChromeHeadless --watch=false",
+    "test": "ng test --code-coverage=true --browsers=ChromeHeadless --watch=false --source-map=false",
     "lint": "ng lint",
     "e2e-local": "ng e2e --suite --base-url=http://localhost:4200/ ",
     "e2e-dev": "ng e2e --base-url=https://dx29-dev.azurewebsites.net/ --suite",
