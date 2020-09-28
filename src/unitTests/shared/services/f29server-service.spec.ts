@@ -80,29 +80,27 @@ describe('[F29 api server]',  () => {
     it('Get related conditions f29 server',(done: DoneFn) => {
         let hpos=['HP:0001250'];
         component.authService.setAuthenticated(environment.tokenTest)
-        component.apiDx29ServerService.getRelatedConditions(hpos).subscribe(
-            () => {
-                fail('Fail getRelatedConditions request');
-            },
-            (value) => {
-                console.log(value)
-                //expect(value).toEqual(expectedConditions);
-                if(Object.keys(value).length>0){
-                    for(var condition in value){
-                        for (var expectedCondition in expectedConditions){
-                            if(expectedConditions[expectedCondition].name.id==value[condition].name.id){
-                                expect(expectedConditions[expectedCondition]).toEqual(value[condition])
-                            }
+        component.apiDx29ServerService.getRelatedConditions(hpos).subscribe((value) => {
+            console.log(value)
+            //expect(value).toEqual(expectedConditions);
+            if(Object.keys(value).length>0){
+                for(var condition in value){
+                    for (var expectedCondition in expectedConditions){
+                        if(expectedConditions[expectedCondition].name.id==value[condition].name.id){
+                            expect(expectedConditions[expectedCondition]).toEqual(value[condition])
                         }
                     }
-                    done();
                 }
-                else{
-                    expect(Object.keys(value).length).toBe(0)
-                    done();
-                }
+                done();
             }
-        );
+            else{
+                expect(Object.keys(value).length).toBe(0)
+                done();
+            }
+        }, (err) => {
+            console.log(err);
+            fail(err)
+        });
     });
 
     afterEach(() => {
