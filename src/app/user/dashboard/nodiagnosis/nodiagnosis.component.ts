@@ -2190,13 +2190,13 @@ export class NodiagnosisComponent implements OnInit, OnDestroy{
 
   checkPrograms(){
     this.programs = [];
-    this.subscription.add( this.http.get(environment.api+'/api/programs/'+this.authService.getCurrentPatient().sub)
+    /*this.subscription.add( this.http.get(environment.api+'/api/programs/'+this.authService.getCurrentPatient().sub)
     .subscribe( (res : any) => {
       console.log(res)
       this.programs = res;
      }, (err) => {
        console.log(err);
-     }));
+     }));*/
   }
 
   showProgramRequest(program, contentGeneticProgram){
