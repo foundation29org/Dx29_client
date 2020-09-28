@@ -72,6 +72,7 @@
     "resize-observer-polyfill": "1.5.1",
     "rxjs": "6.5.4",
     "screenfull": "5.0.2",
+    "source-map-support": "^0.5.19",
     "sweetalert2": "^9.10.7",
     "tslib": "^1.10.0",
     "venn.js": "^0.2.20",
