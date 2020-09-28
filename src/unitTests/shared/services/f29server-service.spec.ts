@@ -54,7 +54,7 @@ describe('[F29 api server]',  () => {
     beforeEach(async() => {
        TestBed.configureTestingModule({
         imports:[HttpClientModule,ToastrModule.forRoot(),TranslateModule.forRoot(),RouterTestingModule.withRoutes(
-            [{path: 'clinical/dashboard/home', component: DiagnosisComponent}]),FormsModule],
+            [{path: 'clinical/dashboard/home', component: DiagnosisComponent},{path:'.',component:DiagnosisComponent}]),FormsModule],
         declarations: [
             DiagnosisComponent
         ],
