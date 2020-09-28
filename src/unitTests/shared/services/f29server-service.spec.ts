@@ -97,9 +97,6 @@ describe('[F29 api server]',  () => {
                 expect(Object.keys(value).length).toBe(0)
                 done();
             }
-        }, (err) => {
-            console.log(err);
-            fail(err)
         });
     });
 
