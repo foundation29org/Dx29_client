@@ -13,7 +13,6 @@ import { RegisterPageComponent } from "./register/register-page.component";
 import { TermsConditionsPageComponent } from "./terms-conditions/terms-conditions-page.component";
 import { DataProcessingAgreementComponent } from "./data-processing-agreement/data-processing-agreement.component";
 import { PrivacyPolicyPageComponent } from "./privacy-policy/privacy-policy.component";
-import { DataPrivacySecurityPageComponent } from "./data-privacy-security/data-privacy-security.component";
 import { PermissionsPageComponent } from "./permissions/permissions-page.component";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -40,7 +39,6 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         TermsConditionsPageComponent,
         DataProcessingAgreementComponent,
         PrivacyPolicyPageComponent,
-        DataPrivacySecurityPageComponent,
         PermissionsPageComponent
     ],
     entryComponents:[TermsConditionsPageComponent, DataProcessingAgreementComponent]
