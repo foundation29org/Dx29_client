@@ -72,7 +72,7 @@ describe('[F29 api server]',  () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(DiagnosisComponent);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        //fixture.detectChanges();
     });
 
 
