@@ -1,0 +1,6231 @@
+{
+    "MONDO:0007365": {
+      "comment": "",
+      "desc": "Any benign neonatal seizures in which the cause of the disease is a mutation in the KCNQ2 gene.",
+      "id": "MONDO:0007365",
+      "is_a": [
+        "MONDO:0016027"
+      ],
+      "name": "Seizures, benign familial neonatal, 1",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "BFNS1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:121200",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Seizures, benign familial neonatal, type 1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "OMIM:121200"
+          ]
+        },
+        {
+          "label": "Seizures, benign familial neonatal, 1, and/or myokymia",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:121200"
+          ]
+        },
+        {
+          "label": "Seizures, benign familial neonatal, 1; BFNS1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:121200"
+          ]
+        },
+        {
+          "label": "Epilepsy, benign neonatal, 1, and/or myokymia",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:121200"
+          ]
+        },
+        {
+          "label": "Benign neonatal seizures caused by mutation in KCNQ2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "Seizures, benign familial neonatal, 1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:121200",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "KCNQ2 benign neonatal seizures",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C3149074",
+        "OMIM:121200",
+        "MESH:C567743"
+      ]
+    },
+    "MONDO:0007366": {
+      "comment": "",
+      "desc": "Any benign neonatal seizures in which the cause of the disease is a mutation in the KCNQ3 gene.",
+      "id": "MONDO:0007366",
+      "is_a": [
+        "MONDO:0016027"
+      ],
+      "name": "Seizures, benign familial neonatal, 2",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Convulsions, benign familial neonatal, 2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:121201"
+          ]
+        },
+        {
+          "label": "Benign neonatal seizures caused by mutation in KCNQ3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "Seizures, benign familial neonatal, type 2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "OMIM:121201"
+          ]
+        },
+        {
+          "label": "Seizures, benign familial neonatal, 2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:121201",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "BFNS2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:121201",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "KCNQ3 benign neonatal seizures",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Seizures, benign familial neonatal, 2; BFNS2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:121201"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:121201",
+        "UMLS:C1852581"
+      ]
+    },
+    "MONDO:0007367": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0007367",
+      "is_a": [
+        "MONDO:0000032"
+      ],
+      "name": "FEB1",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Febrile seizures, familial, 1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:121210",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Febrile seizures, familial, 1; FEB1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:121210"
+          ]
+        },
+        {
+          "label": "FEB1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:121210",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Convulsions, familial febrile, 1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:121210"
+          ]
+        },
+        {
+          "label": "Convulsions, familial febrile",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:121210"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C1852577",
+        "ICD9:780.39",
+        "OMIM:121210",
+        "MESH:C565162",
+        "SCTID:230432008"
+      ]
+    },
+    "MONDO:0007560": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0007560",
+      "is_a": [
+        "MONDO:0017768"
+      ],
+      "name": "Reading seizures",
+      "subsets": [
+        "ordo_disease"
+      ],
+      "synonyms": [
+        {
+          "label": "Epilepsy, reading",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:132300"
+          ]
+        }
+      ],
+      "xrefs": [
+        "ORPHANET:166433",
+        "ORPHA:166433",
+        "OMIM:132300",
+        "ICD10:G40.8",
+        "UMLS:C0278193"
+      ]
+    },
+    "MONDO:0007713": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0007713",
+      "is_a": [
+        "MONDO:0016375"
+      ],
+      "name": "Clonic hemifacial spasm",
+      "subsets": [
+        "ordo_disease"
+      ],
+      "synonyms": [
+        {
+          "label": "Focal myoclonus of face",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:221083"
+          ]
+        },
+        {
+          "label": "Facial hemispasm",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:221083"
+          ]
+        },
+        {
+          "label": "Hemifacial spasm, familial",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:141405"
+          ]
+        },
+        {
+          "label": "Hemifacial spasm",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "Orphanet:221083"
+          ]
+        }
+      ],
+      "xrefs": [
+        "MESH:C564198",
+        "COHD:4160055",
+        "UMLS:C3536936",
+        "ICD10:G51.3",
+        "UMLS:C1841639",
+        "ORPHANET:221083",
+        "ORPHA:221083",
+        "OMIM:141405"
+      ]
+    },
+    "MONDO:0008041": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0008041",
+      "is_a": [
+        "MONDO:0016022"
+      ],
+      "name": "Myoclonic epilepsy, Hartung type",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Myoclonic epilepsy, Hartung type",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:159600"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C1834581",
+        "OMIM:159600",
+        "MESH:C563550"
+      ]
+    },
+    "MONDO:0008588": {
+      "comment": "",
+      "desc": "Hereditary geniospasm is a movement disorder characterized by episodes of involuntary tremor of the chin and lower lip.",
+      "id": "MONDO:0008588",
+      "is_a": [
+        "MONDO:0017663"
+      ],
+      "name": "Hereditary geniospasm",
+      "subsets": [
+        "ordo_disease",
+        "gard_rare"
+      ],
+      "synonyms": [
+        {
+          "label": "Geniospasm 1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:190100",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "GSM 1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0009501"
+          ]
+        },
+        {
+          "label": "GSM1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:190100",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Familial trembling of the chin",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:53372"
+          ]
+        },
+        {
+          "label": "Hereditary chin myoclonus",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:53372"
+          ]
+        },
+        {
+          "label": "Geniospasm",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0009501"
+          ]
+        },
+        {
+          "label": "Hereditary chin tremor/myoclonus",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0009501"
+          ]
+        },
+        {
+          "label": "Trembling Chin",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:190100"
+          ]
+        },
+        {
+          "label": "Hereditary chin-trembling",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:53372"
+          ]
+        },
+        {
+          "label": "Geniospasm 1; GSM1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:190100"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C2931589",
+        "ORPHANET:53372",
+        "ORPHA:53372",
+        "GARD:0009501",
+        "ICD10:G25.3",
+        "MESH:C537682",
+        "SCTID:718103001",
+        "OMIM:190100"
+      ]
+    },
+    "MONDO:0008836": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0008836",
+      "is_a": [
+        "MONDO:0003847"
+      ],
+      "name": "Ataxia with myoclonic epilepsy and presenile dementia",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Ataxia with myoclonic epilepsy and presenile dementia",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:208700"
+          ]
+        }
+      ],
+      "xrefs": [
+        "MESH:C565933",
+        "OMIM:208700",
+        "UMLS:C1859646"
+      ]
+    },
+    "MONDO:0008945": {
+      "comment": "",
+      "desc": "A condition marked by progressive cerebellar ataxia combined with myoclonus usually presenting in the third decade of life or later. Additional clinical features may include generalized and focal seizures, spasticity, and dyskinesias. Autosomal recessive and autosomal dominant patterns of inheritance have been reported. Pathologically, the dentate nucleus and brachium conjunctivum of the cerebellum are atrophic, with variable involvement of the spinal cord, cerebellar cortex, and basal ganglia. (From Joynt, Clinical Neurology, 1991, Ch37, pp60-1)",
+      "id": "MONDO:0008945",
+      "is_a": [
+        "MONDO:0000114",
+        "MONDO:0024237"
+      ],
+      "name": "Myoclonic cerebellar dyssynergia",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Cerebelloparenchymal disorder 5",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:213400"
+          ]
+        },
+        {
+          "label": "CPD5",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:213400",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Spinodentate atrophy",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:213400"
+          ]
+        },
+        {
+          "label": "Cerebelloparenchymal disorder V",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:213400",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Cerebelloparenchymal disorder V; CPD5",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:213400"
+          ]
+        },
+        {
+          "label": "Dyssynergia cerebellaris myoclonica of Hunt",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:213400"
+          ]
+        },
+        {
+          "label": "Ramsay Hunt syndrome type 1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "https://en.wikipedia.org/wiki/Ramsay_Hunt_syndrome_type_1"
+          ]
+        },
+        {
+          "label": "Progressive cerebellar tremor",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:12707"
+          ]
+        },
+        {
+          "label": "Cerebelloparenchymal disorder type 5",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "OMIM:213400"
+          ]
+        },
+        {
+          "label": "Ramsay Hunt cerebellar syndrome",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "https://en.wikipedia.org/wiki/Ramsay_Hunt_syndrome_type_1"
+          ]
+        },
+        {
+          "label": "Dyssynergia cerebellaris myoclonica",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:12707",
+            "MTHICD9_2006:334.2"
+          ]
+        }
+      ],
+      "xrefs": [
+        "SCTID:73495003",
+        "EFO:1001053",
+        "UMLS:C0007761",
+        "MESH:D002527",
+        "DOID:12707",
+        "OMIM:213400",
+        "ICD10:G11.1"
+      ]
+    },
+    "MONDO:0009013": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0009013",
+      "is_a": [
+        "MONDO:0003847"
+      ],
+      "name": "Convulsive disorder, familial, with prenatal or early onset",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Convulsive disorder, familial, with prenatal or early onset",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:217200"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C1857575",
+        "OMIM:217200",
+        "MESH:C565678"
+      ]
+    },
+    "MONDO:0009077": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0009077",
+      "is_a": [
+        "MONDO:0003847"
+      ],
+      "name": "Deafness, congenital, and familial myoclonic epilepsy",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Deafness, congenital, and familial myoclonic epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:220300"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C1857348",
+        "OMIM:220300",
+        "MESH:C565649"
+      ]
+    },
+    "MONDO:0009186": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0009186",
+      "is_a": [
+        "MONDO:0003847"
+      ],
+      "name": "Epilepsy, photogenic, with spastic diplegia and mental retardation",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Epilepsy, photogenic, with spastic diplegia and mental retardation",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:226800"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:226800",
+        "UMLS:C1856931",
+        "MESH:C565587"
+      ]
+    },
+    "MONDO:0009497": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0009497",
+      "is_a": [
+        "MONDO:0003847"
+      ],
+      "name": "Kifafa seizure disorder",
+      "subsets": [
+        "gard_rare"
+      ],
+      "synonyms": [
+        {
+          "label": "Complex familial seizure disorder",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0008420"
+          ]
+        },
+        {
+          "label": "Parkinsonian features and neurologic abnormalities, mental retardation and transient psychotic episodes",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0008420"
+          ]
+        },
+        {
+          "label": "Kifafa seizure disorder",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:245180"
+          ]
+        },
+        {
+          "label": "Vitsala",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0008420"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C0796010",
+        "OMIM:245180",
+        "MESH:C537708",
+        "GARD:0008420"
+      ]
+    },
+    "MONDO:0009696": {
+      "comment": "",
+      "desc": "Juvenile myoclonic epilepsy is the most common hereditary idiopathic generalized epilepsy syndrome and is characterized by myoclonic jerks of the upper limbs on awakening, generalized tonic-clonic seizures manifesting during adolescence and triggered by sleep deprivation, alcohol intake, and cognitive activities, and typical absence seizures (30% of cases).",
+      "id": "MONDO:0009696",
+      "is_a": [
+        "MONDO:0000414",
+        "MONDO:0000415",
+        "MONDO:0017654",
+        "MONDO:0017704",
+        "MONDO:0100030"
+      ],
+      "name": "Juvenile myoclonic epilepsy",
+      "subsets": [
+        "ordo_disease",
+        "gard_rare",
+        "predisposition"
+      ],
+      "synonyms": [
+        {
+          "label": "Myoclonic epilepsy, juvenile, 1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0006808"
+          ]
+        },
+        {
+          "label": "Epilepsy, myoclonic juvenile",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:254770",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Janz syndrome",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:254770"
+          ]
+        },
+        {
+          "label": "Janz syndrome",
+          "scope": "NARROW",
+          "type": null,
+          "xrefs": [
+            "DOID:4890"
+          ]
+        },
+        {
+          "label": "JME",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:307"
+          ]
+        },
+        {
+          "label": "Juvenile myoclonus epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:307"
+          ]
+        },
+        {
+          "label": "Myoclonic epilepsy, juvenile, susceptibility to, 1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:254770"
+          ]
+        },
+        {
+          "label": "Petit Mal, impulsive",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:254770"
+          ]
+        },
+        {
+          "label": "Myoclonic epilepsy, juvenile",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:254770"
+          ]
+        },
+        {
+          "label": "Epilepsy, myoclonic juvenile; EJM",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:254770"
+          ]
+        },
+        {
+          "label": "EJM",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:254770",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "ORPHANET:307",
+        "ORPHA:307",
+        "EFO:0006572",
+        "MEDDRA:10071082",
+        "ICD10:G40.3",
+        "GARD:0006808",
+        "MESH:D020190",
+        "DOID:4890",
+        "UMLS:C0270853",
+        "OMIMPS:254770",
+        "SCTID:6204001",
+        "NCIT:C84796",
+        "ICD9:345.10"
+      ]
+    },
+    "MONDO:0009976": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0009976",
+      "is_a": [
+        "MONDO:0003847"
+      ],
+      "name": "Retinal degeneration and epilepsy",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Retinal degeneration and epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:267740"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:267740",
+        "UMLS:C1849416",
+        "MESH:C564847"
+      ]
+    },
+    "MONDO:0010317": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0010317",
+      "is_a": [
+        "MONDO:0019181"
+      ],
+      "name": "Intellectual disability, X-linked, with or without seizures, arx-related",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Mental retardation, X-linked, with or without seizures, arx-related",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300419",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Mental retardation, X-linked 43",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300419"
+          ]
+        },
+        {
+          "label": "Mental retardation, X-linked 33",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300419"
+          ]
+        },
+        {
+          "label": "Mental retardation, X-linked 54",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300419"
+          ]
+        },
+        {
+          "label": "Mental retardation, X-linked 38",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300419"
+          ]
+        },
+        {
+          "label": "Mental retardation, X-linked 32",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300419"
+          ]
+        },
+        {
+          "label": "Mental retardation, X-linked 87",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300419"
+          ]
+        },
+        {
+          "label": "Mental retardation, X-linked, with or without seizures, arx-RELATED; MRXARX",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300419"
+          ]
+        },
+        {
+          "label": "MRXARX",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300419",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Arx-related intellectual disability",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0005614"
+          ]
+        },
+        {
+          "label": "Mental retardation, X-linked 76",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300419"
+          ]
+        },
+        {
+          "label": "Mental retardation, X-linked 29",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300419"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:300419",
+        "UMLS:C0796244",
+        "MESH:C563150",
+        "GARD:0005614"
+      ]
+    },
+    "MONDO:0010329": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0010329",
+      "is_a": [
+        "MONDO:0019181"
+      ],
+      "name": "MRX77",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "MRX77",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:300454",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Mental retardation, X-linked 77",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300454",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Mental retardation, X-linked 77; MRX77",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300454"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C1845499",
+        "MESH:C564511",
+        "OMIM:300454"
+      ]
+    },
+    "MONDO:0010388": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0010388",
+      "is_a": [
+        "MONDO:0015587"
+      ],
+      "name": "Rolandic epilepsy, mental retardation, and speech dyspraxia, X-linked",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "ROLANDIC epilepsy, mental retardation, and speech dyspraxia, X-linked; RESDX",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300643"
+          ]
+        },
+        {
+          "label": "Rolandic epilepsy, mental retardation, and speech dyspraxia, X-linked",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:300643",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "RESDX",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300643",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:300643",
+        "UMLS:C1845070",
+        "MESH:C564467"
+      ]
+    },
+    "MONDO:0010429": {
+      "comment": "",
+      "desc": "Any non-syndromic X-linked intellectual disability in which the cause of the disease is a mutation in the SYP gene.",
+      "id": "MONDO:0010429",
+      "is_a": [
+        "MONDO:0019181"
+      ],
+      "name": "Intellectual disability, X-linked 96",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "MRX96",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300802",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Mental retardation, X-linked type 96",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:2",
+            "OMIM:300802"
+          ]
+        },
+        {
+          "label": "Non-syndromic X-linked intellectual disability caused by mutation in SYP",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "Mental retardation, X-linked 96",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300802",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Mental retardation, X-linked 96; MRX96",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300802"
+          ]
+        },
+        {
+          "label": "SYP non-syndromic X-linked intellectual disability",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C3275408",
+        "OMIM:300802"
+      ]
+    },
+    "MONDO:0010451": {
+      "comment": "",
+      "desc": "Any non-syndromic X-linked intellectual disability in which the cause of the disease is a mutation in the GDI1 gene.",
+      "id": "MONDO:0010451",
+      "is_a": [
+        "MONDO:0019181"
+      ],
+      "name": "Intellectual disability, X-linked 41",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Mental retardation, X-linked type 41",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:2",
+            "OMIM:300849"
+          ]
+        },
+        {
+          "label": "GDI1 non-syndromic X-linked intellectual disability",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Mental retardation, X-linked 41",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300849",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "MRX41",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300849",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Mental retardation, X-linked 41; MRX41",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300849"
+          ]
+        },
+        {
+          "label": "Mental retardation, X-linked 48",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300849"
+          ]
+        },
+        {
+          "label": "Non-syndromic X-linked intellectual disability caused by mutation in GDI1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:300849",
+        "UMLS:C3887939"
+      ]
+    },
+    "MONDO:0010454": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0010454",
+      "is_a": [
+        "MONDO:0019181"
+      ],
+      "name": "MRX88",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Mental retardation, X-linked 88",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300852",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "MRX88",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:300852",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Mental retardation, X-linked 88; MRX88",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:300852"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:300852",
+        "UMLS:C3275444"
+      ]
+    },
+    "MONDO:0010608": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0010608",
+      "is_a": [
+        "MONDO:0003847"
+      ],
+      "name": "Hhhh syndrome",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Hereditary Hemihypotrophy hemiparesis hemiathetosis syndrome",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:306960"
+          ]
+        },
+        {
+          "label": "Hhhh syndrome",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:306960"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:306960",
+        "UMLS:C1844019",
+        "MESH:C564411"
+      ]
+    },
+    "MONDO:0010652": {
+      "comment": "",
+      "desc": "X-linked intellectual disability-seizures-psoriasis syndrome has been described in four male cousins. The mode of inheritance is thought to be X-linked recessive.",
+      "id": "MONDO:0010652",
+      "is_a": [
+        "MONDO:0020119"
+      ],
+      "name": "X-linked intellectual disability-seizures-psoriasis syndrome",
+      "subsets": [
+        "ordo_disease"
+      ],
+      "synonyms": [
+        {
+          "label": "Tranebjaerg Svejgaard syndrome",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0005238"
+          ]
+        },
+        {
+          "label": "Mental retardation and psoriasis",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:309480"
+          ]
+        },
+        {
+          "label": "Tranebjaerg-Svejgaard syndrome",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:3052"
+          ]
+        },
+        {
+          "label": "X-linked intellectual disability - seizures - psoriasis",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0005238"
+          ]
+        },
+        {
+          "label": "Mental retardation X-linked, Tranebjaerg type seizures and psoriasis",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0005238"
+          ]
+        },
+        {
+          "label": "X-linked mental retardation associated with psoriasis",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0005238"
+          ]
+        }
+      ],
+      "xrefs": [
+        "GARD:0005238",
+        "OMIM:309480",
+        "ICD10:Q87.8",
+        "SCTID:719810000",
+        "ORPHANET:3052",
+        "ORPHA:3052",
+        "MESH:C536978"
+      ]
+    },
+    "MONDO:0010682": {
+      "comment": "TODO check",
+      "desc": null,
+      "id": "MONDO:0010682",
+      "is_a": [
+        "MONDO:0000414",
+        "MONDO:0009698",
+        "MONDO:0016022"
+      ],
+      "name": "Myoclonic epilepsy, progressive",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Myoclonic epilepsy, progressive",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:310370"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:310370"
+      ]
+    },
+    "MONDO:0010694": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0010694",
+      "is_a": [
+        "MONDO:0005712",
+        "MONDO:0019117"
+      ],
+      "name": "Nystagmus, myoclonic",
+      "subsets": [
+        "gard_rare"
+      ],
+      "synonyms": [
+        {
+          "label": "Myoclonic nystagmus",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0009605"
+          ]
+        },
+        {
+          "label": "Nystagmus, myoclonic",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:310800"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C1839579",
+        "GARD:0009605",
+        "OMIM:310800",
+        "MESH:C564088"
+      ]
+    },
+    "MONDO:0010898": {
+      "comment": "Editor note: split out generic type",
+      "desc": "An autosomal dominant condition that is characterized by partial seizures originating in the temporal lobe and often accompanied by auditory sensory manifestations.",
+      "id": "MONDO:0010898",
+      "is_a": [
+        "MONDO:0005115",
+        "MONDO:0017704"
+      ],
+      "name": "Autosomal dominant epilepsy with auditory features",
+      "subsets": [
+        "ordo_disease"
+      ],
+      "synonyms": [
+        {
+          "label": "ETL1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:600512",
+            "DOID:0060748",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Partial epilepsy with auditory aura",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:101046"
+          ]
+        },
+        {
+          "label": "ADPEAF",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:101046"
+          ]
+        },
+        {
+          "label": "ADEAF",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:101046"
+          ]
+        },
+        {
+          "label": "Autosomal dominant partial epilepsy with auditory features",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0002257"
+          ]
+        },
+        {
+          "label": "Epilepsy, lateral temporal lobe, autosomal dominant",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:600512"
+          ]
+        },
+        {
+          "label": "Familial temporal lobe epilepsy type 1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "DOID:0060748"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe, 1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:600512",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe, 1; ETL1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:600512"
+          ]
+        },
+        {
+          "label": "ADLTE",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:101046"
+          ]
+        },
+        {
+          "label": "Epilepsy, partial, with auditory features",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:600512"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe, type 1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "OMIM:600512"
+          ]
+        },
+        {
+          "label": "Partial epilepsy with auditory features",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0060748",
+            "Orphanet:101046"
+          ]
+        },
+        {
+          "label": "Autosomal dominant lateral temporal lobe epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:101046"
+          ]
+        },
+        {
+          "label": "Autosomal dominant epilepsy with auditory features",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "Orphanet:101046"
+          ]
+        },
+        {
+          "label": "Familial temporal lobe epilepsy 1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "https://github.com/monarch-initiative/mondo/issues/1134"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe 1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "NCIT:C141441"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C1838062",
+        "MESH:C537297",
+        "DOID:0060748",
+        "ORPHANET:101046",
+        "ORPHA:101046",
+        "GARD:0002257",
+        "OMIM:600512",
+        "NCIT:C141441"
+      ]
+    },
+    "MONDO:0010899": {
+      "comment": "",
+      "desc": "Any autosomal dominant nocturnal frontal lobe epilepsy in which the cause of the disease is a mutation in the CHRNA4 gene.",
+      "id": "MONDO:0010899",
+      "is_a": [
+        "MONDO:0000030",
+        "MONDO:0020300"
+      ],
+      "name": "Autosomal dominant nocturnal frontal lobe epilepsy 1",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Epilepsy, nocturnal frontal lobe, 1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:600513",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "ENFL1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0060682",
+            "OMIM:600513",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Nocturnal frontal lobe epilepsy 1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0060682"
+          ]
+        },
+        {
+          "label": "Epilepsy, nocturnal frontal lobe, type 1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "OMIM:600513"
+          ]
+        },
+        {
+          "label": "CHRNA4 autosomal dominant nocturnal frontal lobe epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Epilepsy, nocturnal frontal lobe, 1; ENFL1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:600513"
+          ]
+        },
+        {
+          "label": "Autosomal dominant nocturnal frontal lobe epilepsy type 1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0060682",
+            "MONDORULE:1"
+          ]
+        },
+        {
+          "label": "Autosomal dominant nocturnal frontal lobe epilepsy caused by mutation in CHRNA4",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        }
+      ],
+      "xrefs": [
+        "DOID:0060682",
+        "MESH:C563930",
+        "OMIM:600513",
+        "UMLS:C1838049"
+      ]
+    },
+    "MONDO:0010918": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0010918",
+      "is_a": [
+        "MONDO:0005579"
+      ],
+      "name": "EIG1",
+      "subsets": [
+        "predisposition"
+      ],
+      "synonyms": [
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, 1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:600669"
+          ]
+        },
+        {
+          "label": "EIG",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:600669",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:600669",
+        "SCTID:36803009",
+        "ICD9:345.10",
+        "MESH:C562694"
+      ]
+    },
+    "MONDO:0011231": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0011231",
+      "is_a": [
+        "MONDO:0000032"
+      ],
+      "name": "FEB2",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Convulsions, familial febrile, 2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:602477"
+          ]
+        },
+        {
+          "label": "Febrile seizures, familial, 2; FEB2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:602477"
+          ]
+        },
+        {
+          "label": "Febrile seizures, familial, 2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:602477",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "FEB2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:602477",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "MESH:C566541",
+        "UMLS:C1865342",
+        "OMIM:602477"
+      ]
+    },
+    "MONDO:0011297": {
+      "comment": "",
+      "desc": "An autosomal dominant nocturnal frontal lobe epilepsy that has_material_basis_in variation in the chromosome region 15q24.",
+      "id": "MONDO:0011297",
+      "is_a": [
+        "MONDO:0000030",
+        "MONDO:0020300"
+      ],
+      "name": "Autosomal dominant nocturnal frontal lobe epilepsy 2",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Epilepsy, nocturnal frontal lobe, 2; ENFL2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:603204"
+          ]
+        },
+        {
+          "label": "Autosomal dominant nocturnal frontal lobe epilepsy type 2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0060683",
+            "MONDORULE:1"
+          ]
+        },
+        {
+          "label": "ENFL2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0060683",
+            "OMIM:603204",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Nocturnal frontal lobe epilepsy 2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0060683"
+          ]
+        },
+        {
+          "label": "Epilepsy, nocturnal frontal lobe, 2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:603204",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "DOID:0060683",
+        "MESH:C566400",
+        "UMLS:C1864125",
+        "OMIM:603204"
+      ]
+    },
+    "MONDO:0011416": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0011416",
+      "is_a": [
+        "MONDO:0018214"
+      ],
+      "name": "Generalized epilepsy with febrile seizures plus, type 1",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Generalized epilepsy with febrile seizures plus, type 1; GEFSP1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:604233"
+          ]
+        },
+        {
+          "label": "GEFSP1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:604233",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Generalized epilepsy with febrile seizures plus, type 1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:604233",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Gefs+, type 1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:604233"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:604233",
+        "MESH:C565809",
+        "UMLS:C1858672"
+      ]
+    },
+    "MONDO:0011443": {
+      "comment": "",
+      "desc": "Any febrile seizures, familial in which the cause of the disease is a mutation in the ADGRV1 gene.",
+      "id": "MONDO:0011443",
+      "is_a": [
+        "MONDO:0000032"
+      ],
+      "name": "Febrile seizures, familial, 4",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Febrile seizures, familial, 4",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:604352",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Convulsions, familial febrile, 4",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:604352"
+          ]
+        },
+        {
+          "label": "Febrile seizures, familial, 4; FEB4",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:604352"
+          ]
+        },
+        {
+          "label": "ADGRV1 febrile seizures, familial",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Febrile seizures, familial, type 4",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "OMIM:604352"
+          ]
+        },
+        {
+          "label": "Febrile seizures, familial caused by mutation in ADGRV1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "FEB4",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:604352",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "MESH:C565788",
+        "OMIM:604352",
+        "UMLS:C1858493"
+      ]
+    },
+    "MONDO:0011461": {
+      "comment": "",
+      "desc": "Any febrile seizures, familial in which the cause of the disease is a mutation in the SCN1A gene.",
+      "id": "MONDO:0011461",
+      "is_a": [
+        "MONDO:0000032",
+        "MONDO:0018214",
+        "MONDO:0019117"
+      ],
+      "name": "Generalized epilepsy with febrile seizures plus, type 2",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Febrile seizures, familial, 3A",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:604403"
+          ]
+        },
+        {
+          "label": "Generalized epilepsy with febrile seizures plus, type 2; GEFSP2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:604403"
+          ]
+        },
+        {
+          "label": "SCN1A febrile seizures, familial",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Generalized epilepsy with febrile seizures plus, type 2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:604403",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "GEFSP2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:604403",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Febrile seizures, familial caused by mutation in SCN1A",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "Gefs+, type 2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:604403"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C1858673",
+        "MESH:C565810",
+        "OMIM:604403"
+      ]
+    },
+    "MONDO:0011491": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0011491",
+      "is_a": [
+        "MONDO:0005579"
+      ],
+      "name": "EIG7",
+      "subsets": [
+        "predisposition"
+      ],
+      "synonyms": [
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, 7; EIG7",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:604827"
+          ]
+        },
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, 7",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:604827",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Myoclonic epilepsy, juvenile, 2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:604827"
+          ]
+        },
+        {
+          "label": "EIG7",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:604827",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:604827"
+      ]
+    },
+    "MONDO:0011545": {
+      "comment": "",
+      "desc": "Any autosomal dominant nocturnal frontal lobe epilepsy in which the cause of the disease is a mutation in the CHRNB2 gene.",
+      "id": "MONDO:0011545",
+      "is_a": [
+        "MONDO:0000030",
+        "MONDO:0020300"
+      ],
+      "name": "Autosomal dominant nocturnal frontal lobe epilepsy 3",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "ENFL3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:605375",
+            "DOID:0060684",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, nocturnal frontal lobe, 3",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:605375",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Nocturnal frontal lobe epilepsy 3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0060684"
+          ]
+        },
+        {
+          "label": "Autosomal dominant nocturnal frontal lobe epilepsy type 3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "DOID:0060684"
+          ]
+        },
+        {
+          "label": "Autosomal dominant nocturnal frontal lobe epilepsy caused by mutation in CHRNB2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "Epilepsy, nocturnal frontal lobe, 3; ENFL3",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:605375"
+          ]
+        },
+        {
+          "label": "Epilepsy, nocturnal frontal lobe, type 3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:605375",
+            "MONDORULE:1"
+          ]
+        },
+        {
+          "label": "CHRNB2 autosomal dominant nocturnal frontal lobe epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:605375",
+        "UMLS:C1854335",
+        "DOID:0060684",
+        "MESH:C565334"
+      ]
+    },
+    "MONDO:0011593": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0011593",
+      "is_a": [
+        "MONDO:0017615"
+      ],
+      "name": "Seizures, benign familial infantile, 2",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "BFIS2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:605751",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Seizures, benign familial infantile, 2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:605751",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Convulsions, benign familial infantile, 2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:605751"
+          ]
+        },
+        {
+          "label": "Seizures, benign familial infantile, type 2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "OMIM:605751"
+          ]
+        },
+        {
+          "label": "Seizures, benign familial infantile, 2; BFIS2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:605751"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:605751",
+        "MESH:C565296",
+        "UMLS:C1853995"
+      ]
+    },
+    "MONDO:0011733": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0011733",
+      "is_a": [
+        "MONDO:0003847"
+      ],
+      "name": "PSMNSB",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "PSMNSB",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:606840",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Nocturnal facio-mandibular myoclonus",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0010195"
+          ]
+        },
+        {
+          "label": "Faciomandibular myoclonus, nocturnal",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:606840"
+          ]
+        },
+        {
+          "label": "Parasomnia, sleep bruxism type; PSMNSB",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:606840"
+          ]
+        },
+        {
+          "label": "Parasomnia, sleep bruxism type",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:606840",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Parasomnia, Sleeptalking type",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:606840"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:606840",
+        "GARD:0010195",
+        "MESH:C536389"
+      ]
+    },
+    "MONDO:0011844": {
+      "comment": "",
+      "desc": "A myoclonic dystonia characterized by autosomal dominant inheritance that has_material_basis_in variation in the chromosome region 18p11.",
+      "id": "MONDO:0011844",
+      "is_a": [
+        "MONDO:0000903"
+      ],
+      "name": "Myoclonic dystonia 15",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Dystonia 15, myoclonic; DYT15",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607488"
+          ]
+        },
+        {
+          "label": "DYT15",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607488",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Myoclonic dystonia type 15",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0090035",
+            "MONDORULE:2"
+          ]
+        },
+        {
+          "label": "Dystonia 15, myoclonic",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607488",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "DOID:0090035",
+        "ORPHANET:210566",
+        "ORPHA:210566",
+        "MESH:C538002",
+        "UMLS:C1843786",
+        "OMIM:607488"
+      ]
+    },
+    "MONDO:0011875": {
+      "comment": "",
+      "desc": "Any generalised epilepsy in which the cause of the disease is a mutation in the CLCN2 gene.",
+      "id": "MONDO:0011875",
+      "is_a": [
+        "MONDO:0005579",
+        "MONDO:0009696",
+        "MONDO:0011876"
+      ],
+      "name": "Epilepsy, idiopathic generalized, susceptibility to, 11",
+      "subsets": [
+        "predisposition"
+      ],
+      "synonyms": [
+        {
+          "label": "Epilepsy, juvenile absence, susceptibility to, 2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607628"
+          ]
+        },
+        {
+          "label": "Susceptibility to idiopathic generalized epilepsy 11",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607628"
+          ]
+        },
+        {
+          "label": "EIG11",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607628",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, type 11",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:2",
+            "OMIM:607628"
+          ]
+        },
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, 11",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:607628",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, juvenile myoclonic, susceptibility to, 8",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607628"
+          ]
+        },
+        {
+          "label": "Generalised epilepsy caused by mutation in CLCN2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "CLCN2 generalised epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, 11; EIG11",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607628"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:607628"
+      ]
+    },
+    "MONDO:0011876": {
+      "comment": "",
+      "desc": "Juvenile absence epilepsy (JAE) is a genetic epilepsy with onset occurring around puberty. JAE is characterized by sporadic occurrence of absence seizures, frequently associated with a long-life prevalence of generalized tonic-clonic seizures (GTCS) and sporadic myoclonic jerks.",
+      "id": "MONDO:0011876",
+      "is_a": [
+        "MONDO:0019117",
+        "MONDO:0020573",
+        "MONDO:0100030"
+      ],
+      "name": "Juvenile absence epilepsy",
+      "subsets": [
+        "ordo_disease",
+        "predisposition"
+      ],
+      "synonyms": [
+        {
+          "label": "Susceptibility to juvenile absence epilepsy 1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607631"
+          ]
+        },
+        {
+          "label": "Epilepsy, juvenile absence, susceptibility to, 1; EJA1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607631"
+          ]
+        },
+        {
+          "label": "JAE",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:1941"
+          ]
+        },
+        {
+          "label": "Epilepsy juvenile absence",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0002162"
+          ]
+        },
+        {
+          "label": "Epilepsy, juvenile absence, susceptibility to, 1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607631",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, juvenile absence, susceptibility to, type 1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "OMIM:607631"
+          ]
+        }
+      ],
+      "xrefs": [
+        "ORPHANET:1941",
+        "ORPHA:1941",
+        "ICD10:G40.3",
+        "DOID:0060172",
+        "UMLS:C4317339",
+        "SCTID:230413002",
+        "GARD:0002162",
+        "NCIT:C129868",
+        "OMIMPS:607631"
+      ]
+    },
+    "MONDO:0011891": {
+      "comment": "",
+      "desc": "A childhood absence epilepsy that is characterized by mutations in the GABRG2 gene, which cause a spectrum of seizure disorders, ranging from early-onset isolated febrile seizures (FS) to childhood absence epilepsy (CAE) to generalized epilepsy with febrile seizures plus, type 3 (GEFS+3), which tends to represent a more severe phenotype.",
+      "id": "MONDO:0011891",
+      "is_a": [
+        "MONDO:0000032",
+        "MONDO:0010826",
+        "MONDO:0018214",
+        "MONDO:0019117",
+        "MONDO:0020573"
+      ],
+      "name": "Febrile seizures, familial, 8",
+      "subsets": [
+        "predisposition"
+      ],
+      "synonyms": [
+        {
+          "label": "Generalized epilepsy with febrile seizures plus, type 3; GEFSP3",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611277"
+          ]
+        },
+        {
+          "label": "GEFSP3",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611277",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, childhood absence, susceptibility to, type 2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "OMIM:607681"
+          ]
+        },
+        {
+          "label": "GABRG2 generalized epilepsy with febrile seizures plus",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Childhood absence epilepsy caused by mutation in GABRG2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "ECA2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607681",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "GABRG2 childhood absence epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Gefs+, type 3",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611277"
+          ]
+        },
+        {
+          "label": "Generalized epilepsy with febrile seizures plus caused by mutation in GABRG2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "Epilepsy, childhood absence, susceptibility to, 2; ECA2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607681"
+          ]
+        },
+        {
+          "label": "Epilepsy, childhood absence, susceptibility to, 2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:607681",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Generalized epilepsy with febrile seizures plus, type 3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:611277",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Susceptibility to childhood absence epilepsy 2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607681"
+          ]
+        }
+      ],
+      "xrefs": [
+        "MESH:C565811",
+        "UMLS:C1843244",
+        "OMIM:607681",
+        "UMLS:C1858674",
+        "OMIM:611277"
+      ]
+    },
+    "MONDO:0011892": {
+      "comment": "",
+      "desc": "Any generalised epilepsy in which the cause of the disease is a mutation in the CACNB4 gene.",
+      "id": "MONDO:0011892",
+      "is_a": [
+        "MONDO:0005579"
+      ],
+      "name": "Epilepsy, idiopathic generalized, susceptibility to, 9",
+      "subsets": [
+        "predisposition"
+      ],
+      "synonyms": [
+        {
+          "label": "EIG9",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607682",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, type 9",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "OMIM:607682"
+          ]
+        },
+        {
+          "label": "Susceptibility to idiopathic generalized epilepsy 9",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607682"
+          ]
+        },
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, 9",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:607682",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, 9; EIG9",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607682"
+          ]
+        },
+        {
+          "label": "Generalised epilepsy caused by mutation in CACNB4",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "CACNB4 generalised epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Epilepsy, juvenile myoclonic, susceptibility to, 6",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607682"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:607682"
+      ]
+    },
+    "MONDO:0011965": {
+      "comment": "",
+      "desc": "A temporal lobe epilepsy characterized by autosomal dominant inheritance of complex or partial seizures and childhood febrile seizures that has_material_basis_in variation in the chromosome region 12q22-q23.3.",
+      "id": "MONDO:0011965",
+      "is_a": [
+        "MONDO:0005115",
+        "MONDO:0017704"
+      ],
+      "name": "Familial temporal lobe epilepsy 2",
+      "subsets": [
+        "ordo_disease"
+      ],
+      "synonyms": [
+        {
+          "label": "Familial temporal lobe epilepsy type 2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0060755",
+            "MONDORULE:1"
+          ]
+        },
+        {
+          "label": "Ftle",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:608096"
+          ]
+        },
+        {
+          "label": "ETL2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0060755",
+            "OMIM:608096",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Familial temporal lobe epilepsy",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "Orphanet:98819"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe, 2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:608096",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Temporal epilepsy, familial",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0005135"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe, 2; ETL2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:608096"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0005135"
+          ]
+        }
+      ],
+      "xrefs": [
+        "DOID:0060755",
+        "OMIM:608096",
+        "MESH:C536956",
+        "ICD10:G40.2",
+        "ORPHANET:98819",
+        "ORPHA:98819",
+        "GARD:0005135"
+      ]
+    },
+    "MONDO:0011990": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0011990",
+      "is_a": [
+        "MONDO:0016027"
+      ],
+      "name": "BFNS3",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Seizures, benign familial neonatal, 3",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:608217",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "BFNS3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:608217",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Convulsions, benign familial neonatal, 3",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:608217"
+          ]
+        },
+        {
+          "label": "Seizures, benign familial neonatal, 3; BFNS3",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:608217"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C1842382",
+        "OMIM:608217",
+        "MESH:C564274"
+      ]
+    },
+    "MONDO:0012113": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0012113",
+      "is_a": [
+        "MONDO:0005579"
+      ],
+      "name": "EIG3",
+      "subsets": [
+        "predisposition"
+      ],
+      "synonyms": [
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, locus on chromosome 9",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:608762"
+          ]
+        },
+        {
+          "label": "EIG3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:608762",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, 3",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:608762",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, 3; EIG3",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:608762"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:608762"
+      ]
+    },
+    "MONDO:0012224": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0012224",
+      "is_a": [
+        "MONDO:0000032"
+      ],
+      "name": "FEB6",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Convulsions, familial febrile, 6",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:609253"
+          ]
+        },
+        {
+          "label": "FEB6",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:609253",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Febrile seizures, familial, 6",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:609253",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Febrile seizures, familial, 6; FEB6",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:609253"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C1836518",
+        "MESH:C563764",
+        "OMIM:609253"
+      ]
+    },
+    "MONDO:0012226": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0012226",
+      "is_a": [
+        "MONDO:0000032"
+      ],
+      "name": "FEB5",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "FEB5",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:609255",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Febrile seizures, familial, 5",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:609255",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Febrile seizures, familial, 5; FEB5",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:609255"
+          ]
+        },
+        {
+          "label": "Convulsions, familial febrile, 5",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:609255"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:609255",
+        "MESH:C563762",
+        "UMLS:C1836507"
+      ]
+    },
+    "MONDO:0012346": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0012346",
+      "is_a": [
+        "MONDO:0018214"
+      ],
+      "name": "GEFSP4",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Generalized epilepsy with febrile seizures plus, type 4",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:609800",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Generalized epilepsy with febrile seizures plus, type 4; GEFSP4",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:609800"
+          ]
+        },
+        {
+          "label": "Gefs+, type 4",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:609800"
+          ]
+        },
+        {
+          "label": "GEFSP4",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:609800",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "MESH:C565227",
+        "OMIM:609800",
+        "UMLS:C1853345"
+      ]
+    },
+    "MONDO:0012618": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0012618",
+      "is_a": [
+        "MONDO:0019502"
+      ],
+      "name": "MRT10",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Mental retardation, autosomal recessive 10; MRT10",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611096"
+          ]
+        },
+        {
+          "label": "Mental retardation, autosomal recessive 20",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611096"
+          ]
+        },
+        {
+          "label": "Mental retardation, autosomal recessive 10",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611096",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "MRT10",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:611096",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:611096",
+        "UMLS:C1970194",
+        "MESH:C567013"
+      ]
+    },
+    "MONDO:0012629": {
+      "comment": "",
+      "desc": "A dystonia characterized by autosomal dominant inheritance of attacks of dystonic or choreathetotic movements precipitated by stress, fatigue, coffee or alcohol intake or menstruation that has_material_basis_in variation in the chromosome region 2q31.",
+      "id": "MONDO:0012629",
+      "is_a": [
+        "MONDO:0007326"
+      ],
+      "name": "Paroxysmal nonkinesigenic dyskinesia 2",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Paroxysmal nonkinesigenic dyskinesia 2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:611147",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "PNKD2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611147",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Paroxysmal nonkinesigenic dyskinesia type 2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "DOID:0090047"
+          ]
+        },
+        {
+          "label": "Dystonia 20",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611147"
+          ]
+        },
+        {
+          "label": "Paroxysmal nonkinesigenic dyskinesia 2; PNKD2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611147"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:611147",
+        "UMLS:C1970149",
+        "ICD10:G24.8",
+        "DOID:0090047",
+        "MESH:C567001"
+      ]
+    },
+    "MONDO:0012655": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0012655",
+      "is_a": [
+        "MONDO:0009696"
+      ],
+      "name": "EJM4",
+      "subsets": [
+        "predisposition"
+      ],
+      "synonyms": [
+        {
+          "label": "Myoclonic epilepsy, juvenile, susceptibility to, 4; EJM4",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611364"
+          ]
+        },
+        {
+          "label": "EJM4",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:611364",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Myoclonic epilepsy, juvenile, susceptibility to, 4",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611364",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C1969656",
+        "OMIM:611364"
+      ]
+    },
+    "MONDO:0012705": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0012705",
+      "is_a": [
+        "MONDO:0005115",
+        "MONDO:0015586"
+      ],
+      "name": "Familial temporal lobe epilepsy 3",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Epilepsy, familial temporal lobe, 3",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611630",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "FMTLE",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0060750"
+          ]
+        },
+        {
+          "label": "Familial mesial temporal lobe epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0060750"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial mesial temporal lobe",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611630"
+          ]
+        },
+        {
+          "label": "ETL3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:611630",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Familial temporal lobe epilepsy type 3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "DOID:0060750"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe, 3; ETL3",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611630"
+          ]
+        }
+      ],
+      "xrefs": [
+        "MESH:C566903",
+        "UMLS:C1968848",
+        "OMIM:611630",
+        "DOID:0060750"
+      ]
+    },
+    "MONDO:0012706": {
+      "comment": "",
+      "desc": "A temporal lobe epilepsy characterized by autosomal dominant inheritance of occipitotemporal lobe epilepsy and migraine with visual aura and that has_material_basis_in variation in the chromosome region 9q21-q22.",
+      "id": "MONDO:0012706",
+      "is_a": [
+        "MONDO:0011965"
+      ],
+      "name": "Familial temporal lobe epilepsy 4",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "ETL4",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:611631",
+            "DOID:0060753",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe, 4; ETL4",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611631"
+          ]
+        },
+        {
+          "label": "Epilepsy, occipitotemporal lobe, and migraine with aura",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611631"
+          ]
+        },
+        {
+          "label": "Familial temporal lobe epilepsy type 4",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "DOID:0060753"
+          ]
+        },
+        {
+          "label": "Occipitotemporal lobe epilepsy and migraine with aura",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "DOID:0060753"
+          ]
+        },
+        {
+          "label": "EPOLM",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "DOID:0060753"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe, 4",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611631",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:611631",
+        "UMLS:C1968847",
+        "DOID:0060753",
+        "MESH:C566902"
+      ]
+    },
+    "MONDO:0012707": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0012707",
+      "is_a": [
+        "MONDO:0000032"
+      ],
+      "name": "FEB9",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Febrile convulsions, familial, 9",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611634"
+          ]
+        },
+        {
+          "label": "Febrile seizures, familial, 9",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611634",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "FEB9",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:611634",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Febrile seizures, familial, 9; FEB9",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611634"
+          ]
+        }
+      ],
+      "xrefs": [
+        "MESH:C566901",
+        "OMIM:611634",
+        "UMLS:C1968846"
+      ]
+    },
+    "MONDO:0012723": {
+      "comment": "",
+      "desc": "Any Leber congenital amaurosis in which the cause of the disease is a mutation in the CEP290 gene.",
+      "id": "MONDO:0012723",
+      "is_a": [
+        "MONDO:0018998"
+      ],
+      "name": "Leber congenital amaurosis 10",
+      "subsets": [
+        "gard_rare"
+      ],
+      "synonyms": [
+        {
+          "label": "Leber congenital amaurosis 10",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:611755",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "CEP290 Leber congenital amaurosis",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Leber congenital amaurosis caused by mutation in CEP290",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "Leber congenital amaurosis type 10",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:2",
+            "OMIM:611755",
+            "DOID:0110291"
+          ]
+        },
+        {
+          "label": "LCA10",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:611755",
+            "MONDO:Lexical",
+            "DOID:0110291"
+          ]
+        },
+        {
+          "label": "Amaurosis congenita of Leber, type 10",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0010487"
+          ]
+        },
+        {
+          "label": "Leber congenital amaurosis 10; LCA10",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:611755"
+          ]
+        }
+      ],
+      "xrefs": [
+        "GARD:0010487",
+        "DOID:0110291",
+        "ICD10:H35.5",
+        "OMIM:611755",
+        "MESH:C565720"
+      ]
+    },
+    "MONDO:0012843": {
+      "comment": "",
+      "desc": "Any childhood absence epilepsy in which the cause of the disease is a mutation in the GABRB3 gene.",
+      "id": "MONDO:0012843",
+      "is_a": [
+        "MONDO:0020573"
+      ],
+      "name": "Epilepsy, childhood absence, susceptibility to, 5",
+      "subsets": [
+        "predisposition"
+      ],
+      "synonyms": [
+        {
+          "label": "Susceptibility to childhood absence epilepsy 5",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:612269"
+          ]
+        },
+        {
+          "label": "GABRB3 childhood absence epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Epilepsy, childhood absence, susceptibility to, type 5",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:612269",
+            "MONDORULE:1"
+          ]
+        },
+        {
+          "label": "Childhood absence epilepsy caused by mutation in GABRB3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "Epilepsy, childhood absence, susceptibility to, 5; ECA5",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:612269"
+          ]
+        },
+        {
+          "label": "Epilepsy, childhood absence, susceptibility to, 5",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:612269",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "ECA5",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:612269",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:612269"
+      ]
+    },
+    "MONDO:0012946": {
+      "comment": "",
+      "desc": "Any autosomal dominant non-syndromic intellectual disability in which the cause of the disease is a mutation in the CDH15 gene.",
+      "id": "MONDO:0012946",
+      "is_a": [
+        "MONDO:0015802"
+      ],
+      "name": "Intellectual disability, autosomal dominant 3",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "MRD3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0070033",
+            "OMIM:612580",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Autosomal dominant non-syndromic intellectual disability caused by mutation in CDH15",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "Mental retardation, autosomal dominant type 3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "OMIM:612580"
+          ]
+        },
+        {
+          "label": "Mental retardation, autosomal dominant 3; MRD3",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:612580"
+          ]
+        },
+        {
+          "label": "Autosomal dominant non-syndromic intellectual disability 3",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "DOID:0070033"
+          ]
+        },
+        {
+          "label": "Mental retardation, autosomal dominant 3",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:612580",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "CDH15 autosomal dominant non-syndromic intellectual disability",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Autosomal dominant mental retardation 3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0070033"
+          ]
+        }
+      ],
+      "xrefs": [
+        "DOID:0070033",
+        "OMIM:612580",
+        "UMLS:C2675488",
+        "MESH:C567241"
+      ]
+    },
+    "MONDO:0013103": {
+      "comment": "",
+      "desc": "Any juvenile myoclonic epilepsy in which the cause of the disease is a mutation in the GABRD gene.",
+      "id": "MONDO:0013103",
+      "is_a": [
+        "MONDO:0005579"
+      ],
+      "name": "Epilepsy, idiopathic generalized, susceptibility to, 10",
+      "subsets": [
+        "predisposition"
+      ],
+      "synonyms": [
+        {
+          "label": "Susceptibility to idiopathic generalized epilepsy 10",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613060"
+          ]
+        },
+        {
+          "label": "GABRD juvenile myoclonic epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Generalized epilepsy with febrile seizures plus, type 5, susceptibility to",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613060"
+          ]
+        },
+        {
+          "label": "EIG10",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613060",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Gefs+5, susceptibility to",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613060"
+          ]
+        },
+        {
+          "label": "Gefsp5, susceptibility to",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613060"
+          ]
+        },
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, type 10",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:2",
+            "OMIM:613060"
+          ]
+        },
+        {
+          "label": "Juvenile myoclonic epilepsy caused by mutation in GABRD",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, 10; EIG10",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613060"
+          ]
+        },
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, 10",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:613060",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Gefs+, type 5, susceptibility to",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613060"
+          ]
+        },
+        {
+          "label": "Epilepsy, juvenile myoclonic, susceptibility to, 7",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613060"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:613060"
+      ]
+    },
+    "MONDO:0013322": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0013322",
+      "is_a": [
+        "MONDO:0000160",
+        "MONDO:0019448"
+      ],
+      "name": "FAME3",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Epilepsy, familial ADULT myoclonic, 3; FAME3",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613608"
+          ]
+        },
+        {
+          "label": "FAME3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:613608",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Cortical myoclonic tremor with epilepsy, familial, 3",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613608"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial ADULT myoclonic, 3",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613608",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C3150860",
+        "OMIM:613608",
+        "MESH:C567098"
+      ]
+    },
+    "MONDO:0013388": {
+      "comment": "",
+      "desc": "Any early infantile epileptic encephalopathy in which the cause of the disease is a mutation in the SCN2A gene.",
+      "id": "MONDO:0013388",
+      "is_a": [
+        "MONDO:0016021"
+      ],
+      "name": "Epileptic encephalopathy, early infantile, 11",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Epileptic encephalopathy, early infantile, 11",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:613721",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "EIEE11",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613721",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epileptic encephalopathy, early infantile, type 11",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:2",
+            "OMIM:613721"
+          ]
+        },
+        {
+          "label": "Epileptic encephalopathy, early infantile, 11; EIEE11",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613721"
+          ]
+        },
+        {
+          "label": "SCN2A early infantile epileptic encephalopathy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Early infantile epileptic encephalopathy caused by mutation in SCN2A",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C3150987",
+        "OMIM:613721"
+      ]
+    },
+    "MONDO:0013470": {
+      "comment": "",
+      "desc": "Any generalized epilepsy with febrile seizures plus in which the cause of the disease is a mutation in the SCN9A gene.",
+      "id": "MONDO:0013470",
+      "is_a": [
+        "MONDO:0018214"
+      ],
+      "name": "Generalized epilepsy with febrile seizures plus, type 7",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Generalized epilepsy with febrile seizures plus, type 7",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:613863",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Generalized epilepsy with febrile seizures plus caused by mutation in SCN9A",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "Gefs+, type 7",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613863"
+          ]
+        },
+        {
+          "label": "Generalized epilepsy with febrile seizures plus, type 7; GEFSP7",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613863"
+          ]
+        },
+        {
+          "label": "SCN9A generalized epilepsy with febrile seizures plus",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Febrile seizures, familial, 3B",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613863"
+          ]
+        },
+        {
+          "label": "GEFSP7",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613863",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "MESH:C567827",
+        "OMIM:613863"
+      ]
+    },
+    "MONDO:0013581": {
+      "comment": "",
+      "desc": "Any autosomal dominant non-syndromic intellectual disability in which the cause of the disease is a mutation in the DOCK8 gene.",
+      "id": "MONDO:0013581",
+      "is_a": [
+        "MONDO:0015802"
+      ],
+      "name": "Intellectual disability, autosomal dominant 2",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Autosomal dominant non-syndromic intellectual disability caused by mutation in DOCK8",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "MRD2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0070032",
+            "OMIM:614113",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Mental retardation, autosomal dominant type 2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:614113",
+            "MONDORULE:1"
+          ]
+        },
+        {
+          "label": "Mental retardation, autosomal dominant 2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:614113",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Autosomal dominant mental retardation 2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0070032"
+          ]
+        },
+        {
+          "label": "Autosomal dominant non-syndromic intellectual disability 2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "DOID:0070032"
+          ]
+        },
+        {
+          "label": "Mental retardation, autosomal dominant 2; MRD2",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:614113"
+          ]
+        },
+        {
+          "label": "DOCK8 autosomal dominant non-syndromic intellectual disability",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        }
+      ],
+      "xrefs": [
+        "DOID:0070032",
+        "OMIM:614113",
+        "UMLS:C3279842"
+      ]
+    },
+    "MONDO:0013629": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0013629",
+      "is_a": [
+        "MONDO:0019502"
+      ],
+      "name": "MRT16",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Mental retardation, autosomal recessive 16",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:614208",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "MRT16",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:614208",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Mental retardation, autosomal recessive 16; MRT16",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:614208"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C3280154",
+        "OMIM:614208"
+      ]
+    },
+    "MONDO:0013665": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0013665",
+      "is_a": [
+        "MONDO:0009696"
+      ],
+      "name": "EJM9",
+      "subsets": [
+        "predisposition"
+      ],
+      "synonyms": [
+        {
+          "label": "Epilepsy, juvenile myoclonic, susceptibility to, 9; EJM9",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:614280"
+          ]
+        },
+        {
+          "label": "Epilepsy, juvenile myoclonic, susceptibility to, 9",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:614280",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "EJM9",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:614280",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:614280"
+      ]
+    },
+    "MONDO:0013741": {
+      "comment": "",
+      "desc": "A temporal lobe epilepsy that has_material_basis_in heterozygous mutation in the CPA6 gene on chromosome 8q13.",
+      "id": "MONDO:0013741",
+      "is_a": [
+        "MONDO:0013742",
+        "MONDO:0015586"
+      ],
+      "name": "Familial temporal lobe epilepsy 5",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "ETL5",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:614417",
+            "DOID:0060752",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe, type 5",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "OMIM:614417"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe, 5; ETL5",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:614417"
+          ]
+        },
+        {
+          "label": "Familial temporal lobe epilepsy type 5",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "DOID:0060752"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe, 5",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:614417",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:614417",
+        "UMLS:C3280730",
+        "DOID:0060752"
+      ]
+    },
+    "MONDO:0013919": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0013919",
+      "is_a": [
+        "MONDO:0005579"
+      ],
+      "name": "Epilepsy, idiopathic generalized, susceptibility to, 12",
+      "subsets": [
+        "predisposition"
+      ],
+      "synonyms": [
+        {
+          "label": "EIG12",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:614847",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, type 12",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:2",
+            "OMIM:614847"
+          ]
+        },
+        {
+          "label": "Susceptibility to idiopathic generalized epilepsy 12",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:614847"
+          ]
+        },
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, 12",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:614847",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, 12; EIG12",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:614847"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:614847"
+      ]
+    },
+    "MONDO:0013970": {
+      "comment": "",
+      "desc": "Autism-epilepsy syndrome due to branched chain ketoacid dehydrogenase kinase deficiency is a rare disorder of branched-chain amino acid metabolism characterized by childhood-onset epilepsy, autism and intellectual disability with reduced levels of plasma branched chain aminoacids.",
+      "id": "MONDO:0013970",
+      "is_a": [
+        "MONDO:0006025",
+        "MONDO:0016399",
+        "MONDO:0019213",
+        "MONDO:0019242"
+      ],
+      "name": "Branched-chain keto acid dehydrogenase kinase deficiency",
+      "subsets": [
+        "ordo_disease"
+      ],
+      "synonyms": [
+        {
+          "label": "BCKDK deficiency",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0090126"
+          ]
+        },
+        {
+          "label": "Bckdk deficiency",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:614923"
+          ]
+        },
+        {
+          "label": "Branched-chain KETO acid dehydrogenase KINASE deficiency; BCKDKD",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:614923"
+          ]
+        },
+        {
+          "label": "BCKDKD",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:614923",
+            "MONDO:Lexical",
+            "DOID:0090126"
+          ]
+        },
+        {
+          "label": "Autism - epilepsy syndrome due to branched chain ketoacid dehydrogenase kinase deficiency",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0090126"
+          ]
+        },
+        {
+          "label": "Branched-chain keto acid dehydrogenase kinase deficiency",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:614923",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "ORPHANET:308410",
+        "ORPHA:308410",
+        "DOID:0090126",
+        "ICD10:E71.1",
+        "UMLS:C3554078",
+        "OMIM:614923"
+      ]
+    },
+    "MONDO:0014055": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0014055",
+      "is_a": [
+        "MONDO:0000160",
+        "MONDO:0019448"
+      ],
+      "name": "FAME4",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Cortical myoclonic tremor with epilepsy, familial, 4",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:615127"
+          ]
+        },
+        {
+          "label": "FAME4",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:615127",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial ADULT myoclonic, 4; FAME4",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:615127"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial ADULT myoclonic, 4",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:615127",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:615127",
+        "UMLS:C3554560"
+      ]
+    },
+    "MONDO:0014150": {
+      "comment": "",
+      "desc": "An idiopathic generalized epilepsy characterized by onset of multiple seizure types in the first few years of life and associated with poor prognosis. Affected individuals have cognitive regression and intellectual disability.",
+      "id": "MONDO:0014150",
+      "is_a": [
+        "MONDO:0005579",
+        "MONDO:0016025",
+        "MONDO:0016532"
+      ],
+      "name": "Childhood onset epileptic encephalopathy",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Childhood-onset epileptic encephalopathy",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0013197"
+          ]
+        },
+        {
+          "label": "Epileptic encephalopathy, childhood-onset; EEOC",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:615369"
+          ]
+        },
+        {
+          "label": "Epileptic encephalopathy, childhood-onset",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:615369",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "EEOC",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:615369",
+            "DOID:0060475",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "CHD2 myoclonic encephalopathy",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0013197"
+          ]
+        },
+        {
+          "label": "CHCHD10-related disorders",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0013197"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:615369",
+        "UMLS:C3809278",
+        "DOID:0060475",
+        "GARD:0013197"
+      ]
+    },
+    "MONDO:0014167": {
+      "comment": "",
+      "desc": "Any epilepsy, familial adult myoclonic in which the cause of the disease is a mutation in the CNTN2 gene.",
+      "id": "MONDO:0014167",
+      "is_a": [
+        "MONDO:0000160",
+        "MONDO:0019448"
+      ],
+      "name": "Epilepsy, familial adult myoclonic, 5",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Cortical myoclonic tremor with epilepsy, familial, 5",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:615400"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial adult myoclonic, type 5",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "OMIM:615400"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial adult myoclonic caused by mutation in CNTN2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "CNTN2 epilepsy, familial adult myoclonic",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial adult myoclonic, 5",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:615400",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial ADULT myoclonic, 5; FAME5",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:615400"
+          ]
+        },
+        {
+          "label": "FAME5",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:615400",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:615400",
+        "UMLS:C3809374"
+      ]
+    },
+    "MONDO:0014308": {
+      "comment": "Editor note: TODO",
+      "desc": "A temporal lobe epilepsy that has_material_basis_in variation in the chromosome region 3q25-q26.",
+      "id": "MONDO:0014308",
+      "is_a": [
+        "MONDO:0015586"
+      ],
+      "name": "Familial temporal lobe epilepsy 6",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Epilepsy, familial temporal lobe, 6",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:615697",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe, 6; ETL6",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:615697"
+          ]
+        },
+        {
+          "label": "Familial temporal lobe epilepsy type 6",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "DOID:0060749"
+          ]
+        },
+        {
+          "label": "ETL6",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:615697",
+            "DOID:0060749",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:615697",
+        "DOID:0060749",
+        "UMLS:C3810320"
+      ]
+    },
+    "MONDO:0014328": {
+      "comment": "",
+      "desc": "Any early infantile epileptic encephalopathy in which the cause of the disease is a mutation in the GABRA1 gene.",
+      "id": "MONDO:0014328",
+      "is_a": [
+        "MONDO:0016021"
+      ],
+      "name": "Epileptic encephalopathy, early infantile, 19",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Epileptic encephalopathy, early infantile, 19; EIEE19",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:615744"
+          ]
+        },
+        {
+          "label": "EIEE19",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:615744",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Early infantile epileptic encephalopathy caused by mutation in GABRA1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "Early Infantile epileptic encephalopathy 19",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "NCIT:C142802"
+          ]
+        },
+        {
+          "label": "Epileptic encephalopathy, early infantile, type 19",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:2",
+            "OMIM:615744"
+          ]
+        },
+        {
+          "label": "GABRA1 early infantile epileptic encephalopathy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Epileptic encephalopathy, early infantile, 19",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:615744",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C3810400",
+        "OMIM:615744",
+        "NCIT:C142802"
+      ]
+    },
+    "MONDO:0014333": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0014333",
+      "is_a": [
+        "MONDO:0020340"
+      ],
+      "name": "Polymicrogyria, bilateral perisylvian, autosomal recessive",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Pmgr",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:615752"
+          ]
+        },
+        {
+          "label": "BPPR",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:615752",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Polymicrogyria, bilateral perisylvian, autosomal recessive",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:615752",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Polymicrogyria, bilateral perisylvian, autosomal recessive; BPPR",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:615752"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:615752",
+        "UMLS:C3810405"
+      ]
+    },
+    "MONDO:0014517": {
+      "comment": "",
+      "desc": "Any generalized epilepsy with febrile seizures plus in which the cause of the disease is a mutation in the STX1B gene.",
+      "id": "MONDO:0014517",
+      "is_a": [
+        "MONDO:0018214"
+      ],
+      "name": "Generalized epilepsy with febrile seizures plus, type 9",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "STX1b generalized epilepsy with febrile seizures plus",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "Gefs+, type 9",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:616172"
+          ]
+        },
+        {
+          "label": "Generalized epilepsy with febrile seizures plus, type 9",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:616172",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Generalized epilepsy with febrile seizures plus caused by mutation in STX1B",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": null
+        },
+        {
+          "label": "STX1B generalized epilepsy with febrile seizures plus",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Generalized epilepsy with febrile seizures plus caused by mutation in STX1b",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "Generalized epilepsy with febrile seizures plus, type 9; GEFSP9",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:616172"
+          ]
+        },
+        {
+          "label": "GEFSP9",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:616172",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:616172",
+        "UMLS:C4015395"
+      ]
+    },
+    "MONDO:0014545": {
+      "comment": "",
+      "desc": "Any progressive myoclonic epilepsy in which the cause of the disease is a mutation in the CERS1 gene.",
+      "id": "MONDO:0014545",
+      "is_a": [
+        "MONDO:0018118",
+        "MONDO:0019117",
+        "MONDO:0020074"
+      ],
+      "name": "Progressive myoclonic epilepsy type 8",
+      "subsets": [
+        "ordo_disease"
+      ],
+      "synonyms": [
+        {
+          "label": "EPM8",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:424027",
+            "OMIM:616230",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Progressive myoclonus epilepsy type 8",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:424027"
+          ]
+        },
+        {
+          "label": "Epilepsy, progressive myoclonic, 8; EPM8",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:616230"
+          ]
+        },
+        {
+          "label": "CERS1 progressive myoclonic epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Epilepsy, progressive myoclonic, 8",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:616230",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Progressive myoclonic epilepsy caused by mutation in CERS1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "Progressive myoclonic epilepsy due to CERS1 deficiency",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:424027"
+          ]
+        },
+        {
+          "label": "PME type 8",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:424027"
+          ]
+        },
+        {
+          "label": "Epilepsy, progressive myoclonic, type 8",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "OMIM:616230"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:616230",
+        "ORPHANET:424027",
+        "ORPHA:424027",
+        "UMLS:C4015619",
+        "ICD10:G40.3"
+      ]
+    },
+    "MONDO:0014639": {
+      "comment": "",
+      "desc": "A temporal lobe epilepsy characterized by autosomal dominant inheritance of focal seizures with prominent auditory symptoms and that has_material_basis_in heterozygous mutation in the RELN gene on chromosome 7q22.",
+      "id": "MONDO:0014639",
+      "is_a": [
+        "MONDO:0010898"
+      ],
+      "name": "Familial temporal lobe epilepsy 7",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "ETL7",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0060751",
+            "OMIM:616436",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe, 7",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:616436",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe, 7; ETL7",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:616436"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe, type 7",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "OMIM:616436"
+          ]
+        },
+        {
+          "label": "Familial temporal lobe epilepsy type 7",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0060751",
+            "MONDORULE:1"
+          ]
+        }
+      ],
+      "xrefs": [
+        "DOID:0060751",
+        "OMIM:616436",
+        "UMLS:C4225327"
+      ]
+    },
+    "MONDO:0014650": {
+      "comment": "",
+      "desc": "A temporal lobe epilepsy characterized by autosomal dominant inheritance of complex partial seizures with occasional secondary generalization and that has_material_basis_in heterozygous mutation in the GAL gene on chromosome 11q13.",
+      "id": "MONDO:0014650",
+      "is_a": [
+        "MONDO:0010898"
+      ],
+      "name": "Familial temporal lobe epilepsy 8",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Epilepsy, familial temporal lobe, 8",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:616461",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "ETL8",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:616461",
+            "DOID:0060754",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe, 8; ETL8",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:616461"
+          ]
+        },
+        {
+          "label": "Familial temporal lobe epilepsy type 8",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "DOID:0060754"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial temporal lobe, type 8",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:616461",
+            "MONDORULE:1"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:616461",
+        "DOID:0060754",
+        "UMLS:C4225318"
+      ]
+    },
+    "MONDO:0014734": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0014734",
+      "is_a": [
+        "MONDO:0005579"
+      ],
+      "name": "Epilepsy, idiopathic generalized, susceptibility to, 14",
+      "subsets": [
+        "predisposition"
+      ],
+      "synonyms": [
+        {
+          "label": "EIG14",
+          "scope": "EXACT",
+          "type": "ABBREVIATION",
+          "xrefs": [
+            "MONDOLEX:0014734",
+            "OMIM:616685"
+          ]
+        },
+        {
+          "label": "Susceptibility to idiopathic generalized epilepsy 14",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:616685"
+          ]
+        },
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, 14; EIG14",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDOLEX:0014734"
+          ]
+        },
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, 14",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:616685"
+          ]
+        },
+        {
+          "label": "Epilepsy, idiopathic generalized, susceptibility to, type 14",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:2",
+            "OMIM:616685"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:616685"
+      ]
+    },
+    "MONDO:0014815": {
+      "comment": "",
+      "desc": "Any autosomal recessive non-syndromic intellectual disability in which the cause of the disease is a mutation in the LMAN2L gene.",
+      "id": "MONDO:0014815",
+      "is_a": [
+        "MONDO:0019502"
+      ],
+      "name": "Intellectual disability, autosomal recessive 52",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Mental retardation, autosomal recessive 52",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:616887"
+          ]
+        },
+        {
+          "label": "Autosomal recessive non-syndromic intellectual disability caused by mutation in LMAN2L",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "MRT52",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:616887"
+          ]
+        },
+        {
+          "label": "LMAN2L autosomal recessive non-syndromic intellectual disability",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Mental retardation, autosomal recessive type 52",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:2",
+            "OMIM:616887"
+          ]
+        },
+        {
+          "label": "Mental retardation, autosomal recessive 52; MRT52",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:616887"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C4225168",
+        "OMIM:616887"
+      ]
+    },
+    "MONDO:0014842": {
+      "comment": "",
+      "desc": "Any autosomal dominant non-syndromic intellectual disability in which the cause of the disease is a mutation in the TBL1XR1 gene.",
+      "id": "MONDO:0014842",
+      "is_a": [
+        "MONDO:0015802"
+      ],
+      "name": "Intellectual disability, autosomal dominant 41",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Intellectual disability, autosomal dominant 41; MRD41",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDOLEX:0014842"
+          ]
+        },
+        {
+          "label": "Mental retardation, autosomal dominant 41",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:616944"
+          ]
+        },
+        {
+          "label": "Mental retardation, autosomal dominant type 41",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:2",
+            "OMIM:616944"
+          ]
+        },
+        {
+          "label": "MRD41",
+          "scope": "EXACT",
+          "type": "ABBREVIATION",
+          "xrefs": [
+            "MONDOLEX:0014842",
+            "OMIM:616944",
+            "DOID:0070071"
+          ]
+        },
+        {
+          "label": "Autosomal dominant non-syndromic intellectual disability caused by mutation in TBL1XR1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "Autosomal dominant non-syndromic intellectual disability 41",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "DOID:0070071"
+          ]
+        },
+        {
+          "label": "Autosomal dominant mental retardation 41",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "DOID:0070071"
+          ]
+        },
+        {
+          "label": "Mental retardation, autosomal dominant 41; MRD41",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:616944"
+          ]
+        },
+        {
+          "label": "TBL1XR1 autosomal dominant non-syndromic intellectual disability",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:616944",
+        "UMLS:C4310784",
+        "DOID:0070071"
+      ]
+    },
+    "MONDO:0014903": {
+      "comment": "",
+      "desc": "Any benign familial infantile epilepsy in which the cause of the disease is a mutation in the SCN8A gene.",
+      "id": "MONDO:0014903",
+      "is_a": [
+        "MONDO:0017615"
+      ],
+      "name": "Seizures, benign familial infantile, 5",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Seizures, benign familial infantile, type 5",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "OMIM:617080"
+          ]
+        },
+        {
+          "label": "SCN8A benign familial infantile epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "Benign familial infantile epilepsy caused by mutation in SCN8A",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "Seizures, benign familial infantile, 5; BFIS5",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDOLEX:0014903"
+          ]
+        },
+        {
+          "label": "BFIS5",
+          "scope": "EXACT",
+          "type": "ABBREVIATION",
+          "xrefs": [
+            "MONDOLEX:0014903",
+            "OMIM:617080"
+          ]
+        },
+        {
+          "label": "Convulsions, benign familial infantile, 5",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:617080"
+          ]
+        },
+        {
+          "label": "Seizures, benign familial infantile, 5",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:617080"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:617080",
+        "UMLS:C4310728"
+      ]
+    },
+    "MONDO:0014924": {
+      "comment": "",
+      "desc": "Any epilepsy, familial focal, with variable foci in which the cause of the disease is a mutation in the NPRL2 gene.",
+      "id": "MONDO:0014924",
+      "is_a": [
+        "MONDO:0020310"
+      ],
+      "name": "Epilepsy, familial focal, with variable foci 2",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Epilepsy, familial focal, with variable foci type 2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:617116",
+            "MONDORULE:1"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial focal, with variable foci 2; FFEVF2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDOLEX:0014924"
+          ]
+        },
+        {
+          "label": "NPRL2 epilepsy, familial focal, with variable foci",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "FFEVF2",
+          "scope": "EXACT",
+          "type": "ABBREVIATION",
+          "xrefs": [
+            "OMIM:617116",
+            "MONDOLEX:0014924"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial focal, with variable foci 2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:617116"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial focal, with variable foci caused by mutation in NPRL2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:617116",
+        "UMLS:C4310709"
+      ]
+    },
+    "MONDO:0014925": {
+      "comment": "",
+      "desc": "Any epilepsy, familial focal, with variable foci in which the cause of the disease is a mutation in the NPRL3 gene.",
+      "id": "MONDO:0014925",
+      "is_a": [
+        "MONDO:0020310"
+      ],
+      "name": "Epilepsy, familial focal, with variable foci 3",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Epilepsy, familial focal, with variable foci 3; FFEVF3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDOLEX:0014925"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial focal, with variable foci 3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:617118"
+          ]
+        },
+        {
+          "label": "NPRL3 epilepsy, familial focal, with variable foci",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern",
+            "MONDO:patterns/disease_series_by_gene"
+          ]
+        },
+        {
+          "label": "FFEVF3",
+          "scope": "EXACT",
+          "type": "ABBREVIATION",
+          "xrefs": [
+            "OMIM:617118",
+            "MONDOLEX:0014925"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial focal, with variable foci caused by mutation in NPRL3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDO:design_pattern"
+          ]
+        },
+        {
+          "label": "Epilepsy, familial focal, with variable foci type 3",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "MONDORULE:1",
+            "OMIM:617118"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C4310708",
+        "OMIM:617118"
+      ]
+    },
+    "MONDO:0015345": {
+      "comment": "",
+      "desc": "Perioral myoclonia with absences is a rare epilepsy syndrome characterized by absence seizures with perioral myoclonia as the main seizure type, accompanied by generalized tonic-clonic seizures, appearing before or together with absences. Consciousness is usually impaired, although to variable degree. Commonly observed absence status epilepticus, poor response to antiepileptic drugs and persistence of seizures into adulthood, in the presence of normal neurological status and intelligence, are additional clinical features of this syndrome.",
+      "id": "MONDO:0015345",
+      "is_a": [
+        "MONDO:0020072"
+      ],
+      "name": "Perioral myoclonia with absences",
+      "subsets": [
+        "ordo_disease"
+      ],
+      "synonyms": [
+        {
+          "label": "POMA",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:139426"
+          ]
+        }
+      ],
+      "xrefs": [
+        "ORPHANET:139426",
+        "ORPHA:139426",
+        "SCTID:766815007"
+      ]
+    },
+    "MONDO:0016025": {
+      "comment": "",
+      "desc": "Myoclonic Astatic Epilepsy (MAE) is a rare epilepsy syndrome of childhood characterized by the occurrence of multiple different seizure types including myoclonic-astatic, generalized tonic-clonic and absence seizures, usually in previously healthy children.",
+      "id": "MONDO:0016025",
+      "is_a": [
+        "MONDO:0002254",
+        "MONDO:0020072"
+      ],
+      "name": "Myoclonic-astastic epilepsy",
+      "subsets": [
+        "ordo_disease",
+        "gard_rare"
+      ],
+      "synonyms": [
+        {
+          "label": "EMAS",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:1942"
+          ]
+        },
+        {
+          "label": "Epilepsy with myoclonic-astatic seizures",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "GARD:0002169",
+            "Orphanet:1942"
+          ]
+        },
+        {
+          "label": "Epilepsy with myoclono-astatic crisis",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0002169"
+          ]
+        },
+        {
+          "label": "Doose syndrome",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "GARD:0002169",
+            "Orphanet:1942"
+          ]
+        },
+        {
+          "label": "Myoclonic astatic epilepsy",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0002169"
+          ]
+        },
+        {
+          "label": "Epilepsy with myoclonic-atonic seizures",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:1942"
+          ]
+        },
+        {
+          "label": "Myoclonic atonic epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:1942"
+          ]
+        },
+        {
+          "label": "Mae",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "Orphanet:1942"
+          ]
+        },
+        {
+          "label": "Myoclonic-astatic epilepsy in early childhood",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:1942"
+          ]
+        }
+      ],
+      "xrefs": [
+        "ICD10:G40.4",
+        "GARD:0002169",
+        "ORPHANET:1942",
+        "ORPHA:1942",
+        "SCTID:230421008",
+        "ICD9:345.10"
+      ]
+    },
+    "MONDO:0016160": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0016160",
+      "is_a": [
+        "MONDO:0015653",
+        "MONDO:0020119"
+      ],
+      "name": "X-linked intellectual disability-epilepsy syndrome",
+      "subsets": [
+        "ordo_group_of_disorders"
+      ],
+      "synonyms": [],
+      "xrefs": [
+        "UMLS:CN226857",
+        "ORPHANET:2076",
+        "ORPHA:2076"
+      ]
+    },
+    "MONDO:0017949": {
+      "comment": "",
+      "desc": "Hereditary cerebral hemorrhage with amyloidosis (HCHWA), Arctic type is a form of HCHWA (see this term) characterized by an age of onset of 54-61 years and progressive Alzheimer's disease-like dementia, without intracerebral hemorrhages.",
+      "id": "MONDO:0017949",
+      "is_a": [
+        "MONDO:0011583"
+      ],
+      "name": "ABeta amyloidosis, Arctic type",
+      "subsets": [
+        "ordo_clinical_subtype"
+      ],
+      "synonyms": [
+        {
+          "label": "Hereditary cerebral hemorrhage with amyloidosis, Arctic type",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:324723"
+          ]
+        },
+        {
+          "label": "ABetaE22G amyloidosis",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:324723"
+          ]
+        },
+        {
+          "label": "HCHWA, Arctic type",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:324723"
+          ]
+        }
+      ],
+      "xrefs": [
+        "ICD10:I68.0*",
+        "ICD10:E85.4+",
+        "ORPHANET:324723",
+        "ORPHA:324723"
+      ]
+    },
+    "MONDO:0018097": {
+      "comment": "Editor note: check placement of OMIM IDs and EIEE subtypes",
+      "desc": "West syndrome (or infantile spasms) is characterised by the association of clusters of axial spasms, psychomotor retardation and an hypsarrhythmic interictal EEG pattern. It is the most frequent type of epileptic encephalopathy. It may occur in otherwise healthy infants and in those with abnormal cognitive development.",
+      "id": "MONDO:0018097",
+      "is_a": [
+        "MONDO:0000413",
+        "MONDO:0000508",
+        "MONDO:0100022"
+      ],
+      "name": "West syndrome",
+      "subsets": [
+        "ordo_clinical_syndrome"
+      ],
+      "synonyms": [
+        {
+          "label": "X-linked infantile spasm syndrome",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0007887"
+          ]
+        },
+        {
+          "label": "West's syndrome",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0007887"
+          ]
+        },
+        {
+          "label": "Tonic spasms with clustering, arrest of psychomotor development and hypsarrhythmia on EEG",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0007887"
+          ]
+        },
+        {
+          "label": "Infantile spasms syndrome",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "DOID:0050562"
+          ]
+        },
+        {
+          "label": "X-linked infantile spasms",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "GARD:0007887"
+          ]
+        },
+        {
+          "label": "Intellectual disability-hypsarrhythmia syndrome",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:3451"
+          ]
+        },
+        {
+          "label": "Infantile spasms",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:3451"
+          ]
+        }
+      ],
+      "xrefs": [
+        "ICD10:G40.4",
+        "NCIT:C84788",
+        "COHD:376105",
+        "SCTID:28055006",
+        "DOID:0050562",
+        "MEDDRA:10021750",
+        "UMLS:C0037769",
+        "GARD:0007887",
+        "ORPHANET:3451",
+        "ORPHA:3451",
+        "ICD9:345.60",
+        "ICD9:348.89"
+      ]
+    },
+    "MONDO:0019448": {
+      "comment": "",
+      "desc": "Benign adult familial myoclonic epilepsy (BAFME) is an inherited epileptic syndrome characterized by cortical hand tremors, myoclonic jerks and occasional generalized or focal seizures with a non-progressive or very slowly progressive disease course, and no signs of early dementia or cerebellar ataxia.",
+      "id": "MONDO:0019448",
+      "is_a": [
+        "MONDO:0017651",
+        "MONDO:0020073"
+      ],
+      "name": "Benign adult familial myoclonic epilepsy",
+      "subsets": [
+        "ordo_disease"
+      ],
+      "synonyms": [
+        {
+          "label": "Familial adult myoclonic epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:86814"
+          ]
+        },
+        {
+          "label": "FAME",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:86814"
+          ]
+        },
+        {
+          "label": "BAFME",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:86814"
+          ]
+        },
+        {
+          "label": "Autosomal dominant cortical myoclonus and epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:86814"
+          ]
+        },
+        {
+          "label": "FCMTE",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:86814"
+          ]
+        },
+        {
+          "label": "Familial cortical myoclonic tremor and epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:86814"
+          ]
+        },
+        {
+          "label": "ADCME",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:86814"
+          ]
+        },
+        {
+          "label": "Benign adult familial myoclonus epilepsy",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "Orphanet:86814"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:C4273988",
+        "ORPHANET:86814",
+        "ORPHA:86814",
+        "UMLS:CN206220",
+        "ICD10:G40.3",
+        "SCTID:717225001"
+      ]
+    },
+    "MONDO:0020752": {
+      "comment": "Editor note: see https://github.com/monarch-initiative/mondo/issues/1348",
+      "desc": null,
+      "id": "MONDO:0020752",
+      "is_a": [
+        "MONDO:0009696"
+      ],
+      "name": "EJM1",
+      "subsets": [
+        "predisposition"
+      ],
+      "synonyms": [],
+      "xrefs": [
+        "OMIM:254770"
+      ]
+    },
+    "MONDO:0020759": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0020759",
+      "is_a": [
+        "MONDO:0010826"
+      ],
+      "name": "Epilepsy, childhood absence, susceptibility to, 1",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Epilepsy, childhood absence, susceptibility to, 1; ECA1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:600131"
+          ]
+        },
+        {
+          "label": "ECA1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:600131"
+          ]
+        },
+        {
+          "label": "Epilepsy, childhood absence, susceptibility to, 1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:600131",
+            "MONDO:Lexical"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:600131"
+      ]
+    },
+    "MONDO:0020772": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0020772",
+      "is_a": [
+        "MONDO:0011876"
+      ],
+      "name": "Epilepsy, juvenile absence, susceptibility to, 1",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "EPILEPSY, JUVENILE ABSENCE, SUSCEPTIBILITY TO, 1; EJA1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607631"
+          ]
+        },
+        {
+          "label": "JAE1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:607631"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:607631"
+      ]
+    },
+    "MONDO:0020853": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0020853",
+      "is_a": [
+        "MONDO:0003847"
+      ],
+      "name": "Encephalitis/encephalopathy, mild, with reversible myelin vacuolization",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "MMERV",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:618113"
+          ]
+        },
+        {
+          "label": "Encephalitis/encephalopathy, mild, with reversible myelin vacuolization; MMERV",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:618113"
+          ]
+        },
+        {
+          "label": "Encephalitis/encephalopathy, mild, with reversible splenial lesion",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:618113"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:618113"
+      ]
+    },
+    "MONDO:0024508": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0024508",
+      "is_a": [
+        "MONDO:0013229"
+      ],
+      "name": "Epilepsy, hot water, 1",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Epilepsy, hot water, 1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:613339",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Epilepsy, hot water, 1; HWE1",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": [
+            "OMIM:613339"
+          ]
+        },
+        {
+          "label": "HWE1",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613339",
+            "MONDO:Lexical"
+          ]
+        },
+        {
+          "label": "Bathing epilepsy",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613339"
+          ]
+        },
+        {
+          "label": "Water immersion epilepsy",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:613339"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:613339"
+      ]
+    },
+    "MONDO:0024566": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0024566",
+      "is_a": [
+        "MONDO:0013742"
+      ],
+      "name": "Febrile seizures, familial, 11",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Febrile seizures, familial, 11; FEB11",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:614418"
+          ]
+        },
+        {
+          "label": "FEB11",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:614418"
+          ]
+        },
+        {
+          "label": "Convulsions, familial febrile, 11",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:614418"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:614418",
+        "UMLS:C3280734"
+      ]
+    },
+    "MONDO:0032662": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0032662",
+      "is_a": [
+        "MONDO:0019502"
+      ],
+      "name": "Intellectual developmental disorder, autosomal recessive 67",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Mental Retardation, Autosomal Recessive 67",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:618295"
+          ]
+        },
+        {
+          "label": "INTELLECTUAL DEVELOPMENTAL DISORDER, AUTOSOMAL RECESSIVE 67; MRT67",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:618295"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:618295"
+      ]
+    },
+    "MONDO:0032699": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0032699",
+      "is_a": [
+        "MONDO:0005579",
+        "MONDO:0019117"
+      ],
+      "name": "Epilepsy, idiopathic generalized, susceptibility to, 15",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "EPILEPSY, IDIOPATHIC GENERALIZED, SUSCEPTIBILITY TO, 15; EIG15",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:618357"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:618357"
+      ]
+    },
+    "MONDO:0054847": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0054847",
+      "is_a": [
+        "MONDO:0000160"
+      ],
+      "name": "Epilepsy, familial adult myoclonic, 7",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "Epilepsy, FAMILIAL ADULT myoclonic, 7; FAME7",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:618075"
+          ]
+        },
+        {
+          "label": "FAME7",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:618075"
+          ]
+        },
+        {
+          "label": "Cortical myoclonic tremor with epilepsy, Familial, 7",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:618075"
+          ]
+        },
+        {
+          "label": "Benign Adult Familial myoclonic epilepsy 7",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:618075"
+          ]
+        }
+      ],
+      "xrefs": [
+        "UMLS:CN252654",
+        "OMIM:618075"
+      ]
+    },
+    "MONDO:0060671": {
+      "comment": "",
+      "desc": null,
+      "id": "MONDO:0060671",
+      "is_a": [
+        "MONDO:0009696"
+      ],
+      "name": "Epilepsy, juvenile myoclonic, susceptibility to, 10",
+      "subsets": [
+        "predisposition"
+      ],
+      "synonyms": [
+        {
+          "label": "Epilepsy, juvenile myoclonic, susceptibility to, 10; EJM10",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:617924"
+          ]
+        },
+        {
+          "label": "EJM10",
+          "scope": "RELATED",
+          "type": null,
+          "xrefs": [
+            "OMIM:617924"
+          ]
+        }
+      ],
+      "xrefs": [
+        "OMIM:617924"
+      ]
+    },
+    "MONDO:0100092": {
+      "comment": "",
+      "desc": "Familial cortical myoclonus caused by heterozygous mutation in the SCN8A gene on chromosome 12q13.",
+      "id": "MONDO:0100092",
+      "is_a": [
+        "MONDO:0013981"
+      ],
+      "name": "Myoclonus, familial, 2",
+      "subsets": [],
+      "synonyms": [
+        {
+          "label": "MYOCL2",
+          "scope": "EXACT",
+          "type": null,
+          "xrefs": null
+        }
+      ],
+      "xrefs": [
+        "OMIM:618364"
+      ]
+    }
+  }

@@ -1,0 +1,171 @@
+{"input":{
+  "name": "FKBP4",
+  "data": [],
+  "score": 0.99083745,
+  "scoredx29": 0.78028995,
+  "summary": {
+    "colorScoredx29": [
+      "#72d574",
+      "black"
+    ],
+    "scoreSummary": "0.78",
+    "whiteListed": {
+      "value": false,
+      "name": ""
+    },
+    "clinVarDataTotal": null
+  },
+  "info": [
+    [
+      {
+        "modeOfInheritance": "Autosomal dominant",
+        "synonyms": {
+          "hgncId": "HGNC:3720",
+          "entrezId": "2288",
+          "ensemblId": "ENSG00000004478",
+          "ucscId": "uc001qkz.4"
+        },
+        "variantEffect": {
+          "color": [
+            "orange",
+            "white"
+          ],
+          "value": "Missense variant"
+        },
+        "whiteListed": {
+          "value": false,
+          "name": "Known pathogenic variant"
+        },
+        "mutation": {
+          "ref": "G",
+          "alt": "A",
+          "position": "12:2907914",
+          "url1": "rs191293085",
+          "mutationInfomasterMind": [
+            "E146K"
+          ]
+        },
+        "frequencyData": [
+          {
+            "source": "Thousand genomes",
+            "frequency": "0.06"
+          },
+          {
+            "source": "TOPMed",
+            "frequency": "< 0.01"
+          },
+          {
+            "source": "UK 10K",
+            "frequency": "0.01"
+          },
+          {
+            "source": "ExAC - American",
+            "frequency": "0.06"
+          },
+          {
+            "source": "ExAC - European (non Finnish)",
+            "frequency": "< 0.01"
+          },
+          {
+            "source": "gnomAD - E - American",
+            "frequency": "0.07"
+          },
+          {
+            "source": "gnomAD - E - European (Non Finnish)",
+            "frequency": "< 0.01"
+          },
+          {
+            "source": "gnomAD - E - South Asian",
+            "frequency": "< 0.01"
+          },
+          {
+            "source": "gnomAD - Genome - European (non Finnish)",
+            "frequency": "< 0.01"
+          }
+        ],
+        "clinVarData": {
+          "data": {
+            "alleleId": "",
+            "primaryInterpretation": "NOT_PROVIDED",
+            "secondaryInterpretations": [],
+            "reviewStatus": "",
+            "includedAlleles": {},
+            "empty": true
+          },
+          "name": "not provided",
+          "colorPrimary": [
+            "#A8ACB1",
+            "black"
+          ]
+        },
+        "scores": {
+          "combinedScore": {
+            "value": "0.78",
+            "color": [
+              "#72d574",
+              "black"
+            ]
+          },
+          "priorityScore": {
+            "value": "0.52",
+            "color": [
+              "#69af93",
+              "black"
+            ]
+          },
+          "variantScore": {
+            "value": "0.99",
+            "color": [
+              "#79f55a",
+              "black"
+            ]
+          }
+        },
+        "contributingVariants": true,
+        "predictedPathogenicityScores": [
+          {
+            "source": "POLYPHEN",
+            "score": 0.065
+          },
+          {
+            "source": "MUTATION_TASTER",
+            "score": 1
+          },
+          {
+            "source": "SIFT",
+            "score": 0.503
+          }
+        ],
+        "moreInfoSelected": false,
+        "frequencyLinks": [
+          {
+            "name": "Thousand genomes",
+            "link": "http://www.1000genomes.org/"
+          },
+          {
+            "name": "TOPMed",
+            "link": "https://www.nhlbi.nih.gov/science/trans-omics-precision-medicine-topmed-program"
+          },
+          {
+            "name": "UK 10K",
+            "link": "http://www.uk10k.org/"
+          },
+          {
+            "name": "ExAC",
+            "link": "http://exac.broadinstitute.org"
+          },
+          {
+            "name": "Genome Aggregation Database (gnomAD)",
+            "link": "https://gnomad.broadinstitute.org/"
+          }
+        ],
+        "chromosomeInfo": {
+          "chromosome": "chr12",
+          "position": 2907914,
+          "assembly": "HG19"
+        }
+      }
+    ]
+  ]
+}
+}
