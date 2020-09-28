@@ -42,7 +42,7 @@ import { TokenService } from 'app/shared/auth/token.service';
 import * as expectedConditionsData from 'unitTests/shared/services/Jsons/expectedConditions.json';
 
 
-describe('[F29 api server]',  () => {
+/*describe('[F29 api server]',  () => {
 
     let component: DiagnosisComponent;
     let fixture: ComponentFixture<DiagnosisComponent>;
@@ -75,9 +75,6 @@ describe('[F29 api server]',  () => {
         fixture.detectChanges();
     });
 
-    /*beforeEach(()=>{
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000;
-    })*/
 
     
     it('Get related conditions f29 server',(done: DoneFn) => {
@@ -108,7 +105,4 @@ describe('[F29 api server]',  () => {
         TestBed.resetTestingModule();
       });
 
-    /*afterEach(()=> {
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
-    });*/
-});
+});*/
