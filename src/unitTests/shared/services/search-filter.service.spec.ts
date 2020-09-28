@@ -177,4 +177,9 @@ describe('[Search Filter]', () => {
         var result = component.searchFilterPipe.transform(listItems,key,valueToFind);
         expect(result).toEqual([])
     });
+
+    afterEach(() => {
+        fixture.destroy();
+        TestBed.resetTestingModule();
+      });
 });

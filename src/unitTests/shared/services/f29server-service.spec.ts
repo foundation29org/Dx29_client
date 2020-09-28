@@ -103,6 +103,11 @@ describe('[F29 api server]',  () => {
           });
     });
 
+    afterEach(() => {
+        fixture.destroy();
+        TestBed.resetTestingModule();
+      });
+
     /*afterEach(()=> {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
     });*/

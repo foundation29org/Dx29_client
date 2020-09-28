@@ -101,4 +101,9 @@ describe('Unit test: LoginComponent', () => {
         component.onRegister();
         expect(router.navigate).toHaveBeenCalledWith(['/register']);
     }))
+
+    afterEach(() => {
+        fixture.destroy();
+        TestBed.resetTestingModule();
+      });
 });

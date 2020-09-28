@@ -182,4 +182,9 @@ describe('[Get related conditions]',  () => {
         }
     })));
 
+    afterEach(() => {
+        fixture.destroy();
+        TestBed.resetTestingModule();
+      });
+
 });

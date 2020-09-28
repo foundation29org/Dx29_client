@@ -35,7 +35,7 @@ describe('Unit test: Exomiser Service functions', () => {
     let fixture: ComponentFixture<DiagnosisComponent>;
 
     // Configuration
-    beforeEach((async() => {
+    beforeEach((() => {
       TestBed.configureTestingModule({
         imports:[HttpClientModule,HttpClientTestingModule,ToastrModule.forRoot(),TranslateModule.forRoot(),RouterTestingModule.withRoutes(
           [{path: 'clinical/dashboard/home', component: DiagnosisComponent}])],
@@ -47,7 +47,7 @@ describe('Unit test: Exomiser Service functions', () => {
     }));
 
     // Execution before each test
-    beforeEach(async() => {
+    beforeEach(() => {
         fixture = TestBed.createComponent(DiagnosisComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
@@ -66,6 +66,12 @@ describe('Unit test: Exomiser Service functions', () => {
        let actualToken = component.exomiserService.getActualToken();
        expect(actualToken).toEqual(component.exomiserService.actualToken);
     });
+
+    afterEach(() => {
+      fixture.destroy();
+      TestBed.resetTestingModule();
+    });
+    
   });
 
   /*describe('Unit test: Clinical diagnosis exomiser functions', () => {

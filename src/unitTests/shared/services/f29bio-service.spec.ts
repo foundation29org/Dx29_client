@@ -191,6 +191,11 @@ describe('[F29 bio service]',  () => {
           });
     });
 
+    afterEach(() => {
+        fixture.destroy();
+        TestBed.resetTestingModule();
+    });
+
 
 
 
