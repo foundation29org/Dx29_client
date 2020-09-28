@@ -42,7 +42,7 @@ import { TokenService } from 'app/shared/auth/token.service';
 import * as expectedConditionsData from 'unitTests/shared/services/Jsons/expectedConditions.json';
 
 
-/*describe('[F29 api server]',  () => {
+describe('[F29 api server]',  () => {
 
     let component: DiagnosisComponent;
     let fixture: ComponentFixture<DiagnosisComponent>;
@@ -105,4 +105,4 @@ import * as expectedConditionsData from 'unitTests/shared/services/Jsons/expecte
         TestBed.resetTestingModule();
       });
 
-});*/
+});
