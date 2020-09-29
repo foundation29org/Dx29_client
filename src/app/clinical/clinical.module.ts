@@ -18,8 +18,9 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import { DiagnosisComponent } from './diagnosis/diagnosis.component';
+import { DiagnosisComponent2 } from './diagnosis2/diagnosis2.component';
 import { AboutComponent } from './about/about.component';
-import { MatTableModule } from '@angular/material/table'  
+import { MatTableModule } from '@angular/material/table'
 @NgModule({
     exports: [
         TranslateModule
@@ -44,6 +45,7 @@ import { MatTableModule } from '@angular/material/table'
     ],
     declarations: [
         DiagnosisComponent,
+        DiagnosisComponent2,
         AboutComponent
     ]
 })

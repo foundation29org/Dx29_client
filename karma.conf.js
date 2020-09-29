@@ -54,7 +54,13 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['ChromeHeadless'],
+    browsers: ['ChromeHeadless'], // ChromeHeadless for pipelines. If you want to run test local: use Chrome better
+    customLaunchers: {
+      ChromeHeadless: {
+        base: 'Chrome',
+        flags: ['--headless', '--disable-gpu', '--no-sandbox', '--disable-extensions', '--remote-debugging-port=9222']
+      }
+    },
     singleRun: false
   });
 };

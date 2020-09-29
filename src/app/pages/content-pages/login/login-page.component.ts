@@ -390,7 +390,8 @@ export class LoginPageComponent implements OnDestroy, OnInit{
           gender: null,
           siblings: [],
           parents: [],
-          actualStep: '0'
+          actualStep: '0.0',
+          stepClinic: '5.0'
         };
 
         if(this.authService.getSubRole()=='HaveDiagnosis'){

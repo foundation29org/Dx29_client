@@ -722,7 +722,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         birthDate: null,
         gender: null,
         siblings: [],
-        parents: []
+        parents: [],
+        stepClinic: '0.0'
       };
 
       this.changeName = this.patient;

@@ -77,7 +77,17 @@ export class Apif29BioService {
     }
 
     getGenesOfDiseases(listOfDiseases){
-        return this.http.post(environment.f29bio+'/api/BioEntity/disease/genes/tree/', listOfDiseases)
+        //return this.http.post(environment.f29bio+'/api/BioEntity/disease/genes/tree/', listOfDiseases)
+        return this.http.post(environment.f29bio+'/api/BioEntity/disease/gene/', listOfDiseases)
+        .map( (res : any) => {
+            return res;
+        }, (err) => {
+            console.log(err);
+            return err;
+        })
+    }
+    getDiseaseOfGenes(listOfGenes){
+        return this.http.post(environment.f29bio+'/api/BioEntity/gene/disease', listOfGenes)
         .map( (res : any) => {
             return res;
         }, (err) => {
@@ -135,5 +145,16 @@ export class Apif29BioService {
             console.log(err);
             return err;
         })
+    }
+
+    getGroupsSymptoms(lang, listOfSymptoms){
+      return this.http.post(environment.f29bio+'/api/BioEntity/phenotype/groups/'+lang,listOfSymptoms)
+      .map( (res : any) => {
+          return res;
+      }, (err) => {
+          console.log(err);
+          return err;
+      })
+
     }
 }

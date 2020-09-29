@@ -54,5 +54,10 @@ describe('Unit test: Admin GTP', () => {
     expect(component.programsInfo).toBeDefined();
     expect(component.programsInfoNotPatient).toBeDefined();
   });
+
+  afterEach(() => {
+    fixture.destroy();
+    TestBed.resetTestingModule();
+  });
 });
 

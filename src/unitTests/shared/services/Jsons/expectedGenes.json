@@ -1,0 +1,5737 @@
+{
+  "MONDO:0001056": {
+    "genes": {
+      "HGNC:1500": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:1500",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "CASP10",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:2235": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:2235",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "KLF6",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:3430": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:3430",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "ERBB2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:3689": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:3689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "FGFR2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:583": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:583",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "APC",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:6116": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:6116",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "IRF1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:7527": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:7527",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "MUTYH",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:8975": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:8975",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "PIK3CA",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0001056",
+    "label": "gastric cancer"
+  },
+  "MONDO:0007043": {
+    "genes": {
+      "HGNC:3688": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:3688",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "FGFR1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:3689": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:3689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "FGFR2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:10633130|PMID:7719345|PMID:8528214|PMID:7987400"
+      }
+    },
+    "id": "MONDO:0007043",
+    "label": "Pfeiffer syndrome"
+  },
+  "MONDO:0007256": {
+    "genes": {
+      "HGNC:11998": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:11998",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "TP53",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:1509": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:1509",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "CASP8",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:2514": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:2514",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "CTNNB1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:583": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:583",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "APC",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:7029": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:7029",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "MET",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:8805": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:8805",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "PDGFRL",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:8975": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:8975",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "PIK3CA",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:903": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:903",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "AXIN1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0007256",
+    "label": "hepatocellular carcinoma"
+  },
+  "MONDO:0007362": {
+    "genes": {
+      "HGNC:2383": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:2383",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "CRX",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0007362",
+    "label": "cone-rod dystrophy 2"
+  },
+  "MONDO:0007365": {
+    "genes": {
+      "HGNC:6296": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:6296",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "KCNQ2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0007365",
+    "label": "seizures, benign familial neonatal, 1"
+  },
+  "MONDO:0007366": {
+    "genes": {
+      "HGNC:6297": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:6297",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "KCNQ3",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0007366",
+    "label": "seizures, benign familial neonatal, 2"
+  },
+  "MONDO:0007367": null,
+  "MONDO:0007546": {
+    "genes": {
+      "HGNC:8804": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:8804",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "PDGFRB",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0007546",
+    "label": "myeloproliferative disorder, chronic, with eosinophilia"
+  },
+  "MONDO:0007560": null,
+  "MONDO:0007713": null,
+  "MONDO:0007718": {
+    "genes": {
+      "HGNC:11621": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:11621",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "HNF1A",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0007718",
+    "label": "hepatic adenomas, familial"
+  },
+  "MONDO:0007763": {
+    "genes": {
+      "HGNC:11621": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:11621",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "HNF1A",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:12687": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:12687",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "VHL",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:17023": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:17023",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "RNF139",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:27310": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:27310",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "FLCN",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:8125": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:8125",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "OGG1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0007763",
+    "label": "nonpapillary renal cell carcinoma"
+  },
+  "MONDO:0008041": null,
+  "MONDO:0008269": {
+    "genes": {
+      "HGNC:4317": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:4317",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "GLI1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0008269",
+    "label": "polydactyly of a biphalangeal thumb"
+  },
+  "MONDO:0008289": {
+    "genes": {
+      "HGNC:2202": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:2202",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "COL4A1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0008289",
+    "label": "porencephaly 1"
+  },
+  "MONDO:0008338": {
+    "genes": {
+      "HGNC:7573": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:7573",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "MYH3",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0008338",
+    "label": "autosomal dominant multiple pterygium syndrome"
+  },
+  "MONDO:0008373": {
+    "genes": {
+      "HGNC:2202": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:2202",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "COL4A1",
+        "qualifier": "direct",
+        "relation": "RO:0002326",
+        "source": null
+      }
+    },
+    "id": "MONDO:0008373",
+    "label": "retinal arterial tortuosity (disease)"
+  },
+  "MONDO:0008588": null,
+  "MONDO:0008836": null,
+  "MONDO:0008945": null,
+  "MONDO:0009013": null,
+  "MONDO:0009077": null,
+  "MONDO:0009162": {
+    "genes": {
+      "HGNC:19747": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:19747",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "EVC2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:19876929|PMID:12468274|PMID:25525159|PMID:23220543"
+      },
+      "HGNC:24595": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:24595",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "DYNC2LI1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3497": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:3497",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "EVC",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:10700184|PMID:29321360|PMID:7628126|PMID:23220543|PMID:17024374"
+      },
+      "HGNC:4317": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:4317",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "GLI1",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      }
+    },
+    "id": "MONDO:0009162",
+    "label": "Ellis-van Creveld syndrome"
+  },
+  "MONDO:0009180": {
+    "genes": {
+      "HGNC:2194": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:2194",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "COL17A1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:6158": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:6158",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "ITGB4",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:6483": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:6483",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "LAMA3",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:6490": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:6490",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "LAMB3",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:6493": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:6493",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "LAMC2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0009180",
+    "label": "junctional epidermolysis bullosa, non-Herlitz type"
+  },
+  "MONDO:0009182": {
+    "genes": {
+      "HGNC:6483": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:6483",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "LAMA3",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:27827380|PMID:17362460|PMID:11810295|PMID:16971478"
+      },
+      "HGNC:6490": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:6490",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "LAMB3",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:11023379|PMID:25708563|PMID:8824879|PMID:9242513|PMID:8983017|PMID:15538630|PMID:21801158|PMID:17476356|PMID:16971478|PMID:16473856|PMID:7698759|PMID:9205497|PMID:10577906|PMID:9160387"
+      },
+      "HGNC:6493": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:6493",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "LAMC2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0009182",
+    "label": "junctional epidermolysis bullosa Herlitz type"
+  },
+  "MONDO:0009186": null,
+  "MONDO:0009497": null,
+  "MONDO:0009513": {
+    "genes": {
+      "HGNC:6483": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:6483",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "LAMA3",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0009513",
+    "label": "laryngo-onycho-cutaneous syndrome"
+  },
+  "MONDO:0009696": {
+    "genes": {
+      "HGNC:1404": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:1404",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CACNB4",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:21219": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:21219",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ICK",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:4075": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:4075",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "GABRA1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0009696",
+    "label": "juvenile myoclonic epilepsy"
+  },
+  "MONDO:0009925": {
+    "genes": {
+      "HGNC:3356": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3356",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ENPP1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:57": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:57",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "ABCC6",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0009925",
+    "label": "inherited pseudoxanthoma elasticum"
+  },
+  "MONDO:0009976": null,
+  "MONDO:0010094": {
+    "genes": {
+      "HGNC:3755": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:3755",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "FLNB",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:26380986"
+      },
+      "HGNC:7573": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:7573",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "MYH3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0010094",
+    "label": "spondylocarpotarsal synostosis syndrome"
+  },
+  "MONDO:0010317": {
+    "genes": {
+      "HGNC:18060": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:18060",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "ARX",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0010317",
+    "label": "intellectual disability, X-linked, with or without seizures, arx-related"
+  },
+  "MONDO:0010329": null,
+  "MONDO:0010388": null,
+  "MONDO:0010429": {
+    "genes": {
+      "HGNC:11506": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:11506",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "SYP",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0010429",
+    "label": "intellectual disability, X-linked 96"
+  },
+  "MONDO:0010451": {
+    "genes": {
+      "HGNC:4226": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:4226",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "GDI1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0010451",
+    "label": "intellectual disability, X-linked 41"
+  },
+  "MONDO:0010454": null,
+  "MONDO:0010608": null,
+  "MONDO:0010652": null,
+  "MONDO:0010682": null,
+  "MONDO:0010694": null,
+  "MONDO:0010894": {
+    "genes": {
+      "HGNC:11621": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:11621",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "HNF1A",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0010894",
+    "label": "maturity-onset diabetes of the young type 3"
+  },
+  "MONDO:0010898": {
+    "genes": {
+      "HGNC:18423": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:18423",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "DEPDC5",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:6572": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:6572",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "LGI1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:9957": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:9957",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "RELN",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0010898",
+    "label": "Autosomal dominant epilepsy with auditory features"
+  },
+  "MONDO:0010899": {
+    "genes": {
+      "HGNC:1958": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:1958",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "CHRNA4",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0010899",
+    "label": "autosomal dominant nocturnal frontal lobe epilepsy 1"
+  },
+  "MONDO:0010918": null,
+  "MONDO:0011150": {
+    "genes": {
+      "HGNC:8804": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:8804",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PDGFRB",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0011150",
+    "label": "acroosteolysis-keloid-like lesions-premature aging syndrome"
+  },
+  "MONDO:0011231": null,
+  "MONDO:0011297": null,
+  "MONDO:0011416": {
+    "genes": {
+      "HGNC:10586": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:10586",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "SCN1B",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0011416",
+    "label": "generalized epilepsy with febrile seizures plus, type 1"
+  },
+  "MONDO:0011443": null,
+  "MONDO:0011461": {
+    "genes": {
+      "HGNC:10585": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:10585",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "SCN1A",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0011461",
+    "label": "generalized epilepsy with febrile seizures plus, type 2"
+  },
+  "MONDO:0011491": null,
+  "MONDO:0011545": {
+    "genes": {
+      "HGNC:1962": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:1962",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "CHRNB2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0011545",
+    "label": "autosomal dominant nocturnal frontal lobe epilepsy 3"
+  },
+  "MONDO:0011593": {
+    "genes": {
+      "HGNC:30500": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:30500",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "PRRT2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:22131361|PMID:26598493|PMID:22744660|PMID:22209761|PMID:22120146|PMID:22101681|PMID:22623405|PMID:22243967|PMID:22399141"
+      }
+    },
+    "id": "MONDO:0011593",
+    "label": "seizures, benign familial infantile, 2"
+  },
+  "MONDO:0011674": {
+    "genes": {
+      "HGNC:2974": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:2974",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "DNM2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:25501959|PMID:20529869|PMID:16227997|PMID:24016602|PMID:25492887|PMID:20817456|PMID:28676641|PMID:22613877"
+      }
+    },
+    "id": "MONDO:0011674",
+    "label": "Charcot-Marie-Tooth disease dominant intermediate b"
+  },
+  "MONDO:0011733": null,
+  "MONDO:0011844": null,
+  "MONDO:0011865": null,
+  "MONDO:0011875": null,
+  "MONDO:0011876": null,
+  "MONDO:0011891": {
+    "genes": {
+      "HGNC:4087": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:4087",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "GABRG2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:27864268|PMID:28460589"
+      }
+    },
+    "id": "MONDO:0011891",
+    "label": "febrile seizures, familial, 8"
+  },
+  "MONDO:0011892": null,
+  "MONDO:0011965": null,
+  "MONDO:0011990": null,
+  "MONDO:0012113": null,
+  "MONDO:0012224": null,
+  "MONDO:0012226": null,
+  "MONDO:0012346": null,
+  "MONDO:0012618": null,
+  "MONDO:0012629": null,
+  "MONDO:0012655": null,
+  "MONDO:0012705": null,
+  "MONDO:0012706": null,
+  "MONDO:0012707": null,
+  "MONDO:0012723": {
+    "genes": {
+      "HGNC:29021": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:29021",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "CEP290",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0012723",
+    "label": "Leber congenital amaurosis 10"
+  },
+  "MONDO:0012726": {
+    "genes": {
+      "HGNC:2202": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:2202",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "COL4A1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0012726",
+    "label": "autosomal dominant familial hematuria-retinal arteriolar tortuosity-contractures syndrome"
+  },
+  "MONDO:0012843": null,
+  "MONDO:0012919": {
+    "genes": {
+      "HGNC:11621": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:11621",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "HNF1A",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0012919",
+    "label": "type 1 diabetes mellitus 20"
+  },
+  "MONDO:0012946": {
+    "genes": {
+      "HGNC:1754": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:1754",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "CDH15",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0012946",
+    "label": "intellectual disability, autosomal dominant 3"
+  },
+  "MONDO:0013103": null,
+  "MONDO:0013322": {
+    "genes": {
+      "HGNC:30550": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:30550",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "MARCHF6",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0013322",
+    "label": "FAME3"
+  },
+  "MONDO:0013388": {
+    "genes": {
+      "HGNC:10588": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:10588",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "SCN2A",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:29215089|PMID:25772804|PMID:23935176|PMID:28379373|PMID:15048894|PMID:29186148"
+      }
+    },
+    "id": "MONDO:0013388",
+    "label": "epileptic encephalopathy, early infantile, 11"
+  },
+  "MONDO:0013470": {
+    "genes": {
+      "HGNC:10597": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:10597",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "SCN9A",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0013470",
+    "label": "generalized epilepsy with febrile seizures plus, type 7"
+  },
+  "MONDO:0013578": {
+    "genes": {
+      "HGNC:3091": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:3091",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "DYRK1A",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:26922654|PMID:25944381|PMID:29034068|PMID:28053047|PMID:25641759|PMID:26633545|PMID:25167861|PMID:25920557|PMID:27241786"
+      }
+    },
+    "id": "MONDO:0013578",
+    "label": "DYRK1A-related intellectual disability syndrome"
+  },
+  "MONDO:0013581": null,
+  "MONDO:0013629": null,
+  "MONDO:0013665": null,
+  "MONDO:0013741": {
+    "genes": {
+      "HGNC:17245": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:17245",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "CPA6",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0013741",
+    "label": "familial temporal lobe epilepsy 5"
+  },
+  "MONDO:0013919": null,
+  "MONDO:0013970": {
+    "genes": {
+      "HGNC:16902": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:16902",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "BCKDK",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0013970",
+    "label": "branched-chain keto acid dehydrogenase kinase deficiency"
+  },
+  "MONDO:0014055": null,
+  "MONDO:0014149": {
+    "genes": {
+      "HGNC:2974": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:2974",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "DNM2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0014149",
+    "label": "fetal akinesia-cerebral and retinal hemorrhage syndrome"
+  },
+  "MONDO:0014150": {
+    "genes": {
+      "HGNC:1917": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:1917",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "CHD2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0014150",
+    "label": "childhood onset epileptic encephalopathy"
+  },
+  "MONDO:0014167": null,
+  "MONDO:0014227": {
+    "genes": {
+      "HGNC:3356": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:3356",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "ENPP1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0014227",
+    "label": "hypopigmentation-punctate palmoplantar keratoderma syndrome"
+  },
+  "MONDO:0014308": null,
+  "MONDO:0014328": {
+    "genes": {
+      "HGNC:4075": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:4075",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "GABRA1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0014328",
+    "label": "epileptic encephalopathy, early infantile, 19"
+  },
+  "MONDO:0014333": {
+    "genes": {
+      "HGNC:4512": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:4512",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "ADGRG1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0014333",
+    "label": "polymicrogyria, bilateral perisylvian, autosomal recessive"
+  },
+  "MONDO:0014517": {
+    "genes": {
+      "HGNC:18539": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:18539",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "STX1B",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0014517",
+    "label": "generalized epilepsy with febrile seizures plus, type 9"
+  },
+  "MONDO:0014545": {
+    "genes": {
+      "HGNC:14253": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:14253",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "CERS1",
+        "qualifier": "direct",
+        "relation": "RO:0002326",
+        "source": null
+      }
+    },
+    "id": "MONDO:0014545",
+    "label": "progressive myoclonic epilepsy type 8"
+  },
+  "MONDO:0014639": null,
+  "MONDO:0014650": null,
+  "MONDO:0014704": {
+    "genes": {
+      "HGNC:8804": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:8804",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PDGFRB",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0014704",
+    "label": "skeletal overgrowth-craniofacial dysmorphism-hyperelastic skin-white matter lesions syndrome"
+  },
+  "MONDO:0014734": null,
+  "MONDO:0014815": null,
+  "MONDO:0014842": {
+    "genes": {
+      "HGNC:29529": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:29529",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "TBL1XR1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0014842",
+    "label": "intellectual disability, autosomal dominant 41"
+  },
+  "MONDO:0014903": {
+    "genes": {
+      "HGNC:10596": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:10596",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "SCN8A",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0014903",
+    "label": "seizures, benign familial infantile, 5"
+  },
+  "MONDO:0014924": {
+    "genes": {
+      "HGNC:24969": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:24969",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "NPRL2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0014924",
+    "label": "epilepsy, familial focal, with variable foci 2"
+  },
+  "MONDO:0014925": {
+    "genes": {
+      "HGNC:14124": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:14124",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "NPRL3",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0014925",
+    "label": "epilepsy, familial focal, with variable foci 3"
+  },
+  "MONDO:0015345": null,
+  "MONDO:0015519": {
+    "genes": {
+      "HGNC:3257": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3257",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3258": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3258",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3259": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3259",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3260": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3260",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B4",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3261": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3261",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B5",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0015519",
+    "label": "congenital or early infantile CACH syndrome"
+  },
+  "MONDO:0015520": {
+    "genes": {
+      "HGNC:3257": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3257",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3258": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3258",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3259": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3259",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3260": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3260",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B4",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3261": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3261",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B5",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0015520",
+    "label": "late infantile CACH syndrome"
+  },
+  "MONDO:0015521": {
+    "genes": {
+      "HGNC:3257": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3257",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3258": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3258",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3259": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3259",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3260": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3260",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B4",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3261": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3261",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B5",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0015521",
+    "label": "juvenile or adult CACH syndrome"
+  },
+  "MONDO:0015748": {
+    "genes": {
+      "HGNC:6415": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6415",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "KRT13",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:6441": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6441",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "KRT4",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      }
+    },
+    "id": "MONDO:0015748",
+    "label": "hereditary mucosal leukokeratosis"
+  },
+  "MONDO:0015993": {
+    "genes": {
+      "HGNC:10295": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10295",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "RPGR",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:10729": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10729",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "SEMA4A",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:12565": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:12565",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "UNC119",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:1260": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:1260",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CFAP410",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:13436": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:13436",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "RPGRIP1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:1393": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:1393",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CACNA1F",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:14550": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:14550",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CDHR1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:17282": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:17282",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "RIMS1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:17877": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:17877",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "NMNAT1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:18286": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:18286",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "RAX2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:19963": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:19963",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "TTLL5",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:20202": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:20202",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CACNA2D4",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:21043": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:21043",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PITPNM3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:2150": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2150",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CNGA3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:216": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:216",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ADAM9",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:2383": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2383",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CRX",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:27232": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:27232",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "C8orf37",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:28769": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:28769",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "DRAM2",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:30836": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:30836",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "POC1B",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:34": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:34",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ABCA4",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:4206": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:4206",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "OPN1MW",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:4678": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:4678",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "GUCA1A",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:4689": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:4689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "GUCY2D",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:791": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:791",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ATF6",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:9454": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:9454",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PROM1 (human)",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:9768": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:9768",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "RAB28",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:9936": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:9936",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "OPN1LW",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:9942": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:9942",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PRPH2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0015993",
+    "label": "cone-rod dystrophy"
+  },
+  "MONDO:0016025": {
+    "genes": {
+      "HGNC:11042": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:11042",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "SLC6A1",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:1917": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:1917",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CHD2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:564": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:564",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "AP2M1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0016025",
+    "label": "myoclonic-astastic epilepsy"
+  },
+  "MONDO:0016160": null,
+  "MONDO:0016216": {
+    "genes": {
+      "HGNC:1509": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:1509",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CASP8",
+        "qualifier": "direct",
+        "relation": "RO:0004014",
+        "source": null
+      },
+      "HGNC:8975": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:8975",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PIK3CA",
+        "qualifier": "direct",
+        "relation": "RO:0004014",
+        "source": null
+      },
+      "HGNC:903": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:903",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "AXIN1",
+        "qualifier": "direct",
+        "relation": "RO:0004014",
+        "source": null
+      }
+    },
+    "id": "MONDO:0016216",
+    "label": "adult hepatocellular carcinoma"
+  },
+  "MONDO:0016431": {
+    "genes": {
+      "HGNC:2974": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2974",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "DNM2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0016431",
+    "label": "autosomal dominant Charcot-Marie-Tooth disease type 2M"
+  },
+  "MONDO:0016824": {
+    "genes": {
+      "HGNC:7883": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:7883",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "NOTCH3",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:8804": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:8804",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PDGFRB",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      }
+    },
+    "id": "MONDO:0016824",
+    "label": "myofibromatosis"
+  },
+  "MONDO:0017385": {
+    "genes": {
+      "HGNC:10585": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10585",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "SCN1A",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:13818": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:13818",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "SLC12A5",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:15917": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:15917",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PLCB1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:18865": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:18865",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "KCNT1",
+        "qualifier": "direct",
+        "relation": "RO:0004011",
+        "source": null
+      },
+      "HGNC:19954": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:19954",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "SLC25A22",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:29203": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:29203",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "TBC1D24",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      }
+    },
+    "id": "MONDO:0017385",
+    "label": "malignant migrating partial seizures of infancy"
+  },
+  "MONDO:0017949": {
+    "genes": {
+      "HGNC:620": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:620",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "APP",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0017949",
+    "label": "ABeta amyloidosis, Arctic type"
+  },
+  "MONDO:0018733": {
+    "genes": {
+      "HGNC:3091": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3091",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "DYRK1A",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      }
+    },
+    "id": "MONDO:0018733",
+    "label": "intellectual disability syndrome due to a DYRK1A point mutation"
+  },
+  "MONDO:0018786": {
+    "genes": {
+      "HGNC:2202": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2202",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "COL4A1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0018786",
+    "label": "pontine autosomal dominant microangiopathy with leukoencephalopathy"
+  },
+  "MONDO:0018829": {
+    "genes": {
+      "HGNC:2202": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2202",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "COL4A1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0018829",
+    "label": "familial schizencephaly"
+  },
+  "MONDO:0018870": {
+    "genes": {
+      "HGNC:3356": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3356",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "ENPP1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:57": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:57",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "ABCC6",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      }
+    },
+    "id": "MONDO:0018870",
+    "label": "arterial calcification of infancy"
+  },
+  "MONDO:0018911": {
+    "genes": {
+      "HGNC:1057": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:1057",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "BLK",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:11621": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:11621",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "HNF1A",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:11811": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:11811",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "KLF11",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:1848": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:1848",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CEL",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:24035": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:24035",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "APPL1",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:4195": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:4195",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "GCK",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:5024": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:5024",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "HNF4A",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:59": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:59",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ABCC8",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6081": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6081",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "INS (human)",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6107": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6107",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PDX1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6257": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6257",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "KCNJ11",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:7762": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:7762",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "NEUROD1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:8618": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:8618",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PAX4",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0018911",
+    "label": "maturity-onset diabetes of the young (disease)"
+  },
+  "MONDO:0019006": {
+    "genes": {
+      "HGNC:12338": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:12338",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "TRPC6",
+        "qualifier": "direct",
+        "relation": "RO:0004011",
+        "source": null
+      },
+      "HGNC:12796": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:12796",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "WT1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:13394": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:13394",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "NPHS2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:14082": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:14082",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ANLN",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:14258": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:14258",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CD2AP",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:166": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:166",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ACTN4",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:17175": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:17175",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PLCE1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:18016": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:18016",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "NUP133",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:18017": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:18017",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "NUP160",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:18658": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:18658",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "NUP205",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:18688": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:18688",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CRB2",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:19041": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:19041",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "COQ8B",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:20763": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:20763",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ANKFY1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:23375": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:23375",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "GAPVD1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:23791": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:23791",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "INF2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:24715": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:24715",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "TBC1D8B",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:25361": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:25361",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ARHGAP24",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:28958": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:28958",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "NUP93",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:29914": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:29914",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "NUP107",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:29929": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:29929",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "NUP37",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3334": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3334",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EMP2",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:678": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:678",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ARHGDIA",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:7599": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:7599",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "MYO1E",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:7908": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:7908",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "NPHS1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:8616": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:8616",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PAX2",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:8734": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:8734",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "NUP85",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:9678": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:9678",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PTPRO",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0019006",
+    "label": "familial idiopathic steroid-resistant nephrotic syndrome"
+  },
+  "MONDO:0019307": {
+    "genes": {
+      "HGNC:2194": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2194",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "COL17A1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6158": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6158",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ITGB4",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6483": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6483",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "LAMA3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6490": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6490",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "LAMB3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6493": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6493",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "LAMC2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0019307",
+    "label": "generalized junctional epidermolysis bullosa non-Herlitz type"
+  },
+  "MONDO:0019448": {
+    "genes": {
+      "HGNC:2172": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2172",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CNTN2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:2516": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2516",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CTNND2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:25489": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:25489",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "YEATS2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:282": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:282",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ADRA2B",
+        "qualifier": "direct",
+        "relation": "RO:0004011",
+        "source": null
+      },
+      "HGNC:31750": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:31750",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "SAMD12",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0019448",
+    "label": "benign adult familial myoclonic epilepsy"
+  },
+  "MONDO:0020496": {
+    "genes": {
+      "HGNC:2202": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2202",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "COL4A1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:2203": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2203",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "COL4A2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0020496",
+    "label": "familial porencephaly"
+  },
+  "MONDO:0020506": {
+    "genes": {
+      "HGNC:21022": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:21022",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "AARS2",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:3257": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3257",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3258": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3258",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3259": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3259",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3260": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3260",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B4",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3261": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3261",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B5",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0020506",
+    "label": "ovarioleukodystrophy"
+  },
+  "MONDO:0020507": {
+    "genes": {
+      "HGNC:3257": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3257",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3258": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3258",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3259": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3259",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3260": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3260",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B4",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3261": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3261",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B5",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0020507",
+    "label": "Cree leukoencephalopathy"
+  },
+  "MONDO:0020752": null,
+  "MONDO:0020759": null,
+  "MONDO:0020772": null,
+  "MONDO:0020853": {
+    "genes": {
+      "HGNC:1181": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:1181",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "MYRF",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0020853",
+    "label": "encephalitis/encephalopathy, mild, with reversible myelin vacuolization"
+  },
+  "MONDO:0021548": {
+    "genes": {
+      "HGNC:14673": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:14673",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "FYCO1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:21244": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:21244",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "LEMD2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:21869": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:21869",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "AGK",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:23801": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:23801",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "SIPA1L3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:2388": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2388",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CRYAA",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:2398": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2398",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CRYBB2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:2409": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2409",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CRYGB",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:30373": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:30373",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "DNMBP",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:3386": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3386",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EPHA2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:4204": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:4204",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "GCNT2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:4281": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:4281",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "GJA8",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:5227": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:5227",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "HSF4",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6610": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6610",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "LIM2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6708": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6708",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "LSS",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:7103": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:7103",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "MIP",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0021548",
+    "label": "total early-onset cataract"
+  },
+  "MONDO:0024508": null,
+  "MONDO:0024566": {
+    "genes": {
+      "HGNC:17245": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:17245",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "CPA6",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0024566",
+    "label": "febrile seizures, familial, 11"
+  },
+  "MONDO:0032662": null,
+  "MONDO:0032699": null,
+  "MONDO:0054847": null,
+  "MONDO:0060671": null,
+  "MONDO:0100092": null,
+  "OMIM:120970": {
+    "genes": {
+      "HGNC:2383": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:2383",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "CRX",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0007362",
+    "label": "cone-rod dystrophy 2"
+  },
+  "OMIM:125853": {
+    "genes": {
+      "HGNC:11630": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:11630",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "HNF1B",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:392": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:392",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "AKT2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:4195": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:4195",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "GCK",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:59": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:59",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "ABCC8",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:8618": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:8618",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "PAX4",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:9291": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:9291",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "PPP1R3A",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0007455",
+    "label": "diabetes mellitus, noninsulin-dependent"
+  },
+  "OMIM:142330": {
+    "genes": {
+      "HGNC:11621": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:11621",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "HNF1A",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0007718",
+    "label": "hepatic adenomas, familial"
+  },
+  "OMIM:160150": {
+    "genes": {
+      "HGNC:1052": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:1052",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "BIN1",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:2974": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:2974",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "DNM2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0008048",
+    "label": "autosomal dominant centronuclear myopathy"
+  },
+  "OMIM:175780": {
+    "genes": {
+      "HGNC:2202": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:2202",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "COL4A1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0008289",
+    "label": "porencephaly 1"
+  },
+  "OMIM:193700": {
+    "genes": {
+      "HGNC:19082": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:19082",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "NALCN",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:7573": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:7573",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "MYH3",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0008675",
+    "label": "freeman-Sheldon syndrome"
+  },
+  "OMIM:193900": {
+    "genes": {
+      "HGNC:6441": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:6441",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "KRT4",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0008676",
+    "label": "white sponge nevus 1"
+  },
+  "OMIM:208000": {
+    "genes": {
+      "HGNC:3356": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:3356",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "ENPP1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0008817",
+    "label": "arterial calcification, generalized, of infancy, 1"
+  },
+  "OMIM:222100": null,
+  "OMIM:228550": {
+    "genes": {
+      "HGNC:8804": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:8804",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "PDGFRB",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:26455322|PMID:23731542|PMID:23731537|PMID:28183292"
+      }
+    },
+    "id": "MONDO:0009227",
+    "label": "myofibromatosis, infantile, 1"
+  },
+  "OMIM:600496": {
+    "genes": {
+      "HGNC:11621": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:11621",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "HNF1A",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0010894",
+    "label": "maturity-onset diabetes of the young type 3"
+  },
+  "OMIM:612520": {
+    "genes": {
+      "HGNC:11621": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:11621",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "HNF1A",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0012919",
+    "label": "type 1 diabetes mellitus 20"
+  },
+  "OMIM:613659": {
+    "genes": {
+      "HGNC:1500": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:1500",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "CASP10",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:2235": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:2235",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "KLF6",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:3430": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:3430",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "ERBB2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:3689": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:3689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "FGFR2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:583": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:583",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "APC",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:6116": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:6116",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "IRF1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:7527": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:7527",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "MUTYH",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:8975": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:8975",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "PIK3CA",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0001056",
+    "label": "gastric cancer"
+  },
+  "OMIM:613722": {
+    "genes": {
+      "HGNC:15917": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:15917",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "PLCB1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0013389",
+    "label": "epileptic encephalopathy, early infantile, 12"
+  },
+  "OMIM:613829": {
+    "genes": {
+      "HGNC:2383": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:2383",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "CRX",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0013449",
+    "label": "Leber congenital amaurosis 7"
+  },
+  "OMIM:615007": {
+    "genes": {
+      "HGNC:8804": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:8804",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "PDGFRB",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0014004",
+    "label": "basal ganglia calcification, idiopathic, 4"
+  },
+  "OMIM:617013": {
+    "genes": {
+      "HGNC:20858": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:20858",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "SLC39A14",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0014864",
+    "label": "hypermanganesemia with dystonia 2"
+  },
+  "OMIM:618123": {
+    "genes": {
+      "HGNC:4317": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:4317",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "GLI1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0029130",
+    "label": "polydactyly, postaxial, type A8"
+  },
+  "OMIM:618415": null,
+  "OMIM:618436": null,
+  "OMIM:618469": null,
+  "OMIM:618564": null,
+  "Orphanet:1146": {
+    "genes": {
+      "HGNC:11946": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:11946",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "TNNI2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:11950": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:11950",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "TNNT3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:12011": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:12011",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "TPM2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:19082": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:19082",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "NALCN",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:7549": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:7549",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "MYBPC1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:7573": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:7573",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "MYH3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0015240",
+    "label": "digitotalar dysmorphism"
+  },
+  "Orphanet:1147": {
+    "genes": {
+      "HGNC:11946": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:11946",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "TNNI2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:11950": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:11950",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "TNNT3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:12011": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:12011",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "TPM2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:19082": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:19082",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "NALCN",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:7573": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:7573",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "MYH3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0011128",
+    "label": "Sheldon-hall syndrome"
+  },
+  "Orphanet:1540": {
+    "genes": {
+      "HGNC:3688": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:3688",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "FGFR1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:3689": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:3689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "FGFR2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0007400",
+    "label": "Jackson-Weiss syndrome"
+  },
+  "Orphanet:1555": {
+    "genes": {
+      "HGNC:3689": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:3689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "FGFR2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0007412",
+    "label": "Beare-Stevenson cutis gyrata syndrome"
+  },
+  "Orphanet:157716": {
+    "genes": {
+      "HGNC:3257": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3257",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3258": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3258",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3259": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3259",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3260": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3260",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B4",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3261": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3261",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "EIF2B5",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0015520",
+    "label": "late infantile CACH syndrome"
+  },
+  "Orphanet:168624": {
+    "genes": {
+      "HGNC:3689": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:3689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "FGFR2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0012307",
+    "label": "familial scaphocephaly syndrome, McGillivray type"
+  },
+  "Orphanet:169189": {
+    "genes": {
+      "HGNC:1052": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:1052",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "BIN1",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:2974": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:2974",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "DNM2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0008048",
+    "label": "autosomal dominant centronuclear myopathy"
+  },
+  "Orphanet:1756": null,
+  "Orphanet:1872": {
+    "genes": {
+      "HGNC:10295": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10295",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "RPGR",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:10729": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10729",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "SEMA4A",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:12565": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:12565",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "UNC119",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:1260": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:1260",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CFAP410",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:13436": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:13436",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "RPGRIP1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:1393": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:1393",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CACNA1F",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:14550": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:14550",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CDHR1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:17282": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:17282",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "RIMS1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:17877": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:17877",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "NMNAT1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:18286": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:18286",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "RAX2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:19963": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:19963",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "TTLL5",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:20202": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:20202",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CACNA2D4",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:21043": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:21043",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PITPNM3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:2150": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2150",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CNGA3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:216": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:216",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ADAM9",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:2383": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2383",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CRX",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:27232": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:27232",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "C8orf37",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:28769": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:28769",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "DRAM2",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:30836": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:30836",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "POC1B",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:34": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:34",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ABCA4",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:4206": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:4206",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "OPN1MW",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:4678": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:4678",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "GUCA1A",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:4689": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:4689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "GUCY2D",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:791": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:791",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ATF6",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:9454": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:9454",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PROM1 (human)",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:9768": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:9768",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "RAB28",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:9936": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:9936",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "OPN1LW",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:9942": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:9942",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PRPH2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0015993",
+    "label": "cone-rod dystrophy"
+  },
+  "Orphanet:1980": {
+    "genes": {
+      "HGNC:10947": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10947",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "SLC20A2",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:12827": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:12827",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "XPR1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:19918": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:19918",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "MYORG",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:8800": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:8800",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PDGFB",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:8804": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:8804",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PDGFRB",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      }
+    },
+    "id": "MONDO:0008947",
+    "label": "bilateral striopallidodentate calcinosis"
+  },
+  "Orphanet:2053": {
+    "genes": {
+      "HGNC:19082": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:19082",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "NALCN",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:7573": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:7573",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "MYH3",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0008675",
+    "label": "freeman-Sheldon syndrome"
+  },
+  "Orphanet:207": {
+    "genes": {
+      "HGNC:3444": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3444",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ERF",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:3689": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:3689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "FGFR2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0007405",
+    "label": "Crouzon syndrome"
+  },
+  "Orphanet:228179": {
+    "genes": {
+      "HGNC:2974": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2974",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "DNM2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0016431",
+    "label": "autosomal dominant Charcot-Marie-Tooth disease type 2M"
+  },
+  "Orphanet:2363": {
+    "genes": {
+      "HGNC:3666": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:3666",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "FGF10",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:3689": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:3689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "FGFR2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:3690": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:3690",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "FGFR3",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0007872",
+    "label": "LADD syndrome"
+  },
+  "Orphanet:2407": {
+    "genes": {
+      "HGNC:6483": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:6483",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "LAMA3",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0009513",
+    "label": "laryngo-onycho-cutaneous syndrome"
+  },
+  "Orphanet:251393": {
+    "genes": {
+      "HGNC:2194": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2194",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "COL17A1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6158": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6158",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ITGB4",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0016673",
+    "label": "localized junctional epidermolysis bullosa, non-Herlitz type"
+  },
+  "Orphanet:2591": {
+    "genes": {
+      "HGNC:7883": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:7883",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "NOTCH3",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:8804": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:8804",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PDGFRB",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      }
+    },
+    "id": "MONDO:0016824",
+    "label": "myofibromatosis"
+  },
+  "Orphanet:261": null,
+  "Orphanet:276238": {
+    "genes": {
+      "HGNC:7106": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:7106",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ATXN3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0017174",
+    "label": "Machado-Joseph disease type 1"
+  },
+  "Orphanet:276241": {
+    "genes": {
+      "HGNC:7106": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:7106",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ATXN3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0017175",
+    "label": "Machado-Joseph disease type 2"
+  },
+  "Orphanet:276244": {
+    "genes": {
+      "HGNC:7106": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:7106",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ATXN3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0017176",
+    "label": "Machado-Joseph disease type 3"
+  },
+  "Orphanet:289": {
+    "genes": {
+      "HGNC:19747": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:19747",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "EVC2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:19876929|PMID:12468274|PMID:25525159|PMID:23220543"
+      },
+      "HGNC:24595": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:24595",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "DYNC2LI1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3497": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:3497",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "EVC",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:10700184|PMID:29321360|PMID:7628126|PMID:23220543|PMID:17024374"
+      },
+      "HGNC:4317": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:4317",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "GLI1",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      }
+    },
+    "id": "MONDO:0009162",
+    "label": "Ellis-van Creveld syndrome"
+  },
+  "Orphanet:289176": {
+    "genes": {
+      "HGNC:2932": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2932",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "DMP1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3356": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3356",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ENPP1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0017324",
+    "label": "autosomal recessive hypophosphatemic rickets"
+  },
+  "Orphanet:2990": {
+    "genes": {
+      "HGNC:1967": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:1967",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "CHRNG",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:16826531"
+      },
+      "HGNC:7573": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:7573",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "MYH3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0009926",
+    "label": "autosomal recessive multiple pterygium syndrome"
+  },
+  "Orphanet:313855": {
+    "genes": {
+      "HGNC:3689": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:3689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "FGFR2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0013815",
+    "label": "FGFR2-related bent bone dysplasia"
+  },
+  "Orphanet:324561": {
+    "genes": {
+      "HGNC:3356": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:3356",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "ENPP1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0014227",
+    "label": "hypopigmentation-punctate palmoplantar keratoderma syndrome"
+  },
+  "Orphanet:324575": {
+    "genes": {
+      "HGNC:11621": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:11621",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "HNF1A",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0017935",
+    "label": "hyperinsulinism due to HNF1A deficiency"
+  },
+  "Orphanet:3451": {
+    "genes": {
+      "HGNC:10588": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10588",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "SCN2A",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:10866": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10866",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ST3GAL3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:11142": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:11142",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "SIK1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:11273": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:11273",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "SPTAN1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:11411": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:11411",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CDKL5",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:11444": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:11444",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "STXBP1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:11968": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:11968",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CNPY3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:15917": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:15917",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PLCB1",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:18060": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:18060",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ARX",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:20990": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:20990",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PHACTR1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:25799": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:25799",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "GUF1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:28912": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:28912",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "WDR45",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:4586": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:4586",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "GRIN2B",
+        "qualifier": "direct",
+        "relation": "RO:0004011",
+        "source": null
+      },
+      "HGNC:8032": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:8032",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "NTRK2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:8957": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:8957",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PIGA",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0018097",
+    "label": "West syndrome"
+  },
+  "Orphanet:363409": {
+    "genes": {
+      "HGNC:2974": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:2974",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "DNM2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0014149",
+    "label": "fetal akinesia-cerebral and retinal hemorrhage syndrome"
+  },
+  "Orphanet:363665": {
+    "genes": {
+      "HGNC:8804": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:8804",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PDGFRB",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0011150",
+    "label": "acroosteolysis-keloid-like lesions-premature aging syndrome"
+  },
+  "Orphanet:422526": null,
+  "Orphanet:443098": null,
+  "Orphanet:449": null,
+  "Orphanet:464306": {
+    "genes": {
+      "HGNC:3091": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:3091",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "DYRK1A",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:26922654|PMID:25944381|PMID:29034068|PMID:28053047|PMID:25641759|PMID:26633545|PMID:25167861|PMID:25920557|PMID:27241786"
+      }
+    },
+    "id": "MONDO:0013578",
+    "label": "DYRK1A-related intellectual disability syndrome"
+  },
+  "Orphanet:477831": {
+    "genes": {
+      "HGNC:8804": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:8804",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PDGFRB",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0014704",
+    "label": "skeletal overgrowth-craniofacial dysmorphism-hyperelastic skin-white matter lesions syndrome"
+  },
+  "Orphanet:521406": {
+    "genes": {
+      "HGNC:20858": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:20858",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "SLC39A14",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0014864",
+    "label": "hypermanganesemia with dystonia 2"
+  },
+  "Orphanet:552": {
+    "genes": {
+      "HGNC:1057": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:1057",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "BLK",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:11621": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:11621",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "HNF1A",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:11811": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:11811",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "KLF11",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:1848": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:1848",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CEL",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:24035": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:24035",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "APPL1",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:4195": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:4195",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "GCK",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:5024": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:5024",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "HNF4A",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:59": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:59",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ABCC8",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6081": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6081",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "INS (human)",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6107": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6107",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PDX1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6257": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6257",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "KCNJ11",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:7762": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:7762",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "NEUROD1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:8618": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:8618",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PAX4",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0018911",
+    "label": "maturity-onset diabetes of the young (disease)"
+  },
+  "Orphanet:65": {
+    "genes": {
+      "HGNC:10294": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10294",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "RPE65",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:12423": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:12423",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "TULP1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:13436": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:13436",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "RPGRIP1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:17877": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:17877",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "NMNAT1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:19689": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:19689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "RD3",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:19977": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:19977",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "RDH12",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:20080": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:20080",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "USP45",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:20423": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:20423",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "SPATA7",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:2343": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2343",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "CRB1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:2383": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2383",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "CRX",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:28949": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:28949",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "IQCB1",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:29021": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:29021",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "CEP290",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:29077": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:29077",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "IFT140",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:31923": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:31923",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "LCA5",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:359": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:359",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "AIPL1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:4221": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:4221",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "GDF6",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:4689": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:4689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "GUCY2D",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:6052": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6052",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "IMPDH1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:6259": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6259",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "KCNJ13",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:6685": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6685",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "LRAT",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:8754": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:8754",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "PCYT1A",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      }
+    },
+    "id": "MONDO:0018998",
+    "label": "Leber congenital amaurosis"
+  },
+  "Orphanet:65743": {
+    "genes": {
+      "HGNC:7573": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:7573",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "MYH3",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0008338",
+    "label": "autosomal dominant multiple pterygium syndrome"
+  },
+  "Orphanet:710": {
+    "genes": {
+      "HGNC:3688": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:3688",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "FGFR1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:3689": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:3689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "FGFR2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:10633130|PMID:7719345|PMID:8528214|PMID:7987400"
+      }
+    },
+    "id": "MONDO:0007043",
+    "label": "Pfeiffer syndrome"
+  },
+  "Orphanet:71529": {
+    "genes": {
+      "HGNC:6932": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6932",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "MC4R",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0019115",
+    "label": "obesity due to melanocortin 4 receptor deficiency"
+  },
+  "Orphanet:73229": {
+    "genes": {
+      "HGNC:2202": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:2202",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "COL4A1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0012726",
+    "label": "autosomal dominant familial hematuria-retinal arteriolar tortuosity-contractures syndrome"
+  },
+  "Orphanet:75326": {
+    "genes": {
+      "HGNC:2202": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:2202",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "COL4A1",
+        "qualifier": "direct",
+        "relation": "RO:0002326",
+        "source": null
+      }
+    },
+    "id": "MONDO:0008373",
+    "label": "retinal arterial tortuosity (disease)"
+  },
+  "Orphanet:758": {
+    "genes": {
+      "HGNC:3356": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3356",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ENPP1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:57": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:57",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "ABCC6",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0009925",
+    "label": "inherited pseudoxanthoma elasticum"
+  },
+  "Orphanet:791": {
+    "genes": {
+      "HGNC:10012": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10012",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "RHO",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:10024": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10024",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "RLBP1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:10254": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10254",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "ROM1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:10263": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10263",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "RP1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:10274": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10274",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "RP2",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:10288": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10288",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "RP9",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:10294": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10294",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "RPE65",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:10295": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10295",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "RPGR",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:10521": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10521",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "SAG",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:10729": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:10729",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "SEMA4A",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:12406": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:12406",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "TUB",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:12423": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:12423",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "TULP1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:12601": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:12601",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "USH2A",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:12605": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:12605",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "CLRN1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:12703": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:12703",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "BEST1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:13081": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:13081",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "SCAPER",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:13210": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:13210",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "ARL6",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:1375": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:1375",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "CA4",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:14550": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:14550",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "CDHR1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:15446": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:15446",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PRPF31",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:15646": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:15646",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "KLHL7",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:15860": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:15860",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PRPF6",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:15865": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:15865",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "KIZ",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:17090": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:17090",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "ARHGEF18",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:17146": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:17146",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "ARL2BP",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:17211": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:17211",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "DHX38",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:17340": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:17340",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PRPF8",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:17348": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:17348",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PRPF3",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:17349": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:17349",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PRPF4",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:18362": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:18362",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "IMPG2",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:19139": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:19139",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "POMGNT1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:19977": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:19977",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "RDH12",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:20041": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:20041",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "ZNF408",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:20087": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:20087",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "TTC8",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:20423": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:20423",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "SPATA7",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:20603": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:20603",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "DHDDS",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": "PMID:24078709|PMID:25255364|PMID:21295283|PMID:26261414|PMID:21295282|PMID:29276052"
+      },
+      "HGNC:20606": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:20606",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "IFT88",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:2148": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2148",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "CNGA1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": "PMID:28981474|PMID:30718709|PMID:24265693|PMID:7479749"
+      },
+      "HGNC:2151": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2151",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "CNGB1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:21555": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:21555",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "EYS",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:21575": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:21575",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "AHI1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:21653": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:21653",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "TOPORS",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:21699": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:21699",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "CERKL",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:22219": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:22219",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "KIAA1549",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:2343": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2343",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "CRB1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:2383": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2383",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CRX",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:2567": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2567",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "OFD1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:25808": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:25808",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "FAM161A",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:26147": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:26147",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "AGBL5",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:26498": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:26498",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "ZNF513",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:26527": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:26527",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "HGSNAT",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:27232": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:27232",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "C8orf37",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:29077": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:29077",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "IFT140",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:29326": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:29326",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "SLC7A14",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:30078": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:30078",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "REEP6",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:30391": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:30391",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "IFT172",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:30859": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:30859",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "SNRNP200",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:32528": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:32528",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PRCD",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:34": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:34",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "ABCA4",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:34383": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:34383",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PCARE",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:348": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:348",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "AHR",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:3960": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3960",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "FSCN2",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:4679": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:4679",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "GUCA1B",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:5385": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:5385",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "IDH3B",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:6052": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6052",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "IMPDH1",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:6685": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6685",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "LRAT",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6816": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6816",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "MAK",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:694": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:694",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "ARL3",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:7027": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:7027",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "MERTK",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:7745": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:7745",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "NEK2",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:7974": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:7974",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "NR2E3",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:8002": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:8002",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "NRL",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:8785": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:8785",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PDE6A",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:8786": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:8786",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PDE6B",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:8789": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:8789",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PDE6G",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:9454": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:9454",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PROM1 (human)",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:967": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:967",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "BBS2",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:9921": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:9921",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "RBP3",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:9942": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:9942",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "PRPH2",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      },
+      "HGNC:9990": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:9990",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "RGR",
+        "qualifier": "direct",
+        "relation": "RO:0003304",
+        "source": null
+      }
+    },
+    "id": "MONDO:0019200",
+    "label": "retinitis pigmentosa"
+  },
+  "Orphanet:79333": {
+    "genes": {
+      "HGNC:18622": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:18622",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "COG7",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0012118",
+    "label": "COG7-CDG"
+  },
+  "Orphanet:794": {
+    "genes": {
+      "HGNC:12428": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:12428",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "TWIST1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      },
+      "HGNC:3689": {
+        "evidence": "ECO:0000323|ECO:0000220",
+        "id": "HGNC:3689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "FGFR2",
+        "qualifier": "direct",
+        "relation": "RO:0002607",
+        "source": null
+      }
+    },
+    "id": "MONDO:0007042",
+    "label": "Saethre-Chotzen syndrome"
+  },
+  "Orphanet:79402": {
+    "genes": {
+      "HGNC:2194": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2194",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "COL17A1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6158": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6158",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "ITGB4",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6483": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6483",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "LAMA3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6490": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6490",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "LAMB3",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6493": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6493",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "LAMC2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0019307",
+    "label": "generalized junctional epidermolysis bullosa non-Herlitz type"
+  },
+  "Orphanet:79404": {
+    "genes": {
+      "HGNC:6483": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:6483",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "LAMA3",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:27827380|PMID:17362460|PMID:11810295|PMID:16971478"
+      },
+      "HGNC:6490": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:6490",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "LAMB3",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:11023379|PMID:25708563|PMID:8824879|PMID:9242513|PMID:8983017|PMID:15538630|PMID:21801158|PMID:17476356|PMID:16971478|PMID:16473856|PMID:7698759|PMID:9205497|PMID:10577906|PMID:9160387"
+      },
+      "HGNC:6493": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:6493",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "LAMC2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0009182",
+    "label": "junctional epidermolysis bullosa Herlitz type"
+  },
+  "Orphanet:83": {
+    "genes": {
+      "HGNC:3689": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "FGFR2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0008803",
+    "label": "Antley-Bixler syndrome"
+  },
+  "Orphanet:839": {
+    "genes": {
+      "HGNC:7908": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:7908",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "NPHS1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:11562357|PMID:24742477|PMID:11726550|PMID:15338398|PMID:23949594|PMID:18614772|PMID:22584503|PMID:28204945|PMID:9660941|PMID:14570703|PMID:25349199|PMID:19194555|PMID:23595123|PMID:11854170|PMID:19812541|PMID:22565185|PMID:27019444|PMID:29474669|PMID:28117080|PMID:24902943|PMID:18503012|PMID:15780077|PMID:16518627|PMID:21415313|PMID:11317351|PMID:20798252|PMID:9915943|PMID:20172850|PMID:15213260|PMID:28780565|PMID:20507940|PMID:18709391"
+      }
+    },
+    "id": "MONDO:0009732",
+    "label": "congenital nephrotic syndrome, Finnish type"
+  },
+  "Orphanet:86830": null,
+  "Orphanet:87": {
+    "genes": {
+      "HGNC:3689": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:3689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+        "label": "FGFR2",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": "PMID:8651276|PMID:23546041|PMID:24489893|PMID:7719344|PMID:12124745|PMID:11390973|PMID:26380986|PMID:20301628|PMID:14499350|PMID:15975938|PMID:9719378|PMID:11121055|PMID:17525745|PMID:16440883"
+      }
+    },
+    "id": "MONDO:0007041",
+    "label": "apert syndrome"
+  },
+  "Orphanet:899": {
+    "genes": {
+      "HGNC:13530": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:13530",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "RXYLT1",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:15685": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:15685",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "B4GAT1",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:17997": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:17997",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "FKRP",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:19139": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:19139",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "POMGNT1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:19743": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:19743",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "POMT2",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:2202": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2202",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "COL4A1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:25902": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:25902",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "POMGNT2",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:26267": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:26267",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "POMK",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:2666": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:2666",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "DAG1",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:28596": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:28596",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "B3GALNT2",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:3622": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3622",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "FKTN",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:37276": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:37276",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "CRPPA",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      },
+      "HGNC:6511": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6511",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "LARGE1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:9202": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:9202",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "POMT1",
+        "qualifier": "direct",
+        "relation": "RO:0004012",
+        "source": null
+      }
+    },
+    "id": "MONDO:0019523",
+    "label": "Walker-Warburg syndrome"
+  },
+  "Orphanet:93258": {
+    "genes": {
+      "HGNC:3688": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3688",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "FGFR1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:3689": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "FGFR2",
+        "qualifier": "direct",
+        "relation": "RO:0004011",
+        "source": null
+      }
+    },
+    "id": "MONDO:0019659",
+    "label": "Pfeiffer syndrome type 1"
+  },
+  "Orphanet:93259": {
+    "genes": {
+      "HGNC:3689": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "FGFR2",
+        "qualifier": "direct",
+        "relation": "RO:0004011",
+        "source": null
+      }
+    },
+    "id": "MONDO:0019660",
+    "label": "Pfeiffer syndrome type 2"
+  },
+  "Orphanet:93260": {
+    "genes": {
+      "HGNC:3689": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:3689",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "FGFR2",
+        "qualifier": "direct",
+        "relation": "RO:0004011",
+        "source": null
+      }
+    },
+    "id": "MONDO:0019661",
+    "label": "Pfeiffer syndrome type 3"
+  },
+  "Orphanet:93339": {
+    "genes": {
+      "HGNC:4317": {
+        "evidence": "ECO:0000322|ECO:0000220",
+        "id": "HGNC:4317",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+        "label": "GLI1",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0008269",
+    "label": "polydactyly of a biphalangeal thumb"
+  },
+  "Orphanet:98757": {
+    "genes": {
+      "HGNC:7106": {
+        "evidence": "ECO:0000220",
+        "id": "HGNC:7106",
+        "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+        "label": "ATXN3",
+        "qualifier": "direct",
+        "relation": "RO:0003303",
+        "source": null
+      }
+    },
+    "id": "MONDO:0007182",
+    "label": "Machado-Joseph disease"
+  },
+  "Orphanet:98853": {
+    "genes": {
+      "HGNC:17084": {
+        "evidence": "ECO:0000323",
+        "id": "HGNC:17084",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "SYNE2",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:17089": {
+        "evidence": "ECO:0000323",
+        "id": "HGNC:17089",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "SYNE1",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:28472": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:28472",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "TMEM43",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      },
+      "HGNC:6636": {
+        "evidence": "ECO:0000322",
+        "id": "HGNC:6636",
+        "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+        "label": "LMNA",
+        "qualifier": "direct",
+        "relation": "RO:0004013",
+        "source": null
+      }
+    },
+    "id": "MONDO:0020336",
+    "label": "autosomal dominant Emery-Dreifuss muscular dystrophy"
+  }
+}
