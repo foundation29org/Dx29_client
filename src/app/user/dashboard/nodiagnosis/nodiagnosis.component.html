@@ -407,21 +407,21 @@
 
           </p>
           <div class="center-elements">
-            <span *ngIf="numDeprecated==phenotype.data.length && numDeprecated>0">
+            <span *ngIf="numDeprecated==phenotype.data.length && numDeprecated>0 ">
               <button *ngIf="selectedItems.length > 0" type="button" class="btn btn-outline-danger btn-lg" [disabled]='phenotype.data.length == 0 && selectedItems.length == 0' (click)="addSymptomsOption1();goToStep('2.8')">{{'diagnosis.Add symptoms' | translate }} {{'generics.and' | translate }} {{'patnodiagdashboard.step2-4.btn1' | translate }}</button>
               <button *ngIf="selectedItems.length == 0" type="button" class="btn btn-outline-danger btn-lg" [disabled]='phenotype.data.length == 0' (click)="goToStep('2.8')">
                 {{'patnodiagdashboard.step2-4.btn1' | translate }}
                 <span *ngIf="phenotype.data.length > 0 && selectedItems.length == 0" class="d-block font-small-2">{{'patnodiagdashboard.step2-4.msg3' | translate }}</span>
               </button>
             </span>
-            <span *ngIf="numDeprecated!=phenotype.data.length">
+            <span *ngIf="(numDeprecated!=phenotype.data.length) || (numDeprecated==0 && selectedItems.length > 0)">
               <button *ngIf="selectedItems.length > 0" type="button" class="btn btn-outline-danger btn-lg" [disabled]='phenotype.data.length == 0 && selectedItems.length == 0' (click)="addSymptomsOption1();goToStep('2.5')">{{'diagnosis.Add symptoms' | translate }} {{'generics.and' | translate }} {{'patnodiagdashboard.step2-4.btn1' | translate }}</button>
               <button *ngIf="selectedItems.length == 0" type="button" class="btn btn-outline-danger btn-lg" [disabled]='phenotype.data.length == 0' (click)="goToStep('2.5')">
                 {{'patnodiagdashboard.step2-4.btn1' | translate }}
                 <span *ngIf="phenotype.data.length > 0 && selectedItems.length == 0" class="d-block font-small-2">{{'patnodiagdashboard.step2-4.msg3' | translate }}</span>
               </button>
             </span>
-            <span *ngIf="phenotype.data.length == 0" class="d-block danger">{{'patnodiagdashboard.step2-4.msg4' | translate }}</span>
+            <span *ngIf="phenotype.data.length == 0 && selectedItems.length == 0" class="d-block danger">{{'patnodiagdashboard.step2-4.msg4' | translate }}</span>
           </div>
         </div>
 
