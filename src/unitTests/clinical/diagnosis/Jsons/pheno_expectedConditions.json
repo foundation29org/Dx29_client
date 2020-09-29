@@ -1,0 +1,2604 @@
+{
+  "diseases": [
+    {
+      "name": {
+        "label": "familial temporal lobe epilepsy 7",
+        "id": "MONDO:0014639"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 13.970423722335205,
+            "id": "HP:0011158",
+            "label": "Focal sensory seizure with auditory features"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "familial temporal lobe epilepsy 8",
+        "id": "MONDO:0014650"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 10.1630688002776,
+            "id": "HP:0002384",
+            "label": "Focal impaired awareness seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "epilepsy, idiopathic generalized, susceptibility to, 10",
+        "id": "MONDO:0013103"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "seizures, benign familial neonatal, 2",
+        "id": "MONDO:0007366"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.634140334470773,
+            "id": "MP:0003997",
+            "label": "tonic-clonic seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "FEB1",
+        "id": "MONDO:0007367"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 10.512992103697908,
+            "id": "HP:0010818",
+            "label": "Generalized tonic seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "familial temporal lobe epilepsy 6",
+        "id": "MONDO:0014308"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "Autosomal dominant epilepsy with auditory features",
+        "id": "MONDO:0010898"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 10.1630688002776,
+            "id": "HP:0002384",
+            "label": "Focal impaired awareness seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "familial temporal lobe epilepsy 2",
+        "id": "MONDO:0011965"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 10.1630688002776,
+            "id": "HP:0002384",
+            "label": "Focal impaired awareness seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "BFNS3",
+        "id": "MONDO:0011990"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.634140334470773,
+            "id": "MP:0003997",
+            "label": "tonic-clonic seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "myoclonic epilepsy, progressive",
+        "id": "MONDO:0010682"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 8.659995197142958,
+            "id": "HP:0002123",
+            "label": "Generalized myoclonic seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "ABeta amyloidosis, Arctic type",
+        "id": "MONDO:0017949"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "epilepsy, idiopathic generalized, susceptibility to, 11",
+        "id": "MONDO:0011875"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 8.5384643150591,
+            "id": "MP:0003216",
+            "label": "absence seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "myoclonic epilepsy, Hartung type",
+        "id": "MONDO:0008041"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 8.659995197142958,
+            "id": "HP:0002123",
+            "label": "Generalized myoclonic seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "epilepsy, juvenile myoclonic, susceptibility to, 10",
+        "id": "MONDO:0060671"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "epilepsy, familial adult myoclonic, 7",
+        "id": "MONDO:0054847"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "febrile seizures, familial, 4",
+        "id": "MONDO:0011443"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 10.512992103697908,
+            "id": "HP:0010818",
+            "label": "Generalized tonic seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "generalized epilepsy with febrile seizures plus, type 2",
+        "id": "MONDO:0011461"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 10.512992103697908,
+            "id": "HP:0010818",
+            "label": "Generalized tonic seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "EIG7",
+        "id": "MONDO:0011491"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.634140334470773,
+            "id": "MP:0003997",
+            "label": "tonic-clonic seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "epilepsy, childhood absence, susceptibility to, 5",
+        "id": "MONDO:0012843"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 8.5384643150591,
+            "id": "MP:0003216",
+            "label": "absence seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "autosomal dominant nocturnal frontal lobe epilepsy 3",
+        "id": "MONDO:0011545"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "myoclonus, familial, 2",
+        "id": "MONDO:0100092"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 12.522996895164962,
+            "id": "HP:0045084",
+            "label": "Limb myoclonus"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "generalized epilepsy with febrile seizures plus, type 1",
+        "id": "MONDO:0011416"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "FEB2",
+        "id": "MONDO:0011231"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 10.512992103697908,
+            "id": "HP:0010818",
+            "label": "Generalized tonic seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "familial temporal lobe epilepsy 5",
+        "id": "MONDO:0013741"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "EJM9",
+        "id": "MONDO:0013665"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "GEFSP4",
+        "id": "MONDO:0012346"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "FEB6",
+        "id": "MONDO:0012224"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 10.512992103697908,
+            "id": "HP:0010818",
+            "label": "Generalized tonic seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "FEB5",
+        "id": "MONDO:0012226"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 10.512992103697908,
+            "id": "HP:0010818",
+            "label": "Generalized tonic seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "clonic hemifacial spasm",
+        "id": "MONDO:0007713"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 13.331351817222567,
+            "id": "HP:0010828",
+            "label": "Hemifacial spasm"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "seizures, benign familial infantile, 5",
+        "id": "MONDO:0014903"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.634140334470773,
+            "id": "MP:0003997",
+            "label": "tonic-clonic seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "epilepsy, idiopathic generalized, susceptibility to, 14",
+        "id": "MONDO:0014734"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "generalized epilepsy with febrile seizures plus, type 7",
+        "id": "MONDO:0013470"
+      },
+      "score": 100,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "generalized epilepsy with febrile seizures plus, type 9",
+        "id": "MONDO:0014517"
+      },
+      "score": 95,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 10.1630688002776,
+            "id": "HP:0002384",
+            "label": "Focal impaired awareness seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "EJM1",
+        "id": "MONDO:0020752"
+      },
+      "score": 93,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 8.5384643150591,
+            "id": "MP:0003216",
+            "label": "absence seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "EIG1",
+        "id": "MONDO:0010918"
+      },
+      "score": 92,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 8.5384643150591,
+            "id": "MP:0003216",
+            "label": "absence seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "epilepsy, idiopathic generalized, susceptibility to, 9",
+        "id": "MONDO:0011892"
+      },
+      "score": 91,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 8.5384643150591,
+            "id": "MP:0003216",
+            "label": "absence seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "FEB9",
+        "id": "MONDO:0012707"
+      },
+      "score": 91,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "febrile seizures, familial, 11",
+        "id": "MONDO:0024566"
+      },
+      "score": 91,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "epilepsy, juvenile absence, susceptibility to, 1",
+        "id": "MONDO:0020772"
+      },
+      "score": 91,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 8.5384643150591,
+            "id": "MP:0003216",
+            "label": "absence seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "EJM4",
+        "id": "MONDO:0012655"
+      },
+      "score": 90,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.634140334470773,
+            "id": "MP:0003997",
+            "label": "tonic-clonic seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "familial temporal lobe epilepsy 3",
+        "id": "MONDO:0012705"
+      },
+      "score": 90,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 10.1630688002776,
+            "id": "HP:0002384",
+            "label": "Focal impaired awareness seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "febrile seizures, familial, 8",
+        "id": "MONDO:0011891"
+      },
+      "score": 88,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "epilepsy, childhood absence, susceptibility to, 1",
+        "id": "MONDO:0020759"
+      },
+      "score": 88,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "reading seizures",
+        "id": "MONDO:0007560"
+      },
+      "score": 87,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "autosomal dominant nocturnal frontal lobe epilepsy 1",
+        "id": "MONDO:0010899"
+      },
+      "score": 87,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 8.255928815685117,
+            "id": "MP:0014120",
+            "label": "focal seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "nystagmus, myoclonic",
+        "id": "MONDO:0010694"
+      },
+      "score": 87,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.274069381721379,
+            "id": "MP:0000243",
+            "label": "myoclonus"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "myoclonic dystonia 15",
+        "id": "MONDO:0011844"
+      },
+      "score": 87,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.274069381721379,
+            "id": "MP:0000243",
+            "label": "myoclonus"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "PSMNSB",
+        "id": "MONDO:0011733"
+      },
+      "score": 87,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.274069381721379,
+            "id": "MP:0000243",
+            "label": "myoclonus"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "intellectual disability, X-linked 96",
+        "id": "MONDO:0010429"
+      },
+      "score": 87,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "convulsive disorder, familial, with prenatal or early onset",
+        "id": "MONDO:0009013"
+      },
+      "score": 87,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.274069381721379,
+            "id": "MP:0000243",
+            "label": "myoclonus"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "X-linked intellectual disability-epilepsy syndrome",
+        "id": "MONDO:0016160"
+      },
+      "score": 87,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "epilepsy, idiopathic generalized, susceptibility to, 12",
+        "id": "MONDO:0013919"
+      },
+      "score": 87,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.634140334470773,
+            "id": "MP:0003997",
+            "label": "tonic-clonic seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "encephalitis/encephalopathy, mild, with reversible myelin vacuolization",
+        "id": "MONDO:0020853"
+      },
+      "score": 87,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "epilepsy, familial focal, with variable foci 2",
+        "id": "MONDO:0014924"
+      },
+      "score": 87,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "epilepsy, familial focal, with variable foci 3",
+        "id": "MONDO:0014925"
+      },
+      "score": 87,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "EIG3",
+        "id": "MONDO:0012113"
+      },
+      "score": 87,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.634140334470773,
+            "id": "MP:0003997",
+            "label": "tonic-clonic seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "epileptic encephalopathy, early infantile, 19",
+        "id": "MONDO:0014328"
+      },
+      "score": 86,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "progressive myoclonic epilepsy type 8",
+        "id": "MONDO:0014545"
+      },
+      "score": 85,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.634140334470773,
+            "id": "MP:0003997",
+            "label": "tonic-clonic seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "seizures, benign familial neonatal, 1",
+        "id": "MONDO:0007365"
+      },
+      "score": 83,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "hereditary geniospasm",
+        "id": "MONDO:0008588"
+      },
+      "score": 83,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 14.330351817222567,
+            "id": "HP:0012462",
+            "label": "Chin myoclonus"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "epilepsy, familial adult myoclonic, 5",
+        "id": "MONDO:0014167"
+      },
+      "score": 83,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 13.970423722335205,
+            "id": "HP:0011165",
+            "label": "Focal sensory seizure with visual features"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "seizures, benign familial infantile, 2",
+        "id": "MONDO:0011593"
+      },
+      "score": 83,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.408834870657568,
+            "id": "HP:0002197",
+            "label": "Generalized-onset seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "deafness, congenital, and familial myoclonic epilepsy",
+        "id": "MONDO:0009077"
+      },
+      "score": 83,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.274069381721379,
+            "id": "MP:0000243",
+            "label": "myoclonus"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "familial temporal lobe epilepsy 4",
+        "id": "MONDO:0012706"
+      },
+      "score": 83,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 10.1630688002776,
+            "id": "HP:0002384",
+            "label": "Focal impaired awareness seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "autosomal dominant nocturnal frontal lobe epilepsy 2",
+        "id": "MONDO:0011297"
+      },
+      "score": 83,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.634140334470773,
+            "id": "MP:0003997",
+            "label": "tonic-clonic seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "retinal degeneration and epilepsy",
+        "id": "MONDO:0009976"
+      },
+      "score": 80,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "Hhhh syndrome",
+        "id": "MONDO:0010608"
+      },
+      "score": 80,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "Kifafa seizure disorder",
+        "id": "MONDO:0009497"
+      },
+      "score": 80,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "perioral myoclonia with absences",
+        "id": "MONDO:0015345"
+      },
+      "score": 80,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 8.5384643150591,
+            "id": "HP:0002121",
+            "label": "Generalized non-motor (absence) seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "juvenile absence epilepsy",
+        "id": "MONDO:0011876"
+      },
+      "score": 80,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "intellectual disability, autosomal dominant 3",
+        "id": "MONDO:0012946"
+      },
+      "score": 80,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "epilepsy, hot water, 1",
+        "id": "MONDO:0024508"
+      },
+      "score": 80,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "MRT10",
+        "id": "MONDO:0012618"
+      },
+      "score": 80,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "paroxysmal nonkinesigenic dyskinesia 2",
+        "id": "MONDO:0012629"
+      },
+      "score": 80,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "MRT16",
+        "id": "MONDO:0013629"
+      },
+      "score": 80,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "intellectual disability, autosomal dominant 41",
+        "id": "MONDO:0014842"
+      },
+      "score": 80,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "intellectual developmental disorder, autosomal recessive 67",
+        "id": "MONDO:0032662"
+      },
+      "score": 80,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "epilepsy, idiopathic generalized, susceptibility to, 15",
+        "id": "MONDO:0032699"
+      },
+      "score": 80,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 8.5384643150591,
+            "id": "MP:0003216",
+            "label": "absence seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "intellectual disability, autosomal recessive 52",
+        "id": "MONDO:0014815"
+      },
+      "score": 80,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "epileptic encephalopathy, early infantile, 11",
+        "id": "MONDO:0013388"
+      },
+      "score": 78,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.634140334470773,
+            "id": "MP:0003997",
+            "label": "tonic-clonic seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "benign adult familial myoclonic epilepsy",
+        "id": "MONDO:0019448"
+      },
+      "score": 77,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.408834870657568,
+            "id": "HP:0002197",
+            "label": "Generalized-onset seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "FAME4",
+        "id": "MONDO:0014055"
+      },
+      "score": 77,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.634140334470773,
+            "id": "MP:0003997",
+            "label": "tonic-clonic seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "childhood onset epileptic encephalopathy",
+        "id": "MONDO:0014150"
+      },
+      "score": 76,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "juvenile myoclonic epilepsy",
+        "id": "MONDO:0009696"
+      },
+      "score": 76,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "FAME3",
+        "id": "MONDO:0013322"
+      },
+      "score": 75,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.634140334470773,
+            "id": "HP:0002069",
+            "label": "Bilateral tonic-clonic seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "ataxia with myoclonic epilepsy and presenile dementia",
+        "id": "MONDO:0008836"
+      },
+      "score": 75,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.274069381721379,
+            "id": "MP:0000243",
+            "label": "myoclonus"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "West syndrome",
+        "id": "MONDO:0018097"
+      },
+      "score": 75,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.274069381721379,
+            "id": "MP:0000243",
+            "label": "myoclonus"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "polymicrogyria, bilateral perisylvian, autosomal recessive",
+        "id": "MONDO:0014333"
+      },
+      "score": 75,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "X-linked intellectual disability-seizures-psoriasis syndrome",
+        "id": "MONDO:0010652"
+      },
+      "score": 75,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "rolandic epilepsy, mental retardation, and speech dyspraxia, X-linked",
+        "id": "MONDO:0010388"
+      },
+      "score": 75,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 8.255928815685117,
+            "id": "MP:0014120",
+            "label": "focal seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "intellectual disability, X-linked 41",
+        "id": "MONDO:0010451"
+      },
+      "score": 75,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 8.5384643150591,
+            "id": "MP:0003216",
+            "label": "absence seizures"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "MRX88",
+        "id": "MONDO:0010454"
+      },
+      "score": 75,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "intellectual disability, X-linked, with or without seizures, arx-related",
+        "id": "MONDO:0010317"
+      },
+      "score": 75,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "MRX77",
+        "id": "MONDO:0010329"
+      },
+      "score": 75,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "epilepsy, photogenic, with spastic diplegia and mental retardation",
+        "id": "MONDO:0009186"
+      },
+      "score": 75,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 11.906034394443807,
+            "id": "HP:0007207",
+            "label": "Photosensitive tonic-clonic seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "branched-chain keto acid dehydrogenase kinase deficiency",
+        "id": "MONDO:0013970"
+      },
+      "score": 75,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "Leber congenital amaurosis 10",
+        "id": "MONDO:0012723"
+      },
+      "score": 75,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "myoclonic-astastic epilepsy",
+        "id": "MONDO:0016025"
+      },
+      "score": 75,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 9.172410744499059,
+            "id": "HP:0002373",
+            "label": "Febrile seizure (within the age range of 3 months to 6 years)"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "intellectual disability, autosomal dominant 2",
+        "id": "MONDO:0013581"
+      },
+      "score": 75,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "label": "myoclonic cerebellar dyssynergia",
+        "id": "MONDO:0008945"
+      },
+      "score": 75,
+      "matches": [
+        {
+          "reference": {
+            "IC": 4.307429749371488,
+            "id": "HP:0001250",
+            "label": "Seizure"
+          },
+          "match": {
+            "IC": 7.274069381721379,
+            "id": "MP:0000243",
+            "label": "myoclonus"
+          },
+          "lcs": {
+            "IC": 4.307429749371488,
+            "id": "MP:0002064",
+            "label": "seizures"
+          }
+        }
+      ]
+    }
+  ]
+}

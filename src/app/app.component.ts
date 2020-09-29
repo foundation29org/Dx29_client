@@ -100,6 +100,7 @@ export class AppComponent implements OnInit, OnDestroy{
       var date = Date.now();
       this.subscription.add( this.http.get(environment.settingsAccessToken.blobAccountUrl+'version.json'+environment.settingsAccessToken.sasToken+'&'+date)
        .subscribe( (res : any) => {
+         console.log(res)
          this.versionServer = res;
          if(this.versionServer.launchTime!=null){
             this.actualVersion.secondsNextRelease = this.getSecondsToNextRelease(this.versionServer.launchTime);
@@ -352,7 +353,12 @@ export class AppComponent implements OnInit, OnDestroy{
       .filter((route) => route.outlet === 'primary')
       .mergeMap((route) => route.data)
       .subscribe((event) => {
-        this.titleService.setTitle(this.translate.instant(event['title']));
+        (async () => {
+             await this.delay(500);
+             var titulo= this.translate.instant(event['title']);
+             this.titleService.setTitle(titulo);
+         })();
+
         this.secondsInactive=0;
         //para los anchor de la misma páginano hacer scroll hasta arriba
         if(this.actualPage != event['title']){
@@ -390,6 +396,9 @@ export class AppComponent implements OnInit, OnDestroy{
       }.bind(this));
     }
 
+    delay(ms: number) {
+      return new Promise( resolve => setTimeout(resolve, ms) );
+    }
      // when the component is destroyed, unsubscribe to prevent memory leaks
      ngOnDestroy(){
        if (this.loggerSubscription) {

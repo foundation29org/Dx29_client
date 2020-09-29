@@ -82,6 +82,22 @@ export class AuthGuard implements CanActivate {
 
   reload(){
     Swal.fire({
+        title: this.translate.instant("InfoSystem.titleReload"),
+        html: this.translate.instant("InfoSystem.bodyReload"),
+        icon: 'warning',
+        showCancelButton: false,
+        confirmButtonColor: '#0CC27E',
+        cancelButtonColor: '#f9423a',
+        confirmButtonText: 'Ok',
+        showLoaderOnConfirm: true,
+        allowOutsideClick: false
+    }).then((result) => {
+      if (result.value) {
+        location.reload();
+      }
+    });
+
+    /*Swal.fire({
       icon: 'warning',
       title: this.translate.instant("InfoSystem.titleReload"),
       html: this.translate.instant("InfoSystem.bodyReload")
@@ -89,7 +105,7 @@ export class AuthGuard implements CanActivate {
     //this.toastr.error('', this.translate.instant("generics.sessionClosed"));
     //this.authService.logout();
     //this.router.navigate([this.authService.getLoginUrl()]);
-    location.reload();
+    location.reload();*/
   }
 
 }

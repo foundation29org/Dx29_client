@@ -1,0 +1,963 @@
+{
+    "ATXN3": {
+      "diseases": {
+        "MONDO:0007182": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0007182",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "Machado-Joseph disease",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0017174": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0017174",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "Machado-Joseph disease type 1",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0017175": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0017175",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "Machado-Joseph disease type 2",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0017176": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0017176",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "Machado-Joseph disease type 3",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        }
+      },
+      "id": "HGNC:7106",
+      "label": "ATXN3"
+    },
+    "AXIN1": {
+      "diseases": {
+        "MONDO:0007256": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0007256",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "hepatocellular carcinoma",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0016216": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0016216",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "adult hepatocellular carcinoma",
+          "qualifier": "direct",
+          "relation": "RO:0004014",
+          "source": null
+        }
+      },
+      "id": "HGNC:903",
+      "label": "AXIN1"
+    },
+    "BDKRB1": null,
+    "BICD1": null,
+    "CACNA2D3": null,
+    "CELSR1": null,
+    "CNTN3": null,
+    "COG7": {
+      "diseases": {
+        "MONDO:0012118": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0012118",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "COG7-CDG",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        }
+      },
+      "id": "HGNC:18622",
+      "label": "COG7"
+    },
+    "COL4A1": {
+      "diseases": {
+        "MONDO:0008289": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0008289",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "porencephaly 1",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0008373": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0008373",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "retinal arterial tortuosity (disease)",
+          "qualifier": "direct",
+          "relation": "RO:0002326",
+          "source": null
+        },
+        "MONDO:0011865": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0011865",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "COL4A1-related familial vascular leukoencephalopathy",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0012726": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0012726",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "autosomal dominant familial hematuria-retinal arteriolar tortuosity-contractures syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0018786": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0018786",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "pontine autosomal dominant microangiopathy with leukoencephalopathy",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0018829": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0018829",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "familial schizencephaly",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0019523": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0019523",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "Walker-Warburg syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0020496": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0020496",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "familial porencephaly",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        }
+      },
+      "id": "HGNC:2202",
+      "label": "COL4A1"
+    },
+    "CRX": {
+      "diseases": {
+        "MONDO:0007362": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0007362",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "cone-rod dystrophy 2",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0013449": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0013449",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "Leber congenital amaurosis 7",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0015993": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0015993",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "cone-rod dystrophy",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0018998": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0018998",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "Leber congenital amaurosis",
+          "qualifier": "direct",
+          "relation": "RO:0003304",
+          "source": null
+        },
+        "MONDO:0019200": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0019200",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "retinitis pigmentosa",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        }
+      },
+      "id": "HGNC:2383",
+      "label": "CRX"
+    },
+    "CRY2": null,
+    "CTBP2": null,
+    "CYP2E1": null,
+    "DELEC1": null,
+    "DNAH8": null,
+    "DNM2": {
+      "diseases": {
+        "MONDO:0008048": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0008048",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "autosomal dominant centronuclear myopathy",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0011674": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0011674",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+          "label": "Charcot-Marie-Tooth disease dominant intermediate b",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": "PMID:25501959|PMID:20529869|PMID:16227997|PMID:24016602|PMID:25492887|PMID:20817456|PMID:28676641|PMID:22613877"
+        },
+        "MONDO:0014149": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0014149",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "fetal akinesia-cerebral and retinal hemorrhage syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0016431": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0016431",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "autosomal dominant Charcot-Marie-Tooth disease type 2M",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        }
+      },
+      "id": "HGNC:2974",
+      "label": "DNM2"
+    },
+    "DNMBP": {
+      "diseases": {
+        "MONDO:0021548": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0021548",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "total early-onset cataract",
+          "qualifier": "direct",
+          "relation": "RO:0004012",
+          "source": null
+        }
+      },
+      "id": "HGNC:30373",
+      "label": "DNMBP"
+    },
+    "DYRK1A": {
+      "diseases": {
+        "MONDO:0013578": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0013578",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://data.monarchinitiative.org/ttl/clinvar.nt",
+          "label": "DYRK1A-related intellectual disability syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": "PMID:26922654|PMID:25944381|PMID:29034068|PMID:28053047|PMID:25641759|PMID:26633545|PMID:25167861|PMID:25920557|PMID:27241786"
+        },
+        "MONDO:0018733": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0018733",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "intellectual disability syndrome due to a DYRK1A point mutation",
+          "qualifier": "direct",
+          "relation": "RO:0004012",
+          "source": null
+        }
+      },
+      "id": "HGNC:3091",
+      "label": "DYRK1A"
+    },
+    "EIF2B2": {
+      "diseases": {
+        "MONDO:0011380": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0011380",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://data.monarchinitiative.org/ttl/clinvar.nt",
+          "label": "leukoencephalopathy with vanishing white matter",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": "PMID:18263758|PMID:21560189|PMID:14566705|PMID:22430157|PMID:27159321|PMID:15776425"
+        },
+        "MONDO:0015519": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0015519",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "congenital or early infantile CACH syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0015520": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0015520",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "late infantile CACH syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0015521": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0015521",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "juvenile or adult CACH syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0020506": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0020506",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "ovarioleukodystrophy",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0020507": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0020507",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "Cree leukoencephalopathy",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        }
+      },
+      "id": "HGNC:3258",
+      "label": "EIF2B2"
+    },
+    "EIF4A2": null,
+    "ENPP1": {
+      "diseases": {
+        "MONDO:0008817": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0008817",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "arterial calcification, generalized, of infancy, 1",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0009925": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0009925",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "inherited pseudoxanthoma elasticum",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0013219": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0013219",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "hypophosphatemic rickets, autosomal recessive, 2",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0014227": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0014227",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "hypopigmentation-punctate palmoplantar keratoderma syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0017324": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0017324",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "autosomal recessive hypophosphatemic rickets",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0018870": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0018870",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "arterial calcification of infancy",
+          "qualifier": "direct",
+          "relation": "RO:0003304",
+          "source": null
+        }
+      },
+      "id": "HGNC:3356",
+      "label": "ENPP1"
+    },
+    "FGFR2": {
+      "diseases": {
+        "MONDO:0001056": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0001056",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "gastric cancer",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0007041": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0007041",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+          "label": "apert syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": "PMID:8651276|PMID:23546041|PMID:24489893|PMID:7719344|PMID:12124745|PMID:11390973|PMID:26380986|PMID:20301628|PMID:14499350|PMID:15975938|PMID:9719378|PMID:11121055|PMID:17525745|PMID:16440883"
+        },
+        "MONDO:0007042": {
+          "evidence": "ECO:0000323|ECO:0000220",
+          "id": "MONDO:0007042",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "Saethre-Chotzen syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0002607",
+          "source": null
+        },
+        "MONDO:0007043": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0007043",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://data.monarchinitiative.org/ttl/clinvar.nt",
+          "label": "Pfeiffer syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": "PMID:10633130|PMID:7719345|PMID:8528214|PMID:7987400"
+        },
+        "MONDO:0007400": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0007400",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "Jackson-Weiss syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0007405": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0007405",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+          "label": "Crouzon syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0007412": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0007412",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "Beare-Stevenson cutis gyrata syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0007872": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0007872",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "LADD syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0008803": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0008803",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "Antley-Bixler syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0012307": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0012307",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "familial scaphocephaly syndrome, McGillivray type",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0013815": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0013815",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "FGFR2-related bent bone dysplasia",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0019659": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0019659",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "Pfeiffer syndrome type 1",
+          "qualifier": "direct",
+          "relation": "RO:0004011",
+          "source": null
+        },
+        "MONDO:0019660": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0019660",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "Pfeiffer syndrome type 2",
+          "qualifier": "direct",
+          "relation": "RO:0004011",
+          "source": null
+        },
+        "MONDO:0019661": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0019661",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "Pfeiffer syndrome type 3",
+          "qualifier": "direct",
+          "relation": "RO:0004011",
+          "source": null
+        },
+        "MONDO:0020667": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0020667",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "Antley-Bixler syndrome without genital anomalies or disordered steroidogenesis",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        }
+      },
+      "id": "HGNC:3689",
+      "label": "FGFR2"
+    },
+    "FKBP4": null,
+    "GLI1": {
+      "diseases": {
+        "MONDO:0008269": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0008269",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "polydactyly of a biphalangeal thumb",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0009162": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0009162",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "Ellis-van Creveld syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0004012",
+          "source": null
+        },
+        "MONDO:0029130": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0029130",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "polydactyly, postaxial, type A8",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        }
+      },
+      "id": "HGNC:4317",
+      "label": "GLI1"
+    },
+    "GMPR2": null,
+    "HCAR2": null,
+    "HNF1A": {
+      "diseases": {
+        "MONDO:0007718": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0007718",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "hepatic adenomas, familial",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0007763": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0007763",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "nonpapillary renal cell carcinoma",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0010894": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0010894",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "maturity-onset diabetes of the young type 3",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0012919": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0012919",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "type 1 diabetes mellitus 20",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0017935": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0017935",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "hyperinsulinism due to HNF1A deficiency",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0018911": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0018911",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "maturity-onset diabetes of the young (disease)",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        }
+      },
+      "id": "HGNC:11621",
+      "label": "HNF1A"
+    },
+    "KCNG2": null,
+    "KCNJ12": null,
+    "KRT4": {
+      "diseases": {
+        "MONDO:0008676": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0008676",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "white sponge nevus 1",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0015748": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0015748",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "hereditary mucosal leukokeratosis",
+          "qualifier": "direct",
+          "relation": "RO:0003304",
+          "source": null
+        }
+      },
+      "id": "HGNC:6441",
+      "label": "KRT4"
+    },
+    "LAMA3": {
+      "diseases": {
+        "MONDO:0009180": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0009180",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "junctional epidermolysis bullosa, non-Herlitz type",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0009182": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0009182",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+          "label": "junctional epidermolysis bullosa Herlitz type",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": "PMID:27827380|PMID:17362460|PMID:11810295|PMID:16971478"
+        },
+        "MONDO:0009513": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0009513",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "laryngo-onycho-cutaneous syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0019307": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0019307",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "generalized junctional epidermolysis bullosa non-Herlitz type",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        }
+      },
+      "id": "HGNC:6483",
+      "label": "LAMA3"
+    },
+    "MUC6": null,
+    "MYH3": {
+      "diseases": {
+        "MONDO:0008338": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0008338",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "autosomal dominant multiple pterygium syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0008675": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0008675",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "freeman-Sheldon syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0009926": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0009926",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "autosomal recessive multiple pterygium syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0010094": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0010094",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "spondylocarpotarsal synostosis syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0011128": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0011128",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "Sheldon-hall syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0015240": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0015240",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "digitotalar dysmorphism",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        }
+      },
+      "id": "HGNC:7573",
+      "label": "MYH3"
+    },
+    "NPHS1": {
+      "diseases": {
+        "MONDO:0009732": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0009732",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet|https://data.monarchinitiative.org/ttl/clinvar.nt",
+          "label": "congenital nephrotic syndrome, Finnish type",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": "PMID:11562357|PMID:24742477|PMID:11726550|PMID:15338398|PMID:23949594|PMID:18614772|PMID:22584503|PMID:28204945|PMID:9660941|PMID:14570703|PMID:25349199|PMID:19194555|PMID:23595123|PMID:11854170|PMID:19812541|PMID:22565185|PMID:27019444|PMID:29474669|PMID:28117080|PMID:24902943|PMID:18503012|PMID:15780077|PMID:16518627|PMID:21415313|PMID:11317351|PMID:20798252|PMID:9915943|PMID:20172850|PMID:15213260|PMID:28780565|PMID:20507940|PMID:18709391"
+        },
+        "MONDO:0019006": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0019006",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "familial idiopathic steroid-resistant nephrotic syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        }
+      },
+      "id": "HGNC:7908",
+      "label": "NPHS1"
+    },
+    "PDGFRB": {
+      "diseases": {
+        "MONDO:0007546": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0007546",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "myeloproliferative disorder, chronic, with eosinophilia",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0008947": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0008947",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "bilateral striopallidodentate calcinosis",
+          "qualifier": "direct",
+          "relation": "RO:0003304",
+          "source": null
+        },
+        "MONDO:0009227": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0009227",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://data.monarchinitiative.org/ttl/clinvar.nt",
+          "label": "myofibromatosis, infantile, 1",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": "PMID:26455322|PMID:23731542|PMID:23731537|PMID:28183292"
+        },
+        "MONDO:0011150": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0011150",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "acroosteolysis-keloid-like lesions-premature aging syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0014004": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0014004",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "basal ganglia calcification, idiopathic, 4",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0014704": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0014704",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "skeletal overgrowth-craniofacial dysmorphism-hyperelastic skin-white matter lesions syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0016824": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0016824",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "myofibromatosis",
+          "qualifier": "direct",
+          "relation": "RO:0003304",
+          "source": null
+        }
+      },
+      "id": "HGNC:8804",
+      "label": "PDGFRB"
+    },
+    "PFKP": null,
+    "PGF": null,
+    "PLCB1": {
+      "diseases": {
+        "MONDO:0013389": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0013389",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "epileptic encephalopathy, early infantile, 12",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0017385": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0017385",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "malignant migrating partial seizures of infancy",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        },
+        "MONDO:0018097": {
+          "evidence": "ECO:0000322",
+          "id": "MONDO:0018097",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "West syndrome",
+          "qualifier": "direct",
+          "relation": "RO:0004012",
+          "source": null
+        }
+      },
+      "id": "HGNC:15917",
+      "label": "PLCB1"
+    },
+    "RAP2B": null,
+    "SCN7A": null,
+    "SLC39A14": {
+      "diseases": {
+        "MONDO:0014864": {
+          "evidence": "ECO:0000322|ECO:0000220",
+          "id": "MONDO:0014864",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim|https://archive.monarchinitiative.org/#orphanet",
+          "label": "hypermanganesemia with dystonia 2",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        }
+      },
+      "id": "HGNC:20858",
+      "label": "SLC39A14"
+    },
+    "SYNE2": {
+      "diseases": {
+        "MONDO:0013072": {
+          "evidence": "ECO:0000220",
+          "id": "MONDO:0013072",
+          "is_defined_by": "https://archive.monarchinitiative.org/#omim",
+          "label": "Emery-Dreifuss muscular dystrophy 5, autosomal dominant",
+          "qualifier": "direct",
+          "relation": "RO:0003303",
+          "source": null
+        },
+        "MONDO:0020336": {
+          "evidence": "ECO:0000323",
+          "id": "MONDO:0020336",
+          "is_defined_by": "https://archive.monarchinitiative.org/#orphanet",
+          "label": "autosomal dominant Emery-Dreifuss muscular dystrophy",
+          "qualifier": "direct",
+          "relation": "RO:0004013",
+          "source": null
+        }
+      },
+      "id": "HGNC:17084",
+      "label": "SYNE2"
+    },
+    "TAX1BP1": null,
+    "TBC1D4": null,
+    "TFB1M": null,
+    "TPTE": null
+  }
