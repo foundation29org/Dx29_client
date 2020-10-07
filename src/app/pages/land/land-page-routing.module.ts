@@ -7,6 +7,7 @@ import { DiagnosedPatientPageComponent } from "./diagnosedpatient/diagnosedpatie
 import { UndiagnosedPatientPageComponent } from "./undiagnosedpatient/undiagnosedpatient-page.component";
 import { EdHubPageComponent } from "./ed-hub/ed-hub-page.component";
 import { AttributionsComponent } from "./attributions/attributions.component";
+import { GtpPageComponent } from "./gtp/gtp-page.component";
 
 const routes: Routes = [
   {
@@ -52,6 +53,13 @@ const routes: Routes = [
         component: AttributionsComponent,
         data: {
           title: 'menu.Attributions'
+        }
+      },
+      {
+        path: 'gtp',
+        component: GtpPageComponent,
+        data: {
+          title: 'menu.Genetic testing program'
         }
       }
     ]

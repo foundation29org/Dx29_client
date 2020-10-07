@@ -33,6 +33,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
     isUndiagnosedPatientPage: boolean = false;
     isEdHubPage: boolean = false;
     isAttributionsPage: boolean = false;
+    isGTPPage: boolean = false;
     role: string = 'Clinical';
     subrole: string = 'null';
     private subscription: Subscription = new Subscription();
@@ -63,6 +64,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
             this.isPatientPage = false;
             this.isEdHubPage = false;
             this.isAttributionsPage = false;
+            this.isGTPPage = false;
             this.isUndiagnosedPatientPage = false;
             this.role = 'Clinical';
             this.subrole = 'null';
@@ -72,6 +74,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
             this.isPatientPage = false;
             this.isEdHubPage = false;
             this.isAttributionsPage = false;
+            this.isGTPPage = false;
             this.isUndiagnosedPatientPage = false;
             this.role = 'Clinical';
             this.subrole = 'null';
@@ -81,6 +84,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
             this.isClinicianPage = false;
             this.isEdHubPage = false;
             this.isAttributionsPage = false;
+            this.isGTPPage = false;
             this.isUndiagnosedPatientPage = false;
             this.role = 'User';
             this.subrole = 'HaveDiagnosis';
@@ -90,6 +94,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
             this.isClinicianPage = false;
             this.isEdHubPage = false;
             this.isAttributionsPage = false;
+            this.isGTPPage = false;
             this.isUndiagnosedPatientPage = true;
             this.role = 'User';
             this.subrole = 'NoDiagnosis';
@@ -99,6 +104,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
             this.isClinicianPage = false;
             this.isEdHubPage = true;
             this.isAttributionsPage = false;
+            this.isGTPPage = false;
             this.isUndiagnosedPatientPage = false;
           }else if(tempUrl.indexOf('/attributions')!=-1){
             this.isHomePage = false;
@@ -106,6 +112,15 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
             this.isClinicianPage = false;
             this.isEdHubPage = false;
             this.isAttributionsPage = true;
+            this.isGTPPage = false;
+            this.isUndiagnosedPatientPage = false;
+          }else if(tempUrl.indexOf('/gtp')!=-1){
+            this.isHomePage = false;
+            this.isPatientPage = false;
+            this.isClinicianPage = false;
+            this.isEdHubPage = false;
+            this.isAttributionsPage = false;
+            this.isGTPPage = true;
             this.isUndiagnosedPatientPage = false;
           }else{
             this.isHomePage = false;
@@ -113,6 +128,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
             this.isPatientPage = false;
             this.isEdHubPage = false;
             this.isAttributionsPage = false;
+            this.isGTPPage = false;
             this.isUndiagnosedPatientPage = false;
           }
 
@@ -133,6 +149,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
             this.isPatientPage = false;
             this.isEdHubPage = false;
             this.isAttributionsPage = false;
+            this.isGTPPage = false;
             this.isUndiagnosedPatientPage = false;
             this.role = 'Clinical';
             this.subrole = 'null';
@@ -142,6 +159,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
             this.isPatientPage = false;
             this.isEdHubPage = false;
             this.isAttributionsPage = false;
+            this.isGTPPage = false;
             this.isUndiagnosedPatientPage = false;
             this.role = 'Clinical';
             this.subrole = 'null';
@@ -151,6 +169,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
           this.isClinicianPage = false;
           this.isEdHubPage = false;
           this.isAttributionsPage = false;
+          this.isGTPPage = false;
           this.isUndiagnosedPatientPage = false;
           this.role = 'User';
           this.subrole = 'HaveDiagnosis';
@@ -160,6 +179,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
           this.isClinicianPage = false;
           this.isEdHubPage = false;
           this.isAttributionsPage = false;
+          this.isGTPPage = false;
           this.isUndiagnosedPatientPage = true;
           this.role = 'User';
           this.subrole = 'NoDiagnosis';
@@ -169,6 +189,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
           this.isClinicianPage = false;
           this.isEdHubPage = true;
           this.isAttributionsPage = false;
+          this.isGTPPage = false;
           this.isUndiagnosedPatientPage = false;
       }else if((this.router.url).indexOf('/attributions')!=-1){
           this.isHomePage = false;
@@ -176,13 +197,23 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
           this.isClinicianPage = false;
           this.isEdHubPage = false;
           this.isAttributionsPage = true;
+          this.isGTPPage = false;
           this.isUndiagnosedPatientPage = false;
+      }else if((this.router.url).indexOf('/gtp')!=-1){
+        this.isHomePage = false;
+        this.isPatientPage = false;
+        this.isClinicianPage = false;
+        this.isEdHubPage = false;
+        this.isAttributionsPage = false;
+        this.isGTPPage = true;
+        this.isUndiagnosedPatientPage = false;
       }else{
         this.isHomePage = false;
         this.isClinicianPage = false;
         this.isPatientPage = false;
         this.isEdHubPage = false;
         this.isAttributionsPage = false;
+        this.isGTPPage = false;
         this.isUndiagnosedPatientPage = false;
       }
 
