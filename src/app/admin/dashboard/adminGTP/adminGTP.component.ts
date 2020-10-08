@@ -259,33 +259,9 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
           deleteButtonContent: '<i title='+this.translate.instant("generics.Delete")+' class="fa fa-trash fa-1_5x danger"></i>'
         },
         columns: {
-          email: {
-            title: this.translate.instant("adminGTP.Application ID"),
-            placeholder: this.translate.instant("adminGTP.Application ID"),
-            type: "html",
-            editable:false
-          },
-          ges: {
-            title: this.translate.instant("adminGTP.Application ID"),
-            placeholder: this.translate.instant("adminGTP.Application ID"),
-            type: "html",
-            editable:false
-          },
-          developmentalDelay: {
-            title: this.translate.instant("adminGTP.Application ID"),
-            placeholder: this.translate.instant("adminGTP.Application ID"),
-            type: "html",
-            editable:false
-          },
-          consultationWithPediatric: {
-            title: this.translate.instant("adminGTP.Application ID"),
-            placeholder: this.translate.instant("adminGTP.Application ID"),
-            type: "html",
-            editable:false
-          },
           birthDate:{
-            title: this.translate.instant("adminGTP.Request date"),
-            placeholder: this.translate.instant("adminGTP.Request date"),
+            title: this.translate.instant("personalinfo.Birth Date"),
+            placeholder: this.translate.instant("personalinfo.Birth Date"),
             type: 'date',
             valuePrepareFunction: (date) => {
                 if (date) {
@@ -325,21 +301,51 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
             },
             editable:false
           },
+          gender: {
+            title: this.translate.instant("personalinfo.Gender"),
+            placeholder: this.translate.instant("personalinfo.Gender"),
+            type: "html",
+            editable:false
+          },
+          ges: {
+            title: this.translate.instant("gtp.formFieldGES"),
+            placeholder: this.translate.instant("gtp.formFieldGES"),
+            type: "html",
+            editable:false
+          },
+          developmentalDelay: {
+            title: this.translate.instant("gtp.formFieldDevelopmentalDelay"),
+            placeholder: this.translate.instant("gtp.formFieldDevelopmentalDelay"),
+            type: "html",
+            editable:false
+          },
+          consultationWithPediatric: {
+            title: this.translate.instant("gtp.formFieldConsultationWithPediatric"),
+            placeholder: this.translate.instant("gtp.formFieldConsultationWithPediatric"),
+            type: "html",
+            editable:false
+          },
           userName:{
-            title: this.translate.instant("adminGTP.Clinician name"),
-            placeholder: this.translate.instant("adminGTP.Clinician name"),
+            title: this.translate.instant("generics.Name"),
+            placeholder: this.translate.instant("generics.Name"),
             type: "html",
             editable:false
           },
           lastName:{
-            title: this.translate.instant("adminGTP.Patient name"),
-            placeholder: this.translate.instant("adminGTP.Patient name"),
+            title: this.translate.instant("personalinfo.Last Name"),
+            placeholder: this.translate.instant("personalinfo.Last Name"),
             type: "html",
             editable:false
           },
           phone:{
-            title: this.translate.instant("adminGTP.Patient name"),
-            placeholder: this.translate.instant("adminGTP.Patient name"),
+            title: this.translate.instant("personalinfo.Phone"),
+            placeholder: this.translate.instant("personalinfo.Phone"),
+            type: "html",
+            editable:false
+          },
+          email: {
+            title: this.translate.instant("generics.Email"),
+            placeholder: this.translate.instant("generics.Email"),
             type: "html",
             editable:false
           },
