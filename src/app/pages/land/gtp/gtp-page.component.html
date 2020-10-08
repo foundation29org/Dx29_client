@@ -57,7 +57,7 @@
     <div class="center-xs start-sm pb-4">
       <div class="card-block">
         <h1>FORMULARIO INICIAL PROGRAMA 100 DIAGNÓSTICOS </h1>
-        <form class="mt-3 form" (ngSubmit)="onSubmit()" #f="ngForm">
+        <form class="mt-3 form" #f="ngForm">
           <div class="form-body row">
             <div class="col-md-6">
               <h4>Datos Paciente</h4>
@@ -88,7 +88,7 @@
               </div>
               <div class="">
                 <div class="form-group">
-                  <label id="GES">Crisis epilépticas generalizadas</label>
+                  <label id="GES">Crisis epilépticas generalizadas</label> <a class="danger" (click)="showPanelMoreInfo(contentGES);" href="javascript:void(0)">({{'generics.More information' | translate }})</a>
                   <mat-radio-group required
                     aria-labelledby="GES"
                     class="example-radio-group d-block" ngModel required #GES="ngModel" name="GES" id="GES">
@@ -104,7 +104,7 @@
               </div>
               <div class="">
                 <div class="form-group">
-                  <label id="developmentalDelay">Retraso en el desarrollo</label>
+                  <label id="developmentalDelay">Retraso en el desarrollo</label> <a class="danger" (click)="showPanelMoreInfo(contentDevelopmentalDelay);" href="javascript:void(0)">({{'generics.More information' | translate }})</a>
                   <mat-radio-group required
                     aria-labelledby="developmentalDelay"
                     class="example-radio-group d-block" ngModel required #developmentalDelay="ngModel" name="developmentalDelay" id="developmentalDelay">
@@ -120,7 +120,7 @@
               </div>
               <div class="">
                 <div class="form-group">
-                  <label id="consultationWithPediatric">¿Ha pasado consulta con un neuropediatra?</label>
+                  <label id="consultationWithPediatric">¿Ha pasado consulta con un neuropediatra?</label> <a class="danger" (click)="showPanelMoreInfo(contentConsultationWithPediatric);" href="javascript:void(0)">({{'generics.More information' | translate }})</a>
                   <mat-radio-group required
                     aria-labelledby="consultationWithPediatric"
                     class="example-radio-group d-block" ngModel required #consultationWithPediatric="ngModel" name="consultationWithPediatric" id="consultationWithPediatric">
@@ -186,7 +186,7 @@
           </div>
           <div *ngIf="!sending" class="center-elements">
               <div *ngIf="f.valid;then formValid else formError"></div>
-              <ng-template #formValid><button class="btn btn-outline-red mr-1" type="submit"> {{'support.Send' | translate }}</button></ng-template>
+              <ng-template #formValid><button class="btn btn-outline-red mr-1" (click)="onSubmit()"> {{'support.Send' | translate }}</button></ng-template>
               <ng-template #formError><button class="btn btn-outline-red mr-1" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
           </div>
           <div class="form-actions" *ngIf="sending">
@@ -198,8 +198,88 @@
 	</div>
 </div>
 
-<!--Registration Page Starts-->
-<section id="regestration">
+<ng-template #contentGES let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header container row col-md-12" id="idHeader">
+      <div class="col-md-8">
+        <h4 class="col-md-8 modal-title">Crisis epilépticas generalizadas:</h4>
+      </div>
+      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="px-3">
+          <div class="container col-md-12" >
+            <p>Es normal que tengas dudas sobre si las crisis de tu hijo/a son o no generalizadas, dado que existen muchos tipos de crisis.</p>
+            <p>Una crisis epiléptica generalizada afecta a todo el cerebro y va acompañada de pérdida del conocimiento. Por tanto, su tu hijo/a pierde el conocimiento durante una crisis es posible que tenga una crisis generalizada.</p>
+            <p>Si no te resulta familiar el término generalizadas quizá es porque este tipo de crisis se divide en distintas clases con nombres que quizás te puedan resultar más cercanos, como:</p>
+            <ul>
+    		        <li>Crisis de ausencia o simplemente ausencias, en las que el niño/a pierde el conocimiento con la mirada fija en un punto.</li>
+    		        <li>Crisis mioclónicas, en las que el niño/a sufre sacudidas bruscas y rápida de brazos y/o piernas.</li>
+                <li>Crisis atónicas, que producen una relajación de los músculos del cuerpo, pudiendo provocar caídas.</li>
+                <li>Crisis tónicas, en las los músculos se tensan y el cuerpo se poner totalmente rígido.</li>
+                <li>Crisis tónico-clónicas, que son aquellas en las que, tras una primera fase de rigidez, se producen las sacudidas bruscas, rápidas y repetitivas de brazos y piernas.</li>
+    		    </ul>
+            <p>Si tienes dudas de si tu hijo/a cumple este requisito, llámanos al teléfono +34 600000000 o escríbenos al correo mi.odisea@foundation29.org y te ayudaremos a identificar el tipo de crisis.</p>
+          </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="col-md-12 center-elements">
+        <div class="form-actions center">
+            <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click');">{{'generics.Close' | translate }}</button>
+        </div>
+      </div>
+    </div>
+</ng-template>
 
-</section>
-<!--Registration Page Ends-->
+<ng-template #contentDevelopmentalDelay let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header container row col-md-12" id="idHeader">
+      <div class="col-md-8">
+        <h4 class="col-md-8 modal-title">Retraso en el desarrollo:</h4>
+      </div>
+      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="px-3">
+          <div class="container col-md-12" >
+            <p>Habrás oído este término si tu hijo/a alcanzo alguna meta del desarrollo mas tarde de lo común. Por ejemplo, si tardo o tarda mas de lo normal en sentarse, en gatear o en fijar la mirada. </p>
+            <p>Si tienes dudas de si tu hijo/a cumple este requisito, llámanos al teléfono +34 600000000 o escríbenos al correo mi.odisea@foundation29.org y te ayudaremos a identificar el tipo de crisis.</p>
+          </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="col-md-12 center-elements">
+        <div class="form-actions center">
+            <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click');">{{'generics.Close' | translate }}</button>
+        </div>
+      </div>
+    </div>
+</ng-template>
+
+<ng-template #contentConsultationWithPediatric let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header container row col-md-12" id="idHeader">
+      <div class="col-md-8">
+        <h4 class="col-md-8 modal-title">Retraso en el desarrollo:</h4>
+      </div>
+      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="px-3">
+          <div class="container col-md-12" >
+            <p>Los neuropediatras son los profesionales especializados para atender a los niños/as que este programa quiere ayudar a diagnosticar. Es importante para nosotros entender si ya has tenido acceso a alguno de estos médicos. Contaremos con su ayuda durante el proceso tanto para solicitar la prueba genética como para interpretar los resultados. </p>
+          </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="col-md-12 center-elements">
+        <div class="form-actions center">
+            <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click');">{{'generics.Close' | translate }}</button>
+        </div>
+      </div>
+    </div>
+</ng-template>

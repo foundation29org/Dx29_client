@@ -1748,5 +1748,9 @@
     "SubtitleNewVersion2": "on the",
     "SubtitleNewVersion3": "Please, avoid using Dx29. Changes may not be saved during this period.",
     "Spanishtranslations": "Spanish translations are being tested"
+  },
+  "gtp":{
+    "formMsgAlreadyRegistered": "You are already registered in the program with that email.",
+    "formMsgRegistered": "Request made correctly, thank you for participating."
   }
 }

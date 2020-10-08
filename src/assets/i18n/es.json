@@ -1749,5 +1749,9 @@
     "SubtitleNewVersion2": "del",
     "SubtitleNewVersion3": "Por favor, evita usar Dx29. Los cambios no pueden ser guardados durante este período.",
     "Spanishtranslations": "Las traducciones en español están en pruebas"
+  },
+  "gtp":{
+    "formMsgAlreadyRegistered": "Ya está registrado en el programa con ese email.",
+    "formMsgRegistered": "Solicitud realizada correctamente, gracias por participar."
   }
 }
