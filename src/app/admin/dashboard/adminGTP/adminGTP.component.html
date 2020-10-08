@@ -36,6 +36,21 @@
                             <button class="btn btn-icon round btn-outline-primary pull-right" (click)="downloadFile(false,programsInfoNotPatient,'GTP')" style="cursor:pointer" [disabled]="!programsInfoNotPatient.length>0"><i class="ft-download mr-1"></i> {{'generics.Download' | translate }}</button>
                         </div>
                     </mat-expansion-panel>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Peticiones externas
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <ng2-smart-table [settings]="alertsettingsProgramsExternalRequest" [source]="alertSourceProgramsExternalRequest" (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onEditConfirm($event)" (userRowSelect)="openMoreInfo($event)"></ng2-smart-table>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-1 mb-2">
+                            <button class="btn btn-icon round btn-outline-primary pull-right" (click)="downloadFileExternalRequest(programsExternalRequest,'GTP_external_request')" style="cursor:pointer" [disabled]="!programsExternalRequest.length>0"><i class="ft-download mr-1"></i> {{'generics.Download' | translate }}</button>
+                        </div>
+                    </mat-expansion-panel>
                 </mat-accordion>
             </div>
         </div>
@@ -68,7 +83,7 @@
         </div>
         <div>
             <p class="mb-0">
-                <label><strong>{{'adminGTP.Has medical reports' | translate }}:</strong></label> 
+                <label><strong>{{'adminGTP.Has medical reports' | translate }}:</strong></label>
                 <label *ngIf="moreInfoCaseEvent.medicalRecords.reason==undefined">{{moreInfoCaseEvent.medicalRecords}}</label>
             </p>
             <div *ngIf="moreInfoCaseEvent.medicalRecords.result==true">
@@ -78,7 +93,7 @@
                     </a>
                 </div>
             </div>
-            
+
         </div>
         <p class="mb-0"><label><strong>{{'adminGTP.Genetic data status' | translate }}:</strong></label> {{moreInfoCaseEvent.geneticDataStatus}}</p>
         <p class="mb-0"><label><strong>{{'adminGTP.Genetic data analysis status' | translate }}:</strong></label> {{moreInfoCaseEvent.dataAnalysisStatus}}</p>
@@ -89,4 +104,3 @@
         </div>
     </div>
 </ng-template>
-    

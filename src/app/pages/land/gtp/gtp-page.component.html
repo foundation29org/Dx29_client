@@ -7,8 +7,8 @@
 		    <div class="col-md-12">
 		        <div class="section">
 		                <p class="mb-1">{{'menu.Genetic testing program' | translate}}</p>
-		            <h1 class="pt-0 text-bold-600">100 diagnósticos</h1>
-                <h1 class="pt-0"><ins>Programa de diagnóstico de enfermedades raras con test genético gratuito</ins></h1>
+		            <h1 class="pt-0 text-bold-600">{{'gtp.title1' | translate}}</h1>
+                <h1 class="pt-0"><ins>{{'gtp.title2' | translate}}</ins></h1>
 		        </div>
 		    </div>
 		</div>
@@ -17,50 +17,50 @@
 		<div class="m-1 p-1"></div>
 
 		<div class="section">
-		    <h3>¿En que consiste?</h3>
-		    <p>Buscamos a pacientes con indicios de padecer una enfermedad rara para que, junto a sus médicos, utilicen Dx29, una herramienta gratuita que facilita al profesional el proceso de diagnóstico.</p>
-		    <p>El programa incluye un test genético, gratuito si el paciente no puede abonarlo.</p>
+		    <h3>{{'gtp.section1Title' | translate}}</h3>
+		    <p>{{'gtp.section1Content1' | translate}}</p>
+		    <p>{{'gtp.section1Content2' | translate}}</p>
 		</div>
 
 		<div class="section">
-		    <h3>¿Cuáles son los requisitos para participar?</h3>
+		    <h3>{{'gtp.section2Title' | translate}}</h3>
 		    <ul>
-		        <li>Ser menor de seis años.</li>
-		        <li>Tener síntomas de epilepsia y retraso en el desarrollo.</li>
-            <li>Contar con un médico de referencia que supervise el caso. (Si no tienes un médico, contactanos.)</li>
-            <li>Residir en España.</li>
+		        <li>{{'gtp.section2Content1' | translate}}</li>
+		        <li>{{'gtp.section2Content2' | translate}}</li>
+            <li>{{'gtp.section2Content3' | translate}}</li>
+            <li>{{'gtp.section2Content4' | translate}}</li>
 		    </ul>
 		</div>
 
 		<div class="section">
-		    <h3>¿Quién lanza el programa?</h3>
-		    <p>Fundación 29, una organización sin ánimo de lucro que desarrolla soluciones para mejorar la calidad de vida de los pacientes de enfermedades raras.</p>
-		    <p>La información y los datos del paciente se mantienen siempre seguros y privados. Solo se comparten, con su permiso, con el médico y los servicios que forman parte del proceso. No se usan con fines comerciales o se ceden a otros terceros.</p>
+		    <h3>{{'gtp.section3Title' | translate}}</h3>
+		    <p>{{'gtp.section3Content1' | translate}}</p>
+		    <p>{{'gtp.section3Content2' | translate}}</p>
 		</div>
 
     <div class="section">
-		    <h3>¿Cómo funciona?</h3>
+		    <h3>{{'gtp.section4Title' | translate}}</h3>
         <ol>
-		        <li>Médico y paciente se dan de alta en Dx29 y el profesional prescribe el test genético.</li>
-		        <li>El paciente realiza el test genético y los resultados se incorporan a Dx29.</li>
-            <li>El médico recibe un aviso e inicia el estudio del caso en Dx29, con el apoyo de herramientas que haran el proceso más sencillo y preciso.</li>
-            <li>Dx29 ofrecerá posiblidades diagnósticas que el profesional valorará para iniciar las pruebas necesarias que permitan alcanzar un diagnóstico definitivo.</li>
+		        <li>{{'gtp.section4Content1' | translate}}</li>
+		        <li>{{'gtp.section4Content2' | translate}}</li>
+            <li>{{'gtp.section4Content3' | translate}}</li>
+            <li>{{'gtp.section4Content4' | translate}}</li>
 		    </ol>
 		</div>
     <div class="section">
-		    <h1>¿Estás interesado?</h1>
-		    <p>Contacta con nosotros si estás interesado en participar o en que alguno de tus pacientes participen en el programa en info@foundation29.org o en el +34 XXX XXX XXX</p>
+		    <h1>{{'gtp.section5Title' | translate}}</h1>
+		    <p>{{'gtp.section5Content1' | translate}}</p>
 		</div>
 
 		<p>&nbsp;</p>
 
     <div class="center-xs start-sm pb-4">
       <div class="card-block">
-        <h1>FORMULARIO INICIAL PROGRAMA 100 DIAGNÓSTICOS </h1>
+        <h1>{{'gtp.formTitle1' | translate}}</h1>
         <form class="mt-3 form" #f="ngForm">
           <div class="form-body row">
             <div class="col-md-6">
-              <h4>Datos Paciente</h4>
+              <h4>{{'gtp.formSubTitle1' | translate}}</h4>
               <div class="">
                 <div class="form-group">
                 <label>{{'personalinfo.Birth Date' | translate }}</label>
@@ -88,7 +88,7 @@
               </div>
               <div class="">
                 <div class="form-group">
-                  <label id="GES">Crisis epilépticas generalizadas</label> <a class="danger" (click)="showPanelMoreInfo(contentGES);" href="javascript:void(0)">({{'generics.More information' | translate }})</a>
+                  <label id="GES">{{'gtp.formFieldGES' | translate}}</label>  <a class="danger" (click)="showPanelMoreInfo(contentGES);" href="javascript:void(0)">({{'generics.More information' | translate }})</a>
                   <mat-radio-group required
                     aria-labelledby="GES"
                     class="example-radio-group d-block" ngModel required #GES="ngModel" name="GES" id="GES">
@@ -104,7 +104,7 @@
               </div>
               <div class="">
                 <div class="form-group">
-                  <label id="developmentalDelay">Retraso en el desarrollo</label> <a class="danger" (click)="showPanelMoreInfo(contentDevelopmentalDelay);" href="javascript:void(0)">({{'generics.More information' | translate }})</a>
+                  <label id="developmentalDelay">{{'gtp.formFieldDevelopmentalDelay' | translate}}</label> <a class="danger" (click)="showPanelMoreInfo(contentDevelopmentalDelay);" href="javascript:void(0)">({{'generics.More information' | translate }})</a>
                   <mat-radio-group required
                     aria-labelledby="developmentalDelay"
                     class="example-radio-group d-block" ngModel required #developmentalDelay="ngModel" name="developmentalDelay" id="developmentalDelay">
@@ -120,7 +120,7 @@
               </div>
               <div class="">
                 <div class="form-group">
-                  <label id="consultationWithPediatric">¿Ha pasado consulta con un neuropediatra?</label> <a class="danger" (click)="showPanelMoreInfo(contentConsultationWithPediatric);" href="javascript:void(0)">({{'generics.More information' | translate }})</a>
+                  <label id="consultationWithPediatric">{{'gtp.formFieldConsultationWithPediatric' | translate}}</label> <a class="danger" (click)="showPanelMoreInfo(contentConsultationWithPediatric);" href="javascript:void(0)">({{'generics.More information' | translate }})</a>
                   <mat-radio-group required
                     aria-labelledby="consultationWithPediatric"
                     class="example-radio-group d-block" ngModel required #consultationWithPediatric="ngModel" name="consultationWithPediatric" id="consultationWithPediatric">
@@ -136,7 +136,7 @@
               </div>
             </div>
             <div class="col-md-6">
-              <h4>Datos Personales Tutor </h4>
+              <h4>{{'gtp.formSubTitle2' | translate}}</h4>
               <div class="">
                 <div class="form-group">
                 <label>{{'generics.Name' | translate }}</label>
@@ -175,12 +175,12 @@
               </div>
             </div>
             <div class="col-md-12">
-              <h4>Política de Privacidad para Formulario Programa 100D </h4>
+              <h4>{{'gtp.PrivacyPolicyTitle' | translate}}</h4>
               <p class="font-small-3">
-                El responsable del tratamiento de los datos personales facilitados en el presente formulario es Fundación 29 (“Fundación 29”) quien los tratará con la finalidad de atender a tu solicitud para que te mantengamos informado acerca del Programa 100 Diagnósticos. Tienes derecho a acceder, rectificar, suprimir tus datos y revocar tu consentimiento, así como otros derechos, como se explica en la Política de privacidad, donde podrás recabar más información sobre el tratamiento de tus datos
+                {{'gtp.PrivacyPolicyContent1' | translate}}
               </p>
               <p class="font-small-3">
-                Al hacer click en el botón “Enviar” prestas tu consentimiento para el tratamiento de tus datos para recibir información del Programa 100 Diagnósticos.
+                {{'gtp.PrivacyPolicyContent2' | translate}}
               </p>
             </div>
           </div>
@@ -201,7 +201,7 @@
 <ng-template #contentGES let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header container row col-md-12" id="idHeader">
       <div class="col-md-8">
-        <h4 class="col-md-8 modal-title">Crisis epilépticas generalizadas:</h4>
+        <h4 class="col-md-8 modal-title">{{'gtp.formFieldGES' | translate}}:</h4>
       </div>
       <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
         <span aria-hidden="true">&times;</span>
@@ -210,17 +210,17 @@
     <div class="modal-body">
       <div class="px-3">
           <div class="container col-md-12" >
-            <p>Es normal que tengas dudas sobre si las crisis de tu hijo/a son o no generalizadas, dado que existen muchos tipos de crisis.</p>
-            <p>Una crisis epiléptica generalizada afecta a todo el cerebro y va acompañada de pérdida del conocimiento. Por tanto, su tu hijo/a pierde el conocimiento durante una crisis es posible que tenga una crisis generalizada.</p>
-            <p>Si no te resulta familiar el término generalizadas quizá es porque este tipo de crisis se divide en distintas clases con nombres que quizás te puedan resultar más cercanos, como:</p>
+            <p>{{'gtp.templateGESTContent1' | translate}}</p>
+            <p>{{'gtp.templateGESTContent2' | translate}}</p>
+            <p>{{'gtp.templateGESTContent3' | translate}}</p>
             <ul>
-    		        <li>Crisis de ausencia o simplemente ausencias, en las que el niño/a pierde el conocimiento con la mirada fija en un punto.</li>
-    		        <li>Crisis mioclónicas, en las que el niño/a sufre sacudidas bruscas y rápida de brazos y/o piernas.</li>
-                <li>Crisis atónicas, que producen una relajación de los músculos del cuerpo, pudiendo provocar caídas.</li>
-                <li>Crisis tónicas, en las los músculos se tensan y el cuerpo se poner totalmente rígido.</li>
-                <li>Crisis tónico-clónicas, que son aquellas en las que, tras una primera fase de rigidez, se producen las sacudidas bruscas, rápidas y repetitivas de brazos y piernas.</li>
+    		        <li>{{'gtp.templateGESTContent3.1' | translate}}</li>
+    		        <li>{{'gtp.templateGESTContent3.2' | translate}}</li>
+                <li>{{'gtp.templateGESTContent3.3' | translate}}</li>
+                <li>{{'gtp.templateGESTContent3.4' | translate}}</li>
+                <li>{{'gtp.templateGESTContent3.5' | translate}}</li>
     		    </ul>
-            <p>Si tienes dudas de si tu hijo/a cumple este requisito, llámanos al teléfono +34 600000000 o escríbenos al correo mi.odisea@foundation29.org y te ayudaremos a identificar el tipo de crisis.</p>
+            <p>{{'gtp.templateHelp' | translate}}</p>
           </div>
       </div>
     </div>
@@ -236,7 +236,7 @@
 <ng-template #contentDevelopmentalDelay let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header container row col-md-12" id="idHeader">
       <div class="col-md-8">
-        <h4 class="col-md-8 modal-title">Retraso en el desarrollo:</h4>
+        <h4 class="col-md-8 modal-title">{{'gtp.formFieldDevelopmentalDelay' | translate}}:</h4>
       </div>
       <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
         <span aria-hidden="true">&times;</span>
@@ -245,8 +245,8 @@
     <div class="modal-body">
       <div class="px-3">
           <div class="container col-md-12" >
-            <p>Habrás oído este término si tu hijo/a alcanzo alguna meta del desarrollo mas tarde de lo común. Por ejemplo, si tardo o tarda mas de lo normal en sentarse, en gatear o en fijar la mirada. </p>
-            <p>Si tienes dudas de si tu hijo/a cumple este requisito, llámanos al teléfono +34 600000000 o escríbenos al correo mi.odisea@foundation29.org y te ayudaremos a identificar el tipo de crisis.</p>
+            <p>{{'gtp.templateDevelopmentalDelayContent' | translate}}</p>
+            <p>{{'gtp.templateHelp' | translate}}</p>
           </div>
       </div>
     </div>
@@ -262,7 +262,7 @@
 <ng-template #contentConsultationWithPediatric let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header container row col-md-12" id="idHeader">
       <div class="col-md-8">
-        <h4 class="col-md-8 modal-title">Retraso en el desarrollo:</h4>
+        <h4 class="col-md-8 modal-title">{{'gtp.formFieldConsultationWithPediatric' | translate}}:</h4>
       </div>
       <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
         <span aria-hidden="true">&times;</span>
@@ -271,7 +271,7 @@
     <div class="modal-body">
       <div class="px-3">
           <div class="container col-md-12" >
-            <p>Los neuropediatras son los profesionales especializados para atender a los niños/as que este programa quiere ayudar a diagnosticar. Es importante para nosotros entender si ya has tenido acceso a alguno de estos médicos. Contaremos con su ayuda durante el proceso tanto para solicitar la prueba genética como para interpretar los resultados. </p>
+            <p>{{'gtp.templateConsultationWithPediatricContent' | translate}}</p>
           </div>
       </div>
     </div>
