@@ -6,9 +6,15 @@
 		<div class="row">
 		    <div class="col-md-12">
 		        <div class="section">
-		                <p class="mb-1">{{'menu.Genetic testing program' | translate}}</p>
-		            <h1 class="pt-0 text-bold-600">{{'gtp.title1' | translate}}</h1>
-                <h1 class="pt-0"><ins>{{'gtp.title2' | translate}}</ins></h1>
+		            <h5 class="pt-0 text-bold-400" [innerHTML]="'gtp.title1' | translate"></h5>
+                <h1 class="pt-0 text-bold-700">{{'gtp.title2' | translate}}</h1>
+		        </div>
+		    </div>
+		</div>
+    <div class="row">
+		    <div class="col-md-12">
+		        <div class="section">
+                <h4 class="pt-0"><b>{{'gtp.title3' | translate}}</b></h4>
 		        </div>
 		    </div>
 		</div>
@@ -17,50 +23,40 @@
 		<div class="m-1 p-1"></div>
 
 		<div class="section">
-		    <h3>{{'gtp.section1Title' | translate}}</h3>
+		    <h3><b>{{'gtp.section1Title' | translate}}</b></h3>
 		    <p>{{'gtp.section1Content1' | translate}}</p>
 		    <p>{{'gtp.section1Content2' | translate}}</p>
 		</div>
 
 		<div class="section">
-		    <h3>{{'gtp.section2Title' | translate}}</h3>
+		    <h3><b>{{'gtp.section2Title' | translate}}</b></h3>
 		    <ul>
 		        <li>{{'gtp.section2Content1' | translate}}</li>
 		        <li>{{'gtp.section2Content2' | translate}}</li>
-            <li>{{'gtp.section2Content3' | translate}}</li>
-            <li>{{'gtp.section2Content4' | translate}}</li>
 		    </ul>
 		</div>
-
-		<div class="section">
-		    <h3>{{'gtp.section3Title' | translate}}</h3>
-		    <p>{{'gtp.section3Content1' | translate}}</p>
-		    <p>{{'gtp.section3Content2' | translate}}</p>
-		</div>
-
     <div class="section">
-		    <h3>{{'gtp.section4Title' | translate}}</h3>
+		    <h3><b>{{'gtp.section4Title' | translate}}</b></h3>
+        <p>{{'gtp.section4SubTitle' | translate}}</p>
         <ol>
 		        <li>{{'gtp.section4Content1' | translate}}</li>
 		        <li>{{'gtp.section4Content2' | translate}}</li>
             <li>{{'gtp.section4Content3' | translate}}</li>
             <li>{{'gtp.section4Content4' | translate}}</li>
+            <li>{{'gtp.section4Content5' | translate}}</li>
 		    </ol>
-		</div>
-    <div class="section">
-		    <h1>{{'gtp.section5Title' | translate}}</h1>
-		    <p>{{'gtp.section5Content1' | translate}}</p>
+        <p>{{'gtp.section4Info' | translate}}</p>
 		</div>
 
 		<p>&nbsp;</p>
 
     <div class="center-xs start-sm pb-4">
       <div class="card-block">
-        <h1>{{'gtp.formTitle1' | translate}}</h1>
+        <h3 class="text-bold-400">{{'gtp.formTitle1' | translate}}</h3>
         <form class="mt-3 form" #f="ngForm">
           <div class="form-body row">
             <div class="col-md-6">
-              <h4>{{'gtp.formSubTitle1' | translate}}</h4>
+              <h5 class="text-bold-400">{{'gtp.formSubTitle1' | translate}}</h5>
               <div class="">
                 <div class="form-group">
                 <label>{{'personalinfo.Birth Date' | translate }}</label>
@@ -118,25 +114,9 @@
                   <small class="form-text text-muted danger" *ngIf="!developmentalDelay.valid && (developmentalDelay.dirty || developmentalDelay.touched)">{{'generics.required' | translate }}</small>
                 </div>
               </div>
-              <div class="">
-                <div class="form-group">
-                  <label id="consultationWithPediatric">{{'gtp.formFieldConsultationWithPediatric' | translate}}</label> <a class="danger" (click)="showPanelMoreInfo(contentConsultationWithPediatric);" href="javascript:void(0)">({{'generics.More information' | translate }})</a>
-                  <mat-radio-group required
-                    aria-labelledby="consultationWithPediatric"
-                    class="example-radio-group d-block" ngModel required #consultationWithPediatric="ngModel" name="consultationWithPediatric" id="consultationWithPediatric">
-                    <mat-radio-button class="example-radio-button" value="yes">
-                    {{'generics.Yes' | translate }}
-                    </mat-radio-button>
-                    <mat-radio-button class="example-radio-button ml-1" value="no">
-                    {{'generics.No' | translate }}
-                    </mat-radio-button>
-                  </mat-radio-group>
-                  <small class="form-text text-muted danger" *ngIf="!consultationWithPediatric.valid && (consultationWithPediatric.dirty || consultationWithPediatric.touched)">{{'generics.required' | translate }}</small>
-                </div>
-              </div>
             </div>
             <div class="col-md-6">
-              <h4>{{'gtp.formSubTitle2' | translate}}</h4>
+              <h5 class="text-bold-400">{{'gtp.formSubTitle2' | translate}}</h5>
               <div class="">
                 <div class="form-group">
                 <label>{{'generics.Name' | translate }}</label>
@@ -174,15 +154,6 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-12">
-              <h4>{{'gtp.PrivacyPolicyTitle' | translate}}</h4>
-              <p class="font-small-3">
-                {{'gtp.PrivacyPolicyContent1' | translate}}
-              </p>
-              <p class="font-small-3">
-                {{'gtp.PrivacyPolicyContent2' | translate}}
-              </p>
-            </div>
           </div>
           <div *ngIf="!sending" class="center-elements">
               <div *ngIf="f.valid;then formValid else formError"></div>
@@ -192,9 +163,22 @@
           <div class="form-actions" *ngIf="sending">
               <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
           </div>
+          <div class="col-md-12">
+            <p class="font-small-3">
+              {{'gtp.PrivacyPolicyContent1' | translate}}
+            </p>
+            <p class="font-small-3">
+              {{'gtp.PrivacyPolicyContent2' | translate}}
+            </p>
+          </div>
         </form>
       </div>
     </div>
+    <div class="section pb-4">
+		    <h3><b>{{'gtp.section3Title' | translate}}</b></h3>
+		    <p [innerHTML]="'gtp.section3Content1' | translate"></p>
+		    <p>{{'gtp.section3Content2' | translate}}</p>
+		</div>
 	</div>
 </div>
 
@@ -247,31 +231,6 @@
           <div class="container col-md-12" >
             <p>{{'gtp.templateDevelopmentalDelayContent' | translate}}</p>
             <p>{{'gtp.templateHelp' | translate}}</p>
-          </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <div class="col-md-12 center-elements">
-        <div class="form-actions center">
-            <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click');">{{'generics.Close' | translate }}</button>
-        </div>
-      </div>
-    </div>
-</ng-template>
-
-<ng-template #contentConsultationWithPediatric let-c="close" let-d="dismiss" appendTo="body">
-    <div class="modal-header container row col-md-12" id="idHeader">
-      <div class="col-md-8">
-        <h4 class="col-md-8 modal-title">{{'gtp.formFieldConsultationWithPediatric' | translate}}:</h4>
-      </div>
-      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="px-3">
-          <div class="container col-md-12" >
-            <p>{{'gtp.templateConsultationWithPediatricContent' | translate}}</p>
           </div>
       </div>
     </div>

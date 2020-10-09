@@ -319,12 +319,6 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
             type: "html",
             editable:false
           },
-          consultationWithPediatric: {
-            title: this.translate.instant("gtp.formFieldConsultationWithPediatric"),
-            placeholder: this.translate.instant("gtp.formFieldConsultationWithPediatric"),
-            type: "html",
-            editable:false
-          },
           userName:{
             title: this.translate.instant("generics.Name"),
             placeholder: this.translate.instant("generics.Name"),
