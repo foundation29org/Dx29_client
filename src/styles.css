@@ -24,6 +24,15 @@ footer{
     max-width: 90%;
 }*/
 
+.vertical-horizontal-align {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
 .fa-1_5x{
   font-size: 1.5em;
 }

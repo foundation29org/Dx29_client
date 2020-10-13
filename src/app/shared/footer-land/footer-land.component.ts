@@ -1,6 +1,6 @@
 import { Component, HostBinding, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { sha512 } from "js-sha512";
@@ -25,17 +25,29 @@ export class FooterLandComponent implements OnDestroy{
     email: string;
     role: string = 'User';
     subrole: string = 'NoDiagnosis';
+    isGTPPage: boolean = false;
 
     private subscription: Subscription = new Subscription();
 
 
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private authService: AuthService, public translate: TranslateService, public toastr: ToastrService) {
+      this.router.events.filter((event: any) => event instanceof NavigationEnd).subscribe(
+        event => {
+          var tempUrl = (event.url).toString();
+          if(tempUrl.indexOf('/gtp')!=-1){
+            this.isGTPPage = true;
+          }else{
+            this.isGTPPage = false;
+          }
+        }
+      );
+
     }
 
     ngOnDestroy() {
       this.subscription.unsubscribe();
     }
-    
+
     submitInvalidForm() {
       if (!this.mainForm) { return; }
       const base = this.mainForm;
