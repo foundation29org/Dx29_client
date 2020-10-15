@@ -49,7 +49,6 @@
 		</div>
 
 		<p>&nbsp;</p>
-
     <div class="center-xs start-sm pb-4">
       <div class="card-block">
         <h3 class="text-bold-400">{{'gtp.formTitle1' | translate}}</h3>
@@ -84,7 +83,7 @@
               </div>
               <div class="">
                 <div class="form-group">
-                  <label id="GES">{{'gtp.formFieldGES' | translate}}</label>  <a class="danger" (click)="showPanelMoreInfo(contentGES);" href="javascript:void(0)">({{'generics.More information' | translate }})</a>
+                  <label id="GES">{{'gtp.formFieldGES' | translate}}</label>  <a class="danger" (click)="showPanelMoreInfo(contentGES);" href="javascript:void(0)"> <i class="far fa-question-circle fa-fw red"></i></a>
                   <mat-radio-group required
                     aria-labelledby="GES"
                     class="example-radio-group d-block" ngModel required #GES="ngModel" name="GES" id="GES">
@@ -100,7 +99,7 @@
               </div>
               <div class="">
                 <div class="form-group">
-                  <label id="developmentalDelay">{{'gtp.formFieldDevelopmentalDelay' | translate}}</label> <a class="danger" (click)="showPanelMoreInfo(contentDevelopmentalDelay);" href="javascript:void(0)">({{'generics.More information' | translate }})</a>
+                  <label id="developmentalDelay">{{'gtp.formFieldDevelopmentalDelay' | translate}}</label> <a class="danger" (click)="showPanelMoreInfo(contentDevelopmentalDelay);" href="javascript:void(0)"><i class="far fa-question-circle fa-fw red"></i></a>
                   <mat-radio-group required
                     aria-labelledby="developmentalDelay"
                     class="example-radio-group d-block" ngModel required #developmentalDelay="ngModel" name="developmentalDelay" id="developmentalDelay">
@@ -153,6 +152,15 @@
                 </div>
                 </div>
               </div>
+              <div class="form-group">
+                <mat-checkbox
+                    class="example-margin" name="terms2" ngModel required #terms2="ngModel" id="terms2">
+                  <label style="margin-top: 1em;white-space: normal;text-transform: none;letter-spacing: 0px;">
+                    <span>{{'dataprocessing.I agree with the' | translate }}</span>
+                  </label>
+                </mat-checkbox>
+                <small class="form-text text-muted danger" *ngIf="!terms2.valid && (terms2.dirty || terms2.touched)">{{'registration.It is mandatory to read the privacy policy before continuing' | translate }}</small>
+              </div>
             </div>
           </div>
           <div *ngIf="!sending" class="center-elements">
@@ -160,7 +168,7 @@
               <ng-template #formValid><button class="btn btn-outline-red mr-1" (click)="onSubmit()"> {{'support.Send' | translate }}</button></ng-template>
               <ng-template #formError><button class="btn btn-outline-red mr-1" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
           </div>
-          <div class="form-actions" *ngIf="sending">
+          <div class="form-actions center-elements" *ngIf="sending">
               <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
           </div>
           <div class="col-md-12">
@@ -183,33 +191,33 @@
 </div>
 
 <ng-template #contentGES let-c="close" let-d="dismiss" appendTo="body">
-    <div class="modal-header container row col-md-12" id="idHeader">
-      <div class="col-md-8">
-        <h4 class="col-md-8 modal-title">{{'gtp.formFieldGES' | translate}}:</h4>
+    <div class="modal-header container row col-12" id="idHeader">
+      <div class="col-8">
+        <h4 class="modal-title">{{'gtp.formFieldGES' | translate}}:</h4>
       </div>
-      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
-        <span aria-hidden="true">&times;</span>
-      </button>
+      <div class="col-4">
+        <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
     </div>
     <div class="modal-body">
-      <div class="px-3">
-          <div class="container col-md-12" >
-            <p>{{'gtp.templateGESTContent1' | translate}}</p>
-            <p>{{'gtp.templateGESTContent2' | translate}}</p>
-            <p>{{'gtp.templateGESTContent3' | translate}}</p>
-            <ul>
-    		        <li>{{'gtp.templateGESTContent3.1' | translate}}</li>
-    		        <li>{{'gtp.templateGESTContent3.2' | translate}}</li>
-                <li>{{'gtp.templateGESTContent3.3' | translate}}</li>
-                <li>{{'gtp.templateGESTContent3.4' | translate}}</li>
-                <li>{{'gtp.templateGESTContent3.5' | translate}}</li>
-    		    </ul>
-            <p>{{'gtp.templateHelp' | translate}}</p>
-          </div>
+      <div class="container col-12 row" >
+        <p>{{'gtp.templateGESTContent1' | translate}}</p>
+        <p>{{'gtp.templateGESTContent2' | translate}}</p>
+        <p>{{'gtp.templateGESTContent3' | translate}}</p>
+        <ul>
+		        <li>{{'gtp.templateGESTContent3.1' | translate}}</li>
+		        <li>{{'gtp.templateGESTContent3.2' | translate}}</li>
+            <li>{{'gtp.templateGESTContent3.3' | translate}}</li>
+            <li>{{'gtp.templateGESTContent3.4' | translate}}</li>
+            <li>{{'gtp.templateGESTContent3.5' | translate}}</li>
+		    </ul>
+        <p>{{'gtp.templateHelp' | translate}}</p>
       </div>
     </div>
     <div class="modal-footer">
-      <div class="col-md-12 center-elements">
+      <div class="col-12 center-elements">
         <div class="form-actions center">
             <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click');">{{'generics.Close' | translate }}</button>
         </div>
@@ -218,24 +226,24 @@
 </ng-template>
 
 <ng-template #contentDevelopmentalDelay let-c="close" let-d="dismiss" appendTo="body">
-    <div class="modal-header container row col-md-12" id="idHeader">
-      <div class="col-md-8">
-        <h4 class="col-md-8 modal-title">{{'gtp.formFieldDevelopmentalDelay' | translate}}:</h4>
+    <div class="modal-header container row col-12" id="idHeader">
+      <div class="col-8">
+        <h4 class="modal-title">{{'gtp.formFieldDevelopmentalDelay' | translate}}:</h4>
       </div>
-      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
-        <span aria-hidden="true">&times;</span>
-      </button>
+      <div class="col-4">
+        <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
     </div>
     <div class="modal-body">
-      <div class="px-3">
-          <div class="container col-md-12" >
-            <p>{{'gtp.templateDevelopmentalDelayContent' | translate}}</p>
-            <p>{{'gtp.templateHelp' | translate}}</p>
-          </div>
-      </div>
+        <div class="container col-12 row" >
+          <p>{{'gtp.templateDevelopmentalDelayContent' | translate}}</p>
+          <p>{{'gtp.templateHelp' | translate}}</p>
+        </div>
     </div>
     <div class="modal-footer">
-      <div class="col-md-12 center-elements">
+      <div class="col-12 center-elements">
         <div class="form-actions center">
             <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click');">{{'generics.Close' | translate }}</button>
         </div>

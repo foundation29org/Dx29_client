@@ -44,7 +44,7 @@
                         </mat-expansion-panel-header>
                         <div class="col-md-12">
                             <div class="table-responsive">
-                                <ng2-smart-table [settings]="alertsettingsProgramsExternalRequest" [source]="alertSourceProgramsExternalRequest" (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onEditConfirm($event)" (userRowSelect)="openMoreInfo($event)"></ng2-smart-table>
+                                <ng2-smart-table [settings]="alertsettingsProgramsExternalRequest" [source]="alertSourceProgramsExternalRequest" (editConfirm)="onEditConfirmExternalRequest($event)"></ng2-smart-table>
                             </div>
                         </div>
                         <div class="col-md-12 mt-1 mb-2">

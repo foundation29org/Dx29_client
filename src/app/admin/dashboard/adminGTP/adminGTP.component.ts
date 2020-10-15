@@ -88,6 +88,38 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
       }
     }
 
+    onEditConfirmExternalRequest(e){
+      console.log("Confirm edit")
+      console.log(e)
+      var data={userId:this.authService.getIdUser(),programName:"Genetic Program 1",idRequest:e.newData.applicationId}
+
+      var action="";
+      switch(e.newData.status){
+        case this.translate.instant('adminGTP.Requested'):
+          action="requested"
+          break;
+        case this.translate.instant('adminGTP.Accepted'):
+          action="accepted"
+          break;
+        case this.translate.instant('adminGTP.Rejected'):
+          action="rejected"
+          break;
+      }
+     if(action!=""){
+        var content = {action:action, data:data}
+        this.subscription.add( this.http.post(environment.api+'/api/programs/changeexternalRequest/',content)
+        .subscribe( (res : any) => {
+          console.log(res)
+          e.confirm.resolve(e.newData);
+        }, (err) => {
+          console.log(err);
+          this.loading=false;
+          e.confirm.resolve(e.data);
+        }));
+
+      }
+    }
+
     onDeleteConfirm(e){
       console.log("Confirm delete")
       console.log(e)
@@ -240,7 +272,6 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
 
     createTableExternalRequest(){
       this.appStatusList=[{title:this.translate.instant('adminGTP.Accepted'), value:this.translate.instant('adminGTP.Accepted')},{title:this.translate.instant('adminGTP.Rejected'),value:this.translate.instant('adminGTP.Rejected')},{title:this.translate.instant('adminGTP.Requested'),value:this.translate.instant('adminGTP.Requested')}]
-      this.initiatedByList=[{title:this.translate.instant('adminGTP.Clinician case'), value:this.translate.instant('adminGTP.Clinician case')},{title:this.translate.instant('adminGTP.Shared case'),value:this.translate.instant('adminGTP.Shared case')}]
 
       var table = {
         actions: {
@@ -259,9 +290,15 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
           deleteButtonContent: '<i title='+this.translate.instant("generics.Delete")+' class="fa fa-trash fa-1_5x danger"></i>'
         },
         columns: {
-          birthDate:{
-            title: this.translate.instant("personalinfo.Birth Date"),
-            placeholder: this.translate.instant("personalinfo.Birth Date"),
+          applicationId: {
+            title: this.translate.instant("adminGTP.Application ID"),
+            placeholder: this.translate.instant("adminGTP.Application ID"),
+            type: "html",
+            editable:false
+          },
+          date:{
+            title: this.translate.instant("adminGTP.Request date"),
+            placeholder: this.translate.instant("adminGTP.Request date"),
             type: 'date',
             valuePrepareFunction: (date) => {
                 if (date) {
@@ -280,9 +317,9 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
             },
             editable:false
           },
-          date:{
-            title: this.translate.instant("adminGTP.Request date"),
-            placeholder: this.translate.instant("adminGTP.Request date"),
+          birthDate:{
+            title: this.translate.instant("personalinfo.Birth Date"),
+            placeholder: this.translate.instant("personalinfo.Birth Date"),
             type: 'date',
             valuePrepareFunction: (date) => {
                 if (date) {
@@ -343,7 +380,7 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
             type: "html",
             editable:false
           },
-          applicationStatus:{
+          status:{
             title: this.translate.instant("adminGTP.Application status"),
             placeholder: this.translate.instant("adminGTP.Application status"),
             type: 'list',
@@ -416,6 +453,28 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
       return programsInfo;
     }
 
+    translateTextsProgramInfoExternalsRequests(programsInfo){
+      for( var i=0;i<programsInfo.length;i++){
+        if(programsInfo[i].status=="accepted"){
+          programsInfo[i].status=this.translate.instant('adminGTP.Accepted');
+        }
+        if(programsInfo[i].status=="rejected"){
+          programsInfo[i].status=this.translate.instant('adminGTP.Rejected');
+        }
+        if(programsInfo[i].status=="requests"){
+          programsInfo[i].status=this.translate.instant('adminGTP.Requested');
+        }
+      }
+      for( var i=0;i<programsInfo.length;i++){
+        Object.keys(programsInfo[i]).forEach(key => {
+          if(programsInfo[i][key]==null){
+            programsInfo[i][key]="-"
+          }
+        });
+      }
+      return programsInfo;
+    }
+
     loadGTPData(){
         var data={userId:this.authService.getIdUser(),programName:"Genetic Program 1"}
         this.programsInfo=[];
@@ -431,6 +490,7 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
               }
               else{
                 if(res[i].data.applicationStatus=='externalRequests'){
+                  console.log(res[i].data);
                   this.programsExternalRequest.push(res[i].data)
                 }else{
                   this.programsInfoNotPatient.push(res[i].data)
@@ -440,6 +500,7 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
             }
             this.programsInfo=this.translateTextsProgramInfo(this.programsInfo)
             this.programsInfoNotPatient=this.translateTextsProgramInfo(this.programsInfoNotPatient)
+            this.programsExternalRequest=this.translateTextsProgramInfoExternalsRequests(this.programsExternalRequest)
 
             this.alertSourceProgramsInfo = new LocalDataSource(this.programsInfo)
             this.alertSourceProgramsInfoNotPatient = new LocalDataSource(this.programsInfoNotPatient)
