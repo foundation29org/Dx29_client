@@ -186,7 +186,7 @@
 												</div>
 												<div class="col-md-6">
 													<p class="center-elements"><span class="font-small-2">{{'diagnosis.Otherwise Genetic' | translate }}</span></p>
-													<p><button type="button" class="btn btn-raised btn-primary" (click)="continueAndCallPhenolyzer()">{{'diagnosis.If you do not have VCF, continue!' | translate }}</button></p>
+													<p><button type="button" class="btn btn-raised btn-primary" (click)="continueAndCallPhen2Genes()">{{'diagnosis.If you do not have VCF, continue!' | translate }}</button></p>
 												</div>
 
 
@@ -619,44 +619,84 @@
 										</ng-template>
 									</ngb-tab>
 									<ngb-tab id="tabPhenolyzer">
-														<ng-template ngbTabTitle>
-															<div><span>Phenolyzer</span></div>
-													</ng-template>
+										<ng-template ngbTabTitle>
+											<div><span>Phenolyzer</span></div>
+										</ng-template>
 										<ng-template ngbTabContent>
-															<div class="mb-4" *ngIf="!launchingPhenolyzer">
-																<button type="button" class="btn btn-raised btn-primary" (click)="launchPhenolyzer()">{{'diagnosis.Launch' | translate }}</button>
-																<button *ngIf="filePhenolyzerOnBlob!=''" type="button" class="ml-1 btn btn-raised btn-primary" (click)="exploreMoreSymptomsPhenolyzer()">{{'diagnosis.Explore more symptoms' | translate }}</button>
-																<!--<p *ngIf="filePhenolyzerOnBlob!=''">{{'diagnosis.File uploaded' | translate }}: {{'generics.Yes' | translate }}</p>--><!--{{filePhenolyzerOnBlob}}-->
-																<table class="table" *ngIf="infoGenesAndConditionsPhenolyzer.length>0">
-														<thead>
-															<tr>
-															<th>{{'diagnosis.Ranked genes' | translate }}</th>
-															<th>{{'phenotype.Related conditions' | translate }}</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr *ngFor="let info of infoGenesAndConditionsPhenolyzer ; let i = index">
-															<td>
-																<h3>{{info.name}}</h3>
-															</td>
-															<td *ngIf="info.data.length>0">
-																<p *ngFor="let condition of info.data ; let j = index">
-																{{condition.condition}}
-																</p>
-															</td>
-															<td *ngIf="info.data.length==0">
-																{{'diagnosis.No known disease' | translate }}
-															</td>
-															</tr>
-														</tbody>
-														</table>
-															</div>
-															<div class="col-md-12 center-elements mt-4" *ngIf="launchingPhenolyzer">
+											<div class="mb-4" *ngIf="!launchingPhenolyzer">
+												<button type="button" class="btn btn-raised btn-primary" (click)="launchPhenolyzer()">{{'diagnosis.Launch' | translate }}</button>
+												<button *ngIf="filePhenolyzerOnBlob!=''" type="button" class="ml-1 btn btn-raised btn-primary" (click)="exploreMoreSymptomsPhenolyzer()">{{'diagnosis.Explore more symptoms' | translate }}</button>
+												<!--<p *ngIf="filePhenolyzerOnBlob!=''">{{'diagnosis.File uploaded' | translate }}: {{'generics.Yes' | translate }}</p>--><!--{{filePhenolyzerOnBlob}}-->
+												<table class="table" *ngIf="infoGenesAndConditionsPhenolyzer.length>0">
+													<thead>
+														<tr>
+														<th>{{'diagnosis.Ranked genes' | translate }}</th>
+														<th>{{'phenotype.Related conditions' | translate }}</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr *ngFor="let info of infoGenesAndConditionsPhenolyzer ; let i = index">
+														<td>
+															<h3>{{info.name}}</h3>
+														</td>
+														<td *ngIf="info.data.length>0">
+															<p *ngFor="let condition of info.data ; let j = index">
+															{{condition.condition}}
+															</p>
+														</td>
+														<td *ngIf="info.data.length==0">
+															{{'diagnosis.No known disease' | translate }}
+														</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+											<div class="col-md-12 center-elements mt-4" *ngIf="launchingPhenolyzer">
 												<p ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
 												<small class="mt-2">{{'diagnosis.Gene ranking process is running in background. This process can take a few minutes' | translate }}</small>
 												<small class="d-block">{{'generics.Please wait' | translate }}</small>
-												</div>
-														</ng-template>
+											</div>
+										</ng-template>
+									</ngb-tab>
+									<ngb-tab id="tabPhen2Genes">
+										<ng-template ngbTabTitle>
+											<div><span>Phen2Genes</span></div>
+										</ng-template>
+										<ng-template ngbTabContent>
+											<div class="mb-4" *ngIf="!launchingPhen2Genes">
+												<button type="button" class="ml-1 mb-0 btn btn-raised btn-primary" (click)="lauchPhen2Genes()">lauchPhen2Genes</button>
+												<button type="button" class="ml-1 mb-0 btn btn-raised btn-primary" (click)="exploreMoreSymptomsPhen2Genes()">getLastPhen2GenesResults</button>
+												<button type="button" *ngIf="infoGenesAndConditionsPhen2Genes.length>0" class="ml-1 mb-0 btn btn-raised btn-primary" (click)="exploreMoreSymptomsPhen2Genes()">exploreMoreSymptomsPhen2Genes</button>
+												<table class="table" *ngIf="infoGenesAndConditionsPhen2Genes.length>0">
+													<thead>
+														<tr>
+														<th>{{'diagnosis.Ranked genes' | translate }}</th>
+														<th>{{'phenotype.Related conditions' | translate }}</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr *ngFor="let info of infoGenesAndConditionsPhen2Genes ; let i = index">
+														<td>
+															<h3>{{info.name}}</h3>
+														</td>
+														<td *ngIf="info.data.length>0">
+															<p *ngFor="let condition of info.data ; let j = index">
+															{{condition.condition}}
+															</p>
+														</td>
+														<td *ngIf="info.data.length==0">
+															{{'diagnosis.No known disease' | translate }}
+														</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+											<div class="col-md-12 center-elements mt-4" *ngIf="launchingPhenolyzer">
+												<p ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
+												<small class="mt-2">{{'diagnosis.Gene ranking process is running in background. This process can take a few minutes' | translate }}</small>
+												<small class="d-block">{{'generics.Please wait' | translate }}</small>
+											</div>
+										</ng-template>
 									</ngb-tab>
 								</ngb-tabset>
 							</div>
@@ -717,7 +757,7 @@
 							<div #containermap style="color: #000000; font-weight: bold" *ngIf="(relatedConditions.length>0) && relatedConditions[0].h29>0" ></div>
 
 							<!--<div *ngIf="!gettingRelatedConditions">-->
-								<div *ngIf="(this.infoGenesAndConditionsExomizer.length>0 && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes) || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhenolyzer.length>0) && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes))">
+								<div *ngIf="(this.infoGenesAndConditionsExomizer.length>0 && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes) || (this.infoGenesAndConditionsExomizer.length==0 && (this.infoGenesAndConditionsPhenolyzer.length>0 || this.infoGenesAndConditionsPhen2Genes.length>0 )) && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes))">
 								<ngx-datatable (activate)="onActivate($event, contentSeeSymptomsOfDisease)" *ngIf="relatedConditions.length>0" responsive
 					        class="bootstrap fullscreen"
 					        [columnMode]="'flex'"
@@ -757,12 +797,12 @@
 					            {{value}}
 					          </ng-template>
 					        </ngx-datatable-column>
-									<ngx-datatable-column name="C2" prop="scoregenes" [flexGrow]="1" *ngIf="this.infoGenesAndConditionsExomizer.length>0 || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhenolyzer.length>0)">
+									<ngx-datatable-column name="C2" prop="scoregenes" [flexGrow]="1" *ngIf="this.infoGenesAndConditionsExomizer.length>0 || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhenolyzer.length>0) || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhen2Genes.length>0)">
 					          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 					            {{value}}
 					          </ng-template>
 					        </ngx-datatable-column>
-									<ngx-datatable-column name="Dx29" prop="h29" [flexGrow]="1" *ngIf="this.infoGenesAndConditionsExomizer.length>0 || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhenolyzer.length>0)">
+									<ngx-datatable-column name="Dx29" prop="h29" [flexGrow]="1" *ngIf="this.infoGenesAndConditionsExomizer.length>0 || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhenolyzer.length>0) || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhen2Genes.length>0)">
 					          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 											<div *ngIf="row.color">
 												<p [ngStyle]="{'background-color': row.color}"><span style="padding: 0.2em;">{{value}}</span></p>
@@ -775,7 +815,7 @@
 					          </ng-template>
 					        </ngx-datatable-column>
 					      </ngx-datatable>
-							<div class="col-md-12" *ngIf="relatedConditions.length>0 && (this.infoGenesAndConditionsExomizer.length>0 || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhenolyzer.length>0))">
+							<div class="col-md-12" *ngIf="relatedConditions.length>0 && (this.infoGenesAndConditionsExomizer.length>0 || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhenolyzer.length>0) || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhen2Genes.length>0))">
 								<label>* No information found in Monarch's MONDO disease database. Consulting genecards instead. The link may not work.
 								</label>
 							</div>
