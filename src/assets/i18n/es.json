@@ -1784,6 +1784,8 @@
     "PrivacyPolicyTitle": "Política de Privacidad para Formulario Programa 100D",
     "PrivacyPolicyContent1": "El responsable del tratamiento de los datos personales facilitados en el presente formulario es Fundación 29 quien los tratará con la finalidad de atender a tu solicitud para que te mantengamos informado acerca del Programa Juntos hacia el Diagnóstico. Tienes derecho a acceder, rectificar, suprimir tus datos y revocar tu consentimiento, así como otros derechos, como se explica en la Política de privacidad, donde podrás recabar más información sobre el tratamiento de tus datos.",
     "PrivacyPolicyContent2": "Al hacer click en el botón “Enviar” prestas tu consentimiento para el tratamiento de tus datos para recibir información del Programa Juntos hacia el Diagnóstico.",
+    "textConsent": "Consiento el tratamiento de los datos de salud del paciente al que represento como padre/madre/tutor, con el fin de recibir información acerca del programa 'Juntos hacia el diagnóstico'",
+    "mandatoryConsent":"Es ogligatorio aceptar el consentimiento para continuar",
     "templateGESTContent1": "Es normal que tengas dudas sobre si las crisis de tu hijo/a son o no generalizadas, dado que existen muchos tipos de crisis.",
     "templateGESTContent2": "Una crisis epiléptica generalizada afecta a todo el cerebro y va acompañada de pérdida del conocimiento. Por tanto, su tu hijo/a pierde el conocimiento durante una crisis es posible que tenga una crisis generalizada.",
     "templateGESTContent3": "Si no te resulta familiar el término generalizadas quizá es porque este tipo de crisis se divide en distintas clases con nombres que quizás te puedan resultar más cercanos, como:",

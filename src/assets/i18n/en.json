@@ -1783,6 +1783,8 @@
     "PrivacyPolicyTitle": "Privacy Policy for Program Form 100D",
     "PrivacyPolicyContent1": "The person responsible for the treatment of the personal data provided in this form is Fundación 29 who will process them in order to meet your request so that we keep you informed about the Together Towards Diagnosis Program. You have the right to access, rectify, delete your data and revoke your consent, as well as other rights, as explained in the Privacy Policy, where you can collect more information about the processing of your data.",
     "PrivacyPolicyContent2": "By clicking on the 'Send' button, you give your consent for the processing of your data to receive information from the Together Towards Diagnosis Program.",
+    "textConsent": "I consent to the processing of the health data of the patient I represent as a parent/guardian, for the purpose of receiving information about the 'Together Toward Diagnosis' program",
+    "mandatoryConsent":"It is mandatory to accept the consent to continue",
     "templateGESTContent1": "It is normal that you have doubts about whether or not your child's seizures are generalized, since there are many types of seizures.",
     "templateGESTContent2": "A generalized seizure affects the entire brain and is accompanied by loss of consciousness. Therefore, if your child loses consciousness during a seizure, they may have a generalized seizure.",
     "templateGESTContent3": "If the term generalized is not familiar to you, perhaps it is because this type of crisis is divided into different classes with names that may be closer to you, such as:",
