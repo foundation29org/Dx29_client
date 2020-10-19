@@ -10,12 +10,22 @@
   margin-top: 5px;
 }
 
+:host /deep/ .mat-checkbox-layout{
+  white-space: normal;
+}
+
 @media ( min-width: 768px ) {
   .panel-name-registration {
     position: relative;
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
+  }
+}
+
+@media (max-device-width: 768px){
+  .img-gtp{
+    width:70%;
   }
 }
 

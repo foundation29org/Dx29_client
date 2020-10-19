@@ -34,7 +34,7 @@ export class FooterLandComponent implements OnDestroy{
       this.router.events.filter((event: any) => event instanceof NavigationEnd).subscribe(
         event => {
           var tempUrl = (event.url).toString();
-          if(tempUrl.indexOf('/gtp')!=-1){
+          if(tempUrl.indexOf('/juntoshaciaeldiagnostico')!=-1){
             this.isGTPPage = true;
           }else{
             this.isGTPPage = false;

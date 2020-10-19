@@ -42,6 +42,6 @@ export const ROUTESHOMEDX: RouteInfo[] = [
     { path: '/diagnosedpatient', title: 'menu.DiagnosedPatients', icon: 'fas fa-id-card', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, isAnchorLink: false, submenu: [] },
     { path: '/education', title: 'menu.Ed Hub', icon: 'icon-graduation', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, isAnchorLink: false, submenu: [] },
     { path: '/attributions', title: 'menu.Attributions', icon: 'icon-badge', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, isAnchorLink: false, submenu: [] },
-    { path: '/gtp', title: 'menu.Genetic testing program', icon: 'fas fa-dna', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, isAnchorLink: false, submenu: [] },
+    { path: '/juntoshaciaeldiagnostico', title: 'menu.Genetic testing program', icon: 'fas fa-dna', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, isAnchorLink: false, submenu: [] },
     { path: 'https://www.foundation29.org/donate/', title: 'homedx.Donate', icon: 'fas fa-donate', class: '', badge: '', badgeClass: '', isExternalLink: true, isAnchorLink: false, submenu: [] },
 ];

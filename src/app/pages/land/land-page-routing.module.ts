@@ -56,7 +56,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'gtp',
+        path: 'juntoshaciaeldiagnostico',
         component: GtpPageComponent,
         data: {
           title: 'menu.Genetic testing program'

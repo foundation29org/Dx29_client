@@ -9,12 +9,12 @@
               <span class="icon-bar"></span>
           </button>
           <span class="navbar-header-logos">
-            <img *ngIf="isHomePage" class="logo-img" src='assets/img/logo-Dx29.png' />
-            <img *ngIf="!isHomePage" style="cursor:pointer;" class="logo-img" src='assets/img/logo-Dx29.png' routerLink="/."/>
+            <img *ngIf="isGTPPage" class="logo-img" style="width: 140px;"  src='assets/img/logo-foundation-twentynine-footer.png' /> <img *ngIf="isHomePage" class="logo-img" src='assets/img/logo-Dx29.png' />
+            <img *ngIf="!isHomePage && !isGTPPage" style="cursor:pointer;" class="logo-img" src='assets/img/logo-Dx29.png' routerLink="/."/>
           </span>
 
       </div>
-        <div class="d-none d-lg-block">
+        <div class="d-none d-lg-block" *ngIf="!isGTPPage">
           <div class="navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav m-r-0">
                   <li class="nav-item mr-2">
@@ -43,7 +43,7 @@
                       </a>
                   </li>
                   <li class="nav-item mr-2">
-                      <a class="nav-link" [ngClass]="(!isGTPPage)?'black':'black text-bold-500'" routerLink="/gtp">
+                      <a class="nav-link" [ngClass]="(!isGTPPage)?'black':'black text-bold-500'" routerLink="/juntoshaciaeldiagnostico">
                         <span>{{'menu.Genetic testing program' | translate }}</span>
                       </a>
                   </li>
