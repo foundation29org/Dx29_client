@@ -12,6 +12,11 @@
   width: 60px;
 }
 
+.custom-navbar{
+  min-height: 3em;
+  padding: 1.4em;
+}
+
 i{
   font-size: 1rem !important;
 }
@@ -48,9 +53,31 @@ i{
 
 }
 
+@media (max-width: 377px) {
+  .navbar-container{
+    margin-top:1em;
+  }
+
+  .logo-img{
+    width: 50px;
+  }
+
+  .custom-navbar{
+    padding: 0.4em;
+  }
+  
+  .btn-navbar{
+    padding: 0.175rem 0.35rem;
+  }
+
+}
+
 @media (max-width: 320px) {
   .navbar .navbar-nav{
     display: ruby-base !important;
+  }
+  .logo-img{
+    width: 40px;
   }
 
 }

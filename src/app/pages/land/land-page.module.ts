@@ -11,9 +11,11 @@ import { DiagnosedPatientPageComponent } from "./diagnosedpatient/diagnosedpatie
 import { UndiagnosedPatientPageComponent } from "./undiagnosedpatient/undiagnosedpatient-page.component";
 import { EdHubPageComponent } from "./ed-hub/ed-hub-page.component";
 import { AttributionsComponent } from "./attributions/attributions.component";
+import { GtpPageComponent } from "./gtp/gtp-page.component";
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
     exports: [
@@ -26,7 +28,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         TranslateModule,
         CustomFormsModule,
         NgbModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatRadioModule
     ],
     declarations: [
         LandPageComponent,
@@ -34,7 +37,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         DiagnosedPatientPageComponent,
         UndiagnosedPatientPageComponent,
         EdHubPageComponent,
-        AttributionsComponent
+        AttributionsComponent,
+        GtpPageComponent
     ]
 })
 export class LandPageModule { }

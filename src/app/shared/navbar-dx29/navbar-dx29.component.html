@@ -1,8 +1,8 @@
 <!-- Navbar (Header) Starts -->
-<nav class="navbar navbar-expand-lg navbar-light bg-faded damemarger" style="min-height: 3em;padding: 1.4em;">
+<nav class="navbar navbar-expand-lg navbar-light bg-faded damemarger custom-navbar">
     <div class="container-fluid">
       <div> <!--*ngIf="role != 'Clinical' && role != 'Lab'"-->
-          <button type="button" class="mt-2 d-lg-none navbar-toggle float-left" data-toggle="collapse" (click)="toggleSidebar()">
+          <button *ngIf="!isGTPPage" type="button" class="mt-2 d-lg-none navbar-toggle float-left" data-toggle="collapse" (click)="toggleSidebar()">
               <span class="sr-only">{{'navbar.Toggle navigation' | translate }}</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -14,7 +14,7 @@
           </span>
 
       </div>
-        <div class="d-none d-lg-block">
+        <div class="d-none d-lg-block" *ngIf="!isGTPPage">
           <div class="navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav m-r-0">
                   <li class="nav-item mr-2">
@@ -42,19 +42,24 @@
                         <span>{{'menu.Attributions' | translate }}</span>
                       </a>
                   </li>
+                  <li class="nav-item mr-2">
+                      <a class="nav-link" [ngClass]="(!isGTPPage)?'black':'black text-bold-500'" routerLink="/juntoshaciaeldiagnostico">
+                        <span>{{'menu.Genetic testing program' | translate }}</span>
+                      </a>
+                  </li>
                 </ul>
             </div>
         </div>
         <div class="navbar-container pl-0">
             <div  id="navbarSupportedContent">
                 <ul class="navbar-nav m-r-0">
-                    <li class="nav-item mr-2">
-                        <a class="btn btn-danger mr-1 btn-raised mb-0" [routerLink]="['/register', { role: role, subrole: subrole }]">
+                    <li class="nav-item mr-2" *ngIf="!isGTPPage">
+                        <a class="btn btn-danger mr-1 btn-raised mb-0 btn-navbar" [routerLink]="['/register', { role: role, subrole: subrole }]">
                           <span>{{'login.Create User' | translate }}</span>
                         </a>
                     </li>
-                    <li class="nav-item mr-2">
-                        <button class="btn btn-secondary mr-1 btn-raised mb-0" routerLink="/login">
+                    <li class="nav-item mr-2" *ngIf="!isGTPPage">
+                        <button class="btn btn-secondary mr-1 btn-raised mb-0 btn-navbar" routerLink="/login">
                           <span>{{'login.Login' | translate }}</span>
                         </button>
                     </li>
