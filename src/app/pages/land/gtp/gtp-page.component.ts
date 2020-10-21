@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
 import { environment } from 'environments/environment';
@@ -12,6 +12,7 @@ import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, me
 
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
+import { EventsService} from 'app/shared/services/events.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -20,18 +21,26 @@ import { Subscription } from 'rxjs/Subscription';
     styleUrls: ['./gtp-page.component.scss'],
 })
 
-export class GtpPageComponent implements OnDestroy{
+export class GtpPageComponent implements OnInit, OnDestroy{
 
     @ViewChild('f') gtpRegisterForm: NgForm;
     sending: boolean = false;
     isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
     modalReference: NgbModalRef;
-
+    lang: string = 'en';
     private subscription: Subscription = new Subscription();
 
-    constructor(private router: Router, private http: HttpClient, public translate: TranslateService, private modalService: NgbModal, private route: ActivatedRoute, public toastr: ToastrService) {
+    constructor(private router: Router, private http: HttpClient, public translate: TranslateService, private modalService: NgbModal, private route: ActivatedRoute, public toastr: ToastrService, private eventsService: EventsService) {
 
     }
+
+    ngOnInit(){
+      this.lang = sessionStorage.getItem('lang');
+      this.eventsService.on('changelang', function(lang) {
+        this.lang=lang;
+      }.bind(this));
+    }
+
 
     ngOnDestroy() {
       this.subscription.unsubscribe();

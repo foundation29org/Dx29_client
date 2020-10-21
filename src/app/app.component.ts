@@ -55,6 +55,7 @@ export class AppComponent implements OnInit, OnDestroy{
   versionServer:any = {};
   loadedVersion = false;
   actualScenarioHotjar:any = {lang: '', scenario: ''};
+  tituloEvent: string = '';
     //Set toastr container ref configuration for toastr positioning on screen
     constructor(private http: HttpClient, public toastr: ToastrService, private authGuard: AuthGuard, private authService: AuthService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title, public translate: TranslateService, angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics, private langService:LangService, private eventsService: EventsService, protected $hotjar: NgxHotjarService, private tokenService: TokenService) {
 
@@ -354,8 +355,10 @@ export class AppComponent implements OnInit, OnDestroy{
       .mergeMap((route) => route.data)
       .subscribe((event) => {
         (async () => {
+          console.log(event);
              await this.delay(500);
-             var titulo= this.translate.instant(event['title']);
+             this.tituloEvent = event['title'];
+             var titulo= this.translate.instant(this.tituloEvent);
              this.titleService.setTitle(titulo);
          })();
 
@@ -390,6 +393,8 @@ export class AppComponent implements OnInit, OnDestroy{
 
       this.eventsService.on('changelang', function(lang) {
         this.launchHotjarTrigger(lang);
+        var titulo= this.translate.instant(this.tituloEvent);
+        this.titleService.setTitle(titulo);
       }.bind(this));
       this.eventsService.on('changeEscenarioHotjar', function(obj) {
         this.testHotjarTrigger(obj);
