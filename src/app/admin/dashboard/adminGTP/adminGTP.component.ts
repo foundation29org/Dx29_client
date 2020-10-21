@@ -576,8 +576,11 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
       var replacer = (key, value) => value === null ? '' : value;
       for(var i=0;i<dataCopyToDownload.length;i++){
         var dateRequest=new Date(dataCopyToDownload[i].date);
-        var l = (dateRequest.toString()).split(' ').splice(0, 5).join(' ')
-        dataCopyToDownload[i].date=l;
+        var tet = new Intl.DateTimeFormat('es-ES').format(dateRequest)
+        dataCopyToDownload[i].date=tet;
+        var dateRequest2=new Date(dataCopyToDownload[i].birthDate);
+        var tet2 = new Intl.DateTimeFormat('es-ES').format(dateRequest2)
+        dataCopyToDownload[i].birthDate=tet2;
       }
       var now = new Date();
       var y = now.getFullYear();
