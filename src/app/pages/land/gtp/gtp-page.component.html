@@ -360,7 +360,7 @@
 		    </ol>
 
         <h4 style="margin-top:20px;">1. {{'gtp.pp.c1.title' | translate}}</h4>
-        <p>{{'gtp.pp.c1.1' | translate}}</p>
+        <p [innerHTML]="'gtp.pp.c1.1' | translate"></p>
         <p>{{'gtp.pp.c1.2' | translate}}</p>
 
         <h4 style="margin-top:20px;">2. {{'gtp.pp.c2.title' | translate}}: {{'gtp.pp.c2.extendedtitle' | translate}}</h4>
@@ -373,26 +373,28 @@
 		    </ul>
 
         <h4 style="margin-top:20px;">3. {{'gtp.pp.c3.extendedtitle' | translate}}</h4>
-        <table>
-          <thead>
-            <tr>
-              <th>{{'gtp.pp.c3.h1' | translate }}</th>
-              <th>{{'gtp.pp.c3.h2' | translate }}</th>
-              <th>{{'gtp.pp.c3.h3' | translate }}</th>
-              <th>{{'gtp.pp.c3.h4' | translate }}</th>
-              <th>{{'gtp.pp.c3.h5' | translate }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{{'gtp.pp.c3.c1' | translate }}</td>
-              <td>{{'gtp.pp.c3.c2' | translate }}</td>
-              <td>{{'gtp.pp.c3.c3' | translate }}</td>
-              <td>{{'gtp.pp.c3.c4' | translate }}</td>
-              <td>{{'gtp.pp.c3.c5' | translate }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive-sm">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>{{'gtp.pp.c3.h1' | translate }}</th>
+                <th>{{'gtp.pp.c3.h2' | translate }}</th>
+                <th>{{'gtp.pp.c3.h3' | translate }}</th>
+                <th>{{'gtp.pp.c3.h4' | translate }}</th>
+                <th>{{'gtp.pp.c3.h5' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{'gtp.pp.c3.c1' | translate }}</td>
+                <td>{{'gtp.pp.c3.c2' | translate }}</td>
+                <td>{{'gtp.pp.c3.c3' | translate }}</td>
+                <td>{{'gtp.pp.c3.c4' | translate }}</td>
+                <td>{{'gtp.pp.c3.c5' | translate }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4 style="margin-top:20px;">4. {{'gtp.pp.c4.title' | translate}}</h4>
         <p>{{'gtp.pp.c4.1' | translate}}</p>
@@ -407,7 +409,7 @@
             <li>{{'gtp.pp.c5.1.4' | translate}}</li>
             <li>{{'gtp.pp.c5.1.5' | translate}}</li>
 		    </ol>
-        <p>{{'gtp.pp.c5.2' | translate}}</p>
+        <p [innerHTML]="'gtp.pp.c5.2' | translate"></p>
         <p>{{'gtp.pp.c5.3' | translate}}</p>
 
     </div>
