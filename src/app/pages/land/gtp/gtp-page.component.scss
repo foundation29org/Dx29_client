@@ -1,0 +1,46 @@
+.input-group{
+  z-index: 0;
+}
+
+.card .card-block {
+    padding: 1.5rem 1.5rem 1.5rem;
+}
+
+.mt-5px{
+  margin-top: 5px;
+}
+
+:host /deep/ .mat-checkbox-layout{
+  white-space: normal;
+}
+
+@media ( min-width: 768px ) {
+  .panel-name-registration {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+}
+
+@media (max-device-width: 991px){
+  .img-gtp{
+    width:50%;
+  }
+}
+
+@media (max-device-width: 420px){
+  .img-gtp{
+    width:70%;
+  }
+}
+
+@media ( min-width: 992px ) {
+  .full-height{
+    margin-top: 3em;
+  }
+}
+
+li, dd {
+    line-height: inherit;
+}

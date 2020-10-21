@@ -21,10 +21,13 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
     loading:boolean=false;
     programsInfo=[];
     programsInfoNotPatient=[];
+    programsExternalRequest=[];
     alertsettingsProgramsInfo: any = {};
     alertSourceProgramsInfo: LocalDataSource;
     alertsettingsProgramsInfoNotPatient: any = {};
     alertSourceProgramsInfoNotPatient: LocalDataSource;
+    alertsettingsProgramsExternalRequest: any = {};
+    alertSourceProgramsExternalRequest: LocalDataSource;
     appStatusList=[]
     initiatedByList=[];
     moreInfoCaseEvent: any = {};
@@ -81,7 +84,39 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
           this.loading=false;
           e.confirm.resolve(e.data);
         }));
-        
+
+      }
+    }
+
+    onEditConfirmExternalRequest(e){
+      console.log("Confirm edit")
+      console.log(e)
+      var data={userId:this.authService.getIdUser(),programName:"Genetic Program 1",idRequest:e.newData.applicationId}
+
+      var action="";
+      switch(e.newData.status){
+        case this.translate.instant('adminGTP.Requested'):
+          action="requested"
+          break;
+        case this.translate.instant('adminGTP.Accepted'):
+          action="accepted"
+          break;
+        case this.translate.instant('adminGTP.Rejected'):
+          action="rejected"
+          break;
+      }
+     if(action!=""){
+        var content = {action:action, data:data}
+        this.subscription.add( this.http.post(environment.api+'/api/programs/changeexternalRequest/',content)
+        .subscribe( (res : any) => {
+          console.log(res)
+          e.confirm.resolve(e.newData);
+        }, (err) => {
+          console.log(err);
+          this.loading=false;
+          e.confirm.resolve(e.data);
+        }));
+
       }
     }
 
@@ -134,12 +169,12 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
       this.initiatedByList=[{title:this.translate.instant('adminGTP.Clinician case'), value:this.translate.instant('adminGTP.Clinician case')},{title:this.translate.instant('adminGTP.Shared case'),value:this.translate.instant('adminGTP.Shared case')}]
 
       var table = {
-        actions: { 
-        columnTitle: this.translate.instant("generics.Options"), 
-        add: false, 
-        edit: true , 
-        delete: true, 
-        position:'right', 
+        actions: {
+        columnTitle: this.translate.instant("generics.Options"),
+        add: false,
+        edit: true ,
+        delete: true,
+        position:'right',
         },
         edit:{
           confirmSave: true,
@@ -235,6 +270,149 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
       return table;
     }
 
+    createTableExternalRequest(){
+      this.appStatusList=[{title:this.translate.instant('adminGTP.Accepted'), value:this.translate.instant('adminGTP.Accepted')},{title:this.translate.instant('adminGTP.Rejected'),value:this.translate.instant('adminGTP.Rejected')},{title:this.translate.instant('adminGTP.Requested'),value:this.translate.instant('adminGTP.Requested')}]
+
+      var table = {
+        actions: {
+        columnTitle: this.translate.instant("generics.Options"),
+        add: false,
+        edit: true ,
+        delete: true,
+        position:'right',
+        },
+        edit:{
+          confirmSave: true,
+          editButtonContent: '<i class="fa fa-pencil fa-1_5x primary mr-3"></i>'
+        },
+        delete: {
+          confirmDelete: true,
+          deleteButtonContent: '<i title='+this.translate.instant("generics.Delete")+' class="fa fa-trash fa-1_5x danger"></i>'
+        },
+        columns: {
+          applicationId: {
+            title: this.translate.instant("adminGTP.Application ID"),
+            placeholder: this.translate.instant("adminGTP.Application ID"),
+            type: "html",
+            editable:false
+          },
+          date:{
+            title: this.translate.instant("adminGTP.Request date"),
+            placeholder: this.translate.instant("adminGTP.Request date"),
+            type: 'date',
+            valuePrepareFunction: (date) => {
+                if (date) {
+                  if(date!="-"){
+                    var dateRequest=new Date(date);
+                    var l = (dateRequest.toString()).split(' ').splice(0, 5).join(' ')
+                    return l;
+                  }
+                  else{
+                    return date;
+                  }
+                }
+                else{
+                    return null;
+                }
+            },
+            editable:false
+          },
+          birthDate:{
+            title: this.translate.instant("personalinfo.Birth Date"),
+            placeholder: this.translate.instant("personalinfo.Birth Date"),
+            type: 'date',
+            valuePrepareFunction: (date) => {
+                if (date) {
+                  if(date!="-"){
+                    var dateRequest=new Date(date);
+                    var l = (dateRequest.toString()).split(' ').splice(0, 5).join(' ')
+                    return l;
+                  }
+                  else{
+                    return date;
+                  }
+                }
+                else{
+                    return null;
+                }
+            },
+            editable:false
+          },
+          gender: {
+            title: this.translate.instant("personalinfo.Gender"),
+            placeholder: this.translate.instant("personalinfo.Gender"),
+            type: "html",
+            editable:false
+          },
+          ges: {
+            title: this.translate.instant("gtp.formFieldGES"),
+            placeholder: this.translate.instant("gtp.formFieldGES"),
+            type: "html",
+            editable:false
+          },
+          developmentalDelay: {
+            title: this.translate.instant("gtp.formFieldDevelopmentalDelay"),
+            placeholder: this.translate.instant("gtp.formFieldDevelopmentalDelay"),
+            type: "html",
+            editable:false
+          },
+          userName:{
+            title: this.translate.instant("generics.Name"),
+            placeholder: this.translate.instant("generics.Name"),
+            type: "html",
+            editable:false
+          },
+          lastName:{
+            title: this.translate.instant("personalinfo.Last Name"),
+            placeholder: this.translate.instant("personalinfo.Last Name"),
+            type: "html",
+            editable:false
+          },
+          phone:{
+            title: this.translate.instant("personalinfo.Phone"),
+            placeholder: this.translate.instant("personalinfo.Phone"),
+            type: "html",
+            editable:false
+          },
+          email: {
+            title: this.translate.instant("generics.Email"),
+            placeholder: this.translate.instant("generics.Email"),
+            type: "html",
+            editable:false
+          },
+          status:{
+            title: this.translate.instant("adminGTP.Application status"),
+            placeholder: this.translate.instant("adminGTP.Application status"),
+            type: 'list',
+            editable:true,
+            editor:{
+              type: 'list',
+              valuePrepareFunction: (cell) => {
+                return this.getAppStatus(cell)
+              },
+              config: {
+                list: this.appStatusList
+              }
+            },
+            filter: {
+              type: 'list',
+              config: {
+                selectText: this.translate.instant("adminGTP.All"),
+                list: this.appStatusList,
+              },
+            }
+          }
+        },
+        pager : {
+            display : false
+        },
+        attr: {
+          class: "table table-responsive"
+        }
+      }
+      return table;
+    }
+
     translateTextsProgramInfo(programsInfo){
       for( var i=0;i<programsInfo.length;i++){
         if(programsInfo[i].applicationStatus=="accepted"){
@@ -275,10 +453,33 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
       return programsInfo;
     }
 
+    translateTextsProgramInfoExternalsRequests(programsInfo){
+      for( var i=0;i<programsInfo.length;i++){
+        if(programsInfo[i].status=="accepted"){
+          programsInfo[i].status=this.translate.instant('adminGTP.Accepted');
+        }
+        if(programsInfo[i].status=="rejected"){
+          programsInfo[i].status=this.translate.instant('adminGTP.Rejected');
+        }
+        if(programsInfo[i].status=="requests"){
+          programsInfo[i].status=this.translate.instant('adminGTP.Requested');
+        }
+      }
+      for( var i=0;i<programsInfo.length;i++){
+        Object.keys(programsInfo[i]).forEach(key => {
+          if(programsInfo[i][key]==null){
+            programsInfo[i][key]="-"
+          }
+        });
+      }
+      return programsInfo;
+    }
+
     loadGTPData(){
         var data={userId:this.authService.getIdUser(),programName:"Genetic Program 1"}
         this.programsInfo=[];
         this.programsInfoNotPatient=[];
+        this.programsExternalRequest=[];
 
         this.subscription.add( this.http.post(environment.api+'/api/programs/getProgramRequestsAndStatus/',data)
         .subscribe( (res : any) => {
@@ -288,17 +489,26 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
                 this.programsInfo.push(res[i].data)
               }
               else{
-                this.programsInfoNotPatient.push(res[i].data)
+                if(res[i].data.applicationStatus=='externalRequests'){
+                  console.log(res[i].data);
+                  this.programsExternalRequest.push(res[i].data)
+                }else{
+                  this.programsInfoNotPatient.push(res[i].data)
+                }
+
               }
             }
             this.programsInfo=this.translateTextsProgramInfo(this.programsInfo)
             this.programsInfoNotPatient=this.translateTextsProgramInfo(this.programsInfoNotPatient)
+            this.programsExternalRequest=this.translateTextsProgramInfoExternalsRequests(this.programsExternalRequest)
 
             this.alertSourceProgramsInfo = new LocalDataSource(this.programsInfo)
             this.alertSourceProgramsInfoNotPatient = new LocalDataSource(this.programsInfoNotPatient)
+            this.alertSourceProgramsExternalRequest = new LocalDataSource(this.programsExternalRequest)
 
             this.alertsettingsProgramsInfo = this.createTable();
             this.alertsettingsProgramsInfoNotPatient = this.createTable();
+            this.alertsettingsProgramsExternalRequest = this.createTableExternalRequest();
             this.loading=false;
         }, (err) => {
             console.log(err);
@@ -343,6 +553,34 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
             dataCopyToDownload[i].medicalRecords= dataCopyToDownload[i].medicalRecords.reason[0]
           }
         }
+      }
+      var now = new Date();
+      var y = now.getFullYear();
+      var m = now.getMonth() + 1;
+      var d = now.getDate();
+      var date='' + y + (m < 10 ? '0' : '') + m + (d < 10 ? '0' : '') + d;
+      var filenameWithDate=filename+"_"+date;
+      //console.log(data)
+      //console.log(dataCopyToDownload)
+      const header = Object.keys(dataCopyToDownload[0]);
+      let csv = dataCopyToDownload.map(row => header.map(fieldName => JSON.stringify(row[fieldName],replacer)).join(','));
+      csv.unshift(header.join(','));
+      let csvArray = csv.join('\r\n');
+      var blob = new Blob([csvArray], {type: 'text/csv' })
+      FileSaver.saveAs(blob, filenameWithDate + ".csv");
+    }
+
+    downloadFileExternalRequest(data: any, filename:string) {
+      var dataCopyToDownload=JSON.parse(JSON.stringify(data));
+      console.log("Download")
+      var replacer = (key, value) => value === null ? '' : value;
+      for(var i=0;i<dataCopyToDownload.length;i++){
+        var dateRequest=new Date(dataCopyToDownload[i].date);
+        var tet = new Intl.DateTimeFormat('es-ES').format(dateRequest)
+        dataCopyToDownload[i].date=tet;
+        var dateRequest2=new Date(dataCopyToDownload[i].birthDate);
+        var tet2 = new Intl.DateTimeFormat('es-ES').format(dateRequest2)
+        dataCopyToDownload[i].birthDate=tet2;
       }
       var now = new Date();
       var y = now.getFullYear();

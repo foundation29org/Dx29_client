@@ -2,19 +2,19 @@
   <div class="container col-md-12 ptbl">
     <div class="col-md-12 mt-2">
       <div class="row">
-        <div class="col-md-5 center-xs pts pbxl start-sm">
-          <nav>
+        <div [ngClass]="(isGTPPage==false)?'col-md-5 center-xs pts pbxl start-sm':'col-md-12 center-xs pts pbxl start-sm'">
+          <nav [ngClass]="(isGTPPage==false)?'vertical-horizontal-align center-elements':'pt-4 pb-4 center-elements'" >
             <a href="https://www.foundation29.org" target="_blank"><img class="" src='assets/img/logo-foundation-twentynine-footer.png' /></a>
-            <p class="ptm mb-0">&copy;  {{currentDate | date: 'yyyy'}} {{'generics.Foundation 29' | translate }}</p>
+            <p class="ptm mb-0 mt-1">&copy;  {{currentDate | date: 'yyyy'}} {{'generics.Foundation 29' | translate }}</p>
             <a class="danger" mailto="info@foundation29.org" href="mailto:info@foundation29.org">info@foundation29.org</a>
           </nav>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
           <div class="redes-line"></div>
         </div>
         <a id="contact"></a>
-        <div class="col-md-5 center-xs start-sm">
-          <div class="card-block">
+        <div class="col-md-5 center-xs start-sm" *ngIf="!isGTPPage">
+          <div class="card-block mt-4">
             <h3>{{'homedx.Contact us' | translate }}</h3>
             <form class="form" (ngSubmit)="sendMsg()" #f="ngForm">
               <div class="form-body">
@@ -39,7 +39,7 @@
                   </div>
                 </div>
               </div>
-              <div *ngIf="!sending" class="center-elements">
+              <div *ngIf="!sending">
                   <div *ngIf="f.valid;then formValid else formError"></div>
                   <ng-template #formValid><button class="btn btn-outline-red mr-1" type="submit"> {{'support.Send' | translate }}</button></ng-template>
                   <ng-template #formError><button class="btn btn-outline-red mr-1" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
