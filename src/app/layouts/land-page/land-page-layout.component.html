@@ -9,7 +9,7 @@
   }"
   [dir]="options.direction"
 >
-<div
+<div *ngIf="!isGTPPage"
   #appSidebar
   appSidebar
   class="app-sidebar d-lg-none"

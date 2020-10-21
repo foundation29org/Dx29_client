@@ -8,6 +8,7 @@ import {
   OnDestroy,
   ViewChild
 } from "@angular/core";
+import { Router, NavigationStart } from '@angular/router';
 import { TranslateService } from "@ngx-translate/core";
 import { ConfigService } from "app/shared/services/config.service";
 import { DOCUMENT } from "@angular/common";
@@ -43,6 +44,7 @@ export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy
   isSidebar_lg = false;
   bgColor = "black";
   bgImage = "assets/img/sidebar-bg/01.jpg";
+  isGTPPage: boolean = false;
 
   public config: any = {};
 
@@ -53,8 +55,15 @@ export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy
     private layoutService: LayoutService,
     private configService: ConfigService,
     @Inject(DOCUMENT) private document: Document,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private router: Router
   ) {
+    console.log(this.router.url);
+    if((this.router.url).indexOf('/juntoshaciaeldiagnostico')!=-1){
+      this.isGTPPage = true;
+    }else{
+      this.isGTPPage = false;
+    }
     //event emitter call from customizer
     this.layoutSub = layoutService.customizerChangeEmitted$.subscribe(
       options => {
@@ -230,6 +239,21 @@ export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   ngAfterViewInit() {
+    this.router.events.filter((event: any) => event instanceof NavigationStart).subscribe(
+
+      event => {
+        var tempUrl = (event.url).toString();
+        console.log(tempUrl);
+        if(tempUrl.indexOf('/juntoshaciaeldiagnostico')!=-1){
+          this.isGTPPage = true;
+        }else{
+          this.isGTPPage = false;
+        }
+      }
+    );
+
+
+
     setTimeout(() => {
       if (this.config.layout.dir) {
         this.options.direction = this.config.layout.dir;
