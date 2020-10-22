@@ -398,6 +398,7 @@ export class AppComponent implements OnInit, OnDestroy{
         var titulo= this.translate.instant(this.tituloEvent);
         this.titleService.setTitle(titulo);
         sessionStorage.setItem('lang', lang);
+
       }.bind(this));
 
       this.eventsService.on('changeEscenarioHotjar', function(obj) {
