@@ -22,6 +22,7 @@ export class NavbarComponentNolog implements OnDestroy{
 
     constructor(public translate: TranslateService, private langService:LangService, private inj: Injector) {
       this.translate.use('en');
+      sessionStorage.setItem('lang', 'en');
       this.loadLanguages();
     }
 
@@ -42,8 +43,12 @@ export class NavbarComponentNolog implements OnDestroy{
             for(let lang of this.langs) {
               if(browserLang.match(lang.code)){
                 this.translate.use(lang.code);
+                sessionStorage.setItem('lang', lang.code);
                 foundlang = true;
               }
+            }
+            if(!foundlang){
+              sessionStorage.setItem('lang', this.translate.store.currentLang);
             }
           }
 

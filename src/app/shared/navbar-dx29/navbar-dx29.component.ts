@@ -293,8 +293,10 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
                 this.searchLangName(lang.name);
               }
             }
+            if(!foundlang){
+              sessionStorage.setItem('lang', this.translate.store.currentLang);
+            }
           }
-          sessionStorage.setItem('lang', this.translate.store.currentLang);
          }, (err) => {
            console.log(err);
          }));
