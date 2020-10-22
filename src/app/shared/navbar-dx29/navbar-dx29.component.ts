@@ -39,8 +39,8 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
     private subscription: Subscription = new Subscription();
 
     constructor(public translate: TranslateService, private layoutService: LayoutService, private configService:ConfigService, private langService:LangService, private router: Router, private route: ActivatedRoute, private inj: Injector) {
-      this.translate.use('en');
-      sessionStorage.setItem('lang', 'en');
+      /*this.translate.use('en');
+      sessionStorage.setItem('lang', 'en');*/
       this.loadLanguages();
 
       /*this.subscription.add( this.route.params.subscribe(params => {

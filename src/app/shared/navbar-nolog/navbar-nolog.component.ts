@@ -21,8 +21,8 @@ export class NavbarComponentNolog implements OnDestroy{
     private subscription: Subscription = new Subscription();
 
     constructor(public translate: TranslateService, private langService:LangService, private inj: Injector) {
-      this.translate.use('en');
-      sessionStorage.setItem('lang', 'en');
+      /*this.translate.use('en');
+      sessionStorage.setItem('lang', 'en');*/
       this.loadLanguages();
     }
 
