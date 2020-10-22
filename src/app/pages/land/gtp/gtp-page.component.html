@@ -149,8 +149,8 @@
                 <div class="form-group">
                 <label>{{'personalinfo.Phone' | translate }}</label>
                 <div>
-                  <input class="form-control" type="text" id="phone" name="phone" ngModel required #phone="ngModel" name="phone">
-                  <small class="form-text text-muted danger" *ngIf="!phone.valid && (phone.dirty || phone.touched)">{{'generics.required' | translate }}</small>
+                  <input class="form-control" type="text" id="phone" name="phone" ngModel required #phone="ngModel" name="phone" (keypress)="keyPress($event)" minlength=9 maxlength=14>
+                  <small class="form-text text-muted danger" *ngIf="!phone.valid && (phone.dirty || phone.touched)">{{'registration.validationPhone' | translate }}</small>
                 </div>
                 </div>
               </div>

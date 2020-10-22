@@ -79,6 +79,7 @@
     "Im belong to a lab": "Pertenezco a un laboratorio",
     "Repeat email": "Repite el correo electrónico",
     "The email do not match": "El correo electrónico no coincide",
+    "validationPhone": "Introduce un número de teléfono válido",
     "select the type of patient1": "Por favor, seleccione el tipo de paciente",
     "select the type of patient2": "Por favor, seleccione el tipo de paciente en el formulario del registro.",
     "nodiagnosis": "No tengo un diagnóstico",
