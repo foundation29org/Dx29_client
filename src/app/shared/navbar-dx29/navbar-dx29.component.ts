@@ -40,6 +40,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
 
     constructor(public translate: TranslateService, private layoutService: LayoutService, private configService:ConfigService, private langService:LangService, private router: Router, private route: ActivatedRoute, private inj: Injector) {
       this.translate.use('en');
+      sessionStorage.setItem('lang', 'en');
       this.loadLanguages();
 
       /*this.subscription.add( this.route.params.subscribe(params => {
@@ -289,12 +290,15 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
               if(browserLang.match(lang.code)){
                 this.translate.use(lang.code);
                 foundlang = true;
-                sessionStorage.setItem('lang', this.translate.store.currentLang);
+                sessionStorage.setItem('lang', lang.code);
                 this.searchLangName(lang.name);
               }
             }
+            if(!foundlang){
+              sessionStorage.setItem('lang', this.translate.store.currentLang);
+            }
           }
-          sessionStorage.setItem('lang', this.translate.store.currentLang);
+
          }, (err) => {
            console.log(err);
          }));

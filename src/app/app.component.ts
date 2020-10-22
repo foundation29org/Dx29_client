@@ -65,6 +65,7 @@ export class AppComponent implements OnInit, OnDestroy{
           this.hasLocalLang = true;
         }else{
           this.translate.use('en');
+          sessionStorage.setItem('lang', 'en');
           //this.launchHotjarTrigger(sessionStorage.getItem('lang'));
           this.hasLocalLang = false;
         }
@@ -88,6 +89,7 @@ export class AppComponent implements OnInit, OnDestroy{
               if(browserLang.match(lang.code)){
                 //this.launchHotjarTrigger(lang.code);
                 this.translate.use(lang.code);
+                sessionStorage.setItem('lang', lang.code);
               }
             }
           }
@@ -395,6 +397,8 @@ export class AppComponent implements OnInit, OnDestroy{
         this.launchHotjarTrigger(lang);
         var titulo= this.translate.instant(this.tituloEvent);
         this.titleService.setTitle(titulo);
+        sessionStorage.setItem('lang', lang);
+
       }.bind(this));
       this.eventsService.on('changeEscenarioHotjar', function(obj) {
         this.testHotjarTrigger(obj);
