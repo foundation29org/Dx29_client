@@ -149,8 +149,8 @@
                 <div class="form-group">
                 <label>{{'personalinfo.Phone' | translate }}</label>
                 <div>
-                  <input class="form-control" type="text" id="phone" name="phone" ngModel required #phone="ngModel" name="phone">
-                  <small class="form-text text-muted danger" *ngIf="!phone.valid && (phone.dirty || phone.touched)">{{'generics.required' | translate }}</small>
+                  <input class="form-control" type="text" id="phone" name="phone" ngModel required #phone="ngModel" name="phone" (keypress)="keyPress($event)" minlength=9 maxlength=14>
+                  <small class="form-text text-muted danger" *ngIf="!phone.valid && (phone.dirty || phone.touched)">{{'registration.validationPhone' | translate }}</small>
                 </div>
                 </div>
               </div>
@@ -209,66 +209,61 @@
         </form>
       </div>
     </div>
-    <!--<div class="section pb-4">
+    <div class="section pb-4">
 		    <h3><b>{{'gtp.section5Title' | translate}}</b></h3>
 		    <p [innerHTML]="'gtp.s5.1' | translate"></p>
-        <div class="row col-12 center-elements">
-          <div class="col-3">
-            <p class="mb-0">{{'gtp.s5.1.1' | translate}}</p>
-            <p *ngIf="lang=='es'"><a href="assets/documents/Juntos hacia el diagnostico - informacion.pdf" target="_blank" download><i class="fa fa-download primary"></i></a></p>
-            <p *ngIf="lang=='en'"><a href="assets/documents/Together towards the diagnosis - overview.pdf" target="_blank" download><i class="fa fa-download primary"></i></a></p>
-          </div>
-          <div class="col-3">
-            <p class="mb-0">{{'gtp.s5.1.2' | translate}}</p>
-            <p *ngIf="lang=='es'"><a href="assets/documents/Juntos hacia el diagnostico - informacion.pdf" target="_blank" download><i class="fa fa-download primary"></i></a></p>
-            <p *ngIf="lang=='en'"><a href="assets/documents/Together towards the diagnosis - overview.pdf" target="_blank" download><i class="fa fa-download primary"></i></a></p>
-          </div>
-          <div class="col-3">
-            <p class="mb-0">{{'gtp.s5.1.3' | translate}}</p>
-            <p *ngIf="lang=='es'"><a href="assets/documents/Juntos hacia el diagnostico - informacion.pdf" target="_blank" download><i class="fa fa-download primary"></i></a></p>
-            <p *ngIf="lang=='en'"><a href="assets/documents/Together towards the diagnosis - overview.pdf" target="_blank" download><i class="fa fa-download primary"></i></a></p>
-          </div>
-          <div class="col-3">
-            <p class="mb-0">{{'gtp.s5.1.4' | translate}}</p>
-            <p *ngIf="lang=='es'"><a href="assets/documents/Juntos hacia el diagnostico - informacion.pdf" target="_blank" download><i class="fa fa-download primary"></i></a></p>
-            <p *ngIf="lang=='en'"><a href="assets/documents/Together towards the diagnosis - overview.pdf" target="_blank" download><i class="fa fa-download primary"></i></a></p>
-          </div>
+        <div class="row col-12">
           <ul class="list-group mb-3 col-12">
+            <li class="list-group-item" style="background-color: #f7f7f7;">
+              <span><b>{{'gtp.s5titleTable' | translate}}</b></span>
+            </li>
             <li class="list-group-item">
-              <span>{{'gtp.s5.1.1' | translate}}</span>
-              <span class="badge bg-light-primary float-right">
-                <p *ngIf="lang=='es'"><a href="assets/documents/Juntos hacia el diagnostico - informacion.pdf" target="_blank" download><i class="fa fa-download primary"></i></a></p>
-                <p *ngIf="lang=='en'"><a href="assets/documents/Together towards the diagnosis - overview.pdf" target="_blank" download><i class="fa fa-download primary"></i></a></p>
+              <span class="titlelink text-left"><b>{{'gtp.s5.1.1' | translate}}</b>
+                <p>{{'gtp.s5.1.1.text' | translate}}</p>
+              </span>
+              <span class="bg-light-primary float-right downloadLink">
+                <p *ngIf="lang=='es'" class="mb-0"><a href="assets/documents/Juntos hacia el diagnóstico - información.pdf" target="_blank" download>{{'generics.Download' | translate}} PDF <i class="fa fa-download primary icon-download"></i></a></p>
+                <p *ngIf="lang=='en'" class="mb-0"><a href="assets/documents/Together towards the diagnosis - overview.pdf" target="_blank" download>{{'generics.Download' | translate}} PDF <i class="fa fa-download primary icon-download"></i></a></p>
               </span>
             </li>
 		        <li class="list-group-item">
-              <span>{{'gtp.s5.1.2' | translate}}</span>
-              <span class="badge bg-light-primary float-right">
-                <p *ngIf="lang=='es'"><a href="assets/documents/Juntos hacia el diagnostico - informacion.pdf" target="_blank" download><i class="fa fa-download primary"></i></a></p>
-                <p *ngIf="lang=='en'"><a href="assets/documents/Together towards the diagnosis - overview.pdf" target="_blank" download><i class="fa fa-download primary"></i></a></p>
+              <span class="titlelink text-left"><b>{{'gtp.s5.1.2' | translate}}</b>
+                <p>{{'gtp.s5.1.2.text' | translate}}</p>
+              </span>
+              <span class="bg-light-primary float-right downloadLink">
+                <p *ngIf="lang=='es'" class="mb-1"><a href="assets/documents/Juntos hacia el diagnóstico - bases.pdf" target="_blank" download>{{'generics.Download' | translate}} PDF <i class="fa fa-download primary icon-download"></i></a></p>
+                <p *ngIf="lang=='en'" class="mb-1"><a href="assets/documents/Together towards the diagnosis - terms.pdf" target="_blank" download>{{'generics.Download' | translate}} PDF <i class="fa fa-download primary icon-download"></i></a></p>
               </span>
             </li>
             <li class="list-group-item">
-              <span>{{'gtp.s5.1.3' | translate}}</span>
-              <span class="badge bg-light-primary float-right">
-                <p *ngIf="lang=='es'"><a href="assets/documents/Juntos hacia el diagnostico - informacion.pdf" target="_blank" download><i class="fa fa-download primary"></i></a></p>
-                <p *ngIf="lang=='en'"><a href="assets/documents/Together towards the diagnosis - overview.pdf" target="_blank" download><i class="fa fa-download primary"></i></a></p>
+              <span class="titlelink text-left"><b>{{'gtp.s5.1.3' | translate}}</b>
+                <p>{{'gtp.s5.1.3.text' | translate}}</p>
+              </span>
+              <span class="bg-light-primary float-right downloadLink">
+                <p *ngIf="lang=='es'" class="mb-1"><a href="assets/documents/Asesoría genética.pdf" target="_blank" download>{{'generics.Download' | translate}} PDF <i class="fa fa-download primary icon-download"></i></a></p>
+                <p *ngIf="lang=='en'" class="mb-1"><a href="assets/documents/Genetic counseling.pdf" target="_blank" download>{{'generics.Download' | translate}} PDF <i class="fa fa-download primary icon-download"></i></a></p>
+                <p *ngIf="lang=='es'" class="mb-0"><a href="assets/documents/Genetic counseling.docx" target="_blank" download>{{'generics.Download' | translate}} Word <i class="fa fa-download primary icon-download"></i></a></p>
+                <p *ngIf="lang=='en'" class="mb-0"><a href="assets/documents/Asesoría genética.docx" target="_blank" download>{{'generics.Download' | translate}} Word <i class="fa fa-download primary icon-download"></i></a></p>
               </span>
             </li>
             <li class="list-group-item">
-              <span>{{'gtp.s5.1.4' | translate}}</span>
-              <span class="badge bg-light-primary float-right">
-                <p *ngIf="lang=='es'"><a href="assets/documents/Juntos hacia el diagnostico - informacion.pdf" target="_blank" download><i class="fa fa-download primary"></i></a></p>
-                <p *ngIf="lang=='en'"><a href="assets/documents/Together towards the diagnosis - overview.pdf" target="_blank" download><i class="fa fa-download primary"></i></a></p>
+              <span class="titlelink text-left"><b>{{'gtp.s5.1.4' | translate}}</b>
+                <p>{{'gtp.s5.1.4.text' | translate}}</p>
+              </span>
+              <span class="bg-light-primary float-right downloadLink">
+                <p *ngIf="lang=='es'" class="mb-1"><a href="assets/documents/Prescripción de secuenciación.pdf" target="_blank" download>{{'generics.Download' | translate}} PDF <i class="fa fa-download primary icon-download"></i></a></p>
+                <p *ngIf="lang=='en'" class="mb-1"><a href="assets/documents/Sequencing prescription.pdf" target="_blank" download>{{'generics.Download' | translate}} PDF <i class="fa fa-download primary icon-download"></i></a></p>
+                <p *ngIf="lang=='es'" class="mb-0"><a href="assets/documents/Prescripción de secuenciación.docx" target="_blank" download>{{'generics.Download' | translate}} Word <i class="fa fa-download primary icon-download"></i></a></p>
+                <p *ngIf="lang=='en'" class="mb-0"><a href="assets/documents/Sequencing prescription.docx" target="_blank" download>{{'generics.Download' | translate}} Word <i class="fa fa-download primary icon-download"></i></a></p>
               </span>
             </li>
   		    </ul>
-          <div class="col-12">
+          <!--<div class="col-12">
             <p>{{'gtp.s5.2' | translate}}</p>
-          </div>
+          </div>-->
         </div>
 
-		</div>-->
+		</div>
     <div class="section pb-4">
 		    <h3><b>{{'gtp.section3Title' | translate}}</b></h3>
 		    <p [innerHTML]="'gtp.section3Content1' | translate"></p>
@@ -373,7 +368,39 @@
 		    </ul>
 
         <h4 style="margin-top:20px;">3. {{'gtp.pp.c3.extendedtitle' | translate}}</h4>
-        <div class="table-responsive-sm">
+        <div class="row2">
+          <div class="column ml-1">
+            <span>
+              <p class="mb-0"><b>{{'gtp.pp.c3.h1' | translate }}</b></p>
+              <p>{{'gtp.pp.c3.c1' | translate }}</p>
+            </span>
+          </div>
+          <div class="column ml-1">
+            <span>
+              <p class="mb-0"><b>{{'gtp.pp.c3.h2' | translate }}</b></p>
+              <p>{{'gtp.pp.c3.c2' | translate }}</p>
+            </span>
+          </div>
+          <div class="column ml-1">
+            <span>
+              <p class="mb-0"><b>{{'gtp.pp.c3.h3' | translate }}</b></p>
+              <p>{{'gtp.pp.c3.c3' | translate }}</p>
+            </span>
+          </div>
+          <div class="column ml-1">
+            <span>
+              <p class="mb-0"><b>{{'gtp.pp.c3.h4' | translate }}</b></p>
+              <p>{{'gtp.pp.c3.c4' | translate }}</p>
+            </span>
+          </div>
+          <div class="column ml-1">
+            <span>
+              <p class="mb-0"><b>{{'gtp.pp.c3.h5' | translate }}</b></p>
+              <p>{{'gtp.pp.c3.c5' | translate }}</p>
+            </span>
+          </div>
+        </div>
+        <!--<div class="table-responsive-sm">
           <table class="table">
             <thead>
               <tr>
@@ -394,7 +421,7 @@
               </tr>
             </tbody>
           </table>
-        </div>
+        </div>-->
 
         <h4 style="margin-top:20px;">4. {{'gtp.pp.c4.title' | translate}}</h4>
         <p>{{'gtp.pp.c4.1' | translate}}</p>

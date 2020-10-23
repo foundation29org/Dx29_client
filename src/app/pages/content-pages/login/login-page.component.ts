@@ -78,6 +78,7 @@ export class LoginPageComponent implements OnDestroy, OnInit{
       }else{
         if(this.authService.getEnvironment()){
           this.translate.use(this.authService.getLang());
+          sessionStorage.setItem('lang', this.authService.getLang());
           let url =  this.authService.getRedirectUrl();
           console.log('Redirect Url:'+ url);
           this.router.navigate([ url ]);
@@ -252,6 +253,7 @@ export class LoginPageComponent implements OnDestroy, OnInit{
       		    if(authenticated) {
                  //this.translate.setDefaultLang( this.authService.getLang() );
                  this.translate.use(this.authService.getLang());
+                 sessionStorage.setItem('lang', this.authService.getLang());
                  this.testHotjarTrigger(this.authService.getLang());
           			 let url =  this.authService.getRedirectUrl();
                  if(this.authService.getRole()=='User'){

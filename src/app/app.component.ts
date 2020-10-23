@@ -400,6 +400,7 @@ export class AppComponent implements OnInit, OnDestroy{
         sessionStorage.setItem('lang', lang);
 
       }.bind(this));
+
       this.eventsService.on('changeEscenarioHotjar', function(obj) {
         this.testHotjarTrigger(obj);
       }.bind(this));
