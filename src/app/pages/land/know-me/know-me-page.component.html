@@ -1,15 +1,14 @@
 
 <div class="container-fluid m-0" style="background-color: #fff;">
   <div class="container module ptbxl" style="margin: auto;">
-		<div class="m-4 p-2"></div>
 
 		<p>&nbsp;</p>
-    <div class="center-xs start-sm pb-4">
+    <div class="center-xs start-sm pb-4 mt-4">
       <div class="card-block">
         <h3 class="text-bold-400">{{'gtp.formTitle1' | translate}}</h3>
         <form class="mt-3 form" #f="ngForm">
           <div class="form-body row">
-            <div class="col-md-6">
+            <div class="col-md-12">
               <div class="">
                 <div class="form-group">
                 <label>{{'generics.Name' | translate }}</label>
@@ -98,10 +97,10 @@
              <small class="form-text text-muted danger" *ngIf="!programBases.valid && (programBases.dirty || programBases.touched)">{{'gtp.mandatoryBases' | translate }}</small>
           </div>
           <div *ngIf="!sending" class="center-elements mt-3">
-              <div *ngIf="f.valid;then formValid else formError"></div>
-              <button class="btn btn-outline-secondary ml-1" routerLink="/juntoshaciaeldiagnostico"> {{'generics.Back' | translate }}</button>
-              <ng-template #formValid><button class="btn btn-outline-red mr-1" (click)="onSubmit()"> {{'know-me.Button' | translate }}</button></ng-template>
-              <ng-template #formError><button class="btn btn-outline-red mr-1" type="button" (click)="submitInvalidForm()"> {{'know-me.Button' | translate }}</button></ng-template>
+            <button class="btn btn-outline-secondary mr-1" routerLink="/juntoshaciaeldiagnostico"> {{'generics.Back' | translate }}</button>
+            <div *ngIf="f.valid;then formValid else formError"></div>
+            <ng-template #formValid><button class="btn btn-outline-red" (click)="onSubmit()"> {{'know-me.Button' | translate }}</button></ng-template>
+            <ng-template #formError><button class="btn btn-outline-red" type="button" (click)="submitInvalidForm()"> {{'know-me.Button' | translate }}</button></ng-template>
           </div>
           <div class="form-actions center-elements" *ngIf="sending">
               <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>

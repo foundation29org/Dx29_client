@@ -16,10 +16,20 @@
 
 :host /deep/ form label{
   text-transform: none !important;
+  //color: inherit;
 }
 
-:host /deep/ .mat-radio-button{
+:host /deep/ .mat-radio-label-content{
+  font-weight: normal !important;
+}
+
+:host /deep/ .example-radio-group > .mat-radio-button{
   display: block;
+  font-family: "Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+:host /deep/ .mat-radio-label {
+    white-space: pre-wrap;
 }
 
 @media ( min-width: 768px ) {
