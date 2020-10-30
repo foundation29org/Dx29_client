@@ -1766,6 +1766,8 @@
     "section2Content1": "Tener dos años o menos.",
     "section2Content2": "Sufrir crisis epilépticas generalizadas.",
     "section2Content3": "Presentar retraso en el desarrollo.",
+    "sectionKnowMeTitle": "¿No cumples los requisitos?",
+    "sectionKnowMeContent1": "No te preocupes, queremos conocerte para ayudarte en tu viaje hacia el diagnóstico, para poder construir una comunidad juntos o simplemente para saber tú opinión. Déjanos un contacto aquí y dinos con qué perfil te identificas más:",
     "section3Title": "¿Quién lanza el programa?",
     "section3Content1": "Somos <a href='http://foundation29.org/' target='_blank'>Fundación 29</a>, <b>una organización sin ánimo de lucro</b> donde construimos herramientas que os ayuden a tomar las mejores decisiones para vuestra salud. Queremos que seáis dueños de vuestros datos y para ello, innovamos en su estandarización e intercambio, con un foco especial en el apoyo al diagnóstico de enfermedades raras.",
     "section4Title": "¿Cómo funciona?",
@@ -1900,5 +1902,16 @@
       "c7.title": "Sobre Fundación 29 de Febrero",
       "c7.1": "<a href='http://foundation29.org/' target='_blank'>Fundación 29</a> es una organización sin ánimo de lucro que construye herramientas para ayudar a los pacientes a tomar las mejores decisiones para su salud. Tiene el objetivo de que los pacientes sean dueños de sus datos y para ello, innova en su estandarización y el intercambio, con un foco especial en el apoyo al diagnóstico de enfermedades raras."
     }
+  },
+  "know-me":{
+    "title-page": "Conóceme",
+    "OptionTitle": "Indica con qué perfil te identificas más",
+    "option1": "Necesito un diagnóstico, pero no cumplo con los criterios de inclusión.",
+    "option2": "He recibido un diagnóstico, pero no estoy seguro/a de que sea correcto.",
+    "option3": "He recibido un diagnóstico relacionado con estos síntomas y querría estar en contacto con otros pacientes con una diagnostico similar.",
+    "option4": "Me gusta esta iniciativa y quiero conocer iniciativas similares.",
+    "option5": "Otro",
+    "comments": "Comentarios",
+    "Button": "Apúntame al viaje"
   }
 }

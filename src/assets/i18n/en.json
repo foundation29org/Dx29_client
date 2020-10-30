@@ -1765,6 +1765,8 @@
     "section2Content1": "Be two years old or younger.",
     "section2Content2": "Suffer generalized epileptic seizures.",
     "section2Content3": "Have developmental delay.",
+    "sectionKnowMeTitle": "Don't meet the requirements?",
+    "sectionKnowMeContent1": "Don't worry, we want to meet you to help you on your journey to diagnosis, to build a community together, or just to get your opinion. Leave us a contact here and tell us which profile you identify with the most:",
     "section3Title": "Who launches the program?",
     "section3Content1": "We are <a href='http://foundation29.org/' target='_blank'>Foundation 29</a>, a non-profit organization where we build tools to help you make the best decisions for your health. We want you to be the owners of your data and for that, we innovate in the standardization and exchange, with a special focus on supporting the diagnosis of rare diseases.",
     "section4Title": "How does it work?",
@@ -1899,5 +1901,16 @@
       "c7.title": "About Foundation 29 of February",
       "c7.1": "<a href='http://foundation29.org/' target='_blank'>Fundación 29</a> is a non-profit organization that builds tools to help patients make the best decisions for their health. It has the objective of making patients the owners of their data and to do so, it innovates in its standardization and exchange, with a special focus on supporting the diagnosis of rare diseases."
     }
+  },
+  "know-me":{
+    "title-page": "know me",
+    "OptionTitle": "Indica con qué perfil te identificas más",
+    "option1": "Necesito un diagnóstico, pero no cumplo con los criterios de inclusión.",
+    "option2": "He recibido un diagnóstico, pero no estoy seguro/a de que sea correcto.",
+    "option3": "He recibido un diagnóstico relacionado con estos síntomas y querría estar en contacto con otros pacientes con una diagnostico similar.",
+    "option4": "Me gusta esta iniciativa y quiero conocer iniciativas similares.",
+    "option5": "Otro",
+    "comments": "Comentarios",
+    "Button": "Apúntame al viaje"
   }
 }

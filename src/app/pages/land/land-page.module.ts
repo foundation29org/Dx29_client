@@ -12,6 +12,7 @@ import { UndiagnosedPatientPageComponent } from "./undiagnosedpatient/undiagnose
 import { EdHubPageComponent } from "./ed-hub/ed-hub-page.component";
 import { AttributionsComponent } from "./attributions/attributions.component";
 import { GtpPageComponent } from "./gtp/gtp-page.component";
+import { KnowMePageComponent } from "./know-me/know-me-page.component";
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -38,7 +39,8 @@ import {MatRadioModule} from '@angular/material/radio';
         UndiagnosedPatientPageComponent,
         EdHubPageComponent,
         AttributionsComponent,
-        GtpPageComponent
+        GtpPageComponent,
+        KnowMePageComponent
     ]
 })
 export class LandPageModule { }
