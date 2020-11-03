@@ -1765,6 +1765,9 @@
     "section2Content1": "Be two years old or younger.",
     "section2Content2": "Suffer generalized epileptic seizures.",
     "section2Content3": "Have developmental delay.",
+    "sectionKnowMeTitle": "You don’t meet the criteria?",
+    "sectionKnowMeContent1": "If you don’t meet the criteria or you just want to give your opinion,",
+    "sectionKnowMeContent2": "click here",
     "section3Title": "Who launches the program?",
     "section3Content1": "We are <a href='http://foundation29.org/' target='_blank'>Foundation 29</a>, a non-profit organization where we build tools to help you make the best decisions for your health. We want you to be the owners of your data and for that, we innovate in the standardization and exchange, with a special focus on supporting the diagnosis of rare diseases.",
     "section4Title": "How does it work?",
@@ -1789,7 +1792,7 @@
     "PrivacyPolicyContent1.2": "Privacy Policy",
     "PrivacyPolicyContent1.3": ", where you can obtain more information about the treatment of your data.",
     "textConsent": "I consent to the processing of the health information of the patient I represent as a parent or guardian, for the purpose of evaluating and judging the suitability of the patient I represent to participate in the “Together towards the diagnosis” program.",
-    "mandatoryConsent":"It is necessary to accept the consent to continue.",
+    "mandatoryConsent":"It is necessary to accept the conditions to continue.",
     "textBases":"I have read and accept the program terms.",
     "mandatoryBases": "It is necessary to accept the bases of the program to continue.",
     "templateGESTContent1": "It is normal that you have doubts about whether or not your child's seizures are generalized, since there are many types of seizures.",
@@ -1808,7 +1811,7 @@
     "s5.1.1": "Program Information",
     "s5.1.1.text": "Patient and physician steps, program requirements and Dx29 information.",
     "s5.1.2": "Program Terms",
-    "s5.1.2.text": "Commitments acquired by the patient and Foundation 29 and disclaimers.",
+    "s5.1.2.text": "Commitments acquired between the patient and Foundation 29, and disclaimers.",
     "s5.1.3": "Genetic counseling model",
     "s5.1.3.text": "You can use this model or another document that covers the same purpose.",
     "s5.1.4": "Genetic test prescription model",
@@ -1899,5 +1902,21 @@
       "c7.title": "About Foundation 29 of February",
       "c7.1": "<a href='http://foundation29.org/' target='_blank'>Fundación 29</a> is a non-profit organization that builds tools to help patients make the best decisions for their health. It has the objective of making patients the owners of their data and to do so, it innovates in its standardization and exchange, with a special focus on supporting the diagnosis of rare diseases."
     }
+  },
+  "know-me":{
+    "title-page": "Get to know me",
+    "title-form": "Form: I do not meet the requirements",
+    "form-des": "If you do not meet the inclusion criteria or if you just want to send us a message, you can use the form below. We want to get to know you so we can understand what you need.  Tell us which profile you most identify with and any comments you have.",
+    "OptionTitle": "Please select the profile you identify yourself with the most. If you identify yourself with more than one simply tell us in the box below:",
+    "option1": "I need a diagnosis, but I don't meet the inclusion criteria.",
+    "option2": "I have been given a diagnosis, but I am not sure if it is correct.",
+    "option3": "I have been given a diagnosis and would like to be in contact with other patients with a similar diagnosis.",
+    "option4": "I like this initiative and I would like to know about similar initiatives.",
+    "option5": "I do not identify with any of these profiles.",
+    "comments": "Please let us know if you have any comments:",
+    "commentsPlaceholder": "Write here...",
+    "Button": "Send my answers",
+    "Consent": "The person responsible for the treatment of the data provided in this form is Foundation 29 of February, who will treat them with the purpose of studying the information provided and for statistical reasons. You have the right to access, rectify, delete your data and revoke your consent, as well as other rights, as explained in the Privacy Policy, where you can obtain more information about the processing of your data.",
+    "CheckConsent": "I accept to receive communications from Foundation 29 of February relevant to my profile."
   }
 }

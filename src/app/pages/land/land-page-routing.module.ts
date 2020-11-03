@@ -8,6 +8,7 @@ import { UndiagnosedPatientPageComponent } from "./undiagnosedpatient/undiagnose
 import { EdHubPageComponent } from "./ed-hub/ed-hub-page.component";
 import { AttributionsComponent } from "./attributions/attributions.component";
 import { GtpPageComponent } from "./gtp/gtp-page.component";
+import { KnowMePageComponent } from "./know-me/know-me-page.component";
 
 const routes: Routes = [
   {
@@ -60,6 +61,13 @@ const routes: Routes = [
         component: GtpPageComponent,
         data: {
           title: 'menu.Genetic testing program'
+        }
+      },
+      {
+        path: 'juntoshaciaeldiagnostico/conoceme',
+        component: KnowMePageComponent,
+        data: {
+          title: 'know-me.title-page'
         }
       }
     ]
