@@ -1793,7 +1793,7 @@
     "PrivacyPolicyContent1.2": "Política de privacidad",
     "PrivacyPolicyContent1.3": ", donde podrás recabar más información sobre el tratamiento de tus datos.",
     "textConsent": "Consiento el tratamiento de los datos de salud del paciente al que represento como padre/madre o tutor/a, con el fin de que se evalúen y se juzgue la adecuación del paciente al que represento para participar en el programa 'Juntos hacia el diagnóstico'.",
-    "mandatoryConsent":"Es necesario aceptar el consentimiento para continuar.",
+    "mandatoryConsent":"Es necesario aceptar las condiciones para continuar.",
     "textBases":"He leído y acepto las bases del programa.",
     "mandatoryBases": "Es necesario aceptar las bases del programa para continuar.",
     "templateGESTContent1": "Es normal que tengas dudas sobre si las crisis de tu hijo/a son o no generalizadas, dado que existen muchos tipos de crisis.",
@@ -1918,6 +1918,6 @@
     "commentsPlaceholder": "Escribe aquí...",
     "Button": "Envía mis respuestas",
     "Consent": "El responsable del tratamiento de los datos facilitados en el presente formulario es Fundación 29 de Febrero, quien los tratará con la finalidad de estudiar la información proporcionada y por motivos estadísticos. Tienes derecho a acceder, rectificar, suprimir tus datos y revocar tu consentimiento, así como otros derechos, como se explica en la Política de privacidad, donde podrás recabar más información sobre el tratamiento de tus datos.",
-    "CheckConsent": "Quiero recibir comunicaciones por parte de Fundación 29 de Febrero relevantes a mi perfil."
+    "CheckConsent": "Acepto recibir comunicaciones por parte de Fundación 29 de Febrero relevantes a mi perfil."
   }
 }
