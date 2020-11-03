@@ -80,7 +80,9 @@ export class KnowMePageComponent implements OnInit, OnDestroy{
         params.Option = this.gtpRegisterForm.value.Option;
         params.Lang = sessionStorage.getItem('lang');
         params.Comments =  this.gtpRegisterForm.value.Comments;
-
+        var d = Date(Date.now());
+        var a = d.toString();
+        params.Date = a;
         this.subscription.add( this.http.post('https://prod-160.westeurope.logic.azure.com:443/workflows/f3edf7191e19488bb44d8f26ace98608/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=t2pLwX67mGz8GM5IaBB4PPO2LsbKDW1dTfAVz6ZC2eo', params)
         .subscribe( (res : any) => {
           this.sending = false;
