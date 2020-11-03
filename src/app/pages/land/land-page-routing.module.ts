@@ -64,7 +64,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'knowme',
+        path: 'juntoshaciaeldiagnostico/apuntame',
         component: KnowMePageComponent,
         data: {
           title: 'know-me.title-page'

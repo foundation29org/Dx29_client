@@ -87,6 +87,7 @@ export class KnowMePageComponent implements OnInit, OnDestroy{
           this.toastr.success('', this.translate.instant("gtp.formMsgRegistered"));
 
           this.gtpRegisterForm.reset();
+          this.router.navigate(['/juntoshaciaeldiagnostico']);
          }, (err) => {
            console.log(err);
            this.sending = false;
@@ -103,5 +104,21 @@ export class KnowMePageComponent implements OnInit, OnDestroy{
       };
       this.modalReference = this.modalService.open(content, ngbModalOptions);
     }
+
+    resizeTextArea(){
+
+     setTimeout(() =>
+     {
+       $('.autoajustable').each(function () {
+         document.getElementById("textarea1").setAttribute( "style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden; width: 100%;");
+
+      }).on('input', function () {
+          this.style.height = 'auto';
+          this.style.height = (this.scrollHeight) + 'px';
+      });
+
+     },
+     100);
+   }
 
 }

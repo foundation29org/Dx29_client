@@ -115,7 +115,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
             this.isAttributionsPage = true;
             this.isGTPPage = false;
             this.isUndiagnosedPatientPage = false;
-          }else if(tempUrl.indexOf('/juntoshaciaeldiagnostico')!=-1 || tempUrl.indexOf('/knowme')!=-1){
+          }else if(tempUrl.indexOf('/juntoshaciaeldiagnostico')!=-1){
             this.isHomePage = false;
             this.isPatientPage = false;
             this.isClinicianPage = false;
@@ -200,7 +200,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
           this.isAttributionsPage = true;
           this.isGTPPage = false;
           this.isUndiagnosedPatientPage = false;
-      }else if((this.router.url).indexOf('/juntoshaciaeldiagnostico')!=-1 || (this.router.url).indexOf('/knowme')!=-1){
+      }else if((this.router.url).indexOf('/juntoshaciaeldiagnostico')!=-1 ){
         this.isHomePage = false;
         this.isPatientPage = false;
         this.isClinicianPage = false;
