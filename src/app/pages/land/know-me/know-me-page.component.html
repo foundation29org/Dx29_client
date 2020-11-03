@@ -43,19 +43,19 @@
                   <mat-radio-group required
                     aria-labelledby="Option"
                     class="example-radio-group d-block" ngModel required #Option="ngModel" name="Option" id="Option">
-                    <mat-radio-button class="example-radio-button" value="1 - Necesito un diagnóstico">
+                    <mat-radio-button class="example-radio-button" value="1 - Necesito un diagnóstico, pero no cumplo con los criterios de inclusión.">
                     {{'know-me.option1' | translate }}
                     </mat-radio-button>
-                    <mat-radio-button class="example-radio-button" value="2 - He recibido un diagnóstico, pero no estoy seguro">
+                    <mat-radio-button class="example-radio-button" value="2 - He recibido un diagnóstico, pero no estoy seguro/a de que sea correcto.">
                     {{'know-me.option2' | translate }}
                     </mat-radio-button>
-                    <mat-radio-button class="example-radio-button" value="3 - He recibido un diagnóstico relacionado con estos síntomas">
+                    <mat-radio-button class="example-radio-button" value="3 - He recibido un diagnóstico y querría estar en contacto con otros pacientes con un diagnóstico similar.">
                     {{'know-me.option3' | translate }}
                     </mat-radio-button>
                     <mat-radio-button class="example-radio-button" value="4 - Me gusta esta iniciativa y quiero conocer iniciativas similares.">
                     {{'know-me.option4' | translate }}
                     </mat-radio-button>
-                    <mat-radio-button class="example-radio-button" value="5 - Otro">
+                    <mat-radio-button class="example-radio-button" value="5 - No me identifico con ninguno de estos perfiles.">
                     {{'know-me.option5' | translate }}
                     </mat-radio-button>
                   </mat-radio-group>
@@ -66,7 +66,7 @@
                 <div class="form-group">
                 <label>{{'know-me.comments' | translate }}</label>
                 <div>
-                  <textarea name="Comments" id="textarea1" (ngModelChange)="resizeTextArea()" placeholder="{{'know-me.commentsPlaceholder' | translate }}" class="autoajustable form-control" ngModel #Comments="ngModel" ></textarea>
+                  <textarea maxlength="1024" name="Comments" id="textarea1" (ngModelChange)="resizeTextArea()" placeholder="{{'know-me.commentsPlaceholder' | translate }}" class="autoajustable form-control" ngModel #Comments="ngModel" ></textarea>
                 </div>
                 </div>
               </div>
