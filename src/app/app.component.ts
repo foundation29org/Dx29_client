@@ -90,7 +90,7 @@ export class AppComponent implements OnInit, OnDestroy{
                 //this.launchHotjarTrigger(lang.code);
                 this.translate.use(lang.code);
                 sessionStorage.setItem('lang', lang.code);
-                eventsLang.broadcast('changelang', lang.code);
+                this.eventsService.broadcast('changelang', lang.code);
               }
             }
           }
