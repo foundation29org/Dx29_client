@@ -74,13 +74,13 @@
             </div>
           </div>
           <div>
-            <p class="font-small-3">{{'know-me.Consent' | translate }}</p>
+            <p>{{'know-me.Consent' | translate }}</p>
           </div>
           <div>
             <mat-checkbox
                 class="example-margin" style="position: absolute; margin-top: 2px;" name="terms2" required ngModel #terms2="ngModel" id="terms2">
             </mat-checkbox>
-            <span class="font-small-3 ml-3">
+            <span class="ml-3">
               {{'know-me.CheckConsent' | translate }}
             </span>
              <small class="form-text text-muted danger" *ngIf="!terms2.valid && (terms2.dirty || terms2.touched)">{{'gtp.mandatoryConsent' | translate }}</small>
