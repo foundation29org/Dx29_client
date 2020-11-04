@@ -14,7 +14,7 @@
                 <div class="form-group">
                 <label>{{'generics.Name' | translate }}</label>
                 <div>
-                  <input class="form-control" type="text" id="Name" name="Name" ngModel required #Name="ngModel" name="Name">
+                  <input class="col-md-4 form-control" type="text" id="Name" name="Name" ngModel required #Name="ngModel" name="Name">
                   <small class="form-text text-muted danger" *ngIf="!Name.valid && (Name.dirty || Name.touched)">{{'generics.required' | translate }}</small>
                 </div>
                 </div>
@@ -23,7 +23,7 @@
                 <div class="form-group">
                 <label>{{'generics.Email' | translate }}</label>
                 <div>
-                  <input class="form-control" type="email" id="Email" name="Email" ngModel required #Email="ngModel" email name="Email">
+                  <input class="col-md-4 form-control" type="email" id="Email" name="Email" ngModel required #Email="ngModel" email name="Email">
                   <small class="form-text text-muted danger" *ngIf="!Email.valid && (Email.dirty || Email.touched)">{{'generics.entervalidemail' | translate }}</small>
                 </div>
                 </div>
@@ -32,7 +32,7 @@
                 <div class="form-group">
                 <label>{{'registration.Repeat email' | translate }}</label>
                 <div>
-                  <input type="email" class="form-control" name="email2" id="email2" ngModel required email2 #email2="ngModel" [equalTo]="Email">
+                  <input type="email" class="col-md-4 form-control" name="email2" id="email2" ngModel required email2 #email2="ngModel" [equalTo]="Email">
                   <small class="form-text text-muted danger" *ngIf="!email2.valid && (email2.dirty || email2.touched) && email2.errors?.equalTo">{{'registration.The email do not match' | translate }}</small>
                 </div>
                 </div>
