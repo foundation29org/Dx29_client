@@ -90,6 +90,7 @@ export class AppComponent implements OnInit, OnDestroy{
                 //this.launchHotjarTrigger(lang.code);
                 this.translate.use(lang.code);
                 sessionStorage.setItem('lang', lang.code);
+                this.eventsService.broadcast('changelang', lang.code);
               }
             }
           }
@@ -395,9 +396,15 @@ export class AppComponent implements OnInit, OnDestroy{
 
       this.eventsService.on('changelang', function(lang) {
         this.launchHotjarTrigger(lang);
-        var titulo= this.translate.instant(this.tituloEvent);
-        this.titleService.setTitle(titulo);
-        sessionStorage.setItem('lang', lang);
+        (async () => {
+          console.log(event);
+             await this.delay(500);
+             var titulo= this.translate.instant(this.tituloEvent);
+             console.log(titulo);
+             this.titleService.setTitle(titulo);
+             sessionStorage.setItem('lang', lang);
+         })();
+
 
       }.bind(this));
 
