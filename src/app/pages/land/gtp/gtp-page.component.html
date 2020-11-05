@@ -31,7 +31,11 @@
             <li>{{'gtp.section2Content2' | translate}}</li>
             <li>{{'gtp.section2Content3' | translate}}</li>
         </ul>
-        <p><b>{{'gtp.sectionKnowMeTitle' | translate}}</b> {{'gtp.sectionKnowMeContent1' | translate }} <span><a [routerLink]="['/juntoshaciaeldiagnostico/conoceme']"> {{'gtp.sectionKnowMeContent2' | translate }}</a>.</span></p>
+    </div>
+
+    <div class="section pt-4">
+        <h3><b>{{'gtp.sectionKnowMeTitle' | translate}}</b></h3>
+        <p>{{'gtp.sectionKnowMeContent1' | translate }} <span><a [routerLink]="['/juntoshaciaeldiagnostico/conoceme']"> {{'gtp.sectionKnowMeContent2' | translate }}</a>.</span> {{'gtp.sectionKnowMeContent3' | translate }}</p>
 
     </div>
 
@@ -97,7 +101,7 @@
               </div>
               <div class="">
                 <div class="form-group">
-                  <label id="GES" class="d-inline">{{'gtp.formFieldGES' | translate}}</label>  <a class="danger" (click)="showPanelMoreInfo(contentGES);" href="javascript:void(0)"> <i class="far fa-question-circle fa-fw red"></i></a>
+                  <label id="GES" class="d-inline">{{'gtp.formFieldGES' | translate}}</label>  <a class="ml-1 danger" (click)="showPanelMoreInfo(contentGES);" href="javascript:void(0)"> <i class="far fa-question-circle fa-fw red"></i></a>
                   <mat-radio-group required
                     aria-labelledby="GES"
                     class="mt-5px example-radio-group d-block" ngModel required #GES="ngModel" name="GES" id="GES">
@@ -113,7 +117,7 @@
               </div>
               <div class="">
                 <div class="form-group">
-                  <label id="developmentalDelay" class="d-inline">{{'gtp.formFieldDevelopmentalDelay' | translate}}</label> <a class="danger" (click)="showPanelMoreInfo(contentDevelopmentalDelay);" href="javascript:void(0)"><i class="far fa-question-circle fa-fw red"></i></a>
+                  <label id="developmentalDelay" class="d-inline">{{'gtp.formFieldDevelopmentalDelay' | translate}}</label> <a class="ml-1 danger" (click)="showPanelMoreInfo(contentDevelopmentalDelay);" href="javascript:void(0)"><i class="far fa-question-circle fa-fw red"></i></a>
                   <mat-radio-group required
                     aria-labelledby="developmentalDelay"
                     class="mt-5px example-radio-group d-block" ngModel required #developmentalDelay="ngModel" name="developmentalDelay" id="developmentalDelay">
