@@ -5159,7 +5159,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.infoGenesAndConditions = this.infoGenesAndConditionsPhen2Genes;
       this.startDiagnosis();
       this.numberOfSymptoms = this.phenotype.data.length;
-      this.actualPosGen = 0;
       this.actualPosDisease = 0;
       this.globalPosDisease = 1;
       this.actualDisease = {};
