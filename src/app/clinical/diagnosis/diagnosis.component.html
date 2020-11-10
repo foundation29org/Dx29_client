@@ -262,6 +262,7 @@
 														<div class="d-inline-block" >
 															<button type="button" *ngIf="filesOnBlob !=''" class="btn-sm btn-raised btn-primary" (click)="editDiagnosis()">{{'diagnosis.Explore more symptoms' | translate }}</button>
 															<button *ngIf="filesOnBlob =='' && filePhenolyzerOnBlob!=''" type="button" class="btn-sm btn-raised btn-primary" (click)="exploreMoreSymptomsPhenolyzer()">{{'diagnosis.Explore more symptoms' | translate }}</button>
+															<button *ngIf="filesOnBlob =='' && filePhen2GenesOnBlob!=''" type="button" class="btn-sm btn-raised btn-primary" (click)="exploreMoreSymptomsPhen2Genes()">{{'diagnosis.Explore more symptoms' | translate }} Phen2Genes</button>
 															<button type="button" class="ml-1 btn-sm btn-raised btn-primary" (click)="addSymptomsManual(contentAddSymptomsManual)">{{'diagnosis.Add symptoms' | translate }}</button>
 															<button type="button" class="ml-1 mb-0 btn-sm btn-raised btn-primary" (click)="showPanelAddTextSymptoms(contentAddTextSymptoms)">{{'diagnosis.Input or upload a medical record' | translate }}</button>
 														</div>
@@ -320,6 +321,7 @@
 															<div class="d-inline-block" >
 																<button type="button" *ngIf="filesOnBlob !=''" class="btn-sm btn-raised btn-primary" (click)="editDiagnosis()">{{'diagnosis.Explore more symptoms' | translate }}</button>
 																<button *ngIf="filesOnBlob =='' && filePhenolyzerOnBlob!=''" type="button" class="btn-sm btn-raised btn-primary" (click)="exploreMoreSymptomsPhenolyzer()">{{'diagnosis.Explore more symptoms' | translate }}</button>
+																<button *ngIf="filesOnBlob =='' && filePhen2GenesOnBlob!=''" type="button" class="btn-sm btn-raised btn-primary" (click)="exploreMoreSymptomsPhen2Genes()">{{'diagnosis.Explore more symptoms' | translate }} Phen2Genes</button>
 																<button type="button" class="ml-1 btn-sm btn-raised btn-primary" (click)="addSymptomsManual(contentAddSymptomsManual)">{{'diagnosis.Add symptoms' | translate }}</button>
 																<button type="button" class="ml-1 mb-0 btn-sm btn-raised btn-primary" (click)="showPanelAddTextSymptoms(contentAddTextSymptoms)">{{'diagnosis.Input or upload a medical record' | translate }}</button>
 															</div>
@@ -626,7 +628,6 @@
 											<div class="mb-4" *ngIf="!launchingPhenolyzer">
 												<button type="button" class="btn btn-raised btn-primary" (click)="launchPhenolyzer()">{{'diagnosis.Launch' | translate }}</button>
 												<button *ngIf="filePhenolyzerOnBlob!=''" type="button" class="ml-1 btn btn-raised btn-primary" (click)="exploreMoreSymptomsPhenolyzer()">{{'diagnosis.Explore more symptoms' | translate }}</button>
-												<!--<p *ngIf="filePhenolyzerOnBlob!=''">{{'diagnosis.File uploaded' | translate }}: {{'generics.Yes' | translate }}</p>--><!--{{filePhenolyzerOnBlob}}-->
 												<table class="table" *ngIf="infoGenesAndConditionsPhenolyzer.length>0">
 													<thead>
 														<tr>
@@ -665,8 +666,7 @@
 										<ng-template ngbTabContent>
 											<div class="mb-4" *ngIf="!launchingPhen2Genes">
 												<button type="button" class="ml-1 mb-0 btn btn-raised btn-primary" (click)="lauchPhen2Genes()">lauchPhen2Genes</button>
-												<button type="button" class="ml-1 mb-0 btn btn-raised btn-primary" (click)="exploreMoreSymptomsPhen2Genes()">getLastPhen2GenesResults</button>
-												<button type="button" *ngIf="infoGenesAndConditionsPhen2Genes.length>0" class="ml-1 mb-0 btn btn-raised btn-primary" (click)="exploreMoreSymptomsPhen2Genes()">exploreMoreSymptomsPhen2Genes</button>
+												<button type="button" *ngIf="infoGenesAndConditionsPhen2Genes.length>0 && filePhen2GenesOnBlob!=''" class="ml-1 mb-0 btn btn-raised btn-primary" (click)="exploreMoreSymptomsPhen2Genes()">exploreMoreSymptomsPhen2Genes</button>
 												<table class="table" *ngIf="infoGenesAndConditionsPhen2Genes.length>0">
 													<thead>
 														<tr>
@@ -707,7 +707,7 @@
 						</div>
 						<div class="col-xl-5 content-sub-header fijado">
 							<h4>{{'diagnosis.Proposed diagnoses' | translate }} <a *ngIf="relatedConditions.length>0 || selectedItemsFilter.length>0" class="font-medium-2 pull-right mr-2" href="javascript:void(0)" (click)="getRelatedConditions()">{{'generics.Update' | translate }} </a></h4>
-							<a *ngIf="relatedConditions.length==0 && !gettingRelatedConditions && !loadingDiagnosisInfo && selectedItemsFilter.length==0  && !launchingPhenolyzer &&!uploadingGenotype" class="font-medium-2 btn btn-block btn-danger shadow-big-navbar btn-raised" style="height: 100px;padding-top: 35px;vertical-align: middle;" href="javascript:void(0)" (click)="getRelatedConditions()">{{'generics.Calculate' | translate }}</a>
+							<a *ngIf="relatedConditions.length==0 && !gettingRelatedConditions && !loadingDiagnosisInfo && selectedItemsFilter.length==0  && !launchingPhenolyzer &&!uploadingGenotype && !launchingPhen2Genes" class="font-medium-2 btn btn-block btn-danger shadow-big-navbar btn-raised" style="height: 100px;padding-top: 35px;vertical-align: middle;" href="javascript:void(0)" (click)="getRelatedConditions()">{{'generics.Calculate' | translate }}</a>
 							<div *ngIf="loadingInfoGenes"><p class="centerSpinner">{{'diagnosis.Calculating genes and their score' | translate }} <i class="fa fa-spinner fa-spin fa-fw pink"></i></p></div>
 							<div *ngIf="loadingSymptomsRelatedDiseases"><p class="centerSpinner">{{'diagnosis.Calculating Dx29 score' | translate }} <i class="fa fa-spinner fa-spin fa-fw pink"></i></p></div>
 							<div *ngIf="calculatingH29Score"><p class="centerSpinner">{{'diagnosis.Calculating Dx29 score' | translate }} <i class="fa fa-spinner fa-spin fa-fw pink"></i></p></div>

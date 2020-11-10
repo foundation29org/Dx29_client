@@ -171,6 +171,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     launchingPhen2Genes: boolean = false;
     launchingPhenolyzer: boolean = false;
     filePhenolyzerOnBlob: string = '';
+    filePhen2GenesOnBlob: string = '';
     urlFileHtmlExomiserBlob: string = '';
     loadingFileHtmlExomiserBlob: boolean = false;
     loadingSymptomsOfDisease: boolean = false;
@@ -266,6 +267,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       this.gettingRelatedConditions=false;
       this.loadingDiagnosisInfo=false;
       this.launchingPhenolyzer=false;
+      this.launchingPhen2Genes=false;
       this.settingExomizer = {
         "IsGenome": false,
         "VcfBlobName": '',
@@ -621,6 +623,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
      this.filesVcf = [];
      this.filesOnBlob = [];
      this.filePhenolyzerOnBlob = '';
+     this.filePhen2GenesOnBlob = '';
      this.urlFileHtmlExomiserBlob = '';
      this.loadingFileHtmlExomiserBlob = false;
      this.infoGenesAndConditions = [];
@@ -958,7 +961,12 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }
       else{
         // Añadir lo de los genes
-        this.getRelatedConditionsPhenolyzer(infoToExtractGenes);
+        if(this.infoGenesAndConditionsPhen2Genes.length>0){
+          this.getRelatedConditionsPhen2Genes(infoToExtractGenes);
+        }else if(this.infoGenesAndConditionsPhenolyzer.length>0){
+          this.getRelatedConditionsPhenolyzer(infoToExtractGenes);
+        }
+
       }
     }
 
@@ -1540,6 +1548,288 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           }));
         }else{
           Swal.fire('Error', 'No exomiser or phenolyzer results have been found.', "error");
+        }
+        this.gettingRelatedConditions = false;
+      }, (err) => {
+        console.log(err);
+        //tratar el error
+        this.reportError();
+        this.toastr.error('', this.translate.instant("generics.error try again"));
+        this.gettingRelatedConditions = false;
+      }));
+    }, (err) => {
+      console.log(err);
+      //tratar el error
+      this.reportError();
+      this.toastr.error('', this.translate.instant("generics.error try again"));
+      this.gettingRelatedConditions = false;
+    }));
+
+    }
+
+    getRelatedConditionsPhen2Genes(infoToExtractGenes){
+
+      var tempo = [];
+      for(var k = 0; k < infoToExtractGenes.length; k++){
+        for(var il = 0; il < infoToExtractGenes[k].data.length; il++){
+          if(infoToExtractGenes[k].data[il].idOrphanet!=null){
+            tempo.push({condition:infoToExtractGenes[k].data[il].condition, id: infoToExtractGenes[k].data[il].idOrphanet});
+          }else{
+            tempo.push({condition:infoToExtractGenes[k].data[il].condition, id: infoToExtractGenes[k].data[il].idOMIM});
+          }
+        }
+      }
+      // Leo los genes de exomiser y pregunto a la API de Alvaro por las relatedConditions
+      // Comparo las relatedConditions que tenia en this.infoGenesAndConditionsExomizer y las de la respuesta de la API
+      //    - Si ya estaba -> No hago nada
+      //    - Si no estaba, la añado en la lista de condiciones para el gen
+      var listGenes_names=[];
+      for(var k = 0; k < infoToExtractGenes.length; k++){
+        listGenes_names.push(infoToExtractGenes[k].name)
+      }
+
+      // Delete duplicates
+      var mySet = new Set(listGenes_names);
+      listGenes_names = [...mySet];
+
+      // Llamar/bioentity/gene/diseases con infoToExtractGenes
+      var infoDiseasesDiscard_null= new Object();
+      infoDiseasesDiscard_null={};
+      var infoDiseasesAdded= new Object();
+      infoDiseasesAdded={};
+
+      this.subscription.add( this.apif29BioService.getDiseaseOfGenes(listGenes_names)
+      .subscribe( (resDiseases : any) => {
+        console.log(resDiseases);
+        for(var i=0;i<listGenes_names.length;i++){
+          var idGen = listGenes_names[i];
+          if((resDiseases[idGen] !=undefined)&&(resDiseases[idGen] !=null)){
+            if(Object.keys((resDiseases[idGen]).diseases).length>0){
+              var obttemp = (resDiseases[idGen]).diseases;
+              for(var disease in obttemp) {
+                var foundIntempo=false;
+                for(var j=0;j<tempo.length;j++){
+                  if(tempo[j].condition.toLowerCase()==obttemp[disease].label.toLowerCase()){
+                    foundIntempo=true;
+                  }
+                }
+                if(foundIntempo==false){
+                  tempo.push({condition:obttemp[disease].label, id: obttemp[disease].id});
+                  infoDiseasesAdded[resDiseases[idGen].id]={diseases:Object.keys(resDiseases[idGen].diseases)}
+                }
+              }
+            }
+          }
+          else{
+            infoDiseasesDiscard_null[listGenes_names[i]]={}
+          }
+        }
+
+        if(Object.keys(infoDiseasesDiscard_null).length>0){
+          var str = JSON.stringify(infoDiseasesDiscard_null);
+          var fileNameRelatedConditionsDiscard = "genesToDisease/relatedConditions"+"-"+'discardDiseases_null.json';
+          var file = new File([str],fileNameRelatedConditionsDiscard,{type:'application/json'});
+          this.uploadProgress = this.blob
+          .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
+        }
+
+        if(Object.keys(infoDiseasesAdded).length>0){
+          var str = JSON.stringify(infoDiseasesAdded);
+          var fileNameRelatedConditionsDiscard = "genesToDisease/relatedConditions"+"-"+'addDiseases.json';
+          var file = new File([str],fileNameRelatedConditionsDiscard,{type:'application/json'});
+          this.uploadProgress = this.blob
+          .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
+        }
+
+        console.log(infoToExtractGenes)
+        //Get list of diseases with Monarch (la de ahora).
+        this.relatedConditions = [];
+        var jsonPhenotype = { hpos: this.phenotype.data };
+        var jsonHpos = [];
+        for(var index in this.phenotype.data){
+          if(this.phenotype.data[index].checked){
+            jsonHpos.push(this.phenotype.data[index].id);
+          }
+        }
+        this.subscription.add( this.apiDx29ServerService.getRelatedConditions(jsonHpos)
+        .subscribe( (res : any) => {
+        console.log(res);
+        this.relatedConditions = res;
+
+        //Merge and keep unique diseases.
+        for(var i = 0; i < this.relatedConditions.length; i++) {
+          if(this.relatedConditions[i]!=undefined){
+            if(this.relatedConditions[i].genes==undefined){
+              this.relatedConditions[i].genes = [];
+              this.relatedConditions[i].scoregenes = 0;
+            }
+            var foundElement = this.searchService.search(tempo,'condition', this.relatedConditions[i].name.label);
+            if(!foundElement){
+              tempo.push({condition:this.relatedConditions[i].name.label, id: this.relatedConditions[i].name.id});
+            }
+
+          }
+        }
+        var temp2=[];
+        for(var in1=0;in1<tempo.length;in1++){
+          temp2.push({name:{label: tempo[in1].condition, id: tempo[in1].id}});
+        }
+
+        this.relatedConditions.concat(temp2);
+        if(infoToExtractGenes!= []){
+          this.loadingInfoGenes = true;
+          this.listOfDiseases = [];
+          for(var i = 0; i < this.relatedConditions.length; i++) {
+            if(this.relatedConditions[i]!=undefined){
+              if(this.relatedConditions[i].genes==undefined){
+                this.relatedConditions[i].genes = [];
+                this.relatedConditions[i].scoregenes = 0;
+              }
+            }
+          }
+          //quedarse con 100 this.listOfDiseases
+          this.listOfDiseases = [];
+          for(var in3 = 0; in3 < this.relatedConditions.length; in3++) {
+            this.listOfDiseases.push(this.relatedConditions[in3].name.id);
+          }
+          //end Merge and keep unique diseases.
+          //get genes
+          this.subscription.add(this.apif29BioService.getGenesOfDiseases(this.listOfDiseases)
+          .subscribe( (res1 : any) => {
+            console.log(res1)
+            var genRelationValuesListAccepted=["RO:0003303", "RO:0004012", "RO:0004013", "RO:0004014"]
+            var infoGenesDiscard_null= new Object();
+            infoGenesDiscard_null={};
+            var infoGenesDiscard_filter= new Object();
+            infoGenesDiscard_filter={};
+            for(var i = 0; i < this.relatedConditions.length; i++) {
+              var foundeleme = false;
+              var idDesease = this.relatedConditions[i].name.id;
+              if((res1[idDesease] !=undefined)&&(res1[idDesease] !=null)){
+                if(Object.keys((res1[idDesease]).genes).length>0){
+                  for(var k = 0; k < infoToExtractGenes.length && !foundeleme; k++){
+                    var obttemp = (res1[idDesease]).genes;
+                    var genIncluded=false;
+                      for(var gen in obttemp) {
+                        // Filter by "is_defined_by" (all that not have ONLY orphanet source)
+                        var definedByOnlyOrphanet=false;
+                        if(obttemp[gen].is_defined_by.indexOf('#orphanet')>-1){
+                          if(obttemp[gen].is_defined_by.indexOf('|')==-1){
+                            definedByOnlyOrphanet=true;
+                          }
+                        }
+                        if(definedByOnlyOrphanet==false){
+                          // Filter by relation
+                          // (condition) if gen relation value in list of relationValues accepted
+                          if(genRelationValuesListAccepted.includes(obttemp[gen].relation)==true){
+                            this.relatedConditions[i].iscondition=true;
+                            genIncluded=true;
+                          }
+                        }
+
+                        var para3 = (infoToExtractGenes[k].name).toLowerCase();
+                        var para4 = (obttemp[gen].label).toLowerCase();
+                        if(para3==para4){
+                          if(this.relatedConditions[i].scoregenes==0){
+                            var scoregenes = 0;
+                            if(this.infoGenesAndConditionsExomizer.length>0){
+                              if(infoToExtractGenes[k].scoredx29 != undefined){
+                                scoregenes = parseInt(((infoToExtractGenes[k].score)*100).toFixed(0));
+                                this.relatedConditions[i].h29 = parseInt(((infoToExtractGenes[k].scoredx29)*100).toFixed(0));
+                              }else{
+                                scoregenes = parseInt(((infoToExtractGenes[k].score)*100).toFixed(0));
+                              }
+                            }else if(this.infoGenesAndConditionsPhen2Genes.length>0){
+                              scoregenes = parseInt(((infoToExtractGenes[k].score)*100).toFixed(0));
+
+                            }else{
+                              scoregenes = 100 - (k*5);
+                            }
+                            this.relatedConditions[i].scoregenes = scoregenes;
+                          }
+                          foundeleme = true;
+                        }
+                        var encposiel = false;
+                        for(var posiel = 0; posiel < this.relatedConditions[i].genes.length && !encposiel; posiel++) {
+                          if(this.relatedConditions[i].genes[posiel].gen == obttemp[gen].label){
+                            encposiel = true;
+                          }
+                        }
+                        if(!encposiel){
+                          this.relatedConditions[i].genes.push({gen:obttemp[gen].label});
+                        }
+                      }
+                      if(genIncluded==false){
+                        this.relatedConditions[i].iscondition=false;
+                        infoGenesDiscard_filter[res1[idDesease].id]=res1[idDesease].genes
+                      }
+                  }
+                  if(this.relatedConditions[i].genes.length>0){
+                    this.relatedConditions[i].genes.sort(this.sortService.GetSortOrder("gen"));
+                  }
+                }else{
+                  if(this.isUpperCase(this.relatedConditions[i].name.label)){
+                    this.relatedConditions[i].name.infogene = 'https://www.genecards.org/cgi-bin/carddisp.pl?gene='+this.relatedConditions[i].name.label+'#diseases';
+                  }else{
+                    this.relatedConditions[i].name.infogene = 'https://www.genecards.org/Search/Keyword?queryString='+this.relatedConditions[i].name.label;
+                  }
+                }
+              }else{
+                this.relatedConditions[i].iscondition=false;
+                infoGenesDiscard_null[this.relatedConditions[i].name.id]={};
+                if(this.isUpperCase(this.relatedConditions[i].name.label)){
+                  this.relatedConditions[i].name.infogene = 'https://www.genecards.org/cgi-bin/carddisp.pl?gene='+this.relatedConditions[i].name.label+'#diseases';
+                }else{
+                  this.relatedConditions[i].name.infogene = 'https://www.genecards.org/Search/Keyword?queryString='+this.relatedConditions[i].name.label;
+                }
+              }
+            }
+
+            if(Object.keys(infoGenesDiscard_filter).length>0){
+              var str = JSON.stringify(infoGenesDiscard_filter);
+              var fileNameRelatedConditionsDiscard = "diseasesToGenes/relatedConditions"+"-"+'discardByGenes_filter.json';
+              var file = new File([str],fileNameRelatedConditionsDiscard,{type:'application/json'});
+              this.uploadProgress = this.blob
+              .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
+
+            }
+            if(Object.keys(infoGenesDiscard_null).length>0){
+              var str = JSON.stringify(infoGenesDiscard_null);
+              var fileNameRelatedConditionsDiscard = "diseasesToGenes/relatedConditions"+"-"+'discardByGenes_null.json';
+              var file = new File([str],fileNameRelatedConditionsDiscard,{type:'application/json'});
+              this.uploadProgress = this.blob
+              .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
+
+            }
+
+            // Info of the execution
+            var str = JSON.stringify({analyze:"Phen2Genes",data:{hpos:jsonHpos}});
+            var fileNameRelatedConditions = "relatedConditions"+"-"+'executionParams.json';
+            var fileRelatedConditionsParams = new File([str],fileNameRelatedConditions,{type:'application/json'});
+            this.uploadProgress = this.blob
+            .uploadToBlobStorage(this.accessToken, fileRelatedConditionsParams, fileNameRelatedConditions, 'relatedConditions');
+
+            var copyrelatedConditions2 = [];
+            console.log(this.relatedConditions);
+            for(var i = 0; i < this.relatedConditions.length; i++) {
+              if(this.relatedConditions[i].iscondition){
+                copyrelatedConditions2.push(this.relatedConditions[i]);
+              }
+            }
+            this.relatedConditions = copyrelatedConditions2;
+            console.log(this.relatedConditions);
+            this.loadingInfoGenes = false;
+            //this.calcularScoreHealth29();
+            this.getSymptomsApi();
+
+          }, (err) => {
+              console.log(err);
+              //tratar el error
+              this.reportError();
+              this.closeAndShowMsg();
+          }));
+        }else{
+          Swal.fire('Error', 'No exomiser or Phen2Genes results have been found.', "error");
         }
         this.gettingRelatedConditions = false;
       }, (err) => {
@@ -5722,7 +6012,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
      this.subscription.add( this.apiDx29ServerService.lauchPhene2Gene(patientId, jsonfile)
      .subscribe( (res : any) => {
        console.log(res);
-       this.getLastPhen2GenesResults();
+       this.processPhenToGenesInfo(res.fileName, res.data);
      }, (err) => {
        console.log(err);
      }));
@@ -5732,40 +6022,50 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       var patientId = this.authService.getCurrentPatient().sub;
      this.subscription.add( this.apiDx29ServerService.getLastPhen2GenesResults(patientId)
      .subscribe( (res : any) => {
-       this.infoGenesAndConditions = [];
-       this.infoGenesAndConditionsPhen2Genes = [];
-       this.sizeOfDiseases = 0;
-       var listGenes = [];
-        Object.keys(res).forEach(keyGen => {
-          var dataForGene = [];
-          var actualGeneInfo = res[keyGen].diseases;
-          if(actualGeneInfo!=undefined){
-            Object.keys(actualGeneInfo).forEach(keyDisease => {
-              if(res[keyGen].diseases[keyDisease].is_defined_by.indexOf('#orphanet')>-1){
-                dataForGene.push({"condition": res[keyGen].diseases[keyDisease].label, "idOrphanet": res[keyGen].diseases[keyDisease].id, "idOMIM": null, "value": false});
-              }else if(res[keyGen].diseases[keyDisease].is_defined_by.indexOf('#omim')>-1){
-                dataForGene.push({"condition": res[keyGen].diseases[keyDisease].label, "idOrphanet": null, "idOMIM": res[keyGen].diseases[keyDisease].id, "value": false});
-              }
-              this.sizeOfDiseases++;
-            });
-          }
-
-          this.infoGenesAndConditions.push({"name": keyGen, "data": dataForGene, "score": res[keyGen].score});
-          this.infoGenesAndConditionsPhen2Genes.push({"name": keyGen, "data": dataForGene, "score": res[keyGen].score});
-        });
-
-
-       if(document.getElementById("idShowPanelWorkbench")!=null){
-         document.getElementById("idShowPanelWorkbench").click();
+       if(res.data!=null){
+         this.processPhenToGenesInfo(res.fileName, res.data);
        }else{
-         if(document.getElementById("buttonChangeTab")!=null){
-           //document.getElementById("buttonChangeTab").click();
-         }
+         this.filePhen2GenesOnBlob = '';
+         this.launchingPhen2Genes = false;
        }
-       this.launchingPhen2Genes = false;
      }, (err) => {
        console.log(err);
      }));
+    }
+
+    processPhenToGenesInfo(fileName, data){
+      this.filePhen2GenesOnBlob = fileName;
+      this.infoGenesAndConditions = [];
+      this.infoGenesAndConditionsPhen2Genes = [];
+      this.sizeOfDiseases = 0;
+      var listGenes = [];
+       Object.keys(data).forEach(keyGen => {
+         var dataForGene = [];
+         var actualGeneInfo = data[keyGen].diseases;
+         if(actualGeneInfo!=undefined){
+           Object.keys(actualGeneInfo).forEach(keyDisease => {
+             if(data[keyGen].diseases[keyDisease].is_defined_by.indexOf('#orphanet')>-1){
+               dataForGene.push({"condition": data[keyGen].diseases[keyDisease].label, "idOrphanet": data[keyGen].diseases[keyDisease].id, "idOMIM": null, "value": false});
+             }else if(data[keyGen].diseases[keyDisease].is_defined_by.indexOf('#omim')>-1){
+               dataForGene.push({"condition": data[keyGen].diseases[keyDisease].label, "idOrphanet": null, "idOMIM": data[keyGen].diseases[keyDisease].id, "value": false});
+             }
+             this.sizeOfDiseases++;
+           });
+         }
+
+         this.infoGenesAndConditions.push({"name": keyGen, "data": dataForGene, "score": data[keyGen].score});
+         this.infoGenesAndConditionsPhen2Genes.push({"name": keyGen, "data": dataForGene, "score": data[keyGen].score});
+       });
+
+
+      if(document.getElementById("idShowPanelWorkbench")!=null){
+        document.getElementById("idShowPanelWorkbench").click();
+      }else{
+        if(document.getElementById("buttonChangeTab")!=null){
+          //document.getElementById("buttonChangeTab").click();
+        }
+      }
+      this.launchingPhen2Genes = false;
     }
 
     exploreMoreSymptomsPhen2Genes(){
