@@ -77,7 +77,7 @@ describe('[Get related conditions]',  () => {
     let resultExo_Genes= resultExo_GenesData ;
     let resultExo_Symptoms = resultExo_SymptomsData;
     let resultExo_InfoDiseases = resultExo_InfoDiseasesData;
-  
+
 
     let originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
 
@@ -89,7 +89,7 @@ describe('[Get related conditions]',  () => {
         declarations: [
             DiagnosisComponent
         ],
-        providers: [AuthService,AuthGuard,PatientService,SortService,SearchService, NgbModal,BlobStorageService,BlobStoragePedService, SearchFilterPipe,HighlightSearch,  
+        providers: [AuthService,AuthGuard,PatientService,SortService,SearchService, NgbModal,BlobStorageService,BlobStoragePedService, SearchFilterPipe,HighlightSearch,
             ApiDx29ServerService,ExomiserService,ExomiserHttpService,Apif29SrvControlErrors, Apif29BioService,Apif29NcrService,NgxHotjarService,TextTransform,TokenService]
       }).compileComponents()
     });
@@ -130,7 +130,7 @@ describe('[Get related conditions]',  () => {
         spyOn(component.blob,'uploadToBlobStorage').and.returnValue(Observable.of(1))
 
         component.phenotype={"data":[{"id":"HP:0001250","checked":true}]}
-        component.getRelatedConditionsPhenolyzer(phenolyzerInput.input);
+        component.getRelatedConditionsPhen2Genes(phenolyzerInput.input);
         tick();
 
         if(Object.keys(component.relatedConditions).length>0){
