@@ -578,31 +578,6 @@
 													</table>
 												</div>
 												<div *ngIf="loadingTable"><i class="fa fa-spinner fa-spin fa-fw pink"></i></div>
-
-
-												<!--<table class="table" *ngIf="infoGenesAndConditionsExomizer.length>0">
-													<thead>
-													<tr>
-														<th>{{'diagnosis.Ranked genes' | translate }}</th>
-														<th>{{'phenotype.Related conditions' | translate }}</th>
-													</tr>
-													</thead>
-													<tbody>
-													<tr *ngFor="let info of infoGenesAndConditionsExomizer ; let i = index">
-														<td>
-														<h3>{{info.name}}</h3>
-														</td>
-														<td *ngIf="info.data.length>0">
-														<p *ngFor="let condition of info.data ; let j = index">
-															{{condition.condition}}
-														</p>
-														</td>
-														<td *ngIf="info.data.length==0">
-														{{'diagnosis.No known disease' | translate }}
-														</td>
-													</tr>
-													</tbody>
-												</table>-->
 											</div>
 											<div class="col-md-12 center-elements mt-4" *ngIf="filename!='' && uploadingGenotype">
 												<p ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
@@ -624,8 +599,8 @@
 										</ng-template>
 										<ng-template ngbTabContent>
 											<div class="mb-4" *ngIf="!launchingPhen2Genes">
-												<button type="button" class="ml-1 mb-0 btn btn-raised btn-primary" (click)="lauchPhen2Genes()">lauchPhen2Genes</button>
-												<button type="button" *ngIf="infoGenesAndConditionsPhen2Genes.length>0 && filePhen2GenesOnBlob!=''" class="ml-1 mb-0 btn btn-raised btn-primary" (click)="exploreMoreSymptomsPhen2Genes()">exploreMoreSymptomsPhen2Genes</button>
+												<button type="button" class="ml-1 btn btn-raised btn-primary" (click)="lauchPhen2Genes()">{{'diagnosis.Launch' | translate }}</button>
+												<button type="button" *ngIf="infoGenesAndConditionsPhen2Genes.length>0 && filePhen2GenesOnBlob!=''" class="ml-1 btn btn-raised btn-primary" (click)="exploreMoreSymptomsPhen2Genes()">{{'diagnosis.Explore more symptoms' | translate }}</button>
 												<table class="table" *ngIf="infoGenesAndConditionsPhen2Genes.length>0">
 													<thead>
 														<tr>
