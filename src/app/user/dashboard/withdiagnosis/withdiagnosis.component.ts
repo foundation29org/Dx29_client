@@ -525,7 +525,7 @@ export class WithdiagnosisComponent implements OnInit, OnDestroy, AfterViewInit{
           selectedItemsFilter: [],
           notes: '',
           infoGenesAndConditionsExomizer: [],
-          infoGenesAndConditionsPhenolyzer: [],
+          infoGenesAndConditionsPhen2Genes: [],
           relatedConditions: [],
           hasVcf: false,
           settingExomizer: {

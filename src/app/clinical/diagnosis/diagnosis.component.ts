@@ -135,7 +135,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     filesVcf: any = [];
     infoGenesAndConditions: any = [];
     infoGenesAndConditionsExomizer: any = [];
-    infoGenesAndConditionsPhenolyzer: any = [];
     infoGenesAndConditionsPhen2Genes: any = [];
     checksChanged: boolean = false;
     lastInfoPetition: any = {};
@@ -169,8 +168,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     hasGen: boolean = false;
     t: any;
     launchingPhen2Genes: boolean = false;
-    launchingPhenolyzer: boolean = false;
-    filePhenolyzerOnBlob: string = '';
     filePhen2GenesOnBlob: string = '';
     urlFileHtmlExomiserBlob: string = '';
     loadingFileHtmlExomiserBlob: boolean = false;
@@ -266,7 +263,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       })
       this.gettingRelatedConditions=false;
       this.loadingDiagnosisInfo=false;
-      this.launchingPhenolyzer=false;
       this.launchingPhen2Genes=false;
       this.settingExomizer = {
         "IsGenome": false,
@@ -464,34 +460,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }, (err) => {
         console.log(err);
       }));
-      this.checkPhenolyzer();
+      this.launchingPhen2Genes = false;
 
-    }
-
-    checkPhenolyzer(){
-      var patientId = this.authService.getCurrentPatient().sub;
-        this.subscription.add( this.http.get(environment.api+'/api/phenolyzerservices/'+patientId)
-        .subscribe( (res2 : any) => {
-          if(res2.message){
-            if(res2.message=='something pending'){
-              this.launchingPhenolyzer = true;
-              this.getPhenolyzer(patientId);
-              if(document.getElementById("idShowPanelWorkbench")!=null){
-                document.getElementById("idShowPanelWorkbench").click();
-                setTimeout(function () {
-                  //se pone esta condición por si tb se ha lanzado exomiser, que no se vaya a phenolyzer.
-                  if(!this.uploadingGenotype){
-                    document.getElementById("tabPhenolyzer").click();
-                  }
-                }.bind(this), 200);
-              }
-            }else{
-              this.launchingPhenolyzer = false;
-            }
-          }
-         }, (err) => {
-           console.log(err);
-         }));
     }
 
     checkExomiser(){
@@ -622,13 +592,11 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
      this.filename = '';
      this.filesVcf = [];
      this.filesOnBlob = [];
-     this.filePhenolyzerOnBlob = '';
      this.filePhen2GenesOnBlob = '';
      this.urlFileHtmlExomiserBlob = '';
      this.loadingFileHtmlExomiserBlob = false;
      this.infoGenesAndConditions = [];
      this.infoGenesAndConditionsExomizer = [];
-     this.infoGenesAndConditionsPhenolyzer = [];
      this.infoGenesAndConditionsPhen2Genes = [];
      this.activeTittleMenu = "Symptoms";
 
@@ -651,7 +619,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
        evaluation: '',
        notes: '',
        infoGenesAndConditionsExomizer: [],
-       infoGenesAndConditionsPhenolyzer: [],
        infoGenesAndConditionsPhen2Genes: [],
        relatedConditions: [],
        hasVcf: false,
@@ -947,10 +914,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       if(this.infoGenesAndConditionsExomizer.length>0){
         infoToExtractGenes = this.infoGenesAndConditionsExomizer;
         priorizeGenes=true;
-      // Cojo lo de phenolyzer
-      }else if(this.infoGenesAndConditionsPhenolyzer.length>0){
-        infoToExtractGenes = this.infoGenesAndConditionsPhenolyzer;
-        priorizeGenes=false;
+      // Cojo lo de phene2gene
       }else if(this.infoGenesAndConditionsPhen2Genes.length>0){
         infoToExtractGenes = this.infoGenesAndConditionsPhen2Genes;
         priorizeGenes=false;
@@ -961,11 +925,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }
       else{
         // Añadir lo de los genes
-        if(this.infoGenesAndConditionsPhen2Genes.length>0){
-          this.getRelatedConditionsPhen2Genes(infoToExtractGenes);
-        }else if(this.infoGenesAndConditionsPhenolyzer.length>0){
-          this.getRelatedConditionsPhenolyzer(infoToExtractGenes);
-        }
+        this.getRelatedConditionsPhen2Genes(infoToExtractGenes);
 
       }
     }
@@ -1171,9 +1131,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                                 }else{
                                   scoregenes = parseInt(((infoToExtractGenes[k].score)*100).toFixed(0));
                                 }
-                              }else if(this.infoGenesAndConditionsPhenolyzer.length>0){
-                                scoregenes = parseInt(((infoToExtractGenes[k].score)*100).toFixed(0));
-
                               }else if(this.infoGenesAndConditionsPhen2Genes.length>0){
                                 scoregenes = parseInt(((infoToExtractGenes[k].score)*100).toFixed(0));
 
@@ -1263,7 +1220,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
 
           }else{
-            Swal.fire('Error', 'No exomiser or phenolyzer results have been found.', "error");
+            Swal.fire('Error', 'No exomiser or phene2gene results have been found.', "error");
           }
           this.gettingRelatedConditions = false;
         }, (err) => {
@@ -1282,290 +1239,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }));
     }
 
-    getRelatedConditionsPhenolyzer(infoToExtractGenes){
-
-      var tempo = [];
-      for(var k = 0; k < infoToExtractGenes.length; k++){
-        for(var il = 0; il < infoToExtractGenes[k].data.length; il++){
-          if(infoToExtractGenes[k].data[il].idOrphanet!=null){
-            tempo.push({condition:infoToExtractGenes[k].data[il].condition, id: infoToExtractGenes[k].data[il].idOrphanet});
-          }else{
-            tempo.push({condition:infoToExtractGenes[k].data[il].condition, id: infoToExtractGenes[k].data[il].idOMIM});
-          }
-        }
-      }
-      // Leo los genes de exomiser y pregunto a la API de Alvaro por las relatedConditions
-      // Comparo las relatedConditions que tenia en this.infoGenesAndConditionsExomizer y las de la respuesta de la API
-      //    - Si ya estaba -> No hago nada
-      //    - Si no estaba, la añado en la lista de condiciones para el gen
-      var listGenes_names=[];
-      for(var k = 0; k < infoToExtractGenes.length; k++){
-        listGenes_names.push(infoToExtractGenes[k].name)
-      }
-
-      // Delete duplicates
-      var mySet = new Set(listGenes_names);
-      listGenes_names = [...mySet];
-
-      // Llamar/bioentity/gene/diseases con infoToExtractGenes
-      var infoDiseasesDiscard_null= new Object();
-      infoDiseasesDiscard_null={};
-      var infoDiseasesAdded= new Object();
-      infoDiseasesAdded={};
-
-      this.subscription.add( this.apif29BioService.getDiseaseOfGenes(listGenes_names)
-      .subscribe( (resDiseases : any) => {
-        console.log(resDiseases);
-        for(var i=0;i<listGenes_names.length;i++){
-          var idGen = listGenes_names[i];
-          if((resDiseases[idGen] !=undefined)&&(resDiseases[idGen] !=null)){
-            if(Object.keys((resDiseases[idGen]).diseases).length>0){
-              var obttemp = (resDiseases[idGen]).diseases;
-              for(var disease in obttemp) {
-                var foundIntempo=false;
-                for(var j=0;j<tempo.length;j++){
-                  if(tempo[j].condition.toLowerCase()==obttemp[disease].label.toLowerCase()){
-                    foundIntempo=true;
-                  }
-                }
-                if(foundIntempo==false){
-                  tempo.push({condition:obttemp[disease].label, id: obttemp[disease].id});
-                  infoDiseasesAdded[resDiseases[idGen].id]={diseases:Object.keys(resDiseases[idGen].diseases)}
-                }
-              }
-            }
-          }
-          else{
-            infoDiseasesDiscard_null[listGenes_names[i]]={}
-          }
-        }
-
-        if(Object.keys(infoDiseasesDiscard_null).length>0){
-          var str = JSON.stringify(infoDiseasesDiscard_null);
-          var fileNameRelatedConditionsDiscard = "genesToDisease/relatedConditions"+"-"+'discardDiseases_null.json';
-          var file = new File([str],fileNameRelatedConditionsDiscard,{type:'application/json'});
-          this.uploadProgress = this.blob
-          .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
-        }
-
-        if(Object.keys(infoDiseasesAdded).length>0){
-          var str = JSON.stringify(infoDiseasesAdded);
-          var fileNameRelatedConditionsDiscard = "genesToDisease/relatedConditions"+"-"+'addDiseases.json';
-          var file = new File([str],fileNameRelatedConditionsDiscard,{type:'application/json'});
-          this.uploadProgress = this.blob
-          .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
-        }
-
-        console.log(infoToExtractGenes)
-        //Get list of diseases with Monarch (la de ahora).
-        this.relatedConditions = [];
-        var jsonPhenotype = { hpos: this.phenotype.data };
-        var jsonHpos = [];
-        for(var index in this.phenotype.data){
-          if(this.phenotype.data[index].checked){
-            jsonHpos.push(this.phenotype.data[index].id);
-          }
-        }
-        this.subscription.add( this.apiDx29ServerService.getRelatedConditions(jsonHpos)
-        .subscribe( (res : any) => {
-        console.log(res);
-        this.relatedConditions = res;
-
-        //Merge and keep unique diseases.
-        for(var i = 0; i < this.relatedConditions.length; i++) {
-          if(this.relatedConditions[i]!=undefined){
-            if(this.relatedConditions[i].genes==undefined){
-              this.relatedConditions[i].genes = [];
-              this.relatedConditions[i].scoregenes = 0;
-            }
-            var foundElement = this.searchService.search(tempo,'condition', this.relatedConditions[i].name.label);
-            if(!foundElement){
-              tempo.push({condition:this.relatedConditions[i].name.label, id: this.relatedConditions[i].name.id});
-            }
-
-          }
-        }
-        var temp2=[];
-        for(var in1=0;in1<tempo.length;in1++){
-          temp2.push({name:{label: tempo[in1].condition, id: tempo[in1].id}});
-        }
-
-        this.relatedConditions.concat(temp2);
-        if(infoToExtractGenes!= []){
-          this.loadingInfoGenes = true;
-          this.listOfDiseases = [];
-          for(var i = 0; i < this.relatedConditions.length; i++) {
-            if(this.relatedConditions[i]!=undefined){
-              if(this.relatedConditions[i].genes==undefined){
-                this.relatedConditions[i].genes = [];
-                this.relatedConditions[i].scoregenes = 0;
-              }
-            }
-          }
-          //quedarse con 100 this.listOfDiseases
-          this.listOfDiseases = [];
-          for(var in3 = 0; in3 < this.relatedConditions.length; in3++) {
-            this.listOfDiseases.push(this.relatedConditions[in3].name.id);
-          }
-          //end Merge and keep unique diseases.
-          //get genes
-          this.subscription.add(this.apif29BioService.getGenesOfDiseases(this.listOfDiseases)
-          .subscribe( (res1 : any) => {
-            console.log(res1)
-            var genRelationValuesListAccepted=["RO:0003303", "RO:0004012", "RO:0004013", "RO:0004014"]
-            var infoGenesDiscard_null= new Object();
-            infoGenesDiscard_null={};
-            var infoGenesDiscard_filter= new Object();
-            infoGenesDiscard_filter={};
-            for(var i = 0; i < this.relatedConditions.length; i++) {
-              var foundeleme = false;
-              var idDesease = this.relatedConditions[i].name.id;
-              if((res1[idDesease] !=undefined)&&(res1[idDesease] !=null)){
-                if(Object.keys((res1[idDesease]).genes).length>0){
-                  for(var k = 0; k < infoToExtractGenes.length && !foundeleme; k++){
-                    var obttemp = (res1[idDesease]).genes;
-                    var genIncluded=false;
-                      for(var gen in obttemp) {
-                        // Filter by "is_defined_by" (all that not have ONLY orphanet source)
-                        var definedByOnlyOrphanet=false;
-                        if(obttemp[gen].is_defined_by.indexOf('#orphanet')>-1){
-                          if(obttemp[gen].is_defined_by.indexOf('|')==-1){
-                            definedByOnlyOrphanet=true;
-                          }
-                        }
-                        if(definedByOnlyOrphanet==false){
-                          // Filter by relation
-                          // (condition) if gen relation value in list of relationValues accepted
-                          if(genRelationValuesListAccepted.includes(obttemp[gen].relation)==true){
-                            this.relatedConditions[i].iscondition=true;
-                            genIncluded=true;
-                          }
-                        }
-
-                        var para3 = (infoToExtractGenes[k].name).toLowerCase();
-                        var para4 = (obttemp[gen].label).toLowerCase();
-                        if(para3==para4){
-                          if(this.relatedConditions[i].scoregenes==0){
-                            var scoregenes = 0;
-                            if(this.infoGenesAndConditionsExomizer.length>0){
-                              if(infoToExtractGenes[k].scoredx29 != undefined){
-                                scoregenes = parseInt(((infoToExtractGenes[k].score)*100).toFixed(0));
-                                this.relatedConditions[i].h29 = parseInt(((infoToExtractGenes[k].scoredx29)*100).toFixed(0));
-                              }else{
-                                scoregenes = parseInt(((infoToExtractGenes[k].score)*100).toFixed(0));
-                              }
-                            }else if(this.infoGenesAndConditionsPhenolyzer.length>0){
-                              scoregenes = parseInt(((infoToExtractGenes[k].score)*100).toFixed(0));
-
-                            }else if(this.infoGenesAndConditionsPhen2Genes.length>0){
-                              scoregenes = parseInt(((infoToExtractGenes[k].score)*100).toFixed(0));
-
-                            }else{
-                              scoregenes = 100 - (k*5);
-                            }
-                            this.relatedConditions[i].scoregenes = scoregenes;
-                          }
-                          foundeleme = true;
-                        }
-                        var encposiel = false;
-                        for(var posiel = 0; posiel < this.relatedConditions[i].genes.length && !encposiel; posiel++) {
-                          if(this.relatedConditions[i].genes[posiel].gen == obttemp[gen].label){
-                            encposiel = true;
-                          }
-                        }
-                        if(!encposiel){
-                          this.relatedConditions[i].genes.push({gen:obttemp[gen].label});
-                        }
-                      }
-                      if(genIncluded==false){
-                        this.relatedConditions[i].iscondition=false;
-                        infoGenesDiscard_filter[res1[idDesease].id]=res1[idDesease].genes
-                      }
-                  }
-                  if(this.relatedConditions[i].genes.length>0){
-                    this.relatedConditions[i].genes.sort(this.sortService.GetSortOrder("gen"));
-                  }
-                }else{
-                  if(this.isUpperCase(this.relatedConditions[i].name.label)){
-                    this.relatedConditions[i].name.infogene = 'https://www.genecards.org/cgi-bin/carddisp.pl?gene='+this.relatedConditions[i].name.label+'#diseases';
-                  }else{
-                    this.relatedConditions[i].name.infogene = 'https://www.genecards.org/Search/Keyword?queryString='+this.relatedConditions[i].name.label;
-                  }
-                }
-              }else{
-                this.relatedConditions[i].iscondition=false;
-                infoGenesDiscard_null[this.relatedConditions[i].name.id]={};
-                if(this.isUpperCase(this.relatedConditions[i].name.label)){
-                  this.relatedConditions[i].name.infogene = 'https://www.genecards.org/cgi-bin/carddisp.pl?gene='+this.relatedConditions[i].name.label+'#diseases';
-                }else{
-                  this.relatedConditions[i].name.infogene = 'https://www.genecards.org/Search/Keyword?queryString='+this.relatedConditions[i].name.label;
-                }
-              }
-            }
-
-            if(Object.keys(infoGenesDiscard_filter).length>0){
-              var str = JSON.stringify(infoGenesDiscard_filter);
-              var fileNameRelatedConditionsDiscard = "diseasesToGenes/relatedConditions"+"-"+'discardByGenes_filter.json';
-              var file = new File([str],fileNameRelatedConditionsDiscard,{type:'application/json'});
-              this.uploadProgress = this.blob
-              .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
-
-            }
-            if(Object.keys(infoGenesDiscard_null).length>0){
-              var str = JSON.stringify(infoGenesDiscard_null);
-              var fileNameRelatedConditionsDiscard = "diseasesToGenes/relatedConditions"+"-"+'discardByGenes_null.json';
-              var file = new File([str],fileNameRelatedConditionsDiscard,{type:'application/json'});
-              this.uploadProgress = this.blob
-              .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
-
-            }
-
-            // Info of the execution
-            var str = JSON.stringify({analyze:"phenolyzer",data:{hpos:jsonHpos}});
-            var fileNameRelatedConditions = "relatedConditions"+"-"+'executionParams.json';
-            var fileRelatedConditionsParams = new File([str],fileNameRelatedConditions,{type:'application/json'});
-            this.uploadProgress = this.blob
-            .uploadToBlobStorage(this.accessToken, fileRelatedConditionsParams, fileNameRelatedConditions, 'relatedConditions');
-
-            var copyrelatedConditions2 = [];
-            console.log(this.relatedConditions);
-            for(var i = 0; i < this.relatedConditions.length; i++) {
-              if(this.relatedConditions[i].iscondition){
-                copyrelatedConditions2.push(this.relatedConditions[i]);
-              }
-            }
-            this.relatedConditions = copyrelatedConditions2;
-            console.log(this.relatedConditions);
-            this.loadingInfoGenes = false;
-            //this.calcularScoreHealth29();
-            this.getSymptomsApi();
-
-          }, (err) => {
-              console.log(err);
-              //tratar el error
-              this.reportError();
-              this.closeAndShowMsg();
-          }));
-        }else{
-          Swal.fire('Error', 'No exomiser or phenolyzer results have been found.', "error");
-        }
-        this.gettingRelatedConditions = false;
-      }, (err) => {
-        console.log(err);
-        //tratar el error
-        this.reportError();
-        this.toastr.error('', this.translate.instant("generics.error try again"));
-        this.gettingRelatedConditions = false;
-      }));
-    }, (err) => {
-      console.log(err);
-      //tratar el error
-      this.reportError();
-      this.toastr.error('', this.translate.instant("generics.error try again"));
-      this.gettingRelatedConditions = false;
-    }));
-
-    }
 
     getRelatedConditionsPhen2Genes(infoToExtractGenes){
 
@@ -2561,7 +2234,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     loadGenes(){
       this.getAzureBlobSasToken();
       this.blob.loadFilesOnBlobExomizer(this.accessToken.containerName,null);
-      this.blob.loadFilesOnBlobPhenolyzer(this.accessToken.containerName);
     }
 
     getAzureBlobSasToken(){
@@ -2721,23 +2393,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
            }
          }));
 
-        //SI TIENE JSON DE PHENOLIZER
-       this.subscription.add( this.blob.changeFilesPhenolyzerBlob.subscribe(filesPhenolyzerOnBlob => {
-         this.loadingGeno = false;
-         //console.log(filesPhenolyzerOnBlob);
-          if(filesPhenolyzerOnBlob.length>0){
-            filesPhenolyzerOnBlob.sort(this.sortService.DateSort("lastModified"));
-            this.filePhenolyzerOnBlob = filesPhenolyzerOnBlob[0].name;
-            this.loadPhenolyzerFromBlob();
-          }else{
-           console.log('no tiene!');
-           //this.launchingPhenolyzer = false;
-          }
-          this.loading = false;
-        }));
 
         this.subscription.add( this.blob.changeNcrFilesPatientBlob.subscribe(filesNcr => {
-          //console.log(filesPhenolyzerOnBlob);
            if(filesNcr.length>0){
              this.checkPrograms();
            }else{
@@ -2839,7 +2496,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         this.blob.createContainerIfNotExists(this.accessToken, 'ncr');
         this.blob.createContainerIfNotExists(this.accessToken, '');
         this.blob.loadFilesOnBlobExomizer(this.accessToken.containerName,null);
-        this.blob.loadFilesOnBlobPhenolyzer(this.accessToken.containerName);
         this.getLastPhen2GenesResults();
     }
 
@@ -4100,248 +3756,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       this.modalReference = this.modalService.open(contentAddSymptomsManual, ngbModalOptions);
     }
 
-    continueAndCallPhenolyzer(){
-
-      console.log("continueAndCallPhenolyzer")
-
-      this.gettingRelatedConditions=false;
-      this.loadingDiagnosisInfo=false;
-      this.launchingPhenolyzer=false;
-      console.log("Continue and call phenolyzer")
-      this.uploadingGenotype=false;
-      this.selectedItemsFilter=[];
-      this.relatedConditions=[];
-
-      //Swal.fire('Done', '', "success");
-      document.getElementById("idShowPanelWorkbench").click();
-      this.checkPrograms();
-      setTimeout(function () {
-        document.getElementById("tabPhenolyzer").click();
-        if(this.filePhenolyzerOnBlob!=''){
-          this.loadPhenolyzerFromBlob();
-        }else{
-          this.launchPhenolyzer();
-        }
-
-      }.bind(this), 200);
-
-    }
-
-    launchPhenolyzer(){
-      // Check if there are any symptoms
-      // If not: swal and not launch phenolyzer
-      if(this.phenotype.data.length==0 || (this.phenotype.data.length == this.numDeprecated && this.numDeprecated>0)){
-        Swal.fire({ title: this.translate.instant("diagnosis.titleNotCanLaunchPhenolyzer"), html: this.translate.instant("diagnosis.msgNotCanLaunchPhenolyzer"),icon:"info" })
-      }
-      // If yes: launch phenolyzer
-      else{
-        if(this.infoGenesAndConditionsExomizer.length == 0){
-          this.relatedConditions = [];
-        }
-        this.infoGenesAndConditionsPhenolyzer = [];
-        this.saveNotes();
-
-        this.infoGenesAndConditionsPhenolyzer=[];
-        this.numberOfSymptoms = this.phenotype.data.length;
-        this.launchingPhenolyzer = true;
-        var listSymptoms = [];
-        for(var i = 0; i < this.phenotype.data.length; i++) {
-          listSymptoms.push(this.phenotype.data[i].id);
-        }
-
-        var jsonfile = {
-          "CaseName": this.accessToken.containerName,
-          "Phenotypes": listSymptoms,
-        };
-        /*
-       var jsonfile = {"CaseName":"ebfe116608a8c470a5b8304ead87799098f86f9c3bc6b6cb98a06381ce8f506","Phenotypes":["HP:0001250","HP:0001252","HP:0000160","HP:0002069","HP:0002104","HP:0002133","HP:0000013","HP:0002373","HP:0000011","HP:0000114","HP:0000111"]};
-       */
-        this.subscription.add( this.http.post(environment.phenolyzerUrl,jsonfile)
-        .subscribe( (res : any) => {
-          this.getPhenolyzer(this.accessToken.patientId);
-
-        }, (err) => {
-          console.log(err);
-          this.loading = false;
-        }));
-      }
-
-    }
-
-    getPhenolyzer(patientId){
-      this.subscription.add( this.http.get(environment.api+'/api/phenolyzerservice/'+patientId)
-      .subscribe( (res2 : any) => {
-        if(this.launchingPhenolyzer){
-          if(res2.message){
-            if(res2.message=='timeout'){
-              this.getPhenolyzer(patientId);
-            }else if(res2.error!=undefined){
-              if(res2.message.body!=undefined){
-
-                var test = (res2.message.body).split("\n\n");
-                if(test[1]!=undefined){
-                  var result = test[0]+'<br><br>'+test[1]
-                  Swal.fire(res2.message.title, result, "error");
-                }else{
-                  Swal.fire(res2.message.title, res2.message.body, "error");
-                }
-              }else{
-                Swal.fire('Error when processing phenolyzer', (res2.message).toString(), "error");
-              }
-              this.launchingPhenolyzer = false;
-            }else{
-              this.exploreSymptomsPhenolizer = true;
-              this.blob.loadFilesOnBlobPhenolyzer(this.accessToken.containerName);
-              this.launchingPhenolyzer = false;
-            }
-
-          }else{
-          }
-        }
-        this.loading = false;
-       }, (err) => {
-         if(this.launchingPhenolyzer){
-           this.getPhenolyzer(patientId);
-         }
-         console.log(err);
-         this.loading = false;
-       }));
-    }
-
-    exploreMoreSymptomsPhenolyzer(){
-      this.exploreSymptomsPhenolizer = false;
-      this.infoGenesAndConditions = this.infoGenesAndConditionsPhenolyzer;
-      this.startDiagnosis();
-      this.numberOfSymptoms = this.phenotype.data.length;
-      this.actualPosGen = 0;
-      this.actualPosDisease = 0;
-      this.globalPosDisease = 1;
-      this.actualDisease = {};
-      this.unknownSymptoms = [];
-      this.symptomsLoaded = [];
-    }
-
-    loadPhenolyzerFromBlob(){
-      if(this.infoGenesAndConditionsPhenolyzer.length != 0){
-        this.infoGenesAndConditions = this.infoGenesAndConditionsPhenolyzer;
-        if(this.exploreSymptomsPhenolizer){
-          this.exploreMoreSymptomsPhenolyzer();
-        }
-        this.sizeOfDiseases = 0;
-        for (var i = 0; i < this.infoGenesAndConditions.length; i++) {
-          if(this.infoGenesAndConditions[i].data.length>0){
-            for (var j = 0; j < this.infoGenesAndConditions[i].data.length; j++) {
-              this.sizeOfDiseases++;
-            }
-          }
-        }
-
-        if(!this.exploreSymptomsPhenolizer){
-          if(document.getElementById("idShowPanelWorkbench")!=null){
-            document.getElementById("idShowPanelWorkbench").click();
-            this.checkPrograms();
-          }else{
-            if(document.getElementById("buttonChangeTab")!=null){
-              document.getElementById("buttonChangeTab").click();
-            }
-
-          }
-        }
-        //this.checkPhenolyzer();
-
-
-      }else{
-        this.subscription.add( this.http.get(this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+this.filePhenolyzerOnBlob+this.accessToken.sasToken)
-          .subscribe( (res : any) => {
-            console.log(res)
-            this.infoGenesAndConditions = [];
-            this.infoGenesAndConditionsPhenolyzer = [];
-            this.sizeOfDiseases = 0;
-            for (var i = 0; i < 100; i++) {
-              var dataForGene = [];
-              if(res[i]!=undefined){
-                for (var j = 0; j < res[i].Diseases.length ; j++) {
-                  var codeomimorpha = null;
-                  var tempinfo = [];
-                  var isOmim = false;
-                  if(res[i].Diseases[j].ORPHANET){
-                    codeomimorpha = res[i].Diseases[j].ORPHANET[0].Id;
-
-                    codeomimorpha = codeomimorpha.replace("ORPHANET", "ORPHA");
-                    tempinfo = this.searchFilterPipe.transform(this.orphaOmim, 'ORPHA', codeomimorpha);
-
-                  }else if(res[i].Diseases[j].OMIM){
-                    codeomimorpha = res[i].Diseases[j].OMIM[0].Id;
-                    isOmim = true;
-                    tempinfo = this.searchFilterPipe.transform(this.orphaOmim, 'OMIM', codeomimorpha);
-                    //codeomimorpha = codeomimorpha.replace("ORPHANET", "Orphanet");
-                  }
-
-                   if(tempinfo.length == 0 ){
-                     if(codeomimorpha!=null){
-                       codeomimorpha = codeomimorpha.replace("ORPHA", "Orphanet");
-                     }
-                     if(isOmim){
-                       dataForGene.push({"condition": res[i].Diseases[j].OMIM[0].Condition, "idOrphanet": null, "idOMIM": codeomimorpha, "value": false});
-                     }else{
-                       if(codeomimorpha!=null){
-                         codeomimorpha = codeomimorpha.replace("ORPHANET", "Orphanet");
-                       }
-
-                       if(res[i].Diseases[j].ORPHANET){
-                         dataForGene.push({"condition": res[i].Diseases[j].ORPHANET[0].Condition, "idOrphanet": codeomimorpha, "idOMIM": null, "value": false});
-                       }
-
-                     }
-                   }else{
-                     tempinfo[0].ORPHA = (tempinfo[0].ORPHA).replace("ORPHANET", "Orphanet");
-                     tempinfo[0].ORPHA = (tempinfo[0].ORPHA).replace("ORPHA", "Orphanet");
-                     if(res[i].Diseases[j].ORPHANET){
-                       dataForGene.push({"condition": res[i].Diseases[j].ORPHANET[0].Condition, "idOrphanet": tempinfo[0].ORPHA, "idOMIM": tempinfo[0].OMIM, "value": false});
-                     }else if(res[i].Diseases[j].OMIM){
-                       dataForGene.push({"condition": res[i].Diseases[j].OMIM[0].Condition, "idOrphanet": tempinfo[0].ORPHA, "idOMIM": tempinfo[0].OMIM, "value": false});
-                     }
-
-                   }
-
-                   this.sizeOfDiseases++;
-                }
-                this.infoGenesAndConditions.push({"name": res[i].Name, "data": dataForGene, "score": res[i].Score});
-                this.infoGenesAndConditionsPhenolyzer.push({"name": res[i].Name, "data": dataForGene, "score": res[i].Score});
-                /*this.infoGenesAndConditions.push({"name": res[i].Name, "data": dataForGene});
-                this.infoGenesAndConditionsPhenolyzer.push({"name": res[i].Name, "data": dataForGene});*/
-              }
-
-            }
-
-            if(document.getElementById("idShowPanelWorkbench")!=null){
-              document.getElementById("idShowPanelWorkbench").click();
-              this.checkPrograms();
-            }else{
-              if(document.getElementById("buttonChangeTab")!=null){
-                document.getElementById("buttonChangeTab").click();
-              }
-
-            }
-
-
-
-            if(this.exploreSymptomsPhenolizer){
-              this.exploreMoreSymptomsPhenolyzer();
-            }else{
-              if(this.diagnosisInfo.infoGenesAndConditionsPhenolyzer.length == 0 && this.filesOnBlob.length == 0){
-                //this.getRelatedConditions();
-              }
-            }
-            this.checkPhenolyzer();
-           }, (err) => {
-             console.log(err);
-             this.checkPhenolyzer();
-           }));
-      }
-
-    }
-
     getDiagnosisInfo(){
       console.log("get diagnosis info")
       this.accessToken.containerName = this.authService.getCurrentPatient().sub.substr(1);
@@ -4361,7 +3775,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             evaluation: '',
             notes: '',
             infoGenesAndConditionsExomizer: [],
-            infoGenesAndConditionsPhenolyzer: [],
             infoGenesAndConditionsPhen2Genes: [],
             relatedConditions: [],
             hasVcf: false,
@@ -4404,7 +3817,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           this.diagnosisInfo = res.diagnosis
           this.infoGenesAndConditionsExomizer = this.diagnosisInfo.infoGenesAndConditionsExomizer;
           this.blob.loadFilesOnBlobExomizer(this.accessToken.containerName,null);
-          this.infoGenesAndConditionsPhenolyzer = this.diagnosisInfo.infoGenesAndConditionsPhenolyzer;
           this.infoGenesAndConditionsPhen2Genes = this.diagnosisInfo.infoGenesAndConditionsPhen2Genes;
           this.relatedConditions = this.diagnosisInfo.relatedConditions;
           this.settingExomizer = this.diagnosisInfo.settingExomizer;
@@ -4431,7 +3843,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           this.modalReference.close();
         }
         this.diagnosisInfo.infoGenesAndConditionsExomizer = this.infoGenesAndConditionsExomizer;
-        this.diagnosisInfo.infoGenesAndConditionsPhenolyzer = this.infoGenesAndConditionsPhenolyzer;
         this.diagnosisInfo.infoGenesAndConditionsPhen2Genes = this.infoGenesAndConditionsPhen2Genes;
         this.diagnosisInfo.settingExomizer = this.settingExomizer;
         this.diagnosisInfo.relatedConditions = this.relatedConditions;
@@ -5070,30 +4481,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                 this.listOfGenes.push({gen: row.genes[i].gen, checked: true, importance: '1'});
               }
             }
-            if(!enc && this.infoGenesAndConditionsPhenolyzer.length==0){
+            if(!enc && this.infoGenesAndConditionsPhen2Genes.length==0){
               this.listOfGenes.push({gen: row.genes[i].gen, checked: false, importance: '3'});
-            }
-          }
-        }
-        if(this.infoGenesAndConditionsPhenolyzer.length>0 && row.genes.length>0){
-          for(var i = 0; i < row.genes.length; i++) {
-            var enc= false;
-            for(var j = 0; j < this.infoGenesAndConditionsPhenolyzer.length && !enc; j++) {
-              if(this.infoGenesAndConditionsPhenolyzer[j].name == row.genes[i].gen){
-                enc=true;
-                var foundElement = this.searchService.search(this.listOfGenes,'gen', row.genes[i].gen);
-                if(!foundElement){
-                  this.listOfGenes.push({gen: row.genes[i].gen, checked: true, importance: '2'});
-                }
-
-              }
-            }
-            if(!enc){
-              var foundElement = this.searchService.search(this.listOfGenes,'gen', row.genes[i].gen);
-              if(!foundElement){
-                this.listOfGenes.push({gen: row.genes[i].gen, checked: false, importance: '3'});
-              }
-
             }
           }
         }
@@ -5124,17 +4513,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
       //síntomas
       this.listOfSymptoms = [];
-      /*for(var i = 0; i < row.matches.length; i++) {
-        var enc= false;
-        for(var j = 0; j < this.phenotype.data.length && !enc; j++) {
-          //if(this.phenotype.data[j].id == row.matches[i].a.id){
-          if(this.phenotype.data[j].id == row.matches[i].reference.id){
-            enc=true;
-            this.listOfSymptoms.push({id: this.phenotype.data[j].id, name: this.phenotype.data[j].name, def: this.phenotype.data[j].desc, comment: this.phenotype.data[j].comment, checked: true});
-          }
-        }
-      }*/
-
       this.getSymptomsOneDisease(row.name.id, contentSeeSymptomsOfDisease);
     }
 
