@@ -432,10 +432,10 @@
   		    <div class="col-md-7">
   		        <div class="donate">
   		            <p>Nuestros robots están analizando tus síntomas, en breves te mostrarán los resultados de posibles enfermedades</p>
-                  <div *ngIf="launchingPhenolyzer || calculatingH29Score || gettingRelatedConditions" class="col-md-12 center-elements">
+                  <div *ngIf="launchingPhen2Genes || calculatingH29Score || gettingRelatedConditions" class="col-md-12 center-elements">
             				<i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
             			</div>
-                  <div *ngIf="!launchingPhenolyzer && !calculatingH29Score && !gettingRelatedConditions" class="col-md-12 center-elements">
+                  <div *ngIf="!launchingPhen2Genes && !calculatingH29Score && !gettingRelatedConditions" class="col-md-12 center-elements">
                     <div class="center-elements">
                       <button type="button" class="ml-2 btn btn-outline-danger btn-lg" (click)="goToStep('3.3', true)">{{'patnodiagdashboard.step3-3.btn1' | translate }}</button>
                     </div>
@@ -616,43 +616,6 @@
                 </div>
             </span>
           </h4>
-          <!--<ngx-datatable (activate)="onActivate($event, contentSeeSymptomsOfDisease)" *ngIf="topRelatedConditions.length>0" responsive
-            class="bootstrap fullscreen"
-            [columnMode]="'flex'"
-            [headerHeight]="50"
-            [footerHeight]="0"
-            [rowHeight]="'auto'"
-            [rows]="topRelatedConditions"
-            >
-            <ngx-datatable-column name="{{'generics.Name' | translate }}" prop="name" [flexGrow]="0.7" [sortable]="false">
-              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                <span *ngIf="value.genes === undefined">
-                  <span *ngIf="value.infogene !== undefined">
-                    {{value.label}} *
-                  </span>
-                  <span *ngIf="value.infogene === undefined">
-                    {{value.label}}
-                  </span>
-
-                </span>
-                <span *ngIf="value.genes !== undefined">
-                  {{value.label}}
-                </span>
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="Dx29" prop="h29" [flexGrow]="0.3" *ngIf="this.infoGenesAndConditionsExomizer.length>0 || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhenolyzer.length>0)">
-              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                <div *ngIf="row.color">
-                  <p [ngStyle]="{'background-color': row.color}"><span style="padding: 0.2em;">{{value}}</span></p>
-                  </div>
-                <div *ngIf="!row.color">
-                  <p *ngIf="value>=90" style="background-color:#79f659;padding: 0.1em;"><span style="padding: 0.2em;">{{value}}</span></p>
-                  <p *ngIf="value>=80 && value<90" style="background-color:#6ab093;padding: 0.1em;"><span style="padding: 0.2em;">{{value}}</span></p>
-                  <p *ngIf="value<80" style="background-color:#5760d3; color: #fff;padding: 0.1em;"><span style="padding: 0.2em;">{{value}}</span></p>
-                </div>
-              </ng-template>
-            </ngx-datatable-column>
-          </ngx-datatable>-->
           <div class="" style="background:rgba(155, 155, 155, 0.09);">
             <div class="row" *ngFor="let disease of topRelatedConditions; let i = index" style="height:6em;">
               <div class="col-10 row mt-2">
@@ -1206,7 +1169,7 @@
               <!--<span *ngFor="let gen of actualProposedDisease.genes ; let j = index">-->
               <span *ngFor="let gen of listOfGenes ; let j = index">
                 <a *ngIf="gen.checked && gen.importance=='1'" style="color: #0CC27E;" class="font-medium-3" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" rel="tooltip" title="The gene {{gen.gen}} appears in the Exomiser results. Click to see more information."> {{gen.gen}}</a>
-                <a *ngIf="gen.checked && gen.importance!='1'" style="color: #acae63;" class="font-medium-1" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" rel="tooltip" title="The gene {{gen.gen}} appears in the Phenolyzer results. Click to see more information."> {{gen.gen}}</a>
+                <a *ngIf="gen.checked && gen.importance!='1'" style="color: #acae63;" class="font-medium-1" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" rel="tooltip" title="The gene {{gen.gen}} appears in the phen2genes results. Click to see more information."> {{gen.gen}}</a>
                 <a *ngIf="!gen.checked" style="color: #f9423a;" class="font-small-3" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" rel="tooltip" title=" Gene {{gen.gen}}. Click to see more information"> {{gen.gen}}</a>
                 <span *ngIf="j<(actualProposedDisease.genes.length-1)">, </span>
               </span>
@@ -1993,7 +1956,7 @@
           <div class="col-md-12">
             <span class="font-medium-2">{{'GeneticProgram.DataTitle' | translate }}</span>
           </div>
-        </div> 
+        </div>
         <div class="row" *ngIf="!actualProgram.data[1].result">
           <div class="col-md-12 mt-1">
             <p class="danger"> ** {{'GeneticProgram.requirements1' | translate }}.</p>

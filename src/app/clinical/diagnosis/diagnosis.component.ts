@@ -184,7 +184,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     private subscription: Subscription = new Subscription();
     private subscriptionLoadSymptoms: Subscription = new Subscription();
 
-    exploreSymptomsPhenolizer: boolean = false;
+    exploreSymptomsPhen2Genes: boolean = false;
     showErrorMsg: boolean = false;
 
     modelRadio = 1;
@@ -626,7 +626,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
        _id: null
      };
 
-     this.exploreSymptomsPhenolizer = false;
+     this.exploreSymptomsPhen2Genes = false;
 
     }
 
