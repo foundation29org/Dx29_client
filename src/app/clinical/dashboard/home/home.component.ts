@@ -655,7 +655,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
       console.log(value);
       this.authService.setCurrentPatient(value);
       if(this.authService.getCurrentPatient()!=null){
-        this.router.navigate(['/clinical/diagnosis2']);
+        this.router.navigate(['/clinical/diagnosis']);
       }
     }
 
@@ -762,7 +762,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
           //this.toastr.success('', this.msgDataSavedOk);
           if(this.authService.getCurrentPatient()!=null){
             //this.loadData();
-            this.router.navigate(['/clinical/diagnosis2']);
+            this.router.navigate(['/clinical/diagnosis']);
           }
           //this.loadPatients();
          }, (err) => {
