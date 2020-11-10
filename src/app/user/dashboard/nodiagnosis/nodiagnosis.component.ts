@@ -547,7 +547,7 @@ export class NodiagnosisComponent implements OnInit, OnDestroy{
           selectedItemsFilter: [],
           notes: '',
           infoGenesAndConditionsExomizer: [],
-          infoGenesAndConditionsPhenolyzer: [],
+          infoGenesAndConditionsPhen2Genes: [],
           relatedConditions: [],
           hasVcf: false,
           settingExomizer: {

@@ -18,7 +18,6 @@ export class BlobStorageService {
   @Output() changeFilesExomizerBlob: EventEmitter<any> = new EventEmitter();
   @Output() changeFilesExomizerBlobVcf: EventEmitter<any> = new EventEmitter();
   @Output() changeFilesOnlyVcf: EventEmitter<any> = new EventEmitter();
-  @Output() changeFilesPhenolyzerBlob: EventEmitter<any> = new EventEmitter();
   @Output() changeFilesHtmlExomiserBlob: EventEmitter<any> = new EventEmitter();
   @Output() changeFilesMapBlob: EventEmitter<any> = new EventEmitter();
   @Output() changeFilesPatientBlob: EventEmitter<any> = new EventEmitter();
@@ -29,7 +28,6 @@ export class BlobStorageService {
   filesOnBlob: any = [];
   filesMapOnBlob: any = [];
   vcfFilesOnBlob: any = [];
-  filesPhenolyzerOnBlob: any = [];
 
   blobService: any;
 
@@ -353,30 +351,6 @@ export class BlobStorageService {
         }
         this.vcfFilesOnBlob = filesgenovcf;
         this.changeFilesExomizerBlobVcf.emit(this.vcfFilesOnBlob);
-        // if result = true, container was created.
-        // if result = false, container already existed.
-      }
-    }.bind(this));
-  }
-
-  loadFilesOnBlobPhenolyzer(containerName){
-   this.filesPhenolyzerOnBlob = [];
-    this.blobService.listBlobsSegmented(containerName, null, {
-      publicAccessLevel: 'blob'
-    }, function(error, result, response) {
-      if (!error) {
-        //console.log(result.entries);
-        var filesPhenolyzer = [];
-        for (var i = 0; i < result.entries.length; i++) {
-          if((result.entries[i].name).indexOf('phenolyzer')!=-1 && (result.entries[i].name).indexOf('.json')!=-1){
-          //if((result.entries[i].name).indexOf('phenolyzer')!=-1) {
-            //console.log(result.entries[i]);
-            filesPhenolyzer.push(result.entries[i]);
-          }
-
-        }
-        this.filesPhenolyzerOnBlob = filesPhenolyzer;
-        this.changeFilesPhenolyzerBlob.emit(this.filesPhenolyzerOnBlob);
         // if result = true, container was created.
         // if result = false, container already existed.
       }

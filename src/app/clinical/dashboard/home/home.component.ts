@@ -779,36 +779,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
 
   }
 
-  onSearch(query: string = '') {
-      this.alertSource.setFilter([
-          // fields we want to inclue in the search
-          {
-              field: 'patientName',
-              search: query,
-          },
-          {
-              field: 'exomizer',
-              search: query,
-          },
-          {
-              field: 'phenolyzer',
-              search: query,
-          },
-          {
-              field: 'hasvcf',
-              search: query,
-          },
-          {
-              field: 'symptoms',
-              search: query,
-          },
-      ], false);
-      // second parameter specifying whether to perform 'AND' or 'OR' search
-      // (meaning all columns should contain search query or at least one)
-      // 'AND' by default, so changing to 'OR' by setting false here
-  }
-
-
   onDeleteConfirm(event) {
     console.log(event);
     var enc = false;

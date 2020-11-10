@@ -17,7 +17,6 @@ export class BlobStorageSupportService {
   uploaded = false;
   filesOnBlob: any = [];
   vcfFilesOnBlob: any = [];
-  filesPhenolyzerOnBlob: any = [];
 
   blobService: any;
   uploadToBlobStorage(accessToken: IBlobAccessToken, file: File, filename: string): Observable<number> {
