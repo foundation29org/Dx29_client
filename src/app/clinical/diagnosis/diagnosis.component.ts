@@ -5446,4 +5446,9 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }.bind(this), 200);
 
     }
+
+    goToVersion(page){
+      var url = '/clinical/'+page;
+      this.router.navigate([url]);
+    }
 }

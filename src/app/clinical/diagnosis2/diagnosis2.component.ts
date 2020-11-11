@@ -5178,4 +5178,10 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     }
 
+    goToVersion(page){
+      var url = '/clinical/'+page;
+      console.log(url);
+      this.router.navigate([url]);
+    }
+
 }
