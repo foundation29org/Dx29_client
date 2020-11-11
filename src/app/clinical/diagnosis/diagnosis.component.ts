@@ -184,7 +184,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     private subscription: Subscription = new Subscription();
     private subscriptionLoadSymptoms: Subscription = new Subscription();
 
-    exploreSymptomsPhenolizer: boolean = false;
+    exploreSymptomsPhen2Genes: boolean = false;
     showErrorMsg: boolean = false;
 
     modelRadio = 1;
@@ -626,7 +626,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
        _id: null
      };
 
-     this.exploreSymptomsPhenolizer = false;
+     this.exploreSymptomsPhen2Genes = false;
 
     }
 
@@ -1238,7 +1238,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         this.gettingRelatedConditions = false;
       }));
     }
-
 
     getRelatedConditionsPhen2Genes(infoToExtractGenes){
 
@@ -2589,8 +2588,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       return listFreqData;
     }
 
-
-
     frequencyLinks(element){
       var listLinks=[];
       if(element.length>0){
@@ -2908,12 +2905,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         this.loading = false;
       }));
     }
-
-    /*retrygetExomizer(patientId){
-      setTimeout(function () {
-        this.getExomizer(patientId);
-      }.bind(this), 30000);
-    }*/
 
     onFileChangeVCF(event, step)  {
       this.preparingFile = true;
@@ -3410,28 +3401,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     goTo(url){
       document.getElementById(url).scrollIntoView(true);
     }
-
-    /*getNextDisease(){
-      if(this.actualDisease.symptoms!=undefined){
-        this.previousDisease = JSON.parse(JSON.stringify(this.actualDisease));
-        if(this.nextDisease.symptoms!=undefined){
-          if(this.nextDisease.condition == this.actualDisease.condition){
-            this.loadNextDisease(this.nextPosGen,this.nextPosDisease);
-          }else{
-            this.actualDisease = JSON.parse(JSON.stringify(this.nextDisease));
-            this.loadNextDisease(this.nextPosGen,this.nextPosDisease);
-          }
-
-        }else{
-          this.loadNextDisease(this.nextPosGen,this.nextPosDisease);
-        }
-        this.globalPosDisease++;
-      }else{
-        this.getActualDisease();
-      }
-      //this.getActualDisease();
-      this.goTo('idHeader');
-    }*/
 
     getNextDisease(){
       console.log('entra getActualDisease');
@@ -5476,5 +5445,10 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
       }.bind(this), 200);
 
+    }
+
+    goToVersion(page){
+      var url = '/clinical/'+page;
+      this.router.navigate([url]);
     }
 }

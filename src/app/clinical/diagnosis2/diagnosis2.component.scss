@@ -32,6 +32,10 @@
   text-decoration: underline;
 }
 
+table.mat-table {
+    display: table;
+}
+
 ::ng-deep
 .ngx-datatable.fixed-header
 .datatable-header

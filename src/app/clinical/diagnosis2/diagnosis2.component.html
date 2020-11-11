@@ -1,4 +1,5 @@
 <a id="idup"></a>
+<a class="primary pull-right mr-1" data-original-title="" title="" (click)="goToVersion('diagnosis')">Old Version</a>
 <div *ngIf="showingWizard">
   <div id="loading-layout-wizard" *ngIf="!loadedSymptoms">
     <div class="center-elements">
@@ -432,10 +433,10 @@
   		    <div class="col-md-7">
   		        <div class="donate">
   		            <p>Nuestros robots están analizando tus síntomas, en breves te mostrarán los resultados de posibles enfermedades</p>
-                  <div *ngIf="launchingPhenolyzer || calculatingH29Score || gettingRelatedConditions" class="col-md-12 center-elements">
+                  <div *ngIf="launchingPhen2Genes || calculatingH29Score || gettingRelatedConditions" class="col-md-12 center-elements">
             				<i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
             			</div>
-                  <div *ngIf="!launchingPhenolyzer && !calculatingH29Score && !gettingRelatedConditions" class="col-md-12 center-elements">
+                  <div *ngIf="!launchingPhen2Genes && !calculatingH29Score && !gettingRelatedConditions" class="col-md-12 center-elements">
                     <div class="center-elements">
                       <button type="button" class="ml-2 btn btn-outline-danger btn-lg" (click)="goToStep('3.3', true)">{{'patnodiagdashboard.step3-3.btn1' | translate }}</button>
                     </div>
@@ -616,43 +617,6 @@
                 </div>
             </span>
           </h4>
-          <!--<ngx-datatable (activate)="onActivate($event, contentSeeSymptomsOfDisease)" *ngIf="topRelatedConditions.length>0" responsive
-            class="bootstrap fullscreen"
-            [columnMode]="'flex'"
-            [headerHeight]="50"
-            [footerHeight]="0"
-            [rowHeight]="'auto'"
-            [rows]="topRelatedConditions"
-            >
-            <ngx-datatable-column name="{{'generics.Name' | translate }}" prop="name" [flexGrow]="0.7" [sortable]="false">
-              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                <span *ngIf="value.genes === undefined">
-                  <span *ngIf="value.infogene !== undefined">
-                    {{value.label}} *
-                  </span>
-                  <span *ngIf="value.infogene === undefined">
-                    {{value.label}}
-                  </span>
-
-                </span>
-                <span *ngIf="value.genes !== undefined">
-                  {{value.label}}
-                </span>
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="Dx29" prop="h29" [flexGrow]="0.3" *ngIf="this.infoGenesAndConditionsExomizer.length>0 || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhenolyzer.length>0)">
-              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                <div *ngIf="row.color">
-                  <p [ngStyle]="{'background-color': row.color}"><span style="padding: 0.2em;">{{value}}</span></p>
-                  </div>
-                <div *ngIf="!row.color">
-                  <p *ngIf="value>=90" style="background-color:#79f659;padding: 0.1em;"><span style="padding: 0.2em;">{{value}}</span></p>
-                  <p *ngIf="value>=80 && value<90" style="background-color:#6ab093;padding: 0.1em;"><span style="padding: 0.2em;">{{value}}</span></p>
-                  <p *ngIf="value<80" style="background-color:#5760d3; color: #fff;padding: 0.1em;"><span style="padding: 0.2em;">{{value}}</span></p>
-                </div>
-              </ng-template>
-            </ngx-datatable-column>
-          </ngx-datatable>-->
           <div class="" style="background:rgba(155, 155, 155, 0.09);">
             <div class="row" *ngFor="let disease of topRelatedConditions; let i = index" style="height:6em;">
               <div class="col-10 row mt-2">
@@ -1206,7 +1170,7 @@
               <!--<span *ngFor="let gen of actualProposedDisease.genes ; let j = index">-->
               <span *ngFor="let gen of listOfGenes ; let j = index">
                 <a *ngIf="gen.checked && gen.importance=='1'" style="color: #0CC27E;" class="font-medium-3" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" rel="tooltip" title="The gene {{gen.gen}} appears in the Exomiser results. Click to see more information."> {{gen.gen}}</a>
-                <a *ngIf="gen.checked && gen.importance!='1'" style="color: #acae63;" class="font-medium-1" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" rel="tooltip" title="The gene {{gen.gen}} appears in the Phenolyzer results. Click to see more information."> {{gen.gen}}</a>
+                <a *ngIf="gen.checked && gen.importance!='1'" style="color: #acae63;" class="font-medium-1" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" rel="tooltip" title="The gene {{gen.gen}} appears in the phen2genes results. Click to see more information."> {{gen.gen}}</a>
                 <a *ngIf="!gen.checked" style="color: #f9423a;" class="font-small-3" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" rel="tooltip" title=" Gene {{gen.gen}}. Click to see more information"> {{gen.gen}}</a>
                 <span *ngIf="j<(actualProposedDisease.genes.length-1)">, </span>
               </span>
@@ -1954,6 +1918,55 @@
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
     </table>
   </div>
+  <div class="responsive_table" *ngIf="infoGenesAndConditionsExomizer.length==0 && infoGenesAndConditionsPhen2Genes.length>0 && !loadingTable">
+    <table mat-table
+    [dataSource]="infoGenesAndConditionsPhen2Genes" multiTemplateDataRows
+    class="table table-responsive mat-elevation-z8 mb-0">
+    <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay;let j=index">
+      <th mat-header-cell *matHeaderCellDef style="font-size: large;" > {{column}} </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="row" style="align-items: center;">
+          <div class="col-xl-12" style="display:contents;">
+            <div class="col-2">
+              <span style="font-size: large;">{{element[columns[j]]}}</span>
+            </div>
+            <div class="col-10">
+              <div class="row" style="display:flex;">
+                <div class="col-xl-12" style="text-align: right;">
+                  <span  class="ml-2" id="remarked1Summary" [ngStyle]="{'background-color': element.colorScoredx29[0],'color':element.colorScoredx29[1]}">Score</span>
+                  <span id="remarkedOpacity2Summary" [ngStyle]="{'background-color': element.colorScoredx29[0],'color':element.colorScoredx29[1]}">{{element.score}}</span>
+                  <i *ngIf="!(element == expandedElement)" class=" ml-3 ft-chevron-down"></i>
+                  <i *ngIf="(element == expandedElement)" class="ml-3 ft-chevron-up"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element;let j=index" [attr.colspan]="columnsToDisplay.length">
+        <div class="example-element-detail"
+        [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          <div class="pt-2 pb-2">
+            <span style="font-weight: bold;"> Literature </span>
+            <a href="https://mastermind.genomenon.com/detail?gene={{element.name}}&gene={{element.name}}&disease=all%20diseases" target="_blank" class="mt-1 ml-1" style="display: flex;"><i class="ft-external-link mr-1"></i>Gene: {{element.name}}</a>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+      class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element"
+      (click)="expandedElement = expandedElement === element ? null : element">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    </table>
+  </div>
 </ng-template>
 
 <ng-template #contentGeneticProgram let-c="close" let-d="dismiss" appendTo="body">
@@ -1993,7 +2006,7 @@
           <div class="col-md-12">
             <span class="font-medium-2">{{'GeneticProgram.DataTitle' | translate }}</span>
           </div>
-        </div> 
+        </div>
         <div class="row" *ngIf="!actualProgram.data[1].result">
           <div class="col-md-12 mt-1">
             <p class="danger"> ** {{'GeneticProgram.requirements1' | translate }}.</p>

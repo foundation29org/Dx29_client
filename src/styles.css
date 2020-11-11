@@ -93,8 +93,16 @@ mark{
     max-width: 65% !important;
   }
 
+  .ModalClass-sm .modal-dialog {
+    max-width: 45% !important;
+  }
+
   @media ( max-width: 900px ){
     .ModalClass-lg .modal-dialog {
+      max-width: 98% !important;
+    }
+
+    .ModalClass-sm .modal-dialog {
       max-width: 98% !important;
     }
   }
