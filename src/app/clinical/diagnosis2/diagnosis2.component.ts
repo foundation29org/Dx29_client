@@ -2440,8 +2440,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       return listFreqData;
     }
 
-
-
     frequencyLinks(element){
       var listLinks=[];
       if(element.length>0){
@@ -2760,12 +2758,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.loading = false;
       }));
     }
-
-    /*retrygetExomizer(patientId){
-      setTimeout(function () {
-        this.getExomizer(patientId);
-      }.bind(this), 30000);
-    }*/
 
     onFileChangeVCF(event, step)  {
       this.preparingFile = true;
@@ -4584,15 +4576,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }));
     }
 
-    createProgram(){
-      this.subscription.add( this.http.get(environment.api+'/api/createprogram/Genetic Program 1')
-      .subscribe( (res : any) => {
-        }, (err) => {
-          console.log(err);
-        }));
-    }
-
-
     showProgramRequest(program, contentGeneticProgram){
       this.actualProgram = program
       this.modalReference = this.modalService.open(contentGeneticProgram, {size: 'lg', centered: true});
@@ -5079,8 +5062,12 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     showPanelGenes(contentPanelGenes){
+      var size= 'ModalClass-lg';
+      if(this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhen2Genes.length>0){
+        size = 'ModalClass-sm';
+      }
       let ngbModalOptions: NgbModalOptions = {
-            windowClass: 'ModalClass-lg'
+            windowClass: size
       };
       this.modalReference = this.modalService.open(contentPanelGenes, ngbModalOptions);
     }
@@ -5140,8 +5127,10 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
            });
          }
 
-         this.infoGenesAndConditions.push({"name": keyGen, "data": dataForGene, "score": data[keyGen].score});
-         this.infoGenesAndConditionsPhen2Genes.push({"name": keyGen, "data": dataForGene, "score": data[keyGen].score});
+        var colorScoredx29=this.selectScoreColor(data[keyGen].score.toFixed(2));
+
+         this.infoGenesAndConditions.push({"name": keyGen, "data": dataForGene, "score": data[keyGen].score.toFixed(2), colorScoredx29:colorScoredx29});
+         this.infoGenesAndConditionsPhen2Genes.push({"name": keyGen, "data": dataForGene, "score": data[keyGen].score.toFixed(2), colorScoredx29:colorScoredx29});
        });
 
 
@@ -5153,6 +5142,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
       }
       this.launchingPhen2Genes = false;
+      if(this.actualStep == '3.2'){
+        this.getRelatedConditions();
+      }
     }
 
     exploreMoreSymptomsPhen2Genes(){

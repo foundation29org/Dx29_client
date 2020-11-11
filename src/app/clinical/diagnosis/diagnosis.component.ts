@@ -1239,7 +1239,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }));
     }
 
-
     getRelatedConditionsPhen2Genes(infoToExtractGenes){
 
       var tempo = [];
@@ -2589,8 +2588,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       return listFreqData;
     }
 
-
-
     frequencyLinks(element){
       var listLinks=[];
       if(element.length>0){
@@ -2908,12 +2905,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         this.loading = false;
       }));
     }
-
-    /*retrygetExomizer(patientId){
-      setTimeout(function () {
-        this.getExomizer(patientId);
-      }.bind(this), 30000);
-    }*/
 
     onFileChangeVCF(event, step)  {
       this.preparingFile = true;
@@ -3410,28 +3401,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     goTo(url){
       document.getElementById(url).scrollIntoView(true);
     }
-
-    /*getNextDisease(){
-      if(this.actualDisease.symptoms!=undefined){
-        this.previousDisease = JSON.parse(JSON.stringify(this.actualDisease));
-        if(this.nextDisease.symptoms!=undefined){
-          if(this.nextDisease.condition == this.actualDisease.condition){
-            this.loadNextDisease(this.nextPosGen,this.nextPosDisease);
-          }else{
-            this.actualDisease = JSON.parse(JSON.stringify(this.nextDisease));
-            this.loadNextDisease(this.nextPosGen,this.nextPosDisease);
-          }
-
-        }else{
-          this.loadNextDisease(this.nextPosGen,this.nextPosDisease);
-        }
-        this.globalPosDisease++;
-      }else{
-        this.getActualDisease();
-      }
-      //this.getActualDisease();
-      this.goTo('idHeader');
-    }*/
 
     getNextDisease(){
       console.log('entra getActualDisease');
