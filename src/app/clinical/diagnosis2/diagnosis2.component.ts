@@ -498,7 +498,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     goPrevStep(){
-      if(this.actualStep > '2.0'){
+      if(this.actualStep == '1.0'){
+        this.actualStep = '0.0';
+      }else if(this.actualStep > '2.0'){
         this.actualStep = '2.0';
       }else if(this.actualStep > '1.0'){
         this.actualStep = '1.0';
@@ -508,8 +510,10 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     goNextStep(){
       if(this.actualStep >= '2.0'){
         this.actualStep = '5.0';
-      }else if(this.actualStep >= '1.0'){
+      }else if(this.actualStep == '1.0'){
         this.actualStep = '2.0';
+      }else if(this.actualStep == '0.0'){
+        this.goToStep('1.0', true)
       }
     }
 

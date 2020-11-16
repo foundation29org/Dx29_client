@@ -24,7 +24,7 @@
 </div>
   <app-navbar (toggleHideSidebar)="toggleHideSidebar($event)"></app-navbar>
   <div class="main-panel">
-        <div class="main-content" [ngClass]="{'pl-0': role=='Clinical' || role=='Lab' || role=='User' || role=='Admin'}">
+        <div class="main-content" [ngClass]="{'pl-0 mb-2': role=='Clinical' || role=='Lab' || role=='User' || role=='Admin'}">
             <div class="content-wrapper">
                 <div class="container-fluid">
                     <ngb-alert type="warning" class="mt-4" [dismissible]="false" *ngIf="isIeOrEdge">
@@ -37,9 +37,9 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="!isApp">
+        <!--<div *ngIf="!isApp">
           <app-footer *ngIf="role != 'Clinical' && role != 'Lab' && role!='Admin'"></app-footer>
           <app-footer2 *ngIf="role == 'Clinical' || role == 'Lab' || role=='Admin'"></app-footer2>
-        </div>
+        </div>-->
     </div>
 </div>

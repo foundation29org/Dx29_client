@@ -25,6 +25,23 @@
   top: 5px;
 }
 
+.content-view{
+  height: 75vh;
+}
+
+
+.footer-buttons{
+  position: fixed;
+  left: 0;
+  bottom: 1%;
+  width: 100%;
+  background-color: white;
+  color: white;
+  text-align: center;
+  background-color: #FFF;
+  box-shadow: 0 0 6px 6px rgba(0, 0, 0, 0.01), 0 12px 15px 12px rgba(0, 0, 0, 0.06);
+}
+
 .circle-icon{
   background: #fff;
   padding: 40px;
