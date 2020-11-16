@@ -18,6 +18,12 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { BlobStorageService, IBlobAccessToken } from 'app/shared/services/blob-storage.service';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/toPromise';
+import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
+
+let listOfDiseasesFilter = [];
 
 @Component({
     selector: 'app-home',
@@ -77,16 +83,76 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
   loadedInfoPatient: boolean = false;
   patientEmail: string = '';
 
+  countries: any;
+  listOfDiseases: any = [];
+  loadedListOfDiseases: boolean = false;
+  modelTemp: any;
+  formatter1 = (x: { name: string }) => x.name;
+  // Flag search
+  searchDisease = (text$: Observable<string>) =>
+  text$.pipe(
+    debounceTime(200),
+    map(term => term === '' ? []
+      : ((listOfDiseasesFilter.filter(
+        v =>  {
+          var finish = false;
+          if((v.id.toLowerCase().indexOf(term.toLowerCase().trim()) > -1)){
+            finish = true;
+            return v;
+          }
+          if((v.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").indexOf(term.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim()) > -1) && !finish){
+            finish = true;
+            return v;
+          }
+          for (var i = 0; i <  v.synonyms.length && !finish; i++) {
+            if((v.synonyms[i].toLowerCase().indexOf(term.toLowerCase().trim()) > -1)){
+              return v;
+              break;
+            }
+          }
+        })))
+    )
+  );
+  isNewPatient: boolean = false;
   private subscription: Subscription = new Subscription();
 
   constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private sanitizer: DomSanitizer, private router: Router, private dateService: DateService,  private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private authGuard: AuthGuard,
     private sortService: SortService, private blob: BlobStorageService, private modalService: NgbModal){
-
+      this.actualLang = this.authService.getLang();
       this.group = this.authService.getGroup();
       this.role = this.authService.getRole();
       this.loadInfo();
       this.loadSharedPatients();
       this.loadMyEmail();
+    }
+
+    loadCountries(){
+      this.subscription.add( this.http.get('assets/jsons/countries.json')
+      .subscribe( (res : any) => {
+        this.countries=res;
+      }, (err) => {
+        console.log(err);
+      }));
+    }
+
+    loadListOfDiseases(){
+      this.loadedListOfDiseases = false;
+      this.subscription.add( this.http.get('assets/jsons/diseases_'+this.actualLang+'.json')
+      //this.subscription.add( this.http.get('https://f29bio.northeurope.cloudapp.azure.com/api/BioEntity/diseases/'+lang+'/all')
+       .subscribe( (res : any) => {
+         this.listOfDiseases = res;
+         listOfDiseasesFilter = res;
+         this.loadedListOfDiseases = true;
+        }, (err) => {
+          console.log(err);
+          this.loadedListOfDiseases = true;
+        }));
+    }
+
+    selected2(i) {
+      console.log(i.item.id);
+      this.patient.previousDiagnosis = i.item.id;
+      this.modelTemp = '';
     }
 
     loadSharedPatients(){
@@ -202,8 +268,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
     transformDate(value) {
       let newValue;
       var format = 'yyyy-MM-dd';
-      var lang = this.authService.getLang();
-      if(lang == 'es'){
+      if(this.actualLang == 'es'){
         format = 'dd-MM-yyyy'
       }
       newValue = this.dateService.transformFormatDate(value, format);
@@ -401,8 +466,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         }));
     }
     onCustom(event, contentTemplate) {
-      console.log(event.data);
-      console.log(event);
       if(event.action=="archive"){
         Swal.fire({
             title: this.translate.instant("generics.Are you sure?"),
@@ -461,10 +524,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         this.changeNameShared = JSON.parse(JSON.stringify(event.data));
         //alert(`Custom event '${event.action}' fired on row №: ${event.data.sub}`)
         this.modalReference = this.modalService.open(contentTemplate);
-      }else if(event.action=="openModalMoreInfo"){
+      }else if(event.action=="moreInfoShared"){
         console.log(event.data);
         this.moreInfoCaseEvent = JSON.parse(JSON.stringify(event.data));
-        document.getElementById("openModalMoreInfo").click();
+        document.getElementById("openModalMoreInfoShared").click();
       }
 
 
@@ -652,11 +715,44 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
     }
 
     onChangePatient(value){
-      console.log(value);
-      this.authService.setCurrentPatient(value);
-      if(this.authService.getCurrentPatient()!=null){
-        this.router.navigate(['/clinical/diagnosis2']);
+      var temp = JSON.parse(JSON.stringify(value));
+     var hasvcf = temp.hasvcf
+      var status = temp.status
+      var symptoms = temp.symptoms
+      var htmlObjecthasvcf = $(hasvcf); // jquery call
+      var htmlObjectstatus = $(status); // jquery call
+      var htmlObjectsymptoms = $(symptoms); // jquery call
+      temp.hasvcf =htmlObjecthasvcf[0].textContent
+      temp.status =htmlObjectstatus[0].textContent
+      temp.symptoms =htmlObjectsymptoms[0].textContent
+      if(temp.birthDate==null || temp.gender == null){
+          temp.birthDate=this.dateService.transformDate(temp.birthDate);
+          //request data
+          this.isNewPatient=false;
+          this.patient = {
+            id: temp.sub,
+            patientName: value.patientName,
+            surname: temp.surname,
+            country: temp.country,
+            birthDate: temp.birthDate,
+            gender: temp.gender,
+            previousDiagnosis: temp.previousDiagnosis
+          };
+          document.getElementById("updatepatient").click();
+      }else{
+        this.authService.setCurrentPatient(temp);
+        if(this.authService.getCurrentPatient()!=null){
+          this.router.navigate(['/clinical/diagnosis2']);
+        }
       }
+    }
+
+    callUpdatePatient(contentNewCaseName){
+      let ngbModalOptions: NgbModalOptions = {
+            backdrop : 'static',
+            keyboard : false
+      };
+      this.modalReference = this.modalService.open(contentNewCaseName, ngbModalOptions);
     }
 
   ngOnDestroy() {
@@ -688,13 +784,18 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   callNewPatient(contentNewCaseName){
-
+    this.loadCountries();
+    this.loadListOfDiseases();
+    var tagPatient = 'Patient-';
+    if(this.actualLang=='es'){
+      tagPatient = 'Paciente-';
+    }
       var posNewPatient = 1;
       if(this.patients.length>0){
         var maxIndexCase = 0;
         for (var i = 0; i <  this.patients.length; i++) {
           var patientName = this.patients[i].patientName;
-          var splitNumberName = patientName.split('case-');
+          var splitNumberName = patientName.split(tagPatient);
           var posActualPatient = parseInt(splitNumberName[1]);
           if(!(isNaN(posActualPatient))){
             if(maxIndexCase<posActualPatient){
@@ -706,8 +807,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
           posNewPatient = maxIndexCase+1;
         }
       }
+      this.isNewPatient = true;
       this.patient = {
-        patientName: 'case-'+posNewPatient,
+        patientName: tagPatient+posNewPatient,
         surname: '',
         street: '',
         postalCode: '',
@@ -723,6 +825,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         gender: null,
         siblings: [],
         parents: [],
+        previousDiagnosis: null,
         stepClinic: '0.0'
       };
 
@@ -737,7 +840,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   saveNewCase(){
-
     var found = false;
     for (var i = 0; i <  this.patients.length && !found; i++) {
       if(this.patients[i].patientName == this.patient.patientName){
@@ -778,6 +880,41 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
     }
 
   }
+
+  updateCase(){
+    if(this.patient.patientName==''){
+        Swal.fire(this.translate.instant("diagnosis.name empty"), '', "warning");
+    }else{
+      if(this.authGuard.testtoken()){
+        this.sending = true;
+        this.subscription.add( this.http.put(environment.api+'/api/patients/'+this.patient.id, this.patient)
+        .subscribe( (res : any) => {
+          console.log(res);
+          if(this.modalReference!=undefined){
+            this.modalReference.close();
+          }
+          this.authService.setCurrentPatient(res.patientInfo);
+          this.sending = false;
+          //this.toastr.success('', this.msgDataSavedOk);
+          if(this.authService.getCurrentPatient()!=null){
+            //this.loadData();
+            this.router.navigate(['/clinical/diagnosis2']);
+          }
+          //this.loadPatients();
+         }, (err) => {
+           console.log(err);
+           this.sending = false;
+           if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
+             this.authGuard.testtoken();
+           }else{
+             this.toastr.error('', this.msgDataSavedFail);
+           }
+         }));
+      }
+    }
+
+  }
+
 
   onDeleteConfirm(event) {
     console.log(event);

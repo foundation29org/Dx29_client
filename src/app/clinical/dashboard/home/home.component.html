@@ -4,6 +4,7 @@
 <div class="row" *ngIf="!loadingPatients && (patients.length>0 || listOfArchivedCases.length>0)">
 	<div class="col-md-3 mt-2" *ngIf="!sending">
 		<button id="newpatient" class="btn btn-raised btn-primary" type="button" (click)="callNewPatient(contentNewCaseName)">{{'diagnosis.New case' | translate }}</button>
+		<button id="updatepatient" [hidden]="true" (click)="callUpdatePatient(contentNewCaseName)">.</button>
 	</div>
 </div>
 <div class="d-flex" *ngIf="!loadingPatients && patients.length==0">
@@ -119,18 +120,83 @@
 </ng-template>
 <ng-template #contentNewCaseName let-c="close" let-d="dismiss" appendTo="body">
 		<div class="modal-header" id="idHeader">
-				<h4 class="modal-title">{{'diagnosis.Case name' | translate }}</h4>
+				<h4 *ngIf="isNewPatient" class="modal-title">{{'professionals.section2.strong1' | translate }}</h4>
+				<h4 *ngIf="!isNewPatient" class="modal-title">Completa los datos del paciente</h4>
 		</div>
-		<div class="modal-body">
-			<label>{{'diagnosis.Dont enter any identifiable patient information' | translate }}</label>
-			<input type="text" class="form-control" name="patientName" [(ngModel)]="patient.patientName">
-		</div>
-		<div class="modal-footer">
-			<div class="form-actions center" *ngIf="!sending">
-					<button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
-					<button type="button" class="btn btn-primary btn-raised" (click)="saveNewCase()">{{'generics.Save' | translate }}</button>
+		<form class="mt-3 form" #f="ngForm">
+			<div class="modal-body form-body">
+				<div class="col-md-12">
+					<div class="form-group">
+						<label>{{'diagnosis.Case name' | translate }}*</label>
+						<input class="form-control" type="text" id="patientName" name="patientName" ngModel required #patientName="ngModel" name="patientName" [(ngModel)]="patient.patientName">
+						<small class="form-text text-muted">{{'diagnosis.Dont enter any identifiable patient information' | translate }}</small>
+						<small class="form-text text-muted danger" *ngIf="!patientName.valid && (patientName.dirty || patientName.touched)">{{'generics.required' | translate }}</small>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+
+						<label>{{'personalinfo.Birth Date' | translate }}*</label>
+						<input class="form-control" type="date" id="birthDate" name="birthDate" ngModel required #birthDate="ngModel" name="birthDate" [(ngModel)]="patient.birthDate">
+						<small class="form-text text-muted danger" *ngIf="!birthDate.valid && (birthDate.dirty || birthDate.touched)">{{'generics.required' | translate }}</small>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label id="gender">{{'personalinfo.Gender' | translate }}*</label>
+						<mat-radio-group required
+							aria-labelledby="gender"
+							class="example-radio-group d-block" ngModel required #gender="ngModel" name="gender" id="gender" [(ngModel)]="patient.gender">
+							<mat-radio-button class="example-radio-button" value="male">
+							{{'personalinfo.Male' | translate }}
+							</mat-radio-button>
+							<mat-radio-button class="example-radio-button ml-2" value="female">
+							{{'personalinfo.Female' | translate }}
+							</mat-radio-button>
+						</mat-radio-group>
+						<small class="form-text text-muted danger" *ngIf="!gender.valid && (gender.dirty || gender.touched)">{{'generics.required' | translate }}</small>
+					</div>
+				</div>
+				<div class="col-md-12">
+						<div class="form-group">
+							<label for="country">{{'personalinfo.Country' | translate }}</label>
+							<select id="country" name="country" class="form-control"  [(ngModel)]="patient.country" country #country="ngModel">
+								<option [value]="null" disabled selected>--Selecciona el país--</option>
+								<option *ngFor="let country of countries" [ngValue]="country.code"> {{country.name}}</option>
+							</select>
+						</div>
+				</div>
+				<ng-template #rt let-r="result" let-t="term">
+					{{ r.name}} - {{ r.id}}
+				</ng-template>
+				<div class="col-md-12 form-group">
+					<label>Diagnostico de presuncion</label>
+					<input #input class="input" type="text" class="form-control mb-3" [(ngModel)]="modelTemp" [ngbTypeahead]="searchDisease" name="addSymptomsOption2" [resultTemplate]="rt" [inputFormatter]="formatter1" placeholder="Search by disease name" (selectItem)="selected2($event)"/>
+				</div>
 			</div>
-		</div>
+
+			<div class="modal-footer">
+				<p *ngIf="!f.valid" style="">{{'generics.fieldsRequired' | translate }}</p>
+				<div *ngIf="!sending" class="center-elements mt-1">
+	          <div *ngIf="f.valid;then formValid else formError"></div>
+	          <ng-template #formValid>
+							<button *ngIf="isNewPatient" class="btn btn-primary btn-raised mr-1" (click)="saveNewCase()"> {{'patient.newPatient' | translate }}</button>
+							<button *ngIf="!isNewPatient" class="btn btn-primary btn-raised mr-1" (click)="updateCase()"> {{'patient.updatePatient' | translate }}</button>
+						</ng-template>
+	          <ng-template #formError>
+							<button disabled class="btn btn-primary btn-raised mr-1" type="button" (click)="submitInvalidForm()" title="{{'generics.fieldsRequired' | translate }}">
+								<span *ngIf="isNewPatient">{{'patient.newPatient' | translate }}</span>
+								<span *ngIf="!isNewPatient">{{'patient.updatePatient' | translate }}</span>
+							</button>
+						</ng-template>
+						<button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
+	      </div>
+	      <div class="form-actions center-elements" *ngIf="sending">
+	          <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+	      </div>
+
+			</div>
+		</form>
 </ng-template>
 
 <ng-template #contentMoreInfoShared let-c="close" let-d="dismiss" appendTo="body">

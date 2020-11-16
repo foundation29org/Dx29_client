@@ -1920,5 +1920,9 @@
     "Button": "Envía mis respuestas",
     "Consent": "El responsable del tratamiento de los datos facilitados en el presente formulario es Fundación 29 de Febrero, quien los tratará con la finalidad de estudiar la información proporcionada y por motivos estadísticos. Tienes derecho a acceder, rectificar, suprimir tus datos y revocar tu consentimiento, así como otros derechos, como se explica en la Política de privacidad, donde podrás recabar más información sobre el tratamiento de tus datos.",
     "CheckConsent": "Acepto recibir comunicaciones por parte de Fundación 29 de Febrero relevantes a mi perfil."
+  },
+  "patient":{
+    "newPatient": "Crear paciente",
+    "updatePatient": "Actualizar datos"
   }
 }

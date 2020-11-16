@@ -692,7 +692,7 @@
                   <!-- Title -->
                   <h4 *ngIf="i!= selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{ (hpo.name.length>40)? (hpo.name | slice:0:40)+'...':(hpo.name) }}</h4>
                   <h4 *ngIf="i== selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{hpo.name}}</h4>
-                  <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning">({{'phenotype.Deprecated' | translate }})</span>
+                  <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span>
                   <!-- Text
                   <span class="card-text mb-4">
                     <h6 class="d-inline">{{'patdiagdashboard.Score' | translate }}:</h6> {{hpo.similarity | number}}
@@ -1208,7 +1208,7 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let hpo of phenotype.data ; let i = index">
-                      <td class="rm-borders">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning">({{'phenotype.Deprecated' | translate }})</span></td>
+                      <td class="rm-borders">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></td>
                       <td class="rm-borders">{{hpo.id}}</td>
                     </tr>
                   </tbody>

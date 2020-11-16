@@ -1,4 +1,98 @@
 <a id="idup"></a>
+<div class="card col-lg-12">
+  <table class="table table-head-custom table-head-bg table-borderless table-vertical-center mb-0">
+    <tbody>
+      <tr>
+        <td class="pl-0 py-8">
+          <div class="d-flex align-items-center">
+            <div class="symbol symbol-50 symbol-light mr-2">
+              <span class="symbol-label">
+                <div class="avatar avatar-md">
+                  <img *ngIf="selectedPatient.gender=='male'" class="img-fluid"  src="assets/img/clinician/chico.png" />
+                  <img *ngIf="selectedPatient.gender=='female'" class="img-fluid"  src="assets/img/clinician/nina.png" />
+                </div>
+              </span>
+            </div>
+            <div>
+              <a class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg cursor-pointer">{{selectedPatient.patientName}}</a>
+              <span class="text-muted font-weight-bold d-block">{{selectedPatient.gender}}</span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+            <span *ngIf="age!=null">
+              <span *ngIf="age.years>0">{{age.years}} year<span *ngIf="age.years>1">s</span> <span *ngIf="age.months>0">, </span></span>
+              <span *ngIf="age.months>0">{{age.months}} month<span *ngIf="age.months>1">s</span></span>
+              <span *ngIf="age.months==0 && age.years==0">Recien nacido</span>
+            </span>
+            <span *ngIf="age==null">
+              -
+            </span>
+          </span>
+          <span class="text-muted font-weight-bold"> {{selectedPatient.birthDate | date}} </span>
+        </td>
+        <td>
+          <div class="mt-2 float-right">
+            <!--<a *ngIf="(actualStep > '1.0' )" class="mr-2 cursor-pointer font-medium-3 position-relative margin-top-arrow" (click)="goPrevStep()" [ngClass]="(actualStep == '1.0' )?'text-muted inactiveLink':'primary'"><span style="margin-right: 10px;"><i class="ft-chevron-left"></i></span></a>-->
+            <span class="d-inline-block mr-2" [ngClass]="(actualStep == '1.0' )?'border-bottom border-bottom-2 border-primary ':'border-bottom border-bottom-0 text-muted'">
+                <button class="btn-no-style" [ngClass]="(maxStep>='1.0' )?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'1.0')" (click)="goToStep('1.0', false)">{{'diagnosis.Symptoms' | translate }}</button>
+            </span>
+            <span class="d-inline-block mr-2 ml-2" [ngClass]="(actualStep == '2.0' || actualStep == '2.1')?'border-bottom border-bottom-2 border-primary':'border-bottom border-bottom-0 text-muted'">
+                <button class="btn-no-style" [ngClass]="(maxStep>='2.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'2.0')" (click)="goToStep('2.0', false)">{{'diagnosis.Genetics' | translate }}</button>
+            </span>
+            <span class="d-inline-block ml-2" [ngClass]="(actualStep == '5.0')?'border-bottom border-bottom-2 border-primary':'border-bottom border-bottom-0 text-muted'">
+                <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('5.0', false)">Diagnoses</button>
+            </span>
+            <!--<a *ngIf="(actualStep < '5.0' )" class="ml-2 cursor-pointer font-medium-3 position-relative margin-top-arrow" (click)="goNextStep()" [ngClass]="(actualStep == '5.0' )?'text-muted inactiveLink':'primary'"><span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></a>-->
+          </div>
+        </td>
+
+        <td class="pr-0 text-right">
+          <div class="mt-2">
+            <span class="nav-item text-muted" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
+                <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
+                    <i class="fas fa-ellipsis-v font-medium-3"></i>
+                    <p class="d-none">Group</p>
+                </a>
+                <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang text-muted">
+                    <a class="dropdown-item py-1" href="javascript:;" (click)="sharePatient()" title="Share">
+                        <span> <span> <i class="icon-share primary"></i></span> <span class="col-md-10">Share</span></span>
+                    </a>
+                    <a *ngIf="infoGenesAndConditionsExomizer.length>0 || infoGenesAndConditionsPhen2Genes.length>0" class="dropdown-item py-1" href="javascript:;" (click)="showPanelGenes(contentPanelGenes)" title="Ver información de los genes">
+                        <span> <span> <i class="fas fa-dna primary"></i></span> <span class="col-md-10">Ver genes</span></span>
+                    </a>
+                </div>
+            </span>
+          </div>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="content-header">
+      <span *ngIf="actualStep < '2.0'">{{'diagnosis.Symptoms' | translate }}</span>
+      <span *ngIf="actualStep >= '2.0' && actualStep < '3.0'">{{'diagnosis.Genetics' | translate }}</span>
+      <span *ngIf="actualStep >= '3.0' && actualStep <= '5.0'">Diagnoses</span>
+    </div>
+    <p class="content-sub-header">
+      <span *ngIf="actualStep == '1.0'">Añada los síntomas lo mejor que puedas. Cuando crear que ya lo tiene,
+        <button type="button" class="btn-no-style primary" (click)="goToStepGenotics();">continue con la infromación genética</button>
+      </span>
+      <span *ngIf="actualStep > '1.0' && actualStep < '3.0'">Complete la información genética, cuando lo haga,
+        <button type="button" class="btn-no-style primary" (click)="goToStepDiagnoses();"> observe los resultados.</button>
+        Si no tiene información genética,
+        <button type="button" class="btn-no-style primary" (click)="goToStepDiagnoses();"> continúe igualmente</button>
+      </span>
+    </p>
+  </div>
+</div>
+{{selectedPatient|json}}
+
 <a class="primary pull-right mr-1" data-original-title="" title="" (click)="goToVersion('diagnosis')">Old Version</a>
 <div *ngIf="showingWizard">
   <div id="loading-layout-wizard" *ngIf="!loadedSymptoms">
@@ -8,53 +102,6 @@
   </div>
 </div>
 <div *ngIf="!showingWizard" class="row">
-  <!-- Step 0.0 -->
-  <!-- *ngIf="actualStep!='2.2' && actualStep!='2.4' && actualStep!='2.7' && actualStep!='2.8' && actualStep!='3.1' && actualStep!='4.1' && actualStep!='5.0'"-->
-  <div class="col-sm-12 col-md-12 mt-3" style="margin-bottom:1em;" *ngIf="actualStep!='5.0' && maxStep<'5.0'">
-    <span *ngIf="maxStep<'5.0'" (click)="toggleMenu()" class="mb-2 chat-app-sidebar-toggle ft-align-justify font-large-1 mr-2 d-block d-sm-none d-md-none"></span>
-    <!-- large devices and first time-->
-    <div class="center-elements d-none d-sm-none d-md-none d-lg-block" *ngIf="maxStep<'5.0'">
-      <span class="list-group-item no-border d-inline" [ngClass]="(actualStep == '0.0' )?'list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2 underline':'list-group-item no-border'">
-          00. Introducción
-          <i *ngIf="actualStep>=1.0" class="fa fa-check danger"></i>
-      </span>
-      <span class="list-group-item no-border d-inline" [ngClass]="(actualStep == '1.0' )?'list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2 underline':'list-group-item no-border'">
-          01. {{'diagnosis.Symptoms' | translate }}
-          <i *ngIf="actualStep>=2.0" class="fa fa-check danger"></i>
-      </span>
-      <span class="list-group-item no-border d-inline" [ngClass]="(actualStep == '2.0' || actualStep == '2.1')?'list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2 underline':'list-group-item no-border'">
-          02. {{'diagnosis.Genetics' | translate }}
-          <i *ngIf="actualStep>=3.0" class="fa fa-check danger"></i>
-      </span>
-      <span class="list-group-item no-border d-inline" [ngClass]="(actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2' || actualStep == '3.3')?'list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2 underline':'list-group-item no-border'">
-          03. {{'diagnosis.First results' | translate }}
-          <i *ngIf="actualStep>=4.0" class="fa fa-check danger"></i>
-      </span>
-    </div>
-    <!-- Medium devices -->
-    <div class="chat-sidebar d-none d-sm-block d-md-block d-lg-none" *ngIf="maxStep<'5.0'">
-      <span class="list-group-item no-border d-inline" [ngClass]="(actualStep == '0.0' )?'list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2 underline':'list-group-item no-border'">
-          {{'patnodiagdashboard.menu.Step' | translate }} 0
-          <i *ngIf="actualStep>=1.0" class="fa fa-check ml-2 danger"></i>
-      </span>
-      <span class="list-group-item no-border d-inline" [ngClass]="(actualStep == '1.0' )?'list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2 underline':'list-group-item no-border'">
-          {{'patnodiagdashboard.menu.Step' | translate }} 1
-          <i *ngIf="actualStep>=2.0" class="fa fa-check ml-2 danger"></i>
-      </span>
-      <span class="list-group-item no-border d-inline" [ngClass]="(actualStep == '2.0' || actualStep == '2.1' )?'list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2 underline':'list-group-item no-border'">
-          {{'patnodiagdashboard.menu.Step' | translate }} 2
-          <i *ngIf="actualStep>=3.0" class="fa fa-check ml-2 danger"></i>
-      </span>
-      <span class="list-group-item no-border d-inline" [ngClass]="(actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2' || actualStep == '3.3')?'list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2 underline':'list-group-item no-border'">
-          {{'patnodiagdashboard.menu.Step' | translate }} 3
-          <i *ngIf="actualStep>=4.0" class="fa fa-check ml-2 danger"></i>
-      </span>
-    </div>
-    <!-- end medium devices-->
-  </div>
-  <button *ngIf="maxStep>='5.0' && actualStep<'5.0'" style="position: absolute; right: 50px; top:10px;z-index: 9999;" (click)="goToStep('5.0')" class="btn btn-outline-danger btn-lg pointer list-group-item d-inline">
-      {{'generics.Back' | translate }}
-  </button>
   <!-- large devices and no first time-->
   <!--<div *ngIf="actualStep=='0.0'" class="row offset-md-3 col-md-6">-->
   <div *ngIf="actualStep=='0.0'" class="offset-md-3 col-md-6 col-lg-6">
@@ -228,7 +275,7 @@
                       <div class="col-10">
                         <!-- Title -->
                         <span style="font-size:1rem;">{{hpo.name}}</span>
-                        <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning">({{'phenotype.Deprecated' | translate }})</span>
+                        <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span>
                       </div>
                       <div class="col-2">
                         <a class="primary pull-left mr-1" data-original-title="" title="" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
@@ -250,7 +297,7 @@
                   <div class="row">
                     <div class="col-10">
                       <span style="font-size:1rem;">{{hpo.name}}</span>
-                      <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning">({{'phenotype.Deprecated' | translate }})</span>
+                      <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span>
                     </div>
                     <div class="col-2">
                       <a class="primary pull-left mr-1" data-original-title="" title="" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
@@ -502,32 +549,10 @@
         <div class="pt-2 col-md-12">
           <div>
             <h1 class="text-bold-400"><b>{{selectedPatient.patientName}}</b>
-              <span class="float-right mr-2">
-                <button type="button" title="Share" class="btn btn-outline-primary" (click)="sharePatient()"><i class="icon-share primary"></i></button>
-                <button type="button" title="Ver información de los genes" class="ml-1 btn btn-outline-primary" (click)="showPanelGenes(contentPanelGenes)"><i class="fas fa-dna primary"></i></button>
-              </span>
-              <!--<span class="nav-item float-right mr-2" ngbDropdown display="dynamic" placement="bottom-right" title="Options">
-                  <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownpatient" ngbDropdownToggle>
-                      <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
-                  </a>
-                  <div ngbDropdownMenu aria-labelledby="dropdownpatient" class="dropdownLang">
-                      <a class="dropdown-item py-1" href="javascript:;" (click)="sharePatient()">
-                          <span>Share</span>
-                      </a>
-                      <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelGenes(contentPanelGenes)">
-                          <span>Ver información de los genes</span>
-                      </a>
-                  </div>
-              </span>-->
             </h1>
           </div>
         </div>
         <div class="col-md-3">
-          <!--<div>
-            <h1 class="text-bold-400"><b>¿Y ahora que hago?</b></h1>
-            <button type="button" class="mr-2 btn btn-outline-danger btn-lg" (click)="sharePatient()">Compartir el paciente</button>
-            <button type="button" class="btn btn-outline-danger btn-lg" (click)="createNewPatient()">Quiero crear un nuevo caso</button>
-          </div>-->
           <div class="chat-name">
             <div class="media-body row">
               <!-- genetics info-->
@@ -569,7 +594,7 @@
                   <table *ngIf="viewSymptoms ==1">
                     <tbody>
                       <tr *ngFor="let hpo of phenotype.data ; let i = index">
-                        <td class="rm-borders" title="{{hpo.id}}">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning">({{'phenotype.Deprecated' | translate }})</span></td>
+                        <td class="rm-borders" title="{{hpo.id}}">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></td>
                       </tr>
                     </tbody>
                   </table>
@@ -578,7 +603,7 @@
                       <h5 class="col-md-12 row mt-2"><span class="text-bold-400">{{group.nameGroup}}</span></h5>
                       <div *ngFor="let hpo of group.symptoms ; let i = index" class="col-lg-12">
                         <span style="font-size:1rem;">{{hpo.name}}</span>
-                        <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning">({{'phenotype.Deprecated' | translate }})</span>
+                        <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span>
                       </div>
                     </div>
                   </section>

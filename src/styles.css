@@ -17,6 +17,21 @@ footer{
    cursor: pointer;
  }
 
+ .avatar{
+   width: 40px;
+   height: 40px;
+ }
+
+ .btn-no-style{
+   background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+ }
+
 .labelLower{
   text-transform: lowercase;
 }

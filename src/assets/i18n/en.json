@@ -1919,5 +1919,9 @@
     "Button": "Send my answers",
     "Consent": "The person responsible for the treatment of the data provided in this form is Foundation 29 of February, who will treat them with the purpose of studying the information provided and for statistical reasons. You have the right to access, rectify, delete your data and revoke your consent, as well as other rights, as explained in the Privacy Policy, where you can obtain more information about the processing of your data.",
     "CheckConsent": "I accept to receive communications from Foundation 29 of February relevant to my profile."
+  },
+  "patient":{
+    "newPatient": "Create patient",
+    "updatePatient": "Update patient"
   }
 }

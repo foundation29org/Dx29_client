@@ -259,6 +259,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     listOfSymptomGroups: any = [];
     viewSymptoms: number = 0;
     selectedPatient: any = {};
+    age: any = {};
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -412,9 +413,32 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.router.navigate(['clinical/dashboard/home']);
       }else{
         this.selectedPatient = this.authService.getCurrentPatient();
+        var dateRequest2=new Date(this.selectedPatient.birthDate);
+        if(this.selectedPatient.birthDate == null){
+          this.age = null;
+        }else{
+          this.ageFromDateOfBirthday(dateRequest2);
+        }
+
         this.getActualStep(this.authService.getCurrentPatient().sub);
         this.loadAllData();
       }
+    }
+
+    ageFromDateOfBirthday(dateOfBirth: any){
+      const today = new Date();
+      const birthDate = new Date(dateOfBirth);
+      var months;
+      months = (today.getFullYear() - birthDate.getFullYear()) * 12;
+      months -= birthDate.getMonth();
+      months += today.getMonth();
+      var res = months <= 0 ? 0 : months;
+      var m=res % 12;
+      var age =0;
+      if(res>0){
+        age= Math.abs(Math.round(res/12));
+      }
+      this.age = {years:age, months:m }
     }
 
     getActualStep(patientId:string){
@@ -469,6 +493,40 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                console.log(err);
                this.toastr.error('', this.translate.instant("generics.error try again"));
              }));
+      }
+
+    }
+
+    goPrevStep(){
+      if(this.actualStep > '2.0'){
+        this.actualStep = '2.0';
+      }else if(this.actualStep > '1.0'){
+        this.actualStep = '1.0';
+      }
+    }
+
+    goNextStep(){
+      if(this.actualStep >= '2.0'){
+        this.actualStep = '5.0';
+      }else if(this.actualStep >= '1.0'){
+        this.actualStep = '2.0';
+      }
+    }
+
+    goToStepGenotics(){
+      if((this.phenotype.data.length == 0) || (this.numDeprecated==this.phenotype.data.length && this.numDeprecated>0)){
+        this.toastr.warning('', 'Añada al menos un síntoma');
+      }else{
+        this.goToStep('2.0', true);
+      }
+
+    }
+
+    goToStepDiagnoses(){
+      if(this.filesVcf.length>0){
+        this.goToStep('3.1', true);
+      }else{
+        this.goToStep('3.2', true);
       }
 
     }
@@ -4568,12 +4626,12 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     checkPrograms(){
       this.programs = [];
-      this.subscription.add( this.http.get(environment.api+'/api/programs/'+this.authService.getCurrentPatient().sub)
+      /*this.subscription.add( this.http.get(environment.api+'/api/programs/'+this.authService.getCurrentPatient().sub)
       .subscribe( (res : any) => {
         this.programs = res;
         }, (err) => {
           console.log(err);
-        }));
+        }));*/
     }
 
     showProgramRequest(program, contentGeneticProgram){
@@ -5182,6 +5240,18 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       var url = '/clinical/'+page;
       console.log(url);
       this.router.navigate([url]);
+    }
+
+    toggleMenu(){
+      if($('.chat-app-sidebar-toggle').hasClass('ft-align-justify')){
+        $('.chat-app-sidebar-toggle').removeClass('ft-align-justify').addClass('ft-x');
+        $('.chat-sidebar').removeClass('d-none d-sm-none').addClass('d-block d-sm-block');
+        $('.content-overlay').addClass('show');
+      }else{
+        $('.content-overlay').removeClass('show');
+        $('.chat-app-sidebar-toggle').removeClass('ft-x').addClass('ft-align-justify');
+        $('.chat-sidebar').removeClass('d-block d-sm-block').addClass('d-none d-sm-none');
+      }
     }
 
 }
