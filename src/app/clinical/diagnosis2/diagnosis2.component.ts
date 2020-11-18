@@ -508,10 +508,49 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     goNextStep(){
-      if(this.actualStep >= '2.0'){
-        this.actualStep = '5.0';
+      if(this.actualStep >= '3.3'){
+        this.goToStep('5.0', true)
+      }else if(this.actualStep == '3.2'){
+        if(this.launchingPhen2Genes || this.calculatingH29Score || this.gettingRelatedConditions){
+          Swal.fire('Todavía estamos analizando, ten un poco de paciencia por favor', '', "info");
+        }else{
+          this.goToStep('5.0', true)
+        }
+      }else if(this.actualStep == '3.1'){
+        if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
+          Swal.fire('Todavía estamos analizando, ten un poco de paciencia por favor', '', "info");
+        }else{
+          this.goToStep('5.0', true)
+        }
+      }else if(this.actualStep == '2.0'){
+        if(this.filesVcf.length>0){
+          this.goToStep('3.0', true);
+        }else{
+          Swal.fire({
+              title: 'No ha subido ningún fichero VCF, ¿desea continuar?',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#0CC27E',
+              cancelButtonColor: '#f9423a',
+              confirmButtonText: this.translate.instant("generics.Yes"),
+              cancelButtonText: this.translate.instant("generics.No, cancel"),
+              showLoaderOnConfirm: true,
+              allowOutsideClick: false
+          }).then((result) => {
+            if (result.value) {
+              this.goToStep('3.2', true);
+            }
+          });
+
+        }
       }else if(this.actualStep == '1.0'){
-        this.actualStep = '2.0';
+        if((this.phenotype.data.length == 0) || (this.numDeprecated==this.phenotype.data.length && this.numDeprecated>0)){
+          Swal.fire('Necesita al menos un síntoma para continuar', '', "info");
+          //Swal.fire({ title: this.translate.instant("diagnosis.titleNotCanLaunchExomiser"), html: this.translate.instant("diagnosis.msgNotCanLaunchExomiser"),icon:"info" })
+        }else{
+          this.goToStep('2.0', true)
+        }
+
       }else if(this.actualStep == '0.0'){
         this.goToStep('1.0', true)
       }
@@ -915,8 +954,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     selected2(i) {
       console.log(this.listOfFilteredSymptoms[i]);
-      //$e.preventDefault();
-      this.selectedItems.push(this.listOfFilteredSymptoms[i]);
+      this.addSymptom(this.listOfFilteredSymptoms[i], 'manual');
+      this.hasSymptomsToSave();
       //this.addSymptom($e.item, 'manual');
       //this.phenotype.data.push($e.item);
       this.modelTemp = '';
@@ -934,9 +973,26 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       if( this.modelTemp.trim().length > 3){
         var tempModelTimp = this.modelTemp.trim();
         this.listOfFilteredSymptoms = this.searchFilterPipe.transformDiseases(this.listOfphenotypesinfo, 'name', tempModelTimp);
+        this.listOfFilteredSymptoms = this.clearSavedSymptoms(this.listOfFilteredSymptoms);
       }else{
         this.listOfFilteredSymptoms = [];
       }
+    }
+
+    clearSavedSymptoms(filterSymptoms){
+      var result = [];
+      for(var i = 0; i < filterSymptoms.length; i++){
+        var found = false;
+        for(var j = 0; j < this.phenotype.data.length && !found ; j++){
+          if(filterSymptoms[i].id==this.phenotype.data[j].id) {
+            found = true;
+          }
+        }
+        if(!found){
+          result.push(filterSymptoms[i]);
+        }
+      }
+      return result;
     }
 
     showMoreInfoSymptom(symptomIndex){
@@ -2370,9 +2426,15 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }
     }
 
+    confirmDeletePhenotypeGroup(index1, index2){
+      var indexElement = this.searchService.searchIndex(this.phenotype.data,'id', this.listOfSymptomGroups[index1].symptoms[index2].id);
+      this.confirmDeletePhenotype(indexElement);
+    }
+
     confirmDeletePhenotype(index){
       Swal.fire({
           title: this.translate.instant("generics.Are you sure?"),
+          text:  "Vas a eliminar el síntoma '"+this.phenotype.data[index].name+"'",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#0CC27E',
@@ -4740,7 +4802,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     manageErrorsExomiser(type,err){
       if(this.actualStep== '3.1'){
-        this.goToStep('2.1', true);
+        this.goToStep('2.0', true);
       }
       this.subscription.add(this.apif29SrvControlErrors.getDescriptionErrorAndNotify(type,err,this.authService.getLang(),this.exomiserService.getActualToken())
       .subscribe( (res : any) => {

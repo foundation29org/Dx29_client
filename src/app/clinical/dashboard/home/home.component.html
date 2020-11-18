@@ -124,7 +124,7 @@
 				<h4 *ngIf="!isNewPatient" class="modal-title">Completa los datos del paciente</h4>
 		</div>
 		<form class="mt-3 form" #f="ngForm">
-			<div class="modal-body form-body">
+			<div class="row modal-body form-body">
 				<div class="col-md-12">
 					<div class="form-group">
 						<label>{{'diagnosis.Case name' | translate }}*</label>
@@ -133,7 +133,7 @@
 						<small class="form-text text-muted danger" *ngIf="!patientName.valid && (patientName.dirty || patientName.touched)">{{'generics.required' | translate }}</small>
 					</div>
 				</div>
-				<div class="col-md-12">
+				<div class="col-md-6">
 					<div class="form-group">
 
 						<label>{{'personalinfo.Birth Date' | translate }}*</label>
@@ -141,7 +141,7 @@
 						<small class="form-text text-muted danger" *ngIf="!birthDate.valid && (birthDate.dirty || birthDate.touched)">{{'generics.required' | translate }}</small>
 					</div>
 				</div>
-				<div class="col-md-12">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label id="gender">{{'personalinfo.Gender' | translate }}*</label>
 						<mat-radio-group required
@@ -170,13 +170,13 @@
 					{{ r.name}} - {{ r.id}}
 				</ng-template>
 				<div class="col-md-12 form-group">
-					<label>Diagnostico de presuncion</label>
+					<label>Diagnóstico de presunción</label>
 					<input #input class="input" type="text" class="form-control mb-3" [(ngModel)]="modelTemp" [ngbTypeahead]="searchDisease" name="addSymptomsOption2" [resultTemplate]="rt" [inputFormatter]="formatter1" placeholder="Search by disease name" (selectItem)="selected2($event)"/>
 				</div>
+				<p *ngIf="!f.valid" class="col-md-12">{{'generics.fieldsRequired' | translate }}</p>
 			</div>
 
 			<div class="modal-footer">
-				<p *ngIf="!f.valid" style="">{{'generics.fieldsRequired' | translate }}</p>
 				<div *ngIf="!sending" class="center-elements mt-1">
 	          <div *ngIf="f.valid;then formValid else formError"></div>
 	          <ng-template #formValid>

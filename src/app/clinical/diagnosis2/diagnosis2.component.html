@@ -8,14 +8,15 @@
             <div class="symbol symbol-50 symbol-light mr-2">
               <span class="symbol-label">
                 <div class="avatar avatar-md">
-                  <img *ngIf="selectedPatient.gender=='male'" class="img-fluid"  src="assets/img/clinician/chico.png" />
-                  <img *ngIf="selectedPatient.gender=='female'" class="img-fluid"  src="assets/img/clinician/nina.png" />
+                  <i *ngIf="selectedPatient.gender=='male'" class="fa fa-mars fa-3x"></i>
+                  <i *ngIf="selectedPatient.gender=='female'" class="fa fa-venus fa-3x"></i>
                 </div>
               </span>
             </div>
             <div>
               <a class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg cursor-pointer">{{selectedPatient.patientName}}</a>
-              <span class="text-muted font-weight-bold d-block">{{selectedPatient.gender}}</span>
+              <span *ngIf="selectedPatient.gender=='male'" class="text-muted font-weight-bold d-block"> {{'personalinfo.Male' | translate }}</span>
+              <span *ngIf="selectedPatient.gender=='female'" class="text-muted font-weight-bold d-block"> {{'personalinfo.Female' | translate }}</span>
             </div>
           </div>
         </td>
@@ -24,7 +25,7 @@
             <span *ngIf="age!=null">
               <span *ngIf="age.years>0">{{age.years}} year<span *ngIf="age.years>1">s</span> <span *ngIf="age.months>0">, </span></span>
               <span *ngIf="age.months>0">{{age.months}} month<span *ngIf="age.months>1">s</span></span>
-              <span *ngIf="age.months==0 && age.years==0">Recien nacido</span>
+              <span *ngIf="age.months==0 && age.years==0">Recién nacido</span>
             </span>
             <span *ngIf="age==null">
               -
@@ -34,21 +35,30 @@
         </td>
         <td>
           <div class="mt-2 float-right">
-            <!--<a *ngIf="(actualStep > '1.0' )" class="mr-2 cursor-pointer font-medium-3 position-relative margin-top-arrow" (click)="goPrevStep()" [ngClass]="(actualStep == '1.0' )?'text-muted inactiveLink':'primary'"><span style="margin-right: 10px;"><i class="ft-chevron-left"></i></span></a>-->
-            <span class="d-inline-block mr-2" [ngClass]="(actualStep == '1.0' )?'border-bottom border-bottom-2 border-primary ':'border-bottom border-bottom-0 text-muted'">
-                <button class="btn-no-style" [ngClass]="(maxStep>='1.0' )?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'1.0')" (click)="goToStep('1.0', false)">{{'diagnosis.Symptoms' | translate }}</button>
-            </span>
-            <span class="d-inline-block mr-2 ml-2" [ngClass]="(actualStep == '2.0' || actualStep == '2.1')?'border-bottom border-bottom-2 border-primary':'border-bottom border-bottom-0 text-muted'">
-                <button class="btn-no-style" [ngClass]="(maxStep>='2.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'2.0')" (click)="goToStep('2.0', false)">{{'diagnosis.Genetics' | translate }}</button>
-            </span>
-            <span class="d-inline-block ml-2" [ngClass]="(actualStep == '5.0')?'border-bottom border-bottom-2 border-primary':'border-bottom border-bottom-0 text-muted'">
-                <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('5.0', false)">Diagnoses</button>
-            </span>
-            <!--<a *ngIf="(actualStep < '5.0' )" class="ml-2 cursor-pointer font-medium-3 position-relative margin-top-arrow" (click)="goNextStep()" [ngClass]="(actualStep == '5.0' )?'text-muted inactiveLink':'primary'"><span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></a>-->
+            <!--<div *ngIf="maxStep=='5.0'">-->
+            <div>
+              <!--<a *ngIf="(actualStep > '1.0' )" class="mr-2 cursor-pointer font-medium-3 position-relative margin-top-arrow" (click)="goPrevStep()" [ngClass]="(actualStep == '1.0' )?'text-muted inactiveLink':'primary'"><span style="margin-right: 10px;"><i class="ft-chevron-left"></i></span></a>-->
+              <span class="d-inline-block mr-2" [ngClass]="(actualStep < '5.0' && maxStep<'5.0' )?'border-bottom border-bottom-2 border-primary ':'border-bottom border-bottom-0 text-muted'">
+                  <button class="btn-no-style" [ngClass]="(maxStep=='5.0' )?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('0.0', true); maxStep='0.0';">Wizard</button>
+              </span>
+              <span class="d-inline-block mr-2 ml-2" [ngClass]="(actualStep == '4.0' && maxStep=='5.0')?'border-bottom border-bottom-2 border-primary ':'border-bottom border-bottom-0 text-muted'">
+                  <button class="btn-no-style" [ngClass]="(maxStep=='4.0' )?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('4.0', false)">Reports</button>
+              </span>
+              <span class="d-inline-block mr-2 ml-2" [ngClass]="(actualStep == '1.0' && maxStep=='5.0' )?'border-bottom border-bottom-2 border-primary ':'border-bottom border-bottom-0 text-muted'">
+                  <button class="btn-no-style" [ngClass]="(maxStep>'1.0' )?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('1.0', false)">{{'diagnosis.Symptoms' | translate }}</button>
+              </span>
+              <span class="d-inline-block mr-2 ml-2" [ngClass]="((actualStep == '2.0' || actualStep == '2.1') && maxStep=='5.0')?'border-bottom border-bottom-2 border-primary':'border-bottom border-bottom-0 text-muted'">
+                  <button class="btn-no-style" [ngClass]="(maxStep>'2.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('2.0', false)">{{'diagnosis.Genetics' | translate }}</button>
+              </span>
+              <span class="d-inline-block ml-2" [ngClass]="(actualStep == '5.0' && maxStep=='5.0')?'border-bottom border-bottom-2 border-primary':'border-bottom border-bottom-0 text-muted'">
+                  <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('5.0', false)">Diagnoses</button>
+              </span>
+              <!--<a *ngIf="(actualStep < '5.0' )" class="ml-2 cursor-pointer font-medium-3 position-relative margin-top-arrow" (click)="goNextStep()" [ngClass]="(actualStep == '5.0' )?'text-muted inactiveLink':'primary'"><span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></a>-->
+            </div>
           </div>
         </td>
 
-        <td class="pr-0 text-right">
+        <td class="pr-0 text-right" *ngIf="maxStep=='5.0'">
           <div class="mt-2">
             <span class="nav-item text-muted" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
                 <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
@@ -72,68 +82,107 @@
   </table>
 </div>
 
-<!--{{selectedPatient|json}}
-<a class="primary pull-right mr-1" data-original-title="" title="" (click)="goToVersion('diagnosis')">Old Version</a>
--->
-<div class="row" [ngClass]="(maxStep == '5.0' )?'':'overflow-auto content-view'">
-  <div class="col-sm-12 col-md-12 mt-3" style="margin-bottom:1em; height: 1vh;" *ngIf="actualStep!='5.0' && maxStep<'5.0'">
+<div class="footer-buttons" *ngIf="maxStep<'5.0'">
+  <button type="button" class="mt-2 ml-3 float-left btn" [ngClass]="(actualStep > '0.0' )?'primary btn-outline-primary':'text-muted inactiveLink btn-outline-secondary'" (click)="goPrevStep()"><span style="margin-right: 10px;"><i class="ft-chevron-left"></i></span> Previous</button>
+  <div class="mt-3"  style="display: inline-flex;">
     <span *ngIf="maxStep<'5.0'" (click)="toggleMenu()" class="mb-2 chat-app-sidebar-toggle ft-align-justify font-large-1 mr-2 d-block d-sm-none d-md-none"></span>
     <!-- large devices and first time-->
     <div class="center-elements d-none d-sm-none d-md-none d-lg-block" *ngIf="maxStep<'5.0'">
-      <span class="list-group-item no-border d-inline" [ngClass]="(actualStep == '0.0' )?'list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2 underline':'list-group-item no-border'">
+      <span class="list-group-item d-inline" [ngClass]="(actualStep == '0.0' )?'list-group-item border-bottom-primary bg-blue-grey bg-lighten-5':'list-group-item no-border'">
           00. Introducción
-          <i *ngIf="actualStep>=1.0" class="fa fa-check danger"></i>
+          <i *ngIf="actualStep>=1.0" class="fa fa-check success"></i>
       </span>
-      <span class="list-group-item no-border d-inline" [ngClass]="(actualStep == '1.0' )?'list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2 underline':'list-group-item no-border'">
+      <span class="list-group-item d-inline" [ngClass]="(actualStep == '1.0' )?'list-group-item border-bottom-primary bg-blue-grey bg-lighten-5':'list-group-item no-border'">
           01. {{'diagnosis.Symptoms' | translate }}
-          <i *ngIf="actualStep>=2.0" class="fa fa-check danger"></i>
+          <i *ngIf="actualStep>=2.0" class="fa fa-check success"></i>
       </span>
-      <span class="list-group-item no-border d-inline" [ngClass]="(actualStep == '2.0' || actualStep == '2.1')?'list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2 underline':'list-group-item no-border'">
+      <span class="list-group-item d-inline" [ngClass]="(actualStep == '2.0' || actualStep == '2.1')?'list-group-item border-bottom-primary bg-blue-grey bg-lighten-5':'list-group-item no-border'">
           02. {{'diagnosis.Genetics' | translate }}
-          <i *ngIf="actualStep>=3.0" class="fa fa-check danger"></i>
+          <i *ngIf="actualStep>=3.0 && filesVcf.length>0" class="fa fa-check success"></i>
+          <i *ngIf="actualStep>=3.0 && filesVcf.length==0" class="fa fa-times danger"></i>
       </span>
-      <span class="list-group-item no-border d-inline" [ngClass]="(actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2' || actualStep == '3.3')?'list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2 underline':'list-group-item no-border'">
-          03. {{'diagnosis.First results' | translate }}
-          <i *ngIf="actualStep>=4.0" class="fa fa-check danger"></i>
+      <span class="list-group-item d-inline" [ngClass]="(actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2' || actualStep == '3.3')?'list-group-item border-bottom-primary bg-blue-grey bg-lighten-5':'list-group-item no-border'">
+          03. Preparar resultados
+          <i *ngIf="actualStep>=4.0" class="fa fa-check success"></i>
       </span>
     </div>
     <!-- Medium devices -->
     <div class="chat-sidebar d-none d-sm-block d-md-block d-lg-none" *ngIf="maxStep<'5.0'">
-      <span class="list-group-item no-border d-inline" [ngClass]="(actualStep == '0.0' )?'list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2 underline':'list-group-item no-border'">
+      <span class="list-group-item d-inline" [ngClass]="(actualStep == '0.0' )?'list-group-item border-bottom-primary bg-blue-grey bg-lighten-5':'list-group-item no-border'">
           {{'patnodiagdashboard.menu.Step' | translate }} 0
-          <i *ngIf="actualStep>=1.0" class="fa fa-check ml-2 danger"></i>
+          <i *ngIf="actualStep>=1.0" class="fa fa-check ml-2 success"></i>
       </span>
-      <span class="list-group-item no-border d-inline" [ngClass]="(actualStep == '1.0' )?'list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2 underline':'list-group-item no-border'">
+      <span class="list-group-item d-inline" [ngClass]="(actualStep == '1.0' )?'list-group-item border-bottom-primary bg-blue-grey bg-lighten-5':'list-group-item no-border'">
           {{'patnodiagdashboard.menu.Step' | translate }} 1
-          <i *ngIf="actualStep>=2.0" class="fa fa-check ml-2 danger"></i>
+          <i *ngIf="actualStep>=2.0" class="fa fa-check ml-2 success"></i>
       </span>
-      <span class="list-group-item no-border d-inline" [ngClass]="(actualStep == '2.0' || actualStep == '2.1' )?'list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2 underline':'list-group-item no-border'">
+      <span class="list-group-item d-inline" [ngClass]="(actualStep == '2.0' || actualStep == '2.1' )?'list-group-item border-bottom-primary bg-blue-grey bg-lighten-5':'list-group-item no-border'">
           {{'patnodiagdashboard.menu.Step' | translate }} 2
-          <i *ngIf="actualStep>=3.0" class="fa fa-check ml-2 danger"></i>
+          <i *ngIf="actualStep>=3.0" class="fa fa-check ml-2 success"></i>
       </span>
-      <span class="list-group-item no-border d-inline" [ngClass]="(actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2' || actualStep == '3.3')?'list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2 underline':'list-group-item no-border'">
+      <span class="list-group-item d-inline" [ngClass]="(actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2' || actualStep == '3.3')?'list-group-item border-bottom-primary bg-blue-grey bg-lighten-5':'list-group-item no-border'">
           {{'patnodiagdashboard.menu.Step' | translate }} 3
-          <i *ngIf="actualStep>=4.0" class="fa fa-check ml-2 danger"></i>
+          <i *ngIf="actualStep>=4.0" class="fa fa-check ml-2 success"></i>
       </span>
     </div>
     <!-- end medium devices-->
   </div>
-  <div class="col-sm-12" *ngIf="actualStep != '0.0'" style="height: 1vh;">
+  <button *ngIf="actualStep != '3.1' && actualStep != '3.2'&& actualStep != '1.0'" type="button" class="mt-2 mr-3 float-right btn" [ngClass]="(actualStep < '3.3' )?'primary btn-outline-primary':'text-muted inactiveLink btn-outline-secondary'" (click)="goNextStep()">Next <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+  <button *ngIf="(actualStep != '3.1' && actualStep != '3.2') && actualStep == '1.0'" type="button" class="mt-2 mr-3 float-right btn" [ngClass]="(actualStep < '3.3' && phenotype.data.length>0)?'primary btn-outline-primary':'text-muted btn-outline-secondary'" (click)="goNextStep()">Next <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+  <button *ngIf="actualStep == '3.1' || actualStep == '3.2'" type="button" class="mt-2 mr-3 float-right btn" [ngClass]="((launchingPhen2Genes || calculatingH29Score || gettingRelatedConditions) || (loadingGeno || calculatingH29Score || gettingRelatedConditions || uploadingGenotype) )?'text-muted inactiveLink btn-outline-secondary':'primary btn-outline-primary'" (click)="goNextStep()">Finish <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+</div>
+<div class="footer-buttons" *ngIf="maxStep=='5.0' && (actualStep == '3.1' || actualStep == '3.2')" >
+  <button type="button" class="mt-2 mr-2 float-right btn" [ngClass]="((launchingPhen2Genes || calculatingH29Score || gettingRelatedConditions) || (loadingGeno || calculatingH29Score || gettingRelatedConditions || uploadingGenotype) )?'text-muted inactiveLink btn-outline-secondary':'primary btn-outline-primary'" (click)="goNextStep()">Finish <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+</div>
+
+<!--{{selectedPatient|json}}
+<a class="primary pull-right mr-1" data-original-title="" title="" (click)="goToVersion('diagnosis')">Old Version</a>
+-->
+<div class="row" [ngClass]="(maxStep == '5.0' )?'':''">
+
+  <div class="col-sm-12" *ngIf="actualStep != '0.0'">
     <div class="content-header">
       <!--<span *ngIf="actualStep == '0.0'">Introducción</span>-->
       <span *ngIf="actualStep == '1.0'">{{'diagnosis.Symptoms' | translate }}</span>
       <span *ngIf="actualStep >= '2.0' && actualStep < '3.0'">{{'diagnosis.Genetics' | translate }}</span>
-      <span *ngIf="actualStep >= '3.0' && actualStep <= '5.0'">Diagnoses</span>
+      <span *ngIf="actualStep >= '3.0' && actualStep < '5.0'">Preparar resultados</span>
+      <span *ngIf="actualStep == '5.0'">Diagnoses</span>
     </div>
     <p class="content-sub-header">
       <!--<span *ngIf="actualStep == '0.0'">Una sencillos pasos bla bla bla ... </span>-->
-      <span *ngIf="actualStep == '1.0'">Añada los síntomas lo mejor que puedas. Cuando crear que ya lo tiene,
-        <button type="button" class="btn-no-style primary" (click)="goToStepGenotics();">continue con la infromación genética</button>
+      <span *ngIf="actualStep == '1.0'">
+        <!--Añada los síntomas lo mejor que puedas. Cuando crear que ya lo tiene,
+        <button type="button" class="btn-no-style primary" (click)="goToStepGenotics();">continue con la infromación genética</button>-->
+        <p *ngIf="phenotype.data.length != 0">Gestiona los síntomas del paciente.</p>
+        <p *ngIf="phenotype.data.length == 0">Añade los síntomas del paciente. Tiene varias opciones para ayudarle a hacerlo:</p>
+        <p *ngIf="numDeprecated==phenotype.data.length && numDeprecated>0" >Los sintomas que tiene están obsoletos. Añada síntomas con la ayuda de las siguientes opciones:</p>
       </span>
-      <span *ngIf="actualStep > '1.0' && actualStep < '3.0'">Complete la información genética, cuando lo haga,
+      <span *ngIf="actualStep > '1.0' && actualStep < '3.0'">
+        <div class="mt-2">
+          <ng-template #popContent>
+            <p>{{'exomiserSettings.Variant call file' | translate }} <a href="https://en.wikipedia.org/wiki/Variant_Call_Format" target="_blank">VCF</a> format.</p>
+            <button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">{{'generics.Close' | translate }}</button>
+          </ng-template>
+          <p class="mb-0">
+            {{'patnodiagdashboard.step3-2.msg1' | translate }} <b>{{'patnodiagdashboard.step3-2.msg2' | translate }}</b>{{'patnodiagdashboard.step3-2.msg3' | translate }}
+          </p>
+          <p>
+            (<label for="VcfBlobName">{{'exomiserSettings.Whats is a VCF' | translate }} <i class="ft-help-circle danger"  style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContent" popoverTitle="VCF file"></i></label>)
+          </p>
+        </div>
+        Complete la información genética, cuando lo haga,
         <button type="button" class="btn-no-style primary" (click)="goToStepDiagnoses();"> observe los resultados.</button>
         Si no tiene información genética,
         <button type="button" class="btn-no-style primary" (click)="goToStepDiagnoses();"> continúe igualmente</button>
+      </span>
+      <span *ngIf="actualStep == '3.0'">
+        Antes de continuar, seleccione los síntomas y ficheros de información genética que quieres que analicemos.
+      </span>
+      <span *ngIf="actualStep > '3.0' && actualStep < '5.0'">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </span>
+      <span *ngIf="actualStep == '5.0'">
+        Cada vez que modifique los síntomas o ficheros VCF, le recomendamos recalcular, obtendrá distintos resultados.
       </span>
     </p>
   </div>
@@ -144,10 +193,11 @@
       </div>
     </div>
   </div>
-  <div *ngIf="!showingWizard" class="" style="height: 60vh;">
+  <div *ngIf="!showingWizard" class="col-lg-12">
     <!-- large devices and no first time-->
     <!--<div *ngIf="actualStep=='0.0'" class="row offset-md-3 col-md-6">-->
-    <div *ngIf="actualStep=='0.0'" class="offset-md-3 col-md-6 col-lg-6">
+
+    <div *ngIf="actualStep=='0.0'" class="offset-md-3 col-md-7 col-lg-7">
         <!--<div class="content-header text-left">
           00. {{'patnodiagdashboard.menu.Welcome' | translate }}
         </div>
@@ -171,17 +221,25 @@
                   <div class="card-body">
                     <i class="fas fa-align-left fa-4x primary circle-icon"></i>
                     <span class="d-block font-medium-3 d-inline mt-2">{{'patnodiagdashboard.menu.Step' | translate }} 3 </span>
-                    <span class="d-inline">Muestra de los primeros resultados sobre los que podrá afinar el diagnóstico </span>
+                    <span class="d-inline">Preparar los resultados </span>
                   </div>
     			      </div>
     			    </div>
+              <div class="col-md-12 mt-1 center-elements">
+                <mat-checkbox
+                    class="example-margin" name="terms2" ngModel required #terms2="ngModel" id="terms2">
+                  <label style="margin-top: 0.4em;white-space: normal;text-transform: none;letter-spacing: 0px;">
+                    <span>No mostrar de nuevo</span>
+                  </label>
+                </mat-checkbox>
+              </div>
     			  </div>
           </div>
         </section>
     </div>
     <!-- End Step 0.0 -->
     <!-- Step 1.0 -->
-    <div *ngIf="actualStep=='1.0'"  class="col-md-12 col-lg-12">
+    <div *ngIf="actualStep=='1.0'"  class="">
 
         <!--<div class="content-header text-left">
           <span *ngIf="maxStep<'5.0'">01.</span> {{'diagnosis.Symptoms' | translate }}
@@ -189,222 +247,223 @@
         <p class="content-sub-header"></p>-->
 
       <section>
-        <div class="row mt-2 center-elements">
-          <p *ngIf="phenotype.data.length == 0" class="col-md-12 content-header">Vamos a incorporar síntomas. Tiene varias opciones para ayudarle a hacerlo:</p>
-          <p *ngIf="numDeprecated==phenotype.data.length && numDeprecated>0" class="col-md-12 content-header">Los sintomas que tiene están obsoletos. Añada síntomas con la ayuda de las siguientes opciones:</p>
-        </div>
-        <div class="row" *ngIf="(phenotype.data.length == 0) || (numDeprecated==phenotype.data.length && numDeprecated>0)">
-          <div class="col-md-12 col-lg-12" matchHeight ="card">
-            <div class="row" matchHeight ="card">
-            <div class="col-lg-4 col-md-12">
-                <div class="card">
-                    <div class="card-header text-center pb-0 height-75">
-                        <span class="font-medium-2 primary">{{'generics.Option' | translate }} 1: {{'patdiagdashboard.titleoption1' | translate }}</span>
-                    </div>
-                    <div class="card-body height-200">
-                        <div id="donut-chart1" class="center-elements">
-                          <i class="fas fa-notes-medical fa-4x primary"></i>
-                        </div>
-                        <div class="card-block text-center mt-2">
-                            <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption1' | translate }}</span>
-                        </div>
-                    </div>
-                    <div class="card-footer bt-n">
-                      <label class="btn btn-outline-primary btn-lg btn-block btn-round" style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
-                          {{'patdiagdashboard.buttonoption1' | translate }} <input type="file" (change)="onFileChangePDF($event, contentExtractorSteps)" style="display: none;">
-                      </label>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-12">
-                <div class="card">
-                    <div class="card-header text-center pb-0 height-75">
-                        <span class="font-medium-2 danger">
-                          {{'generics.Option' | translate }}
-                          <span>2</span>
-                          : {{'patdiagdashboard.titleoption3' | translate }}
-                        </span>
-                    </div>
-                    <div class="card-body height-200">
-                        <div id="donut-chart1" class="center-elements">
-                          <i class="fas fa-keyboard fa-4x danger"></i>
-                        </div>
-                        <div class="card-block text-center mt-2">
-                            <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption3' | translate }}</span>
-                        </div>
-                    </div>
-                    <div class="card-footer bt-n">
-              <button type="button" class="btn btn-outline-danger btn-lg btn-block btn-round" (click)="addSymptomsManual(contentAddSymptomsManual)">{{'patdiagdashboard.buttonoption3' | translate }}​​</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-12">
-                <div class="card">
-                    <div class="card-header text-center pb-0 height-75">
-                        <span class="font-medium-2 success">{{'generics.Option' | translate }}
-                          <span>3</span>
-                          : {{'patdiagdashboard.titleoption4' | translate }}
-                        </span>
-                    </div>
-                    <div class="card-body height-200">
-                        <div id="donut-chart1" class="center-elements">
-                          <i class="fas fa-align-left fa-4x success"></i>
-                        </div>
-                        <div class="card-block text-center mt-2">
-                            <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption4.1' | translate }} <span *ngIf="isMobileOrTablet">{{'patdiagdashboard.msgoption4.2' | translate }}</span></span>
-                        </div>
-                    </div>
-                    <div class="card-footer bt-n">
-                      <button type="button" class="btn btn-outline-success btn-lg btn-block btn-round" (click)="showPanelAddTextSymptoms(contentAddTextSymptoms)">{{'patdiagdashboard.buttonoption4' | translate }}​​​​</button>
-                    </div>
-                </div>
-            </div>
-            </div>
-          </div>
-        </div>
-        <div class="row mt-2" *ngIf="phenotype.data.length > 0 && numDeprecated!=phenotype.data.length">
-          <div class="col-md-12 col-lg-12" matchHeight ="card">
+        <div class="row">
+          <!--<div class="col-md-6 col-lg-6" matchHeight ="card">
             <div class="center-elements mb-0 row" matchHeight ="card">
-              <div class="content-header col-md-12 mb-2">
-                Opciones para añadir nuevos síntomas:
-              </div>
               <div class="col-lg-12 col-md-12">
                 <label class="btn btn-outline-primary" style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
                     Analizame un documento <input type="file" (change)="onFileChangePDF($event, contentExtractorSteps)" style="display: none;">
                 </label>
-                <button [disabled]='(numDeprecated==phenotype.data.length)' *ngIf="numDeprecated!=phenotype.data.length" type="button" class="btn btn-outline-primary ml-2" (click)="showPanelSuggestions(contentSuggestions)">Sugiereme sintomas
-                  <span *ngIf="numDeprecated==phenotype.data.length" class="warning">{{'phenotype.msg Deprecated' | translate }}</span>
-                </button>
+
                 <button type="button" class="btn btn-outline-primary ml-2" (click)="addSymptomsManual(contentAddSymptomsManual)">Añadir manualmente</button>
                 <button type="button" class="btn btn-outline-primary ml-2" (click)="showPanelAddTextSymptoms(contentAddTextSymptoms)">Pegar o escribir un texto
                   <span *ngIf="isMobileOrTablet">{{'patdiagdashboard.msgoption4.2' | translate }}</span>
                 ​​​​</button>
               </div>
             </div>
-          </div>
+          </div>-->
+          <!--<button [disabled]='(numDeprecated==phenotype.data.length)' *ngIf="numDeprecated!=phenotype.data.length" type="button" class="btn btn-outline-primary ml-2" (click)="showPanelSuggestions(contentSuggestions)">Sugiereme sintomas
+            <span *ngIf="numDeprecated==phenotype.data.length" class="warning">{{'phenotype.msg Deprecated' | translate }}</span>
+          </button>-->
 
-          <div class="col-md-12 row">
-            <h4 class="content-header row col-md-12 mt-0">
-              {{'phenotype.My symptoms' | translate }}
-              <span class="nav-item" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
-                  <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
-                      <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
-                      <p class="d-none">Group</p>
-                  </a>
-                  <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
-                      <a class="dropdown-item py-1" href="javascript:;" (click)="changeSuggestedViewSymptoms(1)">
-                          <span *ngIf="viewSymptoms==1"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">Sin agrupar</span></span>
-                          <span *ngIf="viewSymptoms==0" class="offset-md-1 col-md-8">Sin agrupar</span>
-                      </a>
-                      <a class="dropdown-item py-1" href="javascript:;" (click)="changeSuggestedViewSymptoms(0)">
-                          <span *ngIf="viewSymptoms==0"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">Por grupos</span></span>
-                          <span *ngIf="viewSymptoms==1" class="offset-md-1 col-md-8">Por grupos</span>
-                      </a>
-                  </div>
-              </span>
-            </h4>
+          <div class="col-md-6 col-lg-6">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Añadir síntomas</h4>
+              </div>
+              <div class="card-content">
+                <div class="card-body">
+                  <ngb-tabset [justify]="start">
+                    <ngb-tab title="Recomendada">
+                      <ng-template ngbTabContent>
+                        <p><label class="btn btn-outline-primary" style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
+                            <i class="fa fa-search" aria-hidden="true"></i> Buscar en un documento <input type="file" (change)="onFileChangePDF($event, contentExtractorSteps)" style="display: none;">
+                        </label></p>
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                      <ng-template ngbTabTitle>Añadir manualmente</ng-template>
+                      <ng-template ngbTabContent>
+                        <div class="">
+                          <div class="form-group" style="flex: 1 1 auto;">
+                            <input type="text" id="modelTemp" class="form-control"  name="modelTemp" [(ngModel)]="modelTemp" (keyup)="onKeySymptoms($event)" placeholder="{{'patnodiagdashboard.step2-4.msg2' | translate }}">
+                          </div>
 
-          </div>
-          <section *ngIf="viewSymptoms ==0" class="col-md-12 mt-2">
-            <div class="col-lg-12 row" *ngFor="let group of listOfSymptomGroups ; let j = index">
-              <h4 class="col-md-12 row mt-2"><span class="text-bold-400">{{group.nameGroup}}</span></h4>
-                <div *ngFor="let hpo of group.symptoms ; let i = index" class="col-lg-4">
-                  <!-- Card -->
-                      <!-- Card content -->
-                      <div class="row">
-                        <div class="col-10">
-                          <!-- Title -->
-                          <span style="font-size:1rem;">{{hpo.name}}</span>
-                          <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span>
+                          <div *ngIf="listOfFilteredSymptoms.length > 0" class="row">
+                            <div class="col-lg-12 col-md-12" *ngFor="let hpo of listOfFilteredSymptoms ; let i = index">
+                              <!-- Card -->
+                                <div class="card chart-card pb-2" style="background-color: #f2f2f2;">
+
+                                  <!-- Card content -->
+                                  <div class="p-2 row" [ngClass]="(i!= selectedInfoSymptomIndex)?'row':'row'">
+                                    <div class="col-11">
+                                      <!-- Title -->
+                                      <!--<h4 *ngIf="i!= selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{ (hpo.name.length>40)? (hpo.name | slice:0:40)+'...':(hpo.name) }}</h4>-->
+                                      <h4 *ngIf="i!= selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{ (hpo.layperson.length>70)? (hpo.layperson | slice:0:70)+'...':(hpo.layperson) }}</h4>
+
+                                      <!--<h4 *ngIf="i== selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{hpo.name}}</h4>-->
+                                      <h4 *ngIf="i== selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{hpo.layperson}}</h4>
+
+                                      <p *ngIf="i!= selectedInfoSymptomIndex" class="mb-1">
+                                        <span *ngIf="hpo.desc!=''">
+                                          <span *ngIf="hpo.desc!='' && hpo.desc!=null">{{ (hpo.desc.length>140)? (hpo.desc | slice:0:140)+'...':(hpo.desc) }}</span>
+                                        </span>
+                                      </p>
+                                      <a *ngIf="i!= selectedInfoSymptomIndex" class="primary" style="cursor: pointer;" (click)="showMoreInfoSymptom(i);">
+                                        {{'generics.Read more' | translate }}
+                                      </a>
+                                      <p *ngIf="i== selectedInfoSymptomIndex">
+                                        <span *ngIf="hpo.desc!=''">
+                                          {{hpo.desc}}
+                                        </span>
+                                      </p>
+                                      <span *ngIf="i== selectedInfoSymptomIndex">
+                                        <h6 class="mt-2"><strong>{{'generics.External Links' | translate }}</strong></h6>
+                                        <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}}. {{hpo.comment}}">MONDO ({{hpo.id}})</a>
+                                      </span>
+                                    </div>
+                                    <div class="col-1">
+                                      <button (click)="selected2(i)" class="btn-success-over float-right btn btn-secondary mb-0 btn-fab" href="javascript:void(0)" title="Añadir síntoma">
+                                        <i class="fa fa-check"></i>
+                                      </button>
+                                    </div>
+
+                                  </div>
+                                  <div *ngIf="i== selectedInfoSymptomIndex && hpo.synonyms.length>0" class="p-2">
+                                    <h6>{{'generics.Synonyms' | translate }}</h6>
+                                    <p *ngFor="let synonym of hpo.synonyms ; let j = index">
+                                      <span>{{j+1}}. </span> <span >{{synonym}}</span>
+                                    </p>
+                                  </div>
+                                  <a *ngIf="i== selectedInfoSymptomIndex" class="ml-2 primary" style="cursor: pointer;" (click)="showMoreInfoSymptom(i);">
+                                    {{'generics.Read less' | translate }}
+                                  </a>
+                                  <!-- Classic tabs -->
+
+                                </div>
+                                <!-- Card -->
+                            </div>
+                          </div>
                         </div>
-                        <div class="col-2">
-                          <a class="primary pull-left mr-1" data-original-title="" title="" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
-                            <i class="fa fa-info"></i>
-                          </a>
-                          <a class="danger pull-right mr-1" data-original-title="" title="" (click)="confirmDeletePhenotype(i)">
-                            <i class="fa fa-trash"></i>
-                          </a>
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Pegar o escribir un texto">
+                      <ng-template ngbTabContent>
+                        <div class="row col-md-12">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span class="font-medium-2">{{'phenotype.HPO phenotype extractor placeholder' | translate }}</span>
+                              <p>
+                                <small class="text-muted">{{'diagnosis.MsgExtractorField' | translate }} </small>
+                              </p>
+                            </div>
+                          </div>
+                          <button id="openModalSymptomsNcrButton" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr)">.</button>
+                          <form class="form w-100" (ngSubmit)="c('Close click');onSubmitToExtractor(contentExtractorSteps);" #f="ngForm">
+                            <div class="form-body">
+                              <div class="row">
+                                <div [ngClass]="(loadingHpoExtractor==true)?'d-none':'col-md-12'">
+                                  <div class="form-group">
+                                    <textarea class="form-control" style="width:100%;max-height: 30vh;height:30vh;" [(ngModel)]="medicalText" name="medicalText" placeholder="{{'phenotype.HPO phenotype extractor placeholder' | translate }}"></textarea>
+                                    <a *ngIf="medicalText.trim().length > 0" class="btn btn-outline-danger mb-0 mt-1" (click)="deleteText()" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
+                                    <span *ngIf="parserObject.file" class="pull-right">{{'parser.msgOcrInline' | translate }}: <a (click)="parserObject.parserStrategy='OcrInline'; callParser()" href="javascript:void(0)">{{'parser.Advanced extraction' | translate }}</a></span>
+                                  </div>
+                                </div>
+                                <div class="col-md-12 center-elements">
+                                  <button *ngIf="!loadingHpoExtractor" type="button" type="submit" [disabled]="medicalText.trim().length <= 5" class="mt-2 font-large-1 btn btn-primary btn-raised">{{'patnodiagdashboard.step2-0.btn2' | translate }}</button>
+                                </div>
+                                <div class="row col-md-12 center-elements">
+                                    <p class="col-md-12 centerSpinner" *ngIf="loadingHpoExtractor"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
                         </div>
-                      </div>
-                      <!-- Classic tabs -->
-                    <!-- Card -->
+                      </ng-template>
+                    </ngb-tab>
+                  </ngb-tabset>
                 </div>
+              </div>
             </div>
-          </section>
-          <section class="row mt-2 col-md-12" *ngIf="viewSymptoms ==1">
-              <div class="col-lg-4" *ngFor="let hpo of phenotype.data ; let i = index">
-                  <div class="chart-card">
-                    <div class="row">
-                      <div class="col-10">
-                        <span style="font-size:1rem;">{{hpo.name}}</span>
-                        <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span>
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">
+                  {{'phenotype.My symptoms' | translate }}
+                  <span class="nav-item" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
+                      <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
+                          <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
+                          <p class="d-none">Group</p>
+                      </a>
+                      <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
+                          <a class="dropdown-item py-1" href="javascript:;" (click)="changeSuggestedViewSymptoms(1)">
+                              <span *ngIf="viewSymptoms==1"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">Sin agrupar</span></span>
+                              <span *ngIf="viewSymptoms==0" class="offset-md-1 col-md-8">Sin agrupar</span>
+                          </a>
+                          <a class="dropdown-item py-1" href="javascript:;" (click)="changeSuggestedViewSymptoms(0)">
+                              <span *ngIf="viewSymptoms==0"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">Por grupos</span></span>
+                              <span *ngIf="viewSymptoms==1" class="offset-md-1 col-md-8">Por grupos</span>
+                          </a>
                       </div>
-                      <div class="col-2">
-                        <a class="primary pull-left mr-1" data-original-title="" title="" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
+                  </span>
+                </h4>
+              </div>
+              <div class="card-content" *ngIf="phenotype.data.length > 0">
+                <div class="card-body">
+                  <section *ngIf="viewSymptoms ==0" class="col-md-12 mb-4">
+                    <div class="row" *ngFor="let group of listOfSymptomGroups ; let j = index">
+                      <h4 [ngClass]="(j > '0' )?'mt-2':''"><span class="text-bold-400">{{group.nameGroup}}</span></h4>
+                      <ul *ngFor="let hpo of group.symptoms ; let i = index" class="col-lg-12 mb-1">
+                        <li class="row symptoms-item" style="margin-top: 1rem;">
+                          <!-- Title -->
+                          <span style="font-size:1rem;flex-grow: 1;" class="text-muted">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
+                          <div class="btn-group">
+                            <a class="btn btn-outline-info primary" data-original-title="" title="" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
+                              <i class="fa fa-info"></i>
+                            </a>
+                            <a class="btn btn-outline-danger danger" data-original-title="" title="" (click)="confirmDeletePhenotypeGroup(j,i)">
+                              <i class="fa fa-trash"></i>
+                            </a>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </section>
+                  <section class="row col-md-12 mb-4" *ngIf="viewSymptoms ==1">
+                    <ul class="col-lg-12 mb-1" *ngFor="let hpo of phenotype.data ; let i = index">
+                      <li class="row symptoms-item">
+                        <span style="font-size:1rem;flex-grow: 1;" class="text-muted">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
+                        <a class="btn btn-outline-info round primary mr-1" data-original-title="" title="" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
                           <i class="fa fa-info"></i>
                         </a>
-                        <a class="danger pull-right mr-1" data-original-title="" title="" (click)="confirmDeletePhenotype(i)">
+                        <a class="btn btn-outline-danger round danger ml-1 mr-1" data-original-title="" title="" (click)="confirmDeletePhenotype(i)">
                           <i class="fa fa-trash"></i>
                         </a>
-                      </div>
-                    </div>
-                  </div>
+                      </li>
+                    </ul>
+                  </section>
+                </div>
               </div>
-          </section>
-          <div class="card-body height-200" *ngIf="maxStep<'5.0'">
-            <div class="center-elements">
-              <button type="button" [disabled]='(phenotype.data.length == 0) || (numDeprecated==phenotype.data.length && numDeprecated>0)' class="float-right btn btn-outline-danger btn-lg" (click)="goToStep('2.0', true);">Continuar con genética</button>
+              <div class="card-content" *ngIf="phenotype.data.length == 0">
+                <div class="card-body">
+                  <p>No hay síntomas guardados</p>
+                </div>
+              </div>
             </div>
           </div>
+
         </div>
 
       </section>
     </div>
     <!-- End Step 1.0 -->
     <!-- Step 2.0 -->
-    <div *ngIf="actualStep=='2.0'" class="col-md-12">
+    <div *ngIf="actualStep=='2.0'">
 
-        <!--<div class="content-header text-left">
-          <span *ngIf="maxStep<'5.0'">02.</span> {{'diagnosis.Genetics' | translate }}: {{'patnodiagdashboard.step2-0.title1' | translate }}
-        </div>
-        <p class="content-sub-header"></p>-->
-
-        <section>
-          <div class="center-elements mt-4">
-            <p>{{'patnodiagdashboard.step3-0.msg1' | translate }}</p>
-            <p>{{'patnodiagdashboard.step3-0.msg2' | translate }}</p>
-          </div>
-          <div class="center-elements">
-            <button type="button" class="btn btn-outline-primary btn-lg" (click)="goToStep('2.1')">{{'patnodiagdashboard.step3-0.btn1' | translate }}</button>
-            <button *ngIf="maxStep<'5.0'" type="button" class="ml-2 btn btn-outline-primary btn-lg" (click)="goToStep('3.2');">No, continuar con el paso primeros resultados</button>
-            <button *ngIf="maxStep>='5.0'" type="button" class="ml-2 btn btn-outline-primary btn-lg" (click)="goToStep('5.0');">No, volver al resumen</button>
-          </div>
-
-          <div class="card-body height-200" *ngIf="maxStep<'5.0'">
-            <div class="center-elements">
-              <button type="button" class="float-left btn btn-outline-danger btn-lg" (click)="goToStep('1.0', true);">Volver a síntomas</button>
-            </div>
-          </div>
-        </section>
-    </div>
-    <!-- End Step 2.0 -->
-    <!-- Step 2.1 -->
-    <div *ngIf="actualStep=='2.1'" class="col-md-12">
       <section>
-        <div class="mt-2">
-          <ng-template #popContent>
-            <p>{{'exomiserSettings.Variant call file' | translate }} <a href="https://en.wikipedia.org/wiki/Variant_Call_Format" target="_blank">VCF</a> format.</p>
-            <button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">{{'generics.Close' | translate }}</button>
-          </ng-template>
-          <p class="mb-0">
-            {{'patnodiagdashboard.step3-2.msg1' | translate }} <b>{{'patnodiagdashboard.step3-2.msg2' | translate }}</b>{{'patnodiagdashboard.step3-2.msg3' | translate }}
-          </p>
-          <p>
-            (<label for="VcfBlobName">{{'exomiserSettings.Whats is a VCF' | translate }} <i class="ft-help-circle danger"  style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContent" popoverTitle="VCF file"></i></label>)
-          </p>
-        </div>
         <div class="row">
-          <div class="col-md-12">
+          <div class="offset-md-1 col-md-10">
             <div class="card">
               <div class="card">
                 <div class="card-body">
@@ -453,22 +512,17 @@
             </div>
           </div>
         </div>
-        <div class="card-body height-200" *ngIf="maxStep<'5.0'">
-          <div class="center-elements">
-            <button type="button" class="float-left btn btn-outline-danger btn-lg" (click)="goToStep('1.0', true);">Volver a síntomas</button>
-            <button *ngIf="filesVcf.length>0" type="button" class="float-right btn btn-outline-danger btn-lg" (click)="goToStep('3.0', true)">Quiero ver los primeros resultados</button>
-            <button *ngIf="filesVcf.length==0" type="button" class="float-right btn btn-outline-danger btn-lg" (click)="goToStep('3.2', true)">Quiero ver los primeros resultados</button>
-          </div>
-        </div>
       </section>
+    </div>
+    <!-- End Step 2.0 -->
+    <!-- Step 2.1 -->
+    <div *ngIf="actualStep=='2.1'" class="col-md-12">
+
     </div>
     <!-- End Step 2.1 -->
     <!-- Step 3.0 -->
     <div *ngIf="actualStep=='3.0'" class="offset-md-3 col-md-6 col-lg-6">
       <section>
-        <div class="mt-2">
-          <p>Antes de continuar, seleccione los síntomas y ficheros de información genética que quieres que analice.</p>
-        </div>
         <div class="mt-2">
           <p>Lista de sintomas</p>
         </div>
@@ -476,7 +530,6 @@
           <p>Lista de ficheros</p>
         </div>
         <div class="mt-2" class="center-elements">
-          <a class="btn btn-raised btn-primary" href="javascript:void(0)" (click)="goToStep('3.1', true)">Analizar!!</a>
           <a class="font-small-3 d-block" href="javascript:void(0)" (click)="changeSettingsExomiser(contentSettingsExomiser)">Advanced Exomiser {{'profile.Settings' | translate }}</a>
         </div>
       </section>
@@ -485,25 +538,16 @@
     <!-- Step 3.1 -->
     <div *ngIf="actualStep=='3.1'" class="offset-md-2 col-md-8">
       <section class="mt-2">
-        <div class="row">
-    		    <div class="col-md-3 offset-md-1 mb-4">
-    		        <div class="text-center">
-    		            <img class="img-fluid" src="assets/img/bot.gif" />
-    		        </div>
-    		    </div>
-    		    <div class="col-md-7">
-    		        <div class="donate">
-    		            <p>Nuestros robots están analizando tus síntomas y tu información genetica, en breves te mostrarán los resultados de posibles enfermedades</p>
-                    <div *ngIf="loadingGeno || calculatingH29Score || gettingRelatedConditions || uploadingGenotype" class="col-md-12 center-elements">
-              				<i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
-              			</div>
-                    <div *ngIf="!loadingGeno && !calculatingH29Score && !gettingRelatedConditions && !uploadingGenotype" class="col-md-12 center-elements">
-                      <div class="center-elements">
-                        <button type="button" class="ml-2 btn btn-outline-danger btn-lg" (click)="goToStep('3.3', true)">{{'patnodiagdashboard.step3-3.btn1' | translate }}</button>
-                      </div>
-              			</div>
-    		        </div>
-    		    </div>
+        <div class="center-elements">
+          <div class="donate" *ngIf="loadingGeno || calculatingH29Score || gettingRelatedConditions || uploadingGenotype">
+              <p>Nuestros robots están analizando tus síntomas y tu información genetica, en breves te mostrarán los resultados de posibles enfermedades</p>
+              <div class="col-md-12 center-elements">
+                <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+              </div>
+          </div>
+          <div class="donate" *ngIf="!loadingGeno && !calculatingH29Score && !gettingRelatedConditions && !uploadingGenotype">
+              <p>El proceso ha terminado, pulsa en finalizar de la parte inferior derecha</p>
+          </div>
     		</div>
       </section>
     </div>
@@ -511,25 +555,16 @@
     <!-- Step 3.2 -->
     <div *ngIf="actualStep=='3.2'" class="offset-md-2 col-md-8">
       <section class="mt-2">
-        <div class="row">
-    		    <div class="col-md-3 offset-md-1 mb-4">
-    		        <div class="text-center">
-    		            <img class="img-fluid" src="assets/img/bot.gif" />
-    		        </div>
-    		    </div>
-    		    <div class="col-md-7">
-    		        <div class="donate">
-    		            <p>Nuestros robots están analizando tus síntomas, en breves te mostrarán los resultados de posibles enfermedades</p>
-                    <div *ngIf="launchingPhen2Genes || calculatingH29Score || gettingRelatedConditions" class="col-md-12 center-elements">
-              				<i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
-              			</div>
-                    <div *ngIf="!launchingPhen2Genes && !calculatingH29Score && !gettingRelatedConditions" class="col-md-12 center-elements">
-                      <div class="center-elements">
-                        <button type="button" class="ml-2 btn btn-outline-danger btn-lg" (click)="goToStep('3.3', true)">{{'patnodiagdashboard.step3-3.btn1' | translate }}</button>
-                      </div>
-              			</div>
-    		        </div>
-    		    </div>
+        <div class="center-elements">
+          <div class="donate" *ngIf="launchingPhen2Genes || calculatingH29Score || gettingRelatedConditions">
+              <p>Nuestros robots están analizando tus síntomas, en breves te mostrarán los resultados de posibles enfermedades</p>
+              <div class="col-md-12 center-elements">
+                <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+              </div>
+          </div>
+          <div class="donate" *ngIf="!launchingPhen2Genes && !calculatingH29Score && !gettingRelatedConditions">
+              <p>El proceso ha terminado, pulsa en finalizar de la parte inferior derecha</p>
+          </div>
     		</div>
       </section>
     </div>
@@ -539,7 +574,6 @@
       <section class="mt-2">
         <div class="center-elements">
           <a class="btn btn-raised btn-primary" href="javascript:void(0)" (click)="editDiagnosis()">Navegar por las enfermedades</a>
-          <a *ngIf="maxStep<'5.0'" class="btn btn-raised btn-primary ml-2" href="javascript:void(0)" (click)="goToStep('5.0', true)">Ir al resumen</a>
         </div>
         <div class="col-md-12 center-elements" *ngIf="!gettingRelatedConditions">
           <div class="" style="background:rgba(155, 155, 155, 0.09);">
@@ -571,7 +605,7 @@
     </div>
     <!-- End Step 3.3 -->
     <!-- Step 5.0 -->
-    <div *ngIf="actualStep=='5.0'" class="col-md-12">
+    <div *ngIf="actualStep=='5.0'">
       <div class="mt-2 offset-md-2 col-md-8" *ngIf="programs.length>0">
         <ngb-alert type="light" [dismissible]="false" style="border-radius: 10px;box-shadow: 2px 5px #888;" *ngFor="let program of programs ; let i = index">
           <div class="danger" *ngIf="program.name == 'Genetic Program 1'">
@@ -586,77 +620,7 @@
       </div>
       <section>
         <div class="mt-2 row">
-          <div class="pt-2 col-md-12">
-            <div>
-              <h1 class="text-bold-400"><b>{{selectedPatient.patientName}}</b>
-              </h1>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="chat-name">
-              <div class="media-body row">
-                <!-- genetics info-->
-                <div class="col-md-12">
-                  <h4 *ngIf="filesVcf.length==0" class="text-bold-400 form-section">
-                    <a class="primary" (click)="goToStep('2.0')"><b>{{'patnodiagdashboard.step4-1.msg4' | translate }}</b> </a>
-                  </h4>
-                  <h4 *ngIf="filesVcf.length>0" class="text-bold-400 form-section">
-                    <a class="primary" (click)="goToStep('2.1')"><b>{{'patnodiagdashboard.step4-1.msg4' | translate }}</b> </a>
-                  </h4>
-                  <p class="mb-0 d-inline"><b>¿Tiene documento de información genética?</b></p>
-                  <p *ngIf="filesVcf.length==0"><span>{{'generics.No' | translate }}</span></p>
-                  <p *ngIf="filesVcf.length>0"><span>{{'generics.Yes' | translate }}</span></p>
-                </div>
-
-                <!-- symptoms info-->
-                <div class="col-md-12">
-                  <h4 class="text-bold-400 form-section">
-                    <a class="primary" (click)="goToStep('1.0')"><b>{{'diagnosis.Symptoms' | translate }}</b> </a>
-                    <span class="nav-item" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
-                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
-                            <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
-                            <p class="d-none">Group</p>
-                        </a>
-                        <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
-                            <a class="dropdown-item py-1" href="javascript:;" (click)="changeSuggestedViewSymptoms(1)">
-                                <span *ngIf="viewSymptoms==1"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">Sin agrupar</span></span>
-                                <span *ngIf="viewSymptoms==0" class="offset-md-1 col-md-8">Sin agrupar</span>
-                            </a>
-                            <a class="dropdown-item py-1" href="javascript:;" (click)="changeSuggestedViewSymptoms(0)">
-                                <span *ngIf="viewSymptoms==0"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">Por grupos</span></span>
-                                <span *ngIf="viewSymptoms==1" class="offset-md-1 col-md-8">Por grupos</span>
-                            </a>
-                        </div>
-                    </span>
-                    <!--<a class="ml-2 font-medium-2 primary" (click)="goToStep('1.0')">{{'generics.Edit' | translate }}</a>-->
-                  </h4>
-                  <div *ngIf="phenotype.data.length > 0">
-                    <table *ngIf="viewSymptoms ==1">
-                      <tbody>
-                        <tr *ngFor="let hpo of phenotype.data ; let i = index">
-                          <td class="rm-borders" title="{{hpo.id}}">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <section *ngIf="viewSymptoms ==0" class="col-md-12 mt-2">
-                      <div class="col-lg-12 row" *ngFor="let group of listOfSymptomGroups ; let j = index">
-                        <h5 class="col-md-12 row mt-2"><span class="text-bold-400">{{group.nameGroup}}</span></h5>
-                        <div *ngFor="let hpo of group.symptoms ; let i = index" class="col-lg-12">
-                          <span style="font-size:1rem;">{{hpo.name}}</span>
-                          <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span>
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                  <div *ngIf="phenotype.data.length == 0" class="table-responsive">
-                    {{'patnodiagdashboard.step4-1.msg3' | translate }}
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
+          <div class="offset-md-1 col-md-5">
             <h4 class="text-bold-400 form-section">
               <b>Resultados</b>
               <span class="nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right" title="Options">
@@ -681,6 +645,7 @@
                       </a>
                   </div>
               </span>
+              <button type="button" class="btn btn-outline-primary float-right btn-sm" (click)="goToStepDiagnoses();">Recalcular</button>
             </h4>
             <div class="" style="background:rgba(155, 155, 155, 0.09);">
               <div class="row" *ngFor="let disease of topRelatedConditions; let i = index" style="height:6em;">
@@ -703,7 +668,7 @@
               </a>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-5">
             <div class="">
               <h4 class="text-bold-400 form-section">
                 <b>Notes</b>
@@ -766,12 +731,6 @@
     <!-- End Step 5.0 -->
   </div>
 </div>
-
-
-<div class="footer-buttons" *ngIf="maxStep<'5.0'">
-  <button type="button" class="mt-2 ml-2 float-left btn btn-lg" [ngClass]="(actualStep > '0.0' )?'primary btn-outline-primary':'text-muted inactiveLink btn-outline-secondary'" (click)="goPrevStep()"><span style="margin-right: 10px;"><i class="ft-chevron-left"></i></span> Previous</button>
-  <button type="button" class="mt-2 mr-2 float-right btn btn-lg" [ngClass]="(actualStep < '5.0' )?'primary btn-outline-primary':'text-muted inactiveLink btn-outline-secondary'" (click)="goNextStep()">Next <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
-</div>
 <button id="openModalButton" [hidden]="true" (click)="showPanelDiagnosis(contentRelatedConditions)">.</button>
 <ng-template #contentExtractorSteps let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-header" id="idHeader">
@@ -814,7 +773,7 @@
               </div>
             </div>
             <div class="mb-4 center-elements" *ngIf="substepExtract==4">
-              <button type="button" class="btn btn-outline-danger btn-lg" (click)="c('Close click');showPanelSymptomsNcr(contentSymptomsNcr)">{{'patnodiagdashboard.step2-1.btn1' | translate }}</button>
+              <button type="button" class="btn btn-outline-primary" (click)="c('Close click');showPanelSymptomsNcr(contentSymptomsNcr)">{{'patnodiagdashboard.step2-1.btn1' | translate }}</button>
             </div>
           </section>
         </div>
@@ -1043,37 +1002,33 @@
 </ng-template>
 
 <ng-template #contentAddSymptomsManual let-c="close" let-d="dismiss" appendTo="body">
-		<div class="modal-header" id="idHeader">
-				<h4 class="modal-title">{{'diagnosis.Add symptoms' | translate }} <span class="font-medium-1 d-block mt-1"> {{'patdiagdashboard.onebyonemsg' | translate }} </span></h4>
-		</div>
+  <div class="modal-header" id="idHeader">
+    <div class="content-header text-left">
+      <h4 class="modal-title">{{'diagnosis.Add symptoms' | translate }} <span class="font-medium-1 d-block mt-1"> {{'patdiagdashboard.onebyonemsg' | translate }} </span></h4>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 		<div class="modal-body row">
 			<div class="mt-2 col-md-4">
-        <div class="card p-2 row">
-          <span class="col-md-12">
-            <h4 class="font-weight-bold">{{'patnodiagdashboard.step2-4.msg5' | translate }}</h4>
-          </span>
-          <p class="col-md-12" *ngIf="selectedItems.length>0">
-            <span class="d-block mb-2"><b>{{'patnodiagdashboard.step2-4.msg6' | translate }}</b></span>
-            <span class="d-block" *ngFor="let item of selectedItems ; let k = index">
-              {{item.name}} <span class="red" style="cursor: pointer;" (click)="deleteItem(item)">&nbsp;x</span>
+        <div class="card bg-grey bg-lighten-3 p-2 row">
+          <h4 class="font-weight-bold">{{'patnodiagdashboard.step2-4.msg5' | translate }}</h4>
+          <p class="col-md-12" *ngIf="phenotype.data.length>0">
+            <span class="d-block row" *ngFor="let item2 of phenotype.data; let i = index">
+              {{item2.name}} <span class="float-right red" style="cursor: pointer;" (click)="confirmDeletePhenotype(i)" title="{{'generics.Delete' | translate }}"><i class="fa fa-trash"></i></span>
             </span>
           </p>
-          <p class="col-md-12" *ngIf="selectedItems.length==0">
-
+          <p *ngIf="phenotype.data.length==0">
+            No ha añadido ningún síntoma
           </p>
-          <div class="center-elements">
-            <button *ngIf="selectedItems.length > 0" type="button" class="btn btn-outline-danger btn-lg" [disabled]='phenotype.data.length == 0 && selectedItems.length == 0' (click)="addSymptomsOption1();c('Close click');">{{'diagnosis.Add symptoms' | translate }} {{'generics.and' | translate }} {{'patnodiagdashboard.step2-4.btn1' | translate }}</button>
-            <button *ngIf="selectedItems.length == 0" type="button" class="btn btn-outline-danger btn-lg" [disabled]='phenotype.data.length == 0' (click)="c('Close click')">
-              {{'generics.Close' | translate }}
-            </button>
-          </div>
         </div>
 
       </div>
       <div class="mt-2 col-md-8">
-  			<div class="card p-2 row">
+  			<div class="p-2 row">
           <div class="form-group">
-            <div class="mt-2 row col-md-9">
+            <div class="mt-2">
               <span class="d-block">{{'patnodiagdashboard.step2-4.msg1' | translate }}</span>
             </div>
             <input type="text" id="modelTemp" class="form-control"  name="modelTemp" [(ngModel)]="modelTemp" (keyup)="onKeySymptoms($event)" placeholder="{{'patnodiagdashboard.step2-4.msg2' | translate }}">
@@ -1082,10 +1037,10 @@
           <div *ngIf="listOfFilteredSymptoms.length > 0" class="row">
             <div class="col-lg-12 col-md-12" *ngFor="let hpo of listOfFilteredSymptoms ; let i = index">
               <!-- Card -->
-                <div class="card chart-card" style="background-color: gainsboro;">
+                <div class="card chart-card" style="background-color: #f2f2f2;">
 
                   <!-- Card content -->
-                  <div class="p-2 row" [ngClass]="(i!= selectedInfoSymptomIndex)?'height-150 row':'row'">
+                  <div class="p-2 row" [ngClass]="(i!= selectedInfoSymptomIndex)?'height-100 row':'row'">
                     <div class="col-9">
                       <!-- Title -->
                       <!--<h4 *ngIf="i!= selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{ (hpo.name.length>40)? (hpo.name | slice:0:40)+'...':(hpo.name) }}</h4>-->
@@ -1094,11 +1049,14 @@
                       <!--<h4 *ngIf="i== selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{hpo.name}}</h4>-->
                       <h4 *ngIf="i== selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{hpo.layperson}}</h4>
 
-                      <p *ngIf="i!= selectedInfoSymptomIndex">
+                      <p *ngIf="i!= selectedInfoSymptomIndex" class="mb-1">
                         <span *ngIf="hpo.desc!=''">
                           <span *ngIf="hpo.desc!='' && hpo.desc!=null">{{ (hpo.desc.length>140)? (hpo.desc | slice:0:140)+'...':(hpo.desc) }}</span>
                         </span>
                       </p>
+                      <a *ngIf="i!= selectedInfoSymptomIndex" class="primary" style="cursor: pointer;" (click)="showMoreInfoSymptom(i);">
+                        {{'generics.Read more' | translate }}
+                      </a>
                       <p *ngIf="i== selectedInfoSymptomIndex">
                         <span *ngIf="hpo.desc!=''">
                           {{hpo.desc}}
@@ -1110,26 +1068,30 @@
                       </span>
                     </div>
                     <div class="col-3">
-                      <button (click)="selected2(i)" class="btn-success-over float-right btn btn-secondary mb-0 btn-fab" href="javascript:void(0)">
+                      <button (click)="selected2(i)" class="btn-success-over float-right btn btn-secondary mb-0 btn-fab" href="javascript:void(0)" title="Añadir síntoma">
                         <i class="fa fa-check"></i>
                       </button>
                     </div>
 
                   </div>
+                  <!--
                   <div style="position: absolute;left: 80%;top: 120px;">
-                    <a *ngIf="i!= selectedInfoSymptomIndex" class="danger pull-right" style="cursor: pointer;" (click)="showMoreInfoSymptom(i);">
+                    <a *ngIf="i!= selectedInfoSymptomIndex" class="primary pull-right" style="cursor: pointer;" (click)="showMoreInfoSymptom(i);">
                       {{'generics.Read more' | translate }}
                     </a>
-                    <a *ngIf="i== selectedInfoSymptomIndex" class="danger pull-right" style="cursor: pointer;" (click)="showMoreInfoSymptom(i);">
+                    <a *ngIf="i== selectedInfoSymptomIndex" class="primary pull-right" style="cursor: pointer;" (click)="showMoreInfoSymptom(i);">
                       {{'generics.Read less' | translate }}
                     </a>
-                  </div>
+                  </div>-->
                   <div *ngIf="i== selectedInfoSymptomIndex && hpo.synonyms.length>0" class="p-2">
                     <h6>{{'generics.Synonyms' | translate }}</h6>
                     <p *ngFor="let synonym of hpo.synonyms ; let j = index">
                       <span>{{j+1}}. </span> <span >{{synonym}}</span>
                     </p>
                   </div>
+                  <a *ngIf="i== selectedInfoSymptomIndex" class="ml-2 primary" style="cursor: pointer;" (click)="showMoreInfoSymptom(i);">
+                    {{'generics.Read less' | translate }}
+                  </a>
                   <!-- Classic tabs -->
 
                 </div>

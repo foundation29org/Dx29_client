@@ -27,7 +27,7 @@
             <img src="assets/img/indice.png" style="margin-left: 10px;"/>
             <li class="mr-2 active nav-link" *ngIf="actualUrl!='/clinical/dashboard/home'">
               <a  [routerLink]="redirectUrl">
-                <h3 style="margin-bottom: 0;">{{'diagnosis.BackCases' | translate }}</h3>
+                <h3 class="btn btn-outline-primary" style="margin-bottom: 0;">{{'diagnosis.BackCases' | translate }}</h3>
               </a>
             </li>
             <li class="mr-2 active nav-link disabled" *ngIf="actualUrl=='/clinical/dashboard/home'">
@@ -63,9 +63,9 @@
             </li>
           </div>
         </div>
-        <ngb-alert *ngIf="currentLang=='es'" type="light" class="mb-0 alert-yellow" style="inline-flex" [dismissible]="false">
+        <!--<ngb-alert *ngIf="currentLang=='es'" type="light" class="mb-0 alert-yellow" style="inline-flex" [dismissible]="false">
           <span class="font-alert">{{'InfoSystem.Spanishtranslations' | translate }}</span>
-        </ngb-alert>
+        </ngb-alert>-->
         <div class="navbar-container" style="padding-left: 0px;">
             <div class="navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav">

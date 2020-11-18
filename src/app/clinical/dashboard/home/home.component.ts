@@ -742,7 +742,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
       }else{
         this.authService.setCurrentPatient(temp);
         if(this.authService.getCurrentPatient()!=null){
-          this.router.navigate(['/clinical/diagnosis2']);
+          this.goToPatientPage();
         }
       }
     }
@@ -839,6 +839,19 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
       this.modalReference = this.modalService.open(contentNewCaseName, ngbModalOptions);
   }
 
+  goToPatientPage(){
+    this.updateLastAccess();
+    this.router.navigate(['/clinical/diagnosis2']);
+  }
+
+  updateLastAccess(){
+      this.subscription.add( this.http.get(environment.api+'/api/case/updateLastAccess/'+this.authService.getCurrentPatient().sub)
+      .subscribe( (res : any) => {
+       }, (err) => {
+         console.log(err);
+       }));
+  }
+
   saveNewCase(){
     var found = false;
     for (var i = 0; i <  this.patients.length && !found; i++) {
@@ -864,7 +877,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
           //this.toastr.success('', this.msgDataSavedOk);
           if(this.authService.getCurrentPatient()!=null){
             //this.loadData();
-            this.router.navigate(['/clinical/diagnosis2']);
+            this.goToPatientPage();
           }
           //this.loadPatients();
          }, (err) => {
@@ -898,7 +911,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
           //this.toastr.success('', this.msgDataSavedOk);
           if(this.authService.getCurrentPatient()!=null){
             //this.loadData();
-            this.router.navigate(['/clinical/diagnosis2']);
+            this.goToPatientPage();
           }
           //this.loadPatients();
          }, (err) => {
