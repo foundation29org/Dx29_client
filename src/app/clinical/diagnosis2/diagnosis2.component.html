@@ -265,189 +265,259 @@
           <!--<button [disabled]='(numDeprecated==phenotype.data.length)' *ngIf="numDeprecated!=phenotype.data.length" type="button" class="btn btn-outline-primary ml-2" (click)="showPanelSuggestions(contentSuggestions)">Sugiereme sintomas
             <span *ngIf="numDeprecated==phenotype.data.length" class="warning">{{'phenotype.msg Deprecated' | translate }}</span>
           </button>-->
-
-          <div class="col-md-6 col-lg-6">
-            <div class="card">
-              <div class="card-header">
-                <h4 class="card-title">Añadir síntomas</h4>
+          <div class="row" *ngIf="(phenotype.data.length == 0) || (numDeprecated==phenotype.data.length && numDeprecated>0)">
+            <div class="col-md-12 col-lg-12" matchHeight ="card">
+              <div class="row" matchHeight ="card">
+              <div class="col-lg-4 col-md-12">
+                  <div class="card">
+                      <div class="card-header text-center pb-0 height-75">
+                          <span class="font-medium-2 primary">{{'generics.Option' | translate }} 1: {{'patdiagdashboard.titleoption1' | translate }}</span>
+                      </div>
+                      <div class="card-body height-200">
+                          <div id="donut-chart1" class="center-elements">
+                            <i class="fas fa-notes-medical fa-4x primary"></i>
+                          </div>
+                          <div class="card-block text-center mt-2">
+                              <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption1' | translate }}</span>
+                          </div>
+                      </div>
+                      <div class="card-footer bt-n">
+                        <label class="btn btn-outline-primary btn-lg btn-block btn-round" style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
+                            {{'patdiagdashboard.buttonoption1' | translate }} <input type="file" (change)="onFileChangePDF($event, contentExtractorSteps)" style="display: none;">
+                        </label>
+                      </div>
+                  </div>
               </div>
-              <div class="card-content">
-                <div class="card-body">
-                  <ngb-tabset [justify]="start">
-                    <ngb-tab title="Recomendada">
-                      <ng-template ngbTabContent>
-                        <p><label class="btn btn-outline-primary" style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
-                            <i class="fa fa-search" aria-hidden="true"></i> Buscar en un documento <input type="file" (change)="onFileChangePDF($event, contentExtractorSteps)" style="display: none;">
-                        </label></p>
-                      </ng-template>
-                    </ngb-tab>
-                    <ngb-tab>
-                      <ng-template ngbTabTitle>Añadir manualmente</ng-template>
-                      <ng-template ngbTabContent>
-                        <div class="">
-                          <div class="form-group" style="flex: 1 1 auto;">
-                            <input type="text" id="modelTemp" class="form-control"  name="modelTemp" [(ngModel)]="modelTemp" (keyup)="onKeySymptoms($event)" placeholder="{{'patnodiagdashboard.step2-4.msg2' | translate }}">
+              <div class="col-lg-4 col-md-12">
+                  <div class="card">
+                      <div class="card-header text-center pb-0 height-75">
+                          <span class="font-medium-2 primary">
+                            {{'generics.Option' | translate }}
+                            <span>2</span>
+                            : {{'patdiagdashboard.titleoption3' | translate }}
+                          </span>
+                      </div>
+                      <div class="card-body height-200">
+                          <div id="donut-chart1" class="center-elements">
+                            <i class="fas fa-keyboard fa-4x primary"></i>
                           </div>
-
-                          <div *ngIf="listOfFilteredSymptoms.length > 0" class="row">
-                            <div class="col-lg-12 col-md-12" *ngFor="let hpo of listOfFilteredSymptoms ; let i = index">
-                              <!-- Card -->
-                                <div class="card chart-card pb-2" style="background-color: #f2f2f2;">
-
-                                  <!-- Card content -->
-                                  <div class="p-2 row" [ngClass]="(i!= selectedInfoSymptomIndex)?'row':'row'">
-                                    <div class="col-11">
-                                      <!-- Title -->
-                                      <!--<h4 *ngIf="i!= selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{ (hpo.name.length>40)? (hpo.name | slice:0:40)+'...':(hpo.name) }}</h4>-->
-                                      <h4 *ngIf="i!= selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{ (hpo.layperson.length>70)? (hpo.layperson | slice:0:70)+'...':(hpo.layperson) }}</h4>
-
-                                      <!--<h4 *ngIf="i== selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{hpo.name}}</h4>-->
-                                      <h4 *ngIf="i== selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{hpo.layperson}}</h4>
-
-                                      <p *ngIf="i!= selectedInfoSymptomIndex" class="mb-1">
-                                        <span *ngIf="hpo.desc!=''">
-                                          <span *ngIf="hpo.desc!='' && hpo.desc!=null">{{ (hpo.desc.length>140)? (hpo.desc | slice:0:140)+'...':(hpo.desc) }}</span>
-                                        </span>
-                                      </p>
-                                      <a *ngIf="i!= selectedInfoSymptomIndex" class="primary" style="cursor: pointer;" (click)="showMoreInfoSymptom(i);">
-                                        {{'generics.Read more' | translate }}
-                                      </a>
-                                      <p *ngIf="i== selectedInfoSymptomIndex">
-                                        <span *ngIf="hpo.desc!=''">
-                                          {{hpo.desc}}
-                                        </span>
-                                      </p>
-                                      <span *ngIf="i== selectedInfoSymptomIndex">
-                                        <h6 class="mt-2"><strong>{{'generics.External Links' | translate }}</strong></h6>
-                                        <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}}. {{hpo.comment}}">MONDO ({{hpo.id}})</a>
-                                      </span>
-                                    </div>
-                                    <div class="col-1">
-                                      <button (click)="selected2(i)" class="btn-success-over float-right btn btn-secondary mb-0 btn-fab" href="javascript:void(0)" title="Añadir síntoma">
-                                        <i class="fa fa-check"></i>
-                                      </button>
-                                    </div>
-
-                                  </div>
-                                  <div *ngIf="i== selectedInfoSymptomIndex && hpo.synonyms.length>0" class="p-2">
-                                    <h6>{{'generics.Synonyms' | translate }}</h6>
-                                    <p *ngFor="let synonym of hpo.synonyms ; let j = index">
-                                      <span>{{j+1}}. </span> <span >{{synonym}}</span>
-                                    </p>
-                                  </div>
-                                  <a *ngIf="i== selectedInfoSymptomIndex" class="ml-2 primary" style="cursor: pointer;" (click)="showMoreInfoSymptom(i);">
-                                    {{'generics.Read less' | translate }}
-                                  </a>
-                                  <!-- Classic tabs -->
-
-                                </div>
-                                <!-- Card -->
-                            </div>
+                          <div class="card-block text-center mt-2">
+                              <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption3' | translate }}</span>
                           </div>
-                        </div>
-                      </ng-template>
-                    </ngb-tab>
-                    <ngb-tab title="Pegar o escribir un texto">
-                      <ng-template ngbTabContent>
-                        <div class="row col-md-12">
-                          <div class="row">
-                            <div class="col-md-12">
-                              <span class="font-medium-2">{{'phenotype.HPO phenotype extractor placeholder' | translate }}</span>
-                              <p>
-                                <small class="text-muted">{{'diagnosis.MsgExtractorField' | translate }} </small>
-                              </p>
-                            </div>
+                      </div>
+                      <div class="card-footer bt-n">
+                <button type="button" class="btn btn-outline-primary btn-lg btn-block btn-round" (click)="addSymptomsManual(contentAddSymptomsManual)">{{'patdiagdashboard.buttonoption3' | translate }}​​</button>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-4 col-md-12">
+                  <div class="card">
+                      <div class="card-header text-center pb-0 height-75">
+                          <span class="font-medium-2 primary">{{'generics.Option' | translate }}
+                            <span>3</span>
+                            : {{'patdiagdashboard.titleoption4' | translate }}
+                          </span>
+                      </div>
+                      <div class="card-body height-200">
+                          <div id="donut-chart1" class="center-elements">
+                            <i class="fas fa-align-left fa-4x primary"></i>
                           </div>
-                          <button id="openModalSymptomsNcrButton" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr)">.</button>
-                          <form class="form w-100" (ngSubmit)="c('Close click');onSubmitToExtractor(contentExtractorSteps);" #f="ngForm">
-                            <div class="form-body">
-                              <div class="row">
-                                <div [ngClass]="(loadingHpoExtractor==true)?'d-none':'col-md-12'">
-                                  <div class="form-group">
-                                    <textarea class="form-control" style="width:100%;max-height: 30vh;height:30vh;" [(ngModel)]="medicalText" name="medicalText" placeholder="{{'phenotype.HPO phenotype extractor placeholder' | translate }}"></textarea>
-                                    <a *ngIf="medicalText.trim().length > 0" class="btn btn-outline-danger mb-0 mt-1" (click)="deleteText()" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
-                                    <span *ngIf="parserObject.file" class="pull-right">{{'parser.msgOcrInline' | translate }}: <a (click)="parserObject.parserStrategy='OcrInline'; callParser()" href="javascript:void(0)">{{'parser.Advanced extraction' | translate }}</a></span>
-                                  </div>
-                                </div>
-                                <div class="col-md-12 center-elements">
-                                  <button *ngIf="!loadingHpoExtractor" type="button" type="submit" [disabled]="medicalText.trim().length <= 5" class="mt-2 font-large-1 btn btn-primary btn-raised">{{'patnodiagdashboard.step2-0.btn2' | translate }}</button>
-                                </div>
-                                <div class="row col-md-12 center-elements">
-                                    <p class="col-md-12 centerSpinner" *ngIf="loadingHpoExtractor"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
-                                </div>
-                              </div>
-                            </div>
-                          </form>
-                        </div>
-                      </ng-template>
-                    </ngb-tab>
-                  </ngb-tabset>
-                </div>
+                          <div class="card-block text-center mt-2">
+                              <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption4.1' | translate }} <span *ngIf="isMobileOrTablet">{{'patdiagdashboard.msgoption4.2' | translate }}</span></span>
+                          </div>
+                      </div>
+                      <div class="card-footer bt-n">
+                        <button type="button" class="btn btn-outline-primary btn-lg btn-block btn-round" (click)="showPanelAddTextSymptoms(contentAddTextSymptoms)">{{'patdiagdashboard.buttonoption4' | translate }}​​​​</button>
+                      </div>
+                  </div>
+              </div>
               </div>
             </div>
           </div>
-          <div class="col-md-6 col-lg-6">
-            <div class="card">
-              <div class="card-header">
-                <h4 class="card-title">
-                  {{'phenotype.My symptoms' | translate }}
-                  <span class="nav-item" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
-                      <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
-                          <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
-                          <p class="d-none">Group</p>
-                      </a>
-                      <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
-                          <a class="dropdown-item py-1" href="javascript:;" (click)="changeSuggestedViewSymptoms(1)">
-                              <span *ngIf="viewSymptoms==1"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">Sin agrupar</span></span>
-                              <span *ngIf="viewSymptoms==0" class="offset-md-1 col-md-8">Sin agrupar</span>
-                          </a>
-                          <a class="dropdown-item py-1" href="javascript:;" (click)="changeSuggestedViewSymptoms(0)">
-                              <span *ngIf="viewSymptoms==0"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">Por grupos</span></span>
-                              <span *ngIf="viewSymptoms==1" class="offset-md-1 col-md-8">Por grupos</span>
-                          </a>
-                      </div>
-                  </span>
-                </h4>
-              </div>
-              <div class="card-content" *ngIf="phenotype.data.length > 0">
-                <div class="card-body">
-                  <section *ngIf="viewSymptoms ==0" class="col-md-12 mb-4">
-                    <div class="row" *ngFor="let group of listOfSymptomGroups ; let j = index">
-                      <h4 [ngClass]="(j > '0' )?'mt-2':''"><span class="text-bold-400">{{group.nameGroup}}</span></h4>
-                      <ul *ngFor="let hpo of group.symptoms ; let i = index" class="col-lg-12 mb-1">
-                        <li class="row symptoms-item" style="margin-top: 1rem;">
-                          <!-- Title -->
-                          <span style="font-size:1rem;flex-grow: 1;" class="text-muted">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
-                          <div class="btn-group">
-                            <a class="btn btn-outline-info primary" data-original-title="" title="" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
-                              <i class="fa fa-info"></i>
-                            </a>
-                            <a class="btn btn-outline-danger danger" data-original-title="" title="" (click)="confirmDeletePhenotypeGroup(j,i)">
-                              <i class="fa fa-trash"></i>
-                            </a>
+          <div class="row mt-2" *ngIf="phenotype.data.length > 0 && numDeprecated!=phenotype.data.length">
+            <div class="col-md-6 col-lg-6">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Añadir síntomas</h4>
+                </div>
+                <div class="card-content">
+                  <div class="card-body">
+                    <ngb-tabset [justify]="start">
+                      <ngb-tab title="Recomendada">
+                        <ng-template ngbTabContent>
+                          <p><label class="btn btn-outline-primary" style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
+                              <i class="fa fa-search" aria-hidden="true"></i> Buscar en un documento <input type="file" (change)="onFileChangePDF($event, contentExtractorSteps)" style="display: none;">
+                          </label></p>
+                        </ng-template>
+                      </ngb-tab>
+                      <ngb-tab>
+                        <ng-template ngbTabTitle>Añadir manualmente</ng-template>
+                        <ng-template ngbTabContent>
+                          <div class="">
+                            <div class="form-group" style="flex: 1 1 auto;">
+                              <input type="text" id="modelTemp" class="form-control"  name="modelTemp" [(ngModel)]="modelTemp" (keyup)="onKeySymptoms($event)" placeholder="{{'patnodiagdashboard.step2-4.msg2' | translate }}">
+                            </div>
+
+                            <div *ngIf="listOfFilteredSymptoms.length > 0" class="row">
+                              <div class="col-lg-12 col-md-12" *ngFor="let hpo of listOfFilteredSymptoms ; let i = index">
+                                <!-- Card -->
+                                  <div class="card chart-card pb-2" style="background-color: #f2f2f2;">
+
+                                    <!-- Card content -->
+                                    <div class="p-2 row" [ngClass]="(i!= selectedInfoSymptomIndex)?'row':'row'">
+                                      <div class="col-11">
+                                        <!-- Title -->
+                                        <!--<h4 *ngIf="i!= selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{ (hpo.name.length>40)? (hpo.name | slice:0:40)+'...':(hpo.name) }}</h4>-->
+                                        <h4 *ngIf="i!= selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{ (hpo.layperson.length>70)? (hpo.layperson | slice:0:70)+'...':(hpo.layperson) }}</h4>
+
+                                        <!--<h4 *ngIf="i== selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{hpo.name}}</h4>-->
+                                        <h4 *ngIf="i== selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{hpo.layperson}}</h4>
+
+                                        <p *ngIf="i!= selectedInfoSymptomIndex" class="mb-1">
+                                          <span *ngIf="hpo.desc!=''">
+                                            <span *ngIf="hpo.desc!='' && hpo.desc!=null">{{ (hpo.desc.length>140)? (hpo.desc | slice:0:140)+'...':(hpo.desc) }}</span>
+                                          </span>
+                                        </p>
+                                        <a *ngIf="i!= selectedInfoSymptomIndex" class="primary" style="cursor: pointer;" (click)="showMoreInfoSymptom(i);">
+                                          {{'generics.Read more' | translate }}
+                                        </a>
+                                        <p *ngIf="i== selectedInfoSymptomIndex">
+                                          <span *ngIf="hpo.desc!=''">
+                                            {{hpo.desc}}
+                                          </span>
+                                        </p>
+                                        <span *ngIf="i== selectedInfoSymptomIndex">
+                                          <h6 class="mt-2"><strong>{{'generics.External Links' | translate }}</strong></h6>
+                                          <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}}. {{hpo.comment}}">MONDO ({{hpo.id}})</a>
+                                        </span>
+                                      </div>
+                                      <div class="col-1">
+                                        <button (click)="selected2(i)" class="btn-success-over float-right btn btn-secondary mb-0 btn-fab" href="javascript:void(0)" title="Añadir síntoma">
+                                          <i class="fa fa-check"></i>
+                                        </button>
+                                      </div>
+
+                                    </div>
+                                    <div *ngIf="i== selectedInfoSymptomIndex && hpo.synonyms.length>0" class="p-2">
+                                      <h6>{{'generics.Synonyms' | translate }}</h6>
+                                      <p *ngFor="let synonym of hpo.synonyms ; let j = index">
+                                        <span>{{j+1}}. </span> <span >{{synonym}}</span>
+                                      </p>
+                                    </div>
+                                    <a *ngIf="i== selectedInfoSymptomIndex" class="ml-2 primary" style="cursor: pointer;" (click)="showMoreInfoSymptom(i);">
+                                      {{'generics.Read less' | translate }}
+                                    </a>
+                                    <!-- Classic tabs -->
+
+                                  </div>
+                                  <!-- Card -->
+                              </div>
+                            </div>
                           </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </section>
-                  <section class="row col-md-12 mb-4" *ngIf="viewSymptoms ==1">
-                    <ul class="col-lg-12 mb-1" *ngFor="let hpo of phenotype.data ; let i = index">
-                      <li class="row symptoms-item">
-                        <span style="font-size:1rem;flex-grow: 1;" class="text-muted">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
-                        <a class="btn btn-outline-info round primary mr-1" data-original-title="" title="" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
-                          <i class="fa fa-info"></i>
-                        </a>
-                        <a class="btn btn-outline-danger round danger ml-1 mr-1" data-original-title="" title="" (click)="confirmDeletePhenotype(i)">
-                          <i class="fa fa-trash"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </section>
+                        </ng-template>
+                      </ngb-tab>
+                      <ngb-tab title="Pegar o escribir un texto">
+                        <ng-template ngbTabContent>
+                          <div class="row col-md-12">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <span class="font-medium-2">{{'phenotype.HPO phenotype extractor placeholder' | translate }}</span>
+                                <p>
+                                  <small class="text-muted">{{'diagnosis.MsgExtractorField' | translate }} </small>
+                                </p>
+                              </div>
+                            </div>
+                            <button id="openModalSymptomsNcrButton" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr)">.</button>
+                            <form class="form w-100" (ngSubmit)="c('Close click');onSubmitToExtractor(contentExtractorSteps);" #f="ngForm">
+                              <div class="form-body">
+                                <div class="row">
+                                  <div [ngClass]="(loadingHpoExtractor==true)?'d-none':'col-md-12'">
+                                    <div class="form-group">
+                                      <textarea class="form-control" style="width:100%;max-height: 30vh;height:30vh;" [(ngModel)]="medicalText" name="medicalText" placeholder="{{'phenotype.HPO phenotype extractor placeholder' | translate }}"></textarea>
+                                      <a *ngIf="medicalText.trim().length > 0" class="btn btn-outline-danger mb-0 mt-1" (click)="deleteText()" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
+                                      <span *ngIf="parserObject.file" class="pull-right">{{'parser.msgOcrInline' | translate }}: <a (click)="parserObject.parserStrategy='OcrInline'; callParser()" href="javascript:void(0)">{{'parser.Advanced extraction' | translate }}</a></span>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-12 center-elements">
+                                    <button *ngIf="!loadingHpoExtractor" type="button" type="submit" [disabled]="medicalText.trim().length <= 5" class="mt-2 font-large-1 btn btn-primary btn-raised">{{'patnodiagdashboard.step2-0.btn2' | translate }}</button>
+                                  </div>
+                                  <div class="row col-md-12 center-elements">
+                                      <p class="col-md-12 centerSpinner" *ngIf="loadingHpoExtractor"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
+                                  </div>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </ng-template>
+                      </ngb-tab>
+                    </ngb-tabset>
+                  </div>
                 </div>
               </div>
-              <div class="card-content" *ngIf="phenotype.data.length == 0">
-                <div class="card-body">
-                  <p>No hay síntomas guardados</p>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">
+                    {{'phenotype.My symptoms' | translate }}
+                    <span class="nav-item" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
+                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
+                            <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
+                            <p class="d-none">Group</p>
+                        </a>
+                        <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="changeSuggestedViewSymptoms(1)">
+                                <span *ngIf="viewSymptoms==1"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">Sin agrupar</span></span>
+                                <span *ngIf="viewSymptoms==0" class="offset-md-1 col-md-8">Sin agrupar</span>
+                            </a>
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="changeSuggestedViewSymptoms(0)">
+                                <span *ngIf="viewSymptoms==0"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">Por grupos</span></span>
+                                <span *ngIf="viewSymptoms==1" class="offset-md-1 col-md-8">Por grupos</span>
+                            </a>
+                        </div>
+                    </span>
+                  </h4>
+                </div>
+                <div class="card-content" *ngIf="phenotype.data.length > 0">
+                  <div class="card-body">
+                    <section *ngIf="viewSymptoms ==0" class="col-md-12 mb-4">
+                      <div class="row" *ngFor="let group of listOfSymptomGroups ; let j = index">
+                        <h4 [ngClass]="(j > '0' )?'mt-2':''"><span class="text-bold-400">{{group.nameGroup}}</span></h4>
+                        <ul *ngFor="let hpo of group.symptoms ; let i = index" class="col-lg-12 mb-1">
+                          <li class="row symptoms-item" style="margin-top: 1rem;">
+                            <!-- Title -->
+                            <span style="font-size:1rem;flex-grow: 1;" class="text-muted">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
+                            <div class="btn-group">
+                              <a class="btn btn-outline-info primary" data-original-title="" title="" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
+                                <i class="fa fa-info"></i>
+                              </a>
+                              <a class="btn btn-outline-danger danger" data-original-title="" title="" (click)="confirmDeletePhenotypeGroup(j,i)">
+                                <i class="fa fa-trash"></i>
+                              </a>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </section>
+                    <section class="row col-md-12 mb-4" *ngIf="viewSymptoms ==1">
+                      <ul class="col-lg-12 mb-1" *ngFor="let hpo of phenotype.data ; let i = index">
+                        <li class="row symptoms-item">
+                          <span style="font-size:1rem;flex-grow: 1;" class="text-muted">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
+                          <a class="btn btn-outline-info round primary mr-1" data-original-title="" title="" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
+                            <i class="fa fa-info"></i>
+                          </a>
+                          <a class="btn btn-outline-danger round danger ml-1 mr-1" data-original-title="" title="" (click)="confirmDeletePhenotype(i)">
+                            <i class="fa fa-trash"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </section>
+                  </div>
+                </div>
+                <div class="card-content" *ngIf="phenotype.data.length == 0">
+                  <div class="card-body">
+                    <p>No hay síntomas guardados</p>
+                  </div>
                 </div>
               </div>
             </div>
