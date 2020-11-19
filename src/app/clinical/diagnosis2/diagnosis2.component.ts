@@ -260,6 +260,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     viewSymptoms: number = 0;
     selectedPatient: any = {};
     age: any = {};
+    symptomsExomiser: any = [];
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -522,6 +523,19 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }else{
           this.goToStep('5.0', true)
         }
+      }else if(this.actualStep == '3.0'){
+        var haveSymptoms = false;
+        for(var i=0;i<this.symptomsExomiser.length;i++){
+          if(this.symptomsExomiser[i].checked){
+            haveSymptoms = true;
+            break;
+          }
+        }
+        if(!haveSymptoms){
+            Swal.fire({ title: this.translate.instant("diagnosis.titleNotCanLaunchExomiser"), html: this.translate.instant("diagnosis.msgNotCanLaunchExomiser"),icon:"info" })
+        }else{
+          this.goToStep('3.1', true)
+        }
       }else if(this.actualStep == '2.0'){
         if(this.filesVcf.length>0){
           this.goToStep('3.0', true);
@@ -567,7 +581,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     goToStepDiagnoses(){
       if(this.filesVcf.length>0){
-        this.goToStep('3.1', true);
+        this.goToStep('3.0', true);
       }else{
         this.goToStep('3.2', true);
       }
@@ -580,6 +594,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.lauchPhen2Genes();
       }else if(this.actualStep == '3.1'){
         this.callExomizerSameVcf();
+      }else if(this.actualStep == '3.0'){
+        this.symptomsExomiser = this.phenotype.data;
       }
       window.scrollTo(0, 0)
       if(save){
@@ -2806,15 +2822,22 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     callExomizerSameVcf(){
+      this.gettingRelatedConditions = true;
       // Check if there are any symptoms
       // If not: swal and not launch exomiser
-      if(this.phenotype.data.length==0){
+      var tempSymptomsExo = [];
+      for(var i=0;i<this.symptomsExomiser.length;i++){
+        if(this.symptomsExomiser[i].checked){
+          tempSymptomsExo.push(this.symptomsExomiser[i]);
+        }
+      }
+      if(tempSymptomsExo.length==0){
         Swal.fire({ title: this.translate.instant("diagnosis.titleNotCanLaunchExomiser"), html: this.translate.instant("diagnosis.msgNotCanLaunchExomiser"),icon:"info" })
       }
       // If yes: launch exomiser
       else{
         this.uploadingGenotype = true;
-        this.getExomiserSettings();
+        this.getExomiserSettings(tempSymptomsExo);
         if(this.settingExomizer.VariantEffectFilters!=undefined){
           if(this.settingExomizer.VariantEffectFilters.remove!=undefined){
             if(this.settingExomizer.VariantEffectFilters.remove.length==0){
@@ -2947,28 +2970,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.symptomsLoaded = [];
       this.getSymptomsOfDisease();
       document.getElementById("openModalButton").click();
-    }
-
-    selectOldVcf(contentSelectVcf){
-      if(this.filesVcf){
-        if(this.filesVcf.length>1){
-          let ngbModalOptions: NgbModalOptions = {
-            windowClass: 'ModalClass-lg'
-          };
-          this.modalReference = this.modalService.open(contentSelectVcf, ngbModalOptions);
-        }else{
-          this.launchExomizerOldVcf();
-        }
-      }else{
-        this.launchExomizerOldVcf();
-      }
-    }
-
-    launchExomizerOldVcf(){
-      this.relatedConditions = [];
-      this.infoGenesAndConditionsExomizer = [];
-      this.saveNotes();
-      this.callExomizerSameVcf();
     }
 
     cancelExomiser(place){
@@ -3767,11 +3768,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     }
 
-    getExomiserSettings(){
+    getExomiserSettings(tempSymptomsExo){
 
       var listSymptoms = [];
-      for(var i = 0; i < this.phenotype.data.length; i++) {
-        listSymptoms.push(this.phenotype.data[i].id);
+      for(var i = 0; i < tempSymptomsExo.length; i++) {
+        listSymptoms.push(tempSymptomsExo[i].id);
       }
 
       this.settingExomizer.VcfBlobName = this.filename;
@@ -3783,7 +3784,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     changeSettingsExomiser(contentSettingsExomiser){
-      this.getExomiserSettings();
+      this.getExomiserSettings(this.phenotype.data);
 
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
@@ -4790,7 +4791,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       console.log("Discard settings exomiser")
 
       this.getDiagnosisInfo();
-      this.getExomiserSettings();
+      this.getExomiserSettings(this.phenotype.data);
       this.blob.loadFilesOnBlobExomizer(this.accessToken.containerName,null);
       //this.settingExomizer=this.settingExomizerCopy;
       //this.settingExomizer = this.diagnosisInfo.settingExomizer;
@@ -5318,6 +5319,19 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         $('.chat-app-sidebar-toggle').removeClass('ft-x').addClass('ft-align-justify');
         $('.chat-sidebar').removeClass('d-block d-sm-block').addClass('d-none d-sm-none');
       }
+    }
+
+    funShowOptionsSymptoms(contentOptionsSymptoms){
+      let ngbModalOptions: NgbModalOptions = {
+            backdrop : 'static',
+            keyboard : false,
+            windowClass: 'ModalClass-xl'
+      };
+      this.modalReference = this.modalService.open(contentOptionsSymptoms, ngbModalOptions);
+    }
+
+    changeExomiserStateSymptom(index){
+      this.symptomsExomiser[index].checked = !this.symptomsExomiser[index].checked;
     }
 
 }
