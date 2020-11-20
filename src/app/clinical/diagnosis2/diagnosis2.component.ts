@@ -407,6 +407,14 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     ngOnInit() {
+      $("#wizardpanel").scroll(function() {
+         if($("#wizardpanel").scrollTop() > 80){
+          $("#nav-buttons-wizard").css("box-shadow","0 0 6px -6px rgba(0, 0, 0, 0.01), 0 12px 15px 6px rgba(0, 0, 0, 0.06)");
+        }else if($("#wizardpanel").scrollTop() <= 80){
+          $("#nav-buttons-wizard").css("box-shadow","none");
+         }
+       });
+
       console.log("ng on init")
       this.exomiserHttpService.cancelPendingRequests();
       this.lang = this.authService.getLang();

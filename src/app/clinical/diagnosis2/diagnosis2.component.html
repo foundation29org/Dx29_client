@@ -86,7 +86,7 @@
     </table>
   </div>
 
-  <div class="nav-buttons-wizard border-light border-top border-bottom" *ngIf="maxStep<'5.0'">
+  <div id="nav-buttons-wizard" class="nav-buttons-wizard border-light border-top border-bottom" *ngIf="maxStep<'5.0'">
     <!--<button type="button" class="mt-2 ml-3 float-left btn" [ngClass]="(actualStep > '0.0' )?'primary btn-outline-primary':'text-muted inactiveLink btn-outline-secondary'" (click)="goPrevStep()"><span style="margin-right: 10px;"><i class="ft-chevron-left"></i></span> Previous</button>-->
     <div class="mt-3"  style="display: inline-flex;">
       <span *ngIf="maxStep<'5.0'" (click)="toggleMenu()" class="mb-2 chat-app-sidebar-toggle ft-align-justify font-large-1 mr-2 d-block d-sm-none d-md-none"></span>
@@ -140,7 +140,7 @@
   <!--{{selectedPatient|json}}
   <a class="primary pull-right mr-1" data-original-title="" title="" (click)="goToVersion('diagnosis')">Old Version</a>
   -->
-  <div [ngClass]="((maxStep < '5.0') ||  (maxStep=='5.0' && (actualStep == '3.1' || actualStep == '3.2')))?'content-wizard':'pb-3'">
+  <div id="wizardpanel" [ngClass]="((maxStep < '5.0') ||  (maxStep=='5.0' && (actualStep == '3.1' || actualStep == '3.2')))?'content-wizard':'pb-3'">
     <div *ngIf="showingWizard">
       <div id="loading-layout-wizard" *ngIf="!loadedSymptoms">
         <div class="center-elements">
@@ -170,7 +170,7 @@
               <div class="row text-left">
       			    <div class="col-md-12 mt-1">
 
-      			      <div class="card-columns">
+      			      <div class="card-columns center-elements">
                     <div class="card-body">
                       <i class="fas fa-notes-medical fa-4x primary circle-icon"></i>
                       <span class="d-block font-medium-3 d-inline mt-2">{{'patnodiagdashboard.menu.Step' | translate }} 1 </span>
@@ -382,48 +382,44 @@
         </div>
         <section>
           <div class="offset-md-2 col-md-8">
-            <div class="mt-2">
-              <label *ngIf="!preparingFile" class="btn btn-outline-primary mb-0" style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
-                  {{'patnodiagdashboard.step3-2.msg7' | translate }} <input type="file" (change)="onFileChangeVCF($event, contentPreparingFile)" style="display: none;">
-              </label>
-              <span *ngIf="preparingFile">
-                <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
-                <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
-              </span>
-              <span *ngIf="uploadingGenotype" class="ml-1">{{'generics.Upload Progress' | translate }}: {{uploadProgress | async}}%</span>
-            </div>
-            <div *ngIf="filesVcf.length>0">
-              <div class="card">
-                  <div class="card-body">
-                    <div class="mb-2" id="Widget-line-chart">
-                        <div class="content-wrapper">
-                          <div class="row col-md-12">
-                            <div class="w-100">
-                              <table class="table">
-                                <thead>
-                                  <tr>
-                                    <th>{{'dashboardpatient.Files uploaded' | translate }}</th>
-                                    <th></th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr *ngFor="let onefile of filesVcf; let i = index">
-                                    <td style="word-wrap: anywhere;">
-                                      {{onefile.nameForShow}}
-                                    </td>
-                                    <td>
-                                      <a class="danger" (click)="deleteVcfFile(onefile.name,i);" href="javascript:void(0)"><i class="ft-x"></i></a>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                      </div>
-                    </div>
+              <div class="card pb-2">
+                <div class="card-header">
+                  <h4 class="card-title d-inline">
+                    {{'dashboardpatient.Files uploaded' | translate }}
+                  </h4>
+                  <div class="float-right">
+                    <label *ngIf="!preparingFile" class="btn btn-outline-primary mb-0" style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
+                        {{'patnodiagdashboard.step3-2.msg7' | translate }} <input type="file" (change)="onFileChangeVCF($event, contentPreparingFile)" style="display: none;">
+                    </label>
+                    <span *ngIf="preparingFile">
+                      <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
+                      <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+                    </span>
+                    <span *ngIf="uploadingGenotype" class="ml-1">{{'generics.Upload Progress' | translate }}: {{uploadProgress | async}}%</span>
                   </div>
+                </div>
+                <div class="card-content">
+                  <div class="card-body">
+                    <section>
+                      <div *ngIf="filesVcf.length>0">
+                          <p *ngFor="let onefile of filesVcf; let i = index">
+                            <span style="word-wrap: anywhere;" class="text-muted">
+                              {{onefile.nameForShow}}
+                            </span>
+                            <span class="ml-2">
+                              <a class="danger" (click)="deleteVcfFile(onefile.name,i);" href="javascript:void(0)"><i class="ft-x"></i></a>
+                            </span>
+                          </p>
+                      </div>
+                      <div *ngIf="filesVcf.length==0">
+                        <p class="text-muted">No ha subido ficheros</p>
+                      </div>
+                    </section>
+
+                  </div>
+                </div>
               </div>
-            </div>
+
           </div>
 
         </section>
@@ -507,16 +503,16 @@
       <!-- End Step 3.0 -->
       <!-- Step 3.1 -->
       <div *ngIf="actualStep=='3.1'" class="offset-md-2 col-md-8">
-        <section class="mt-2">
+        <section class="mt-2 card p-2">
           <div class="center-elements">
             <div class="donate" *ngIf="loadingGeno || calculatingH29Score || gettingRelatedConditions || uploadingGenotype">
-                <p>Nuestros robots están analizando tus síntomas y tu información genetica, en breves te mostrarán los resultados de posibles enfermedades</p>
+                <p class="text-muted">Nuestros robots están analizando tus síntomas y tu información genetica, en breves te mostrarán los resultados de posibles enfermedades</p>
                 <div class="col-md-12 center-elements">
                   <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
                 </div>
             </div>
             <div class="donate" *ngIf="!loadingGeno && !calculatingH29Score && !gettingRelatedConditions && !uploadingGenotype">
-                <p>El proceso ha terminado, pulsa en finalizar de la parte inferior derecha</p>
+                <p class="text-muted">El proceso ha terminado, pulsa en finalizar de la parte inferior derecha</p>
             </div>
       		</div>
         </section>
@@ -524,16 +520,16 @@
       <!-- End Step 3.1 -->
       <!-- Step 3.2 -->
       <div *ngIf="actualStep=='3.2'" class="offset-md-2 col-md-8">
-        <section class="mt-2">
+        <section class="mt-2 card p-2">
           <div class="center-elements">
             <div class="donate" *ngIf="launchingPhen2Genes || calculatingH29Score || gettingRelatedConditions">
-                <p>Nuestros robots están analizando tus síntomas, en breves te mostrarán los resultados de posibles enfermedades</p>
+                <p class="text-muted">Nuestros robots están analizando tus síntomas, en breves te mostrarán los resultados de posibles enfermedades</p>
                 <div class="col-md-12 center-elements">
                   <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
                 </div>
             </div>
             <div class="donate" *ngIf="!launchingPhen2Genes && !calculatingH29Score && !gettingRelatedConditions">
-                <p>El proceso ha terminado, pulsa en finalizar de la parte inferior derecha</p>
+                <p class="text-muted">El proceso ha terminado, pulsa en finalizar de la parte inferior derecha</p>
             </div>
       		</div>
         </section>
@@ -576,12 +572,12 @@
       <!-- End Step 3.3 -->
       <!-- Step 5.0 -->
       <div *ngIf="actualStep=='5.0'">
-        <div class="col-sm-12" >
+        <div class="offset-md-2 col-md-8" >
           <div class="content-header">
-            <!--<span *ngIf="actualStep == '0.0'">Introducción</span>-->
-            <span *ngIf="actualStep == '5.0'">Diagnoses</span>
+            <span>Diagnoses</span>
           </div>
           <p class="content-sub-header">
+            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
           </p>
         </div>
         <div class="mt-2 offset-md-2 col-md-8" *ngIf="programs.length>0">
@@ -596,108 +592,121 @@
             </div>
           </ngb-alert>
         </div>
-        <section>
+        <section class="offset-md-2 col-md-8">
           <div class="mt-2 row">
-            <div class="offset-md-1 col-md-5">
-              <h4 class="text-bold-400 form-section">
-                <b>Resultados</b>
-                <span class="nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right" title="Options">
-                    <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
-                        <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
-                    </a>
-                    <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
-                        <a class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.3')">
-                            <span>Ver la lista completa</span>
+            <div class="col-lg-8">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">
+                    <b>Resultados</b>
+                    <span class="nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right" title="Options">
+                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
+                            <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
                         </a>
-                        <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelGenes(contentPanelGenes)">
-                          <i class="fas fa-dna primary"></i>  <span class="ml-2" >Ver información de los genes</span>
-                        </a>
-                        <a class="dropdown-item py-1" href="javascript:;" (click)="editDiagnosis(1)">
-                            <span>Navegar por las enfermedades</span>
-                        </a>
-                        <a *ngIf="filesVcf.length>0" class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.0')">
-                            <span>Reanalizar</span>
-                        </a>
-                        <a *ngIf="filesVcf.length==0" class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.2')">
-                            <span>Reanalizar</span>
-                        </a>
-                    </div>
-                </span>
-                <button type="button" class="btn btn-outline-primary float-right btn-sm" (click)="goToStepDiagnoses();">Recalcular</button>
-              </h4>
-              <div class="" style="background:rgba(155, 155, 155, 0.09);">
-                <div class="row" *ngFor="let disease of topRelatedConditions; let i = index" style="height:6em;">
-                  <div class="col-10 row mt-2">
-                    <span class="pl-4"> {{disease.name.label}}</span>
-                  </div>
-                  <div class="col-2 mt-3">
-                    <span class="text-muted">{{disease.h29}}%</span>
-                    <a class="float-right ml-1" style="color:#009DA0;" (click)="onActivate2(disease, contentSeeSymptomsOfDisease);" href="javascript:void(0)"><i class="fas fa-chevron-right" title="{{'generics.More information' | translate }}"></i></a>
+                        <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.3')">
+                                <span>Ver la lista completa</span>
+                            </a>
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelGenes(contentPanelGenes)">
+                              <i class="fas fa-dna primary"></i>  <span class="ml-2" >Ver información de los genes</span>
+                            </a>
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="editDiagnosis(1)">
+                                <span>Navegar por las enfermedades</span>
+                            </a>
+                            <a *ngIf="filesVcf.length>0" class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.0')">
+                                <span>Reanalizar</span>
+                            </a>
+                            <a *ngIf="filesVcf.length==0" class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.2')">
+                                <span>Reanalizar</span>
+                            </a>
+                        </div>
+                    </span>
+                    <button type="button" class="btn btn-outline-primary float-right btn-sm" (click)="goToStepDiagnoses();">Recalcular</button>
+                  </h4>
+                </div>
+                <div class="card-content" *ngIf="phenotype.data.length > 0">
+                  <div class="card-body">
+                    <div class="">
+                      <div class="row pb-3" *ngFor="let disease of topRelatedConditions; let i = index" >
+                        <div class="col-10 row mt-3">
+                          <span class="pl-3"> {{disease.name.label}}</span>
+                        </div>
+                        <div class="col-2 mt-3">
+                          <span class="text-muted">{{disease.h29}}%</span>
+                          <a class="float-right ml-1" style="color:#009DA0;" (click)="onActivate2(disease, contentSeeSymptomsOfDisease);" href="javascript:void(0)"><i class="fas fa-chevron-right" title="{{'generics.More information' | translate }}"></i></a>
 
-                  </div>
-                  <div class="col-11">
-                    <ngb-progressbar type="primary" value="{{disease.h29}}" [striped]="false" [animated]="true" [max]="100"></ngb-progressbar>
+                        </div>
+                        <div class="col-11">
+                          <ngb-progressbar type="primary" value="{{disease.h29}}" [striped]="false" [animated]="true" [max]="100"></ngb-progressbar>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="relatedConditions.length>10" class="center-elements">
+                      <a href="javascript:;" class="primary" (click)="goToStep('3.3')">
+                          <span>{{'generics.Read more' | translate }}</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div *ngIf="relatedConditions.length>10" class="center-elements">
-                <a href="javascript:;" class="primary" (click)="goToStep('3.3')">
-                    <span>{{'generics.Read more' | translate }}</span>
-                </a>
+
               </div>
             </div>
-            <div class="col-md-5">
-              <div class="">
-                <h4 class="text-bold-400 form-section">
-                  <b>Notes</b>
-                </h4>
-                <div class="row col-md-12">
-                  <div class="mb-4">
-                    <form class="form" #fWeight="ngForm">
-                      <div class="form-body">
-                        <div class="row">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label for="hasDiagnosis">{{'diagnosis.Has Diagnosis' | translate }}</label>
-                              <p>
-                                <ui-switch id="hasDiagnosis" name="hasDiagnosis" [(ngModel)]="diagnosisInfo.hasDiagnosis"></ui-switch>
-                              </p>
+            <div class="col-lg-4">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">
+                    Notes
+                  </h4>
+                </div>
+                <div class="card-content" *ngIf="phenotype.data.length > 0">
+                  <div class="card-body">
+                    <div class="mb-4">
+                      <form class="form" #fWeight="ngForm">
+                        <div class="form-body">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                <label for="hasDiagnosis">{{'diagnosis.Has Diagnosis' | translate }}</label>
+                                <p>
+                                  <ui-switch id="hasDiagnosis" name="hasDiagnosis" [(ngModel)]="diagnosisInfo.hasDiagnosis"></ui-switch>
+                                </p>
+                              </div>
                             </div>
-                          </div>
-                          <div class="col-md-12" *ngIf="diagnosisInfo.hasDiagnosis">
-                            <div class="form-group">
-                              <label for="previousDiagnosis">{{'diagnosis.Previous Diagnosis' | translate }}</label>
-                              <input type="text" id="previousDiagnosis" class="form-control"  name="previousDiagnosis" [(ngModel)]="diagnosisInfo.previousDiagnosis">
+                            <div class="col-md-12" *ngIf="diagnosisInfo.hasDiagnosis">
+                              <div class="form-group">
+                                <label for="previousDiagnosis">{{'diagnosis.Previous Diagnosis' | translate }}</label>
+                                <input type="text" id="previousDiagnosis" class="form-control"  name="previousDiagnosis" [(ngModel)]="diagnosisInfo.previousDiagnosis">
+                              </div>
                             </div>
-                          </div>
-                          <div class="col-md-12" *ngIf="diagnosisInfo.hasDiagnosis">
-                            <div class="form-group">
-                              <label for="identifiedGene">{{'diagnosis.Identified Gene' | translate }}</label>
-                              <input type="text" id="identifiedGene" class="form-control"  name="identifiedGene" [(ngModel)]="diagnosisInfo.identifiedGene">
+                            <div class="col-md-12" *ngIf="diagnosisInfo.hasDiagnosis">
+                              <div class="form-group">
+                                <label for="identifiedGene">{{'diagnosis.Identified Gene' | translate }}</label>
+                                <input type="text" id="identifiedGene" class="form-control"  name="identifiedGene" [(ngModel)]="diagnosisInfo.identifiedGene">
+                              </div>
                             </div>
-                          </div>
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label for="evaluation">{{'diagnosis.Evaluation' | translate }}</label>
-                              <select id="evaluation" name="evaluation" class="form-control"  [(ngModel)]="diagnosisInfo.evaluation">
-                                <option value="The condition appears among the first 5 suggested results">{{'diagnosis.The condition appears among the first 5 suggested results' | translate }}</option>
-                                <option value="The condition appears in the list of suggested results">{{'diagnosis.The condition appears in the list of suggested results' | translate }}</option>
-                                <option value="The condition does not appear in the list of suggested results">{{'diagnosis.The condition does not appear in the list of suggested results' | translate }}</option>
-                              </select>
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                <label for="evaluation">{{'diagnosis.Evaluation' | translate }}</label>
+                                <select id="evaluation" name="evaluation" class="form-control"  [(ngModel)]="diagnosisInfo.evaluation">
+                                  <option value="The condition appears among the first 5 suggested results">{{'diagnosis.The condition appears among the first 5 suggested results' | translate }}</option>
+                                  <option value="The condition appears in the list of suggested results">{{'diagnosis.The condition appears in the list of suggested results' | translate }}</option>
+                                  <option value="The condition does not appear in the list of suggested results">{{'diagnosis.The condition does not appear in the list of suggested results' | translate }}</option>
+                                </select>
+                              </div>
                             </div>
-                          </div>
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label for="notes">{{'generics.notes' | translate }}</label>
-                              <textarea name="notes" class="form-control" style="width:100%;height:30vh;max-height: 30vh;" [(ngModel)]="diagnosisInfo.notes" name="notes"></textarea>
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                <label for="notes">{{'generics.notes' | translate }}</label>
+                                <textarea name="notes" class="form-control" style="width:100%;height:30vh;max-height: 30vh;" [(ngModel)]="diagnosisInfo.notes" name="notes"></textarea>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <button type="button" class="btn btn-outline-primary" (click)="saveNotes()">{{'diagnosis.Save notes' | translate }}</button>
-                    </form>
+                        <button type="button" class="btn btn-outline-primary" (click)="saveNotes()">{{'diagnosis.Save notes' | translate }}</button>
+                      </form>
 
 
+                    </div>
                   </div>
                 </div>
             </div>
