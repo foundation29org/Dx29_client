@@ -26,6 +26,14 @@ import { TextTransform } from 'app/shared/services/transform-text.service';
 //para la parte de genes
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { NgxHotjarService } from 'ngx-hotjar';
+import * as d3 from 'd3';
+import {symbol, symbolTriangle} from "d3-shape";
+import * as venn from 'venn.js'
+
+import * as faker from 'faker';
+import { fromEvent } from 'rxjs';
+import { brush } from 'd3';
+import { FlexibleConnectedPositionStrategy } from '@angular/cdk/overlay';
 import { BlobStorageService, IBlobAccessToken } from 'app/shared/services/blob-storage.service';
 import { BlobStoragePedService } from 'app/shared/services/blob-storage-ped.service';
 import { SearchFilterPipe} from 'app/shared/services/search-filter.service';
@@ -222,9 +230,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     actualProgram: any= [];
     dateGeneticProgram1:Date;
     myEmail: string = '';
-    listOfphenotypesinfo: any = [];
-    listOfphenotypesinfoOld: any = [];
-    listOfFilteredSymptoms: any = [];
     selectedSymptomIndex: number = -1;
     selectedInfoSymptomIndex: number = -1;
     numDeprecated: number = -1;
@@ -261,6 +266,137 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     selectedPatient: any = {};
     age: any = {};
     symptomsExomiser: any = [];
+    selectedDisease: number = -1;
+
+    //graph
+    fullListSymptoms: any = [];
+    exampleParent:String=this.translate.instant("patdiagdashboard.ExampleParent");
+    exampleSuccesorOfParent:String=this.translate.instant("patdiagdashboard.ExampleSuccesorOfParent");
+    omimSymptoms: any = [];
+    orphaSymptoms: any = [];
+    listGenericSymptoms: any=[];
+    loadingSymptomsDataForGraph: boolean = false;
+    @ViewChild('chartVenn') private chartContainerVenn: ElementRef;
+    @ViewChild('chartBars') private chartContainerBars: ElementRef;
+    @ViewChild('chartVennReal') private chartContainerVennReal: ElementRef;
+    @ViewChild('chartBarsReal') private chartContainerBarsReal: ElementRef;
+
+
+    @Input() private chartDataVenn: Array<any>=[];
+    @Input() private chartDataVennReal: Array<any>=[];
+
+    @Input() private chartDataBars: Array<any>=[];
+    @Input() private chartDataBarsReal: Array<any>=[];
+
+
+    @Input() private chartDataSymptomsFreq: Array<any>=[];
+    //chartSize_MeOmim: number = 0;
+    //chartSize_MeOrpha: number = 0;
+    //chartSize_OmimOrpha: number = 0;
+    //chartSize_All: number = 0;
+    chartSize_MeGeneric:number =0;
+    listSymptomsMe:any=[];
+    listSymptomsGeneric:any=[];
+    listSymptomsMeGeneric:any=[];
+    listSymptomsMe_real:any=[];
+    listSymptomsMeReal:any=[];
+    listSymptomsReal:any=[];
+    // Lista de paciente-sintomas
+    listSymtomsFreqResponse:any=[]
+    // Lista de paciente-sintomas SIN los padres (por cada paciente se "limpia" la lista de HP, eliminando los padres si los hay)
+    listSymtomsFreqResponseWithoutPredecessorsByPatient:any=[]
+    // lista de sintoma-pacientes
+    listSymtomsFreq:any=[];
+
+    // Lista de pacientes-sintomas de los casos simulados
+    listSymtomsFreqResponseSim:any=[]
+    // Lista de paciente Simulados-sintomas SIN los padres (por cada paciente se "limpia" la lista de HP, eliminando los padres si los hay)
+    listSymtomsFreqResponseSimWithoutPredecessorsByPatient:any=[]
+
+    // lista de sintoma-pacientes simulados
+    listSymtomsFreqSim:any=[];
+
+
+    // Lista que se usa en los graficos
+    listSymtomsFreqForGraph:any=[];
+    // Copia de la lista que se usa en los graficos con todos los datos de entrada (sin filtro ni query)
+    listSymtomsFreqForGraphOriginalCopy:any=[];
+
+    // Lista de sintomas filtrados (checked=true/false)
+    listSymtomsFreqForGraphFiltered:any=[];
+    // Lista de los sintomas filtrados NUEVOS antes de dar a guardar (por si se cancela resetear estos)
+    listSymtomsFreqForGraphFilteredLastAdded:any=[];
+    //booleano que indica si hay filtro o no
+    filterApply:boolean=false;
+
+    // Lista de sintomas queried (checked=true/false)
+    listSymtomsFreqForGraphQuery:any=[];
+    // Lista de los sintomas queried NUEVOS antes de dar a guardar (por si se cancela resetear estos)
+    listSymtomsFreqForGraphQueryLastAdded:any=[];
+    //booleano que indica si hay query o no
+    queryApply:boolean=false;
+
+    // booleano que indica cuando se puede mostrar el histograma(cuando los datos esten cargados)
+    loadingGraphSymptomFreq:boolean=false;
+    diagramSymptomsFreqMaxSize:number=0;
+    maxSizeFreqSymptoms:number=100;
+    mazSizeFreqSymtpomsReduceScreen:number=10;
+
+    // Booleano para indicar que se han eliminado datos del histograma por pacientes=0
+    patientDataNotShowHistogram:boolean=false;
+    // Los nombres de los sintomas que no se estan mostrando que tenia el paciente
+    listpatientDataNotShowHistogram:any=[];
+    listpatientDataNotShowHistogramString:string="";
+    // Un ejemplo de los sintomas que no salen porque son padres de otros
+    exampleSymptomPredeccessor="";
+
+
+    private margin: any = { top: 60, bottom: 0, left: 35, right: 20};
+    private marginFreq: any = { top: 60, bottom: 10, left: 10, right: 40};
+    private chartVenn: any;
+    private chartBars: any;
+    private chartVennReal: any;
+    private chartBarsReal: any;
+    private chartSymptomsFreq: any;
+    private chartSymptomsFreq2: any;
+
+
+    private widthVenn: number;
+    private heightVenn: number;
+    private widthBars: number;
+    private heightBars: number;
+    private xScaleBars: any;
+    private yScaleBars: any;
+    private xScaleBarsReal: any;
+    private yScaleBarsReal: any;
+    private colorsBars: any;
+    private xAxisBars: any;
+    private yAxisBars: any;
+    private xAxisBarsReal: any;
+    private yAxisBarsReal: any;
+    private widthSymptomsFreq: number;
+    private heightSymptomsFreq: number;
+    private xScaleSymptomsFreq: any;
+    private yScaleSymptomsFreq: any;
+    private yZoom:any;
+    private gBrush:any;
+    private handle:any;
+    private brush:any;
+    private previousSelection:any;
+    private xAxisSymptomsFreq: any;
+    private yScaleSymptomsFreq_mini: any;
+    private xScaleSymptomsFreq_mini: any;
+    private yAxisSymptomsFreq: any;
+    private maxWidth: any=0;
+    private widthSymptomsFreq_saved:any;
+    private windowSizeforWidthSymptomsFreq_size:any;
+    private redrawNewSize:boolean=true;
+    loadingquality: boolean = false;
+    listOfphenotypesinfo: any = [];
+    listOfphenotypesinfoOld: any = [];
+    listOfFilteredSymptoms: any = [];
+    symptomsPermissions:any = {shareWithCommunity:false};
+    actualDiseaseDesc: any = {};
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -1505,6 +1641,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                       var obttemp = (res1[idDesease]).genes;
                       var genIncluded=false;
                         for(var gen in obttemp) {
+                          foundeleme = false;
                           // Filter by "is_defined_by" (all that not have ONLY orphanet source)
                           var definedByOnlyOrphanet=false;
                           if(obttemp[gen].is_defined_by.indexOf('#orphanet')>-1){
@@ -1549,7 +1686,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                               encposiel = true;
                             }
                           }
-                          if(!encposiel){
+                          if(!encposiel && foundeleme){
                             this.relatedConditions[i].genes.push({gen:obttemp[gen].label});
                           }
                         }
@@ -4154,7 +4291,10 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           this.modalReference.close();
 
         }
-        this.modalReference = this.modalService.open(contentSeeSymptomsOfDisease, ngbModalOptions);
+        if(contentSeeSymptomsOfDisease!=null){
+          this.modalReference = this.modalService.open(contentSeeSymptomsOfDisease, ngbModalOptions);
+        }
+
         this.loadingSymptomsOfDisease = false;
 
        }, (err) => {
@@ -4430,7 +4570,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
 
       this.topRelatedConditions = data;
-
+      console.log(this.topRelatedConditions);
     }
 
     getColor(item){
@@ -5340,6 +5480,965 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     changeExomiserStateSymptom(index){
       this.symptomsExomiser[index].checked = !this.symptomsExomiser[index].checked;
+    }
+
+    showMoreInfoDisease(diseaseIndex, disease){
+      if(this.selectedDisease == diseaseIndex ){
+        this.selectedDisease = -1;
+      }else{
+        this.selectedDisease = diseaseIndex;
+      }
+      if(this.selectedDisease != -1){
+        this.loadSymptomsOfDiseaseForGraph(disease);
+      }
+
+    }
+
+    loadSymptomsOfDiseaseForGraph(disease){
+      this.loadingGraphSymptomFreq=true;
+      this.fullListSymptoms = [];
+      this.omimSymptoms = [];
+      this.orphaSymptoms = [];
+      this.listSymtomsFreqForGraphFiltered=[];
+      this.listSymtomsFreqForGraphQuery=[];
+      this.actualDiseaseDesc = {};
+
+      this.loadingSymptomsDataForGraph = true;
+      var xrefs = disease.name.id;
+      var listXRefs = [disease.name.id];
+      //get symtoms
+      var lang = this.authService.getLang();
+      this.subscription.add(this.apif29BioService.getSymptomsOfDisease(lang,listXRefs,0)
+      .subscribe( (res : any) => {
+        console.log(res);
+          var idDesease = listXRefs[0];
+          var info = res[idDesease];
+          //console.log(info);
+          if(info!=undefined){
+            this.actualDiseaseDesc = {desc: info.desc, comment: info.comment};
+            var listOfSymptoms = info.phenotypes
+            if(Object.keys(listOfSymptoms).length>0){
+              for(var indexSymptom in listOfSymptoms) {
+                var comment = "";
+                var def = "";
+                if(listOfSymptoms[indexSymptom].desc!="None"){
+                  def = listOfSymptoms[indexSymptom].desc;
+                }
+                if(listOfSymptoms[indexSymptom].comment!=""){
+                  comment = listOfSymptoms[indexSymptom].comment;
+                }
+                for(var i = 0; i < listOfSymptoms[indexSymptom].source.length; i++) {
+                  if(listOfSymptoms[indexSymptom].source[i].indexOf( 'OMIM' ) != -1){
+                    this.omimSymptoms.push({id:indexSymptom, name: listOfSymptoms[indexSymptom].name, def: def, comment: comment, synonyms: listOfSymptoms[indexSymptom].synonyms, frequency: null});
+                  }
+
+                  if(listOfSymptoms[indexSymptom].source[i].indexOf( 'ORPHA' ) != -1){
+                    console.log(listOfSymptoms[indexSymptom].frequency);
+                    this.orphaSymptoms.push({id:indexSymptom, name: listOfSymptoms[indexSymptom].name, def: def, comment: comment, synonyms: listOfSymptoms[indexSymptom].synonyms, frequency: listOfSymptoms[indexSymptom].frequency});
+                  }
+                }
+               }
+
+            }
+            var listOfOtherDiseasesSymptoms = info.children
+            if(Object.keys(listOfOtherDiseasesSymptoms).length>0){
+              for(var diseasesSymptoms in listOfOtherDiseasesSymptoms) {
+                if(listOfOtherDiseasesSymptoms[diseasesSymptoms].phenotypes!=undefined){
+                  var listOfOtherSymptoms = listOfOtherDiseasesSymptoms[diseasesSymptoms].phenotypes
+                  for(var k in listOfOtherSymptoms) {
+                     //console.log(k, listOfOtherSymptoms[k]);
+                     var foundElement = this.searchService.search(this.phenotype.data,'id', k);
+                     var foundElement2 = this.searchService.search(this.omimSymptoms,'id', k);
+                     var foundElement3 = this.searchService.search(this.orphaSymptoms,'id', k);
+                     if(!foundElement2 || !foundElement3){
+                       var comment = "";
+                       var def = "";
+                       var frequency = null;
+                       if(listOfOtherSymptoms[k].desc!="None"){
+                         def = listOfOtherSymptoms[k].desc;
+                       }
+                       if(listOfOtherSymptoms[k].comment!=""){
+                         comment = listOfOtherSymptoms[k].comment;
+                       }else{
+                         comment = "None"
+                       }
+                       console.log(listOfOtherSymptoms[k].frequency);
+                       if(listOfOtherSymptoms[k].frequency!=undefined){
+                         frequency = listOfOtherSymptoms[k].frequency;
+                       }
+                       console.log(frequency);
+                       if(!foundElement2){
+                         if(foundElement){
+                           this.omimSymptoms.push({id:k, name: listOfOtherSymptoms[k].name, def: def, comment: comment, synonyms: listOfOtherSymptoms[k].synonyms, checked: true, frequency: frequency});
+                         }else{
+                           this.omimSymptoms.push({id:k, name: listOfOtherSymptoms[k].name, def: def, comment: comment, synonyms: listOfOtherSymptoms[k].synonyms, checked: false, frequency: frequency});
+                         }
+                       }
+                       if(!foundElement3){
+                         if(foundElement){
+                           this.orphaSymptoms.push({id:k, name: listOfOtherSymptoms[k].name, def: def, comment: comment, synonyms: listOfOtherSymptoms[k].synonyms, checked: true, frequency: frequency});
+                         }else{
+                           this.orphaSymptoms.push({id:k, name: listOfOtherSymptoms[k].name, def: def, comment: comment, synonyms: listOfOtherSymptoms[k].synonyms, checked: false, frequency: frequency});
+                         }
+                       }
+
+                     }
+                  }
+                }
+              }
+            }
+
+            this.omimSymptoms.sort(this.sortService.GetSortOrder("name"));
+            this.orphaSymptoms.sort(this.sortService.GetSortOrder("name"));
+            console.log(this.omimSymptoms);
+            console.log(this.orphaSymptoms);
+            //asign frequency of orpha to omim symptoms
+            for(var i=0;i<this.omimSymptoms.length;i++)
+              {
+                for(var j=0;j<this.orphaSymptoms.length;j++){
+                  if(this.omimSymptoms[i].id==this.orphaSymptoms[j].id){
+                    console.log('encontrado');
+                    this.omimSymptoms[i].frequency = this.orphaSymptoms[j].frequency;
+                  }
+                }
+
+              }
+            this.checkOPatientSymptoms();
+            //this.checkOrphaSymptoms();
+            this.checkOmimSymptoms();
+
+            this.getfrequencies()
+
+
+            // Llamada para coger los hijos de los sintomas
+            // List IDs
+            var symptomsOfDiseaseIds =[];
+            this.fullListSymptoms.forEach(function(element) {
+              symptomsOfDiseaseIds.push(element.id);
+            });
+
+            // Get predecessors
+            this.subscription.add(this.apif29BioService.getSuccessorsOfSymptoms(symptomsOfDiseaseIds)
+            .subscribe( (res1 : any) => {
+              //console.log(res1)
+              //console.log(this.phenotype.data)
+              //console.log(this.fullListSymptoms)
+              var successorsAllSymptoms=res1;
+              // Añadir los succesors a la lista de symptoms
+              Object.keys(successorsAllSymptoms).forEach(key => {
+                Object.keys(successorsAllSymptoms[key]).forEach(keyValue=>{
+                  for(var i=0;i<this.fullListSymptoms.length;i++){
+                    if(this.fullListSymptoms[i].id==key){
+                      if(this.fullListSymptoms[i].id==key){
+                        if(this.fullListSymptoms[i].succesors==undefined){
+                          this.fullListSymptoms[i].succesors = [keyValue]
+                        }
+                        else{
+                          this.fullListSymptoms[i].succesors.push(keyValue)
+                        }
+                      }
+                    }
+                  }
+                });
+              });
+
+              //console.log(this.fullListSymptoms)
+              // Separar los sintomas genericos a  this.listGenericSymptoms
+              var symptonmPhen=false;
+              for(var i=0;i<this.fullListSymptoms.length;i++){
+                symptonmPhen=false;
+                for (var j=0;j<this.phenotype.data.length;j++){
+                  if(this.phenotype.data[j].id==this.fullListSymptoms[i].id){
+                    symptonmPhen=true;
+                  }
+                }
+                if(symptonmPhen==false){
+                  this.listGenericSymptoms.push(this.fullListSymptoms[i])
+                }
+                else{
+                  for(var j=0;j<this.omimSymptoms.length;j++){
+                    if(this.fullListSymptoms[i].id==this.omimSymptoms[j].id){
+                      this.listGenericSymptoms.push(this.fullListSymptoms[i])
+                    }
+                  }
+                  for(var j=0;j<this.orphaSymptoms.length;j++){
+                    if(this.fullListSymptoms[i].id==this.orphaSymptoms[j].id){
+                      this.listGenericSymptoms.push(this.fullListSymptoms[i])
+                    }
+                  }
+                }
+              }
+              // Eliminar los repetidos
+              this.listGenericSymptoms= this.listGenericSymptoms.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
+              this.fullListSymptoms=this.compareListAndUpdateChecksForPredecessors(this.fullListSymptoms,this.phenotype.data,this.listGenericSymptoms)
+
+              //console.log(this.listGenericSymptoms)
+              // Asi ya tenemos por un lado los genericos y por otro los de phenotype
+
+              this.listSymptomsMe=[];
+              this.listSymptomsGeneric=[];
+              this.listSymptomsMeGeneric=[];
+
+              // Calculo la información del los diagramas
+              this.calculeChartSymptomsInfo(); //(listas de cada caso)
+
+              //console.log(this.listSymptomsMe)
+              //console.log(this.listSymptomsGeneric)
+              //console.log(this.listSymptomsMeGeneric)
+              var listSymptomsMeWithoutSuccessors=[]
+
+              // Diagrama de Venn
+              // De mis sintomas tengo que quitar los que son succesors para el data
+              // Es decir, solo quedarme con los de phenotype.data
+              for(var i=0;i<this.phenotype.data.length;i++){
+                listSymptomsMeWithoutSuccessors.push(this.phenotype.data[i].name)
+              }
+
+              // Lista de datos de entrada para la representacion del diagrama de Venn
+              this.chartDataVenn = [];
+              this.chartDataVenn = [
+                {sets: ['My case'], size: this.listSymptomsMe.length,label: this.translate.instant("patdiagdashboard.panel3MyCase"),data:listSymptomsMeWithoutSuccessors},
+                {sets: ['Reference case'], size: this.listSymptomsGeneric.length, label:this.translate.instant("patdiagdashboard.panel3ReferenceCase"),data:this.listSymptomsGeneric},
+                {sets: ['My case','Reference case'], size: this.listSymptomsMeGeneric.length,data:this.listSymptomsMeGeneric}
+              ];
+
+              // Diagrama de bars
+
+              // Lista de datos de entrada para la representacion del diagrama Bars
+              this.chartDataBars = [];
+
+              this.chartDataBars.push([
+                this.translate.instant("patdiagdashboard.panel3ReferenceCase"),
+                this.listSymptomsGeneric.length
+              ]);
+              this.chartDataBars.push([
+                this.translate.instant("patdiagdashboard.panel3MyCase"),
+                this.listSymptomsMe.length
+              ]);
+              this.drawCharts();
+              this.loadingGraphSymptomFreq= false;
+
+            }, (err) => {
+              console.log(err);
+              this.loadingGraphSymptomFreq=false;
+              this.toastr.error('', this.translate.instant("dashboardpatient.error try again"));
+            }));
+          }
+      }, (err) => {
+        console.log(err);
+        this.toastr.error('', this.translate.instant("dashboardpatient.error try again"));
+        this.loadingSymptomsOfDisease = false;
+        this.loadingGraphSymptomFreq=false;
+      }));
+
+    }
+
+    async getfrequencies() {
+      //getInfo symptoms
+      var hposStrins =[];
+      this.fullListSymptoms.forEach(function(element) {
+        if(element.frequency!=null){
+          hposStrins.push(element.frequency);
+        }
+
+      });
+      var lang = this.authService.getLang();
+      await this.apif29BioService.getInfoOfSymptoms(lang,hposStrins)
+      .subscribe( (res : any) => {
+        var tamano= Object.keys(res).length;
+        if(tamano>0){
+          for(var i in res) {
+            for (var j = 0; j < this.fullListSymptoms.length; j++) {
+              if(res[i].id==this.fullListSymptoms[j].frequency){
+                if(this.fullListSymptoms[j].frequencyInfo==undefined){
+                  this.fullListSymptoms[j].frequencyInfo = {name:res[i].name, desc:res[i].desc};
+                  this.fullListSymptoms[j].frequencyId= res[i].id
+                }
+              }
+            }
+          }
+          this.fullListSymptoms.sort(this.sortService.GetSortOrder("frequencyId"));
+        }
+
+     }, (err) => {
+       console.log(err);
+     });
+    }
+
+    checkOmimSymptoms(){
+      for(var i = 0; i < this.omimSymptoms.length; i++) {
+        var foundElement = this.searchService.search(this.fullListSymptoms,'id', this.omimSymptoms[i].id);
+        if(foundElement){
+          for(var j = 0; j < this.fullListSymptoms.length; j++) {
+            if(this.fullListSymptoms[j].id==this.omimSymptoms[i].id){
+              this.fullListSymptoms[j].omim= true;
+            }
+          }
+        }else{
+          this.fullListSymptoms.push({id:this.omimSymptoms[i].id, name: this.omimSymptoms[i].name, def: this.omimSymptoms[i].def, comment: this.omimSymptoms[i].comment, synonyms: this.omimSymptoms[i].synonyms, group: 'none', omim: true, orphanet: false, patient: false, frequency: this.omimSymptoms[i].frequency});
+        }
+      }
+    }
+
+    checkOrphaSymptoms(){
+      for(var i = 0; i < this.orphaSymptoms.length; i++) {
+        var foundElement = this.searchService.search(this.fullListSymptoms,'id', this.orphaSymptoms[i].id);
+        if(foundElement){
+          for(var j = 0; j < this.fullListSymptoms.length; j++) {
+            if(this.fullListSymptoms[j].id==this.orphaSymptoms[i].id){
+              this.fullListSymptoms[j].orphanet= true;
+            }
+          }
+        }else{
+          this.fullListSymptoms.push({id:this.orphaSymptoms[i].id, name: this.orphaSymptoms[i].name, def: this.orphaSymptoms[i].def, comment: this.orphaSymptoms[i].comment, synonyms: this.orphaSymptoms[i].synonyms, group: 'none', omim: false, orphanet: true, patient: false});
+        }
+      }
+    }
+
+    checkOPatientSymptoms(){
+      this.fullListSymptoms = [];
+      for(var i = 0; i < this.phenotype.data.length; i++) {
+        var foundElement = this.searchService.search(this.fullListSymptoms,'id', this.phenotype.data[i].id);
+        if(foundElement){
+          for(var j = 0; j < this.fullListSymptoms.length; j++) {
+            if(this.fullListSymptoms[j].id==this.phenotype.data[i].id){
+              this.fullListSymptoms[j].patient= true;
+            }
+          }
+        }else{
+          this.fullListSymptoms.push({id:this.phenotype.data[i].id, name: this.phenotype.data[i].name, def: this.phenotype.data[i].def, comment: this.phenotype.data[i].comment, synonyms: this.phenotype.data[i].synonyms, group: 'none', omim: false, orphanet: false, patient: true});
+        }
+      }
+    }
+
+    calculeChartSymptomsInfo(){
+      this.chartSize_MeGeneric=0;
+      this.listSymptomsMe=[];
+      this.listSymptomsGeneric=[];
+      this.listSymptomsMeGeneric=[];
+
+      // Calcule Me
+      for(var i=0;i<this.phenotype.data.length;i++){
+        this.listSymptomsMe.push(this.phenotype.data[i].name)
+      }
+      // Calcule Generic
+      for(var i=0;i<this.listGenericSymptoms.length;i++){
+        this.listSymptomsGeneric.push(this.listGenericSymptoms[i].name)
+      }
+      // Calcule size Me-Generic
+      for(var i=0;i<this.phenotype.data.length;i++){
+        for(var j=0;j<this.listGenericSymptoms.length;j++){
+          if(this.phenotype.data[i].id==this.listGenericSymptoms[j].id){
+            this.listSymptomsMeGeneric.push(this.phenotype.data[i].name)
+            this.chartSize_MeGeneric=this.chartSize_MeGeneric+1;
+          }
+        }
+      }
+
+      var resultListSuccesors=this.compareListAndUpdateChecksForPredecessors(this.fullListSymptoms,this.phenotype.data,this.listGenericSymptoms)
+      for(var i=0;i<resultListSuccesors.length;i++){
+        if(resultListSuccesors[i].patientbutsuccessor==true){
+          this.listSymptomsMeGeneric.push(resultListSuccesors[i].name)
+          this.listSymptomsMe.push(resultListSuccesors[i].name)
+        }
+        if(resultListSuccesors[i].notpatientbutsuccessor==true){
+          this.listSymptomsMeGeneric.push(resultListSuccesors[i].name)
+        }
+      }
+      this.listSymptomsGeneric= this.listSymptomsGeneric.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
+      this.listSymptomsMeGeneric= this.listSymptomsMeGeneric.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
+      this.listSymptomsMe= this.listSymptomsMe.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
+
+    }
+
+    compareListAndUpdateChecksForPredecessors(totalList,p1,p2){
+      // this.fullListSymptoms[j].notpatientbutsuccessor= true;
+      // p1:pheno
+      // p2:generic
+
+      for(var i=0;i<totalList.length;i++){
+        // Comparo con p1:
+        // tengo que separar los que son de la lista de p1, para comparar el resto con la lista de p1
+        if(p1.includes(totalList[i])==false){
+          for(var j=0;j<p1.length;j++){
+            // miro si el de la total es padre de alguno de p1: si en la lista de sucesores del total esta incluido p1
+            if(totalList[i].succesors!=undefined){
+              if(totalList[i].succesors.includes(p1[j].id)){
+                totalList[i].patientbutsuccessor= true;
+              }
+            }
+          }
+        }
+      }
+      for(var i=0;i<totalList.length;i++){
+        // Comparo con p2:
+        // tengo que separar los que son de la lista de p2, para comparar el resto con la lista de p2
+        if(p2.includes(totalList[i])==false){
+          // Recorro entonces p2 y comparo los de la lista p2 con los que tengo
+          for(var j=0;j<p2.length;j++){
+            if(totalList[i].succesors!=undefined){
+              // miro si el de la total es padre de alguno de p2: si en la lista de sucesores del total esta incluido p2
+              if(totalList[i].succesors.includes(p2[j].id)){
+                totalList[i].notpatientbutsuccessor= true;
+              }
+            }
+          }
+        }
+      }
+      return totalList;
+    }
+
+
+    drawCharts(){
+      // Dibujo los gráficos
+      // Elimino todo lo que hubiese (limpio la pantalla)
+      d3.selectAll("svg").remove();
+      d3.selectAll(".venntooltip").remove();
+      d3.selectAll(".text").remove();
+
+      var venn=document.getElementById('chartVenn')
+      venn.insertAdjacentHTML('beforeend', '<svg id ="venn" viewBox="0 0 580 340" [style.margin-left.px]= "-(((venn.offsetWidth)/2)+(margin.left/2))"></svg>');
+
+      var graph=document.getElementById('chartBars')
+      graph.insertAdjacentHTML('beforeend', '<svg id="graphBars"></svg>');
+
+      this.createChartBars();
+      if (this.chartDataBars) {
+        this.updateChartBars();
+      }
+      this.createChartVenn();
+
+      //this.redrawNewSize=true
+
+      // Check if the lists have info- if not svg size to 0
+
+      if(this.chartDataBars.length==0 && this.chartDataVenn.length==0){
+        var graphBarsSvg=document.getElementById('graphBars')
+        graphBarsSvg.style.height = "0px";
+        graphBarsSvg.style.width = "0px";
+        var graphVennSvg=document.getElementById('venn')
+        graphVennSvg.style.height = "0px";
+        graphVennSvg.style.width = "0px";
+      }
+
+    }
+
+    createChartBars() {
+      // ----- Second graph ----------------------------------------------------------------
+        let elementBars = this.chartContainerBars.nativeElement;
+        this.widthBars = elementBars.offsetWidth - this.margin.left+20 - this.margin.right;
+        this.heightBars = elementBars.offsetHeight - this.margin.top - this.margin.bottom;
+
+        let svgBars = d3.select("#graphBars")
+          .attr('width', elementBars.offsetWidth)
+          .attr('height', 2*elementBars.offsetHeight)
+          .classed("svg-content-responsive", true);
+        // chart plot area
+        this.chartDataBars.sort((a,b) =>{ return b[1] - a[1]; })
+        this.chartBars = svgBars.append('g')
+          .attr('class', 'bars')
+          .attr('transform', `translate(${this.margin.left+20}, ${this.margin.top})`)
+          .style("fill-opacity", .4);
+
+        // define X & Y domains
+        let xDomain = this.chartDataBars.map(d => d[0]);
+        let yDomain = [0, d3.max(this.chartDataBars, d => d[1])];
+
+        // create scales
+        this.xScaleBars = d3.scaleBand().padding(0.1).domain(xDomain).rangeRound([0, this.widthBars]);
+        this.yScaleBars = d3.scaleLinear().domain(yDomain).range([1.5*this.heightBars, 0]);
+
+        // bar colors
+        //this.colors = d3.scaleLinear().domain([0,this.chartDataBars.length]).range(<any[]>['blue', 'orange']);
+        this.colorsBars=d3.scaleOrdinal(["#ff7f0e","#1f77b4"]);
+        // x & y axis
+        this.xAxisBars = svgBars.append('g')
+          .attr('class', 'axis axis-x')
+          .attr('transform', `translate(${this.margin.left+20}, ${this.margin.top + 1.5*this.heightBars})`)
+          .call(d3.axisBottom(this.xScaleBars))
+        this.xAxisBars.call(d3.axisBottom(this.xScaleBars)).selectAll("text")
+          .style("font-size","14px")
+          .style("fill","black")
+          .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+        this.yAxisBars = svgBars.append('g')
+          .attr('class', 'axis axis-y')
+          .attr('transform', `translate(${this.margin.left+20}, ${this.margin.top})`)
+          .call(d3.axisLeft(this.yScaleBars));
+
+        this.yAxisBars.call(d3.axisLeft(this.yScaleBars)).selectAll("text")
+          .style("font-size","10px")
+          .style("fill","black")
+          .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+
+        //text label for y axis
+        var yAxisText=this.translate.instant("patdiagdashboard.Number of symptoms")
+        svgBars.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - this.margin.left+20)
+        .attr("x", 0 - (1.5*this.heightBars/2)-(this.heightBars/2))
+        .attr("dy", "1.8em")
+        .style("text-anchor", "middle")
+        .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif')
+        .text(yAxisText);
+
+    }
+
+    updateChartBars() {
+
+      // update scales & axis
+      //console.log(this.xScale)
+      this.xScaleBars.domain(this.chartDataBars.map(d => d[0]));
+      this.yScaleBars.domain([0, d3.max(this.chartDataBars, d => d[1])]);
+      //this.colors.domain([0, this.chartDataBars.length]);
+      this.xAxisBars.transition().call(d3.axisBottom(this.xScaleBars));
+      this.yAxisBars.transition().call(d3.axisLeft(this.yScaleBars));
+
+      let updateBars = this.chartBars.selectAll('.bar')
+        .data(this.chartDataBars);
+
+      if(this.listSymptomsMe.length>this.listSymptomsGeneric.length){
+        this.colorsBars=d3.scaleOrdinal(["#1f77b4","#ff7f0e"]);
+      }
+      else if(this.listSymptomsMe.length<this.listSymptomsGeneric.length){
+        this.colorsBars=d3.scaleOrdinal(["#ff7f0e","#1f77b4"]);
+      }
+
+      // remove exiting bars
+      updateBars.exit().remove();
+
+      // update existing bars
+      this.chartBars.selectAll('.bar').transition()
+        .attr('x', d => this.xScaleBars(d[0]))
+        .attr('y', d => this.yScaleBars(d[1]))
+        .attr('width', d => this.xScaleBars.bandwidth())
+        .attr('height', d => 1.5*this.heightBars - this.yScaleBars(d[1]))
+        .style('fill', (d, i) => this.colorsBars(i))
+        .style("fill-opacity", .4)
+        .style("background-color", function(d, i) {
+          return this.colorsBars(i);
+        })
+      // add new bars
+      updateBars
+        .enter()
+        .append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => this.xScaleBars(d[0]))
+        .attr('y', d => this.yScaleBars(0))
+        .attr('width', this.xScaleBars.bandwidth())
+        .attr('height', 0)
+        .style('fill', (d, i) => this.colorsBars(i))
+        .transition()
+        .delay((d, i) => i * 10)
+        .attr('y', d => this.yScaleBars(d[1]))
+        .attr('height', d => 1.5*this.heightBars - this.yScaleBars(d[1]));
+      updateBars.exit()
+        .remove();
+
+    }
+
+    createChartVenn(){
+      // --- First graph --------------------------------------------------------------------------
+      // 1. create Venn diagram
+
+      let elementVenn = this.chartContainerVenn.nativeElement;
+
+      this.widthVenn = elementVenn.offsetWidth - this.margin.left - this.margin.right;
+      this.heightVenn = elementVenn.offsetHeight - this.margin.top - this.margin.bottom;
+
+      if(this.listSymptomsMeGeneric.length==0){
+        //this.widthVenn = elementVenn.offsetWidth - 4*this.margin.left - 4*this.margin.right;
+        //this.heightVenn = elementVenn.offsetHeight - 4*this.margin.top - 4*this.margin.bottom;
+        document.getElementById('venn').remove()
+        var vennSvg=document.getElementById('chartVenn')
+        vennSvg.insertAdjacentHTML('beforeend', '<svg id ="venn" viewBox="0 0 540 380" [style.margin-left.px]= "-(({{venn.offsetWidth}})/2)+({{margin.left}}/2))"></svg>');
+      }
+
+      //this.chartDataVenn.sort(function(a:any,b:any) { return b.size - a.size; })
+      //console.log(this.chartDataVenn)
+      this.chartVenn = venn.VennDiagram()
+      let svg1 = d3.select("#venn")
+        .datum(this.chartDataVenn)
+        .call(this.chartVenn)
+        .attr('width', this.widthVenn)
+        .attr('height', this.heightVenn);
+
+
+      svg1.selectAll("g").sort(function(a:any,b:any) { return b.size - a.size; })
+      svg1.selectAll("svg").attr("class","venn2");
+
+      // 2. Add style to venn diagram
+      //var colors2 = d3.scaleLinear().domain([0, this.chartDataVenn.length]).range(<any[]>['red', 'blue']);
+      /*svg1.selectAll('.venn-circle path').transition()
+        .style('fill', (d, i) => colors2(i));*/
+      if(this.listSymptomsMe.length>0){
+        if(this.listSymptomsGeneric.length>0){
+          svg1.selectAll(".venn-circle path")
+          .style("fill-opacity", .4)
+          .style("stroke-width", 1)
+          .style("stroke-opacity", 1)
+          .style("stroke", "fff")
+        }
+        else{
+          svg1.selectAll(".venn-circle path")
+          .style("fill-opacity", .4)
+          .style("stroke-width", 1)
+          .style("stroke-opacity", 1)
+          .style("stroke", "fff")
+          .style("fill","#1f77b4")
+        }
+      }
+      else{
+        svg1.selectAll(".venn-circle path")
+          .style("fill-opacity", .4)
+          .style("stroke-width", 1)
+          .style("stroke-opacity", 1)
+          .style("stroke", "fff")
+          .style("fill","#ff7f0e")
+      }
+      svg1.selectAll(".venn-circle text")
+        .style("font-size","14px")
+        .style("fill","black")
+        .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+
+      // 3. Add a tooltip
+      var tooltip = d3.select("#chartVenn").append("div")
+        .attr("class", "venntooltip")
+        .attr("data-html", "true");
+
+
+      var graphOnClick=[];
+      for(var i=0;i<this.chartDataVenn.length;i++){
+        graphOnClick.push(false)
+      }
+      var chartData=this.chartDataVenn;
+      var lastD=undefined;
+      var listVennSelected=[];
+      var lang=this.authService.getLang();
+      // 4. add listeners to all the groups to display tooltip on mouseover
+      svg1.selectAll("g").on("click", function(d:any, i) {
+        for(var i=0;i<chartData.length;i++){
+          if(d==chartData[i]){
+            lastD=d;
+            graphOnClick[i]=!graphOnClick[i]
+            //console.log(graphOnClick[i])
+            if(graphOnClick[i]==true){
+              // sort all the areas relative to the current item
+              venn.sortAreas(svg1, d);
+              tooltip.transition().duration(400)
+              .style("fill-opacity", 0)
+              .style("stroke-width", 1)
+              .style("stroke-opacity", 1)
+              .style("stroke", "fff")
+              .style("border","none");
+              tooltip.html("");
+
+              // Display a tooltip
+              tooltip.transition().duration(400)
+              .style("fill-opacity", .8)
+              .style("stroke-width", 2)
+              .style("stroke-opacity", 1)
+              .style("display", "block")
+              .style("position", "absolute")
+              .style("background-color","white")
+              .style("color","black")
+              .style("border","1px solid black")
+              .style("z-index","9999");;
+
+              // tooltim html content
+              var symptomsAreaList="";
+              for(var j=0;j<d.data.length;j++){
+                symptomsAreaList=symptomsAreaList+'<li style="float: left;width: 40%; margin-left:3%">'+d.data[j]+'</li>';
+              }
+              var nameArea="";
+              if(d.label!=undefined){
+                nameArea=d.label
+              }
+              else{
+                nameArea="common symptoms"
+              }
+
+              if(lang=='es'){
+                if(d.data.length==1){
+                  tooltip.html('<div><button type="button" class="close" aria-label="Close" style="padding-right:3%"> <span aria-hidden="true">&times;</span></button></div><div> En el área <b>'+ nameArea +"</b> hay "+d.data.length + " síntoma: <br> <ul>"+symptomsAreaList+"</ul></div>");
+                }
+                else{
+                  tooltip.html('<div><button type="button" class="close" aria-label="Close" style="padding-right:3%"> <span aria-hidden="true">&times;</span></button></div><div> En el área <b>'+ nameArea +"</b> hay "+d.data.length + " síntomas: <br> <ul>"+symptomsAreaList+"</ul></div>");
+                }
+              }
+              else{
+                if(d.data.length==1){
+                  tooltip.html('<div><button type="button" class="close" aria-label="Close" style="padding-right:3%"> <span aria-hidden="true">&times;</span></button></div><div>In <b>'+ nameArea +" area</b> there is "+d.data.length + " symptom: <br> <ul>"+symptomsAreaList+"</ul></div>");
+                }
+                else{
+                  tooltip.html('<div><button type="button" class="close" aria-label="Close" style="padding-right:3%"> <span aria-hidden="true">&times;</span></button></div><div>In <b>'+ nameArea +" area</b> there are "+d.data.length + " symptoms: <br> <ul>"+symptomsAreaList+"</ul></div>");
+                }
+              }
+              tooltip
+              .style("padding-top","2%")
+              .style("padding-left","3%")
+              .style("padding-bottom","2%")
+              // highlight the current path
+              var selection = d3.select(this).transition("tooltip").duration(400);
+              //console.log(selection)
+              //console.log(this)
+              listVennSelected.push({d:d,element:this,label:d.label})
+              if(d.label!=undefined){
+                selection.select("path")
+                  .style("stroke-width", 3)
+                  .style("fill-opacity", .7)
+                  .style("stroke-opacity", 1)
+                  .style("color","white");
+
+                selection.select("text")
+                  .style("fill","white");
+                }
+              else{
+                selection.select("path")
+                  .style("stroke-width", 3)
+                  .style("fill-opacity", .5)
+                  .style("stroke-opacity", 1)
+                  .style("color","white");
+
+                selection.select("text")
+                  .style("font-size","14px")
+                  .style("fill","white")
+                  .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+              }
+              tooltip.select("button").on("click",function(){
+                //console.log(chartData)
+                for(var i=0;i<chartData.length;i++){
+                  if(lastD==chartData[i]){
+                    //console.log(graphOnClick)
+                    //console.log("click")
+                    svg1.selectAll("g").sort(function(a:any,b:any) { return b.size - a.size; })
+                    svg1.selectAll(".venn-intersection path")
+                      .style("fill-opacity", 0)
+                    svg1.selectAll(".venn-circle path")
+                      .style("fill-opacity", .4)
+                      .style("stroke-width", 1)
+                      .style("stroke-opacity", 1)
+                      .style("stroke", "fff");
+                    svg1.selectAll(".venn-circle text")
+                      .style("font-size","14px")
+                      .style("fill","black")
+                      .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+                    tooltip.transition().duration(400)
+                      .style("background-color","transparent")
+                      .style("fill-opacity", 0)
+                      .style("stroke-width", 1)
+                      .style("stroke-opacity", 1)
+                      .style("stroke", "fff")
+                      .style("border","none")
+
+                    tooltip.html("");
+                    graphOnClick[i]=false;
+                    listVennSelected=[];
+                    /*console.log(graphOnClick[i])
+                    console.log(i)
+                    console.log(graphOnClick)*/
+                  }
+                }
+              })
+
+            }
+            else{
+              svg1.selectAll(".venn-intersection path")
+              .style("fill-opacity", 0)
+              /*svg1.selectAll('.venn-circle path').transition()
+              .style('fill', (d, i) => colors2(i));*/
+              svg1.selectAll(".venn-circle path")
+                .style("fill-opacity", .4)
+                .style("stroke-width", 1)
+                .style("stroke-opacity", 1)
+                .style("stroke", "fff");
+              svg1.selectAll(".venn-circle text")
+                .style("font-size","14px")
+                .style("fill","black")
+                .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+              tooltip.transition().duration(400)
+                .style("fill-opacity", 0)
+                .style("stroke-width", 1)
+                .style("stroke-opacity", 1)
+                .style("stroke", "fff")
+                .style("border","none")
+                .style("background-color","transparent")
+              tooltip.html("");
+              listVennSelected=[];
+            }
+          }
+          else{
+            //console.log(listVennSelected)
+            graphOnClick[i]=false;
+
+            if(listVennSelected.length>0){
+              //console.log(listVennSelected.length)
+              for(var j=0;j<listVennSelected.length;j++){
+                if(listVennSelected[j].d==chartData[i]){
+                  //console.log(j)
+                  var selection2 = d3.select(listVennSelected[j].element).transition("tooltip").duration(400);
+                  //console.log(selection2)
+                  if(listVennSelected[j].label!=undefined){
+                    //console.log(selection)
+                    selection2.select("path")
+                      .style("fill-opacity", .4)
+                      .style("stroke-width", 1)
+                      .style("stroke-opacity", 1)
+                      .style("stroke", "fff");
+
+                    selection2.select("text")
+                      .style("font-size","14px")
+                      .style("fill","black")
+                      .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+                  }
+                  else{
+                    selection2.select("path")
+                      .style("fill-opacity", 0)
+
+                    selection2.select("text")
+                      .style("fill","black");
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+      svg1.selectAll("g").on("mouseover", function(d:any, i) {
+        var selection = d3.select(this).transition("tooltip").duration(400);
+        for(var i=0;i<graphOnClick.length;i++){
+          if(graphOnClick[i]==false){
+            if(d.label!=undefined){
+              //console.log(selection)
+              selection.select("path")
+                  .style("stroke-width", 3)
+                  .style("fill-opacity", .7)
+                  .style("stroke-opacity", 1)
+                  .style("color","white");
+
+              selection.select("text")
+                .style("font-size","14px")
+                .style("fill","white")
+                .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+            }
+            else{
+              selection.select("path")
+              .style("stroke-width", 3)
+              .style("fill-opacity", .5)
+              .style("stroke-opacity", 1)
+              .style("color","white");
+
+              selection.select("text")
+                .style("font-size","14px")
+                .style("fill","white")
+                .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+            }
+          }
+        }
+      });
+      svg1.selectAll("g").on("mouseout", function(d:any, i) {
+        //console.log(graphOnClick)
+        svg1.selectAll("g").sort(function(a:any,b:any) { return b.size - a.size; })
+        var selection = d3.select(this).transition("tooltip").duration(400);
+        for(var i=0;i<chartData.length;i++){
+          if(d==chartData[i]){
+            if(graphOnClick[i]==false){
+              /*svg1.selectAll('.venn-circle path').transition()
+              .style('fill', (d, i) => colors2(i));*/
+              if(d.label!=undefined){
+                selection.select("path")
+                  .style("fill-opacity", .4)
+                  .style("stroke-width", 1)
+                  .style("stroke-opacity", 1)
+                  .style("stroke", "fff")
+                selection.select("text")
+                  .style("font-size","14px")
+                  .style("fill","black")
+                  .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+              }
+              else{
+                selection.select("path")
+                .style("fill-opacity", 0)
+              }
+            }
+          }
+        }
+        var anySelected=false;
+        for(var i=0;i<graphOnClick.length;i++){
+          if(graphOnClick[i]==true){
+            anySelected=true;
+          }
+        }
+        if(anySelected==false){
+          tooltip.transition().duration(400)
+            .style("fill-opacity", 0)
+            .style("stroke-width", 1)
+            .style("stroke-opacity", 1)
+            .style("stroke", "fff")
+            .style("border","none");
+          tooltip.html("");
+        }
+      });
+    }
+
+
+    calculeChartSymptomsInfoReal(listforGraph){
+      // por un lado tengo Los sintomas que estan en MI caso: listSymptomsMe - son los de phenotype que ha metido el paciente
+      // a estos tengo que quitarles los que no se muestran en el histograma porque son PADRES this.listpatientDataNotShowHistogram.
+      this.listSymptomsMe_real=[];
+      for(var i=0;i<this.phenotype.data.length;i++){
+        if(this.listpatientDataNotShowHistogram.includes(this.phenotype.data[i].name)==false){
+          this.listSymptomsMe_real.push(this.phenotype.data[i].name)
+        }
+      }
+      this.listSymptomsReal=[];
+      // Por otro lado tengo la lista de "genericos": la de chartDataFreq pero solo me quedo con d[0]
+      for(var i=0;i<listforGraph.length;i++){
+        this.listSymptomsReal.push(listforGraph[i][0])
+      }
+
+      // Y por ultimo la comun de estos dos: listSymptomsMeReal
+      // Este caso es mas sencillo poque no tengo que mirar HIJOS ni PADRES (la lista de el histograma ya estaba limpia)
+      this.listSymptomsMeReal=[];
+      for(var i=0;i<listforGraph.length;i++){
+        for(var j=0;j<this.phenotype.data.length;j++){
+          if(listforGraph[i][0]==this.phenotype.data[j].name){
+            this.listSymptomsMeReal.push(this.phenotype.data[j].name)
+          }
+        }
+      }
+    }
+
+    orderChartFreqData(){
+      // Para cada sintoma de la lista  cojo su frecuencia y busco si en el resto de sintomas de esa misma lista hay alguno con freq=a esa
+      // y es del paciente lo coloco primero
+      var chartDataReorder=[];
+      for(var i=0;i<this.chartDataSymptomsFreq.length;i++){
+        // Si todavia no se ha añadido a la lista reordenada
+        if(chartDataReorder.includes(this.chartDataSymptomsFreq[i])==false){
+          var freq=this.chartDataSymptomsFreq[i][1];
+          // Si es del paciente incluyo este primero
+          for(var j=0;j<this.chartDataSymptomsFreq.length;j++){
+            if(i!=j){
+              if(this.chartDataSymptomsFreq[j][1]==freq){
+                for(var k=0;k<this.listSymtomsFreqForGraph[0].data.length;k++){
+                  if(this.chartDataSymptomsFreq[j][0]==this.listSymtomsFreqForGraph[0].data[k].symptom.nameForShow){
+                    var symptomId= this.listSymtomsFreqForGraph[0].data[k].symptom.id;
+                    for(var m=0;m<this.phenotype.data.length;m++){
+                      if(this.phenotype.data[m].id==symptomId){
+                        chartDataReorder.push(this.chartDataSymptomsFreq[j])
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          chartDataReorder.push(this.chartDataSymptomsFreq[i])
+        }
+      }
+      this.chartDataSymptomsFreq=[];
+      this.chartDataSymptomsFreq=chartDataReorder;
+      this.chartDataSymptomsFreq= this.chartDataSymptomsFreq.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
     }
 
 }
