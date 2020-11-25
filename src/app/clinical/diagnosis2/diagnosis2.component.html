@@ -594,7 +594,7 @@
         </div>
         <section class="offset-md-2 col-md-8">
           <div class="mt-2 row">
-            <div class="col-lg-8">
+            <div class="col-lg-12">
               <div class="card">
                 <div class="card-header">
                   <h4 class="card-title">
@@ -618,6 +618,9 @@
                             </a>
                             <a *ngIf="filesVcf.length==0" class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.2')">
                                 <span>Reanalizar</span>
+                            </a>
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelFeedback(contentGeneralNotes)">
+                                <span>Add Notes</span>
                             </a>
                         </div>
                     </span>
@@ -653,7 +656,7 @@
                 							<div class="card-content card card-outline-primary" style="background-color: #ececec;">
                 								<div class="card-body">
                                   <h4 class="card-title primary">Description</h4>
-                                  <p>{{actualDiseaseDesc.desc}} <a href="https://monarchinitiative.org/disease/{{disease.name.id}}" target="_blank" rel="tooltip" title="{{disease.name.id}}">More Info about {{disease.name.label}}</a></p>
+                                  <p>{{actualDiseaseDesc.desc}} <a href="https://monarchinitiative.org/disease/{{disease.name.id}}" target="_blank" rel="tooltip" title="{{disease.name.id}}">More Info <i class="ft-external-link"></i></a></p>
                 									<h4 class="pt-2 card-title primary">{{'patdiagdashboard.panel4msgtitle' | translate }} {{disease.name.label | titlecase}}</h4>
                 									<div class="row">
                 										<div class="col-md-12 mt-2 mb-1" *ngIf="fullListSymptoms.length==0">
@@ -738,8 +741,12 @@
                 															<td style="text-align:left">
                 																<span><a href="https://monarchinitiative.org/phenotype/{{symptom.id}}" target="_blank" title="{{symptom.def}}. {{symptom.comment}} ">{{symptom.name}}</a> <span *ngIf="symptom.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
                 															</td>
-                                              <td style="text-align:left">
-                																<span *ngIf="symptom.frequency!=null"  title="{{symptom.frequencyInfo.desc}}"> {{symptom.frequencyInfo.name}}</span>
+                                              <td style="text-align:left" *ngIf="symptom.frequency==undefined">
+                                                <span> - </span>
+                															</td>
+                                              <td style="text-align:left" *ngIf="symptom.frequency!=undefined">
+                																<span *ngIf="symptom.frequencyInfo!=undefined"  title="{{symptom.frequencyInfo.desc}}"> {{symptom.frequencyInfo.name}}</span>
+                                                <span *ngIf="symptom.frequencyInfo==undefined"> {{symptom.frequency}} </span>
                                                 <span *ngIf="symptom.frequency==null"> - </span>
                 															</td>
                 															<td>
@@ -798,66 +805,6 @@
                 </div>
 
               </div>
-            </div>
-            <div class="col-lg-4">
-              <div class="card">
-                <div class="card-header">
-                  <h4 class="card-title">
-                    Notes
-                  </h4>
-                </div>
-                <div class="card-content" *ngIf="phenotype.data.length > 0">
-                  <div class="card-body">
-                    <div class="mb-4">
-                      <form class="form" #fWeight="ngForm">
-                        <div class="form-body">
-                          <div class="row">
-                            <div class="col-md-12">
-                              <div class="form-group">
-                                <label for="hasDiagnosis">{{'diagnosis.Has Diagnosis' | translate }}</label>
-                                <p>
-                                  <ui-switch id="hasDiagnosis" name="hasDiagnosis" [(ngModel)]="diagnosisInfo.hasDiagnosis"></ui-switch>
-                                </p>
-                              </div>
-                            </div>
-                            <div class="col-md-12" *ngIf="diagnosisInfo.hasDiagnosis">
-                              <div class="form-group">
-                                <label for="previousDiagnosis">{{'diagnosis.Previous Diagnosis' | translate }}</label>
-                                <input type="text" id="previousDiagnosis" class="form-control"  name="previousDiagnosis" [(ngModel)]="diagnosisInfo.previousDiagnosis">
-                              </div>
-                            </div>
-                            <div class="col-md-12" *ngIf="diagnosisInfo.hasDiagnosis">
-                              <div class="form-group">
-                                <label for="identifiedGene">{{'diagnosis.Identified Gene' | translate }}</label>
-                                <input type="text" id="identifiedGene" class="form-control"  name="identifiedGene" [(ngModel)]="diagnosisInfo.identifiedGene">
-                              </div>
-                            </div>
-                            <div class="col-md-12">
-                              <div class="form-group">
-                                <label for="evaluation">{{'diagnosis.Evaluation' | translate }}</label>
-                                <select id="evaluation" name="evaluation" class="form-control"  [(ngModel)]="diagnosisInfo.evaluation">
-                                  <option value="The condition appears among the first 5 suggested results">{{'diagnosis.The condition appears among the first 5 suggested results' | translate }}</option>
-                                  <option value="The condition appears in the list of suggested results">{{'diagnosis.The condition appears in the list of suggested results' | translate }}</option>
-                                  <option value="The condition does not appear in the list of suggested results">{{'diagnosis.The condition does not appear in the list of suggested results' | translate }}</option>
-                                </select>
-                              </div>
-                            </div>
-                            <div class="col-md-12">
-                              <div class="form-group">
-                                <label for="notes">{{'generics.notes' | translate }}</label>
-                                <textarea name="notes" class="form-control" style="width:100%;height:30vh;max-height: 30vh;" [(ngModel)]="diagnosisInfo.notes" name="notes"></textarea>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <button type="button" class="btn btn-outline-primary" (click)="saveNotes()">{{'diagnosis.Save notes' | translate }}</button>
-                      </form>
-
-
-                    </div>
-                  </div>
-                </div>
-            </div>
             </div>
 
           </div>
@@ -1190,10 +1137,10 @@
                     <div class="col-11">
                       <!-- Title -->
                       <!--<h4 *ngIf="i!= selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{ (hpo.name.length>40)? (hpo.name | slice:0:40)+'...':(hpo.name) }}</h4>-->
-                      <h4 *ngIf="i!= selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{ (hpo.layperson.length>40)? (hpo.layperson | slice:0:40)+'...':(hpo.layperson) }}</h4>
+                      <h4 *ngIf="i!= selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{ (hpo.name.length>40)? (hpo.name | slice:0:40)+'...':(hpo.name) }}</h4>
 
                       <!--<h4 *ngIf="i== selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{hpo.name}}</h4>-->
-                      <h4 *ngIf="i== selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{hpo.layperson}}</h4>
+                      <h4 *ngIf="i== selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{hpo.name}}</h4>
 
                       <p *ngIf="i!= selectedInfoSymptomIndex" class="mb-1">
                         <span *ngIf="hpo.desc!=''">
@@ -2329,6 +2276,67 @@
         </div>
         </div>
       </div>
+		</div>
+		<div class="modal-footer">
+			<div class="form-actions center">
+					<button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
+			</div>
+		</div>
+</ng-template>
+
+<ng-template #contentGeneralNotes let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header d-block" id="idHeader">
+			<button type="button" class="close" aria-label="Close" (click)="c('Close click'); changeTriggerHotjar('generalincoming_')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<div>
+				<h4 class="modal-title">Notes</h4>
+			</div>
+		</div>
+		<div class="modal-body">
+      <form class="form" #fWeight="ngForm">
+        <div class="form-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="hasDiagnosis">{{'diagnosis.Has Diagnosis' | translate }}</label>
+                <p>
+                  <ui-switch id="hasDiagnosis" name="hasDiagnosis" [(ngModel)]="diagnosisInfo.hasDiagnosis"></ui-switch>
+                </p>
+              </div>
+            </div>
+            <div class="col-md-12" *ngIf="diagnosisInfo.hasDiagnosis">
+              <div class="form-group">
+                <label for="previousDiagnosis">{{'diagnosis.Previous Diagnosis' | translate }}</label>
+                <input type="text" id="previousDiagnosis" class="form-control"  name="previousDiagnosis" [(ngModel)]="diagnosisInfo.previousDiagnosis">
+              </div>
+            </div>
+            <div class="col-md-12" *ngIf="diagnosisInfo.hasDiagnosis">
+              <div class="form-group">
+                <label for="identifiedGene">{{'diagnosis.Identified Gene' | translate }}</label>
+                <input type="text" id="identifiedGene" class="form-control"  name="identifiedGene" [(ngModel)]="diagnosisInfo.identifiedGene">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="evaluation">{{'diagnosis.Evaluation' | translate }}</label>
+                <select id="evaluation" name="evaluation" class="form-control"  [(ngModel)]="diagnosisInfo.evaluation">
+                  <option value="The condition appears among the first 5 suggested results">{{'diagnosis.The condition appears among the first 5 suggested results' | translate }}</option>
+                  <option value="The condition appears in the list of suggested results">{{'diagnosis.The condition appears in the list of suggested results' | translate }}</option>
+                  <option value="The condition does not appear in the list of suggested results">{{'diagnosis.The condition does not appear in the list of suggested results' | translate }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="notes">{{'generics.notes' | translate }}</label>
+                <textarea name="notes" class="form-control" style="width:100%;height:30vh;max-height: 30vh;" [(ngModel)]="diagnosisInfo.notes" name="notes"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-outline-primary" (click)="saveNotes()">{{'diagnosis.Save notes' | translate }}</button>
+      </form>
 		</div>
 		<div class="modal-footer">
 			<div class="form-actions center">

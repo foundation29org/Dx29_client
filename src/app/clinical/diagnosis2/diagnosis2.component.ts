@@ -5527,15 +5527,20 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                 if(listOfSymptoms[indexSymptom].comment!=""){
                   comment = listOfSymptoms[indexSymptom].comment;
                 }
+                var onlyOrpha = false;
+                var frec = null;
                 for(var i = 0; i < listOfSymptoms[indexSymptom].source.length; i++) {
-                  if(listOfSymptoms[indexSymptom].source[i].indexOf( 'OMIM' ) != -1){
-                    this.omimSymptoms.push({id:indexSymptom, name: listOfSymptoms[indexSymptom].name, def: def, comment: comment, synonyms: listOfSymptoms[indexSymptom].synonyms, frequency: null});
-                  }
-
                   if(listOfSymptoms[indexSymptom].source[i].indexOf( 'ORPHA' ) != -1){
-                    console.log(listOfSymptoms[indexSymptom].frequency);
                     this.orphaSymptoms.push({id:indexSymptom, name: listOfSymptoms[indexSymptom].name, def: def, comment: comment, synonyms: listOfSymptoms[indexSymptom].synonyms, frequency: listOfSymptoms[indexSymptom].frequency});
+                    if(listOfSymptoms[indexSymptom].source.length<=1){
+                      onlyOrpha=true;
+                    }else{
+                      frec =  listOfSymptoms[indexSymptom].frequency;
+                    }
                   }
+                }
+                if(!onlyOrpha && listOfSymptoms[indexSymptom].source.length>0){
+                  this.omimSymptoms.push({id:indexSymptom, name: listOfSymptoms[indexSymptom].name, def: def, comment: comment, synonyms: listOfSymptoms[indexSymptom].synonyms, frequency: frec});
                 }
                }
 
@@ -5603,11 +5608,21 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                 }
 
               }
+              for(var i=0;i<this.phenotype.data.length;i++)
+              {
+                for(var j=0;j<this.orphaSymptoms.length;j++){
+                  if(this.phenotype.data[i].id==this.orphaSymptoms[j].id){
+                    console.log('encontrado');
+                    this.phenotype.data[i].frequency = this.orphaSymptoms[j].frequency;
+                  }
+                }
+
+              }
             this.checkOPatientSymptoms();
             //this.checkOrphaSymptoms();
             this.checkOmimSymptoms();
 
-            this.getfrequencies()
+
 
 
             // Llamada para coger los hijos de los sintomas
@@ -5616,113 +5631,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             this.fullListSymptoms.forEach(function(element) {
               symptomsOfDiseaseIds.push(element.id);
             });
+            this.getSuccessors(symptomsOfDiseaseIds);
 
-            // Get predecessors
-            this.subscription.add(this.apif29BioService.getSuccessorsOfSymptoms(symptomsOfDiseaseIds)
-            .subscribe( (res1 : any) => {
-              //console.log(res1)
-              //console.log(this.phenotype.data)
-              //console.log(this.fullListSymptoms)
-              var successorsAllSymptoms=res1;
-              // Añadir los succesors a la lista de symptoms
-              Object.keys(successorsAllSymptoms).forEach(key => {
-                Object.keys(successorsAllSymptoms[key]).forEach(keyValue=>{
-                  for(var i=0;i<this.fullListSymptoms.length;i++){
-                    if(this.fullListSymptoms[i].id==key){
-                      if(this.fullListSymptoms[i].id==key){
-                        if(this.fullListSymptoms[i].succesors==undefined){
-                          this.fullListSymptoms[i].succesors = [keyValue]
-                        }
-                        else{
-                          this.fullListSymptoms[i].succesors.push(keyValue)
-                        }
-                      }
-                    }
-                  }
-                });
-              });
-
-              //console.log(this.fullListSymptoms)
-              // Separar los sintomas genericos a  this.listGenericSymptoms
-              var symptonmPhen=false;
-              for(var i=0;i<this.fullListSymptoms.length;i++){
-                symptonmPhen=false;
-                for (var j=0;j<this.phenotype.data.length;j++){
-                  if(this.phenotype.data[j].id==this.fullListSymptoms[i].id){
-                    symptonmPhen=true;
-                  }
-                }
-                if(symptonmPhen==false){
-                  this.listGenericSymptoms.push(this.fullListSymptoms[i])
-                }
-                else{
-                  for(var j=0;j<this.omimSymptoms.length;j++){
-                    if(this.fullListSymptoms[i].id==this.omimSymptoms[j].id){
-                      this.listGenericSymptoms.push(this.fullListSymptoms[i])
-                    }
-                  }
-                  for(var j=0;j<this.orphaSymptoms.length;j++){
-                    if(this.fullListSymptoms[i].id==this.orphaSymptoms[j].id){
-                      this.listGenericSymptoms.push(this.fullListSymptoms[i])
-                    }
-                  }
-                }
-              }
-              // Eliminar los repetidos
-              this.listGenericSymptoms= this.listGenericSymptoms.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
-              this.fullListSymptoms=this.compareListAndUpdateChecksForPredecessors(this.fullListSymptoms,this.phenotype.data,this.listGenericSymptoms)
-
-              //console.log(this.listGenericSymptoms)
-              // Asi ya tenemos por un lado los genericos y por otro los de phenotype
-
-              this.listSymptomsMe=[];
-              this.listSymptomsGeneric=[];
-              this.listSymptomsMeGeneric=[];
-
-              // Calculo la información del los diagramas
-              this.calculeChartSymptomsInfo(); //(listas de cada caso)
-
-              //console.log(this.listSymptomsMe)
-              //console.log(this.listSymptomsGeneric)
-              //console.log(this.listSymptomsMeGeneric)
-              var listSymptomsMeWithoutSuccessors=[]
-
-              // Diagrama de Venn
-              // De mis sintomas tengo que quitar los que son succesors para el data
-              // Es decir, solo quedarme con los de phenotype.data
-              for(var i=0;i<this.phenotype.data.length;i++){
-                listSymptomsMeWithoutSuccessors.push(this.phenotype.data[i].name)
-              }
-
-              // Lista de datos de entrada para la representacion del diagrama de Venn
-              this.chartDataVenn = [];
-              this.chartDataVenn = [
-                {sets: ['My case'], size: this.listSymptomsMe.length,label: this.translate.instant("patdiagdashboard.panel3MyCase"),data:listSymptomsMeWithoutSuccessors},
-                {sets: ['Reference case'], size: this.listSymptomsGeneric.length, label:this.translate.instant("patdiagdashboard.panel3ReferenceCase"),data:this.listSymptomsGeneric},
-                {sets: ['My case','Reference case'], size: this.listSymptomsMeGeneric.length,data:this.listSymptomsMeGeneric}
-              ];
-
-              // Diagrama de bars
-
-              // Lista de datos de entrada para la representacion del diagrama Bars
-              this.chartDataBars = [];
-
-              this.chartDataBars.push([
-                this.translate.instant("patdiagdashboard.panel3ReferenceCase"),
-                this.listSymptomsGeneric.length
-              ]);
-              this.chartDataBars.push([
-                this.translate.instant("patdiagdashboard.panel3MyCase"),
-                this.listSymptomsMe.length
-              ]);
-              this.drawCharts();
-              this.loadingGraphSymptomFreq= false;
-
-            }, (err) => {
-              console.log(err);
-              this.loadingGraphSymptomFreq=false;
-              this.toastr.error('', this.translate.instant("dashboardpatient.error try again"));
-            }));
+            this.calculateAll(symptomsOfDiseaseIds);
           }
       }, (err) => {
         console.log(err);
@@ -5730,6 +5641,55 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.loadingSymptomsOfDisease = false;
         this.loadingGraphSymptomFreq=false;
       }));
+
+    }
+    async getSuccessors(symptomsOfDiseaseIds){
+      return new Promise(async function (resolve, reject) {
+        var result = { status: 200, data: [], message: "Calcule Conditions score OK" }
+        this.subscription.add(this.apif29BioService.getSuccessorsOfSymptomsDepth(symptomsOfDiseaseIds)
+        .subscribe( async (res1 : any) => {
+            await this.setFrequencies(res1);
+            await this.getfrequencies()
+        }, (err) => {
+          console.log(err);
+        }));
+        return resolve(result);
+      }.bind(this))
+    }
+
+    async setFrequencies(list){
+      for (var i = 0; i < this.fullListSymptoms.length; i++){
+        this.completeFrequencies(i, this.fullListSymptoms[i].id, list);
+      }
+    }
+
+    async completeFrequencies(index, id, list){
+      var foundSymptom = false;
+      for (var ipos = 0; ipos < this.orphaSymptoms.length && !foundSymptom; ipos++){
+        var tamano= Object.keys(list).length;
+        if(tamano>0){
+          for(var j in list){
+            if(this.orphaSymptoms[ipos].id==j && this.orphaSymptoms[ipos].frequency!=null){//&& j==this.orphaSymptoms[ipos].id
+              foundSymptom=true;
+              if(this.fullListSymptoms[index].frequency==null){
+                console.log(this.orphaSymptoms[ipos].frequency);
+                this.fullListSymptoms[index].frequency=this.orphaSymptoms[ipos].frequency;
+                this.orphaSymptoms[ipos].frequency =null;
+              }
+            }
+          }
+        }
+      }
+
+      if(!foundSymptom){
+        for(var j in list){
+          var tamano2= Object.keys(list[j]).length;
+          if(tamano2>0){
+            this.completeFrequencies(index, id, list[j]);
+          }
+        }
+      }
+
 
     }
 
@@ -5743,6 +5703,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
       });
       var lang = this.authService.getLang();
+      console.log(hposStrins);
       await this.apif29BioService.getInfoOfSymptoms(lang,hposStrins)
       .subscribe( (res : any) => {
         var tamano= Object.keys(res).length;
@@ -5758,11 +5719,121 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             }
           }
           this.fullListSymptoms.sort(this.sortService.GetSortOrder("frequencyId"));
+          console.log(this.fullListSymptoms);
         }
 
      }, (err) => {
        console.log(err);
      });
+    }
+
+    calculateAll(symptomsOfDiseaseIds){
+      // Get predecessors
+      this.subscription.add(this.apif29BioService.getSuccessorsOfSymptoms(symptomsOfDiseaseIds)
+      .subscribe( (res1 : any) => {
+        //console.log(res1)
+        //console.log(this.phenotype.data)
+        //console.log(this.fullListSymptoms)
+        var successorsAllSymptoms=res1;
+        // Añadir los succesors a la lista de symptoms
+        Object.keys(successorsAllSymptoms).forEach(key => {
+          Object.keys(successorsAllSymptoms[key]).forEach(keyValue=>{
+            for(var i=0;i<this.fullListSymptoms.length;i++){
+              if(this.fullListSymptoms[i].id==key){
+                if(this.fullListSymptoms[i].id==key){
+                  if(this.fullListSymptoms[i].succesors==undefined){
+                    this.fullListSymptoms[i].succesors = [keyValue]
+                  }
+                  else{
+                    this.fullListSymptoms[i].succesors.push(keyValue)
+                  }
+                }
+              }
+            }
+          });
+        });
+
+        //console.log(this.fullListSymptoms)
+        // Separar los sintomas genericos a  this.listGenericSymptoms
+        var symptonmPhen=false;
+        for(var i=0;i<this.fullListSymptoms.length;i++){
+          symptonmPhen=false;
+          for (var j=0;j<this.phenotype.data.length;j++){
+            if(this.phenotype.data[j].id==this.fullListSymptoms[i].id){
+              symptonmPhen=true;
+            }
+          }
+          if(symptonmPhen==false){
+            this.listGenericSymptoms.push(this.fullListSymptoms[i])
+          }
+          else{
+            for(var j=0;j<this.omimSymptoms.length;j++){
+              if(this.fullListSymptoms[i].id==this.omimSymptoms[j].id){
+                this.listGenericSymptoms.push(this.fullListSymptoms[i])
+              }
+            }
+            for(var j=0;j<this.orphaSymptoms.length;j++){
+              if(this.fullListSymptoms[i].id==this.orphaSymptoms[j].id){
+                this.listGenericSymptoms.push(this.fullListSymptoms[i])
+              }
+            }
+          }
+        }
+        // Eliminar los repetidos
+        this.listGenericSymptoms= this.listGenericSymptoms.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
+        this.fullListSymptoms=this.compareListAndUpdateChecksForPredecessors(this.fullListSymptoms,this.phenotype.data,this.listGenericSymptoms)
+
+        //console.log(this.listGenericSymptoms)
+        // Asi ya tenemos por un lado los genericos y por otro los de phenotype
+
+        this.listSymptomsMe=[];
+        this.listSymptomsGeneric=[];
+        this.listSymptomsMeGeneric=[];
+
+        // Calculo la información del los diagramas
+        this.calculeChartSymptomsInfo(); //(listas de cada caso)
+
+        //console.log(this.listSymptomsMe)
+        //console.log(this.listSymptomsGeneric)
+        //console.log(this.listSymptomsMeGeneric)
+        var listSymptomsMeWithoutSuccessors=[]
+
+        // Diagrama de Venn
+        // De mis sintomas tengo que quitar los que son succesors para el data
+        // Es decir, solo quedarme con los de phenotype.data
+        for(var i=0;i<this.phenotype.data.length;i++){
+          listSymptomsMeWithoutSuccessors.push(this.phenotype.data[i].name)
+        }
+
+        // Lista de datos de entrada para la representacion del diagrama de Venn
+        this.chartDataVenn = [];
+        this.chartDataVenn = [
+          {sets: ['My case'], size: this.listSymptomsMe.length,label: this.translate.instant("patdiagdashboard.panel3MyCase"),data:listSymptomsMeWithoutSuccessors},
+          {sets: ['Reference case'], size: this.listSymptomsGeneric.length, label:this.translate.instant("patdiagdashboard.panel3ReferenceCase"),data:this.listSymptomsGeneric},
+          {sets: ['My case','Reference case'], size: this.listSymptomsMeGeneric.length,data:this.listSymptomsMeGeneric}
+        ];
+
+        // Diagrama de bars
+
+        // Lista de datos de entrada para la representacion del diagrama Bars
+        this.chartDataBars = [];
+
+        this.chartDataBars.push([
+          this.translate.instant("patdiagdashboard.panel3ReferenceCase"),
+          this.listSymptomsGeneric.length
+        ]);
+        this.chartDataBars.push([
+          this.translate.instant("patdiagdashboard.panel3MyCase"),
+          this.listSymptomsMe.length
+        ]);
+        this.drawCharts();
+        this.loadingGraphSymptomFreq= false;
+
+      }, (err) => {
+        console.log(err);
+        this.loadingGraphSymptomFreq=false;
+        this.toastr.error('', this.translate.instant("dashboardpatient.error try again"));
+      }));
     }
 
     checkOmimSymptoms(){
@@ -5806,7 +5877,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             }
           }
         }else{
-          this.fullListSymptoms.push({id:this.phenotype.data[i].id, name: this.phenotype.data[i].name, def: this.phenotype.data[i].def, comment: this.phenotype.data[i].comment, synonyms: this.phenotype.data[i].synonyms, group: 'none', omim: false, orphanet: false, patient: true});
+          this.fullListSymptoms.push({id:this.phenotype.data[i].id, name: this.phenotype.data[i].name, def: this.phenotype.data[i].def, comment: this.phenotype.data[i].comment, synonyms: this.phenotype.data[i].synonyms, group: 'none', omim: false, orphanet: false, patient: true, frequency: null});
         }
       }
     }
