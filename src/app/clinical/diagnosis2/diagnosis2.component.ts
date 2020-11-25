@@ -277,19 +277,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     listGenericSymptoms: any=[];
     loadingSymptomsDataForGraph: boolean = false;
     @ViewChild('chartVenn') private chartContainerVenn: ElementRef;
-    @ViewChild('chartBars') private chartContainerBars: ElementRef;
-    @ViewChild('chartVennReal') private chartContainerVennReal: ElementRef;
-    @ViewChild('chartBarsReal') private chartContainerBarsReal: ElementRef;
 
 
     @Input() private chartDataVenn: Array<any>=[];
-    @Input() private chartDataVennReal: Array<any>=[];
-
-    @Input() private chartDataBars: Array<any>=[];
-    @Input() private chartDataBarsReal: Array<any>=[];
-
-
-    @Input() private chartDataSymptomsFreq: Array<any>=[];
     //chartSize_MeOmim: number = 0;
     //chartSize_MeOrpha: number = 0;
     //chartSize_OmimOrpha: number = 0;
@@ -298,98 +288,26 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     listSymptomsMe:any=[];
     listSymptomsGeneric:any=[];
     listSymptomsMeGeneric:any=[];
-    listSymptomsMe_real:any=[];
-    listSymptomsMeReal:any=[];
-    listSymptomsReal:any=[];
-    // Lista de paciente-sintomas
-    listSymtomsFreqResponse:any=[]
-    // Lista de paciente-sintomas SIN los padres (por cada paciente se "limpia" la lista de HP, eliminando los padres si los hay)
-    listSymtomsFreqResponseWithoutPredecessorsByPatient:any=[]
-    // lista de sintoma-pacientes
-    listSymtomsFreq:any=[];
-
-    // Lista de pacientes-sintomas de los casos simulados
-    listSymtomsFreqResponseSim:any=[]
-    // Lista de paciente Simulados-sintomas SIN los padres (por cada paciente se "limpia" la lista de HP, eliminando los padres si los hay)
-    listSymtomsFreqResponseSimWithoutPredecessorsByPatient:any=[]
-
-    // lista de sintoma-pacientes simulados
-    listSymtomsFreqSim:any=[];
-
-
-    // Lista que se usa en los graficos
-    listSymtomsFreqForGraph:any=[];
-    // Copia de la lista que se usa en los graficos con todos los datos de entrada (sin filtro ni query)
-    listSymtomsFreqForGraphOriginalCopy:any=[];
-
-    // Lista de sintomas filtrados (checked=true/false)
-    listSymtomsFreqForGraphFiltered:any=[];
-    // Lista de los sintomas filtrados NUEVOS antes de dar a guardar (por si se cancela resetear estos)
-    listSymtomsFreqForGraphFilteredLastAdded:any=[];
-    //booleano que indica si hay filtro o no
-    filterApply:boolean=false;
-
-    // Lista de sintomas queried (checked=true/false)
-    listSymtomsFreqForGraphQuery:any=[];
-    // Lista de los sintomas queried NUEVOS antes de dar a guardar (por si se cancela resetear estos)
-    listSymtomsFreqForGraphQueryLastAdded:any=[];
-    //booleano que indica si hay query o no
-    queryApply:boolean=false;
 
     // booleano que indica cuando se puede mostrar el histograma(cuando los datos esten cargados)
     loadingGraphSymptomFreq:boolean=false;
-    diagramSymptomsFreqMaxSize:number=0;
-    maxSizeFreqSymptoms:number=100;
-    mazSizeFreqSymtpomsReduceScreen:number=10;
-
-    // Booleano para indicar que se han eliminado datos del histograma por pacientes=0
-    patientDataNotShowHistogram:boolean=false;
-    // Los nombres de los sintomas que no se estan mostrando que tenia el paciente
-    listpatientDataNotShowHistogram:any=[];
-    listpatientDataNotShowHistogramString:string="";
-    // Un ejemplo de los sintomas que no salen porque son padres de otros
-    exampleSymptomPredeccessor="";
 
 
     private margin: any = { top: 60, bottom: 0, left: 35, right: 20};
     private marginFreq: any = { top: 60, bottom: 10, left: 10, right: 40};
     private chartVenn: any;
-    private chartBars: any;
-    private chartVennReal: any;
-    private chartBarsReal: any;
-    private chartSymptomsFreq: any;
-    private chartSymptomsFreq2: any;
 
 
     private widthVenn: number;
     private heightVenn: number;
-    private widthBars: number;
-    private heightBars: number;
-    private xScaleBars: any;
-    private yScaleBars: any;
-    private xScaleBarsReal: any;
-    private yScaleBarsReal: any;
-    private colorsBars: any;
-    private xAxisBars: any;
-    private yAxisBars: any;
-    private xAxisBarsReal: any;
-    private yAxisBarsReal: any;
-    private widthSymptomsFreq: number;
-    private heightSymptomsFreq: number;
-    private xScaleSymptomsFreq: any;
-    private yScaleSymptomsFreq: any;
     private yZoom:any;
     private gBrush:any;
     private handle:any;
     private brush:any;
     private previousSelection:any;
     private xAxisSymptomsFreq: any;
-    private yScaleSymptomsFreq_mini: any;
-    private xScaleSymptomsFreq_mini: any;
     private yAxisSymptomsFreq: any;
     private maxWidth: any=0;
-    private widthSymptomsFreq_saved:any;
-    private windowSizeforWidthSymptomsFreq_size:any;
     private redrawNewSize:boolean=true;
     loadingquality: boolean = false;
     listOfphenotypesinfo: any = [];
@@ -397,6 +315,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     listOfFilteredSymptoms: any = [];
     symptomsPermissions:any = {shareWithCommunity:false};
     actualDiseaseDesc: any = {};
+    indexExpandedElementGenes: number = -1;
+    expandedElement: any = null;
+    actualRelatedDisease: any = {};
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -5334,6 +5255,23 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.router.navigate(['clinical/dashboard/home']);
     }
 
+    logIndex(index){
+      this.indexExpandedElementGenes = index;
+      this.expandedElement = this.infoGenesAndConditionsExomizer[index];
+    }
+
+    setIndexAndshowPanelGenes(contentPanelGenes, gene){
+      var index = -1;
+      for(var i = 0; i < this.infoGenesAndConditionsExomizer.length; i++) {
+        if(this.infoGenesAndConditionsExomizer[i].name==gene){
+          index=i;
+          break;
+        }
+      }
+      this.expandedElement = this.infoGenesAndConditionsExomizer[index];
+      this.showPanelGenes(contentPanelGenes);
+    }
+
     showPanelGenes(contentPanelGenes){
       var size= 'ModalClass-lg';
       if(this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhen2Genes.length>0){
@@ -5489,6 +5427,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.selectedDisease = diseaseIndex;
       }
       if(this.selectedDisease != -1){
+        console.log(disease);
         this.loadSymptomsOfDiseaseForGraph(disease);
       }
 
@@ -5499,8 +5438,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.fullListSymptoms = [];
       this.omimSymptoms = [];
       this.orphaSymptoms = [];
-      this.listSymtomsFreqForGraphFiltered=[];
-      this.listSymtomsFreqForGraphQuery=[];
       this.actualDiseaseDesc = {};
 
       this.loadingSymptomsDataForGraph = true;
@@ -5513,6 +5450,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         console.log(res);
           var idDesease = listXRefs[0];
           var info = res[idDesease];
+          this.parseOtherInfoSymptomsOfDisease(info);
           //console.log(info);
           if(info!=undefined){
             this.actualDiseaseDesc = {desc: info.desc, comment: info.comment};
@@ -5602,7 +5540,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               {
                 for(var j=0;j<this.orphaSymptoms.length;j++){
                   if(this.omimSymptoms[i].id==this.orphaSymptoms[j].id){
-                    console.log('encontrado');
                     this.omimSymptoms[i].frequency = this.orphaSymptoms[j].frequency;
                   }
                 }
@@ -5612,14 +5549,13 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               {
                 for(var j=0;j<this.orphaSymptoms.length;j++){
                   if(this.phenotype.data[i].id==this.orphaSymptoms[j].id){
-                    console.log('encontrado');
                     this.phenotype.data[i].frequency = this.orphaSymptoms[j].frequency;
                   }
                 }
 
               }
             this.checkOPatientSymptoms();
-            //this.checkOrphaSymptoms();
+            this.checkOrphaSymptoms();
             this.checkOmimSymptoms();
 
 
@@ -5657,9 +5593,66 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }.bind(this))
     }
 
+    parseOtherInfoSymptomsOfDisease(info){
+      console.log(info);
+      var clinical_course = [];
+      if(Object.keys(info.clinical_course).length>0){
+        for(var hpo in info.clinical_course) {
+          console.log(hpo);
+          console.log(info.clinical_course[hpo]);
+          clinical_course.push({hpo:hpo, info: info.clinical_course[hpo]});
+        }
+      }
+      var clinical_modifier = [];
+      if(Object.keys(info.clinical_modifier).length>0){
+        for(var hpo in info.clinical_modifier) {
+          clinical_modifier.push({hpo:hpo, info: info.clinical_modifier[hpo]});
+        }
+      }
+      this.actualRelatedDisease = {clinical_course: clinical_course, clinical_modifier: clinical_modifier, xrefs: info.xrefs};
+    }
+
     async setFrequencies(list){
       for (var i = 0; i < this.fullListSymptoms.length; i++){
-        this.completeFrequencies(i, this.fullListSymptoms[i].id, list);
+        if(this.fullListSymptoms[i].frequency==null){
+          this.completeFrequencies(i, this.fullListSymptoms[i].id, list);
+        }
+      }
+    }
+
+    async completeFrequencies2(index, id, list){
+      var foundSymptom = false;
+      for (var ipos = 0; ipos < this.orphaSymptoms.length && !foundSymptom; ipos++){
+        var tamano= Object.keys(list).length;
+        if(tamano>0){
+          for(var j in list){
+            if(this.orphaSymptoms[ipos].id==j && this.orphaSymptoms[ipos].frequency!=null){//&& j==this.orphaSymptoms[ipos].id
+              foundSymptom=true;
+              if(this.fullListSymptoms[index].frequency==null){
+                this.fullListSymptoms[index].frequency=this.orphaSymptoms[ipos].frequency;
+                this.orphaSymptoms[ipos].frequency =null;
+              }else if(this.fullListSymptoms[index].frequency!=null){
+                //REVISAR ESTO PORQUE ES PELIGROSO, SI CAMBIAN LOS HPOS DE PRIORIDAD PUEDE DEJAR DE FUNCIONAR
+                var temp1 = this.fullListSymptoms[index].frequency.split('HP:');
+                var temp1_1: number = +temp1[1];
+                var temp2 = this.orphaSymptoms[ipos].frequency.split('HP:');
+                var temp2_1: number = +temp2[1];
+                if(temp1_1>temp2_1){
+                  this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      if(!foundSymptom){
+        for(var j in list){
+          var tamano2= Object.keys(list[j]).length;
+          if(tamano2>0){
+            this.completeFrequencies(index, id, list[j]);
+          }
+        }
       }
     }
 
@@ -5672,9 +5665,13 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             if(this.orphaSymptoms[ipos].id==j && this.orphaSymptoms[ipos].frequency!=null){//&& j==this.orphaSymptoms[ipos].id
               foundSymptom=true;
               if(this.fullListSymptoms[index].frequency==null){
-                console.log(this.orphaSymptoms[ipos].frequency);
                 this.fullListSymptoms[index].frequency=this.orphaSymptoms[ipos].frequency;
                 this.orphaSymptoms[ipos].frequency =null;
+              }else if(this.fullListSymptoms[index].frequency!=null){
+                //REVISAR ESTO PORQUE ES PELIGROSO, SI CAMBIAN LOS HPOS DE PRIORIDAD PUEDE DEJAR DE FUNCIONAR
+                if(this.fullListSymptoms[index].frequency<this.orphaSymptoms[ipos].frequency){
+                  this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
+                }
               }
             }
           }
@@ -5703,7 +5700,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
       });
       var lang = this.authService.getLang();
-      console.log(hposStrins);
       await this.apif29BioService.getInfoOfSymptoms(lang,hposStrins)
       .subscribe( (res : any) => {
         var tamano= Object.keys(res).length;
@@ -5716,9 +5712,24 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                   this.fullListSymptoms[j].frequencyId= res[i].id
                 }
               }
+              this.fullListSymptoms[j].myCase = false;
+              if((this.fullListSymptoms[j].patient) || (!this.fullListSymptoms[j].patient && this.fullListSymptoms[j].patientbutsuccessor)){
+                this.fullListSymptoms[j].myCase = true;
+              }
+              this.fullListSymptoms[j].referenceCase = false;
+              if((!this.fullListSymptoms[j].patient) || (this.fullListSymptoms[j].patient && (this.fullListSymptoms[j].orphanet || this.fullListSymptoms[j].omim)) || (this.fullListSymptoms[j].patient && !this.fullListSymptoms[j].orphanet && !this.fullListSymptoms[j].omim && this.fullListSymptoms[j].notpatientbutsuccessor)){
+                this.fullListSymptoms[j].referenceCase = true;
+              }
             }
           }
-          this.fullListSymptoms.sort(this.sortService.GetSortOrder("frequencyId"));
+          //this.fullListSymptoms.sort(this.sortService.GetSortOrder("frequencyId"));
+          for (var ki = 0; ki < this.fullListSymptoms.length; ki++) {
+            if(this.fullListSymptoms[ki].frequency==undefined){
+              this.fullListSymptoms[ki].frequencyId= "HP:0040289";
+            }
+          }
+          this.fullListSymptoms.sort(this.sortService.GetSortTwoElements("frequency", "name"));
+          this.fullListSymptoms.sort(this.sortService.GetSortSymptoms());
           console.log(this.fullListSymptoms);
         }
 
@@ -5728,6 +5739,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     calculateAll(symptomsOfDiseaseIds){
+      this.listGenericSymptoms = [];
       // Get predecessors
       this.subscription.add(this.apif29BioService.getSuccessorsOfSymptoms(symptomsOfDiseaseIds)
       .subscribe( (res1 : any) => {
@@ -5813,19 +5825,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           {sets: ['My case','Reference case'], size: this.listSymptomsMeGeneric.length,data:this.listSymptomsMeGeneric}
         ];
 
-        // Diagrama de bars
-
-        // Lista de datos de entrada para la representacion del diagrama Bars
-        this.chartDataBars = [];
-
-        this.chartDataBars.push([
-          this.translate.instant("patdiagdashboard.panel3ReferenceCase"),
-          this.listSymptomsGeneric.length
-        ]);
-        this.chartDataBars.push([
-          this.translate.instant("patdiagdashboard.panel3MyCase"),
-          this.listSymptomsMe.length
-        ]);
         this.drawCharts();
         this.loadingGraphSymptomFreq= false;
 
@@ -5861,7 +5860,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             }
           }
         }else{
-          this.fullListSymptoms.push({id:this.orphaSymptoms[i].id, name: this.orphaSymptoms[i].name, def: this.orphaSymptoms[i].def, comment: this.orphaSymptoms[i].comment, synonyms: this.orphaSymptoms[i].synonyms, group: 'none', omim: false, orphanet: true, patient: false});
+          //this.fullListSymptoms.push({id:this.orphaSymptoms[i].id, name: this.orphaSymptoms[i].name, def: this.orphaSymptoms[i].def, comment: this.orphaSymptoms[i].comment, synonyms: this.orphaSymptoms[i].synonyms, group: 'none', omim: false, orphanet: true, patient: false});
         }
       }
     }
@@ -5877,7 +5876,13 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             }
           }
         }else{
-          this.fullListSymptoms.push({id:this.phenotype.data[i].id, name: this.phenotype.data[i].name, def: this.phenotype.data[i].def, comment: this.phenotype.data[i].comment, synonyms: this.phenotype.data[i].synonyms, group: 'none', omim: false, orphanet: false, patient: true, frequency: null});
+          var frequency = null;
+          if(this.phenotype.data[i].frequency!=undefined){
+            if(this.phenotype.data[i].frequency!=null){
+              frequency = this.phenotype.data[i].frequency
+            }
+          }
+          this.fullListSymptoms.push({id:this.phenotype.data[i].id, name: this.phenotype.data[i].name, def: this.phenotype.data[i].def, comment: this.phenotype.data[i].comment, synonyms: this.phenotype.data[i].synonyms, group: 'none', omim: false, orphanet: false, patient: true, frequency: frequency});
         }
       }
     }
@@ -5970,140 +5975,17 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       var venn=document.getElementById('chartVenn')
       venn.insertAdjacentHTML('beforeend', '<svg id ="venn" viewBox="0 0 580 340" [style.margin-left.px]= "-(((venn.offsetWidth)/2)+(margin.left/2))"></svg>');
 
-      var graph=document.getElementById('chartBars')
-      graph.insertAdjacentHTML('beforeend', '<svg id="graphBars"></svg>');
-
-      this.createChartBars();
-      if (this.chartDataBars) {
-        this.updateChartBars();
-      }
       this.createChartVenn();
 
       //this.redrawNewSize=true
 
       // Check if the lists have info- if not svg size to 0
 
-      if(this.chartDataBars.length==0 && this.chartDataVenn.length==0){
-        var graphBarsSvg=document.getElementById('graphBars')
-        graphBarsSvg.style.height = "0px";
-        graphBarsSvg.style.width = "0px";
+      if(this.chartDataVenn.length==0){
         var graphVennSvg=document.getElementById('venn')
         graphVennSvg.style.height = "0px";
         graphVennSvg.style.width = "0px";
       }
-
-    }
-
-    createChartBars() {
-      // ----- Second graph ----------------------------------------------------------------
-        let elementBars = this.chartContainerBars.nativeElement;
-        this.widthBars = elementBars.offsetWidth - this.margin.left+20 - this.margin.right;
-        this.heightBars = elementBars.offsetHeight - this.margin.top - this.margin.bottom;
-
-        let svgBars = d3.select("#graphBars")
-          .attr('width', elementBars.offsetWidth)
-          .attr('height', 2*elementBars.offsetHeight)
-          .classed("svg-content-responsive", true);
-        // chart plot area
-        this.chartDataBars.sort((a,b) =>{ return b[1] - a[1]; })
-        this.chartBars = svgBars.append('g')
-          .attr('class', 'bars')
-          .attr('transform', `translate(${this.margin.left+20}, ${this.margin.top})`)
-          .style("fill-opacity", .4);
-
-        // define X & Y domains
-        let xDomain = this.chartDataBars.map(d => d[0]);
-        let yDomain = [0, d3.max(this.chartDataBars, d => d[1])];
-
-        // create scales
-        this.xScaleBars = d3.scaleBand().padding(0.1).domain(xDomain).rangeRound([0, this.widthBars]);
-        this.yScaleBars = d3.scaleLinear().domain(yDomain).range([1.5*this.heightBars, 0]);
-
-        // bar colors
-        //this.colors = d3.scaleLinear().domain([0,this.chartDataBars.length]).range(<any[]>['blue', 'orange']);
-        this.colorsBars=d3.scaleOrdinal(["#ff7f0e","#1f77b4"]);
-        // x & y axis
-        this.xAxisBars = svgBars.append('g')
-          .attr('class', 'axis axis-x')
-          .attr('transform', `translate(${this.margin.left+20}, ${this.margin.top + 1.5*this.heightBars})`)
-          .call(d3.axisBottom(this.xScaleBars))
-        this.xAxisBars.call(d3.axisBottom(this.xScaleBars)).selectAll("text")
-          .style("font-size","14px")
-          .style("fill","black")
-          .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
-        this.yAxisBars = svgBars.append('g')
-          .attr('class', 'axis axis-y')
-          .attr('transform', `translate(${this.margin.left+20}, ${this.margin.top})`)
-          .call(d3.axisLeft(this.yScaleBars));
-
-        this.yAxisBars.call(d3.axisLeft(this.yScaleBars)).selectAll("text")
-          .style("font-size","10px")
-          .style("fill","black")
-          .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
-
-        //text label for y axis
-        var yAxisText=this.translate.instant("patdiagdashboard.Number of symptoms")
-        svgBars.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0 - this.margin.left+20)
-        .attr("x", 0 - (1.5*this.heightBars/2)-(this.heightBars/2))
-        .attr("dy", "1.8em")
-        .style("text-anchor", "middle")
-        .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif')
-        .text(yAxisText);
-
-    }
-
-    updateChartBars() {
-
-      // update scales & axis
-      //console.log(this.xScale)
-      this.xScaleBars.domain(this.chartDataBars.map(d => d[0]));
-      this.yScaleBars.domain([0, d3.max(this.chartDataBars, d => d[1])]);
-      //this.colors.domain([0, this.chartDataBars.length]);
-      this.xAxisBars.transition().call(d3.axisBottom(this.xScaleBars));
-      this.yAxisBars.transition().call(d3.axisLeft(this.yScaleBars));
-
-      let updateBars = this.chartBars.selectAll('.bar')
-        .data(this.chartDataBars);
-
-      if(this.listSymptomsMe.length>this.listSymptomsGeneric.length){
-        this.colorsBars=d3.scaleOrdinal(["#1f77b4","#ff7f0e"]);
-      }
-      else if(this.listSymptomsMe.length<this.listSymptomsGeneric.length){
-        this.colorsBars=d3.scaleOrdinal(["#ff7f0e","#1f77b4"]);
-      }
-
-      // remove exiting bars
-      updateBars.exit().remove();
-
-      // update existing bars
-      this.chartBars.selectAll('.bar').transition()
-        .attr('x', d => this.xScaleBars(d[0]))
-        .attr('y', d => this.yScaleBars(d[1]))
-        .attr('width', d => this.xScaleBars.bandwidth())
-        .attr('height', d => 1.5*this.heightBars - this.yScaleBars(d[1]))
-        .style('fill', (d, i) => this.colorsBars(i))
-        .style("fill-opacity", .4)
-        .style("background-color", function(d, i) {
-          return this.colorsBars(i);
-        })
-      // add new bars
-      updateBars
-        .enter()
-        .append('rect')
-        .attr('class', 'bar')
-        .attr('x', d => this.xScaleBars(d[0]))
-        .attr('y', d => this.yScaleBars(0))
-        .attr('width', this.xScaleBars.bandwidth())
-        .attr('height', 0)
-        .style('fill', (d, i) => this.colorsBars(i))
-        .transition()
-        .delay((d, i) => i * 10)
-        .attr('y', d => this.yScaleBars(d[1]))
-        .attr('height', d => 1.5*this.heightBars - this.yScaleBars(d[1]));
-      updateBars.exit()
-        .remove();
 
     }
 
@@ -6449,67 +6331,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           tooltip.html("");
         }
       });
-    }
-
-
-    calculeChartSymptomsInfoReal(listforGraph){
-      // por un lado tengo Los sintomas que estan en MI caso: listSymptomsMe - son los de phenotype que ha metido el paciente
-      // a estos tengo que quitarles los que no se muestran en el histograma porque son PADRES this.listpatientDataNotShowHistogram.
-      this.listSymptomsMe_real=[];
-      for(var i=0;i<this.phenotype.data.length;i++){
-        if(this.listpatientDataNotShowHistogram.includes(this.phenotype.data[i].name)==false){
-          this.listSymptomsMe_real.push(this.phenotype.data[i].name)
-        }
-      }
-      this.listSymptomsReal=[];
-      // Por otro lado tengo la lista de "genericos": la de chartDataFreq pero solo me quedo con d[0]
-      for(var i=0;i<listforGraph.length;i++){
-        this.listSymptomsReal.push(listforGraph[i][0])
-      }
-
-      // Y por ultimo la comun de estos dos: listSymptomsMeReal
-      // Este caso es mas sencillo poque no tengo que mirar HIJOS ni PADRES (la lista de el histograma ya estaba limpia)
-      this.listSymptomsMeReal=[];
-      for(var i=0;i<listforGraph.length;i++){
-        for(var j=0;j<this.phenotype.data.length;j++){
-          if(listforGraph[i][0]==this.phenotype.data[j].name){
-            this.listSymptomsMeReal.push(this.phenotype.data[j].name)
-          }
-        }
-      }
-    }
-
-    orderChartFreqData(){
-      // Para cada sintoma de la lista  cojo su frecuencia y busco si en el resto de sintomas de esa misma lista hay alguno con freq=a esa
-      // y es del paciente lo coloco primero
-      var chartDataReorder=[];
-      for(var i=0;i<this.chartDataSymptomsFreq.length;i++){
-        // Si todavia no se ha añadido a la lista reordenada
-        if(chartDataReorder.includes(this.chartDataSymptomsFreq[i])==false){
-          var freq=this.chartDataSymptomsFreq[i][1];
-          // Si es del paciente incluyo este primero
-          for(var j=0;j<this.chartDataSymptomsFreq.length;j++){
-            if(i!=j){
-              if(this.chartDataSymptomsFreq[j][1]==freq){
-                for(var k=0;k<this.listSymtomsFreqForGraph[0].data.length;k++){
-                  if(this.chartDataSymptomsFreq[j][0]==this.listSymtomsFreqForGraph[0].data[k].symptom.nameForShow){
-                    var symptomId= this.listSymtomsFreqForGraph[0].data[k].symptom.id;
-                    for(var m=0;m<this.phenotype.data.length;m++){
-                      if(this.phenotype.data[m].id==symptomId){
-                        chartDataReorder.push(this.chartDataSymptomsFreq[j])
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-          chartDataReorder.push(this.chartDataSymptomsFreq[i])
-        }
-      }
-      this.chartDataSymptomsFreq=[];
-      this.chartDataSymptomsFreq=chartDataReorder;
-      this.chartDataSymptomsFreq= this.chartDataSymptomsFreq.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
     }
 
 }

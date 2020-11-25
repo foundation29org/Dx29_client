@@ -118,4 +118,51 @@ export class SortService {
     }
   }
 
+  GetSortSymptoms() {
+    var prop1 = "frequencyId";
+    var prop2_1= "myCase";
+    var prop2_2= "referenceCase";
+    var prop3 = "name";
+      return function(a, b) {
+          if ((a[prop1]) > (b[prop1])) {
+              return 1;
+          } else if ((a[prop1]) < (b[prop1])) {
+              return -1;
+          }else{
+            if (a[prop2_1] && a[prop2_2]) {
+                return -1;
+            } else if (!a[prop2_1] || !a[prop2_2]) {
+                return 1;
+            }else{
+              if ((a[prop3]) > (b[prop3])) {
+                  return 1;
+              } else if ((a[prop3]) < (b[prop3])) {
+                  return -1;
+              }
+              return 0;
+            }
+          }
+
+      }
+  }
+
+  GetSortTwoElements(prop1:string, prop2:string) {
+      return function(a, b) {
+          if (a[prop1] < b[prop1]) {
+              return 1;
+          } else if (a[prop1] > b[prop1]) {
+              return -1;
+          }else{
+            if (a[prop2] < b[prop2]) {
+                return 1;
+            } else if (a[prop2] > b[prop2]) {
+                return -1;
+            }else{
+              return 0;
+            }
+          }
+
+      }
+  }
+
 }
