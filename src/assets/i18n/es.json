@@ -702,7 +702,9 @@
     "titleNotCanLaunchExomiser":"Se necesitan síntomas.",
     "msgNotCanLaunchPhenolyzer":"Es necesario introducir algún síntoma para ejecutar el algoritmo de priorización de genes.",
     "msgNotCanLaunchExomiser":"Es necesario introducir algún síntoma para ejecutar el algoritmo de priorización de genes.",
-    "unknown frequency": "Frecuencia desconocida"
+    "unknown frequency": "Frecuencia desconocida",
+    "born": "Nacido",
+    "age": "Edad"
   },
   "admin":{
     "death": "Defunción"

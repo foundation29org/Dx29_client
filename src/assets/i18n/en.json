@@ -703,7 +703,9 @@
     "titleNotCanLaunchExomiser":"Symptoms needed.",
     "msgNotCanLaunchPhenolyzer":"You need to provide some symptoms to launch gene prioritization algorithm.",
     "msgNotCanLaunchExomiser":"You need to provide some symptoms to launch gene prioritization algorithm.",
-    "unknown frequency": "Unknown frequency"
+    "unknown frequency": "Unknown frequency",
+    "born": "Born",
+    "age": "Age"
   },
   "admin":{
     "death": "Death"
