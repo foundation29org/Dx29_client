@@ -2915,6 +2915,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             }
           }
         }
+        this.settingExomizer.genomeAssembly='hg38'; 
         this.subscription.add(this.exomiserService.analyzeExomiser(this.settingExomizer)
         .subscribe( (res : any) => {
           this.subscription.add( this.apiDx29ServerService.setPendingJobs(this.accessToken.patientId,this.exomiserService.getActualToken())
