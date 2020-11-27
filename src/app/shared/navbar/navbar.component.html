@@ -1,138 +1,227 @@
 <!-- Navbar (Header) Starts -->
-<nav class="navbar navbar-expand-lg navbar-light bg-faded">
+<nav class="navbar navbar-expand-lg navbar-light bg-faded damemarger custom-navbar" [ngClass]="((role == 'Clinical' || role == 'Lab') && !isHomePage)?'menuClinic-sm':''" >
     <div class="container-fluid">
-        <div class="navbar-header d-lg-none" *ngIf="role == 'Clinical' || role == 'Lab' || role == 'User'"> <!--*ngIf="role != 'Clinical' && role != 'Lab'"-->
-            <button type="button" class="navbar-toggle d-lg-none float-left" data-toggle="collapse" (click)="toggleSidebar()">
-                <span class="sr-only">{{'navbar.Toggle navigation' | translate }}</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-        <div class="navbar-header" *ngIf="role != 'Clinical' && role != 'Lab' && role != 'User' && role!='Admin'">
-            <button type="button" class="navbar-toggle d-lg-none float-left" data-toggle="collapse" (click)="toggleSidebar()">
-                <span class="sr-only">{{'navbar.Toggle navigation' | translate }}</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-        <div class="navbar-header d-none d-lg-block" *ngIf="role == 'Clinical' || role == 'Lab' || role == 'User' || role == 'Admin'" [ngClass]="{'pl-0': role=='Clinical' || role=='Lab' || role == 'User'|| role == 'Admin'}">
-          <a [routerLink]="redirectUrl" class="logo-text float-left">
-              <div class="logo-img">
-                  <img src="assets/img/logo-Dx29.png" style="height: 40px;" />
-              </div>
-          </a>
-          <div class="d-none d-lg-flex" *ngIf="role == 'Clinical' || role == 'Lab'">
-            <img src="assets/img/indice.png" style="margin-left: 10px;"/>
-            <li class="mr-2 active nav-link" *ngIf="actualUrl!='/clinical/dashboard/home'">
-              <a  [routerLink]="redirectUrl">
-                <h3 class="btn btn-outline-primary" style="margin-bottom: 0;">{{'diagnosis.BackCases' | translate }}</h3>
+      <div> <!--*ngIf="role != 'Clinical' && role != 'Lab'"-->
+          <button type="button" class="mt-2 d-lg-none navbar-toggle float-left" data-toggle="collapse" (click)="toggleSidebar()">
+              <span class="sr-only">{{'navbar.Toggle navigation' | translate }}</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </button>
+          <span class="navbar-header-logos">
+            <img *ngIf="isHomePage" class="logo-img" src='assets/img/logo-Dx29.png' />
+            <img *ngIf="!isHomePage" style="cursor:pointer;" class="logo-img" src='assets/img/logo-Dx29.png' [routerLink]="redirectUrl" />
+          </span>
+          <!--<div *ngIf="!isHomePage" class="d-none d-lg-block">
+              <a  [routerLink]="redirectUrl" >
+                <p class="btn-no-style cursor-pointer" style="margin-bottom: 0;">{{'diagnosis.BackCases' | translate }}</p>
               </a>
-            </li>
-            <li class="mr-2 active nav-link disabled" *ngIf="actualUrl=='/clinical/dashboard/home'">
-              <a>
-                <h3 style="margin-bottom: 0;">{{'diagnosis.Cases' | translate }}</h3>
-              </a>
-            </li>
+          </div>-->
+      </div>
+      <div class="" *ngIf="(role == 'Clinical' || role == 'Lab') && !isHomePage">
+        <div class="navbar-collapse" id="navbarSupportedContent">
+
+            <ul class="navbar-nav m-r-0">
+              <li class="nav-item" style="line-height: 1rem;">
+                <span class="d-block font-weight-bold mb-0">{{selectedPatient.patientName}}
+                  <i *ngIf="selectedPatient.gender=='male'" class="fa fa-mars"></i>
+                  <i *ngIf="selectedPatient.gender=='female'" class="fa fa-venus"></i>
+                </span>
+                <span class="text-muted">
+                  <span>Age: </span>
+                  <span *ngIf="age!=null">
+                    <span *ngIf="age.years>0">{{age.years}} year<span *ngIf="age.years>1">s</span> <span *ngIf="age.months>0">, </span></span>
+                    <span *ngIf="age.months>0">{{age.months}} month<span *ngIf="age.months>1">s</span></span>
+                    <span *ngIf="age.months==0 && age.years==0" title="Tiene menos de un mes de vida">0 months</span>
+                  </span>
+                  <span *ngIf="age==null">
+                    -
+                  </span>
+                </span>
+              </li>
+                <li class="nav-item mr-2 d-block d-lg-none">
+                  <span class="nav-item text-muted" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
+                      <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownsections" ngbDropdownToggle>
+                          <i class="fas fa-ellipsis-v"></i>
+                          <p class="d-none">Group</p>
+                      </a>
+                      <div ngbDropdownMenu aria-labelledby="dropdownsections" class="dropdownsections text-muted">
+                          <a class="dropdown-item py-1" href="javascript:;" title="Share">
+                            <span class="d-inline-block" [ngClass]="(actualStep < '5.0' && maxStep<'5.0' )?'border-bottom border-bottom-2 border-primary ':'border-bottom border-bottom-0 text-muted'">
+                                <button class="btn-no-style" [ngClass]="(maxStep=='5.0' )?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="startWizardAgain();">Wizard</button>
+                            </span>
+                          </a>
+                          <a class="dropdown-item py-1" href="javascript:;" title="Share">
+                            <span class="d-inline-block" [ngClass]="(actualStep == '4.0' && maxStep=='5.0')?'border-bottom border-bottom-2 border-primary ':'border-bottom border-bottom-0 text-muted'">
+                                <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('4.0', false, null)">Reports</button>
+                            </span>
+                          </a>
+                          <a class="dropdown-item py-1" href="javascript:;" title="Share">
+                            <span class="d-inline-block" [ngClass]="(actualStep == '1.0' && maxStep=='5.0' )?'border-bottom border-bottom-2 border-primary ':'border-bottom border-bottom-0 text-muted'">
+                                <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('1.0', false, null)">{{'diagnosis.Symptoms' | translate }}</button>
+                            </span>
+                          </a>
+                          <a class="dropdown-item py-1" href="javascript:;" title="Share">
+                            <span class="d-inline-block" [ngClass]="((actualStep == '2.0' || actualStep == '2.1') && maxStep=='5.0')?'border-bottom border-bottom-2 border-primary':'border-bottom border-bottom-0 text-muted'">
+                                <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('2.0', false, null)">{{'diagnosis.Genetics' | translate }}</button>
+                            </span>
+                          </a>
+                          <a class="dropdown-item py-1" href="javascript:;" title="Share">
+                            <span class="d-inline-block" [ngClass]="(((actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2') && maxStep=='5.0') || (actualStep == '5.0'))?'border-bottom border-bottom-2 border-primary':'border-bottom border-bottom-0 text-muted'">
+                                <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('5.0', false, null)">Diagnoses</button>
+                            </span>
+                          </a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item py-1" href="javascript:;" (click)="shareApp(shareTo)" title="Share">
+                              <span> <span> <i class="icon-share primary"></i></span> <span class="col-md-10">Share</span></span>
+                          </a>
+                      </div>
+                  </span>
+                </li>
+              </ul>
           </div>
-          <div class="d-none d-lg-flex" *ngIf="role == 'User'">
-            <img src="assets/img/indice.png" style="margin-left: 10px;"/>
-            <li class="mr-2 active nav-link" *ngIf="actualUrl!='/patient/dashboard/nodiagnosis' && actualUrl!='/patient/dashboard/withdiagnosis'">
-              <a  [routerLink]="redirectUrl">
-                <h3 style="margin-bottom: 0;">{{'dashboardpatient.BackMydata' | translate }}</h3>
-              </a>
-            </li>
-            <li class="mr-2 active nav-link disabled" *ngIf="actualUrl=='/patient/dashboard/nodiagnosis' || actualUrl=='/patient/dashboard/withdiagnosis'">
-              <a>
-                <h3 style="margin-bottom: 0;">{{'dashboardpatient.My data' | translate }}</h3>
-              </a>
-            </li>
-          </div>
-          <div class="d-none d-lg-flex" *ngIf="role == 'Admin'">
-            <img src="assets/img/indice.png" style="margin-left: 10px;"/>
-            <li class="mr-2 active nav-link" *ngIf="actualUrl!='/admin/dashboard/admingtp'">
-              <a  [routerLink]="redirectUrl">
-                <h3 style="margin-bottom: 0;">{{'adminGTP.BackGTPData' | translate }}</h3>
-              </a>
-            </li>
-            <li class="mr-2 active nav-link disabled" *ngIf="actualUrl=='/admin/dashboard/admingtp'">
-              <a>
-                <h3 style="margin-bottom: 0;">{{'adminGTP.GTP data' | translate }}</h3>
-              </a>
-            </li>
-          </div>
+      </div>
+        <div class="d-none d-lg-block" *ngIf="(role == 'Clinical' || role == 'Lab') && !isHomePage">
+          <div class="navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav m-r-0">
+                  <li class="nav-item mr-2">
+                    <div>
+                      <span class="d-inline-block mr-2" [ngClass]="(actualStep < '5.0' && maxStep<'5.0' )?'border-bottom border-bottom-2 border-primary ':'border-bottom border-bottom-0 text-muted'">
+                          <button class="btn-no-style" [ngClass]="(maxStep=='5.0' )?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="startWizardAgain();">Wizard</button>
+                      </span>
+                      <span class="d-inline-block mr-2 ml-2" [ngClass]="(actualStep == '4.0' && maxStep=='5.0')?'border-bottom border-bottom-2 border-primary ':'border-bottom border-bottom-0 text-muted'">
+                          <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('4.0', false, null)">Reports</button>
+                      </span>
+                      <span class="d-inline-block mr-2 ml-2" [ngClass]="(actualStep == '1.0' && maxStep=='5.0' )?'border-bottom border-bottom-2 border-primary ':'border-bottom border-bottom-0 text-muted'">
+                          <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('1.0', false, null)">{{'diagnosis.Symptoms' | translate }}</button>
+                      </span>
+                      <span class="d-inline-block mr-2 ml-2" [ngClass]="((actualStep == '2.0' || actualStep == '2.1') && maxStep=='5.0')?'border-bottom border-bottom-2 border-primary':'border-bottom border-bottom-0 text-muted'">
+                          <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('2.0', false, null)">{{'diagnosis.Genetics' | translate }}</button>
+                      </span>
+                      <span class="d-inline-block ml-2" [ngClass]="(((actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2') && maxStep=='5.0') || (actualStep == '5.0'))?'border-bottom border-bottom-2 border-primary':'border-bottom border-bottom-0 text-muted'">
+                          <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('5.0', false, null)">Diagnoses</button>
+                      </span>
+                      <!--<span class="d-inline-block ml-2" [ngClass]="(actualStep == '5.0' && maxStep=='5.0')?'border-bottom border-bottom-2 border-primary':'border-bottom border-bottom-0 text-muted'">
+                          <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('5.0', false, null)">Diagnoses</button>
+                      </span>-->
+                    </div>
+                  </li>
+                  <li class="nav-item mr-2">
+                  <span class="nav-item text-muted" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
+                      <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
+                          <i class="fas fa-ellipsis-v"></i>
+                          <p class="d-none">Group</p>
+                      </a>
+                      <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang text-muted">
+                          <a class="dropdown-item py-1" href="javascript:;" (click)="sharePatient()" title="Share">
+                              <span> <span> <i class="icon-share primary"></i></span> <span class="col-md-10">Share</span></span>
+                          </a>
+                      </div>
+                  </span>
+                  </li>
+
+                </ul>
+            </div>
         </div>
-        <!--<ngb-alert *ngIf="currentLang=='es'" type="light" class="mb-0 alert-yellow" style="inline-flex" [dismissible]="false">
-          <span class="font-alert">{{'InfoSystem.Spanishtranslations' | translate }}</span>
-        </ngb-alert>-->
-        <div class="navbar-container" style="padding-left: 0px;">
-            <div class="navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav">
-                    <li class="nav-item mr-2">
-                        <a href="javascript:;" class="nav-link" id="buttonShareTo" (click)="shareApp(shareTo)" *ngIf="role!='Admin'">
-                            <i class="icon-share font-medium-3 blue-grey darken-4"></i>
-                            <p class="d-none">Share</p>
-                        </a>
-                    </li>
-                    <li class="nav-item mr-2" *ngIf="!isApp">
-                        <a href="javascript:;" class="nav-link" id="navbar-fullscreen" appToggleFullscreen (click)="ToggleClass()">
-                            <i class="{{toggleClass}} + ' ' + font-medium-3 blue-grey darken-4"></i>
-                            <p class="d-none">{{'navbar.fullscreen' | translate }}</p>
-                        </a>
-                    </li>
-                    <li class="nav-item mr-2" ngbDropdown display="dynamic" [placement]="placement" *ngIf="role == 'Clinical' || role == 'Lab'">
-                        <a class="nav-link position-relative" id="dropdownBasic1" ngbDropdownToggle>
-                            <i class="ft-help-circle font-medium-3 blue-grey darken-4"></i>
-                            <p class="d-none">Help</p>
-                        </a>
-                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                            <a class="dropdown-item py-1" routerLink="/pages/support">
-                                <i class="ft-mail mr-2"></i>
-                                <span>{{'support.support' | translate }}</span>
-                            </a>
-                            <div class="dropdown-divider" *ngIf="role == 'Clinical' || role == 'Lab'"></div>
-                            <a class="dropdown-item" routerLink="/clinical/about" *ngIf="role == 'Clinical' || role == 'Lab'">
-                                <i class="ft-book mr-2"></i>
-                                <span>{{'about.title' | translate }}</span>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="nav-item mr-2" *ngIf="role == 'User'">
-                        <a class="nav-link position-relative notification-sidebar-toggle" routerLink="/pages/support">
-                            <i class="ft-mail font-medium-3 blue-grey darken-4"></i>
-                            <p class="d-none">{{'support.support' | translate }}</p>
-                        </a>
-                    </li>
-                    <li class="nav-item" ngbDropdown display="dynamic" [placement]="placement">
-                        <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle>
-                            <i class="ft-user font-medium-3 blue-grey darken-4"></i>
-                            <p class="d-none">{{'navbar.User Settings' | translate }}</p>
-                        </a>
-                        <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
-                            <a class="dropdown-item py-1" routerLink="/pages/profile">
-                                <i class="ft-edit mr-2"></i>
-                                <span>{{'navbar.My Profile' | translate }}</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="javascript:;" (click)="logout()">
-                                <i class="ft-power mr-2"></i>
-                                <span>{{'navbar.Logout' | translate }}</span>
-                            </a>
-                            <div *ngIf="isApp && isAndroid" class="dropdown-divider"></div>
-                            <a *ngIf="isApp && isAndroid" class="dropdown-item" href="javascript:;" (click)="exit()">
-                                <i class="ft-log-out mr-2"></i>
-                                <span>{{'navbar.Exit' | translate }}</span>
-                            </a>
-                        </div>
-                    </li>
+        <div class="d-none d-lg-block" *ngIf="role == 'User'">
+          <div class="navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav m-r-0">
+                <li class="mr-2 active nav-link" *ngIf="actualUrl!='/patient/dashboard/nodiagnosis' && actualUrl!='/patient/dashboard/withdiagnosis'">
+                  <a  [routerLink]="redirectUrl">
+                    <h3 style="margin-bottom: 0;">{{'dashboardpatient.BackMydata' | translate }}</h3>
+                  </a>
+                </li>
+                <li class="mr-2 active nav-link disabled" *ngIf="actualUrl=='/patient/dashboard/nodiagnosis' || actualUrl=='/patient/dashboard/withdiagnosis'">
+                  <a>
+                    <h3 style="margin-bottom: 0;">{{'dashboardpatient.My data' | translate }}</h3>
+                  </a>
+                </li>
+              </ul>
+          </div>
+      </div>
+      <div class="d-none d-lg-block" *ngIf="role == 'Admin'">
+        <div class="navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav m-r-0">
+              <li class="mr-2 active nav-link" *ngIf="actualUrl!='/admin/dashboard/admingtp'">
+                <a  [routerLink]="redirectUrl">
+                  <h3 style="margin-bottom: 0;">{{'adminGTP.BackGTPData' | translate }}</h3>
+                </a>
+              </li>
+              <li class="mr-2 active nav-link disabled" *ngIf="actualUrl=='/admin/dashboard/admingtp'">
+                <a>
+                  <h3 style="margin-bottom: 0;">{{'adminGTP.GTP data' | translate }}</h3>
+                </a>
+              </li>
+            </ul>
+        </div>
+    </div>
+        <div class="navbar-container pl-0">
+            <div  id="navbarSupportedContent">
+                <ul class="navbar-nav m-r-0">
+                  <li class="nav-item mr-2">
+                      <a href="javascript:;" class="nav-link" id="buttonShareTo" (click)="shareApp(shareTo)" *ngIf="role=='User'">
+                          <i class="icon-share font-medium-3 blue-grey darken-4"></i>
+                          <p class="d-none">Share</p>
+                      </a>
+                  </li>
+                  <!--<li class="nav-item mr-2" *ngIf="!isApp">
+                      <a href="javascript:;" class="nav-link" id="navbar-fullscreen" appToggleFullscreen (click)="ToggleClass()">
+                          <i class="{{toggleClass}} + ' ' + font-medium-3 blue-grey darken-4"></i>
+                          <p class="d-none">{{'navbar.fullscreen' | translate }}</p>
+                      </a>
+                  </li>-->
+                  <li class="nav-item mr-2" ngbDropdown display="dynamic" [placement]="placement" *ngIf="role == 'Clinical' || role == 'Lab'">
+                      <a class="nav-link position-relative" id="dropdownBasic1" ngbDropdownToggle>
+                          <i class="ft-help-circle font-medium-3 blue-grey darken-4"></i>
+                          <p class="d-none">Help</p>
+                      </a>
+                      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                          <a class="dropdown-item py-1" routerLink="/pages/support">
+                              <i class="ft-mail mr-2"></i>
+                              <span>{{'support.support' | translate }}</span>
+                          </a>
+                          <div class="dropdown-divider" *ngIf="role == 'Clinical' || role == 'Lab'"></div>
+                          <a class="dropdown-item" routerLink="/clinical/about" *ngIf="role == 'Clinical' || role == 'Lab'">
+                              <i class="ft-book mr-2"></i>
+                              <span>{{'about.title' | translate }}</span>
+                          </a>
+                      </div>
+                  </li>
+                  <li class="nav-item mr-2" *ngIf="role == 'User'">
+                      <a class="nav-link position-relative notification-sidebar-toggle" routerLink="/pages/support">
+                          <i class="ft-mail font-medium-3 blue-grey darken-4"></i>
+                          <p class="d-none">{{'support.support' | translate }}</p>
+                      </a>
+                  </li>
+                  <li class="nav-item" ngbDropdown display="dynamic" [placement]="placement">
+                      <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle>
+                          <i class="ft-user font-medium-3 blue-grey darken-4"></i>
+                          <p class="d-none">{{'navbar.User Settings' | translate }}</p>
+                      </a>
+                      <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
+                          <a class="dropdown-item py-1" routerLink="/pages/profile">
+                              <i class="ft-edit mr-2"></i>
+                              <span>{{'navbar.My Profile' | translate }}</span>
+                          </a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="javascript:;" (click)="logout()">
+                              <i class="ft-power mr-2"></i>
+                              <span>{{'navbar.Logout' | translate }}</span>
+                          </a>
+                          <div *ngIf="isApp && isAndroid" class="dropdown-divider"></div>
+                          <a *ngIf="isApp && isAndroid" class="dropdown-item" href="javascript:;" (click)="exit()">
+                              <i class="ft-log-out mr-2"></i>
+                              <span>{{'navbar.Exit' | translate }}</span>
+                          </a>
+                      </div>
+                  </li>
                 </ul>
             </div>
         </div>
     </div>
 </nav>
-<!-- Navbar (Header) Ends -->
 
+<!-- Navbar (Header) Ends -->
 <ng-template #shareTo let-c="close" let-d="dismiss" appendTo="body">
 		<div class="modal-header" id="idHeader">
 			<h4>{{'dashboardpatient.Share' | translate }} <span class="font-small-2 d-block mt-1">{{'patdiagdashboard.msgshare' | translate }}</span></h4>

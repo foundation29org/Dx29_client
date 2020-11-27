@@ -1,13 +1,15 @@
 <div class="col-md-12 center-elements" *ngIf="sending">
 	<div><p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p></div>
 </div>
-<div class="row" *ngIf="!loadingPatients && (patients.length>0 || listOfArchivedCases.length>0)">
-	<div class="col-md-3 mt-2" *ngIf="!sending">
-		<button id="newpatient" class="btn btn-raised btn-primary" type="button" (click)="callNewPatient(contentNewCaseName)">{{'diagnosis.New case' | translate }}</button>
-		<button id="updatepatient" [hidden]="true" (click)="callUpdatePatient(contentNewCaseName)">.</button>
+<div class="row col-md-12" >
+	<div class="content-header">
+		<span>{{'diagnosis.Cases' | translate }}</span>
 	</div>
+	<p class="content-sub-header">
+
+	</p>
 </div>
-<div class="d-flex" *ngIf="!loadingPatients && patients.length==0">
+<div class="d-flex" *ngIf="!loadingPatients && patients.length==0 && listOfArchivedCases.length==0">
 	<div class="mat-accordion">
 		<div class="card col-md-12">
 			<div class="card-block">
@@ -42,6 +44,12 @@
 	</div>
 </div>
 <mat-accordion>
+	<div class="row" *ngIf="!loadingPatients && (patients.length>0 || listOfArchivedCases.length>0)">
+		<div class="col-md-12 mt-2" *ngIf="!sending">
+			<button id="newpatient" class="btn btn-raised btn-primary" type="button" (click)="callNewPatient(contentNewCaseName)">{{'diagnosis.New case' | translate }}</button>
+			<button id="updatepatient" [hidden]="true" (click)="callUpdatePatient(contentNewCaseName)">.</button>
+		</div>
+	</div>
 	<mat-expansion-panel [expanded]="true" *ngIf="!loadingPatients && patients.length>0">
 		<mat-expansion-panel-header>
 			<mat-panel-title>

@@ -67,17 +67,11 @@
   position: relative;
   height: 55px;
   width: 100%;
-  background-color: white;
   text-align: center;
-  background-color: #FFF;
-  box-shadow: 0 0 6px 6px rgba(0, 0, 0, 0.01), 0 12px 15px 12px rgba(0, 0, 0, 0.06);
-  //border-top-left-radius: 0.5rem;
-  //border-top-right-radius: 0.5rem;
-  border: 1px solid rgba(89, 111, 129, 0.15)
 }
 
 .circle-icon{
-  background: #fff;
+  background-color: #f5f7fa;
   padding: 40px;
   border-radius: 50%;
 }
@@ -130,6 +124,8 @@ max-width: 100% !important;
 
 ::ng-deep .mat-checkbox-label{
     color: #6c757d !important;
+    white-space: normal;
+    word-wrap: anywhere;
 }
 
 ::ng-deep .mat-radio-label-content{

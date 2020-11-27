@@ -65,6 +65,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     loading: boolean = true;
     myUserId: string = '';
     myEmail: string = '';
+    actualStep: number = -1;
+    maxStep: number = -1;
+    isHomePage: boolean = false;
+    age: any = {};
 
     private subscription: Subscription = new Subscription();
 
@@ -82,6 +86,14 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       event => {
         var tempUrl= (event.url).toString().split('?');
         this.actualUrl = tempUrl[0];
+        var tempUrl1 = (this.actualUrl).toString();
+        console.log(tempUrl1);
+        if(tempUrl1.indexOf('/dashboard')!=-1){
+          this.isHomePage = true;
+        }else{
+          this.isHomePage = false;
+        }
+
       }
     );
     console.log(this.role);
@@ -110,6 +122,39 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.eventsService.on('changelang', function(lang) {
       this.currentLang = lang;
     }.bind(this));
+
+    this.eventsService.on('selectedPatient', function(selectedPatient) {
+      this.selectedPatient= selectedPatient;
+      console.log(this.selectedPatient);
+      var dateRequest2=new Date(this.selectedPatient.birthDate);
+      this.ageFromDateOfBirthday(dateRequest2);
+    }.bind(this));
+
+    this.eventsService.on('actualStep', function(actualStep) {
+      this.actualStep= actualStep;
+      console.log(this.actualStep);
+    }.bind(this));
+
+    this.eventsService.on('maxStep', function(maxStep) {
+      this.maxStep= maxStep;
+      console.log(this.maxStep);
+    }.bind(this));
+  }
+
+  ageFromDateOfBirthday(dateOfBirth: any){
+    const today = new Date();
+    const birthDate = new Date(dateOfBirth);
+    var months;
+    months = (today.getFullYear() - birthDate.getFullYear()) * 12;
+    months -= birthDate.getMonth();
+    months += today.getMonth();
+    var res = months <= 0 ? 0 : months;
+    var m=res % 12;
+    var age =0;
+    if(res>0){
+      age= Math.abs(Math.round(res/12));
+    }
+    this.age = {years:age, months:m }
   }
 
   loadMyEmail(){
@@ -597,6 +642,30 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
         Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
       }));
 
+   }
+
+   startWizardAgain(){
+     Swal.fire({
+         title: 'Estas seguro de lanzar el asistente?',
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonColor: '#0CC27E',
+         cancelButtonColor: '#f9423a',
+         confirmButtonText: this.translate.instant("generics.Yes"),
+         cancelButtonText: this.translate.instant("generics.No, cancel"),
+         showLoaderOnConfirm: true,
+         allowOutsideClick: false
+     }).then((result) => {
+       if (result.value) {
+         this.goToStep('0.0', true, '0.0')
+       }
+     });
+
+   }
+
+   goToStep(index, save, maxStep){
+     var info = {step: index, save: save, maxStep: maxStep}
+     this.eventsService.broadcast('infoStep', info);
    }
 
 }

@@ -1,3 +1,11 @@
+.logo-img {
+  width: 60px;
+}
+
+.menuClinic-sm{
+  padding: 1em;
+}
+
 @media ( max-width: 991.98px ){
 .navbar-container {
     width: unset !important;
@@ -11,4 +19,41 @@
 .font-alert {
     font-size: 0.7rem;
   }
+}
+
+@media (max-width: 481px) {
+
+
+  .navbar-header-logos{
+    max-width: 50px;
+  }
+}
+
+@media (max-width: 377px) {
+  .navbar-container{
+    margin-top:1em;
+  }
+
+  .logo-img{
+    width: 50px;
+  }
+
+  .custom-navbar{
+    padding: 0.4em;
+  }
+
+  .btn-navbar{
+    padding: 0.175rem 0.35rem;
+  }
+
+}
+
+@media (max-width: 320px) {
+  .navbar .navbar-nav{
+    display: ruby-base !important;
+  }
+  .logo-img{
+    width: 40px;
+  }
+
 }
