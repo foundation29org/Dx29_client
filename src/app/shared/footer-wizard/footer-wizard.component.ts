@@ -1,6 +1,9 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { EventsService} from 'app/shared/services/events.service';
 import { Injectable, Injector } from '@angular/core';
+import { environment } from 'environments/environment';
+import { HttpClient } from "@angular/common/http";
+import { AuthService } from 'app/shared/auth/auth.service';
 import { Data } from 'app/shared/services/data.service';
 
 @Component({
@@ -15,13 +18,45 @@ export class FooterWizardComponent implements OnInit{
     currentDate : Date = new Date();
     actualStep: string = "0.0";
     maxStep: string = "0.0";
-    showintrowizard: boolean = true;
+    showIntroWizard: boolean = true;
     eventsService: any = null;
 
-    constructor(private eventsService: EventsService, private data: Data, private inj: Injector)
+    constructor(private data: Data, private inj: Injector, private http: HttpClient, private authService: AuthService)
       {
         this.eventsService = this.inj.get(EventsService);
       }
+
+
+      loadShowIntroWizard(){
+        this.http.get(environment.api+'/api/users/showintrowizard/'+this.authService.getIdUser())
+          .subscribe( (res : any) => {
+            console.log(res);
+            this.showIntroWizard = res.showIntroWizard
+            this.getActualStep();
+          }, (err) => {
+            console.log(err);
+          });
+      }
+
+      getActualStep(){
+        if(this.authService.getCurrentPatient().sub!=null){
+          this.http.get(environment.api+'/api/case/stepclinic/'+this.authService.getCurrentPatient().sub)
+            .subscribe( (res : any) => {
+              this.actualStep = res
+              if(!this.showIntroWizard && this.actualStep=='0.0'){
+                this.actualStep = '1.0';
+                this.maxStep = '1.0';
+              }else{
+                this.actualStep = res;
+                this.maxStep = res;
+              }
+            }, (err) => {
+              console.log(err);
+            });
+        }
+
+      }
+
 
     ngOnInit() {
 
@@ -36,8 +71,10 @@ export class FooterWizardComponent implements OnInit{
       }.bind(this));
 
       this.eventsService.on('showIntroWizard', function(showintrowizard) {
-        this.showintrowizard= showintrowizard;
+        this.showIntroWizard= showintrowizard;
       }.bind(this));
+
+      this.loadShowIntroWizard();
 
     }
 

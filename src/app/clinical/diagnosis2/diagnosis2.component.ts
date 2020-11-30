@@ -325,7 +325,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     isgen: boolean = true;
     treeOrphaPredecessors: any = {};
     eventsService: any = null;
-    showintrowizard: boolean = true;
+    showIntroWizard: boolean = true;
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -529,7 +529,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.subscription.add( this.http.get(environment.api+'/api/case/stepclinic/'+patientId)
           .subscribe( (res : any) => {
             console.log(this.actualStep);
-            if(!this.showintrowizard && this.actualStep=='0.0'){
+            if(!this.showIntroWizard && this.actualStep=='0.0'){
               this.setActualStep('1.0');
               this.setMaxStep('1.0');
             }else{
@@ -539,7 +539,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
             this.loadedStep = true;
             //si ya había comenzado el wizard y no lo ha terminado, preguntar si quiere continuar donde lo dejó o empezar de nuevo
-            if((this.actualStep>"0.0" && this.actualStep<"5.0" && this.showintrowizard) || (this.actualStep>"1.0" && this.actualStep<"5.0" && !this.showintrowizard)){
+            if((this.actualStep>"0.0" && this.actualStep<"5.0" && this.showIntroWizard) || (this.actualStep>"1.0" && this.actualStep<"5.0" && !this.showIntroWizard)){
               Swal.fire({
                   title: this.translate.instant("patnodiagdashboard.swalContinue.msgtitle1"),
                   text:  this.translate.instant("patnodiagdashboard.swalContinue.msg1"),
@@ -554,7 +554,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                 if (result.value) {
                   this.goToStep(this.actualStep, true);
                 }else{
-                  if(this.showintrowizard){
+                  if(this.showIntroWizard){
                     this.goToStep('0.0', true);
                   }else{
                     this.goToStep('1.0', true);
@@ -563,7 +563,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                 }
               });
             }else if(this.actualStep=="0.0"){
-              if(this.showintrowizard){
+              if(this.showIntroWizard){
                 this.goToStep('0.0', false);
               }else{
                 this.goToStep('1.0', false);
@@ -6510,7 +6510,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           allowOutsideClick: false
       }).then((result) => {
         if (result.value) {
-          if(this.showintrowizard){
+          if(this.showIntroWizard){
             this.setMaxStep('0.0');
             this.goToStep('0.0', true)
           }else{
@@ -6528,8 +6528,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.subscription.add( this.http.get(environment.api+'/api/users/showintrowizard/'+this.authService.getIdUser())
         .subscribe( (res : any) => {
           console.log(res);
-          this.showintrowizard = res.showintrowizard
-          this.eventsService.broadcast('showIntroWizard', this.showintrowizard);
+          this.showIntroWizard = res.showIntroWizard
+          this.eventsService.broadcast('showIntroWizard', this.showIntroWizard);
           this.getActualStep(this.authService.getCurrentPatient().sub);
           this.loadAllData();
         }, (err) => {
@@ -6537,12 +6537,12 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }));
     }
 
-    setShowIntroWizard(showIntroWizard:boolean){
-      var object = {showIntroWizard:showIntroWizard}
+    setShowIntroWizard(showIntroWizard2:boolean){
+      var object = {showIntroWizard:showIntroWizard2}
       this.subscription.add( this.http.put(environment.api+'/api/users/showintrowizard/'+this.authService.getIdUser(), object)
       .subscribe( (res : any) => {
-        this.showIntroWizard = showIntroWizard;
-        this.eventsService.broadcast('showIntroWizard', showIntroWizard);
+        this.showIntroWizard = showIntroWizard2;
+        this.eventsService.broadcast('showIntroWizard', this.showIntroWizard);
        }, (err) => {
          console.log(err);
        }));
