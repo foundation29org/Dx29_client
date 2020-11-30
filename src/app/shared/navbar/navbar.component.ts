@@ -69,6 +69,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     maxStep: number = -1;
     isHomePage: boolean = false;
     age: any = {};
+    showintrowizard: boolean = true;
 
     private subscription: Subscription = new Subscription();
 
@@ -138,6 +139,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.eventsService.on('maxStep', function(maxStep) {
       this.maxStep= maxStep;
       console.log(this.maxStep);
+    }.bind(this));
+
+    this.eventsService.on('showIntroWizard', function(showintrowizard) {
+      this.showintrowizard= showintrowizard;
     }.bind(this));
   }
 
@@ -657,7 +662,12 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
          allowOutsideClick: false
      }).then((result) => {
        if (result.value) {
-         this.goToStep('0.0', true, '0.0')
+
+         if(this.showintrowizard){
+           this.goToStep('0.0', true, '0.0')
+         }else{
+           this.goToStep('1.0', true, '1.0')
+         }
        }
      });
 

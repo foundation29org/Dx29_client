@@ -1,7 +1,7 @@
-<div>
+<div [ngClass]="(maxStep < '5.0')?'':''">
   <a id="idup"></a>
 
-  <div id="wizardpanel" [ngClass]="((maxStep < '5.0') ||  (maxStep=='5.0' && (actualStep == '3.1' || actualStep == '3.2')))?'':'pb-3'">
+  <div id="wizardpanel" [ngClass]="((maxStep < '5.0') ||  (maxStep=='5.0' && (actualStep == '3.1' || actualStep == '3.2')))?'content-wizard':'pb-3'">
     <div *ngIf="showingWizard">
       <div id="loading-layout-wizard" *ngIf="!loadedSymptoms">
         <div class="center-elements">
@@ -9,7 +9,41 @@
         </div>
       </div>
     </div>
-    <div *ngIf="!showingWizard" class="col-lg-12">
+    <div *ngIf="!showingWizard" class="content-view">
+      <div id="nav-buttons-wizard" class="nav-buttons-wizard border-light border-top border-bottom" *ngIf="maxStep<'5.0'">
+        <!--<button type="button" class="mt-2 ml-3 float-left btn" [ngClass]="(actualStep > '0.0' )?'primary btn-outline-primary':'text-muted inactiveLink btn-outline-secondary'" (click)="goPrevStep()"><span style="margin-right: 10px;"><i class="ft-chevron-left"></i></span> Previous</button>-->
+        <div class="mt-3"  style="display: inline-flex;">
+          <!--<span *ngIf="maxStep<'5.0'" (click)="toggleMenu()" class="mb-2 chat-app-sidebar-toggle ft-align-justify font-large-1 mr-2 d-block d-sm-none d-md-none"></span>-->
+          <!-- large devices and first time-->
+          <div class="center-elements d-inline">
+            <span *ngIf="showintrowizard" class="list-group-item d-inline" [ngClass]="(actualStep == '0.0' )?'list-group-item border-top-primary border-bottom-0 bg-selected-wizard':'list-group-item no-border'">
+                <span class="d-none d-sm-inline"> 00. Introducción</span>
+                <span class="d-inline d-sm-none"> {{'patnodiagdashboard.menu.Step' | translate }} 0</span>
+              <!--  <i *ngIf="actualStep>=1.0" class="fa fa-check success"></i>-->
+            </span>
+            <span class="list-group-item d-inline" [ngClass]="(actualStep == '1.0' )?'list-group-item border-top-primary border-bottom-0 bg-selected-wizard':'list-group-item no-border'">
+                <span class="d-none d-sm-inline"> 01. {{'diagnosis.Symptoms' | translate }}</span>
+                <span class="d-inline d-sm-none"> {{'patnodiagdashboard.menu.Step' | translate }} 1</span>
+              <!--   <i *ngIf="actualStep>=2.0" class="fa fa-check success"></i>-->
+            </span>
+            <span class="list-group-item d-inline" [ngClass]="(actualStep == '2.0' || actualStep == '2.1')?'list-group-item border-top-primary border-bottom-0 bg-selected-wizard':'list-group-item no-border'">
+              <span class="d-none d-sm-inline"> 02. {{'diagnosis.Genetics' | translate }}</span>
+              <span class="d-inline d-sm-none"> {{'patnodiagdashboard.menu.Step' | translate }} 2</span>
+                <!--<i *ngIf="actualStep>=3.0 && filesVcf.length>0" class="fa fa-check success"></i>
+                <i *ngIf="actualStep>=3.0 && filesVcf.length==0" class="fa fa-times danger"></i>-->
+            </span>
+            <span class="list-group-item d-inline" [ngClass]="(actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2' || actualStep == '3.3')?'list-group-item border-top-primary border-bottom-0 bg-selected-wizard':'list-group-item no-border'">
+              <span class="d-none d-sm-inline"> 03. Analizar</span>
+              <span class="d-inline d-sm-none"> {{'patnodiagdashboard.menu.Step' | translate }} 3</span>
+
+                <!--<i *ngIf="actualStep>=4.0" class="fa fa-check success"></i>-->
+            </span>
+          </div>
+        </div>
+        <!--<button *ngIf="actualStep != '3.1' && actualStep != '3.2'&& actualStep != '1.0'" type="button" class="mt-2 mr-3 float-right btn" [ngClass]="(actualStep < '3.3' )?'primary btn-outline-primary':'text-muted inactiveLink btn-outline-secondary'" (click)="goNextStep()">Next <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+        <button *ngIf="(actualStep != '3.1' && actualStep != '3.2') && actualStep == '1.0'" type="button" class="mt-2 mr-3 float-right btn" [ngClass]="(actualStep < '3.3' && phenotype.data.length>0)?'primary btn-outline-primary':'text-muted btn-outline-secondary'" (click)="goNextStep()">Next <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+        <button *ngIf="actualStep == '3.1' || actualStep == '3.2'" type="button" class="mt-2 mr-3 float-right btn" [ngClass]="((launchingPhen2Genes || calculatingH29Score || gettingRelatedConditions) || (loadingGeno || calculatingH29Score || gettingRelatedConditions || uploadingGenotype) )?'text-muted inactiveLink btn-outline-secondary':'primary btn-outline-primary'" (click)="goNextStep()">Finish <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>-->
+      </div>
       <!-- large devices and no first time-->
       <!--<div *ngIf="actualStep=='0.0'" class="row offset-md-3 col-md-6">-->
 
@@ -31,18 +65,18 @@
               <div class="row text-left card ">
       			    <div class="col-md-12 mt-1">
 
-      			      <div class="card-columns center-elements">
-                    <div class="card-body">
+      			      <div class="row center-elements">
+                    <div class="col-sm-4 p-2">
                       <i class="fas fa-notes-medical fa-4x primary circle-icon"></i>
                       <span class="d-block font-medium-3 d-inline mt-2">{{'patnodiagdashboard.menu.Step' | translate }} 1 </span>
                       <span class="d-inline">Síntomas introducidos de documentos, imágenes, etc </span>
                     </div>
-                    <div class="card-body">
+                    <div class="col-sm-4 p-2">
                       <i class="fas fa-dna fa-4x primary circle-icon"></i>
                       <span class="d-block font-medium-3 d-inline mt-2">{{'patnodiagdashboard.menu.Step' | translate }} 2 </span>
                       <span class="d-inline">Añadir información genética </span>
                     </div>
-                    <div class="card-body">
+                    <div class="col-sm-4 p-2">
                       <i class="fas fa-align-left fa-4x primary circle-icon"></i>
                       <span class="d-block font-medium-3 d-inline mt-2">{{'patnodiagdashboard.menu.Step' | translate }} 3 </span>
                       <span class="d-inline">Analizar los datos </span>
@@ -51,8 +85,8 @@
       			    </div>
                 <div class="col-md-12 mt-1 center-elements">
                   <mat-checkbox
-                      class="example-margin" name="terms2" ngModel required #terms2="ngModel" id="terms2">
-                    <label style="margin-top: 0.4em;white-space: normal;text-transform: none;letter-spacing: 0px;">
+                      class="example-margin" name="terms2" ngModel required #terms2="ngModel" id="terms2" (change)="showOptions($event)">
+                    <label style="margin-top: 0.4em;white-space: normal;text-transform: none;letter-spacing: 0px;"  >
                       <span>No mostrar de nuevo</span>
                     </label>
                   </mat-checkbox>
@@ -290,7 +324,7 @@
       <div *ngIf="actualStep >= '3.0' && actualStep < '4.0'">
         <div class="offset-md-2 col-md-8 col-lg-8">
           <div class="content-header">
-            <span>Analizar datos</span>
+            <span>Analizar</span>
           </div>
           <span class="content-sub-header">
             <span *ngIf="actualStep == '3.0'">
@@ -648,18 +682,17 @@
       <!-- End Step 5.0 -->
     </div>
   </div>
-  <div class="footer-buttons" *ngIf="maxStep<'5.0'">
-    <button type="button" class="mt-2 btn" [ngClass]="(actualStep > '0.0' )?'primary btn-outline-primary':'text-muted inactiveLink btn-outline-secondary'" (click)="goPrevStep()"><span style="margin-right: 10px;"><i class="ft-chevron-left"></i></span> Previous</button>
-    <button *ngIf="actualStep != '3.1' && actualStep != '3.2' && actualStep != '3.0' && actualStep != '1.0'" type="button" class="mt-2 ml-2 btn" [ngClass]="(actualStep < '3.3' )?'primary btn-outline-primary':'text-muted inactiveLink btn-outline-secondary'" (click)="goNextStep()">Next <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
-    <button *ngIf="actualStep == '3.0'" type="button" class="mt-2 ml-2 btn primary btn-outline-primary" (click)="goNextStep()">Analizar <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
-    <button *ngIf="(actualStep != '3.1' && actualStep != '3.2') && actualStep == '1.0'" type="button" class="mt-2 ml-2 btn" [ngClass]="(actualStep < '3.3' && phenotype.data.length>0)?'primary btn-outline-primary':'text-muted btn-outline-secondary'" (click)="goNextStep()">Next <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
-    <button *ngIf="actualStep == '3.1' || actualStep == '3.2'" type="button" class="mt-2 ml-2 btn" [ngClass]="((launchingPhen2Genes || calculatingH29Score || gettingRelatedConditions) || (loadingGeno || calculatingH29Score || gettingRelatedConditions || uploadingGenotype) )?'text-muted inactiveLink btn-outline-secondary':'primary btn-outline-primary'" (click)="goNextStep()">Finish y ver resultados <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+<!--<div class="footer-buttons" *ngIf="maxStep<'5.0'">
+    <button type="button" class="mt-2 ml-3 float-left btn" [ngClass]="(actualStep > '0.0' )?'primary btn-outline-primary':'text-muted inactiveLink btn-outline-secondary'" (click)="goPrevStep()"><span style="margin-right: 10px;"><i class="ft-chevron-left"></i></span> Previous</button>
+    <button *ngIf="actualStep != '3.1' && actualStep != '3.2' && actualStep != '3.0' && actualStep != '1.0'" type="button" class="mt-2 mr-3 float-right btn" [ngClass]="(actualStep < '3.3' )?'primary btn-outline-primary':'text-muted inactiveLink btn-outline-secondary'" (click)="goNextStep()">Next <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+    <button *ngIf="actualStep == '3.0'" type="button" class="mt-2 mr-2 float-right btn primary btn-outline-primary" (click)="goNextStep()">Analizar <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+    <button *ngIf="(actualStep != '3.1' && actualStep != '3.2') && actualStep == '1.0'" type="button" class="mt-2 mr-3 float-right btn" [ngClass]="(actualStep < '3.3' && phenotype.data.length>0)?'primary btn-outline-primary':'text-muted btn-outline-secondary'" (click)="goNextStep()">Next <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+    <button *ngIf="actualStep == '3.1' || actualStep == '3.2'" type="button" class="mt-2 mr-3 float-right btn" [ngClass]="((launchingPhen2Genes || calculatingH29Score || gettingRelatedConditions) || (loadingGeno || calculatingH29Score || gettingRelatedConditions || uploadingGenotype) )?'text-muted inactiveLink btn-outline-secondary':'primary btn-outline-primary'" (click)="goNextStep()">Finish y ver resultados <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
 </div>
 <div class="footer-buttons" *ngIf="maxStep=='5.0' && (actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2')" >
-  <button type="button" class="mt-2 btn btn-outline-secondary" (click)="goToStep('5.0')">Cancelar</button>
-  <button *ngIf="actualStep == '3.0'" type="button" class="mt-2 ml-2 btn primary btn-outline-primary" (click)="goNextStep()">Analizar <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
-  <button *ngIf="actualStep != '3.0'" type="button" class="mt-2 ml-2 btn" [ngClass]="((launchingPhen2Genes || calculatingH29Score || gettingRelatedConditions) || (loadingGeno || calculatingH29Score || gettingRelatedConditions || uploadingGenotype) )?'text-muted inactiveLink btn-outline-secondary':'primary btn-outline-primary'" (click)="goNextStep()">Finish y ver resultados<span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
-</div>
+  <button *ngIf="actualStep == '3.0'" type="button" class="mt-2 mr-2 float-right btn primary btn-outline-primary" (click)="goNextStep()">Analizar <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+  <button *ngIf="actualStep != '3.0'" type="button" class="mt-2 mr-2 float-right btn" [ngClass]="((launchingPhen2Genes || calculatingH29Score || gettingRelatedConditions) || (loadingGeno || calculatingH29Score || gettingRelatedConditions || uploadingGenotype) )?'text-muted inactiveLink btn-outline-secondary':'primary btn-outline-primary'" (click)="goNextStep()">Finish y ver resultados<span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+</div>-->
 <button id="openModalButton" [hidden]="true" (click)="showPanelDiagnosis(contentRelatedConditions)">.</button>
 <ng-template #contentExtractorSteps let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-header" id="idHeader">
@@ -746,10 +779,10 @@
 													<i class="fa fa-times"></i>
 												</button>
 												<span *ngIf="i!= selectedInfoSymptomIndex" style="cursor: pointer;" class="float-right ml-1" (click)="showMoreInfoSymptom(i);">
-													<i style="font-size: 1.3em;" class="fa fas fa-arrow-down danger"></i>
+													<i style="font-size: 1.3em;" class="fa fas fa-arrow-down primary"></i>
 												</span>
 												<span *ngIf="i== selectedInfoSymptomIndex" style="cursor: pointer;" class="float-right ml-1" (click)="showMoreInfoSymptom(i);">
-													<i style="font-size: 1.3em;" class="fa fas fa-arrow-up danger"></i>
+													<i style="font-size: 1.3em;" class="fa fas fa-arrow-up primary"></i>
 												</span>
 												<!--<span *ngIf="i!= selectedInfoSymptomIndex" class="mt-1 float-right mr-4">
 													<h6 class="d-inline">Score:</h6> {{hpo.similarity | number}}

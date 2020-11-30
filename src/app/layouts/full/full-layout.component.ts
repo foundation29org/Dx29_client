@@ -2,7 +2,10 @@ import { Component, OnInit, ElementRef, Inject, Renderer2, AfterViewInit, ViewCh
 import { TranslateService } from '@ngx-translate/core';
 import { ConfigService } from 'app/shared/services/config.service';
 import { AuthService } from 'app/shared/auth/auth.service';
+import { Router, NavigationEnd } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
+import { EventsService} from 'app/shared/services/events.service';
+import { Injectable, Injector } from '@angular/core';
 
 @Component({
     selector: 'app-full-layout',
@@ -10,6 +13,7 @@ import { DOCUMENT } from '@angular/common';
     styleUrls: ['./full-layout.component.scss']
 })
 
+@Injectable()
 export class FullLayoutComponent implements OnInit, AfterViewInit {
     @ViewChild('sidebarBgImage') sidebarBgImage: ElementRef;
     @ViewChild('appSidebar') appSidebar: ElementRef;
@@ -32,12 +36,28 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
     isIeOrEdge = (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) || /Edge/.test(navigator.userAgent);
     role: string;
     isApp: boolean = false;
+    actualStep: string = "0.0";
+    maxStep: string = "0.0";
+    isHomePage: boolean = false;
+    eventsService: any = null;
 
-    constructor(private elementRef: ElementRef, private configService: ConfigService,
-        @Inject(DOCUMENT) private document: Document,
-        private renderer: Renderer2, private authService: AuthService) {
+    constructor(private elementRef: ElementRef, private configService: ConfigService, @Inject(DOCUMENT) private document: Document, private renderer: Renderer2, private authService: AuthService, private eventsService: EventsService,  private router: Router, private inj: Injector) {
+      this.eventsService = this.inj.get(EventsService);
           this.isApp = this.document.URL.indexOf( 'http://' ) === -1 && this.document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
           this.role = this.authService.getRole();
+
+          this.router.events.filter((event: any) => event instanceof NavigationEnd).subscribe(
+            event => {
+              var tempUrl= (event.url).toString().split('?');
+              var tempUrl1 = (tempUrl[0]).toString();
+              if(tempUrl1.indexOf('/dashboard')!=-1){
+                this.isHomePage = true;
+              }else{
+                this.isHomePage = false;
+              }
+
+            }
+          );
     }
 
     ngOnInit() {
@@ -78,7 +98,15 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
         this.iscollapsed = this.config.layout.sidebar.collapsed;
       }, 0);
 
+      this.eventsService.on('actualStep', function(actualStep) {
+        this.actualStep= actualStep;
+        console.log(this.actualStep);
+      }.bind(this));
 
+      this.eventsService.on('maxStep', function(maxStep) {
+        this.maxStep= maxStep;
+        console.log(this.maxStep);
+      }.bind(this));
 
     }
 

@@ -14,6 +14,10 @@
   align-content: space-between;
 }
 
+.bg-selected-wizard{
+  background-color: #f5f7fa;
+}
+
 .left-style{
   align-items: flex-start
 }
@@ -59,7 +63,10 @@
 }
 
 .content-wizard{
-  width:100%; height: 65vh; overflow-y: auto;
+  width:100%;
+  //height: 85vh;
+  min-height: 75vh;
+  overflow-y: auto;
 }
 
 .footer-buttons{
@@ -67,7 +74,13 @@
   position: relative;
   height: 55px;
   width: 100%;
+  background-color: white;
   text-align: center;
+  background-color: #FFF;
+  box-shadow: 0 0 6px 6px rgba(0, 0, 0, 0.01), 0 12px 15px 12px rgba(0, 0, 0, 0.06);
+  //border-top-left-radius: 0.5rem;
+  //border-top-right-radius: 0.5rem;
+  border: 1px solid rgba(89, 111, 129, 0.15)
 }
 
 .circle-icon{
