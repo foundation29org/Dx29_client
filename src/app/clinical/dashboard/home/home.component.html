@@ -11,7 +11,7 @@
 </div>
 <div class="d-flex" *ngIf="!loadingPatients && patients.length==0 && listOfArchivedCases.length==0">
 	<div class="mat-accordion">
-		<div class="card col-md-12">
+		<div class="p-2 card col-md-12">
 			<div class="card-block">
 				<h3>{{'about.There are no cases in your profile' | translate }}</h3>
 				<p>
@@ -37,7 +37,7 @@
 
 				<div class="col-md-12 center-elements" *ngIf="!sending">
 					<button id="newpatient" class="btn btn-lg btn-outline-primary" type="button" (click)="callNewPatient(contentNewCaseName)">{{'diagnosis.New case' | translate }}</button>
-					<button class="btn btn-lg btn-outline-primary" type="button" routerLink="/clinical/about">{{'about.title' | translate }}</button>
+					<button class="ml-2 btn btn-lg btn-outline-primary" type="button" routerLink="/clinical/about">{{'about.title' | translate }}</button>
 				</div>
 			</div>
 		</div>

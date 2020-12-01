@@ -6,6 +6,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { EventsService} from 'app/shared/services/events.service';
 import { Injectable, Injector } from '@angular/core';
+import { Data } from 'app/shared/services/data.service';
 
 @Component({
     selector: 'app-full-layout',
@@ -41,7 +42,7 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
     isHomePage: boolean = false;
     eventsService: any = null;
 
-    constructor(private elementRef: ElementRef, private configService: ConfigService, @Inject(DOCUMENT) private document: Document, private renderer: Renderer2, private authService: AuthService,  private router: Router, private inj: Injector) {
+    constructor(private elementRef: ElementRef, private configService: ConfigService, @Inject(DOCUMENT) private document: Document, private renderer: Renderer2, private authService: AuthService,  private router: Router, private inj: Injector, private dataservice: Data) {
       this.eventsService = this.inj.get(EventsService);
           this.isApp = this.document.URL.indexOf( 'http://' ) === -1 && this.document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
           this.role = this.authService.getRole();
@@ -99,13 +100,11 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
       }, 0);
 
       this.eventsService.on('actualStep', function(actualStep) {
-        this.actualStep= actualStep;
-        console.log(this.actualStep);
+        this.actualStep= this.dataservice.steps.actualStep;
       }.bind(this));
 
       this.eventsService.on('maxStep', function(maxStep) {
-        this.maxStep= maxStep;
-        console.log(this.maxStep);
+        this.maxStep= this.dataservice.steps.maxStep;
       }.bind(this));
 
     }

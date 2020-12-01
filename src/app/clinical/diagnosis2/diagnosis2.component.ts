@@ -462,6 +462,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
      if (this.subscriptionLoadSymptoms) {
           this.subscriptionLoadSymptoms.unsubscribe();
       }
+      this.eventsService.listeners.setStepWizard=[];
+      this.eventsService.listeners.infoStep=[];
     }
 
     initVarsPrograms(){
@@ -488,6 +490,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.router.navigate(['clinical/dashboard/home']);
       }else{
         this.selectedPatient = this.authService.getCurrentPatient();
+        console.log(this.selectedPatient);
         this.eventsService.broadcast('selectedPatient', this.selectedPatient);
         var dateRequest2=new Date(this.selectedPatient.birthDate);
         if(this.selectedPatient.birthDate == null){
@@ -495,18 +498,10 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }else{
           this.ageFromDateOfBirthday(dateRequest2);
         }
-        this.loadShowIntroWizard();
+        this.loadAllData();
+
       }
 
-
-
-    }
-
-    nogoNextStep(){
-      var data2 = this.dataservice.storage;
-      console.log(data2);
-      this.actualStep = data2.actualStep
-      this.goNextStep();
     }
 
     ageFromDateOfBirthday(dateOfBirth: any){
@@ -528,13 +523,12 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     getActualStep(patientId:string){
       this.subscription.add( this.http.get(environment.api+'/api/case/stepclinic/'+patientId)
           .subscribe( (res : any) => {
-            console.log(this.actualStep);
-            if(!this.showIntroWizard && this.actualStep=='0.0'){
+            if(!this.showIntroWizard && res.stepClinic=='0.0'){
               this.setActualStep('1.0');
               this.setMaxStep('1.0');
             }else{
-              this.setActualStep(res);
-              this.setMaxStep(res);
+              this.setActualStep(res.stepClinic);
+              this.setMaxStep(res.stepClinic);
             }
 
             this.loadedStep = true;
@@ -598,17 +592,19 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     setActualStep(actualStep:string){
       this.actualStep = actualStep;
+      this.dataservice.steps = {actualStep: this.actualStep, maxStep: this.maxStep};
       this.eventsService.broadcast('actualStep', this.actualStep);
     }
 
     setMaxStep(maxStep:string){
       this.maxStep = maxStep;
+      this.dataservice.steps = {actualStep: this.actualStep, maxStep: this.maxStep};
       this.eventsService.broadcast('maxStep', this.maxStep);
     }
 
     goPrevStep(){
       console.log(this.actualStep);
-      if(this.actualStep == '1.0'){
+      if(this.actualStep == '1.0' && this.showIntroWizard){
         this.setActualStep('0.0');
       }else if(this.actualStep > '2.0'){
         this.setActualStep('2.0');
@@ -619,6 +615,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     goNextStep(){
       console.log(this.actualStep);
+      console.log(this.numberOfSymptoms);
       if(this.actualStep >= '3.3'){
         this.goToStep('5.0', true)
       }else if(this.actualStep == '3.2'){
@@ -669,6 +666,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
       }else if(this.actualStep == '1.0'){
         if((this.phenotype.data.length == 0) || (this.numDeprecated==this.phenotype.data.length && this.numDeprecated>0)){
+          console.log('entra');
+          console.log(this.phenotype.data)
           Swal.fire('Necesita al menos un síntoma para continuar', '', "info");
           //Swal.fire({ title: this.translate.instant("diagnosis.titleNotCanLaunchExomiser"), html: this.translate.instant("diagnosis.msgNotCanLaunchExomiser"),icon:"info" })
         }else{
@@ -717,6 +716,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     loadAllData(){
+
+      this.loadShowIntroWizard();
       this.getAzureBlobSasToken();
       this.loadMyEmail();
       this.loadTranslations();
@@ -726,6 +727,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.getDiagnosisInfo();
       this.checkServices(); //esto habría que ponerlo en el topnavbar tb
       this.eventsService.on('infoStep', function(info) {
+        console.log(info);
         if(info.maxStep!=null){
           this.setMaxStep('0.0');
         }
@@ -734,7 +736,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
       this.eventsService.on('setStepWizard', function(info) {
         if(info=='next'){
-          this.nogoNextStep();
+          this.goNextStep();
         }else if(info=='prev'){
           this.goPrevStep();
         }
@@ -1087,7 +1089,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       $e.preventDefault();
       //this.selectedItems.push($e.item);
       this.addSymptom($e.item, 'manual');
-      //this.phenotype.data.push($e.item);
       this.modelTemp = '';
       //this.inputEl.nativeElement.value = '';
     }
@@ -1097,7 +1098,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.addSymptom(this.listOfFilteredSymptoms[i], 'manual');
       this.hasSymptomsToSave();
       //this.addSymptom($e.item, 'manual');
-      //this.phenotype.data.push($e.item);
       this.modelTemp = '';
       this.listOfFilteredSymptoms = [];
       //this.inputEl.nativeElement.value = '';
@@ -1145,8 +1145,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     showMoreInfoSymptomPopup(symptomIndex, contentInfoSymptom){
       this.selectedInfoSymptomIndex = symptomIndex;
-      console.log(this.selectedInfoSymptomIndex );
-      console.log(this.phenotype.data[this.selectedInfoSymptomIndex]);
       let ngbModalOptions: NgbModalOptions = {
             keyboard : true,
             windowClass: 'ModalClass-lg'
@@ -2104,7 +2102,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         if(diseaseWithoutScore.length>0){
           //calculateScore
 
-          this.phenotype.data
           var arraySymptomsIds=[];
 
           for(var lo = 0; lo < this.phenotype.data.length; lo++) {
@@ -6531,7 +6528,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           this.showIntroWizard = res.showIntroWizard
           this.eventsService.broadcast('showIntroWizard', this.showIntroWizard);
           this.getActualStep(this.authService.getCurrentPatient().sub);
-          this.loadAllData();
+
         }, (err) => {
           console.log(err);
         }));

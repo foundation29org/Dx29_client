@@ -12,7 +12,7 @@
             <img *ngIf="isHomePage" class="logo-img" src='assets/img/logo-Dx29.png' />
             <img *ngIf="!isHomePage" style="cursor:pointer;" class="logo-img" src='assets/img/logo-Dx29.png' [routerLink]="redirectUrl" />
           </span>
-          <!--<div *ngIf="!isHomePage" class="d-none d-lg-block">
+        <!--  <div *ngIf="!isHomePage" class="d-none d-lg-block">
               <a  [routerLink]="redirectUrl" >
                 <p class="btn-no-style cursor-pointer" style="margin-bottom: 0;">{{'diagnosis.BackCases' | translate }}</p>
               </a>
@@ -22,10 +22,17 @@
         <div class="navbar-collapse" id="navbarSupportedContent">
 
             <ul class="navbar-nav m-r-0">
+              <li class="nav-item d-none d-lg-block" style="line-height: 1rem;">
+                <a class="font-weight-bold" [routerLink]="redirectUrl" >
+                  <span class="btn-no-style cursor-pointer" style="margin-bottom: 0;">{{'diagnosis.Cases' | translate }}</span>
+                </a>
+                <span class="font-weight-bold mr-1 ml-1"> > </span>
+              </li>
               <li class="nav-item" style="line-height: 1rem;">
-                <span class="d-block font-weight-bold mb-0">{{selectedPatient.patientName}}
-                  <i *ngIf="selectedPatient.gender=='male'" class="fa fa-mars"></i>
-                  <i *ngIf="selectedPatient.gender=='female'" class="fa fa-venus"></i>
+                <span class="d-block font-weight-bold mb-0">
+                  <span> {{selectedPatient.patientName}}</span>
+                  <i *ngIf="selectedPatient.gender=='male'" class="ml-1 fa fa-mars"></i>
+                  <i *ngIf="selectedPatient.gender=='female'" class="ml-1 fa fa-venus"></i>
                 </span>
                 <span class="text-muted">
                   <span>Age: </span>
@@ -170,7 +177,7 @@
                           <p class="d-none">{{'navbar.fullscreen' | translate }}</p>
                       </a>
                   </li>-->
-                  <li class="nav-item mr-2" ngbDropdown display="dynamic" [placement]="placement" *ngIf="role == 'Clinical' || role == 'Lab'">
+                  <li class="nav-item mr-2" ngbDropdown display="dynamic" [placement]="placement" *ngIf="role == 'Clinical' || role == 'Lab'" [ngClass]="((role == 'Clinical' || role == 'Lab') && !isHomePage) ?'d-none d-lg-block':''">
                       <a class="nav-link position-relative" id="dropdownBasic1" ngbDropdownToggle>
                           <i class="ft-help-circle font-medium-3 blue-grey darken-4"></i>
                           <p class="d-none">Help</p>
@@ -180,8 +187,8 @@
                               <i class="ft-mail mr-2"></i>
                               <span>{{'support.support' | translate }}</span>
                           </a>
-                          <div class="dropdown-divider" *ngIf="role == 'Clinical' || role == 'Lab'"></div>
-                          <a class="dropdown-item" routerLink="/clinical/about" *ngIf="role == 'Clinical' || role == 'Lab'">
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" routerLink="/clinical/about">
                               <i class="ft-book mr-2"></i>
                               <span>{{'about.title' | translate }}</span>
                           </a>
@@ -193,7 +200,7 @@
                           <p class="d-none">{{'support.support' | translate }}</p>
                       </a>
                   </li>
-                  <li class="nav-item" ngbDropdown display="dynamic" [placement]="placement">
+                  <li class="nav-item" ngbDropdown display="dynamic" [placement]="placement"  [ngClass]="((role == 'Clinical' || role == 'Lab') && !isHomePage) ?'d-none d-lg-block':''">
                       <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle>
                           <i class="ft-user font-medium-3 blue-grey darken-4"></i>
                           <p class="d-none">{{'navbar.User Settings' | translate }}</p>
@@ -214,6 +221,12 @@
                               <span>{{'navbar.Exit' | translate }}</span>
                           </a>
                       </div>
+                  </li>
+                  <li class="nav-item mr-2" *ngIf="(role == 'Clinical' || role == 'Lab') && !isHomePage" [ngClass]="((role == 'Clinical' || role == 'Lab') && !isHomePage) ?'d-block d-lg-none':''">
+                      <a class="nav-link" href="javascript:;" (click)="logout()">
+                        <i class="ft-log-out mr-2"></i>
+                        <p class="d-none">{{'navbar.Logout' | translate }}</p>
+                      </a>
                   </li>
                 </ul>
             </div>

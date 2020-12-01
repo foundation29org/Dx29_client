@@ -65,15 +65,15 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     loading: boolean = true;
     myUserId: string = '';
     myEmail: string = '';
-    actualStep: number = -1;
-    maxStep: number = -1;
+    actualStep: string = "0.0";
+    maxStep: string = "0.0";
     isHomePage: boolean = false;
     age: any = {};
     showintrowizard: boolean = true;
 
     private subscription: Subscription = new Subscription();
 
-  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService:ConfigService, private authService: AuthService, private router: Router, private route: ActivatedRoute, private patientService: PatientService, private modalService: NgbModal, private http: HttpClient, private sortService: SortService, private data: Data, private eventsService: EventsService) {
+  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService:ConfigService, private authService: AuthService, private router: Router, private route: ActivatedRoute, private patientService: PatientService, private modalService: NgbModal, private http: HttpClient, private sortService: SortService, private dataservice: Data, private eventsService: EventsService) {
     if (this.isApp){
         if(device.platform == 'android' || device.platform == 'Android'){
           this.isAndroid = true;
@@ -132,13 +132,11 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     }.bind(this));
 
     this.eventsService.on('actualStep', function(actualStep) {
-      this.actualStep= actualStep;
-      console.log(this.actualStep);
+      this.actualStep= this.dataservice.steps.actualStep;
     }.bind(this));
 
     this.eventsService.on('maxStep', function(maxStep) {
-      this.maxStep= maxStep;
-      console.log(this.maxStep);
+      this.maxStep= this.dataservice.steps.maxStep;
     }.bind(this));
 
     this.eventsService.on('showIntroWizard', function(showintrowizard) {
@@ -222,10 +220,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   initVars(){
       //coger parámetros por si viene de modulo de visitas
       this.subscription.add( this.route.params.subscribe(params => {
-        if(this.data.storage!=undefined){
-          console.log(this.data);
-          if(this.data.storage.roleShare!=undefined){
-            this.roleShare = this.data.storage.roleShare;
+        if(this.dataservice.storage!=undefined){
+          if(this.dataservice.storage.roleShare!=undefined){
+            this.roleShare = this.dataservice.storage.roleShare;
           }
         }
       }));
