@@ -1,7 +1,7 @@
 <div [ngClass]="(maxStep < '5.0')?'':''">
   <a id="idup"></a>
 
-  <div id="wizardpanel" [ngClass]="((maxStep < '5.0') ||  (maxStep=='5.0' && (actualStep == '3.1' || actualStep == '3.2')))?'content-wizard':'pb-3'">
+  <div id="wizardpanel" class="pb-3">
     <div *ngIf="showingWizard">
       <div id="loading-layout-wizard" *ngIf="!loadedSymptoms">
         <div class="center-elements">
@@ -54,7 +54,7 @@
           </div>
           <p class="content-sub-header"></p>-->
           <div class="offset-md-2 col-md-8 col-lg-8" >
-            <div class="content-header">
+            <div class="content-header pb-1">
               <span>Introducción</span>
             </div>
             <p class="content-sub-header">
@@ -63,23 +63,23 @@
           </div>
           <section>
             <div class="offset-md-2 col-md-8 col-lg-8">
-              <div class="row text-left card ">
-      			    <div class="col-md-12 mt-1">
+              <div class="row text-left card border">
+      			    <div class="card-body col-md-12 mt-1">
 
       			      <div class="row center-elements">
                     <div class="col-sm-4 p-2">
                       <i class="fas fa-notes-medical fa-4x primary circle-icon"></i>
-                      <span class="d-block font-medium-3 d-inline mt-2">{{'patnodiagdashboard.menu.Step' | translate }} 1 </span>
-                      <span class="d-inline">Síntomas introducidos de documentos, imágenes, etc </span>
+                      <span class="d-block font-medium-3 d-inline mt-3">{{'patnodiagdashboard.menu.Step' | translate }} 1 </span>
+                      <span class="d-inline-block pl-2 pr-2">Síntomas introducidos de documentos, imágenes, etc </span>
                     </div>
                     <div class="col-sm-4 p-2">
                       <i class="fas fa-dna fa-4x primary circle-icon"></i>
-                      <span class="d-block font-medium-3 d-inline mt-2">{{'patnodiagdashboard.menu.Step' | translate }} 2 </span>
+                      <span class="d-block font-medium-3 d-inline mt-3">{{'patnodiagdashboard.menu.Step' | translate }} 2 </span>
                       <span class="d-inline">Añadir información genética </span>
                     </div>
                     <div class="col-sm-4 p-2">
                       <i class="fas fa-align-left fa-4x primary circle-icon"></i>
-                      <span class="d-block font-medium-3 d-inline mt-2">{{'patnodiagdashboard.menu.Step' | translate }} 3 </span>
+                      <span class="d-block font-medium-3 d-inline mt-3">{{'patnodiagdashboard.menu.Step' | translate }} 3 </span>
                       <span class="d-inline">Analizar los datos </span>
                     </div>
       			      </div>
@@ -101,7 +101,7 @@
       <div *ngIf="actualStep=='1.0'"  class="">
 
         <div class="offset-md-2 col-md-8 col-lg-8">
-          <div class="content-header">
+          <div class="content-header pb-1">
             <!--<span *ngIf="actualStep == '0.0'">Introducción</span>-->
             <span>{{'diagnosis.Symptoms' | translate }}</span>
           </div>
@@ -115,67 +115,65 @@
         <section>
           <div class="offset-md-2 col-md-8" *ngIf="(phenotype.data.length == 0) || (numDeprecated==phenotype.data.length && numDeprecated>0)">
             <div class="col-md-12 col-lg-12" matchHeight ="card">
-              <div class="row" matchHeight ="card">
-              <div class="col-lg-4 col-md-12">
-                  <div class="card">
-                      <div class="card-header text-center pb-0 height-75">
-                          <span class="font-medium-2 primary">{{'generics.Option' | translate }} 1: {{'patdiagdashboard.titleoption1' | translate }}</span>
+              <div class="row center-elements" matchHeight ="card">
+              <div class="col-lg-4 pb-2 col-md-12">
+                  <div class="card box border">
+                      <div class="card-header text-center pb-0">
+                          <span class="font-medium-2 grey">{{'generics.Option' | translate }} 1: {{'patdiagdashboard.titleoption1' | translate }}</span>
                       </div>
-                      <div class="card-body height-200">
+                      <div class="card-body">
                           <div id="donut-chart1" class="center-elements">
-                            <i class="fas fa-notes-medical fa-4x primary"></i>
+                            <i class="fas fa-notes-medical fa-4x grey"></i>
                           </div>
                           <div class="card-block text-center mt-2">
                               <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption1' | translate }}</span>
                           </div>
                       </div>
                       <div class="card-footer bt-n">
-                        <label class="btn btn-outline-primary btn-lg btn-block btn-round" style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
+                        <label class="btn btn-outline-primary" style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
                             {{'patdiagdashboard.buttonoption1' | translate }} <input type="file" (change)="onFileChangePDF($event, contentExtractorSteps)" style="display: none;">
                         </label>
                       </div>
                   </div>
               </div>
-              <div class="col-lg-4 col-md-12">
-                  <div class="card">
-                      <div class="card-header text-center pb-0 height-75">
-                          <span class="font-medium-2 primary">
+              <div class="col-lg-4 pb-2 col-md-12">
+                  <div class="card box border">
+                      <div class="card-header text-center pb-0">
+                          <span class="font-medium-2 grey">
                             {{'generics.Option' | translate }}
-                            <span>2</span>
-                            : {{'patdiagdashboard.titleoption3' | translate }}
+                            <span>2:</span> {{'patdiagdashboard.titleoption3' | translate }}
                           </span>
                       </div>
-                      <div class="card-body height-200">
+                      <div class="card-body">
                           <div id="donut-chart1" class="center-elements">
-                            <i class="fas fa-keyboard fa-4x primary"></i>
+                            <i class="fas fa-keyboard fa-4x grey"></i>
                           </div>
                           <div class="card-block text-center mt-2">
                               <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption3' | translate }}</span>
                           </div>
                       </div>
                       <div class="card-footer bt-n">
-                <button type="button" class="btn btn-outline-primary btn-lg btn-block btn-round" (click)="addSymptomsManual(contentAddSymptomsManual)">{{'patdiagdashboard.buttonoption3' | translate }}​​</button>
+                <button type="button" class="btn btn-outline-primary" (click)="addSymptomsManual(contentAddSymptomsManual)">{{'patdiagdashboard.buttonoption3' | translate }}​​</button>
                       </div>
                   </div>
               </div>
-              <div class="col-lg-4 col-md-12">
-                  <div class="card">
-                      <div class="card-header text-center pb-0 height-75">
-                          <span class="font-medium-2 primary">{{'generics.Option' | translate }}
-                            <span>3</span>
-                            : {{'patdiagdashboard.titleoption4' | translate }}
+              <div class="col-lg-4 pb-2 col-md-12">
+                  <div class="card box border">
+                      <div class="card-header text-center pb-0">
+                          <span class="font-medium-2 grey">{{'generics.Option' | translate }}
+                            <span>3:</span> {{'patdiagdashboard.titleoption4' | translate }}
                           </span>
                       </div>
-                      <div class="card-body height-200">
+                      <div class="card-body">
                           <div id="donut-chart1" class="center-elements">
-                            <i class="fas fa-align-left fa-4x primary"></i>
+                            <i class="fas fa-align-left fa-4x grey"></i>
                           </div>
                           <div class="card-block text-center mt-2">
                               <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption4.1' | translate }} <span *ngIf="isMobileOrTablet">{{'patdiagdashboard.msgoption4.2' | translate }}</span></span>
                           </div>
                       </div>
                       <div class="card-footer bt-n">
-                        <button type="button" class="btn btn-outline-primary btn-lg btn-block btn-round" (click)="showPanelAddTextSymptoms(contentAddTextSymptoms)">{{'patdiagdashboard.buttonoption4' | translate }}​​​​</button>
+                        <button type="button" class="btn btn-outline-primary" (click)="showPanelAddTextSymptoms(contentAddTextSymptoms)">{{'patdiagdashboard.buttonoption4' | translate }}​​​​</button>
                       </div>
                   </div>
               </div>
@@ -185,7 +183,7 @@
           <div class="mt-2" *ngIf="phenotype.data.length > 0 && numDeprecated!=phenotype.data.length">
 
             <div class="offset-md-2 col-md-8 col-lg-8">
-              <div class="card">
+              <div class="card border">
                 <div class="card-header">
                   <h4 class="card-title">
                     Síntomas guardados
@@ -205,37 +203,41 @@
                             </a>
                         </div>
                     </span>
-                    <button type="button" class="float-right btn btn-outline-primary" (click)="funShowOptionsSymptoms(contentOptionsSymptoms)">Añadir síntomas</button>
+                    <button type="button" class="float-right btn btn-outline-primary" (click)="funShowOptionsSymptoms(contentOptionsSymptoms)">Añadir más síntomas</button>
                   </h4>
                 </div>
                 <div class="card-content" *ngIf="phenotype.data.length > 0">
                   <div class="card-body">
                     <section *ngIf="viewSymptoms ==0" class="col-md-12 mb-4">
                       <div class="row" *ngFor="let group of listOfSymptomGroups ; let j = index">
-                        <h4 [ngClass]="(j > '0' )?'mt-2':''"><span class="text-bold-400">{{group.nameGroup}}</span></h4>
-                        <ul *ngFor="let hpo of group.symptoms ; let i = index" class="col-lg-12 mb-1">
-                          <li class="row symptoms-item" style="margin-top: 1rem;">
-                            <span style="font-size:1rem;flex-grow: 1;" class="text-muted">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
-                            <a class="btn btn-outline-info round primary mr-1" data-original-title="" title="" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
-                              <i class="fa fa-info"></i>
-                            </a>
-                            <a class="btn btn-outline-danger round danger  ml-1 mr-1" data-original-title="" title="" (click)="confirmDeletePhenotypeGroup(j,i)">
-                              <i class="fa fa-trash"></i>
-                            </a>
+                        <h4 class="col-md-12" [ngClass]="(j > '0' )?'mt-3':''"><span class="text-bold-400">{{group.nameGroup}}</span></h4>
+                        <ul *ngFor="let hpo of group.symptoms ; let i = index" class="col-lg-12 col-xl-6 mb-1">
+                          <li class="row symptoms-item">
+                            <span style="font-size:1rem;flex-grow: 1;" class="text-muted col-md-8">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
+                            <span class="col-md-4">
+                              <a class="btn btn-outline-info primary mr-1 mb-0" data-original-title="" title="" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
+                                <i class="fa fa-info"></i>
+                              </a>
+                              <a class="btn btn-outline-danger danger  ml-1 mr-1 mb-0" data-original-title="" title="" (click)="confirmDeletePhenotypeGroup(j,i)">
+                                <i class="fa fa-trash"></i>
+                              </a>
+                            </span>
                           </li>
                         </ul>
                       </div>
                     </section>
-                    <section class="row col-md-12 mb-4" *ngIf="viewSymptoms ==1">
-                      <ul class="col-lg-12 mb-1" *ngFor="let hpo of phenotype.data ; let i = index">
-                        <li class="row symptoms-item">
-                          <span style="font-size:1rem;flex-grow: 1;" class="text-muted">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
-                          <a class="btn btn-outline-info round primary mr-1" data-original-title="" title="" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
-                            <i class="fa fa-info"></i>
-                          </a>
-                          <a class="btn btn-outline-danger round danger ml-1 mr-1" data-original-title="" title="" (click)="confirmDeletePhenotype(i)">
-                            <i class="fa fa-trash"></i>
-                          </a>
+                    <section class="mb-4" *ngIf="viewSymptoms ==1">
+                      <ul class="row col-md-6 mb-1" *ngFor="let hpo of phenotype.data ; let i = index">
+                        <li class="row col-md-12 symptoms-item">
+                          <span style="font-size:1rem;flex-grow: 1;" class="text-muted col-md-8">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
+                          <span class="col-md-4">
+                            <a class="btn btn-outline-info primary mr-1 mb-0" data-original-title="" title="" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
+                              <i class="fa fa-info"></i>
+                            </a>
+                            <a class="btn btn-outline-danger danger ml-1 mr-1 mb-0" data-original-title="" title="" (click)="confirmDeletePhenotype(i)">
+                              <i class="fa fa-trash"></i>
+                            </a>
+                          </span>
                         </li>
                       </ul>
                     </section>
@@ -256,12 +258,12 @@
       <!-- Step 2.0 -->
       <div *ngIf="actualStep=='2.0'">
         <div class="offset-md-2 col-md-8 col-lg-8">
-          <div class="content-header">
+          <div class="content-header pb-1">
             <span>{{'diagnosis.Genetics' | translate }}</span>
           </div>
           <span class="content-sub-header">
             <span>
-              <div class="mt-2">
+              <div>
                 <ng-template #popContent>
                   <p>{{'exomiserSettings.Variant call file' | translate }} <a href="https://en.wikipedia.org/wiki/Variant_Call_Format" target="_blank">VCF</a> format.</p>
                   <button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">{{'generics.Close' | translate }}</button>
@@ -278,7 +280,7 @@
         </div>
         <section>
           <div class="offset-md-2 col-md-8">
-              <div class="card pb-2">
+              <div class="card pb-2 border">
                 <div class="card-header">
                   <h4 class="card-title d-inline">
                     {{'dashboardpatient.Files uploaded' | translate }}
@@ -324,12 +326,14 @@
       <!-- Step 3.0 -->
       <div *ngIf="actualStep >= '3.0' && actualStep < '4.0'">
         <div class="offset-md-2 col-md-8 col-lg-8">
-          <div class="content-header">
+          <div class="content-header pb-1">
             <span>Analizar</span>
           </div>
           <span class="content-sub-header">
             <span *ngIf="actualStep == '3.0'">
-              Antes de continuar, seleccione los síntomas y ficheros de información genética que quieres que analicemos. <a class="font-small-3 d-block" href="javascript:void(0)" (click)="changeSettingsExomiser(contentSettingsExomiser)">Advanced Exomiser {{'profile.Settings' | translate }}</a>
+              Antes de continuar, seleccione los síntomas
+              <span *ngIf="filesVcf.length>0"> y ficheros de información genética que quieres que analicemos. <a class="font-small-3 d-block" href="javascript:void(0)" (click)="changeSettingsExomiser(contentSettingsExomiser)">Advanced Exomiser {{'profile.Settings' | translate }}</a></span>
+              <span *ngIf="filesVcf.length==0"> que quieres que analicemos.</span>
             </span>
             <span *ngIf="actualStep > '3.0' && actualStep < '5.0'">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.f
@@ -343,7 +347,7 @@
       <div *ngIf="actualStep=='3.0'" class="offset-md-2 col-md-8 col-lg-8">
         <section class="row">
           <div class="col-md-6 mt-2">
-            <div class="card">
+            <div class="card border">
               <div class="card-header">
                 <h4 class="card-title">
                   Síntomas guardados
@@ -368,8 +372,8 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6 mt-2">
-            <div class="card">
+          <div class="col-md-6 mt-2" *ngIf="filesVcf.length>0">
+            <div class="card border">
               <div class="card-header">
                 <h4 class="card-title">
                   Archivos subidos
@@ -378,18 +382,31 @@
               <div class="card-content">
                 <div class="card-body">
                   <section class="mb-4">
-                    <div *ngIf="filesVcf.length>0">
+                    <div>
                       <mat-radio-group name="opciones" [(ngModel)]="filename">
                         <mat-radio-button class="d-block" *ngFor="let onefile of filesVcf; let i = index" name="onefile" [value]="onefile.name"  title="{{onefile.nameForShow}}">
                           {{ (onefile.nameForShow.length>60)? (onefile.nameForShow | slice:0:60)+'...':(onefile.nameForShow) }}
                         </mat-radio-button>
                       </mat-radio-group>
                     </div>
-                    <div *ngIf="filesVcf.length==0">
-                      <p>No hay ficheros VCF subidos</p>
-                    </div>
                   </section>
 
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 mt-2" *ngIf="filesVcf.length==0">
+            <div class="card border">
+              <div class="card-header">
+                <h4 class="card-title">
+                  Archivos subidos
+                </h4>
+              </div>
+              <div class="card-content">
+                <div class="card-body">
+                  <section class="mb-4">
+                    <p>No hay ficheros VCF subidos</p>
+                  </section>
                 </div>
               </div>
             </div>
@@ -399,7 +416,7 @@
       <!-- End Step 3.0 -->
       <!-- Step 3.1 -->
       <div *ngIf="actualStep=='3.1'" class="offset-md-2 col-md-8">
-        <section class="mt-2 card p-2">
+        <section class="mt-2 card p-2 border">
           <div class="center-elements">
             <div class="donate" *ngIf="loadingGeno || calculatingH29Score || gettingRelatedConditions || uploadingGenotype">
                 <p class="text-muted">Nuestros robots están analizando tus síntomas y tu información genetica, en breves te mostrarán los resultados de posibles enfermedades</p>
@@ -416,7 +433,7 @@
       <!-- End Step 3.1 -->
       <!-- Step 3.2 -->
       <div *ngIf="actualStep=='3.2'" class="offset-md-2 col-md-8">
-        <section class="mt-2 card p-2">
+        <section class="mt-2 card p-2 border">
           <div class="center-elements">
             <div class="donate" *ngIf="launchingPhen2Genes || calculatingH29Score || gettingRelatedConditions">
                 <p class="text-muted">Nuestros robots están analizando tus síntomas, en breves te mostrarán los resultados de posibles enfermedades</p>
@@ -469,7 +486,7 @@
       <!-- Step 5.0 -->
       <div *ngIf="actualStep=='5.0'">
         <div class="offset-md-2 col-md-8" >
-          <div class="content-header">
+          <div class="content-header pb-1">
             <span>Diagnoses</span>
           </div>
           <p class="content-sub-header">
@@ -491,7 +508,7 @@
         <section class="offset-md-2 col-md-8">
           <div class="mt-2 row">
             <div class="col-lg-12">
-              <div class="card">
+              <div class="card border">
                 <div class="card-header">
                   <h4 class="card-title">
                     <b>Resultados</b>
@@ -512,7 +529,7 @@
                             <a *ngIf="filesVcf.length>0" class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.0')">
                                 <span>Reanalizar</span>
                             </a>
-                            <a *ngIf="filesVcf.length==0" class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.2')">
+                            <a *ngIf="filesVcf.length==0" class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.0')">
                                 <span>Reanalizar</span>
                             </a>
                             <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelFeedback(contentGeneralNotes)">
@@ -556,7 +573,7 @@
 
                             <!--{{disease|json}}-->
                 						<div class="mb-4">
-                							<div class="card-content card card-outline-primary">
+                							<div class="card-content card card-outline-primary border">
                 								<div class="card-body">
                                   <p>{{actualDiseaseDesc.desc}} <a href="https://monarchinitiative.org/disease/{{disease.name.id}}" target="_blank" rel="tooltip" title="{{disease.name.id}}">More Info <i class="ft-external-link"></i></a></p>
                 									<div class="row">
@@ -757,7 +774,7 @@
 			</div>
 		</div>
 
-		<div class="card" *ngIf="resultTextNcrCopy!=''">
+		<div class="card border" *ngIf="resultTextNcrCopy!=''">
 			<div class="center-elements">
 				<button type="button" class="btn btn-primary btn-raised" (click)="saveSymptomsNcr(); changeTriggerHotjar('generalincoming_')">{{'generics.Save' | translate }}</button>
 				<button *ngIf="!ncrResultView" type="button" class="btn btn-primary btn-raised ml-1" (click)="showCompleteNcrResultView()">{{'patdiagdashboard.Show full text' | translate }}</button>
@@ -867,7 +884,7 @@
 			<div class="col-md-12 center-elements" *ngIf="loadingSuggestions">
 				<i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
 			</div>
-			<div class="col-md-12 row card" *ngIf="!loadingSuggestions">
+			<div class="col-md-12 row card border" *ngIf="!loadingSuggestions">
 				<div class="text-right btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="modelRadio" (change)="changeSuggestedViewSuggestions()">
 					<span class="mr-1 mt-1">{{'patdiagdashboard.Select view' | translate }}:</span>
 						<label ngbButtonLabel [ngClass]="(modelRadio==1)?'btn-raised btn-secondary':'btn-raised btn-primary'" style="cursor: pointer;">
@@ -967,7 +984,7 @@
 <ng-template #contentAddSymptomsManual let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-header" id="idHeader">
     <div class="content-header text-left">
-      <h4 class="modal-title">{{'diagnosis.Add symptoms' | translate }} <span class="font-medium-1 d-block mt-1"> {{'patdiagdashboard.onebyonemsg' | translate }} </span></h4>
+      <h4 class="modal-title text-muted">{{'diagnosis.Add symptoms' | translate }} <span class="font-medium-1 d-block mt-1"> {{'patdiagdashboard.onebyonemsg' | translate }} </span></h4>
     </div>
     <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
       <span aria-hidden="true">&times;</span>
@@ -976,10 +993,13 @@
 		<div class="modal-body row">
 			<div class="mt-2 col-md-4">
         <div class="card bg-grey bg-lighten-3 p-2 row">
-          <h4 class="font-weight-bold">{{'patnodiagdashboard.step2-4.msg5' | translate }}</h4>
+          <h4 class="font-weight-bold text-muted">{{'patnodiagdashboard.step2-4.msg5' | translate }}</h4>
           <p class="row" *ngIf="phenotype.data.length>0">
-            <span class="d-block col-md-12 symptoms-item" *ngFor="let item2 of phenotype.data; let i = index">
-              {{item2.name}} <span class="float-right red" style="cursor: pointer;" (click)="confirmDeletePhenotype(i)" title="{{'generics.Delete' | translate }}"><i class="fa fa-trash"></i></span>
+            <span class="d-block col-md-12" *ngFor="let item2 of phenotype.data; let i = index">
+              <span class="symptoms-item mb-2 row">
+                <span class="col-10">{{item2.name}}</span>
+                <span class="col-2 red" style="cursor: pointer;" (click)="confirmDeletePhenotype(i)" title="{{'generics.Delete' | translate }}"><i class="fa fa-trash"></i></span>
+              </span>
             </span>
           </p>
           <p *ngIf="phenotype.data.length==0">
@@ -990,7 +1010,7 @@
       </div>
       <div class="mt-2 col-md-8">
   			<div class="p-2 row">
-          <div class="form-group">
+          <div class="form-group mb-3">
             <div class="mt-2">
               <span class="d-block">{{'patnodiagdashboard.step2-4.msg1' | translate }}</span>
             </div>
@@ -998,9 +1018,9 @@
           </div>
 
           <div *ngIf="listOfFilteredSymptoms.length > 0" class="row">
-            <div class="col-lg-12 col-md-12" *ngFor="let hpo of listOfFilteredSymptoms ; let i = index">
+            <div class="mb-3 col-lg-12 col-md-12" *ngFor="let hpo of listOfFilteredSymptoms ; let i = index">
               <!-- Card -->
-                <div class="card chart-card" style="background-color: #f2f2f2;">
+                <div class="card chart-card border" style="background-color: #f2f2f2;">
 
                   <!-- Card content -->
                   <div class="p-2 row" [ngClass]="(i!= selectedInfoSymptomIndex)?'row':'row'">
@@ -1106,20 +1126,22 @@
     <div class="content-wrapper p-2">
       <div class="row col-md-12" class="p-2">
         <span *ngIf="phenotype.data[selectedInfoSymptomIndex].def!='' || phenotype.data[selectedInfoSymptomIndex].comment!=''">
-          <span *ngIf="phenotype.data[selectedInfoSymptomIndex].def!=''">{{phenotype.data[selectedInfoSymptomIndex].def}}.</span>
+          <h5><strong>{{'generics.Description' | translate }}</strong></h5>
+          <span *ngIf="phenotype.data[selectedInfoSymptomIndex].def!=''">{{phenotype.data[selectedInfoSymptomIndex].def}} </span>
           <span *ngIf="phenotype.data[selectedInfoSymptomIndex].comment!=''">{{phenotype.data[selectedInfoSymptomIndex].comment}}</span>
         </span>
       </div>
-      <div class="p-2">
-        <h5 class="mt-2"><strong>{{'generics.External Links' | translate }}</strong></h5>
-        <a href="https://monarchinitiative.org/phenotype/{{phenotype.data[selectedInfoSymptomIndex].id}}" target="_blank" title=" {{phenotype.data[selectedInfoSymptomIndex].name}} ({{phenotype.data[selectedInfoSymptomIndex].id}}):">MONDO ({{phenotype.data[selectedInfoSymptomIndex].id}})</a>
-      </div>
-      <div *ngIf="phenotype.data[selectedInfoSymptomIndex].synonyms!=undefined" class="p-2 mt-2">
+      <div *ngIf="phenotype.data[selectedInfoSymptomIndex].synonyms!=undefined" class="p-2">
         <h5><strong>{{'generics.Synonyms' | translate }}</strong></h5>
-        <p *ngFor="let synonym of phenotype.data[selectedInfoSymptomIndex].synonyms ; let j = index">
+        <p *ngFor="let synonym of phenotype.data[selectedInfoSymptomIndex].synonyms ; let j = index" [ngClass]="(j==phenotype.data[selectedInfoSymptomIndex].synonyms.length-1)?'mb-0':''">
           <span>{{j+1}}. </span> <span >{{synonym}}</span>
         </p>
       </div>
+      <div class="p-2">
+        <h5><strong>{{'generics.External Links' | translate }}</strong></h5>
+        <a href="https://monarchinitiative.org/phenotype/{{phenotype.data[selectedInfoSymptomIndex].id}}" target="_blank" title=" {{phenotype.data[selectedInfoSymptomIndex].name}} ({{phenotype.data[selectedInfoSymptomIndex].id}}):">MONDO ({{phenotype.data[selectedInfoSymptomIndex].id}})</a>
+      </div>
+
   </div>
 </ng-template>
 
@@ -1191,7 +1213,7 @@
 
 <ng-template #contentSettingsExomiser let-d="dismiss" appendTo="body">
     <div class="modal-header" id="idHeader">
-      <h4 class="modal-title">{{'diagnosis.Advanced Setting of Exomiser' | translate }}</h4>
+      <h4 class="modal-title text-muted">{{'diagnosis.Advanced Setting of Exomiser' | translate }}</h4>
       <button type="button" class="close" aria-label="Close" (click)="discardSettingsExomiser()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -1654,7 +1676,7 @@
 <ng-template #contentRelatedConditions let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header container row col-md-12" id="idHeader">
       <div class="col-md-8">
-        <h4 class="col-md-8 modal-title">{{'diagnosis.Explore symptoms related to' | translate }}</h4>
+        <h4 class="col-md-8 modal-title text-muted">{{'diagnosis.Explore symptoms related to' | translate }}</h4>
         <p style="margin-left:1em;"><b style="font-weight: 700;">{{actualDisease.name.label}}</b></p>
       </div>
       <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
@@ -1663,7 +1685,7 @@
     </div>
     <div class="modal-body">
       <div class="px-3">
-          <div class="card">
+          <div class="card border">
             <div class="card-body">
               <div class="container col-md-12"  *ngIf="actualDisease.symptoms">
                 <div class="row"  *ngIf="actualDisease.symptoms.length > 0 ">
@@ -2060,72 +2082,70 @@
 				<span aria-hidden="true">&times;</span>
 			</button>
 			<div>
-				<h4 class="modal-title">Añadir síntomas</h4>
+				<h4 class="modal-title text-muted">Añadir más síntomas</h4>
 			</div>
 		</div>
 		<div class="modal-body">
       <div class="col-md-12 col-lg-12" matchHeight ="card">
-        <div class="row" matchHeight ="card">
-        <div class="col-lg-4 col-md-12">
-            <div class="card">
-                <div class="card-header text-center pb-0 height-75">
-                    <span class="font-medium-2 primary">{{'generics.Option' | translate }} 1: {{'patdiagdashboard.titleoption1' | translate }}</span>
+        <div class="row center-elements" matchHeight ="card">
+        <div class="col-lg-4 pb-2 col-md-12">
+            <div class="card box border">
+                <div class="card-header text-center pb-0">
+                    <span class="font-medium-2 grey">{{'generics.Option' | translate }} 1: {{'patdiagdashboard.titleoption1' | translate }}</span>
                 </div>
-                <div class="card-body height-200">
+                <div class="card-body">
                     <div id="donut-chart1" class="center-elements">
-                      <i class="fas fa-notes-medical fa-4x primary"></i>
+                      <i class="fas fa-notes-medical fa-4x grey"></i>
                     </div>
                     <div class="card-block text-center mt-2">
                         <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption1' | translate }}</span>
                     </div>
                 </div>
                 <div class="card-footer bt-n">
-                  <label class="btn btn-outline-primary btn-lg btn-block btn-round" style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
+                  <label class="btn btn-outline-primary" style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
                       {{'patdiagdashboard.buttonoption1' | translate }} <input type="file" (change)="onFileChangePDF($event, contentExtractorSteps);c('Close click')" style="display: none;">
                   </label>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-12">
-            <div class="card">
-                <div class="card-header text-center pb-0 height-75">
-                    <span class="font-medium-2 primary">
+        <div class="col-lg-4 pb-2 col-md-12">
+            <div class="card box border">
+                <div class="card-header text-center pb-0">
+                    <span class="font-medium-2 grey">
                       {{'generics.Option' | translate }}
-                      <span>2</span>
-                      : {{'patdiagdashboard.titleoption3' | translate }}
+                      <span>2:</span> {{'patdiagdashboard.titleoption3' | translate }}
                     </span>
                 </div>
-                <div class="card-body height-200">
+                <div class="card-body">
                     <div id="donut-chart1" class="center-elements">
-                      <i class="fas fa-keyboard fa-4x primary"></i>
+                      <i class="fas fa-keyboard fa-4x grey"></i>
                     </div>
                     <div class="card-block text-center mt-2">
                         <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption3' | translate }}</span>
                     </div>
                 </div>
                 <div class="card-footer bt-n">
-          <button type="button" class="btn btn-outline-primary btn-lg btn-block btn-round" (click)="addSymptomsManual(contentAddSymptomsManual);c('Close click')">{{'patdiagdashboard.buttonoption3' | translate }}​​</button>
+          <button type="button" class="btn btn-outline-primary" (click)="addSymptomsManual(contentAddSymptomsManual);c('Close click')">{{'patdiagdashboard.buttonoption3' | translate }}​​</button>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-12">
-            <div class="card">
-                <div class="card-header text-center pb-0 height-75">
-                    <span class="font-medium-2 primary">{{'generics.Option' | translate }}
-                      <span>3</span>
-                      : {{'patdiagdashboard.titleoption4' | translate }}
+        <div class="col-lg-4  pb-2 col-md-12">
+            <div class="card box border">
+                <div class="card-header text-center pb-0">
+                    <span class="font-medium-2 grey">{{'generics.Option' | translate }}
+                      <span>3:</span> {{'patdiagdashboard.titleoption4' | translate }}
                     </span>
                 </div>
-                <div class="card-body height-200">
+                <div class="card-body">
                     <div id="donut-chart1" class="center-elements">
-                      <i class="fas fa-align-left fa-4x primary"></i>
+                      <i class="fas fa-align-left fa-4x grey"></i>
                     </div>
                     <div class="card-block text-center mt-2">
                         <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption4.1' | translate }} <span *ngIf="isMobileOrTablet">{{'patdiagdashboard.msgoption4.2' | translate }}</span></span>
                     </div>
                 </div>
                 <div class="card-footer bt-n">
-                  <button type="button" class="btn btn-outline-primary btn-lg btn-block btn-round" (click)="showPanelAddTextSymptoms(contentAddTextSymptoms);c('Close click')">{{'patdiagdashboard.buttonoption4' | translate }}​​​​</button>
+                  <button type="button" class="btn btn-outline-primary" (click)="showPanelAddTextSymptoms(contentAddTextSymptoms);c('Close click')">{{'patdiagdashboard.buttonoption4' | translate }}​​​​</button>
                 </div>
             </div>
         </div>
@@ -2145,7 +2165,7 @@
 				<span aria-hidden="true">&times;</span>
 			</button>
 			<div>
-				<h4 class="modal-title">Notes</h4>
+				<h4 class="modal-title text-muted">Notes</h4>
 			</div>
 		</div>
 		<div class="modal-body">

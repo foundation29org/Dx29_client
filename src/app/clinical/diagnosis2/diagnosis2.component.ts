@@ -641,14 +641,19 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         if(!haveSymptoms){
             Swal.fire({ title: this.translate.instant("diagnosis.titleNotCanLaunchExomiser"), html: this.translate.instant("diagnosis.msgNotCanLaunchExomiser"),icon:"info" })
         }else{
-          this.goToStep('3.1', true)
+          if(this.filesVcf.length>0){
+            this.goToStep('3.1', true)
+          }else{
+            this.goToStep('3.2', true)
+          }
+
         }
       }else if(this.actualStep == '2.0'){
         if(this.filesVcf.length>0){
           this.goToStep('3.0', true);
         }else{
           Swal.fire({
-              title: 'No ha subido ningún fichero VCF, ¿desea continuar?',
+              title: 'No ha subido ningún fichero con información genética, ¿desea continuar?',
               icon: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#0CC27E',
@@ -659,7 +664,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               allowOutsideClick: false
           }).then((result) => {
             if (result.value) {
-              this.goToStep('3.2', true);
+              this.goToStep('3.0', true);
             }
           });
 
@@ -692,7 +697,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       if(this.filesVcf.length>0){
         this.goToStep('3.0', true);
       }else{
-        this.goToStep('3.2', true);
+        this.goToStep('3.0', true);
       }
 
     }
@@ -1147,7 +1152,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.selectedInfoSymptomIndex = symptomIndex;
       let ngbModalOptions: NgbModalOptions = {
             keyboard : true,
-            windowClass: 'ModalClass-lg'
+            windowClass: 'ModalClass-sm'
       };
       this.modalReference = this.modalService.open(contentInfoSymptom, ngbModalOptions);
     }
@@ -1306,7 +1311,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     testCallGetInfoSymptomsJSON(hposStrins){
-      this.subscriptionLoadSymptoms = Observable.interval(1000 * 60 * 5 ).subscribe(() => {
+      this.subscriptionLoadSymptoms = Observable.interval(1000).subscribe(() => {
         this.numDeprecated = 0;
         if(this.listOfphenotypesinfo.length>0){
           this.subscriptionLoadSymptoms.unsubscribe();

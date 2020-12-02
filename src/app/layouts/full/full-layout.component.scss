@@ -2,3 +2,10 @@
   height:91% !important;
   overflow-y: auto;
 }
+
+.main-panel-custom {
+  max-height: 100%;
+  height: calc(100% - 100px);
+  min-height: calc(100% - 100px);
+  width: 100%;
+}

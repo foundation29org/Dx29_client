@@ -3,15 +3,29 @@
   height: 5px !important;
 }
 
+.row.display-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+.row.display-flex > [class*='col-'] {
+  flex-grow: 1;
+}
+
 .dropdown-toggle::after {
     display:none;
 }
+
+.card{
+  margin: 0 !important;
+}
+
 .box {
   display: flex;
-  flex-wrap: wrap;
+  //flex-wrap: wrap;
   flex-direction: column;
   width: 100%;
   align-content: space-between;
+  height: 100%;
 }
 
 .bg-selected-wizard{
@@ -39,7 +53,7 @@
 }
 
 .symptoms-item{
-  border-bottom: 1px solid rgba(89,111,129,.15);
+  //border-bottom: 1px solid rgba(89,111,129,.15);
   display: flex;
 }
 
@@ -58,7 +72,7 @@
   width: 100%;
   background-color: white;
   text-align: center;
-  background-color: #040404a1;
+  background-color: #0404040d;
   //box-shadow: 0 0 6px -6px rgba(0, 0, 0, 0.01), 0 12px 15px 6px rgba(0, 0, 0, 0.06);
 }
 
