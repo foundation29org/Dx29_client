@@ -145,6 +145,7 @@
     "requiredfieldsmissing": "Some required fields are missing!",
     "Section": "Section",
     "Are you sure?": "Are you sure?",
+    "Are you sure delete?": "Are you sure to delete it?",
     "Exit the application without logging off": "Exit the application without logging off",
     "We will reply as soon as possible": "We will reply as soon as possible. Thank you!",
     "Sending": "Sending",

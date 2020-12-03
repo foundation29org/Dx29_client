@@ -144,6 +144,7 @@
     "requiredfieldsmissing": "¡Faltan algunos campos obligatorios!",
     "Section": "Sección",
     "Are you sure?": "¿Estás seguro?",
+    "Are you sure delete?": "¿Estás segur@ de eliminarlo?",
     "Exit the application without logging off": "Salir de la aplicación sin cerrar la sesión",
     "We will reply as soon as possible": "Le contestaremos lo antes posible. ¡Gracias!",
     "Sending": "Enviando",

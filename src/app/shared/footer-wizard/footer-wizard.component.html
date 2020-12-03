@@ -1,26 +1,27 @@
 <footer class="empty-padding-left">
   <div class="footer-buttons" *ngIf="maxStep<'5.0'">
     <button  type="button" class="mt-2 ml-3 float-left btn" [ngClass]="((actualStep > '0.0' && showIntroWizard) || (actualStep > '1.0' && !showIntroWizard) )?'primary btn-primary btn-outline-primary':'text-muted inactiveLink btn-outline-secondary'" (click)="goPrevStep2()"><span style="margin-right: 10px;"><i class="ft-chevron-left"></i></span> Previous</button>
-      <span class="position-absolute mt-3 font-medium-2 font-weight-bold text-muted" style="left:45%;">
-        <span *ngIf="showIntroWizard && actualStep == '0.0'">
-          00. Introducción
-        </span>
-        <span *ngIf="actualStep == '1.0'">
-          01. {{'diagnosis.Symptoms' | translate }}
-        </span>
-        <span *ngIf="actualStep > '1.0' && actualStep < '3.0' ">
-          02. {{'diagnosis.Genetics' | translate }}
-        </span>
-        <span *ngIf="(actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2' || actualStep == '3.3')">
-          03. Analizar
-        </span>
+    <span class="position-absolute mt-3 font-medium-2 font-weight-bold text-muted" style="left:45%;">
+      <span *ngIf="showIntroWizard && actualStep == '0.0'">
+        00. Introducción
       </span>
-      <button *ngIf="actualStep != '3.1' && actualStep != '3.2' && actualStep != '3.0' && actualStep != '1.0'" type="button" class="mt-2 mr-3 float-right btn" [ngClass]="(actualStep < '3.3' )?'primary btn-primary btn-outline-primary':'text-muted inactiveLink btn-outline-secondary'" (click)="goNextStep2()">Next <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
-      <button *ngIf="actualStep == '3.0'" type="button" class="mt-2 mr-2 float-right btn primary btn-primary btn-outline-primary" (click)="goNextStep2()">Analizar <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
-      <button *ngIf="(actualStep != '3.1' && actualStep != '3.2') && actualStep == '1.0'" type="button" class="mt-2 mr-3 float-right btn primary btn-primary btn-outline-primary" (click)="goNextStep2()">Next <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
-      <button *ngIf="actualStep == '3.1' || actualStep == '3.2'" type="button" class="mt-2 mr-3 float-right btn primary btn-primary btn-outline-primary" (click)="goNextStep2()">Finish y ver resultados <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+      <span *ngIf="actualStep == '1.0'">
+        01. {{'diagnosis.Symptoms' | translate }}
+      </span>
+      <span *ngIf="actualStep > '1.0' && actualStep < '3.0' ">
+        02. {{'diagnosis.Genetics' | translate }}
+      </span>
+      <span *ngIf="(actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2' || actualStep == '3.3')">
+        03. Analizar
+      </span>
+    </span>
+    <button *ngIf="actualStep != '3.1' && actualStep != '3.2' && actualStep != '3.0' && actualStep != '1.0'" type="button" class="mt-2 mr-3 float-right btn" [ngClass]="(actualStep < '3.3' )?'primary btn-primary btn-outline-primary':'text-muted inactiveLink btn-outline-secondary'" (click)="goNextStep2()">Next <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+    <button *ngIf="actualStep == '3.0'" type="button" class="mt-2 mr-2 float-right btn primary btn-primary btn-outline-primary" (click)="goNextStep2()">Analizar <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+    <button *ngIf="(actualStep != '3.1' && actualStep != '3.2') && actualStep == '1.0'" type="button" class="mt-2 mr-3 float-right btn primary btn-primary btn-outline-primary" (click)="goNextStep2()">Next <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+    <button *ngIf="actualStep == '3.1' || actualStep == '3.2'" type="button" class="mt-2 mr-3 float-right btn primary btn-primary btn-outline-primary" (click)="goNextStep2()">Finish y ver resultados <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
   </div>
   <div class="footer-buttons" *ngIf="maxStep=='5.0' && (actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2')" >
+    <button  type="button" *ngIf="actualStep != '3.0'" class="mt-2 ml-3 float-left btn secondary btn-outline-secondary" (click)="cancel()"><span style="margin-right: 10px;"><i class="ft-chevron-left"></i></span> Cancelar</button>
     <button *ngIf="actualStep == '3.0'" type="button" class="mt-2 mr-2 float-right btn primary btn-primary btn-outline-primary" (click)="goNextStep2()">Analizar <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
     <button *ngIf="actualStep != '3.0'" type="button" class="mt-2 mr-2 float-right btn primary btn-primary btn-outline-primary" (click)="goNextStep2()">Finish y ver resultados<span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
   </div>

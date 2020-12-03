@@ -21,6 +21,10 @@ export class FooterWizardComponent implements OnInit{
     constructor(private dataservice: Data, private inj: Injector)
       {
         this.eventsService = this.inj.get(EventsService);
+        if(this.dataservice.steps!=undefined){
+          this.actualStep= this.dataservice.steps.actualStep;
+          this.maxStep= this.dataservice.steps.maxStep;
+        }
       }
 
     ngOnInit() {
@@ -51,5 +55,9 @@ export class FooterWizardComponent implements OnInit{
 
     goPrevStep2(){
       this.eventsService.broadcast('setStepWizard', 'prev');
+    }
+
+    cancel(){
+      this.eventsService.broadcast('setStepWizard', 'cancelAnalysis');
     }
 }

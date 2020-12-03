@@ -213,7 +213,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     infoNcrToSave: any = {};
     fileUploadInfo: any;
     listPatientFiles: any= [];
-    contentDownloadFiles: any;
     isNewNcrFile: boolean = false;
     listOfDiseases: any= [];
 
@@ -326,7 +325,10 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     treeOrphaPredecessors: any = {};
     eventsService: any = null;
     showIntroWizard: boolean = true;
-
+    notAnalyzeGeneticInfo: boolean = false;
+    loadingDocuments: boolean = false;
+    otherDocs: any = [];
+    docsNcr: any = [];
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
     protected $hotjar: NgxHotjarService, private textTransform: TextTransform, private inj: Injector, private dataservice: Data) {
@@ -593,13 +595,17 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     setActualStep(actualStep:string){
       this.actualStep = actualStep;
       this.dataservice.steps = {actualStep: this.actualStep, maxStep: this.maxStep};
+      console.log(this.dataservice.steps);
+      this.eventsService.broadcast('maxStep', this.maxStep);
       this.eventsService.broadcast('actualStep', this.actualStep);
     }
 
     setMaxStep(maxStep:string){
       this.maxStep = maxStep;
       this.dataservice.steps = {actualStep: this.actualStep, maxStep: this.maxStep};
+      console.log(this.dataservice.steps);
       this.eventsService.broadcast('maxStep', this.maxStep);
+      this.eventsService.broadcast('actualStep', this.actualStep);
     }
 
     goPrevStep(){
@@ -672,7 +678,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         if(!haveSymptoms){
             Swal.fire({ title: this.translate.instant("diagnosis.titleNotCanLaunchExomiser"), html: this.translate.instant("diagnosis.msgNotCanLaunchExomiser"),icon:"info" })
         }else{
-          if(this.filesVcf.length>0){
+          if(this.filesVcf.length>0 && !this.notAnalyzeGeneticInfo){
             this.goToStep('3.1', true)
           }else{
             this.goToStep('3.2', true)
@@ -725,12 +731,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     goToStepDiagnoses(){
-      if(this.filesVcf.length>0){
-        this.goToStep('3.0', true);
-      }else{
-        this.goToStep('3.0', true);
-      }
-
+      this.goToStep('3.0', false);
     }
 
     goToStep(indexStep, save){
@@ -780,7 +781,38 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }else if(info=='prev'){
           this.goPrevStep();
         }else if(info=='reports'){
-          document.getElementById("loadFilesContainerNcrButton").click();
+          this.setActualStep('4.0');
+          //this.actualStep = '4.0';
+          this.loadingDocuments = true;
+          this.loadFilesContainer();
+        }else if(info=='cancelAnalysis'){
+          if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
+            Swal.fire({
+                title: 'Todavía estamos analizando la información',
+                text:  "¿Estas seguro de cancelar el análisis?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#0CC27E',
+                cancelButtonColor: '#f9423a',
+                confirmButtonText: 'Si, cancelar el análisis',
+                cancelButtonText: 'No, esperar un poco',
+                showLoaderOnConfirm: true,
+                allowOutsideClick: false
+            }).then((result) => {
+              if (result.value) {
+                this.cancelSubscription();
+                this.setActualStep('5.0');
+                this.loadingGeno =false;
+                this.calculatingH29Score=false;
+                this.gettingRelatedConditions=false;
+                this.uploadingGenotype=false;
+                //this.setActualStepDB('5.0');
+              }
+            });
+
+          }else if(this.launchingPhen2Genes || this.calculatingH29Score || this.gettingRelatedConditions){
+            Swal.fire('Todavía estamos analizando, ten un poco de paciencia por favor', '', "info");
+          }
         }
       }.bind(this));
     }
@@ -946,7 +978,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
          }));
 
 
-        this.subscription.add( this.blob.changeFilesPatientBlob.subscribe(filesPatientBlob => {
+        this.subscription.add( this.blob.changeFilesPatientBlob.subscribe(async filesPatientBlob => {
+          this.docsNcr = [];
+          this.otherDocs = [];
            if(filesPatientBlob.length>0){
              filesPatientBlob.sort(this.sortService.DateSort("lastModified"));
              var listPatientFiles = [];
@@ -995,7 +1029,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                }
              }
              for(var i=0;i<listPatientFiles.length;i++){
-               listPatientFiles[i].origenFile.nameForShow=""
+               listPatientFiles[i].origenFile.nameForShow="";
              }
              for(var i=0;i<listPatientFiles.length;i++){
                if(listPatientFiles[i].origenFile.simplename!=undefined){
@@ -1009,17 +1043,26 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                }
              }
              this.listPatientFiles = listPatientFiles;
+             for(var i=0;i<this.listPatientFiles.length;i++){
+               this.listPatientFiles[i].origenFile.contentLength
+               this.listPatientFiles[i].origenFile.contentLength = this.formatBytes(this.listPatientFiles[i].origenFile.contentLength);
+               if((this.listPatientFiles[i].ncrResults.name).indexOf('ncrresult.json')!=-1){
+                 await this.getResumeNcr(this.listPatientFiles[i].ncrResults.name, i)
+
+               }else{
+                 var extension = this.listPatientFiles[i].origenFile.nameForShow.substr(this.listPatientFiles[i].origenFile.nameForShow.lastIndexOf('.'));
+                 this.listPatientFiles[i].origenFile.extension=extension;
+                 this.otherDocs.push(this.listPatientFiles[i]);
+               }
+             }
+
             // this.urlFileHtmlExomiserBlob = this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+filesPatientBlob[0].name+this.accessToken.sasToken;
            }else{
             console.log('no tiene!');
             this.listPatientFiles = [];
            }
+           this.loadingDocuments = false;
            Swal.close();
-           let ngbModalOptions: NgbModalOptions = {
-                 windowClass: 'ModalClass-lg',
-                 centered: true
-           };
-           this.modalReference = this.modalService.open(this.contentDownloadFiles, ngbModalOptions);
          }));
 
 
@@ -1042,6 +1085,63 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.getLastPhen2GenesResults();
 
 
+
+    }
+
+    formatBytes(bytes, decimals = 2) {
+        if (bytes === 0) return '0 Bytes';
+
+        const k = 1024;
+        const dm = decimals < 0 ? 0 : decimals;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+
+    async getResumeNcr(name, index){
+      //this.listPatientFiles[i].origenFile.name
+      this.subscription.add( this.http.get(this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+name+this.accessToken.sasToken)
+       .subscribe( (res : any) => {
+         console.log(res);
+         var listSymptoms = [];
+         var annotations = 0;
+         var resumeText = res.originalText.slice(0, 140);
+         var rejectedSymptoms = res.rejectedSymptoms.length;
+          var infoNcr = res.result
+         if(infoNcr.length>0){
+          for(var i = 0; i < infoNcr.length; i++) {
+
+            for(var j = 0; j < infoNcr[i].phens.length; j++) {
+              annotations++;
+              var foundElement = this.searchService.search(listSymptoms,'id', infoNcr[i].phens[j].id);
+              if(!foundElement){
+                listSymptoms.push(infoNcr[i].phens[j].id);
+              }
+            }
+          }
+          var numSymptMatch = 0;
+          for(var i = 0; i < this.phenotype.data.length; i++) {
+            for(var j = 0; j < listSymptoms.length; j++) {
+              if(this.phenotype.data[i].id==listSymptoms[j]){
+                numSymptMatch++;
+              }
+            }
+          }
+        }
+        var extension = this.listPatientFiles[index].origenFile.nameForShow.substr(this.listPatientFiles[index].origenFile.nameForShow.lastIndexOf('.'));
+        this.listPatientFiles[index].ncrResults.extension = extension
+        this.listPatientFiles[index].ncrResults.numberSymptoms= listSymptoms.length;
+        this.listPatientFiles[index].ncrResults.numSymptMatch= numSymptMatch;
+        this.listPatientFiles[index].ncrResults.annotations = annotations
+        this.listPatientFiles[index].ncrResults.resumeText = resumeText
+        this.listPatientFiles[index].ncrResults.rejectedSymptoms = rejectedSymptoms
+        console.log(this.listPatientFiles[index]);
+        this.docsNcr.push(this.listPatientFiles[index]);
+       }, (err) => {
+         console.log(err);
+       }));
 
     }
 
@@ -2624,13 +2724,13 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     confirmDeletePhenotype(index){
       Swal.fire({
-          title: this.translate.instant("generics.Are you sure?"),
+          title: this.translate.instant("generics.Are you sure delete?"),
           text:  "Vas a eliminar el síntoma '"+this.phenotype.data[index].name+"'",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#0CC27E',
           cancelButtonColor: '#f9423a',
-          confirmButtonText: this.translate.instant("generics.Delete"),
+          confirmButtonText: this.translate.instant("generics.Yes"),
           cancelButtonText: this.translate.instant("generics.No, cancel"),
           showLoaderOnConfirm: true,
           allowOutsideClick: false
@@ -2647,7 +2747,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     deleteAllSymtoms(){
       Swal.fire({
-          title: this.translate.instant("generics.Are you sure?"),
+          title: this.translate.instant("generics.Are you sure delete?"),
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#0CC27E',
@@ -4048,13 +4148,13 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     deleteVcfFile(file,i){
       Swal.fire({
-          title: this.translate.instant("generics.Are you sure?"),
+          title: this.translate.instant("generics.Are you sure delete?"),
           text:  "Vas a eliminar el fichero '"+this.filesVcf[i].nameForShow+"'",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#0CC27E',
           cancelButtonColor: '#f9423a',
-          confirmButtonText: this.translate.instant("generics.Delete"),
+          confirmButtonText: this.translate.instant("generics.Yes"),
           cancelButtonText: this.translate.instant("generics.No, cancel"),
           showLoaderOnConfirm: true,
           allowOutsideClick: false
@@ -4711,8 +4811,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     }
 
-    loadFilesContainer(contentDownloadFiles){
-      this.contentDownloadFiles = contentDownloadFiles;
+    loadFilesContainer(){
       this.blob.loadFilesPatientBlob(this.accessToken.containerName);
       Swal.fire({
           title: this.translate.instant("generics.Please wait"),
@@ -6635,6 +6734,10 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }else{
         this.setShowIntroWizard(true);
       }
+    }
+
+    setNotAnalyzeGeneticInfo(){
+      this.notAnalyzeGeneticInfo = !this.notAnalyzeGeneticInfo;
     }
 
 }

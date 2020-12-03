@@ -116,67 +116,67 @@
           <div class="offset-md-2 col-md-8" *ngIf="(phenotype.data.length == 0) || (numDeprecated==phenotype.data.length && numDeprecated>0)">
             <div class="col-md-12 col-lg-12" matchHeight ="card">
               <div class="row center-elements" matchHeight ="card">
-              <div class="col-lg-4 pb-2 col-md-12">
-                  <div class="card box border">
-                      <div class="card-header text-center pb-0">
-                          <span class="font-medium-2 grey">{{'generics.Option' | translate }} 1: {{'patdiagdashboard.titleoption1' | translate }}</span>
-                      </div>
-                      <div class="card-body">
+                <div class="col-lg-4 pb-2 col-md-12">
+                    <div class="card box border">
+                        <div class="card-header text-center pb-0">
+                            <span class="font-medium-2 grey darken-1 text-bold-400">{{'generics.Option' | translate }} 1: {{'patdiagdashboard.titleoption1' | translate }}</span>
+                        </div>
+                        <div class="card-body">
+                            <div id="donut-chart1" class="center-elements">
+                                <i class="fas fa-notes-medical fa-4x primary circle-icon"></i>
+                            </div>
+                            <div class="card-block text-center mt-2">
+                                <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption1' | translate }}</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bt-n">
+                          <label class="btn btn-outline-primary" style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
+                              {{'patdiagdashboard.buttonoption1' | translate }} <input type="file" (change)="onFileChangePDF($event, contentExtractorSteps);c('Close click')" style="display: none;">
+                          </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 pb-2 col-md-12">
+                    <div class="card box border">
+                        <div class="card-header text-center pb-0">
+                            <span class="font-medium-2 grey darken-1 text-bold-400">
+                              {{'generics.Option' | translate }}
+                              <span>2:</span> {{'patdiagdashboard.titleoption3' | translate }}
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div id="donut-chart1" class="center-elements">
+                                <i class="fas fa-keyboard fa-4x primary circle-icon"></i>
+                            </div>
+                            <div class="card-block text-center mt-2">
+                                <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption3' | translate }}</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bt-n">
+                  <button type="button" class="btn btn-outline-primary" (click)="addSymptomsManual(contentAddSymptomsManual);c('Close click')">{{'patdiagdashboard.buttonoption3' | translate }}​​</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4  pb-2 col-md-12">
+                    <div class="card box border">
+                        <div class="card-header text-center pb-0">
+                            <span class="font-medium-2 grey darken-1 text-bold-400">{{'generics.Option' | translate }}
+                              <span>3:</span> {{'patdiagdashboard.titleoption4' | translate }}
+                            </span>
+                        </div>
+                        <div class="card-body">
                           <div id="donut-chart1" class="center-elements">
-                            <i class="fas fa-notes-medical fa-4x grey"></i>
+                              <i class="fas fa-align-left fa-4x primary circle-icon"></i>
                           </div>
-                          <div class="card-block text-center mt-2">
-                              <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption1' | translate }}</span>
-                          </div>
-                      </div>
-                      <div class="card-footer bt-n">
-                        <label class="btn btn-outline-primary" style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
-                            {{'patdiagdashboard.buttonoption1' | translate }} <input type="file" (change)="onFileChangePDF($event, contentExtractorSteps)" style="display: none;">
-                        </label>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-lg-4 pb-2 col-md-12">
-                  <div class="card box border">
-                      <div class="card-header text-center pb-0">
-                          <span class="font-medium-2 grey">
-                            {{'generics.Option' | translate }}
-                            <span>2:</span> {{'patdiagdashboard.titleoption3' | translate }}
-                          </span>
-                      </div>
-                      <div class="card-body">
-                          <div id="donut-chart1" class="center-elements">
-                            <i class="fas fa-keyboard fa-4x grey"></i>
-                          </div>
-                          <div class="card-block text-center mt-2">
-                              <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption3' | translate }}</span>
-                          </div>
-                      </div>
-                      <div class="card-footer bt-n">
-                <button type="button" class="btn btn-outline-primary" (click)="addSymptomsManual(contentAddSymptomsManual)">{{'patdiagdashboard.buttonoption3' | translate }}​​</button>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-lg-4 pb-2 col-md-12">
-                  <div class="card box border">
-                      <div class="card-header text-center pb-0">
-                          <span class="font-medium-2 grey">{{'generics.Option' | translate }}
-                            <span>3:</span> {{'patdiagdashboard.titleoption4' | translate }}
-                          </span>
-                      </div>
-                      <div class="card-body">
-                          <div id="donut-chart1" class="center-elements">
-                            <i class="fas fa-align-left fa-4x grey"></i>
-                          </div>
-                          <div class="card-block text-center mt-2">
-                              <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption4.1' | translate }} <span *ngIf="isMobileOrTablet">{{'patdiagdashboard.msgoption4.2' | translate }}</span></span>
-                          </div>
-                      </div>
-                      <div class="card-footer bt-n">
-                        <button type="button" class="btn btn-outline-primary" (click)="showPanelAddTextSymptoms(contentAddTextSymptoms)">{{'patdiagdashboard.buttonoption4' | translate }}​​​​</button>
-                      </div>
-                  </div>
-              </div>
+                            <div class="card-block text-center mt-2">
+                                <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption4.1' | translate }} <span *ngIf="isMobileOrTablet">{{'patdiagdashboard.msgoption4.2' | translate }}</span></span>
+                            </div>
+                        </div>
+                        <div class="card-footer bt-n">
+                          <button type="button" class="btn btn-outline-primary" (click)="showPanelAddTextSymptoms(contentAddTextSymptoms);c('Close click')">{{'patdiagdashboard.buttonoption4' | translate }}​​​​</button>
+                        </div>
+                    </div>
+                </div>
               </div>
             </div>
           </div>
@@ -389,8 +389,13 @@
                         </mat-radio-button>
                       </mat-radio-group>
                     </div>
-                  </section>
 
+                  </section>
+                  <div class="mb-2">
+                    <mat-checkbox color="primary" [checked]="notAnalyzeGeneticInfo" (change)="setNotAnalyzeGeneticInfo()">
+                        No quiero que analizes la información genética
+                   </mat-checkbox>
+                 </div>
                 </div>
               </div>
             </div>
@@ -418,14 +423,43 @@
       <div *ngIf="actualStep=='3.1'" class="offset-md-2 col-md-8">
         <section class="mt-2 card p-2 border">
           <div class="center-elements">
-            <div class="donate" *ngIf="loadingGeno || calculatingH29Score || gettingRelatedConditions || uploadingGenotype">
-                <p class="text-muted">Nuestros robots están analizando tus síntomas y tu información genetica, en breves te mostrarán los resultados de posibles enfermedades</p>
-                <div class="col-md-12 center-elements">
-                  <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
-                </div>
+            <div class="donate">
+                <p *ngIf="!notAnalyzeGeneticInfo && (loadingGeno || calculatingH29Score || gettingRelatedConditions || uploadingGenotype)" class="text-muted">Nuestros robots están analizando tus síntomas y tu información genetica, en breves te mostrarán los resultados de posibles enfermedades</p>
+                <p *ngIf="notAnalyzeGeneticInfo  && (loadingGeno || calculatingH29Score || gettingRelatedConditions || uploadingGenotype)" class="text-muted">Nuestros robots están analizando tus síntomas, en breves te mostrarán los resultados de posibles enfermedades</p>
+                <section class="text-left">
+                  <div class="mt-2">
+                    <p>{{'patnodiagdashboard.step2-1.msg2' | translate }}</p>
+                    <div>
+                      <ol>
+                        <li>
+                          <p>Analizando los datos
+                            <span *ngIf="uploadingGenotype"><i class="fa fa-spinner fa-spin fa-fw pink"></i>
+                            </span>
+                            <span *ngIf="!uploadingGenotype"><i class="fa fa-check success"></i></span>
+                          </p>
+                        </li>
+                        <li>
+                          <p>Obteniendo posibles condiciones
+                            <span *ngIf="!uploadingGenotype && gettingRelatedConditions"><i class="fa fa-spinner fa-spin fa-fw pink"></i>
+                            </span>
+                            <span *ngIf="!uploadingGenotype && !gettingRelatedConditions"><i class="fa fa-check success"></i></span>
+                          </p>
+                        </li>
+                        <li>
+                          <p>Priorizando las condiciones
+                            <span *ngIf="!uploadingGenotype && !gettingRelatedConditions && calculatingH29Score"><i class="fa fa-spinner fa-spin fa-fw pink"></i>
+                            </span>
+                            <span *ngIf="!uploadingGenotype && !gettingRelatedConditions && !calculatingH29Score"><i class="fa fa-check success"></i></span>
+                          </p>
+                        </li>
+                      </ol>
+                    </div>
+                  </div>
+                </section>
             </div>
             <div class="donate" *ngIf="!loadingGeno && !calculatingH29Score && !gettingRelatedConditions && !uploadingGenotype">
                 <p class="text-muted">El proceso ha terminado, pulsa en finalizar de la parte inferior derecha</p>
+                <button type="button" class="btn btn-outline-primary" (click)="goToStep('5.0', true)">Finish y ver resultados</button>
             </div>
       		</div>
         </section>
@@ -437,12 +471,40 @@
           <div class="center-elements">
             <div class="donate" *ngIf="launchingPhen2Genes || calculatingH29Score || gettingRelatedConditions">
                 <p class="text-muted">Nuestros robots están analizando tus síntomas, en breves te mostrarán los resultados de posibles enfermedades</p>
-                <div class="col-md-12 center-elements">
-                  <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
-                </div>
+                <section class="text-left">
+                  <div class="mt-2">
+                    <p>{{'patnodiagdashboard.step2-1.msg2' | translate }}</p>
+                    <div>
+                      <ol>
+                        <li>
+                          <p>Analizando los datos
+                            <span *ngIf="launchingPhen2Genes"><i class="fa fa-spinner fa-spin fa-fw pink"></i>
+                            </span>
+                            <span *ngIf="!launchingPhen2Genes"><i class="fa fa-check success"></i></span>
+                          </p>
+                        </li>
+                        <li>
+                          <p>Obteniendo posibles condiciones
+                            <span *ngIf="!launchingPhen2Genes && gettingRelatedConditions"><i class="fa fa-spinner fa-spin fa-fw pink"></i>
+                            </span>
+                            <span *ngIf="!launchingPhen2Genes && !gettingRelatedConditions"><i class="fa fa-check success"></i></span>
+                          </p>
+                        </li>
+                        <li>
+                          <p>Priorizando las condiciones
+                            <span *ngIf="!launchingPhen2Genes && !gettingRelatedConditions && calculatingH29Score"><i class="fa fa-spinner fa-spin fa-fw pink"></i>
+                            </span>
+                            <span *ngIf="!launchingPhen2Genes && !gettingRelatedConditions && !calculatingH29Score"><i class="fa fa-check success"></i></span>
+                          </p>
+                        </li>
+                      </ol>
+                    </div>
+                  </div>
+                </section>
             </div>
             <div class="donate" *ngIf="!launchingPhen2Genes && !calculatingH29Score && !gettingRelatedConditions">
                 <p class="text-muted">El proceso ha terminado, pulsa en finalizar de la parte inferior derecha</p>
+                <button type="button" class="btn btn-outline-primary" (click)="goToStep('5.0', true)">Finish y ver resultados</button>
             </div>
       		</div>
         </section>
@@ -483,12 +545,157 @@
         </section>
       </div>
       <!-- End Step 3.3 -->
+      <div *ngIf="actualStep=='4.0'" class="">
+          <!--<div class="content-header text-left">
+            00. {{'patnodiagdashboard.menu.Welcome' | translate }}
+          </div>
+          <p class="content-sub-header"></p>-->
+          <div class="offset-md-2 col-md-8 col-lg-8" >
+            <div class="content-header pb-1">
+              <span>Reportes</span>
+            </div>
+            <p class="content-sub-header">
+              <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
+            </p>
+          </div>
+          <section *ngIf="!loadingDocuments">
+            <div>
+              <div *ngIf="listPatientFiles.length>0" class="row">
+                <div *ngFor="let onefile of docsNcr; let i = index" class="col-lg-4 pb-2 col-md-12">
+                      <div class="card box border">
+                          <div class="card-header pb-0 row">
+                            <span class="col-3">
+                              <i *ngIf="onefile.ncrResults.extension=='.pdf'" class="fas fa-file-pdf fa-3x danger"></i>
+                              <i *ngIf="onefile.ncrResults.extension=='.docx'" class="fas fas fa-file-word fa-3x info"></i>
+                              <i *ngIf="onefile.ncrResults.extension=='.txt'" class="fas fas fa-file-alt fa-3x warning"></i>
+                              <i *ngIf="onefile.ncrResults.extension=='.json'" class="fas fas fa-file-code fa-3x grey"></i>
+                              <i *ngIf="onefile.ncrResults.extension == '.jpg' || onefile.ncrResults.extension == '.png' || onefile.ncrResults.extension == '.gif' || onefile.ncrResults.extension == '.tiff' || onefile.ncrResults.extension == '.tif' || onefile.ncrResults.extension == '.bmp' || onefile.ncrResults.extension == '.dib' || onefile.ncrResults.extension == '.bpg' || onefile.ncrResults.extension == '.psd' || onefile.ncrResults.extension == '.jpeg' || onefile.ncrResults.extension == '.jpe' || onefile.ncrResults.extension == '.jfif'" class="fas fas fa-file-image fa-3x yellow"></i>
+
+                              <span class="d-block">
+                              {{onefile.origenFile.contentLength}}
+                              </span>
+                            </span>
+                            <span class="col-9">
+                              <span class="font-medium-2 grey darken-1 text-bold-400 d-block">
+                                <span *ngIf="onefile.origenFile != undefined">
+                                  {{onefile.origenFile.nameForShow}}
+                                </span>
+                                <span *ngIf="onefile.origenFile == undefined">
+                                  Plain text
+                                </span>
+                              </span>
+                              <span *ngIf="onefile.origenFile != undefined" class="font-small-2">{{onefile.origenFile.lastModified | date:'medium'}}</span>
+                              <span *ngIf="onefile.origenFile == undefined" class="font-small-2">{{onefile.ncrResults.lastModified | date:'medium'}}</span>
+                            </span>
+                          </div>
+                          <div class="card-body">
+                            <div class="">
+                              {{onefile.ncrResults.resumeText}}
+                            </div>
+                            <div class="row col-md-12 mt-2">
+                              <span class="col-6">
+                                <span class="d-block text-muted">Annotations</span>
+                                <span class="info">{{onefile.ncrResults.annotations}}</span>
+                              </span>
+                              <span class="col-6">
+                                <span class="d-block text-muted">Symptoms</span>
+                                <span class="info">{{onefile.ncrResults.numberSymptoms}}</span>
+                              </span>
+                            </div>
+                            <div class="row col-md-12 mt-2">
+                              <span class="col-6">
+                                <span class="d-block text-muted">Symptoms match</span>
+                                <span class="info">{{onefile.ncrResults.numSymptMatch}}</span>
+                              </span>
+                              <span class="col-6">
+                                <span class="d-block text-muted">Rejected Symptoms</span>
+                                <span class="info">{{onefile.ncrResults.rejectedSymptoms}}</span>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="card-footer">
+                            <span *ngIf="onefile.origenFile != undefined"><a class="float-left btn btn-outline-primary" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.origenFile.name}}{{accessToken.sasToken}}" target="_blank" download>Download <i class="fa fa-download"></i></a></span>
+                            <span *ngIf="onefile.ncrResults.ncrresult"><a class="float-right btn btn-outline-primary" href="javascript:void(0)" (click)="openNcrResult(onefile.ncrResults.name);">View result <i class="fa fa-eye"></i></a><a *ngIf="onefile.origenFile == undefined" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.ncrResults.name}}{{accessToken.sasToken}}" target="_blank" download><i class="fa fa-download"></i></a></span>
+                          </div>
+                      </div>
+                </div>
+                <div *ngFor="let onefile of otherDocs; let i = index" class="col-lg-4 pb-2 col-md-12">
+                      <div class="card box border">
+                          <div class="card-header pb-0 row">
+                            <span class="col-3">
+                              {{onefile.origenFile.extension}}
+                              <i *ngIf="onefile.origenFile.extension=='.html'" class="fas fas fa-file-code fa-3x grey"></i>
+                              <i *ngIf="onefile.origenFile.extension=='.pdf'" class="fas fa-file-pdf fa-3x danger"></i>
+                              <i *ngIf="onefile.origenFile.extension=='.vcf' || onefile.ncrResults.extension=='.vcf.gz'" class="fas fas fa-dna fa-3x info"></i>
+
+                              <span class="d-block">
+                              {{onefile.origenFile.contentLength}}
+                              </span>
+                            </span>
+                            <span class="col-9">
+                              <span class="font-medium-2 grey darken-1 text-bold-400 d-block">
+                                <span *ngIf="onefile.origenFile != undefined">
+                                  {{onefile.origenFile.nameForShow}}
+                                </span>
+                                <span *ngIf="onefile.origenFile == undefined">
+                                  Plain text
+                                </span>
+                              </span>
+                              <span *ngIf="onefile.origenFile != undefined" class="font-small-2">{{onefile.origenFile.lastModified | date:'medium'}}</span>
+                              <span *ngIf="onefile.origenFile == undefined" class="font-small-2">{{onefile.ncrResults.lastModified | date:'medium'}}</span>
+                            </span>
+                          </div>
+                          <div class="card-body">
+                          </div>
+                          <div class="card-footer">
+                            <span *ngIf="onefile.origenFile != undefined"><a class="float-left btn btn-outline-primary" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.origenFile.name}}{{accessToken.sasToken}}" target="_blank" download>Download <i class="fa fa-download"></i></a></span>
+                            <span *ngIf="onefile.ncrResults.ncrresult"><a class="float-right btn btn-outline-primary" href="javascript:void(0)" (click)="openNcrResult(onefile.ncrResults.name);">View result <i class="fa fa-eye"></i></a><a *ngIf="onefile.origenFile == undefined" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.ncrResults.name}}{{accessToken.sasToken}}" target="_blank" download><i class="fa fa-download"></i></a></span>
+                          </div>
+                      </div>
+                </div>
+              </div>
+
+              <div class="row text-left card border">
+      			    <div class="card-body col-md-12 mt-1">
+
+                  <table class="table text-center table-responsive" *ngIf="listPatientFiles.length>0">
+                    <thead>
+                      <tr>
+                        <th>File</th>
+                        <th>{{'generics.Date' | translate }}</th>
+                        <th>{{'generics.Options' | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let onefile of listPatientFiles; let i = index">
+                        <td style="word-wrap: anywhere;">
+                          <span *ngIf="onefile.origenFile != undefined">
+                            {{onefile.origenFile.nameForShow}}
+                          </span>
+                          <span *ngIf="onefile.origenFile == undefined">
+                            Plain text
+                          </span>
+                        </td>
+                        <td *ngIf="onefile.origenFile != undefined">{{onefile.origenFile.lastModified | date:'medium'}}</td>
+                        <td *ngIf="onefile.origenFile == undefined">{{onefile.ncrResults.lastModified | date:'medium'}}</td>
+                        <td>
+                          <p *ngIf="onefile.origenFile != undefined"><a href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.origenFile.name}}{{accessToken.sasToken}}" target="_blank" download>Download original file</a></p>
+                          <p *ngIf="onefile.ncrResults.ncrresult"><a href="javascript:void(0)" (click)="openNcrResult(onefile.ncrResults.name);">View result NCR</a><a *ngIf="onefile.origenFile == undefined" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.ncrResults.name}}{{accessToken.sasToken}}" target="_blank" download><i class="fa fa-download"></i></a></p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <p *ngIf="listPatientFiles.length==0">No hay documentos</p>
+      			    </div>
+      			  </div>
+            </div>
+          </section>
+      </div>
       <!-- Step 5.0 -->
       <div *ngIf="actualStep=='5.0'">
         <div class="offset-md-2 col-md-8" >
           <div class="content-header pb-1">
             <span>Diagnoses</span>
-            <a class="font-small-3 pointer ml-2" href="javascript:void(0)" (click)="loadFilesContainer(contentDownloadFiles)">View files</a>
           </div>
           <p class="content-sub-header">
             <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
@@ -518,7 +725,7 @@
                             <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
                         </a>
                         <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
-                            <a class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.3')">
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.3', false)">
                                 <span>Ver la lista completa</span>
                             </a>
                             <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelGenes(contentPanelGenes)">
@@ -527,10 +734,7 @@
                             <a class="dropdown-item py-1" href="javascript:;" (click)="editDiagnosis(1)">
                                 <span>Navegar por las enfermedades</span>
                             </a>
-                            <a *ngIf="filesVcf.length>0" class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.0')">
-                                <span>Reanalizar</span>
-                            </a>
-                            <a *ngIf="filesVcf.length==0" class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.0')">
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="goToStepDiagnoses()">
                                 <span>Reanalizar</span>
                             </a>
                             <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelFeedback(contentGeneralNotes)">
@@ -677,7 +881,7 @@
 
                       </div>
                       <div *ngIf="relatedConditions.length>10" class="center-elements">
-                        <a href="javascript:;" class="primary" (click)="goToStep('3.3')">
+                        <a href="javascript:;" class="primary" (click)="goToStep('3.3', false)">
                             <span>{{'generics.Read more' | translate }}</span>
                         </a>
                       </div>
@@ -2078,12 +2282,13 @@
 </ng-template>
 
 <ng-template #contentOptionsSymptoms let-c="close" let-d="dismiss" appendTo="body">
-    <div class="modal-header d-block" id="idHeader">
+    <div class="modal-header text-muted d-block" id="idHeader">
 			<button type="button" class="close" aria-label="Close" (click)="c('Close click'); changeTriggerHotjar('generalincoming_')">
 				<span aria-hidden="true">&times;</span>
 			</button>
 			<div>
-				<h4 class="modal-title text-muted">Añadir más síntomas</h4>
+				<h4 class="modal-title">Añadir más síntomas</h4>
+        <p class="content-sub-header"><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></p>
 			</div>
 		</div>
 		<div class="modal-body">
@@ -2092,11 +2297,11 @@
         <div class="col-lg-4 pb-2 col-md-12">
             <div class="card box border">
                 <div class="card-header text-center pb-0">
-                    <span class="font-medium-2 grey">{{'generics.Option' | translate }} 1: {{'patdiagdashboard.titleoption1' | translate }}</span>
+                    <span class="font-medium-2 grey darken-1 text-bold-400">{{'generics.Option' | translate }} 1: {{'patdiagdashboard.titleoption1' | translate }}</span>
                 </div>
                 <div class="card-body">
                     <div id="donut-chart1" class="center-elements">
-                      <i class="fas fa-notes-medical fa-4x grey"></i>
+                        <i class="fas fa-notes-medical fa-4x primary circle-icon"></i>
                     </div>
                     <div class="card-block text-center mt-2">
                         <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption1' | translate }}</span>
@@ -2112,14 +2317,14 @@
         <div class="col-lg-4 pb-2 col-md-12">
             <div class="card box border">
                 <div class="card-header text-center pb-0">
-                    <span class="font-medium-2 grey">
+                    <span class="font-medium-2 grey darken-1 text-bold-400">
                       {{'generics.Option' | translate }}
                       <span>2:</span> {{'patdiagdashboard.titleoption3' | translate }}
                     </span>
                 </div>
                 <div class="card-body">
                     <div id="donut-chart1" class="center-elements">
-                      <i class="fas fa-keyboard fa-4x grey"></i>
+                        <i class="fas fa-keyboard fa-4x primary circle-icon"></i>
                     </div>
                     <div class="card-block text-center mt-2">
                         <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption3' | translate }}</span>
@@ -2133,14 +2338,14 @@
         <div class="col-lg-4  pb-2 col-md-12">
             <div class="card box border">
                 <div class="card-header text-center pb-0">
-                    <span class="font-medium-2 grey">{{'generics.Option' | translate }}
+                    <span class="font-medium-2 grey darken-1 text-bold-400">{{'generics.Option' | translate }}
                       <span>3:</span> {{'patdiagdashboard.titleoption4' | translate }}
                     </span>
                 </div>
                 <div class="card-body">
-                    <div id="donut-chart1" class="center-elements">
-                      <i class="fas fa-align-left fa-4x grey"></i>
-                    </div>
+                  <div id="donut-chart1" class="center-elements">
+                      <i class="fas fa-align-left fa-4x primary circle-icon"></i>
+                  </div>
                     <div class="card-block text-center mt-2">
                         <span class="font-medium-1 grey darken-1 text-bold-400">{{'patdiagdashboard.msgoption4.1' | translate }} <span *ngIf="isMobileOrTablet">{{'patdiagdashboard.msgoption4.2' | translate }}</span></span>
                     </div>
@@ -2220,49 +2425,4 @@
 			</div>
 		</div>
 </ng-template>
-
-<ng-template #contentDownloadFiles let-c="close" let-d="dismiss" appendTo="body">
-    <div id="idHeader">
-    </div>
-
-    <div class="content-wrapper card">
-      <div class="row col-md-12">
-        <div class="mb-4">
-          <table class="table text-center table-responsive">
-            <thead>
-              <tr>
-                <th>File</th>
-                <th>{{'generics.Date' | translate }}</th>
-                <th>{{'generics.Options' | translate }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let onefile of listPatientFiles; let i = index">
-                <td style="word-wrap: anywhere;">
-                  <span *ngIf="onefile.origenFile != undefined">
-                    {{onefile.origenFile.nameForShow}}
-                  </span>
-                  <span *ngIf="onefile.origenFile == undefined">
-                    Plain text
-                  </span>
-                </td>
-                <td *ngIf="onefile.origenFile != undefined">{{onefile.origenFile.lastModified | date:'medium'}}</td>
-                <td *ngIf="onefile.origenFile == undefined">{{onefile.ncrResults.lastModified | date:'medium'}}</td>
-                <td>
-                  <p *ngIf="onefile.origenFile != undefined"><a href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.origenFile.name}}{{accessToken.sasToken}}" target="_blank" download>Download original file</a></p>
-                  <p *ngIf="onefile.ncrResults.ncrresult"><a href="javascript:void(0)" (click)="openNcrResult(onefile.ncrResults.name);">View result NCR</a><a *ngIf="onefile.origenFile == undefined" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.ncrResults.name}}{{accessToken.sasToken}}" target="_blank" download><i class="fa fa-download"></i></a></p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <div class="form-actions center" *ngIf="!sending">
-        <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
-      </div>
-    </div>
-</ng-template>
 <button id="openModalSymptomsNcrButton2" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr)">.</button>
-<button id="loadFilesContainerNcrButton" [hidden]="true" (click)="loadFilesContainer(contentDownloadFiles)">.</button>
