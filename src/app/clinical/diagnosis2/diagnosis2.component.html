@@ -488,6 +488,7 @@
         <div class="offset-md-2 col-md-8" >
           <div class="content-header pb-1">
             <span>Diagnoses</span>
+            <a class="font-small-3 pointer ml-2" href="javascript:void(0)" (click)="loadFilesContainer(contentDownloadFiles)">View files</a>
           </div>
           <p class="content-sub-header">
             <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
@@ -2219,3 +2220,49 @@
 			</div>
 		</div>
 </ng-template>
+
+<ng-template #contentDownloadFiles let-c="close" let-d="dismiss" appendTo="body">
+    <div id="idHeader">
+    </div>
+
+    <div class="content-wrapper card">
+      <div class="row col-md-12">
+        <div class="mb-4">
+          <table class="table text-center table-responsive">
+            <thead>
+              <tr>
+                <th>File</th>
+                <th>{{'generics.Date' | translate }}</th>
+                <th>{{'generics.Options' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let onefile of listPatientFiles; let i = index">
+                <td style="word-wrap: anywhere;">
+                  <span *ngIf="onefile.origenFile != undefined">
+                    {{onefile.origenFile.nameForShow}}
+                  </span>
+                  <span *ngIf="onefile.origenFile == undefined">
+                    Plain text
+                  </span>
+                </td>
+                <td *ngIf="onefile.origenFile != undefined">{{onefile.origenFile.lastModified | date:'medium'}}</td>
+                <td *ngIf="onefile.origenFile == undefined">{{onefile.ncrResults.lastModified | date:'medium'}}</td>
+                <td>
+                  <p *ngIf="onefile.origenFile != undefined"><a href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.origenFile.name}}{{accessToken.sasToken}}" target="_blank" download>Download original file</a></p>
+                  <p *ngIf="onefile.ncrResults.ncrresult"><a href="javascript:void(0)" (click)="openNcrResult(onefile.ncrResults.name);">View result NCR</a><a *ngIf="onefile.origenFile == undefined" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.ncrResults.name}}{{accessToken.sasToken}}" target="_blank" download><i class="fa fa-download"></i></a></p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="form-actions center" *ngIf="!sending">
+        <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
+      </div>
+    </div>
+</ng-template>
+<button id="openModalSymptomsNcrButton2" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr)">.</button>
+<button id="loadFilesContainerNcrButton" [hidden]="true" (click)="loadFilesContainer(contentDownloadFiles)">.</button>

@@ -675,4 +675,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
      this.eventsService.broadcast('infoStep', info);
    }
 
+   goToReports(){
+     this.eventsService.broadcast('setStepWizard', 'reports');
+   }
+
+
+
 }

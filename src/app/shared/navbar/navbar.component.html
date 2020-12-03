@@ -60,7 +60,7 @@
                           </a>
                           <a class="dropdown-item py-1" href="javascript:;" title="Share">
                             <span class="d-inline-block" [ngClass]="(actualStep == '4.0' && maxStep=='5.0')?'border-bottom border-bottom-2 border-primary ':'border-bottom border-bottom-0 text-muted'">
-                                <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('4.0', false, null)">Reports</button>
+                                <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToReports()">Reports</button>
                             </span>
                           </a>
                           <a class="dropdown-item py-1" href="javascript:;" title="Share">
@@ -97,7 +97,7 @@
                           <button class="btn-no-style" [ngClass]="(maxStep=='5.0' )?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="startWizardAgain();">Wizard</button>
                       </span>
                       <span class="d-inline-block mr-2 ml-2" [ngClass]="(actualStep == '4.0' && maxStep=='5.0')?'border-bottom border-bottom-2 border-primary ':'border-bottom border-bottom-0 text-muted'">
-                          <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('4.0', false, null)">Reports</button>
+                          <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToReports()">Reports</button>
                       </span>
                       <span class="d-inline-block mr-2 ml-2" [ngClass]="(actualStep == '1.0' && maxStep=='5.0' )?'border-bottom border-bottom-2 border-primary ':'border-bottom border-bottom-0 text-muted'">
                           <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToStep('1.0', false, null)">{{'diagnosis.Symptoms' | translate }}</button>

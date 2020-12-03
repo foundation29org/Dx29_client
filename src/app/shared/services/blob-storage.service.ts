@@ -389,6 +389,20 @@ export class BlobStorageService {
     }.bind(this));
   }
 
+  deleteBlobAndLoadVCF(containerName, blobName){
+    this.blobService.deleteBlob(containerName, blobName, {
+      publicAccessLevel: 'blob'
+    }, function(error, result, response) {
+      if (!error) {
+        this.loadFilesOnBlob(containerName);
+        this.loadFilesVCF(containerName);
+        //this.loadMapOnBlob(containerName);
+        // if result = true, container was created.
+        // if result = false, container already existed.
+      }
+    }.bind(this));
+  }
+
   deleteContainerIfExists(accessToken: IBlobAccessToken){
     const blobUri = accessToken.blobAccountUrl;
     //console.log(accessToken);

@@ -546,7 +546,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                   allowOutsideClick: false
               }).then((result) => {
                 if (result.value) {
-                  this.goToStep(this.actualStep, true);
+                  this.goToStep(this.actualStep, false);
                 }else{
                   if(this.showIntroWizard){
                     this.goToStep('0.0', true);
@@ -606,7 +606,38 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       console.log(this.actualStep);
       if(this.actualStep == '1.0' && this.showIntroWizard){
         this.setActualStep('0.0');
-      }else if(this.actualStep > '2.0'){
+      }else if(this.actualStep > '3.0'){
+        if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
+          Swal.fire({
+              title: 'Todavía estamos analizando la información',
+              text:  "Si va hacia atrás, se cancelará en analisis, ¿Estas seguro?",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#0CC27E',
+              cancelButtonColor: '#f9423a',
+              confirmButtonText: 'Si, cancelar el análisis',
+              cancelButtonText: 'No, esperar un poco',
+              showLoaderOnConfirm: true,
+              allowOutsideClick: false
+          }).then((result) => {
+            if (result.value) {
+              this.cancelSubscription();
+              this.setActualStep('3.0');
+              this.setActualStepDB('3.0');
+            }
+          });
+
+        }else if(this.launchingPhen2Genes || this.calculatingH29Score || this.gettingRelatedConditions){
+          Swal.fire('Todavía estamos analizando, ten un poco de paciencia por favor', '', "info");
+        }else{
+          if(!this.loadingGeno && !this.calculatingH29Score && !this.gettingRelatedConditions && !this.uploadingGenotype && !this.launchingPhen2Genes && !this.uploadingGenotype){
+              Swal.fire('El analisis ha terminado, vaya a ver los resultados', '', "info");
+          }else{
+            this.setActualStep('3.0');
+          }
+
+        }
+      }else if(this.actualStep == '3.0'){
         this.setActualStep('2.0');
       }else if(this.actualStep > '1.0'){
         this.setActualStep('1.0');
@@ -707,7 +738,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       if(this.actualStep == '3.2'){
         this.lauchPhen2Genes();
       }else if(this.actualStep == '3.1'){
-        this.callExomizerSameVcf();
+        console.log(save);
+        if(save){
+          this.callExomizerSameVcf();
+        }
+
       }else if(this.actualStep == '3.0'){
         this.symptomsExomiser = this.phenotype.data;
       }
@@ -744,6 +779,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           this.goNextStep();
         }else if(info=='prev'){
           this.goPrevStep();
+        }else if(info=='reports'){
+          document.getElementById("loadFilesContainerNcrButton").click();
         }
       }.bind(this));
     }
@@ -2295,18 +2332,26 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
       this.relatedConditions = rows;
 
+      var listOfDiseases = [];
+      for(var i = 0; i < this.relatedConditions.length; i++) {
+        if(this.relatedConditions[i]!=undefined){
+          listOfDiseases.push(this.relatedConditions[i].name.id);
+        }
+      }
       //deleteDuplicatedConditions
       this.subscription.add(this.apif29BioService.getInfoOfDiseases(this.listOfDiseases)
       .subscribe( (res1 : any) => {
         var copyrelatedConditionsIni = [];
         for(var i = 0; i < this.relatedConditions.length; i++) {
           var valtemp = this.relatedConditions[i].name.id;
-          this.relatedConditions[i].name.id = res1[valtemp].id;
-          var foundElement = this.searchService.search2Levels(copyrelatedConditionsIni,'name','id', this.relatedConditions[i].name.id);
-          if(!foundElement){
-            copyrelatedConditionsIni.push(this.relatedConditions[i]);
-          }else{
-            //console.log('Found: '+ this.relatedConditions[i].name.id);
+          if(res1[valtemp]!=undefined){
+            this.relatedConditions[i].name.id = res1[valtemp].id;
+            var foundElement = this.searchService.search2Levels(copyrelatedConditionsIni,'name','id', this.relatedConditions[i].name.id);
+            if(!foundElement){
+              copyrelatedConditionsIni.push(this.relatedConditions[i]);
+            }else{
+              //console.log('Found: '+ this.relatedConditions[i].name.id);
+            }
           }
         }
 
@@ -3607,6 +3652,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             this.sortBySimilarity();
 
             this.medicalText ='';
+            this.isNewNcrFile = true;
             //var actualDate = Date.now();
             //this.infoNcrToSave = {ncrVersion:environment.ncrVersion, originalText: '', result: {}, rejectedSymptoms: [], date: actualDate, docUrl: ''};
 
@@ -4001,6 +4047,26 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     deleteVcfFile(file,i){
+      Swal.fire({
+          title: this.translate.instant("generics.Are you sure?"),
+          text:  "Vas a eliminar el fichero '"+this.filesVcf[i].nameForShow+"'",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#0CC27E',
+          cancelButtonColor: '#f9423a',
+          confirmButtonText: this.translate.instant("generics.Delete"),
+          cancelButtonText: this.translate.instant("generics.No, cancel"),
+          showLoaderOnConfirm: true,
+          allowOutsideClick: false
+      }).then((result) => {
+        if (result.value) {
+          this.confirmDeleteVcfFile(file,i);
+        }
+      });
+    }
+
+
+    confirmDeleteVcfFile(file,i){
 
       if(file==this.filename){
         if(this.filesVcf.length>1){
@@ -4018,8 +4084,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
       }
       this.filesVcf.splice(i, 1);
-      this.blob.deleteBlob(this.accessToken.containerName , file);
-      this.blob.loadFilesVCF(this.accessToken.containerName);
+      this.blob.deleteBlobAndLoadVCF(this.accessToken.containerName , file);
     }
 
     clearValuesFrequencySources(){
@@ -4699,6 +4764,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                      this.changeStateSymptom(j, false);
                    }
                   }
+                  for(var jio = 0; jio < this.phenotype.data.length; jio++) {
+                    if(this.temporalSymptoms[j].id == this.phenotype.data[jio].id){
+                      this.temporalSymptoms[j].checked = true;
+                    }
+                   }
                }
 
                //this.phenotype.data.sort(this.sortService.GetSortOrder("name"));
@@ -4774,6 +4844,14 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
                   //this.addSymptom(symptomExtractor, 'auto')
                 }
+                for(var j = 0; j < this.temporalSymptoms.length; j++) {
+                  for(var jio = 0; jio < this.phenotype.data.length; jio++) {
+                    if(this.temporalSymptoms[j].id == this.phenotype.data[jio].id){
+                      this.temporalSymptoms[j].checked = true;
+                    }
+                   }
+                }
+
                 this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
                 //this.phenotype.data.sort(this.sortService.GetSortOrder("name"));
                 //this.hasSymptomsToSave();
