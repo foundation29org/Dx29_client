@@ -23,8 +23,8 @@
   <div class="sidebar-background" #sidebarBgImage></div>
 </div>
   <app-navbar (toggleHideSidebar)="toggleHideSidebar($event)"></app-navbar>
-  <div class="main-panel" [ngClass]="(!isHomePage && role=='Clinical') && ((maxStep < '5.0') ||  (maxStep=='5.0' && (actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2')))?'main-panel-custom':''">
-        <div class="main-content" class="pl-0 " [ngClass]="(!isHomePage && role=='Clinical') && ((maxStep < '5.0') ||  (maxStep=='5.0' && (actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2')))?'show-scroll':'mb-2'">
+  <div class="main-panel" [ngClass]="(!isHomePage && role=='Clinical') && ((maxStep < '5.0') ||  (maxStep>='5.0' && (actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2')))?'main-panel-custom':''">
+        <div class="main-content" class="pl-0 " [ngClass]="(!isHomePage && role=='Clinical') && ((maxStep < '5.0') ||  (maxStep>='5.0' && (actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2')))?'show-scroll':'mb-2'">
             <div [ngClass]="((maxStep < '5.0') && (!isHomePage) && (role=='Clinical') )?'':'content-wrapper'">
                 <div [ngClass]="((maxStep < '5.0') && (!isHomePage) && (role=='Clinical') )?'':'container-fluid'">
                     <ngb-alert type="warning" class="mt-4" [dismissible]="false" *ngIf="isIeOrEdge">
@@ -37,7 +37,7 @@
                 </div>
             </div>
         </div>
-        <app-footerwizard *ngIf="(!isHomePage && role=='Clinical') && ((maxStep < '5.0') ||  (maxStep=='5.0' && (actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2')))"></app-footerwizard>
+        <app-footerwizard *ngIf="(!isHomePage && role=='Clinical') && ((maxStep < '5.0') ||  (maxStep>='5.0' && (actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2')))"></app-footerwizard>
         <!--<div *ngIf="!isApp">
           <app-footer *ngIf="role != 'Clinical' && role != 'Lab' && role!='Admin'"></app-footer>
           <app-footer2 *ngIf="role == 'Clinical' || role == 'Lab' || role=='Admin'"></app-footer2>

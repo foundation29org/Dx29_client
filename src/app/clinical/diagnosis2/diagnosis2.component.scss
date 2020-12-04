@@ -11,6 +11,10 @@
   flex-grow: 1;
 }
 
+.card-columns{
+  column-count: 4;
+}
+
 .dropdown-toggle::after {
     display:none;
 }
@@ -231,6 +235,19 @@ display: none;
     text-align: right !important;
 }
 
+@media ( max-width: 1600px ){
+  #moreinfoLinks{
+    display:grid !important;
+  }
+  #moreinfoLinks2ndcol{
+    margin-left: 0px !important;
+  }
+
+  .card-columns{
+    column-count: 2;
+  }
+}
+
 @media ( max-width: 960px ){
 
   .mt-03{
@@ -246,6 +263,9 @@ display: none;
     left: 80% !important;
   }
 
+  .card-columns{
+    column-count: 1;
+  }
 
 }
 @media ( max-width: 575px ){
@@ -260,15 +280,6 @@ display: none;
     left: 75% !important;
   }
 
-}
-
-@media ( max-width: 1600px ){
-  #moreinfoLinks{
-    display:grid !important;
-  }
-  #moreinfoLinks2ndcol{
-    margin-left: 0px !important;
-  }
 }
 
 table {

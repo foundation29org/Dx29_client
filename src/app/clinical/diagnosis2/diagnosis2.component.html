@@ -523,7 +523,7 @@
                   <span class="pl-4"> {{disease.name.label}}</span>
                 </div>
                 <div class="col-2 mt-3">
-                  <span class="text-muted">{{disease.h29}}%</span>
+                  <span class="text-muted">{{disease.h29}}</span>
                   <a class="float-right ml-1" style="color:#009DA0;" (click)="onActivate2(disease, contentSeeSymptomsOfDisease);" href="javascript:void(0)"><i class="fas fa-chevron-right" title="{{'generics.More information' | translate }}"></i></a>
 
                 </div>
@@ -550,112 +550,155 @@
             00. {{'patnodiagdashboard.menu.Welcome' | translate }}
           </div>
           <p class="content-sub-header"></p>-->
-          <div class="offset-md-2 col-md-8 col-lg-8" >
-            <div class="content-header pb-1">
-              <span>Reportes</span>
-            </div>
-            <p class="content-sub-header">
-              <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
-            </p>
-          </div>
+
           <section *ngIf="!loadingDocuments">
-            <div>
-              <div *ngIf="listPatientFiles.length>0" class="row">
-                <div *ngFor="let onefile of docsNcr; let i = index" class="col-lg-4 pb-2 col-md-12">
-                      <div class="card box border">
-                          <div class="card-header pb-0 row">
-                            <span class="col-3">
-                              <i *ngIf="onefile.ncrResults.extension=='.pdf'" class="fas fa-file-pdf fa-3x danger"></i>
-                              <i *ngIf="onefile.ncrResults.extension=='.docx'" class="fas fas fa-file-word fa-3x info"></i>
-                              <i *ngIf="onefile.ncrResults.extension=='.txt'" class="fas fas fa-file-alt fa-3x warning"></i>
-                              <i *ngIf="onefile.ncrResults.extension=='.json'" class="fas fas fa-file-code fa-3x grey"></i>
-                              <i *ngIf="onefile.ncrResults.extension == '.jpg' || onefile.ncrResults.extension == '.png' || onefile.ncrResults.extension == '.gif' || onefile.ncrResults.extension == '.tiff' || onefile.ncrResults.extension == '.tif' || onefile.ncrResults.extension == '.bmp' || onefile.ncrResults.extension == '.dib' || onefile.ncrResults.extension == '.bpg' || onefile.ncrResults.extension == '.psd' || onefile.ncrResults.extension == '.jpeg' || onefile.ncrResults.extension == '.jpe' || onefile.ncrResults.extension == '.jfif'" class="fas fas fa-file-image fa-3x yellow"></i>
-
-                              <span class="d-block">
-                              {{onefile.origenFile.contentLength}}
-                              </span>
-                            </span>
-                            <span class="col-9">
-                              <span class="font-medium-2 grey darken-1 text-bold-400 d-block">
-                                <span *ngIf="onefile.origenFile != undefined">
-                                  {{onefile.origenFile.nameForShow}}
-                                </span>
-                                <span *ngIf="onefile.origenFile == undefined">
-                                  Plain text
-                                </span>
-                              </span>
-                              <span *ngIf="onefile.origenFile != undefined" class="font-small-2">{{onefile.origenFile.lastModified | date:'medium'}}</span>
-                              <span *ngIf="onefile.origenFile == undefined" class="font-small-2">{{onefile.ncrResults.lastModified | date:'medium'}}</span>
-                            </span>
-                          </div>
-                          <div class="card-body">
-                            <div class="">
-                              {{onefile.ncrResults.resumeText}}
-                            </div>
-                            <div class="row col-md-12 mt-2">
-                              <span class="col-6">
-                                <span class="d-block text-muted">Annotations</span>
-                                <span class="info">{{onefile.ncrResults.annotations}}</span>
-                              </span>
-                              <span class="col-6">
-                                <span class="d-block text-muted">Symptoms</span>
-                                <span class="info">{{onefile.ncrResults.numberSymptoms}}</span>
-                              </span>
-                            </div>
-                            <div class="row col-md-12 mt-2">
-                              <span class="col-6">
-                                <span class="d-block text-muted">Symptoms match</span>
-                                <span class="info">{{onefile.ncrResults.numSymptMatch}}</span>
-                              </span>
-                              <span class="col-6">
-                                <span class="d-block text-muted">Rejected Symptoms</span>
-                                <span class="info">{{onefile.ncrResults.rejectedSymptoms}}</span>
-                              </span>
-                            </div>
-                          </div>
-                          <div class="card-footer">
-                            <span *ngIf="onefile.origenFile != undefined"><a class="float-left btn btn-outline-primary" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.origenFile.name}}{{accessToken.sasToken}}" target="_blank" download>Download <i class="fa fa-download"></i></a></span>
-                            <span *ngIf="onefile.ncrResults.ncrresult"><a class="float-right btn btn-outline-primary" href="javascript:void(0)" (click)="openNcrResult(onefile.ncrResults.name);">View result <i class="fa fa-eye"></i></a><a *ngIf="onefile.origenFile == undefined" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.ncrResults.name}}{{accessToken.sasToken}}" target="_blank" download><i class="fa fa-download"></i></a></span>
-                          </div>
-                      </div>
+              <div *ngIf="docsNcr.length>0" class="row">
+                <div  class="col-md-12">
+                  <div class="content-header pb-1">
+                    <span>Reportes</span>
+                    <span *ngIf="docsNcr.length>0" class="nav-item" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
+                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSort" ngbDropdownToggle>
+                            <i class="fas fa-sort font-medium-3 primary"></i>
+                            <p class="d-none">Sort</p>
+                        </a>
+                        <div ngbDropdownMenu aria-labelledby="dropdownSort" class="dropdownLang">
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="orderFilesNcr('lastModified')">
+                                <span *ngIf="selectedOrderFilesNcr=='lastModified'"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">Date</span></span>
+                                <span *ngIf="selectedOrderFilesNcr!='lastModified'" class="offset-md-1 col-md-8">Date</span>
+                            </a>
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="orderFilesNcr('extension')">
+                                <span *ngIf="selectedOrderFilesNcr=='extension'"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">Tipo de fichero</span></span>
+                                <span *ngIf="selectedOrderFilesNcr!='extension'" class="offset-md-1 col-md-8">Tipo de fichero</span>
+                            </a>
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="orderFilesNcr('simplename')">
+                                <span *ngIf="selectedOrderFilesNcr=='simplename'"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">Nombre</span></span>
+                                <span *ngIf="selectedOrderFilesNcr!='simplename'" class="offset-md-1 col-md-8">Nombre</span>
+                            </a>
+                        </div>
+                    </span>
+                  </div>
+                  <p class="content-sub-header">
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
+                  </p>
                 </div>
-                <div *ngFor="let onefile of otherDocs; let i = index" class="col-lg-4 pb-2 col-md-12">
-                      <div class="card box border">
-                          <div class="card-header pb-0 row">
-                            <span class="col-3">
-                              {{onefile.origenFile.extension}}
-                              <i *ngIf="onefile.origenFile.extension=='.html'" class="fas fas fa-file-code fa-3x grey"></i>
-                              <i *ngIf="onefile.origenFile.extension=='.pdf'" class="fas fa-file-pdf fa-3x danger"></i>
-                              <i *ngIf="onefile.origenFile.extension=='.vcf' || onefile.ncrResults.extension=='.vcf.gz'" class="fas fas fa-dna fa-3x info"></i>
+                <div  class="col-md-12 row">
+                  <div *ngFor="let onefile of docsNcr; let i = index" class="col-lg-4 pb-2 col-md-12">
+                        <div class="card box border">
+                            <div class="card-header pb-0 row">
+                              <span class="col-3">
+                                <i *ngIf="onefile.ncrResults.extension=='.pdf'" class="fas fa-file-pdf fa-3x danger"></i>
+                                <i *ngIf="onefile.ncrResults.extension=='.docx'" class="fas fas fa-file-word fa-3x info"></i>
+                                <i *ngIf="onefile.ncrResults.extension=='.txt'" class="fas fas fa-file-alt fa-3x warning"></i>
+                                <i *ngIf="onefile.ncrResults.extension=='.json'" class="fas fas fa-file-code fa-3x grey"></i>
+                                <i *ngIf="onefile.ncrResults.extension == '.jpg' || onefile.ncrResults.extension == '.png' || onefile.ncrResults.extension == '.gif' || onefile.ncrResults.extension == '.tiff' || onefile.ncrResults.extension == '.tif' || onefile.ncrResults.extension == '.bmp' || onefile.ncrResults.extension == '.dib' || onefile.ncrResults.extension == '.bpg' || onefile.ncrResults.extension == '.psd' || onefile.ncrResults.extension == '.jpeg' || onefile.ncrResults.extension == '.jpe' || onefile.ncrResults.extension == '.jfif'" class="fas fas fa-file-image fa-3x yellow"></i>
 
-                              <span class="d-block">
-                              {{onefile.origenFile.contentLength}}
-                              </span>
-                            </span>
-                            <span class="col-9">
-                              <span class="font-medium-2 grey darken-1 text-bold-400 d-block">
-                                <span *ngIf="onefile.origenFile != undefined">
-                                  {{onefile.origenFile.nameForShow}}
-                                </span>
-                                <span *ngIf="onefile.origenFile == undefined">
-                                  Plain text
+                                <span class="d-block">
+                                {{onefile.origenFile.contentLength}}
                                 </span>
                               </span>
-                              <span *ngIf="onefile.origenFile != undefined" class="font-small-2">{{onefile.origenFile.lastModified | date:'medium'}}</span>
-                              <span *ngIf="onefile.origenFile == undefined" class="font-small-2">{{onefile.ncrResults.lastModified | date:'medium'}}</span>
-                            </span>
-                          </div>
-                          <div class="card-body">
-                          </div>
-                          <div class="card-footer">
-                            <span *ngIf="onefile.origenFile != undefined"><a class="float-left btn btn-outline-primary" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.origenFile.name}}{{accessToken.sasToken}}" target="_blank" download>Download <i class="fa fa-download"></i></a></span>
-                            <span *ngIf="onefile.ncrResults.ncrresult"><a class="float-right btn btn-outline-primary" href="javascript:void(0)" (click)="openNcrResult(onefile.ncrResults.name);">View result <i class="fa fa-eye"></i></a><a *ngIf="onefile.origenFile == undefined" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.ncrResults.name}}{{accessToken.sasToken}}" target="_blank" download><i class="fa fa-download"></i></a></span>
-                          </div>
-                      </div>
+                              <span class="col-9">
+                                <span class="font-medium-2 grey darken-1 text-bold-400 d-block">
+                                  <span *ngIf="onefile.origenFile != undefined">
+                                    {{onefile.origenFile.nameForShow}}
+                                  </span>
+                                  <span *ngIf="onefile.origenFile == undefined">
+                                    Plain text
+                                  </span>
+                                </span>
+                                <span *ngIf="onefile.origenFile != undefined" class="font-small-2">{{onefile.origenFile.lastModified | date:'medium'}}</span>
+                                <span *ngIf="onefile.origenFile == undefined" class="font-small-2">{{onefile.ncrResults.lastModified | date:'medium'}}</span>
+                              </span>
+                            </div>
+                            <div class="card-body">
+                              <div class="">
+                                {{onefile.ncrResults.resumeText}}
+                              </div>
+                              <div class="row mt-2">
+                                <span class="col-6">
+                                  <span class="d-block text-muted">Total Symptoms</span>
+                                  <span class="info">{{onefile.ncrResults.numberSymptoms}}</span>
+                                </span>
+                                <span class="col-6">
+                                  <span class="d-block text-muted">Seleted</span>
+                                  <span class="info">{{onefile.ncrResults.numSymptMatch}}</span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="card-footer">
+                              <span *ngIf="onefile.origenFile != undefined"><a class="float-left btn btn-outline-primary" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.origenFile.name}}{{accessToken.sasToken}}" target="_blank" download>Download <i class="fa fa-download"></i></a></span>
+                              <span *ngIf="onefile.ncrResults.ncrresult"><a class="float-right btn btn-outline-primary" href="javascript:void(0)" (click)="openNcrResult(onefile.ncrResults.name);">View result <i class="fa fa-eye"></i></a><a *ngIf="onefile.origenFile == undefined" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.ncrResults.name}}{{accessToken.sasToken}}" target="_blank" download><i class="fa fa-download"></i></a></span>
+                            </div>
+                        </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="otherDocs.length>0" class="row">
+                <div class="col-md-12">
+                  <div class="content-header pb-1">
+                    <span>Other Docs</span>
+                    <span *ngIf="otherDocs.length>0" class="nav-item" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
+                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSort" ngbDropdownToggle>
+                            <i class="fas fa-sort font-medium-3 primary"></i>
+                            <p class="d-none">Sort</p>
+                        </a>
+                        <div ngbDropdownMenu aria-labelledby="dropdownSort" class="dropdownLang">
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="orderFilesOthers('lastModified')">
+                                <span *ngIf="selectedOrderFilesOther=='lastModified'"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">Date</span></span>
+                                <span *ngIf="selectedOrderFilesOther!='lastModified'" class="offset-md-1 col-md-8">Date</span>
+                            </a>
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="orderFilesOthers('extension')">
+                                <span *ngIf="selectedOrderFilesOther=='extension'"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">Tipo de fichero</span></span>
+                                <span *ngIf="selectedOrderFilesOther!='extension'" class="offset-md-1 col-md-8">Tipo de fichero</span>
+                            </a>
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="orderFilesOthers('simplename')">
+                                <span *ngIf="selectedOrderFilesOther=='simplename'"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">Nombre</span></span>
+                                <span *ngIf="selectedOrderFilesOther!='simplename'" class="offset-md-1 col-md-8">Nombre</span>
+                            </a>
+                        </div>
+                    </span>
+                  </div>
+                  <p class="content-sub-header">
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
+                  </p>
+                </div>
+                <div  class="col-md-12 row">
+                  <div *ngFor="let onefile of otherDocs; let i = index" class="col-lg-4 pb-2 col-md-12">
+                        <div class="card box border">
+                            <div class="card-header pb-0 row">
+                              <span class="col-3">
+                                <i *ngIf="onefile.origenFile.extension=='.html'" class="fas fas fa-file-code fa-3x grey"></i>
+                                <i *ngIf="onefile.origenFile.extension=='.pdf'" class="fas fa-file-pdf fa-3x danger"></i>
+                                <i *ngIf="onefile.origenFile.extension=='.vcf' || onefile.ncrResults.extension=='.vcf.gz'" class="fas fas fa-dna fa-3x info"></i>
+
+                                <span class="d-block">
+                                {{onefile.origenFile.contentLength}}
+                                </span>
+                              </span>
+                              <span class="col-9">
+                                <span class="font-medium-2 grey darken-1 text-bold-400 d-block">
+                                  <span *ngIf="onefile.origenFile != undefined">
+                                    {{onefile.origenFile.nameForShow}}
+                                  </span>
+                                  <span *ngIf="onefile.origenFile == undefined">
+                                    Plain text
+                                  </span>
+                                </span>
+                                <span *ngIf="onefile.origenFile != undefined" class="font-small-2">{{onefile.origenFile.lastModified | date:'medium'}}</span>
+                                <span *ngIf="onefile.origenFile == undefined" class="font-small-2">{{onefile.ncrResults.lastModified | date:'medium'}}</span>
+                              </span>
+                            </div>
+                            <div class="card-body">
+                            </div>
+                            <div class="card-footer">
+                              <span *ngIf="onefile.origenFile != undefined"><a class="float-left btn btn-outline-primary" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.origenFile.name}}{{accessToken.sasToken}}" target="_blank" download>Download <i class="fa fa-download"></i></a></span>
+                              <span *ngIf="onefile.ncrResults.ncrresult"><a class="float-right btn btn-outline-primary" href="javascript:void(0)" (click)="openNcrResult(onefile.ncrResults.name);">View result <i class="fa fa-eye"></i></a><a *ngIf="onefile.origenFile == undefined" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.ncrResults.name}}{{accessToken.sasToken}}" target="_blank" download><i class="fa fa-download"></i></a></span>
+                            </div>
+                        </div>
+                  </div>
                 </div>
               </div>
 
-              <div class="row text-left card border">
+              <!--<div class="row text-left card border">
       			    <div class="card-body col-md-12 mt-1">
 
                   <table class="table text-center table-responsive" *ngIf="listPatientFiles.length>0">
@@ -687,8 +730,7 @@
                   </table>
                   <p *ngIf="listPatientFiles.length==0">No hay documentos</p>
       			    </div>
-      			  </div>
-            </div>
+      			  </div>-->
           </section>
       </div>
       <!-- Step 5.0 -->
@@ -718,33 +760,43 @@
             <div class="col-lg-12">
               <div class="card border">
                 <div class="card-header">
-                  <h4 class="card-title">
+                  <h4 class="card-title" *ngIf="infoGenesAndConditionsExomizer.length>0 || infoGenesAndConditionsPhen2Genes.length>0">
                     <b>Resultados</b>
-                    <span class="nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right" title="Options">
-                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
-                            <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
-                        </a>
-                        <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
-                            <a class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.3', false)">
-                                <span>Ver la lista completa</span>
-                            </a>
-                            <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelGenes(contentPanelGenes)">
-                              <i class="fas fa-dna primary"></i>  <span class="ml-2" >Ver información de los genes</span>
-                            </a>
-                            <a class="dropdown-item py-1" href="javascript:;" (click)="editDiagnosis(1)">
-                                <span>Navegar por las enfermedades</span>
-                            </a>
-                            <a class="dropdown-item py-1" href="javascript:;" (click)="goToStepDiagnoses()">
-                                <span>Reanalizar</span>
-                            </a>
-                            <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelFeedback(contentGeneralNotes)">
-                                <span>Add Notes</span>
-                            </a>
-                        </div>
+                    <span>
+                      <span class="nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right" title="Options">
+                          <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
+                              <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
+                          </a>
+                          <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
+                              <a class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.3', false)">
+                                  <span>Ver la lista completa</span>
+                              </a>
+                              <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelGenes(contentPanelGenes)">
+                                <i class="fas fa-dna primary"></i>  <span class="ml-2" >Ver información de los genes</span>
+                              </a>
+                              <a class="dropdown-item py-1" href="javascript:;" (click)="editDiagnosis(1)">
+                                  <span>Navegar por las enfermedades</span>
+                              </a>
+                              <a class="dropdown-item py-1" href="javascript:;" (click)="goToStepDiagnoses()">
+                                  <span>Reanalizar</span>
+                              </a>
+                              <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelFeedback(contentGeneralNotes)">
+                                  <span>Add Notes</span>
+                              </a>
+                          </div>
+                      </span>
+                      <span class="float-right">
+                        <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="!isgen" type="button" [ngClass]="(isgen != true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'" class="btn-sm mr-1" (click)="getRelatedConditionsview(false);">Clinic view</button>
+                        <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="isgen" type="button" [ngClass]="(isgen == true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'"  class="btn-sm mr-1" (click)="getRelatedConditionsview(true);">Genetic view</button>
+                        <button type="button" class="btn btn-outline-primary  btn-sm mr-1" (click)="goToStepDiagnoses();">Recalcular</button>
+                      </span>
                     </span>
-                    <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="!isgen" type="button" [ngClass]="(isgen != true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'" class="float-right btn-sm mr-1" (click)="getRelatedConditionsview(false);">Clinic view</button>
-                    <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="isgen" type="button" [ngClass]="(isgen == true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'"  class="float-right btn-sm mr-1" (click)="getRelatedConditionsview(true);">Genetic view</button>
-                    <button type="button" class="btn btn-outline-primary float-right btn-sm mr-1" (click)="goToStepDiagnoses();">Recalcular</button>
+                  </h4>
+                  <h4 class="card-title" *ngIf="infoGenesAndConditionsExomizer.length==0 && infoGenesAndConditionsPhen2Genes.length==0">
+                    <b>No ha analizado los datos</b>
+                    <span class="float-right">
+                      <button type="button" class="btn btn-outline-primary  btn-sm mr-1" (click)="goToStepDiagnoses();">Analizar</button>
+                    </span>
                   </h4>
                 </div>
                 <div class="card-content" *ngIf="!gettingRelatedConditions">
@@ -756,7 +808,7 @@
                             <span style="font-size: large;"> {{disease.name.label}}</span>
                           </div>
                           <div class="col-2 mt-3">
-                            <span class="text-muted">{{disease.h29}}%</span>
+                            <span class="text-muted">{{disease.h29}}</span>
                             <a class="float-right ml-1" style="color:#009DA0;" (click)="showMoreInfoDisease(i, disease);" href="javascript:void(0)">
                               <i *ngIf="selectedDisease!=i" class="fas fa-chevron-down" title="{{'generics.More information' | translate }}"></i>
                               <i *ngIf="selectedDisease==i" class="fas fa-chevron-up" title="{{'generics.Read less' | translate }}"></i>
@@ -773,26 +825,53 @@
                           <div class="col-11">
                             <ngb-progressbar type="primary" value="{{disease.h29}}" [striped]="false" [animated]="true" [max]="100"></ngb-progressbar>
                           </div>
-                          <div class="col-12" *ngIf="selectedDisease==i">
-
-
+                          <div class="col-12 mt-3" *ngIf="selectedDisease==i">
                             <!--{{disease|json}}-->
                 						<div class="mb-4">
                 							<div class="card-content card card-outline-primary border">
                 								<div class="card-body">
-                                  <p>{{actualDiseaseDesc.desc}} <a href="https://monarchinitiative.org/disease/{{disease.name.id}}" target="_blank" rel="tooltip" title="{{disease.name.id}}">More Info <i class="ft-external-link"></i></a></p>
+                                  <div class="row">
+                                    <div class="col-xl-6" >
+                                      <p>{{actualDiseaseDesc.desc}} <a href="https://monarchinitiative.org/disease/{{disease.name.id}}" target="_blank" rel="tooltip" title="{{disease.name.id}}">More Info <i class="ft-external-link"></i></a></p>
+                                      <div *ngIf="actualRelatedDisease!=undefined">
+                                        <div *ngIf="actualRelatedDisease.clinical_course!=undefined">
+                                          <p *ngFor="let hpo of actualRelatedDisease.clinical_course ; let i = index">
+                                            <span class="d-block">HPO: {{hpo.hpo}} </span>
+                                            <span class="d-block">Name: {{hpo.info.name}} </span>
+                                            <span class="d-block">Desc: {{hpo.info.desc}} </span>
+                                          </p>
+                                        </div>
+                                        <div *ngIf="actualRelatedDisease.clinical_modifier!=undefined">
+                                            <p *ngFor="let hpo of actualRelatedDisease.clinical_modifier ; let i = index">
+                                              <span class="d-block">HPO: {{hpo.hpo}} </span>
+                                              <span class="d-block">Name: {{hpo.info.name}} </span>
+                                              <span class="d-block">Desc: {{hpo.info.desc}} </span>
+                                            </p>
+                                        </div>
+                                        <div *ngIf="actualRelatedDisease.xrefs!=undefined">
+                                            xrefs: <span *ngFor="let hpo of actualRelatedDisease.xrefs ; let i = index"> {{hpo|json}}</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-xl-6" >
+                                      <div class="col-md-12">
+                                        <div class="col-md-12 center-elements" *ngIf="loadingGraphSymptomFreq">
+                    											<i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+                    										</div>
+                                        <div [style.visibility]="(chartDataVenn.length==0)? 'hidden': 'visible'" class="d3-chart" #chartVenn id="chartVenn" title="{{'patdiagdashboard.panel3msgsubtitlegraph2b' | translate }}" style="cursor: pointer;" [style.margin-left.px]= "-margin.left">
+                                          <svg [style.visibility]="(chartDataVenn.length>0)? 'hidden': 'visible'" id ="venn" viewBox="0 0 580 340" [style.margin-left.px]= "-margin.left"></svg>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
                 									<div class="row">
                 										<div class="col-md-12 mt-2 mb-1" *ngIf="fullListSymptoms.length==0">
                 											<span> {{'patdiagdashboard.No data available for the reference case' | translate }} </span>
                 										</div>
                 									</div>
-                									<div class="row mt-2" *ngIf="loadingGraphSymptomFreq">
-                										<div class="col-md-12 center-elements" >
-                											<i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
-                										</div>
-                									</div>
-                									<div class="row">
-                                    <div class="col-md-12" *ngIf="fullListSymptoms.length>0">
+
+                									<div class="row mt-3">
+                                    <div *ngIf="fullListSymptoms.length>0">
                 											<!--<h4 class="card-title warning d-inline">{{'patdiagdashboard.titlepanel3' | translate }}</h4>-->
                                       <div class="col-md-12">
                 												<h4 *ngIf="!loadingGraphSymptomFreq" class="card-title warning d-inline" style="font-size: 1rem;">{{'patdiagdashboard.panel3subtitlegraph1' | translate }}</h4>
@@ -840,37 +919,6 @@
                 											</div>
 
                 										</div>
-                                    <div class="col-md-12" >
-                											<div class="col-md-12">
-                												<h4 *ngIf="!loadingGraphSymptomFreq" class="card-title warning" style="font-size: 1rem;">{{'patdiagdashboard.panel3subtitlegraph2' | translate }}</h4>
-                												<div class="mt-2" *ngIf="chartDataVenn.length>0">
-                													<span> {{'patdiagdashboard.noteVennGraph' | translate }}</span>
-                												</div>
-                												<div [style.visibility]="(chartDataVenn.length==0)? 'hidden': 'visible'" class="d3-chart" #chartVenn id="chartVenn" title="{{'patdiagdashboard.panel3msgsubtitlegraph2b' | translate }}" style="cursor: pointer;" [style.margin-left.px]= "-margin.left">
-                													<svg [style.visibility]="(chartDataVenn.length>0)? 'hidden': 'visible'" id ="venn" viewBox="0 0 580 340" [style.margin-left.px]= "-margin.left"></svg>
-                												</div>
-                											</div>
-                										</div>
-
-                                    <div *ngIf="actualRelatedDisease!=undefined">
-                                      <div *ngIf="actualRelatedDisease.clinical_course!=undefined" class="col-md-12" >
-                                        <p *ngFor="let hpo of actualRelatedDisease.clinical_course ; let i = index">
-                                          <span class="d-block">HPO: {{hpo.hpo}} </span>
-                                          <span class="d-block">Name: {{hpo.info.name}} </span>
-                                          <span class="d-block">Desc: {{hpo.info.desc}} </span>
-                                        </p>
-                                      </div>
-                                      <div *ngIf="actualRelatedDisease.clinical_modifier!=undefined" class="col-md-12" >
-                                          <p *ngFor="let hpo of actualRelatedDisease.clinical_modifier ; let i = index">
-                                            <span class="d-block">HPO: {{hpo.hpo}} </span>
-                                            <span class="d-block">Name: {{hpo.info.name}} </span>
-                                            <span class="d-block">Desc: {{hpo.info.desc}} </span>
-                                          </p>
-                                      </div>
-                                      <div *ngIf="actualRelatedDisease.xrefs!=undefined" class="col-md-12" >
-                                          xrefs: <span *ngFor="let hpo of actualRelatedDisease.xrefs ; let i = index"> {{hpo|json}}</span>
-                                      </div>
-                                    </div>
                 									</div>
                 								</div>
                 							</div>
@@ -903,6 +951,151 @@
         </section>
       </div>
       <!-- End Step 5.0 -->
+      <!-- Step 6.0 -->
+      <div *ngIf="actualStep=='6.0'">
+        <div>
+          <div class="content-header pb-1">
+            <span>{{'diagnosis.Summary' | translate }}</span>
+          </div>
+          <span class="content-sub-header">
+            <span>
+              <p class="mb-0">
+                {{'patnodiagdashboard.step3-2.msg1' | translate }} <b>{{'patnodiagdashboard.step3-2.msg2' | translate }}</b>{{'patnodiagdashboard.step3-2.msg3' | translate }}
+              </p>
+            </span>
+          </span>
+        </div>
+        <section class="mt-3 card-columns">
+          <div class="card border">
+            <div class="card-header">
+              <h4 class="card-title d-inline">
+                <i class="fas fas fa-file-alt grey"></i> Reports
+              </h4>
+            </div>
+            <div class="card-content" *ngIf="!loadingDocuments">
+              <div class="card-body" *ngIf="docsNcr.length>0">
+                <section class="row">
+                    <div *ngFor="let onefile of docsNcr; let i = index" class="pb-2 row col-md-12">
+                      <span class="col-1">
+                        <i *ngIf="onefile.ncrResults.extension=='.pdf'" class="fas fa-file-pdf fa-2x danger"></i>
+                        <i *ngIf="onefile.ncrResults.extension=='.docx'" class="fas fas fa-file-word fa-2x info"></i>
+                        <i *ngIf="onefile.ncrResults.extension=='.txt'" class="fas fas fa-file-alt fa-2x warning"></i>
+                        <i *ngIf="onefile.ncrResults.extension=='.json'" class="fas fas fa-file-code fa-2x grey"></i>
+                        <i *ngIf="onefile.ncrResults.extension == '.jpg' || onefile.ncrResults.extension == '.png' || onefile.ncrResults.extension == '.gif' || onefile.ncrResults.extension == '.tiff' || onefile.ncrResults.extension == '.tif' || onefile.ncrResults.extension == '.bmp' || onefile.ncrResults.extension == '.dib' || onefile.ncrResults.extension == '.bpg' || onefile.ncrResults.extension == '.psd' || onefile.ncrResults.extension == '.jpeg' || onefile.ncrResults.extension == '.jpe' || onefile.ncrResults.extension == '.jfif'" class="fas fas fa-file-image fa-2x yellow"></i>
+                      </span>
+                      <span class="col-11" style="line-height: 1rem;">
+                        <span class="d-block">
+                          <span *ngIf="onefile.origenFile != undefined">
+                            {{onefile.origenFile.nameForShow}}
+                          </span>
+                          <span *ngIf="onefile.origenFile == undefined">
+                            Plain text
+                          </span>
+                        </span>
+                        <span class="grey font-small-2">{{onefile.ncrResults.numberSymptoms}} symptoms</span>
+                      </span>
+                    </div>
+                </section>
+              </div>
+              <div class="card-body" *ngIf="docsNcr.length==0">
+                No tiene reportes
+              </div>
+              <div class="card-footer">
+                <span class="float-left">
+                  <span class="d-block text-muted">Reports</span>
+                  <span class="info">{{docsNcr.length}}</span>
+                </span>
+                <span class="float-right">
+                  <span><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('4.0', true);">Reports</a></span>
+                </span>
+              </div>
+            </div>
+            <div class="card-content center-elements mb-2" *ngIf="loadingDocuments">
+              <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+            </div>
+          </div>
+          <div class="card border">
+            <div class="card-header">
+              <h4 class="card-title d-inline">
+                <i class="fas fa-notes-medical grey"></i> Symptoms
+              </h4>
+            </div>
+            <div class="card-content">
+              <div class="card-body">
+                <p *ngFor="let hpo of phenotype.data ; let i = index">
+                  <i class="fas fa-notes-medical grey"></i> <span class="text-muted ml-1" title="{{hpo.name}}">{{ (hpo.name.length>45)? (hpo.name | slice:0:45)+'...':(hpo.name) }} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
+                </p>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span class="float-left">
+                <span class="d-block text-muted">Symptoms</span>
+                <span class="info">{{phenotype.data.length}}</span>
+              </span>
+              <span class="float-right">
+                <span><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('1.0', true);">Symptoms</a></span>
+              </span>
+            </div>
+          </div>
+          <div class="card border">
+            <div class="card-header">
+              <h4 class="card-title d-inline">
+                <i class="fas fa-dna grey"></i> Genotype
+              </h4>
+            </div>
+            <div class="card-content">
+              <div class="card-body">
+                <p *ngFor="let onefile of filesVcf ; let i = index">
+                  <i class="fas fas fa-dna grey"></i> <span class="ml-1 text-muted" title="{{onefile.nameForShow}}" style="word-wrap: anywhere;">{{ (onefile.nameForShow.length>40)? (onefile.nameForShow | slice:0:40)+'...':(onefile.nameForShow) }}</span>
+                </p>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span class="float-left">
+                <span class="d-block text-muted">Files</span>
+                <span class="info">{{filesVcf.length}}</span>
+              </span>
+              <span class="float-right">
+                <span><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('1.0', true);">Genotype</a></span>
+              </span>
+            </div>
+          </div>
+          <div class="card border">
+            <div class="card-header">
+              <h4 class="card-title d-inline">
+                Top 5 Diagnoses
+              </h4>
+            </div>
+            <div class="card-content">
+              <div class="card-body">
+                <div class="row pb-3" *ngFor="let disease of topRelatedConditions | slice:0:5; let i = index" >
+                  <div class="col-10">
+                    <span class="text-muted" style="font-size: large;"> {{disease.name.label}}</span>
+                  </div>
+                  <div class="col-2">
+                    <span class="text-muted">{{disease.h29}}</span>
+                  </div>
+                  <div class="col-12 text-muted">
+                    Gene<spam *ngIf="disease.genes.length>1">s</spam>:
+                    <span *ngFor="let gen of disease.genes; let k = index">
+                      <a *ngIf="infoGenesAndConditionsExomizer.length>0" class="primary" href="javascript:void(0)" title="Click to see more information." (click)="setIndexAndshowPanelGenes(contentPanelGenes, gen.gen)"> {{gen.gen}}</a>
+                      <a *ngIf="infoGenesAndConditionsExomizer.length==0" class="primary" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" title="Click to see more information."> {{gen.gen}}</a>
+                      <span *ngIf="k<disease.genes.length-1">,</span>
+                    </span>
+                  </div>
+                  <div class="col-11">
+                    <ngb-progressbar type="primary" value="{{disease.h29}}" [striped]="false" [animated]="true" [max]="100"></ngb-progressbar>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer center-elements pb-0">
+              <span><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('5.0', true);">Diagnoses</a></span>
+            </div>
+          </div>
+        </section>
+      </div>
+      <!-- End Step 6.0 -->
     </div>
   </div>
 <!--<div class="footer-buttons" *ngIf="maxStep<'5.0'">

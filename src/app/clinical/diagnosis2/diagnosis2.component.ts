@@ -329,6 +329,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     loadingDocuments: boolean = false;
     otherDocs: any = [];
     docsNcr: any = [];
+    selectedOrderFilesNcr: string = 'lastModified';
+    selectedOrderFilesOther: string = 'lastModified';
+
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
     protected $hotjar: NgxHotjarService, private textTransform: TextTransform, private inj: Injector, private dataservice: Data) {
@@ -581,6 +584,12 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     setActualStepDB(actualStep:string){
       var object = {actualStep:actualStep}
       if(actualStep>=this.maxStep && this.maxStep<"5.0"){
+
+        console.log(actualStep);
+        if(actualStep=='5.0'){
+          actualStep = '6.0';
+          object = {actualStep:actualStep}
+        }
         this.setMaxStep(actualStep);
         this.subscription.add( this.http.put(environment.api+'/api/case/stepclinic/'+this.authService.getCurrentPatient().sub, object)
             .subscribe( (res : any) => {
@@ -746,6 +755,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
       }else if(this.actualStep == '3.0'){
         this.symptomsExomiser = this.phenotype.data;
+      }else if(this.actualStep == '6.0'){
+        this.loadFilesContainer(false);
       }
       window.scrollTo(0, 0)
       if(save){
@@ -783,8 +794,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }else if(info=='reports'){
           this.setActualStep('4.0');
           //this.actualStep = '4.0';
-          this.loadingDocuments = true;
-          this.loadFilesContainer();
+          this.loadFilesContainer(true);
         }else if(info=='cancelAnalysis'){
           if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
             Swal.fire({
@@ -812,6 +822,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
           }else if(this.launchingPhen2Genes || this.calculatingH29Score || this.gettingRelatedConditions){
             Swal.fire('Todavía estamos analizando, ten un poco de paciencia por favor', '', "info");
+          }else{
+            this.setActualStep('5.0');
           }
         }
       }.bind(this));
@@ -1044,7 +1056,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
              }
              this.listPatientFiles = listPatientFiles;
              for(var i=0;i<this.listPatientFiles.length;i++){
-               this.listPatientFiles[i].origenFile.contentLength
                this.listPatientFiles[i].origenFile.contentLength = this.formatBytes(this.listPatientFiles[i].origenFile.contentLength);
                if((this.listPatientFiles[i].ncrResults.name).indexOf('ncrresult.json')!=-1){
                  await this.getResumeNcr(this.listPatientFiles[i].ncrResults.name, i)
@@ -1052,6 +1063,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                }else{
                  var extension = this.listPatientFiles[i].origenFile.nameForShow.substr(this.listPatientFiles[i].origenFile.nameForShow.lastIndexOf('.'));
                  this.listPatientFiles[i].origenFile.extension=extension;
+                 if(extension=='.vcf'|| extension=='.vcf.gz' || extension=='.html')
                  this.otherDocs.push(this.listPatientFiles[i]);
                }
              }
@@ -1104,24 +1116,22 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       //this.listPatientFiles[i].origenFile.name
       this.subscription.add( this.http.get(this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+name+this.accessToken.sasToken)
        .subscribe( (res : any) => {
-         console.log(res);
+         //console.log(res);
          var listSymptoms = [];
-         var annotations = 0;
+         var numSymptMatch = 0;
          var resumeText = res.originalText.slice(0, 140);
-         var rejectedSymptoms = res.rejectedSymptoms.length;
           var infoNcr = res.result
          if(infoNcr.length>0){
           for(var i = 0; i < infoNcr.length; i++) {
 
             for(var j = 0; j < infoNcr[i].phens.length; j++) {
-              annotations++;
               var foundElement = this.searchService.search(listSymptoms,'id', infoNcr[i].phens[j].id);
               if(!foundElement){
                 listSymptoms.push(infoNcr[i].phens[j].id);
               }
             }
           }
-          var numSymptMatch = 0;
+
           for(var i = 0; i < this.phenotype.data.length; i++) {
             for(var j = 0; j < listSymptoms.length; j++) {
               if(this.phenotype.data[i].id==listSymptoms[j]){
@@ -1134,9 +1144,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.listPatientFiles[index].ncrResults.extension = extension
         this.listPatientFiles[index].ncrResults.numberSymptoms= listSymptoms.length;
         this.listPatientFiles[index].ncrResults.numSymptMatch= numSymptMatch;
-        this.listPatientFiles[index].ncrResults.annotations = annotations
         this.listPatientFiles[index].ncrResults.resumeText = resumeText
-        this.listPatientFiles[index].ncrResults.rejectedSymptoms = rejectedSymptoms
         console.log(this.listPatientFiles[index]);
         this.docsNcr.push(this.listPatientFiles[index]);
        }, (err) => {
@@ -4811,17 +4819,20 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     }
 
-    loadFilesContainer(){
+    loadFilesContainer(showloading){
+      this.loadingDocuments = true;
       this.blob.loadFilesPatientBlob(this.accessToken.containerName);
-      Swal.fire({
-          title: this.translate.instant("generics.Please wait"),
-          html: '<i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>',
-          showCancelButton: false,
-          showConfirmButton: false,
-          allowOutsideClick: false
-      }).then((result) => {
+      if(showloading){
+        Swal.fire({
+            title: this.translate.instant("generics.Please wait"),
+            html: '<i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>',
+            showCancelButton: false,
+            showConfirmButton: false,
+            allowOutsideClick: false
+        }).then((result) => {
 
-      });
+        });
+      }
     }
 
     openNcrResult(name){
@@ -6738,6 +6749,24 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     setNotAnalyzeGeneticInfo(){
       this.notAnalyzeGeneticInfo = !this.notAnalyzeGeneticInfo;
+    }
+
+    orderFilesNcr(field){
+      this.selectedOrderFilesNcr = field;
+      if(field=='lastModified'){
+        this.docsNcr.sort(this.sortService.DateSortFiles("lastModified"));
+      }else{
+        this.docsNcr.sort(this.sortService.GetSortFilesNcr(field));
+      }
+    }
+
+    orderFilesOthers(field){
+      this.selectedOrderFilesOther = field;
+      if(field=='lastModified'){
+        this.otherDocs.sort(this.sortService.DateSortFiles("lastModified"));
+      }else{
+        this.otherDocs.sort(this.sortService.GetSortOtherFiles(field));
+      }
     }
 
 }

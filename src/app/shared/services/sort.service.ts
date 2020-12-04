@@ -165,4 +165,38 @@ export class SortService {
       }
   }
 
+  GetSortFilesNcr(prop:string) {
+      return function(a, b) {
+        console.log(a);
+          if (a.ncrResults[prop] > b.ncrResults[prop]) {
+              return 1;
+          } else if (a.ncrResults[prop] < b.ncrResults[prop]) {
+              return -1;
+          }
+          return 0;
+      }
+  }
+
+  GetSortOtherFiles(prop:string) {
+      return function(a, b) {
+          if (a.origenFile[prop] > b.origenFile[prop]) {
+              return 1;
+          } else if (a.origenFile[prop] < b.origenFile[prop]) {
+              return -1;
+          }
+          return 0;
+      }
+  }
+
+  DateSortFiles(prop:string) {
+    return function(a, b) {
+        if (new Date(b.origenFile[prop]).getTime() > new Date(a.origenFile[prop]).getTime()) {
+            return 1;
+        }else if(new Date(b.origenFile[prop]).getTime() < new Date(a.origenFile[prop]).getTime()) {
+            return -1;
+        }
+        return 0;
+    }
+  }
+
 }
