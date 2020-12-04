@@ -615,12 +615,12 @@
                               </div>
                               <div class="row mt-2">
                                 <span class="col-6">
-                                  <span class="d-block text-muted">Total Symptoms</span>
-                                  <span class="info">{{onefile.ncrResults.numberSymptoms}}</span>
-                                </span>
-                                <span class="col-6">
                                   <span class="d-block text-muted">Seleted</span>
                                   <span class="info">{{onefile.ncrResults.numSymptMatch}}</span>
+                                </span>
+                                <span class="col-6">
+                                  <span class="d-block text-muted">Total Symptoms</span>
+                                  <span class="info">{{onefile.ncrResults.numberSymptoms}}</span>
                                 </span>
                               </div>
                             </div>
@@ -985,7 +985,7 @@
                             Plain text
                           </span>
                         </span>
-                        <span class="grey font-small-2">{{onefile.ncrResults.numberSymptoms}} symptoms</span>
+                        <span class="grey font-small-2">{{onefile.ncrResults.numSymptMatch}} symptoms</span>
                       </span>
                     </div>
                 </section>
@@ -1049,7 +1049,7 @@
                 <span class="info">{{filesVcf.length}}</span>
               </span>
               <span class="float-right">
-                <span><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('1.0', true);">Genotype</a></span>
+                <span><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('3.0', true);">Genotype</a></span>
               </span>
             </div>
           </div>
