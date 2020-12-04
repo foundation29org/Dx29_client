@@ -872,13 +872,6 @@
 
                 									<div class="row mt-3">
                                     <div *ngIf="fullListSymptoms.length>0">
-                											<!--<h4 class="card-title warning d-inline">{{'patdiagdashboard.titlepanel3' | translate }}</h4>-->
-                                      <div class="col-md-12">
-                												<h4 *ngIf="!loadingGraphSymptomFreq" class="card-title warning d-inline" style="font-size: 1rem;">{{'patdiagdashboard.panel3subtitlegraph1' | translate }}</h4>
-                												<div class="mt-2" *ngIf="fullListSymptoms.length>0 && !loadingGraphSymptomFreq">
-                													<span> {{'patdiagdashboard.panel4notetable' | translate }}</span>
-                												</div>
-                											</div>
                                       <div class="col-md-12">
                 												<table class="table text-center" *ngIf="fullListSymptoms.length>0 && !loadingGraphSymptomFreq" style="margin-top:2%">
                 													<thead>

@@ -532,8 +532,15 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               this.setActualStep('1.0');
               this.setMaxStep('1.0');
             }else{
-              this.setActualStep(res.stepClinic);
-              this.setMaxStep(res.stepClinic);
+              if(res.stepClinic=='5.0'){
+                this.setActualStepDB('6.0');
+                this.setActualStep('6.0');
+                this.setMaxStep('6.0');
+              }else{
+                this.setActualStep(res.stepClinic);
+                this.setMaxStep(res.stepClinic);
+              }
+
             }
 
             this.loadedStep = true;

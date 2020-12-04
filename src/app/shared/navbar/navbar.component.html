@@ -55,7 +55,7 @@
                       <div ngbDropdownMenu aria-labelledby="dropdownsections" class="dropdownsections text-muted">
                           <a class="dropdown-item py-1" href="javascript:;" title="Wizard">
                             <span class="d-inline-block" [ngClass]="(actualStep < '5.0' && maxStep<'5.0' )?'border-bottom border-bottom-2 border-primary ':'border-bottom border-bottom-0 text-muted'">
-                                <button class="btn-no-style" [ngClass]="(maxStep=='5.0' )?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="startWizardAgain();">Wizard</button>
+                                <button class="btn-no-style" [ngClass]="(maxStep>='5.0' )?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="startWizardAgain();">Wizard</button>
                             </span>
                           </a>
                           <a class="dropdown-item py-1" href="javascript:;" title="Reports">
@@ -99,7 +99,7 @@
                   <li class="nav-item mr-2">
                     <div>
                       <span class="d-inline-block mr-2" [ngClass]="(actualStep < '5.0' && maxStep<'5.0' )?'border-bottom border-bottom-2 border-primary ':'border-bottom border-bottom-0 text-muted'">
-                          <button class="btn-no-style" [ngClass]="(maxStep=='5.0' )?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="startWizardAgain();">Wizard</button>
+                          <button class="btn-no-style" [ngClass]="(maxStep>='5.0' )?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="startWizardAgain();">Wizard</button>
                       </span>
                       <span class="d-inline-block mr-2 ml-2" [ngClass]="(actualStep == '4.0' && maxStep=='5.0')?'border-bottom border-bottom-2 border-primary ':'border-bottom border-bottom-0 text-muted'">
                           <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" [disabled]="(maxStep<'5.0')" (click)="goToReports()">Reports</button>
