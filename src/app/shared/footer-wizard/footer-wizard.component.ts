@@ -13,8 +13,8 @@ import { Data } from 'app/shared/services/data.service';
 export class FooterWizardComponent implements OnInit{
     //Variables
     currentDate : Date = new Date();
-    actualStep: string = "0.0";
-    maxStep: string = "0.0";
+    actualStep: string = "99.9";
+    maxStep: string = "99.9";
     showIntroWizard: boolean = true;
     eventsService: any = null;
 

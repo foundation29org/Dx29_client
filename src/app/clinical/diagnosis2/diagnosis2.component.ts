@@ -97,6 +97,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     relatedConditionsCopy: any = [];
     gettingRelatedConditions: boolean = false;
     topRelatedConditions: any = [];
+    potentialDiagnostics: any = [];
     medicalText: string = '';
     resultTextNcr: string = '';
     resultTextNcrCopy: string = '';
@@ -4728,6 +4729,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     renderMap(data, param){
+      this.potentialDiagnostics = [];
       this.checkPrograms();
 
       var tempParam = 'Dx29';
@@ -4756,7 +4758,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
       for(var i = 0; i < this.relatedConditions.length; i++)
         {
-          //this.relatedConditions[i].name.id
+          //get orpha name
           var found = false;
           var orphaId = this.maps_to_orpha.map[this.relatedConditions[i].name.id]
           if(orphaId!=undefined){
@@ -4772,7 +4774,15 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               found =true;
             }
           }
+
+
           this.relatedConditions[i].name.label = this.textTransform.transform(this.relatedConditions[i].name.label);
+
+          //get potentialDiagnostics
+          if(this.relatedConditions[i].checked){
+            this.potentialDiagnostics.push(this.relatedConditions[i]);
+          }
+
         }
 
       this.topRelatedConditions = data;
@@ -6810,6 +6820,40 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.otherDocs.sort(this.sortService.DateSortFiles("lastModified"));
       }else{
         this.otherDocs.sort(this.sortService.GetSortOtherFiles(field));
+      }
+    }
+
+    setStateDisease(index,info, $event){
+      this.topRelatedConditions[index].checked = $event.checked;
+      var indexElement = this.searchService.searchIndexLevel2(this.relatedConditions,'name','id', this.topRelatedConditions[index].name.id);
+      this.relatedConditions[indexElement].checked= this.topRelatedConditions[index].checked;
+      this.saveRelatedConditions();
+    }
+
+    saveRelatedConditions(){
+      console.log("save RelatedConditions")
+      if(this.authGuard.testtoken() && !this.savingDiagnosis){
+        this.savingDiagnosis = true;
+        var obtToSave = [];
+        for(var i = 0; i < this.relatedConditions.length; i++) {
+          delete this.relatedConditions[i].symptoms;
+          delete this.relatedConditions[i].xrefs;
+          //delete this.relatedConditions[i].genes;
+        }
+
+        this.subscription.add( this.http.put(environment.api+'/api/diagnosis/relatedconditions/'+this.diagnosisInfo._id, this.relatedConditions)
+        .subscribe( (res : any) => {
+          this.diagnosisInfo.relatedConditions = res.relatedConditions;//relatedConditions
+          //this.diagnosisInfo = res.diagnosis;
+          this.savingDiagnosis = false;
+          this.getSymptomsApi2();
+
+          //this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
+         }, (err) => {
+           console.log(err.error);
+           this.toastr.error('', this.translate.instant("generics.error try again"));
+           this.savingDiagnosis = false;
+         }));
       }
     }
 

@@ -812,6 +812,8 @@
                       <div class="">
                         <div class="row pb-3" *ngFor="let disease of topRelatedConditions; let i = index" >
                           <div class="col-10 mt-3">
+                            <mat-checkbox color="primary" [checked]="disease.checked" (change)="setStateDisease(i, disease, $event)">
+                           </mat-checkbox>
                             <span style="font-size: large;"> {{disease.name.label}}</span>
                           </div>
                           <div class="col-2 mt-3">
@@ -1070,12 +1072,12 @@
               <div class="card border">
                 <div class="card-header">
                   <h4 class="card-title d-inline">
-                    Top 5 Diagnoses
+                    Selected potential diagnostics
                   </h4>
                 </div>
                 <div class="card-content">
                   <div class="card-body">
-                    <div class="row pb-3" *ngFor="let disease of topRelatedConditions | slice:0:5; let i = index" >
+                    <div class="row pb-3" *ngFor="let disease of potentialDiagnostics | slice:0:5; let i = index" >
                       <div class="col-10">
                         <span class="text-muted" style="font-size: large;"> {{disease.name.label}}</span>
                       </div>
