@@ -50,7 +50,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     actualUrl: string = '';
     email: string = '';
     role: string = 'User';
-    roleShare: string = 'User';
+    roleShare: string = 'Clinical';
     modalReference: NgbModalRef;
     @ViewChild('f') sendForm: NgForm;
     sending: boolean = false;
@@ -68,6 +68,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     actualStep: string = "0.0";
     maxStep: string = "0.0";
     isHomePage: boolean = false;
+    isClinicalPage: boolean = false;
     age: any = {};
     showintrowizard: boolean = true;
 
@@ -91,7 +92,13 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(tempUrl1);
         if(tempUrl1.indexOf('/dashboard')!=-1){
           this.isHomePage = true;
+          this.isClinicalPage = false;
         }else{
+          if(tempUrl1.indexOf('/clinical/diagnosis')!=-1){
+            this.isClinicalPage = true;
+          }else{
+            this.isClinicalPage = false;
+          }
           this.isHomePage = false;
         }
 

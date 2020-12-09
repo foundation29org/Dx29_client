@@ -4,3 +4,8 @@
 background: #B3E2E3;
 cursor: pointer;
 }
+
+
+:host /deep/ .ng2-smart-sort-link{
+  color: #009DA0 !important;
+}

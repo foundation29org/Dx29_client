@@ -159,6 +159,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
       this.loadingSharedCases = true;
       this.subscription.add( this.http.get(environment.api+'/api/sharedcase/'+this.authService.getIdUser())
       .subscribe( (res : any) => {
+        res.listpatients.sort(this.sortService.GetSortOrderNames("alias"));
         this.listOfSharedCases = res.listpatients;
         console.log(this.listOfSharedCases);
 
@@ -191,7 +192,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         this.alertsettingsCasesShared = {
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right'},<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-info primary"></i> <i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-archive primary"></i>
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'editShared', title: '<span class="primary mr-3">'+this.translate.instant("dashboardpatient.Rename")+'</span>'}, { name: 'moreInfoShared', title: '<span class="info mr-3">'+this.translate.instant("generics.More information")+'</span>'}]},
-          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'moreInfoShared', title: '<i title='+this.translate.instant("generics.More information")+' class="fa fa-info fa-1_5x info mr-3"></i>'},{ name: 'editShared', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-3"></i>'}]},
+          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'moreInfoShared', title: '<i title='+this.translate.instant("generics.More information")+' class="fa fa-info fa-1_5x primary mr-3"></i>'},{ name: 'editShared', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-3"></i>'}, { name: 'share', title: '<i title='+this.translate.instant("generics.Share")+' class="fas fa-share fa-1_5x primary mr-3"></i>'}]},
           delete: {
             confirmDelete: true,
             deleteButtonContent: '<i title='+this.translate.instant("generics.Delete")+' class="fa fa-trash fa-1_5x danger"></i>'
@@ -282,7 +283,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
       this.subscription.add( this.http.get(environment.api+'/api/case/'+this.authService.getIdUser())
       .subscribe( (res : any) => {
         res.listpatients.sort(this.sortService.GetSortOrderNames("patientName"));
-        console.log(res.listpatients);
         this.listOfArchivedCases = [];
 
         res.listpatients.forEach(function(element) {
@@ -352,7 +352,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         this.alertsettings = {
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right'},
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<span class="primary mr-3">'+this.translate.instant("dashboardpatient.Rename")+'</span>'}, { name: 'archive', title: '<span class="info mr-3">'+this.translate.instant("dashboardpatient.Archive")+'</span>'}]},
-          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-3"></i>'}, { name: 'archive', title: '<i title='+this.translate.instant("dashboardpatient.Archive")+' class="fa fa-archive fa-1_5x info mr-3"></i>'}]},
+          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-3"></i>'}, { name: 'archive', title: '<i title='+this.translate.instant("dashboardpatient.Archive")+' class="fa fa-archive fa-1_5x primary mr-3"></i>'}, { name: 'share', title: '<i title='+this.translate.instant("generics.Share")+' class="fas fa-share fa-1_5x primary mr-3"></i>'}]},
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<span class="primary">'+this.translate.instant("generics.Edit")+'</span>'}]},
           delete: {
             confirmDelete: true,
@@ -399,7 +399,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         this.alertsettingsCasesArchived = {
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right'},
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<span class="primary mr-3">Rename</span>'}, { name: 'restore', title: '<span class="info mr-3">Restore</span>'}]},
-          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-3"></i>'}, { name: 'restore', title: '<i title='+this.translate.instant("dashboardpatient.Restore")+' class="fa fa-undo fa-1_5x info mr-3"></i>'}]},
+          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-3"></i>'}, { name: 'restore', title: '<i title='+this.translate.instant("dashboardpatient.Restore")+' class="fa fa-undo fa-1_5x primary mr-3"></i>'}, { name: 'share', title: '<i title='+this.translate.instant("generics.Share")+' class="fas fa-share fa-1_5x primary mr-3"></i>'}]},
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<span class="primary">'+this.translate.instant("generics.Edit")+'</span>'}]},
           delete: {
             confirmDelete: true,
@@ -528,6 +528,19 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         console.log(event.data);
         this.moreInfoCaseEvent = JSON.parse(JSON.stringify(event.data));
         document.getElementById("openModalMoreInfoShared").click();
+      }else if(event.action=="share"){
+        var temp = JSON.parse(JSON.stringify(event.data));
+       var hasvcf = temp.hasvcf
+        var status = temp.status
+        var symptoms = temp.symptoms
+        var htmlObjecthasvcf = $(hasvcf); // jquery call
+        var htmlObjectstatus = $(status); // jquery call
+        var htmlObjectsymptoms = $(symptoms); // jquery call
+        temp.hasvcf =htmlObjecthasvcf[0].textContent
+        temp.status =htmlObjectstatus[0].textContent
+        temp.symptoms =htmlObjectsymptoms[0].textContent
+        this.authService.setCurrentPatient(temp);
+        document.getElementById("buttonShareTo").click();
       }
 
 

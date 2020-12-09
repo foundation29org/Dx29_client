@@ -40,6 +40,7 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
     actualStep: string = "0.0";
     maxStep: string = "0.0";
     isHomePage: boolean = false;
+    isClinicalPage: boolean = false;
     eventsService: any = null;
 
     constructor(private elementRef: ElementRef, private configService: ConfigService, @Inject(DOCUMENT) private document: Document, private renderer: Renderer2, private authService: AuthService,  private router: Router, private inj: Injector, private dataservice: Data) {
@@ -53,7 +54,13 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
               var tempUrl1 = (tempUrl[0]).toString();
               if(tempUrl1.indexOf('/dashboard')!=-1){
                 this.isHomePage = true;
+                this.isClinicalPage = false;
               }else{
+                if(tempUrl1.indexOf('/clinical/diagnosis')!=-1){
+                  this.isClinicalPage = true;
+                }else{
+                  this.isClinicalPage = false;
+                }
                 this.isHomePage = false;
               }
 

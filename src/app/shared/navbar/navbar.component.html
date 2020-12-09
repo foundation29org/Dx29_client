@@ -1,5 +1,5 @@
 <!-- Navbar (Header) Starts -->
-<nav class="navbar navbar-expand-lg navbar-light bg-faded damemarger custom-navbar" [ngClass]="((role == 'Clinical' || role == 'Lab') && !isHomePage)?'menuClinic-sm':''" >
+<nav class="navbar navbar-expand-lg navbar-light bg-faded damemarger custom-navbar" [ngClass]="((role == 'Clinical' || role == 'Lab') && isClinicalPage)?'menuClinic-sm':''" >
     <div class="container-fluid">
       <div> <!--*ngIf="role != 'Clinical' && role != 'Lab'"-->
           <button type="button" class="mt-2 d-lg-none navbar-toggle float-left" data-toggle="collapse" (click)="toggleSidebar()">
@@ -12,13 +12,20 @@
             <img *ngIf="isHomePage" class="logo-img" src='assets/img/logo-Dx29.png' />
             <img *ngIf="!isHomePage" style="cursor:pointer;" class="logo-img" src='assets/img/logo-Dx29.png' [routerLink]="redirectUrl" />
           </span>
-        <!--  <div *ngIf="!isHomePage" class="d-none d-lg-block">
-              <a  [routerLink]="redirectUrl" >
-                <p class="btn-no-style cursor-pointer" style="margin-bottom: 0;">{{'diagnosis.BackCases' | translate }}</p>
-              </a>
-          </div>-->
       </div>
-      <div class="" *ngIf="(role == 'Clinical' || role == 'Lab') && !isHomePage">
+      <div class="" *ngIf="(role == 'Clinical' || role == 'Lab') && !isClinicalPage && !isHomePage">
+        <div class="navbar-collapse" id="navbarSupportedContent">
+
+            <ul class="navbar-nav m-r-0">
+              <li class="nav-item d-none d-lg-block" style="line-height: 1rem;">
+                <a class="font-weight-bold" [routerLink]="redirectUrl" >
+                  <span class="btn-no-style cursor-pointer" style="margin-bottom: 0;">{{'diagnosis.Cases' | translate }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+      </div>
+      <div class="" *ngIf="(role == 'Clinical' || role == 'Lab') && isClinicalPage">
         <div class="navbar-collapse" id="navbarSupportedContent">
 
             <ul class="navbar-nav m-r-0">
@@ -93,7 +100,7 @@
               </ul>
           </div>
       </div>
-        <div class="d-none d-lg-block" *ngIf="(role == 'Clinical' || role == 'Lab') && !isHomePage">
+        <div class="d-none d-lg-block" *ngIf="(role == 'Clinical' || role == 'Lab') && isClinicalPage">
           <div class="navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav m-r-0">
                   <li class="nav-item mr-2">
@@ -128,7 +135,7 @@
                           <p class="d-none">Group</p>
                       </a>
                       <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang text-muted">
-                          <a class="dropdown-item py-1" href="javascript:;" (click)="sharePatient()" title="Share">
+                          <a class="dropdown-item py-1" href="javascript:;" (click)="shareApp(shareTo)" title="Share">
                               <span> <span> <i class="icon-share primary"></i></span> <span class="col-md-10">Share</span></span>
                           </a>
                       </div>
@@ -174,7 +181,7 @@
             <div  id="navbarSupportedContent">
                 <ul class="navbar-nav m-r-0">
                   <li class="nav-item mr-2">
-                      <a href="javascript:;" class="nav-link" id="buttonShareTo" (click)="shareApp(shareTo)" *ngIf="role=='User'">
+                      <a href="javascript:;" class="nav-link" id="buttonShareTo" (click)="shareApp(shareTo)" *ngIf="role=='User' || ((role == 'Clinical' || role == 'Lab') && isHomePage)">
                           <i class="icon-share font-medium-3 blue-grey darken-4"></i>
                           <p class="d-none">Share</p>
                       </a>
@@ -185,7 +192,7 @@
                           <p class="d-none">{{'navbar.fullscreen' | translate }}</p>
                       </a>
                   </li>-->
-                  <li class="nav-item mr-2" ngbDropdown display="dynamic" [placement]="placement" *ngIf="role == 'Clinical' || role == 'Lab'" [ngClass]="((role == 'Clinical' || role == 'Lab') && !isHomePage) ?'d-none d-lg-block':''">
+                  <li class="nav-item mr-2" ngbDropdown display="dynamic" [placement]="placement" *ngIf="role == 'Clinical' || role == 'Lab'" [ngClass]="((role == 'Clinical' || role == 'Lab') && isClinicalPage) ?'d-none d-lg-block':''">
                       <a class="nav-link position-relative" id="dropdownBasic1" ngbDropdownToggle>
                           <i class="ft-help-circle font-medium-3 blue-grey darken-4"></i>
                           <p class="d-none">Help</p>
@@ -208,7 +215,7 @@
                           <p class="d-none">{{'support.support' | translate }}</p>
                       </a>
                   </li>
-                  <li class="nav-item" ngbDropdown display="dynamic" [placement]="placement"  [ngClass]="((role == 'Clinical' || role == 'Lab') && !isHomePage) ?'d-none d-lg-block':''">
+                  <li class="nav-item" ngbDropdown display="dynamic" [placement]="placement"  [ngClass]="((role == 'Clinical' || role == 'Lab') && isClinicalPage) ?'d-none d-lg-block':''">
                       <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle>
                           <i class="ft-user font-medium-3 blue-grey darken-4"></i>
                           <p class="d-none">{{'navbar.User Settings' | translate }}</p>
@@ -230,7 +237,7 @@
                           </a>
                       </div>
                   </li>
-                  <li class="nav-item mr-2" *ngIf="(role == 'Clinical' || role == 'Lab') && !isHomePage" [ngClass]="((role == 'Clinical' || role == 'Lab') && !isHomePage) ?'d-block d-lg-none':''">
+                  <li class="nav-item mr-2" *ngIf="(role == 'Clinical' || role == 'Lab') && isClinicalPage" [ngClass]="((role == 'Clinical' || role == 'Lab') && isClinicalPage) ?'d-block d-lg-none':''">
                       <a class="nav-link" href="javascript:;" (click)="logout()">
                         <i class="ft-log-out mr-2"></i>
                         <p class="d-none">{{'navbar.Logout' | translate }}</p>
@@ -311,7 +318,7 @@
             {{'permissions.Make full request' | translate }}
           </div>
 
-          <div class="col-md-12">
+          <div>
             <div class="form-group">
               <label for="message">{{'support.Message' | translate }}</label>
               <textarea name="message" id="textarea1" (ngModelChange)="resizeTextArea()" class="autoajustable form-control" [(ngModel)]="message"></textarea>
@@ -336,9 +343,9 @@
         </div>
       </form>
 
-      <div class="col-md-12 mt-2" *ngIf="listOfSharingAccounts.length>0 && !sending && !loading">
+      <div class="col-md-12 bg-grey bg-lighten-3 pt-2 mt-2" *ngIf="listOfSharingAccounts.length>0 && !sending && !loading">
         <div class="col-md-12">
-          <h5>{{'dashboardpatient.Sharing with' | translate }}</h5>
+          <h5>{{'dashboardpatient.Shared with' | translate }}</h5>
         </div>
         <div class="table-responsive">
           <table class="col-md-12 table" *ngIf="!revonking">

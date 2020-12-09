@@ -3,13 +3,13 @@
 
   <div id="wizardpanel" class="pb-3">
     <div *ngIf="showingWizard">
-      <div id="loading-layout-wizard" *ngIf="!loadedSymptoms">
+      <div id="loading-layout-wizard" *ngIf="isLoadingStep">
         <div class="center-elements">
             <div><p class="centerSpinner"><i class="center-spinner fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p></div>
         </div>
       </div>
     </div>
-    <div id="nav-buttons-wizard" class="nav-buttons-wizard border-light border-top border-bottom" *ngIf="maxStep<'5.0'">
+    <div id="nav-buttons-wizard" class="nav-buttons-wizard border-light border-top border-bottom" *ngIf="maxStep<'5.0' && !isLoadingStep">
       <!--<button type="button" class="mt-2 ml-3 float-left btn" [ngClass]="(actualStep > '0.0' )?'primary btn-outline-primary':'text-muted inactiveLink btn-outline-secondary'" (click)="goPrevStep()"><span style="margin-right: 10px;"><i class="ft-chevron-left"></i></span> Previous</button>-->
       <div class="mt-3"  style="display: inline-flex;">
         <!--<span *ngIf="maxStep<'5.0'" (click)="toggleMenu()" class="mb-2 chat-app-sidebar-toggle ft-align-justify font-large-1 mr-2 d-block d-sm-none d-md-none"></span>-->
@@ -43,7 +43,7 @@
       <button *ngIf="(actualStep != '3.1' && actualStep != '3.2') && actualStep == '1.0'" type="button" class="mt-2 mr-3 float-right btn" [ngClass]="(actualStep < '3.3' && phenotype.data.length>0)?'primary btn-outline-primary':'text-muted btn-outline-secondary'" (click)="goNextStep()">Next <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
       <button *ngIf="actualStep == '3.1' || actualStep == '3.2'" type="button" class="mt-2 mr-3 float-right btn" [ngClass]="((launchingPhen2Genes || calculatingH29Score || gettingRelatedConditions) || (loadingGeno || calculatingH29Score || gettingRelatedConditions || uploadingGenotype) )?'text-muted inactiveLink btn-outline-secondary':'primary btn-outline-primary'" (click)="goNextStep()">Finish <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>-->
     </div>
-    <div *ngIf="!showingWizard" class="content-wrapper content-view">
+    <div *ngIf="!showingWizard && !isLoadingStep" class="content-wrapper content-view">
 
       <!-- large devices and no first time-->
       <!--<div *ngIf="actualStep=='0.0'" class="row offset-md-3 col-md-6">-->
@@ -459,7 +459,7 @@
             </div>
             <div class="donate" *ngIf="!loadingGeno && !calculatingH29Score && !gettingRelatedConditions && !uploadingGenotype">
                 <p class="text-muted">El proceso ha terminado, pulsa en finalizar de la parte inferior derecha</p>
-                <button type="button" class="btn btn-outline-primary" (click)="goToStep('5.0', true)">Finish y ver resultados</button>
+                <button type="button" class="btn btn-outline-primary" (click)="goToStep('5.0', true)">Finish y ver diagnoses</button>
             </div>
       		</div>
         </section>
@@ -504,7 +504,7 @@
             </div>
             <div class="donate" *ngIf="!launchingPhen2Genes && !calculatingH29Score && !gettingRelatedConditions">
                 <p class="text-muted">El proceso ha terminado, pulsa en finalizar de la parte inferior derecha</p>
-                <button type="button" class="btn btn-outline-primary" (click)="goToStep('5.0', true)">Finish y ver resultados</button>
+                <button type="button" class="btn btn-outline-primary" (click)="goToStep('5.0', true)">Finish y ver diagnoses</button>
             </div>
       		</div>
         </section>
@@ -762,34 +762,32 @@
                 <div class="card-header">
                   <h4 class="card-title" *ngIf="infoGenesAndConditionsExomizer.length>0 || infoGenesAndConditionsPhen2Genes.length>0">
                     <b>Resultados</b>
-                    <span>
-                      <span class="nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right" title="Options">
-                          <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
-                              <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
-                          </a>
-                          <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
-                              <a class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.3', false)">
-                                  <span>Ver la lista completa</span>
-                              </a>
-                              <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelGenes(contentPanelGenes)">
-                                <i class="fas fa-dna primary"></i>  <span class="ml-2" >Ver información de los genes</span>
-                              </a>
-                              <a class="dropdown-item py-1" href="javascript:;" (click)="editDiagnosis(1)">
-                                  <span>Navegar por las enfermedades</span>
-                              </a>
-                              <a class="dropdown-item py-1" href="javascript:;" (click)="goToStepDiagnoses()">
-                                  <span>Reanalizar</span>
-                              </a>
-                              <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelFeedback(contentGeneralNotes)">
-                                  <span>Add Notes</span>
-                              </a>
-                          </div>
-                      </span>
-                      <span class="float-right">
-                        <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="!isgen" type="button" [ngClass]="(isgen != true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'" class="btn-sm mr-1" (click)="getRelatedConditionsview(false);">Clinic view</button>
-                        <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="isgen" type="button" [ngClass]="(isgen == true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'"  class="btn-sm mr-1" (click)="getRelatedConditionsview(true);">Genetic view</button>
-                        <button type="button" class="btn btn-outline-primary  btn-sm mr-1" (click)="goToStepDiagnoses();">Recalcular</button>
-                      </span>
+                    <span class="nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right" title="Options">
+                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
+                            <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
+                        </a>
+                        <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.3', false)">
+                                <span>Ver la lista completa</span>
+                            </a>
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelGenes(contentPanelGenes)">
+                              <i class="fas fa-dna primary"></i>  <span class="ml-2" >Ver información de los genes</span>
+                            </a>
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="editDiagnosis(1)">
+                                <span>Navegar por las enfermedades</span>
+                            </a>
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="goToStepDiagnoses()">
+                                <span>Reanalizar</span>
+                            </a>
+                            <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelFeedback(contentGeneralNotes)">
+                                <span>Add Notes</span>
+                            </a>
+                        </div>
+                    </span>
+                    <span class="float-right">
+                      <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="!isgen" type="button" [ngClass]="(isgen != true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'" class="btn-sm mr-1" (click)="getRelatedConditionsview(false);">Clinic view</button>
+                      <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="isgen" type="button" [ngClass]="(isgen == true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'"  class="btn-sm mr-1" (click)="getRelatedConditionsview(true);">Genetic view</button>
+                      <button type="button" class="btn btn-outline-primary  btn-sm mr-1" (click)="goToStepDiagnoses();">Recalcular</button>
                     </span>
                   </h4>
                   <h4 class="card-title" *ngIf="infoGenesAndConditionsExomizer.length==0 && infoGenesAndConditionsPhen2Genes.length==0">
@@ -798,6 +796,15 @@
                       <button type="button" class="btn btn-outline-primary  btn-sm mr-1" (click)="goToStepDiagnoses();">Analizar</button>
                     </span>
                   </h4>
+                  <span *ngIf="infoGenesAndConditionsExomizer.length>0 || infoGenesAndConditionsPhen2Genes.length>0">
+                    <span *ngIf="selectedItemsFilter.length>0 || (this.infoGenesAndConditionsExomizer.length>0 && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes) || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhen2Genes.length>0) && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes))">
+                      <a href="javascript:void(0)" (click)="setFitersDiseases(contentFilterDiseases)">{{'diagnosis.Filter diseases' | translate }}<span *ngIf="selectedItemsFilter.length>0">: {{selectedItemsFilter.length}} applied filters</span></a>
+                      <a class="ml-1" *ngIf="selectedItemsFilter.length>0" href="javascript:void(0)" (click)="removeFilters()" title="Remove filters">
+                        <i class="fa fa-trash red"></i>
+                      </a>
+                    </span>
+
+                  </span>
                 </div>
                 <div class="card-content" *ngIf="!gettingRelatedConditions">
                   <div class="card-body">
@@ -958,132 +965,141 @@
             </span>
           </span>
         </div>
-        <section class="mt-3 card-columns">
-          <div class="card border">
-            <div class="card-header">
-              <h4 class="card-title d-inline">
-                <i class="fas fas fa-file-alt grey"></i> Reports
-              </h4>
-            </div>
-            <div class="card-content" *ngIf="!loadingDocuments">
-              <div class="card-body" *ngIf="docsNcr.length>0">
-                <section class="row">
-                    <div *ngFor="let onefile of docsNcr; let i = index" class="pb-2 row col-md-12">
-                      <span class="col-1">
-                        <i *ngIf="onefile.ncrResults.extension=='.pdf'" class="fas fa-file-pdf fa-2x danger"></i>
-                        <i *ngIf="onefile.ncrResults.extension=='.docx'" class="fas fas fa-file-word fa-2x info"></i>
-                        <i *ngIf="onefile.ncrResults.extension=='.txt'" class="fas fas fa-file-alt fa-2x warning"></i>
-                        <i *ngIf="onefile.ncrResults.extension=='.json'" class="fas fas fa-file-code fa-2x grey"></i>
-                        <i *ngIf="onefile.ncrResults.extension == '.jpg' || onefile.ncrResults.extension == '.png' || onefile.ncrResults.extension == '.gif' || onefile.ncrResults.extension == '.tiff' || onefile.ncrResults.extension == '.tif' || onefile.ncrResults.extension == '.bmp' || onefile.ncrResults.extension == '.dib' || onefile.ncrResults.extension == '.bpg' || onefile.ncrResults.extension == '.psd' || onefile.ncrResults.extension == '.jpeg' || onefile.ncrResults.extension == '.jpe' || onefile.ncrResults.extension == '.jfif'" class="fas fas fa-file-image fa-2x yellow"></i>
+        <section class="mt-3">
+          <div class="row">
+            <div class="col-md-9">
+              <div class="card-columns">
+                <div class="card border">
+                  <div class="card-header">
+                    <h4 class="card-title d-inline">
+                      <i class="fas fas fa-file-alt grey"></i> Reports
+                    </h4>
+                  </div>
+                  <div class="card-content" *ngIf="!loadingDocuments">
+                    <div class="card-body" *ngIf="docsNcr.length>0">
+                      <section class="row">
+                          <div *ngFor="let onefile of docsNcr; let i = index" class="pb-2 row col-md-12">
+                            <span class="col-1">
+                              <i *ngIf="onefile.ncrResults.extension=='.pdf'" class="fas fa-file-pdf fa-2x danger"></i>
+                              <i *ngIf="onefile.ncrResults.extension=='.docx'" class="fas fas fa-file-word fa-2x info"></i>
+                              <i *ngIf="onefile.ncrResults.extension=='.txt'" class="fas fas fa-file-alt fa-2x warning"></i>
+                              <i *ngIf="onefile.ncrResults.extension=='.json'" class="fas fas fa-file-code fa-2x grey"></i>
+                              <i *ngIf="onefile.ncrResults.extension == '.jpg' || onefile.ncrResults.extension == '.png' || onefile.ncrResults.extension == '.gif' || onefile.ncrResults.extension == '.tiff' || onefile.ncrResults.extension == '.tif' || onefile.ncrResults.extension == '.bmp' || onefile.ncrResults.extension == '.dib' || onefile.ncrResults.extension == '.bpg' || onefile.ncrResults.extension == '.psd' || onefile.ncrResults.extension == '.jpeg' || onefile.ncrResults.extension == '.jpe' || onefile.ncrResults.extension == '.jfif'" class="fas fas fa-file-image fa-2x yellow"></i>
+                            </span>
+                            <span class="col-11" style="line-height: 1rem;">
+                              <span class="d-block">
+                                <span *ngIf="onefile.origenFile != undefined">
+                                  {{onefile.origenFile.nameForShow}}
+                                </span>
+                                <span *ngIf="onefile.origenFile == undefined">
+                                  Plain text
+                                </span>
+                              </span>
+                              <span class="grey font-small-2">{{onefile.ncrResults.numSymptMatch}} symptoms</span>
+                            </span>
+                          </div>
+                      </section>
+                    </div>
+                    <div class="card-body" *ngIf="docsNcr.length==0">
+                      No tiene reportes
+                    </div>
+                    <div class="card-footer">
+                      <span class="float-left">
+                        <span class="d-block text-muted">Reports</span>
+                        <span class="info">{{docsNcr.length}}</span>
                       </span>
-                      <span class="col-11" style="line-height: 1rem;">
-                        <span class="d-block">
-                          <span *ngIf="onefile.origenFile != undefined">
-                            {{onefile.origenFile.nameForShow}}
-                          </span>
-                          <span *ngIf="onefile.origenFile == undefined">
-                            Plain text
-                          </span>
-                        </span>
-                        <span class="grey font-small-2">{{onefile.ncrResults.numSymptMatch}} symptoms</span>
+                      <span class="float-right">
+                        <span><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('4.0', true);">Reports</a></span>
                       </span>
                     </div>
-                </section>
-              </div>
-              <div class="card-body" *ngIf="docsNcr.length==0">
-                No tiene reportes
-              </div>
-              <div class="card-footer">
-                <span class="float-left">
-                  <span class="d-block text-muted">Reports</span>
-                  <span class="info">{{docsNcr.length}}</span>
-                </span>
-                <span class="float-right">
-                  <span><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('4.0', true);">Reports</a></span>
-                </span>
-              </div>
-            </div>
-            <div class="card-content center-elements mb-2" *ngIf="loadingDocuments">
-              <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
-            </div>
-          </div>
-          <div class="card border">
-            <div class="card-header">
-              <h4 class="card-title d-inline">
-                <i class="fas fa-notes-medical grey"></i> Symptoms
-              </h4>
-            </div>
-            <div class="card-content">
-              <div class="card-body">
-                <p *ngFor="let hpo of phenotype.data ; let i = index">
-                  <i class="fas fa-notes-medical grey"></i> <span class="text-muted ml-1" title="{{hpo.name}}">{{ (hpo.name.length>45)? (hpo.name | slice:0:45)+'...':(hpo.name) }} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
-                </p>
-              </div>
-            </div>
-            <div class="card-footer">
-              <span class="float-left">
-                <span class="d-block text-muted">Symptoms</span>
-                <span class="info">{{phenotype.data.length}}</span>
-              </span>
-              <span class="float-right">
-                <span><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('1.0', true);">Symptoms</a></span>
-              </span>
-            </div>
-          </div>
-          <div class="card border">
-            <div class="card-header">
-              <h4 class="card-title d-inline">
-                <i class="fas fa-dna grey"></i> Genotype
-              </h4>
-            </div>
-            <div class="card-content">
-              <div class="card-body">
-                <p *ngFor="let onefile of filesVcf ; let i = index">
-                  <i class="fas fas fa-dna grey"></i> <span class="ml-1 text-muted" title="{{onefile.nameForShow}}" style="word-wrap: anywhere;">{{ (onefile.nameForShow.length>40)? (onefile.nameForShow | slice:0:40)+'...':(onefile.nameForShow) }}</span>
-                </p>
-              </div>
-            </div>
-            <div class="card-footer">
-              <span class="float-left">
-                <span class="d-block text-muted">Files</span>
-                <span class="info">{{filesVcf.length}}</span>
-              </span>
-              <span class="float-right">
-                <span><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('3.0', true);">Genotype</a></span>
-              </span>
-            </div>
-          </div>
-          <div class="card border">
-            <div class="card-header">
-              <h4 class="card-title d-inline">
-                Top 5 Diagnoses
-              </h4>
-            </div>
-            <div class="card-content">
-              <div class="card-body">
-                <div class="row pb-3" *ngFor="let disease of topRelatedConditions | slice:0:5; let i = index" >
-                  <div class="col-10">
-                    <span class="text-muted" style="font-size: large;"> {{disease.name.label}}</span>
                   </div>
-                  <div class="col-2">
-                    <span class="text-muted">{{disease.h29}}</span>
+                  <div class="card-content center-elements mb-2" *ngIf="loadingDocuments">
+                    <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
                   </div>
-                  <div class="col-12 text-muted">
-                    Gene<spam *ngIf="disease.genes.length>1">s</spam>:
-                    <span *ngFor="let gen of disease.genes; let k = index">
-                      <a *ngIf="infoGenesAndConditionsExomizer.length>0" class="primary" href="javascript:void(0)" title="Click to see more information." (click)="setIndexAndshowPanelGenes(contentPanelGenes, gen.gen)"> {{gen.gen}}</a>
-                      <a *ngIf="infoGenesAndConditionsExomizer.length==0" class="primary" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" title="Click to see more information."> {{gen.gen}}</a>
-                      <span *ngIf="k<disease.genes.length-1">,</span>
+                </div>
+                <div class="card border">
+                  <div class="card-header">
+                    <h4 class="card-title d-inline">
+                      <i class="fas fa-notes-medical grey"></i> Symptoms
+                    </h4>
+                  </div>
+                  <div class="card-content">
+                    <div class="card-body">
+                      <p *ngFor="let hpo of phenotype.data ; let i = index">
+                        <i class="fas fa-notes-medical grey"></i> <span class="text-muted ml-1" title="{{hpo.name}}">{{ (hpo.name.length>45)? (hpo.name | slice:0:45)+'...':(hpo.name) }} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <span class="float-left">
+                      <span class="d-block text-muted">Symptoms</span>
+                      <span class="info">{{phenotype.data.length}}</span>
+                    </span>
+                    <span class="float-right">
+                      <span><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('1.0', true);">Symptoms</a></span>
                     </span>
                   </div>
-                  <div class="col-11">
-                    <ngb-progressbar type="primary" value="{{disease.h29}}" [striped]="false" [animated]="true" [max]="100"></ngb-progressbar>
+                </div>
+                <div class="card border">
+                  <div class="card-header">
+                    <h4 class="card-title d-inline">
+                      <i class="fas fa-dna grey"></i> Genotype
+                    </h4>
+                  </div>
+                  <div class="card-content">
+                    <div class="card-body">
+                      <p *ngFor="let onefile of filesVcf ; let i = index">
+                        <i class="fas fas fa-dna grey"></i> <span class="ml-1 text-muted" title="{{onefile.nameForShow}}" style="word-wrap: anywhere;">{{ (onefile.nameForShow.length>40)? (onefile.nameForShow | slice:0:40)+'...':(onefile.nameForShow) }}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <span class="float-left">
+                      <span class="d-block text-muted">Files</span>
+                      <span class="info">{{filesVcf.length}}</span>
+                    </span>
+                    <span class="float-right">
+                      <span><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('3.0', true);">Genotype</a></span>
+                    </span>
                   </div>
                 </div>
               </div>
+
             </div>
-            <div class="card-footer center-elements pb-0">
-              <span><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('5.0', true);">Diagnoses</a></span>
+            <div class="col-md-3">
+              <div class="card border">
+                <div class="card-header">
+                  <h4 class="card-title d-inline">
+                    Top 5 Diagnoses
+                  </h4>
+                </div>
+                <div class="card-content">
+                  <div class="card-body">
+                    <div class="row pb-3" *ngFor="let disease of topRelatedConditions | slice:0:5; let i = index" >
+                      <div class="col-10">
+                        <span class="text-muted" style="font-size: large;"> {{disease.name.label}}</span>
+                      </div>
+                      <div class="col-2">
+                        <span class="text-muted">{{disease.h29}}</span>
+                      </div>
+                      <div class="col-12 text-muted">
+                        Gene<spam *ngIf="disease.genes.length>1">s</spam>:
+                        <span *ngFor="let gen of disease.genes; let k = index">
+                          <a *ngIf="infoGenesAndConditionsExomizer.length>0" class="primary" href="javascript:void(0)" title="Click to see more information." (click)="setIndexAndshowPanelGenes(contentPanelGenes, gen.gen)"> {{gen.gen}}</a>
+                          <a *ngIf="infoGenesAndConditionsExomizer.length==0" class="primary" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" title="Click to see more information."> {{gen.gen}}</a>
+                          <span *ngIf="k<disease.genes.length-1">,</span>
+                        </span>
+                      </div>
+                      <div class="col-11">
+                        <ngb-progressbar type="primary" value="{{disease.h29}}" [striped]="false" [animated]="true" [max]="100"></ngb-progressbar>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer center-elements pb-0">
+                  <span><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('5.0', true);">Diagnoses</a></span>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -2610,5 +2626,130 @@
 					<button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
 			</div>
 		</div>
+</ng-template>
+<ng-template #contentFilterDiseases let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-header" id="idHeader">
+      <h4 class="modal-title">{{'diagnosis.Filter diseases' | translate }}</h4>
+      <!--<button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+        <span aria-hidden="true">&times;</span>
+      </button>-->
+  </div>
+  <div class="content-wrapper mt-3 pr-0">
+    <div class="row col-md-12 mb-4 pr-0">
+
+      <mat-accordion class="col-md-4 mt-3 pl-0 pr-0">
+        <mat-expansion-panel [expanded]="false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{'diagnosis.List of case symptoms' | translate }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="row col-md-12 pr-0">
+            <span class="row col-md-12 mb-2 pr-0" *ngFor="let symptom of phenotype.data ; let k = index" >
+              <span class="col-md-6 pr-0">
+                <a (click)="openLinkMonarch(symptom.id, $event)" href="javascript:void(0)" title="{{symptom.def}}. {{symptom.comment}} " >{{symptom.name}}</a>
+              </span>
+              <span class="col-md-6 pr-0 mt-03">
+                <button (click)="addToo(k, false)" class="ml-1 btn btn-danger btn-sm btn-fab" title="Add to 'Exclude diseases with these symptoms'" style="margin-bottom: 0; float: right;">
+                  <i class="fa fa-minus"></i>
+                </button>
+                <button (click)="addToo(k, true)" class="btn btn-success btn-sm btn-fab" title="Add to 'Include diseases with these symptoms'" style="margin-bottom: 0; float: right;">
+                  <i class="fa fa-plus"></i>
+                </button>
+              </span>
+            </span>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{'diagnosis.More symptoms' | translate }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="col-md-12">
+            <ng-template #rt let-r="result" let-t="term">
+              {{ r.name}}
+            </ng-template>
+            <div class="form-group">
+              <input #input class="input" type="text" class="form-control mb-3" [(ngModel)]="modelTemp" [ngbTypeahead]="searchSymptom" name="addSymptomsOption1" [resultTemplate]="rt" [inputFormatter]="formatter1" placeholder="{{'diagnosis.Search for symptoms' | translate }}" (selectItem)="selected3($event)"/>
+            </div>
+          </div>
+            <!--<span class="mr-1 mt-1">Selected:</span>
+            <span *ngIf="modelRadio2 == '1'">Include diseases with these symptoms</span>
+            <span *ngIf="modelRadio2 == '2'">Exclude diseases with these symptoms</span>-->
+          <div class="row col-md-12">
+            <span class="col-md-8">
+              <span>
+                {{tempSymptom.name}} <span *ngIf="tempSymptom.name" class="close-selected" (click)="deleteTempSymptom()"><i class="fa fa-trash"></i></span>
+              </span>
+            </span>
+            <span class="col-md-4">
+              <div class="btn-group btn-group-toggle" *ngIf="tempSymptom.name" ngbRadioGroup name="radioBasic" [(ngModel)]="modelRadio2" (change)="addSymptomToList()">
+                <label ngbButtonLabel class="btn-raised btn-success " style="cursor: pointer;" title="Add to 'Include diseases with these symptoms'">
+                  <input ngbButton type="radio" [value]="1"><i class="fa fa-plus"></i>
+
+                </label>
+                <label ngbButtonLabel class="btn-raised btn-danger ml-1" style="cursor: pointer;" title="Add to 'Exclude diseases with these symptoms'">
+                    <input ngbButton type="radio" [value]="2"><i class="fa fa-minus"></i>
+                </label>
+              </div>
+            </span>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <div class="col-md-4 mt-3 pr-0">
+        <h5><b><i class="fa fa-plus" style="color: #0CC27E !important"></i> Include diseases with these symptoms</b></h5>
+        <p *ngIf="selectedItemsFilter.length == 0">{{'diagnosis.No symptoms' | translate }}</p>
+        <div class="row col-md-12 pl-0 pr-0" *ngFor="let item of selectedItemsFilter ; let i = index">
+          <div *ngIf="item.checked" class="row col-md-12 mt-2 pr-0">
+            <span class="col-md-10">
+              {{item.name}}
+            </span>
+            <span class="col-md-2 mt-03">
+              <span style="color: black !important;cursor: pointer;">
+                <span class="close-selected" (click)="deleteFilter(item)"><i class="fa fa-trash"></i></span>
+              </span>
+            </span>
+            <!--<span class="col-md-2 pr-0 mt-03">
+              <span style="float: right;">
+              <button (click)="changeStateFilterSymptom(i)" [ngClass]="(item.checked==false)?'btn btn-secondary btn-sm mr-1 mb-0 btn-fab':'btn btn-danger btn-sm mr-1 mb-0 btn-fab'" [disabled]=!item.checked href="javascript:void(0)" title="Move to 'exclude diseases with these symptoms'">
+                <i class="fa fa-minus"></i>
+              </button>
+              </span>
+            </span>-->
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mt-3 pr-0">
+        <h5><b><i class="fa fa-minus" style="color: #f9423a !important"></i> Exclude diseases with these symptoms</b></h5>
+        <p *ngIf="selectedItemsFilter.length == 0">{{'diagnosis.No symptoms' | translate }}</p>
+        <div class="row col-md-12 pl-0 pr-0" *ngFor="let item of selectedItemsFilter ; let i = index">
+          <div *ngIf="!item.checked" class="row col-md-12 mt-2 pr-0">
+            <!--<span class="col-md-2 mt-03">
+              <span style="float: left;">
+              <button (click)="changeStateFilterSymptom(i)" [ngClass]="(item.checked==true)?'btn btn-secondary btn-sm mr-1 mb-0 btn-fab':'btn btn-success btn-sm mr-1 mb-0 btn-fab'" [disabled]=item.checked href="javascript:void(0)" title="Move to 'include diseases with these symptoms'">
+                <i class="fa fa-plus"></i>
+              </button>
+              </span>
+            </span>-->
+            <span class="col-md-10 pr-0">
+              {{item.name}}
+            </span>
+            <span class="col-md-2 mt-03">
+              <span style="color: black !important;cursor: pointer;">
+                <span class="close-selected" (click)="deleteFilter(item)"><i class="fa fa-trash"></i></span>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="form-actions center" *ngIf="!sending">
+      <button *ngIf="selectedItemsFilter.length>0" type="button" class="btn btn-secondary btn-raised" (click)="removeFilters()">{{'diagnosis.Remove filters' | translate }}</button>
+      <button type="button" class="btn btn-raised btn-primary" (click)="applyFilters()">{{'diagnosis.Apply filters' | translate }}</button>
+    </div>
+  </div>
 </ng-template>
 <button id="openModalSymptomsNcrButton2" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr)">.</button>

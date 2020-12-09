@@ -331,6 +331,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     docsNcr: any = [];
     selectedOrderFilesNcr: string = 'lastModified';
     selectedOrderFilesOther: string = 'lastModified';
+    maps_to_orpha: any = {};
+    orphanet_names: any = {};
+    isLoadingStep: boolean = true;
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -439,6 +442,21 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
          }));
 
 
+         this.subscription.add( this.http.get('assets/jsons/maps_to_orpha.json')
+         .subscribe( (res : any) => {
+           this.maps_to_orpha = res;
+          }, (err) => {
+            console.log(err);
+          }));
+
+          this.subscription.add( this.http.get('assets/jsons/orphanet_names_'+this.lang+'.json')
+         .subscribe( (res : any) => {
+           this.orphanet_names = res;
+          }, (err) => {
+            console.log(err);
+          }));
+
+
         $.getScript("./assets/js/docs/jszip-utils.js").done(function(script, textStatus) {
           //console.log("finished loading and running jszip-utils.js. with a status of" + textStatus);
         });
@@ -528,6 +546,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     getActualStep(patientId:string){
       this.subscription.add( this.http.get(environment.api+'/api/case/stepclinic/'+patientId)
           .subscribe( (res : any) => {
+            this.isLoadingStep = false;
             if(!this.showIntroWizard && res.stepClinic=='0.0'){
               this.setActualStep('1.0');
               this.setMaxStep('1.0');
@@ -2214,6 +2233,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           //console.log(info);
           if(info!=undefined){
             var listOfSymptoms = info.phenotypes
+            this.relatedConditions[i].xrefs = info.xrefs;
             if(Object.keys(listOfSymptoms).length>0){
               for(var indexSymptom in listOfSymptoms) {
                 var comment = "";
@@ -2381,6 +2401,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           //console.log(info);
           if(info!=undefined){
             var listOfSymptoms = info.phenotypes
+            this.relatedConditions[i].xrefs = info.xrefs;
             if(Object.keys(listOfSymptoms).length>0){
               for(var indexSymptom in listOfSymptoms) {
                 var comment = "";
@@ -3613,6 +3634,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.savingDiagnosis = true;
         for(var i = 0; i < this.relatedConditions.length; i++) {
           delete this.relatedConditions[i].symptoms;
+          delete this.relatedConditions[i].xrefs;
           //delete this.relatedConditions[i].genes;
         }
         if(this.modalReference!=undefined){
@@ -4734,11 +4756,26 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
       for(var i = 0; i < this.relatedConditions.length; i++)
         {
+          //this.relatedConditions[i].name.id
+          var found = false;
+          var orphaId = this.maps_to_orpha.map[this.relatedConditions[i].name.id]
+          if(orphaId!=undefined){
+            var firstOrphaId = orphaId[0];
+            this.relatedConditions[i].name.label = this.orphanet_names.disorders[firstOrphaId].name;
+            found =true;
+          }
+          for(var j = 0; j < this.relatedConditions[i].xrefs.length && !found; j++){
+            var orphaId = this.maps_to_orpha.map[this.relatedConditions[i].xrefs[j]]
+            if(orphaId!=undefined){
+              var firstOrphaId = orphaId[0];
+              this.relatedConditions[i].name.label = this.orphanet_names.disorders[firstOrphaId].name;
+              found =true;
+            }
+          }
           this.relatedConditions[i].name.label = this.textTransform.transform(this.relatedConditions[i].name.label);
         }
 
       this.topRelatedConditions = data;
-      console.log(this.topRelatedConditions);
     }
 
     getColor(item){
