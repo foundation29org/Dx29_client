@@ -1075,9 +1075,9 @@
                     Selected potential diagnostics
                   </h4>
                 </div>
-                <div class="card-content">
-                  <div class="card-body">
-                    <div class="row pb-3" *ngFor="let disease of potentialDiagnostics | slice:0:5; let i = index" >
+                <div class="card-content" *ngIf="relatedConditions.length>0">
+                  <div class="card-body" *ngIf="potentialDiagnostics.length>0">
+                    <div class="row pb-3" *ngFor="let disease of potentialDiagnostics; let i = index" >
                       <div class="col-10">
                         <span class="text-muted" style="font-size: large;"> {{disease.name.label}}</span>
                       </div>
@@ -1096,6 +1096,14 @@
                         <ngb-progressbar type="primary" value="{{disease.h29}}" [striped]="false" [animated]="true" [max]="100"></ngb-progressbar>
                       </div>
                     </div>
+                  </div>
+                  <div class="card-body" *ngIf="potentialDiagnostics.length>0">
+                    No ha seleccionado ninguna condición como posible diagnóstico
+                  </div>
+                </div>
+                <div class="card-content" *ngIf="relatedConditions.length==0">
+                  <div class="card-body">
+                    Sin datos
                   </div>
                 </div>
                 <div class="card-footer center-elements pb-0">
