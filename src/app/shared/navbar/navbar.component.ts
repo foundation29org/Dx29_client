@@ -332,7 +332,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
           confirmButtonText: this.translate.instant("generics.Delete"),
           cancelButtonText: this.translate.instant("generics.No, cancel"),
           showLoaderOnConfirm: true,
-          allowOutsideClick: false
+          allowOutsideClick: false,
+          reverseButtons:true
       }).then((result) => {
         if (result.value) {
           this.revokePermission(i);
@@ -663,7 +664,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
          confirmButtonText: this.translate.instant("generics.Yes"),
          cancelButtonText: this.translate.instant("generics.No, cancel"),
          showLoaderOnConfirm: true,
-         allowOutsideClick: false
+         allowOutsideClick: false,
+         reverseButtons:true
      }).then((result) => {
        if (result.value) {
 

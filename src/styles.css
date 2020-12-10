@@ -150,9 +150,10 @@ mark{
 .bt-n{
   border-top: none;
 }
+
 .inactiveLink {
-   pointer-events: none;
-   cursor: default;
+   pointer-events: unset;
+   cursor: not-allowed !important;
 }
 /* You can add global styles to this file, and also import other style files */
 

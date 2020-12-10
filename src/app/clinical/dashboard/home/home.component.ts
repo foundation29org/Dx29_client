@@ -33,6 +33,7 @@ let listOfDiseasesFilter = [];
 })
 
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
+  @ViewChild('newPatientform') newPatientform: NgForm;
   group: string;
   nameundiagnosed: string = 'Undiagnosed';
   oneTime: boolean= false;
@@ -477,7 +478,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             confirmButtonText: this.translate.instant("dashboardpatient.Archive"),
             cancelButtonText: this.translate.instant("generics.No, cancel"),
             showLoaderOnConfirm: true,
-            allowOutsideClick: false
+            allowOutsideClick: false,
+            reverseButtons:true
         }).then((result) => {
           if (result.value) {
             var enc = false;
@@ -502,7 +504,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             confirmButtonText: this.translate.instant("dashboardpatient.Restore"),
             cancelButtonText: this.translate.instant("generics.No, cancel"),
             showLoaderOnConfirm: true,
-            allowOutsideClick: false
+            allowOutsideClick: false,
+            reverseButtons:true
         }).then((result) => {
           if (result.value) {
             var enc = false;
@@ -865,6 +868,19 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
        }));
   }
 
+  submitInvalidForm() {
+    console.log('Invalid form');
+    this.toastr.warning('', this.translate.instant("generics.fieldsRequired"));
+    if (!this.newPatientform) { return; }
+    const base = this.newPatientform;
+    for (const field in base.form.controls) {
+      if (!base.form.controls[field].valid) {
+          base.form.controls[field].markAsTouched()
+          console.log('Invalid form');
+      }
+    }
+  }
+
   saveNewCase(){
     var found = false;
     for (var i = 0; i <  this.patients.length && !found; i++) {
@@ -984,7 +1000,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         confirmButtonText: this.translate.instant("generics.Delete"),
         cancelButtonText: this.translate.instant("generics.No, cancel"),
         showLoaderOnConfirm: true,
-        allowOutsideClick: false
+        allowOutsideClick: false,
+        reverseButtons:true
     }).then((result) => {
       if (result.value) {
         this.deleteCase(index);
@@ -1041,7 +1058,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         confirmButtonText: this.translate.instant("generics.Delete"),
         cancelButtonText: this.translate.instant("generics.No, cancel"),
         showLoaderOnConfirm: true,
-        allowOutsideClick: false
+        allowOutsideClick: false,
+        reverseButtons:true
     }).then((result) => {
       if (result.value) {
         this.deleteArchiveCase(index);
@@ -1098,7 +1116,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         confirmButtonText: this.translate.instant("generics.Delete"),
         cancelButtonText: this.translate.instant("generics.No, cancel"),
         showLoaderOnConfirm: true,
-        allowOutsideClick: false
+        allowOutsideClick: false,
+        reverseButtons:true
     }).then((result) => {
       if (result.value) {
         this.deleteSharedCase(index);

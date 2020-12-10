@@ -335,6 +335,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     maps_to_orpha: any = {};
     orphanet_names: any = {};
     isLoadingStep: boolean = true;
+    actualTemporalSymptomsIndex:number = 0;
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -570,12 +571,13 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                   title: this.translate.instant("patnodiagdashboard.swalContinue.msgtitle1"),
                   text:  this.translate.instant("patnodiagdashboard.swalContinue.msg1"),
                   showCancelButton: true,
-                  confirmButtonColor: '#0CC27E',
-                  cancelButtonColor: '#f9423a',
+                  confirmButtonColor: '#009DA0',
+                  cancelButtonColor: '#6c757d',
                   confirmButtonText: this.translate.instant("patnodiagdashboard.swalContinue.btn1"),
                   cancelButtonText: this.translate.instant("patnodiagdashboard.swalContinue.btn2"),
                   showLoaderOnConfirm: true,
-                  allowOutsideClick: false
+                  allowOutsideClick: false,
+                  reverseButtons:true
               }).then((result) => {
                 if (result.value) {
                   this.goToStep(this.actualStep, false);
@@ -660,7 +662,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               confirmButtonText: 'Si, cancelar el análisis',
               cancelButtonText: 'No, esperar un poco',
               showLoaderOnConfirm: true,
-              allowOutsideClick: false
+              allowOutsideClick: false,
+              reverseButtons:true
           }).then((result) => {
             if (result.value) {
               this.cancelSubscription();
@@ -734,7 +737,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               confirmButtonText: this.translate.instant("generics.Yes"),
               cancelButtonText: this.translate.instant("generics.No, cancel"),
               showLoaderOnConfirm: true,
-              allowOutsideClick: false
+              allowOutsideClick: false,
+              reverseButtons:true
           }).then((result) => {
             if (result.value) {
               this.goToStep('3.0', true);
@@ -771,6 +775,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     goToStep(indexStep, save){
+      if(indexStep=='0.0'){
+        document.getElementById("openModalIntro").click();
+      }
       this.setActualStep(indexStep);
       if(this.actualStep == '3.2'){
         this.lauchPhen2Genes();
@@ -792,6 +799,18 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       /*if(this.actualStep== '4.0'){
         this.setActualStepDB('5.0');
       }*/
+    }
+
+    showPanelIntro(contentIntro){
+      if(this.modalReference!=undefined){
+        this.modalReference.close();
+      }
+      let ngbModalOptions: NgbModalOptions = {
+            backdrop : 'static',
+            keyboard : false,
+            windowClass: 'ModalClass-sm'
+      };
+      this.modalReference = this.modalService.open(contentIntro, ngbModalOptions);
     }
 
     loadAllData(){
@@ -834,7 +853,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                 confirmButtonText: 'Si, cancelar el análisis',
                 cancelButtonText: 'No, esperar un poco',
                 showLoaderOnConfirm: true,
-                allowOutsideClick: false
+                allowOutsideClick: false,
+                reverseButtons:true
             }).then((result) => {
               if (result.value) {
                 this.cancelSubscription();
@@ -2533,7 +2553,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
             keyboard : false,
-            windowClass: 'ModalClass-xl'
+            windowClass: 'ModalClass-sm'// xl, lg, sm
       };
       this.modalReference = this.modalService.open(contentExtractorSteps, ngbModalOptions);
       /*this.documentIntoSentences = false;
@@ -2767,10 +2787,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           showCancelButton: true,
           confirmButtonColor: '#0CC27E',
           cancelButtonColor: '#f9423a',
-          confirmButtonText: this.translate.instant("generics.Yes"),
-          cancelButtonText: this.translate.instant("generics.No, cancel"),
+          confirmButtonText: this.translate.instant("generics.Delete"),
+          cancelButtonText: this.translate.instant("generics.Cancel"),
           showLoaderOnConfirm: true,
-          allowOutsideClick: false
+          allowOutsideClick: false,
+          reverseButtons:true
       }).then((result) => {
         if (result.value) {
           this.phenotype.data.splice(index, 1);
@@ -2792,7 +2813,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           confirmButtonText: this.translate.instant("phenotype.Delete all symptoms"),
           cancelButtonText: this.translate.instant("generics.No, cancel"),
           showLoaderOnConfirm: true,
-          allowOutsideClick: false
+          allowOutsideClick: false,
+          reverseButtons:true
       }).then((result) => {
         if (result.value) {
           this.phenotype.data = [];
@@ -3294,7 +3316,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           confirmButtonText: this.translate.instant("generics.Yes"),
           cancelButtonText: this.translate.instant("generics.No"),
           showLoaderOnConfirm: true,
-          allowOutsideClick: false
+          allowOutsideClick: false,
+          reverseButtons:true
       }).then((result) => {
         if (result.value) {
           console.log("Cancel exomiser")
@@ -3315,7 +3338,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               confirmButtonText: this.translate.instant("generics.Yes"),
               cancelButtonText: this.translate.instant("generics.No"),
               showLoaderOnConfirm: true,
-              allowOutsideClick: false
+              allowOutsideClick: false,
+              reverseButtons:true
           }).then((result) => {
             if (result.value) {
               if(place=='workbench'){
@@ -3719,7 +3743,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     changeStateSymptom(index, state){
-      this.temporalSymptoms[index].checked = state;
+      this.temporalSymptoms[index].checked = !state;
     }
 
     callNCR(){
@@ -3993,7 +4017,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               confirmButtonText: self.translate.instant("generics.Yes"),
               cancelButtonText: self.translate.instant("generics.No"),
               showLoaderOnConfirm: true,
-              allowOutsideClick: false
+              allowOutsideClick: false,
+              reverseButtons:true
           }).then((result) => {
             if (result.value) {
               self.callParser(contentExtractorSteps);
@@ -4039,7 +4064,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               confirmButtonText: this.translate.instant("generics.Yes"),
               cancelButtonText: this.translate.instant("generics.No"),
               showLoaderOnConfirm: true,
-              allowOutsideClick: false
+              allowOutsideClick: false,
+              reverseButtons:true
           }).then((result) => {
             if (result.value) {
               this.langToExtract = res[0].language
@@ -4195,7 +4221,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           confirmButtonText: this.translate.instant("generics.Yes"),
           cancelButtonText: this.translate.instant("generics.No, cancel"),
           showLoaderOnConfirm: true,
-          allowOutsideClick: false
+          allowOutsideClick: false,
+          reverseButtons:true
       }).then((result) => {
         if (result.value) {
           this.confirmDeleteVcfFile(file,i);
@@ -4257,10 +4284,39 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
             keyboard : false,
-            windowClass: 'ModalClass-xl'
+            windowClass: 'ModalClass-sm'// xl, lg, sm
       };
       this.modalReference = this.modalService.open(contentSymptomsNcr, ngbModalOptions);
     }
+
+    showPanelSymptomsNcr2(contentSymptomsNcr){
+      if(this.modalReference!=undefined){
+        this.modalReference.close();
+      }
+      let ngbModalOptions: NgbModalOptions = {
+            backdrop : 'static',
+            keyboard : false,
+            windowClass: 'ModalClass-sm'// xl, lg, sm
+      };
+      this.actualTemporalSymptomsIndex = 0;
+      this.modalReference = this.modalService.open(contentSymptomsNcr, ngbModalOptions);
+    }
+
+    addSymptomTinder(index){
+      this.temporalSymptoms[index].checked=true;
+      this.actualTemporalSymptomsIndex++;
+    }
+
+    rejectSymptomTinder(index){
+      this.temporalSymptoms[index].checked=false;
+      this.actualTemporalSymptomsIndex++;
+    }
+
+    startAgainTinder(){
+      this.actualTemporalSymptomsIndex = 0;
+      this.selectedInfoSymptomIndex = -1;
+    }
+
 
     markText(text, pos1, pos2){
       this.searchTerm = text.substring(pos1, pos2);
@@ -4297,6 +4353,25 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     showCompleteNcrResultView(){
       this.ncrResultView = !this.ncrResultView ;
+    }
+
+    confirmSaveSymptomsNcr(){
+      Swal.fire({
+          title: 'Este paso es el más importante, has revisado bien todos los síntomas?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#0CC27E',
+          cancelButtonColor: '#f9423a',
+          confirmButtonText: this.translate.instant("generics.Yes"),
+          cancelButtonText: this.translate.instant("generics.No, cancel"),
+          showLoaderOnConfirm: true,
+          allowOutsideClick: false,
+          reverseButtons:true
+      }).then((result) => {
+        if (result.value) {
+          this.saveSymptomsNcr();
+        }
+      });
     }
 
     saveSymptomsNcr(){
@@ -4355,7 +4430,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             confirmButtonText: this.translate.instant("diagnosis.Notify me when active"),
             cancelButtonText: this.translate.instant("generics.No, cancel"),
             showLoaderOnConfirm: true,
-            allowOutsideClick: false
+            allowOutsideClick: false,
+            reverseButtons:true
         }).then((result) => {
           if (result.value) {
             //enviar email a cada usuario cuando este disponible el servicio, para ello tenemos que guardar los ids...
@@ -4766,14 +4842,17 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             this.relatedConditions[i].name.label = this.orphanet_names.disorders[firstOrphaId].name;
             found =true;
           }
-          for(var j = 0; j < this.relatedConditions[i].xrefs.length && !found; j++){
-            var orphaId = this.maps_to_orpha.map[this.relatedConditions[i].xrefs[j]]
-            if(orphaId!=undefined){
-              var firstOrphaId = orphaId[0];
-              this.relatedConditions[i].name.label = this.orphanet_names.disorders[firstOrphaId].name;
-              found =true;
+          if(this.relatedConditions[i].xrefs!=undefined){
+            for(var j = 0; j < this.relatedConditions[i].xrefs.length && !found; j++){
+              var orphaId = this.maps_to_orpha.map[this.relatedConditions[i].xrefs[j]]
+              if(orphaId!=undefined){
+                var firstOrphaId = orphaId[0];
+                this.relatedConditions[i].name.label = this.orphanet_names.disorders[firstOrphaId].name;
+                found =true;
+              }
             }
           }
+
 
 
           this.relatedConditions[i].name.label = this.textTransform.transform(this.relatedConditions[i].name.label);
@@ -4925,7 +5004,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
                  for(var k = 0; k < res.rejectedSymptoms.length; k++) {
                    if(this.temporalSymptoms[j].id == res.rejectedSymptoms[k].id){
-                     this.changeStateSymptom(j, false);
+                     this.changeStateSymptom(j, true);
                    }
                   }
                   for(var jio = 0; jio < this.phenotype.data.length; jio++) {
@@ -5105,7 +5184,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           confirmButtonText: this.translate.instant("generics.Yes"),
           cancelButtonText: this.translate.instant("generics.No, cancel"),
           showLoaderOnConfirm: true,
-          allowOutsideClick: false
+          allowOutsideClick: false,
+          reverseButtons:true
       }).then((result) => {
         if (result.value) {
           var para= this.authService.getCurrentPatient();
@@ -5721,7 +5801,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
             keyboard : false,
-            windowClass: 'ModalClass-xl'
+            windowClass: 'ModalClass-sm' // xl, lg, sm
       };
       this.modalReference = this.modalService.open(contentOptionsSymptoms, ngbModalOptions);
     }
@@ -6751,7 +6831,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           confirmButtonText: this.translate.instant("generics.Yes"),
           cancelButtonText: this.translate.instant("generics.No, cancel"),
           showLoaderOnConfirm: true,
-          allowOutsideClick: false
+          allowOutsideClick: false,
+          reverseButtons:true
       }).then((result) => {
         if (result.value) {
           if(this.showIntroWizard){
@@ -6803,6 +6884,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     setNotAnalyzeGeneticInfo(){
       this.notAnalyzeGeneticInfo = !this.notAnalyzeGeneticInfo;
+      if(this.notAnalyzeGeneticInfo){
+        this.filename = '';
+      }
     }
 
     orderFilesNcr(field){

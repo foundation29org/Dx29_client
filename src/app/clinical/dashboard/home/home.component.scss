@@ -5,7 +5,18 @@ background: #B3E2E3;
 cursor: pointer;
 }
 
+::ng-deep .swal2-modal .swal2-cancel{
+  background-color: #6c757d !important;
+}
+
+::ng-deep .swal2-modal .swal2-confirm{
+  background-color: #009DA0 !important;
+}
 
 :host /deep/ .ng2-smart-sort-link{
   color: #009DA0 !important;
+}
+
+.modal-footer{
+  justify-content: center !important;
 }

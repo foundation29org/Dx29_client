@@ -1,3 +1,14 @@
+.modal-footer{
+  justify-content: center !important;
+}
+
+::ng-deep .swal2-modal .swal2-cancel{
+  background-color: #6c757d !important;
+}
+
+::ng-deep .swal2-modal .swal2-confirm{
+  background-color: #009DA0 !important;
+}
 
 ::ng-deep .progress{
   height: 5px !important;

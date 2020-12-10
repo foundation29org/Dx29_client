@@ -255,7 +255,7 @@
     "First Name": "Nombre",
     "Last Name": "Apellido(s)",
     "Birth Date": "Fecha de nacimiento",
-    "Gender": "Género",
+    "Gender": "Sexo",
     "Male": "Varón",
     "Female": "Hembra",
     "Telephone numbers": "Números de teléfono",
@@ -1327,7 +1327,7 @@
     "Reference case": "Caso de referencia",
     "Symptom extraction revision": "Revisión de extracción de síntomas",
     "We have found": "Hemos encontrado",
-    "msgnumbersymptomsfound": "en la información que cargó. Con su ayuda, queremos asegurarnos de que se hayan identificado correctamente. Por favor, revise los resultados y elimine los que no se aplican. En cada fila, puede hacer clic para obtener un referencia al texto completo.",
+    "msgnumbersymptomsfound": "en la información que cargó. Con su ayuda, queremos asegurarnos de que se hayan identificado correctamente. Por favor, revise los resultados y elimine los que no se aplican.",
     "Show full text": "Mostrar texto completo",
     "Hide full text": "Ocultar texto completo",
     "Score": "Puntuación",
@@ -1532,7 +1532,7 @@
     "swalContinue":{
       "msgtitle1": "Hola",
       "msg1": "La última vez no terminó de introducir los datos. ¿Desea reanudar en el punto donde lo dejó, o quiere comenzar de nuevo?",
-      "btn1": "Continuar donde lo dejé",
+      "btn1": "Continuar",
       "btn2": "Comenzar de nuevo"
     },
     "step00":{

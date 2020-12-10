@@ -256,7 +256,7 @@
     "First Name": "First name",
     "Last Name": "Last name",
     "Birth Date": "Date of birth",
-    "Gender": "Gender",
+    "Gender": "Sex",
     "Male": "Man",
     "Female": "Woman",
     "Telephone numbers": "Telephone numbers",
@@ -1335,7 +1335,7 @@
     "I am not sure, let me see": "I am not sure, let me see",
     "Symptom extraction revision": "Symptom extraction revision",
     "We have found": "We have found",
-    "msgnumbersymptomsfound": "in the information you loaded. With your help, we want to make sure that they have been correctly identified. Please, review the results and remove those that do not apply. At each row, you can click to get a reference to the full text.",
+    "msgnumbersymptomsfound": "in the information you loaded. With your help, we want to make sure that they have been correctly identified. Please, review the results and remove those that do not apply.",
     "Show full text": "Show full text",
     "Hide full text": "Hide full text",
     "Score": "Score",
@@ -1531,7 +1531,7 @@
     "swalContinue":{
       "msgtitle1": "Hello",
       "msg1": "Last time you didn't finish entering the data. Do you want to resume where you left off, or do you want to start over?",
-      "btn1": "Continue where I left off",
+      "btn1": "Continue",
       "btn2": "Start over"
     },
     "step00":{
