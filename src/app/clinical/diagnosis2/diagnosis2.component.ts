@@ -336,6 +336,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     orphanet_names: any = {};
     isLoadingStep: boolean = true;
     actualTemporalSymptomsIndex:number = 0;
+    viewOptionNcr:number = 0;
+    viewAvancedMode: boolean = false;
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -1285,7 +1287,17 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     selected($e) {
       $e.preventDefault();
       //this.selectedItems.push($e.item);
-      this.addSymptom($e.item, 'manual');
+
+      var symptom = $e.item;
+      var foundElement = this.searchService.search(this.phenotype.data,'id', symptom.id);
+      if(!foundElement){
+        this.phenotype.data.push({id: symptom.id,name: symptom.name, new: true, checked: true, percentile:-1, inputType: 'manual', importance: '1', polarity: '0', synonyms: symptom.synonyms});
+        this.numberOfSymptoms++;
+        this.saveSymptomsToDb();
+        //this.toastr.success(this.translate.instant("generics.Name")+': '+symptom.name, this.translate.instant("phenotype.Symptom added"));
+      }else{
+        //this.toastr.warning(this.translate.instant("generics.Name")+': '+symptom.name, this.translate.instant("phenotype.You already had the symptom"));
+      }
       this.modelTemp = '';
       //this.inputEl.nativeElement.value = '';
     }
@@ -2529,6 +2541,13 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }
       this.relatedConditions = copyrelatedConditions;
       this.calculatingH29Score = false;
+      if(this.actualStep<'5.0'){
+        if(this.maxStep<'5.0'){
+          this.goToStep('5.0', true);
+        }else{
+          this.goToStep('5.0', false);
+        }
+      }
 
       this.renderMap(this.relatedConditions.slice(0, 10), 'h29');
       console.log(this.relatedConditions);
@@ -3828,10 +3847,25 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
            this.substepExtract = '4';
             /*document.getElementById("openModalSymptomsNcrButton").click();
             this.changeTriggerHotjar('ncrresults_');*/
+            console.log(this.temporalSymptoms);
+            if(this.temporalSymptoms.length==0){
+              this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
+              if(this.modalReference!=undefined){
+                this.modalReference.close();
+              }
+            }else{
+              console.log('entra');
+              document.getElementById("openModalShowPanelSymptomsNcr2").click();
+            }
+
           }else{
             this.substepExtract = '4';
             this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
+            if(this.modalReference!=undefined){
+              this.modalReference.close();
+            }
           }
+
           this.loadingHpoExtractor = false;
         }
 
@@ -4289,7 +4323,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.modalReference = this.modalService.open(contentSymptomsNcr, ngbModalOptions);
     }
 
-    showPanelSymptomsNcr2(contentSymptomsNcr){
+    showPanelSymptomsNcr2(contentSymptomsNcr3){
       if(this.modalReference!=undefined){
         this.modalReference.close();
       }
@@ -4299,7 +4333,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             windowClass: 'ModalClass-sm'// xl, lg, sm
       };
       this.actualTemporalSymptomsIndex = 0;
-      this.modalReference = this.modalService.open(contentSymptomsNcr, ngbModalOptions);
+      console.log('epa');
+      this.modalReference = this.modalService.open(contentSymptomsNcr3, ngbModalOptions);
     }
 
     addSymptomTinder(index){
@@ -6939,6 +6974,20 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
            this.savingDiagnosis = false;
          }));
       }
+    }
+
+    changeViewOptionNcr(){
+      console.log(this.viewOptionNcr);
+      if(this.viewOptionNcr == 1){
+        this.viewOptionNcr = 0;
+      }else{
+        this.viewOptionNcr = 1;
+      }
+      console.log(this.viewOptionNcr);
+    }
+
+    changeViewAvancedMode(){
+      this.viewAvancedMode = !this.viewAvancedMode;
     }
 
 }

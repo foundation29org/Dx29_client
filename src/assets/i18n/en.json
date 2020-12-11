@@ -1335,7 +1335,8 @@
     "I am not sure, let me see": "I am not sure, let me see",
     "Symptom extraction revision": "Symptom extraction revision",
     "We have found": "We have found",
-    "msgnumbersymptomsfound": "in the information you loaded. With your help, we want to make sure that they have been correctly identified. Please, review the results and remove those that do not apply.",
+    "msgnumbersymptomsfound": "in the information you loaded.",
+    "msgnumbersymptomsfound2": "With your help, we want to make sure that they have been correctly identified. Please, review the results and remove those that do not apply.",
     "Show full text": "Show full text",
     "Hide full text": "Hide full text",
     "Score": "Score",
@@ -1566,7 +1567,7 @@
       "msg1": "Let's start by incorporating the medical reports you already have to analyze them and automatically extract your symptoms (your phenotype).",
       "msg2": "You can add as many reports as you want/have by returning to this point in the process when you've finished loading one. You can do this in several ways:",
       "btn1": "Skip, I want to try other options",
-      "btn2": "Done!"
+      "btn2": "Get symptoms"
     },
     "step2-1":{
       "title1": "extraction",

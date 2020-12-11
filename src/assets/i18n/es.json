@@ -1327,7 +1327,8 @@
     "Reference case": "Caso de referencia",
     "Symptom extraction revision": "Revisión de extracción de síntomas",
     "We have found": "Hemos encontrado",
-    "msgnumbersymptomsfound": "en la información que cargó. Con su ayuda, queremos asegurarnos de que se hayan identificado correctamente. Por favor, revise los resultados y elimine los que no se aplican.",
+    "msgnumbersymptomsfound": "en la información que cargó.",
+    "msgnumbersymptomsfound2": "Con su ayuda, queremos asegurarnos de que se hayan identificado correctamente. Por favor, revise los resultados y elimine los que no se aplican.",
     "Show full text": "Mostrar texto completo",
     "Hide full text": "Ocultar texto completo",
     "Score": "Puntuación",
@@ -1567,7 +1568,7 @@
       "msg1": "Vamos a empezar incorporando los informes médicos que ya tienes para analizarlos y extraer automáticamente tus síntomas (tu fenotipo).",
       "msg2": "Podrás agregrar todos los informes que quieras/tengas volviendo a este punto del proceso cuando hayas terminado de cargar uno. Puedes hacerlo de varias formas:",
       "btn1": "Omitir, quiero probar otras opciones",
-      "btn2": "Done!"
+      "btn2": "Obtener síntomas"
     },
     "step2-1":{
       "title1": "extracción",

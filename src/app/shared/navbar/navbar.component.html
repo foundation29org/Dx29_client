@@ -53,7 +53,7 @@
                   </span>
                 </span>
               </li>
-                <li class="nav-item mr-2 d-block d-lg-none">
+                <li class="nav-item mr-2 d-block d-lg-none" *ngIf="maxStep>='5.0'">
                   <span class="nav-item text-muted" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
                       <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownsections" ngbDropdownToggle>
                           <i class="fas fa-ellipsis-v"></i>
@@ -80,6 +80,11 @@
                                 <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer btn-header':'inactiveLink'" title="{{(maxStep>='5.0' ) ? ('diagnosis.Genetics'|translate) : 'no permitido'}}" [disabled]="(maxStep<'5.0')" (click)="goToStep('2.0', false, null)">{{'diagnosis.Genetics' | translate }}</button>
                             </span>
                           </a>
+                          <a class="dropdown-item py-1" href="javascript:;" title="Analizar">
+                            <span class="d-inline-block" [ngClass]="((actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2') && maxStep>='5.0')?'border-bottom border-bottom-2 border-primary':'border-bottom border-bottom-0 text-muted btn-header'">
+                                <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer btn-header':'inactiveLink'" title="{{(maxStep>='5.0' ) ? 'Analizar' : 'no permitido'}}" [disabled]="(maxStep<'5.0')" (click)="goToStep('3.0', false, null)">Analizar</button>
+                            </span>
+                          </a>
                           <a class="dropdown-item py-1" href="javascript:;" title="Diagnoses">
                             <span class="d-inline-block" [ngClass]="(((actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2') && maxStep>='5.0') || (actualStep == '5.0'))?'border-bottom border-bottom-2 border-primary':'border-bottom border-bottom-0 text-muted btn-header'">
                                 <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer':'inactiveLink'" title="{{(maxStep>='5.0' ) ? 'Diagnoses' : 'no permitido'}}" [disabled]="(maxStep<'5.0')" (click)="goToStep('5.0', false, null)">Diagnoses</button>
@@ -100,7 +105,7 @@
               </ul>
           </div>
       </div>
-        <div class="d-none d-lg-block" *ngIf="(role == 'Clinical' || role == 'Lab') && isClinicalPage">
+        <div class="d-none d-lg-block" *ngIf="(role == 'Clinical' || role == 'Lab') && isClinicalPage && maxStep>='5.0'">
           <div class="navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav m-r-0">
                   <li class="nav-item mr-2">
@@ -117,7 +122,10 @@
                       <span class="d-inline-block mr-2 ml-2" [ngClass]="((actualStep == '2.0' || actualStep == '2.1') && maxStep>='5.0')?'border-bottom border-bottom-2 border-primary':'border-bottom border-bottom-0 text-muted'">
                           <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer btn-header':'inactiveLink'" title="{{(maxStep>='5.0' ) ? ('diagnosis.Genetics'|translate) : 'no permitido'}}" [disabled]="(maxStep<'5.0')" (click)="goToStep('2.0', false, null)">{{'diagnosis.Genetics' | translate }}</button>
                       </span>
-                      <span class="d-inline-block mr-2 ml-2" [ngClass]="(((actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2') && maxStep>='5.0') || (actualStep == '5.0'))?'border-bottom border-bottom-2 border-primary':'border-bottom border-bottom-0 text-muted'">
+                      <span class="d-inline-block mr-2 ml-2" [ngClass]="((actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2') && maxStep>='5.0')?'border-bottom border-bottom-2 border-primary':'border-bottom border-bottom-0 text-muted'">
+                          <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer btn-header':'inactiveLink'" title="{{(maxStep>='5.0' ) ? 'Analizar' : 'no permitido'}}" [disabled]="(maxStep<'5.0')" (click)="goToStep('3.0', false, null)">Analizar</button>
+                      </span>
+                      <span class="d-inline-block mr-2 ml-2" [ngClass]="(actualStep == '5.0')?'border-bottom border-bottom-2 border-primary':'border-bottom border-bottom-0 text-muted'">
                           <button class="btn-no-style" [ngClass]="(maxStep>='5.0')?'cursor-pointer btn-header':'inactiveLink'" title="{{(maxStep>='5.0' ) ? 'Diagnoses' : 'no permitido'}}" [disabled]="(maxStep<'5.0')" (click)="goToStep('5.0', false, null)">Diagnoses</button>
                       </span>
                       <span class="d-inline-block ml-2" [ngClass]="(actualStep == '6.0')?'border-bottom border-bottom-2 border-primary':'border-bottom border-bottom-0 text-muted'">

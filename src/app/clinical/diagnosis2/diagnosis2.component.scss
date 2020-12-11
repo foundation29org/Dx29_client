@@ -2,6 +2,11 @@
   justify-content: center !important;
 }
 
+::ng-deep ngb-typeahead-window.dropdown-menu {
+ max-height: 300px;
+ overflow-y: auto;
+}
+
 ::ng-deep .swal2-modal .swal2-cancel{
   background-color: #6c757d !important;
 }
