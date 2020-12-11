@@ -885,125 +885,132 @@
                   <div class="card-body">
                     <div id="optionRelatedConditions">
                       <div class="">
-                        <div class="row pb-3" *ngFor="let disease of topRelatedConditions; let i = index" >
-                          <div class="col-10 mt-3">
-                            <mat-checkbox color="primary" [checked]="disease.checked" (change)="setStateDisease(i, disease, $event)">
-                           </mat-checkbox>
-                            <span style="font-size: large;"> {{disease.name.label}}</span>
-                          </div>
-                          <div class="col-2 mt-3">
-                            <span class="text-muted">{{disease.h29}}</span>
-                            <a class="float-right ml-1" style="color:#009DA0;" (click)="showMoreInfoDisease(i, disease);" href="javascript:void(0)">
-                              <i *ngIf="selectedDisease!=i" class="fas fa-chevron-down" title="{{'generics.More information' | translate }}"></i>
-                              <i *ngIf="selectedDisease==i" class="fas fa-chevron-up" title="{{'generics.Read less' | translate }}"></i>
-                            </a>
-                          </div>
-                          <div class="col-12 text-muted">
-                            Gene<spam *ngIf="disease.genes.length>1">s</spam>:
-                            <span *ngFor="let gen of disease.genes; let k = index">
-                              <a *ngIf="infoGenesAndConditionsExomizer.length>0" class="primary" href="javascript:void(0)" title="Click to see more information." (click)="setIndexAndshowPanelGenes(contentPanelGenes, gen.gen)"> {{gen.gen}}</a>
-                              <a *ngIf="infoGenesAndConditionsExomizer.length==0" class="primary" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" title="Click to see more information."> {{gen.gen}}</a>
-                              <span *ngIf="k<disease.genes.length-1">,</span>
-                            </span>
-                          </div>
-                          <div class="col-11">
-                            <ngb-progressbar type="primary" value="{{disease.h29}}" [striped]="false" [animated]="true" [max]="100"></ngb-progressbar>
-                          </div>
-                          <div class="col-12 mt-3" *ngIf="selectedDisease==i">
-                            <!--{{disease|json}}-->
-                						<div class="mb-4">
-                							<div class="card-content card card-outline-primary border">
-                								<div class="card-body">
-                                  <div class="row">
-                                    <div class="col-xl-6" >
-                                      <p>{{actualDiseaseDesc.desc}} <a href="https://monarchinitiative.org/disease/{{disease.name.id}}" target="_blank" rel="tooltip" title="{{disease.name.id}}">More Info <i class="ft-external-link"></i></a></p>
-                                      <div *ngIf="actualRelatedDisease!=undefined">
-                                        <div *ngIf="actualRelatedDisease.clinical_course!=undefined">
-                                          <p *ngFor="let hpo of actualRelatedDisease.clinical_course ; let i = index">
-                                            <span class="d-block">HPO: {{hpo.hpo}} </span>
-                                            <span class="d-block">Name: {{hpo.info.name}} </span>
-                                            <span class="d-block">Desc: {{hpo.info.desc}} </span>
-                                          </p>
+                        <div class="pb-3" *ngFor="let disease of topRelatedConditions; let i = index" >
+                          <div class="row mt-3">
+                            <div class="col-1 mt-2">
+                              <mat-checkbox color="primary" [checked]="disease.checked" (change)="setStateDisease(i, disease, $event)">
+                             </mat-checkbox>
+                            </div>
+                            <div class="col-11 row">
+                              <div class="col-10 ">
+
+                                <span style="font-size: large;"> {{disease.name.label}}</span>
+                              </div>
+                              <div class="col-2">
+                                <span class="text-muted">{{disease.h29}}</span>
+                                <a class="float-right ml-1" style="color:#009DA0;" (click)="showMoreInfoDisease(i, disease);" href="javascript:void(0)">
+                                  <i *ngIf="selectedDisease!=i" class="fas fa-chevron-down" title="{{'generics.More information' | translate }}"></i>
+                                  <i *ngIf="selectedDisease==i" class="fas fa-chevron-up" title="{{'generics.Read less' | translate }}"></i>
+                                </a>
+                              </div>
+                              <div class="col-12 text-muted">
+                                Gene<spam *ngIf="disease.genes.length>1">s</spam>:
+                                <span *ngFor="let gen of disease.genes; let k = index">
+                                  <a *ngIf="infoGenesAndConditionsExomizer.length>0" class="primary" href="javascript:void(0)" title="Click to see more information." (click)="setIndexAndshowPanelGenes(contentPanelGenes, gen.gen)"> {{gen.gen}}</a>
+                                  <a *ngIf="infoGenesAndConditionsExomizer.length==0" class="primary" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" title="Click to see more information."> {{gen.gen}}</a>
+                                  <span *ngIf="k<disease.genes.length-1">,</span>
+                                </span>
+                              </div>
+                              <div class="col-11">
+                                <ngb-progressbar type="primary" value="{{disease.h29}}" [striped]="false" [animated]="true" [max]="100"></ngb-progressbar>
+                              </div>
+                              <div class="col-12 mt-3" *ngIf="selectedDisease==i">
+                                <!--{{disease|json}}-->
+                    						<div class="mb-4">
+                    							<div class="card-content card card-outline-primary border">
+                    								<div class="card-body">
+                                      <div class="row">
+                                        <div class="col-xl-6" >
+                                          <p>{{actualDiseaseDesc.desc}} <a href="https://monarchinitiative.org/disease/{{disease.name.id}}" target="_blank" rel="tooltip" title="{{disease.name.id}}">More Info <i class="ft-external-link"></i></a></p>
+                                          <div *ngIf="actualRelatedDisease!=undefined">
+                                            <div *ngIf="actualRelatedDisease.clinical_course!=undefined">
+                                              <p *ngFor="let hpo of actualRelatedDisease.clinical_course ; let i = index">
+                                                <span class="d-block">HPO: {{hpo.hpo}} </span>
+                                                <span class="d-block">Name: {{hpo.info.name}} </span>
+                                                <span class="d-block">Desc: {{hpo.info.desc}} </span>
+                                              </p>
+                                            </div>
+                                            <div *ngIf="actualRelatedDisease.clinical_modifier!=undefined">
+                                                <p *ngFor="let hpo of actualRelatedDisease.clinical_modifier ; let i = index">
+                                                  <span class="d-block">HPO: {{hpo.hpo}} </span>
+                                                  <span class="d-block">Name: {{hpo.info.name}} </span>
+                                                  <span class="d-block">Desc: {{hpo.info.desc}} </span>
+                                                </p>
+                                            </div>
+                                            <div *ngIf="actualRelatedDisease.xrefs!=undefined">
+                                                xrefs: <span *ngFor="let hpo of actualRelatedDisease.xrefs ; let i = index"> {{hpo|json}}</span>
+                                            </div>
+                                          </div>
                                         </div>
-                                        <div *ngIf="actualRelatedDisease.clinical_modifier!=undefined">
-                                            <p *ngFor="let hpo of actualRelatedDisease.clinical_modifier ; let i = index">
-                                              <span class="d-block">HPO: {{hpo.hpo}} </span>
-                                              <span class="d-block">Name: {{hpo.info.name}} </span>
-                                              <span class="d-block">Desc: {{hpo.info.desc}} </span>
-                                            </p>
-                                        </div>
-                                        <div *ngIf="actualRelatedDisease.xrefs!=undefined">
-                                            xrefs: <span *ngFor="let hpo of actualRelatedDisease.xrefs ; let i = index"> {{hpo|json}}</span>
+                                        <div class="col-xl-6" >
+                                          <div class="col-md-12">
+                                            <div class="col-md-12 center-elements" *ngIf="loadingGraphSymptomFreq">
+                        											<i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+                        										</div>
+                                            <div [style.visibility]="(chartDataVenn.length==0)? 'hidden': 'visible'" class="d3-chart" #chartVenn id="chartVenn" title="{{'patdiagdashboard.panel3msgsubtitlegraph2b' | translate }}" style="cursor: pointer;" [style.margin-left.px]= "-margin.left">
+                                              <svg [style.visibility]="(chartDataVenn.length>0)? 'hidden': 'visible'" id ="venn" viewBox="0 0 580 340" [style.margin-left.px]= "-margin.left"></svg>
+                                            </div>
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
-                                    <div class="col-xl-6" >
-                                      <div class="col-md-12">
-                                        <div class="col-md-12 center-elements" *ngIf="loadingGraphSymptomFreq">
-                    											<i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+                    									<div class="row">
+                    										<div class="col-md-12 mt-2 mb-1" *ngIf="fullListSymptoms.length==0">
+                    											<span> {{'patdiagdashboard.No data available for the reference case' | translate }} </span>
                     										</div>
-                                        <div [style.visibility]="(chartDataVenn.length==0)? 'hidden': 'visible'" class="d3-chart" #chartVenn id="chartVenn" title="{{'patdiagdashboard.panel3msgsubtitlegraph2b' | translate }}" style="cursor: pointer;" [style.margin-left.px]= "-margin.left">
-                                          <svg [style.visibility]="(chartDataVenn.length>0)? 'hidden': 'visible'" id ="venn" viewBox="0 0 580 340" [style.margin-left.px]= "-margin.left"></svg>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                									<div class="row">
-                										<div class="col-md-12 mt-2 mb-1" *ngIf="fullListSymptoms.length==0">
-                											<span> {{'patdiagdashboard.No data available for the reference case' | translate }} </span>
-                										</div>
-                									</div>
+                    									</div>
 
-                									<div class="row mt-3">
-                                    <div *ngIf="fullListSymptoms.length>0">
-                                      <div class="col-md-12">
-                												<table class="table text-center" *ngIf="fullListSymptoms.length>0 && !loadingGraphSymptomFreq" style="margin-top:2%">
-                													<thead>
-                														<tr>
-                															<th style="text-align:left">{{'patdiagdashboard.Total Symptoms' | translate }}: <label *ngIf="fullListSymptoms.length > 0"> {{fullListSymptoms.length}}</label></th>
-                                              <th>Frecuencia</th>
-                															<th>{{'patdiagdashboard.panel3MyCase' | translate }}</th>
-                															<th>{{'patdiagdashboard.panel3ReferenceCase' | translate }}</th>
-                														</tr>
-                													</thead>
-                													<tbody>
-                														<tr *ngFor="let symptom of fullListSymptoms ; let i = index">
-                															<td style="text-align:left">
-                																<span><a href="https://monarchinitiative.org/phenotype/{{symptom.id}}" target="_blank" title="{{symptom.def}}. {{symptom.comment}} ">{{symptom.name}}</a> <span *ngIf="symptom.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
-                															</td>
-                                              <td style="text-align:left" *ngIf="symptom.frequency==undefined">
-                                                <span> {{'diagnosis.unknown frequency' | translate }} </span>
-                															</td>
-                                              <td style="text-align:left" *ngIf="symptom.frequency!=undefined">
-                																<span *ngIf="symptom.frequencyInfo!=undefined"  title="{{symptom.frequencyInfo.desc}}"> {{symptom.frequencyInfo.name}}</span>
-                                                <span *ngIf="symptom.frequencyInfo==undefined"> {{symptom.frequency}} </span>
-                                                <span *ngIf="symptom.frequency==null">{{'diagnosis.unknown frequency' | translate }} </span>
-                															</td>
-                															<td>
-                																<span *ngIf="symptom.patient"><i class="fa fa-check success"></i></span>
-                																<span *ngIf="!symptom.patient && !symptom.patientbutsuccessor"><i class="fa fa-times danger"></i></span>
-                																<span *ngIf="!symptom.patient && symptom.patientbutsuccessor"><i class="fa fa-check success"></i></span>
-                															</td>
-                															<td>
-                																<span *ngIf="symptom.patient && (symptom.orphanet || symptom.omim)"><i class="fa fa-check success"></i></span>
-                																<span *ngIf="symptom.patient && !symptom.orphanet && !symptom.omim && !symptom.notpatientbutsuccessor"><i class="fa fa-times danger"></i></span>
-                																<span *ngIf="symptom.patient && !symptom.orphanet && !symptom.omim && symptom.notpatientbutsuccessor"><i class="fa fa-check success"></i></span>
-                																<span *ngIf="!symptom.patient"><i class="fa fa-check success"></i></span>
-                															</td>
-                														</tr>
-                													</tbody>
-                												</table>
-                											</div>
+                    									<div class="row mt-3">
+                                        <div *ngIf="fullListSymptoms.length>0">
+                                          <div class="col-md-12">
+                    												<table class="table text-center" *ngIf="fullListSymptoms.length>0 && !loadingGraphSymptomFreq" style="margin-top:2%">
+                    													<thead>
+                    														<tr>
+                    															<th style="text-align:left">{{'patdiagdashboard.Total Symptoms' | translate }}: <label *ngIf="fullListSymptoms.length > 0"> {{fullListSymptoms.length}}</label></th>
+                                                  <th>Frecuencia</th>
+                    															<th>{{'patdiagdashboard.panel3MyCase' | translate }}</th>
+                    															<th>{{'patdiagdashboard.panel3ReferenceCase' | translate }}</th>
+                    														</tr>
+                    													</thead>
+                    													<tbody>
+                    														<tr *ngFor="let symptom of fullListSymptoms ; let i = index">
+                    															<td style="text-align:left">
+                    																<span><a href="https://monarchinitiative.org/phenotype/{{symptom.id}}" target="_blank" title="{{symptom.def}}. {{symptom.comment}} ">{{symptom.name}}</a> <span *ngIf="symptom.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
+                    															</td>
+                                                  <td style="text-align:left" *ngIf="symptom.frequency==undefined">
+                                                    <span> {{'diagnosis.unknown frequency' | translate }} </span>
+                    															</td>
+                                                  <td style="text-align:left" *ngIf="symptom.frequency!=undefined">
+                    																<span *ngIf="symptom.frequencyInfo!=undefined"  title="{{symptom.frequencyInfo.desc}}"> {{symptom.frequencyInfo.name}}</span>
+                                                    <span *ngIf="symptom.frequencyInfo==undefined"> {{symptom.frequency}} </span>
+                                                    <span *ngIf="symptom.frequency==null">{{'diagnosis.unknown frequency' | translate }} </span>
+                    															</td>
+                    															<td>
+                    																<span *ngIf="symptom.patient"><i class="fa fa-check success"></i></span>
+                    																<span *ngIf="!symptom.patient && !symptom.patientbutsuccessor"><i class="fa fa-times danger"></i></span>
+                    																<span *ngIf="!symptom.patient && symptom.patientbutsuccessor"><i class="fa fa-check success"></i></span>
+                    															</td>
+                    															<td>
+                    																<span *ngIf="symptom.patient && (symptom.orphanet || symptom.omim)"><i class="fa fa-check success"></i></span>
+                    																<span *ngIf="symptom.patient && !symptom.orphanet && !symptom.omim && !symptom.notpatientbutsuccessor"><i class="fa fa-times danger"></i></span>
+                    																<span *ngIf="symptom.patient && !symptom.orphanet && !symptom.omim && symptom.notpatientbutsuccessor"><i class="fa fa-check success"></i></span>
+                    																<span *ngIf="!symptom.patient"><i class="fa fa-check success"></i></span>
+                    															</td>
+                    														</tr>
+                    													</tbody>
+                    												</table>
+                    											</div>
 
-                										</div>
-                									</div>
-                								</div>
-                							</div>
-                						</div>
+                    										</div>
+                    									</div>
+                    								</div>
+                    							</div>
+                    						</div>
+
+                              </div>
+                            </div>
 
                           </div>
                         </div>
-
                       </div>
                       <div *ngIf="relatedConditions.length>10" class="center-elements">
                         <a href="javascript:;" class="primary" (click)="goToStep('3.3', false)">
