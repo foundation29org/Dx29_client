@@ -1,3 +1,9 @@
+<!--<ngb-alert type="info" class="mt-2" [dismissible]="true" *ngIf="showMsgAlgorithms" (close)="closeMsgAlgorithms()">
+  <div>
+    <h4>Exomiser activitie</h4>
+    <span>{{stateExomiser}}</span>
+  </div>
+</ngb-alert>-->
 <!-- Navbar (Header) Starts -->
 <nav class="navbar navbar-expand-lg navbar-light bg-faded damemarger custom-navbar" [ngClass]="((role == 'Clinical' || role == 'Lab') && isClinicalPage)?'menuClinic-sm':''" >
     <div class="container-fluid">
@@ -188,6 +194,34 @@
         <div class="navbar-container pl-0">
             <div  id="navbarSupportedContent">
                 <ul class="navbar-nav m-r-0">
+                  <li class="nav-item" ngbDropdown display="dynamic" [placement]="placement" *ngIf="(role == 'Clinical' || role == 'Lab') && tasks.length>0">
+                        <a class="nav-link position-relative" id="dropdownBasic2" ngbDropdownToggle>
+                            <i class="ft-bell font-medium-3 blue-grey darken-4"></i>
+                            <span class="notification badge badge-pill badge-danger">{{tasks.length}}</span>
+                            <p class="d-none">Notifications</p>
+                        </a>
+                        <div class="notification-dropdown" ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                            <div>
+                                <a class="dropdown-item noti-container py-3 border-bottom border-bottom-blue-grey border-bottom-lighten-4" *ngFor="let task of tasks ; let j = index">
+                                    <i class="ft-bell info float-left d-block font-large-1 mt-1 mr-2"></i>
+                                    <span class="noti-wrapper">
+                                        <span class="noti-title line-height-1 d-block text-bold-400 info">Analizando información</span>
+                                        <span class="noti-text">
+                                          <span><strong>Patient: </strong>{{task.patientName}}</span>
+                                          <span class="ml-2">
+                                            <strong>Status: </strong>
+                                            <span *ngIf="task.status=='Created'">Created</span>
+                                            <span *ngIf="task.status=='Running'">Running</span>
+                                            <span *ngIf="task.status=='Succeeded'">Succeeded</span>
+                                            <span *ngIf="task.status=='Failed'">Failed</span>
+                                          </span>
+                                        </span>
+                                    </span>
+                                </a>
+                            </div>
+                            <a class="noti-footer primary text-center d-block border-top border-top-blue-grey border-top-lighten-4 text-bold-400 py-1" (click)="clearNotifications()">Clear All Notifications</a>
+                        </div>
+                    </li>
                   <li class="nav-item mr-2">
                       <a href="javascript:;" class="nav-link" id="buttonShareTo" (click)="shareApp(shareTo)" *ngIf="role=='User' || ((role == 'Clinical' || role == 'Lab') && isHomePage)">
                           <i class="icon-share font-medium-3 blue-grey darken-4"></i>
@@ -200,6 +234,7 @@
                           <p class="d-none">{{'navbar.fullscreen' | translate }}</p>
                       </a>
                   </li>-->
+
                   <li class="nav-item mr-2" ngbDropdown display="dynamic" [placement]="placement" *ngIf="role == 'Clinical' || role == 'Lab'" [ngClass]="((role == 'Clinical' || role == 'Lab') && isClinicalPage) ?'d-none d-lg-block':''">
                       <a class="nav-link position-relative" id="dropdownBasic1" ngbDropdownToggle>
                           <i class="ft-help-circle font-medium-3 blue-grey darken-4"></i>

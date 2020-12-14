@@ -1671,6 +1671,188 @@
   </div>
 
 </ng-template>
+<ng-template #contentSymptomsNcr4 let-c="close" let-d="dismiss" appendTo="body">
+		<div class="modal-header d-block" id="idHeader">
+      <button type="button" class="close" aria-label="Close" (click)="c('Close click'); changeTriggerHotjar('generalincoming_')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<div>
+				<h4>{{'patdiagdashboard.Symptom extraction revision' | translate }}</h4>
+				<span>
+					{{'patdiagdashboard.We have found' | translate }} <h5 class="text-bold-400 d-inline"><ins>{{temporalSymptoms.length}}
+            <span *ngIf="temporalSymptoms.length>1">{{'diagnosis.Symptoms' | translate }}</span>
+            <span *ngIf="temporalSymptoms.length==1">{{'diagnosis.Symptom' | translate }}</span>
+          </ins></h5>
+				</span>
+        <span class="ml-1" *ngIf="temporalSymptoms.length>0">
+					{{'patdiagdashboard.msgnumbersymptomsfound2' | translate }}
+				</span>
+			</div>
+		</div>
+
+	<div class="modal-body" *ngIf="resultTextNcrCopy!='' && temporalSymptoms.length>0">
+    <div class="row col-md-12">
+      <div class="center-elements" style="flex: 1 1 auto;">
+        <label id="gender" class="mr-1">{{'patdiagdashboard.Select view' | translate }}</label>
+        <mat-radio-group
+          class="example-radio-group" [(ngModel)]="viewOptionNcr">
+          <mat-radio-button class="example-radio-button" [value]="0" (change)="changeViewOptionNcr()">
+          Opción cartas
+          </mat-radio-button>
+          <mat-radio-button class="example-radio-button ml-1" [value]="1"  (change)="changeViewOptionNcr()">
+            Opción lista
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <div *ngIf="viewOptionNcr==0">
+			<div class="mt-2 row col-lg-12 offset-xl-2 col-xl-8" *ngIf="actualTemporalSymptomsIndex < temporalSymptoms.length">
+
+          <div class="w-100" *ngFor="let hpo of temporalSymptoms ; let i = index">
+            <div class="card bg-grey bg-lighten-3 box border" *ngIf="actualTemporalSymptomsIndex ==i">
+                <div class="card-header text-center pb-0">
+                  <span class="float-left">{{i+1}}/{{temporalSymptoms.length}}</span>
+                  <strong class="w-75 d-inline-block align-middle">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></strong>
+                  <span *ngIf="i!= selectedInfoSymptomIndex" style="cursor: pointer;" class="float-right" (click)="showMoreInfoSymptom(i);">
+                    <i style="font-size: 1.3em;" class="fa fas fa-arrow-down primary"></i>
+                  </span>
+                  <span *ngIf="i== selectedInfoSymptomIndex" style="cursor: pointer;" class="float-right" (click)="showMoreInfoSymptom(i);">
+                    <i style="font-size: 1.3em;" class="fa fas fa-arrow-up primary"></i>
+                  </span>
+                </div>
+                <div class="card-body" [ngClass]="(i!= selectedInfoSymptomIndex)?'height-150':''">
+
+                  <span class="col-md-12 mt-2" *ngIf="i== selectedInfoSymptomIndex" >
+                    <span *ngIf="hpo.def!='' || hpo.comment!=''">
+                      <span *ngIf="hpo.def!=''">{{hpo.def}}</span>
+                      <span *ngIf="hpo.comment!=''">{{hpo.comment}}</span>
+                    </span>
+                    <span *ngIf="hpo.synonyms.length>0">
+                      <h6 class="mt-4"><strong>{{'generics.Synonyms' | translate }}</strong></h6>
+                      <p *ngFor="let synonym of hpo.synonyms ; let j = index">
+                        <span>{{j+1}}. </span> <span >{{synonym}}</span>
+                      </p>
+                    </span>
+                    <span class="mt-4">Si quieres saber más</span>
+                    <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}} {{hpo.comment}}"> pincha aquí</a>
+                  </span>
+                  <span class="mt-4 align-middle d-block">
+                    <span class="mr-1 font-small-2">De donde hemos sacado este síntoma: </span>
+                    <span *ngFor="let text of hpo.text ; let j = index">
+                      <!--<span *ngIf="j==0" class="font-small-2 mb-0">{{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</span>-->
+                      <span *ngIf="text.source && j== 0" class="font-small-2 mb-0">{{text.source}}</span>
+                      <span *ngIf="!text.source && j== 0" class="font-small-2 mb-0">{{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</span>
+                    </span>
+                  </span>
+                </div>
+                <div class="card-footer center-elements bt-n">
+                  <button type="button" class="mr-1 btn btn-secondary btn-raised" (click)="rejectSymptomTinder(actualTemporalSymptomsIndex)"><i class="fa fa-times"></i> No tiene el síntoma</button>
+                  <button type="button" class="ml-1 btn btn-primary btn-raised" (click)="addSymptomTinder(actualTemporalSymptomsIndex)"><i class="fa fa-check"></i> Tiene el síntoma</button>
+                </div>
+            </div>
+          </div>
+			</div>
+      <div class="mt-2 row col-md-12 center-elements" *ngIf="actualTemporalSymptomsIndex == temporalSymptoms.length">
+        <div class="card box border">
+            <div class="card-header text-center pb-0">
+              <strong class="w-75 d-inline-block align-middle">Síntomas:</strong>
+            </div>
+            <div class="card-body pt-1">
+              <div *ngFor="let hpo of temporalSymptoms ; let i = index">
+                <p>{{hpo.name}}
+                  <i *ngIf="hpo.checked" class="fa fa-check ml-1 success"></i>
+                  <i *ngIf="!hpo.checked" class="fa fa-times ml-1 danger"></i>
+                </p>
+              </div>
+            </div>
+            <div class="card-footer center-elements bt-n">
+              <a type="button" class="primary mr-1" (click)="startAgainTinder()">Revisarlos otra vez</a>
+            </div>
+        </div>
+
+      </div>
+    </div>
+    <div *ngIf="viewOptionNcr==1">
+      <div class="mt-2 row">
+        <div class="tableFixHead col-md-12">
+          <table class="col-md-12 table table-striped">
+            <tbody>
+              <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
+                <td>
+                  <span>
+
+                    <button (click)="changeStateSymptom(i, hpo.checked)" [ngClass]="(hpo.checked==true)?'btn btn-success mr-1 mb-0 btn-fab':'btn btn-secondary mr-1 mb-0 btn-fab'" href="javascript:void(0)">
+                      <span *ngIf="!hpo.checked"><i class="fa fa-times mr-1"></i> Click si lo tiene</span><span *ngIf="hpo.checked"><i class="fa fa-check mr-1"></i> Click si no lo tiene</span>
+                    </button>
+                    <span *ngIf="i!= selectedInfoSymptomIndex" style="cursor: pointer;" class="float-right ml-1 mt-1" (click)="showMoreInfoSymptom(i);">
+                      <i style="font-size: 1.3em;" class="fa fas fa-arrow-down primary"></i>
+                    </span>
+                    <span *ngIf="i== selectedInfoSymptomIndex" style="cursor: pointer;" class="float-right ml-1 mt-1" (click)="showMoreInfoSymptom(i);">
+                      <i style="font-size: 1.3em;" class="fa fas fa-arrow-up primary"></i>
+                    </span>
+                    <!--<span *ngIf="i!= selectedInfoSymptomIndex" class="mt-1 float-right mr-4">
+                      <h6 class="d-inline">Score:</h6> {{hpo.similarity | number}}
+                    </span>-->
+                    <span class="font-medium-3 ml-2">
+                      <strong class="align-middle">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></strong>
+                      <span *ngIf="i!= selectedInfoSymptomIndex" class="align-middle d-block">
+                        <span class="mr-1 font-small-2">De donde hemos sacado este síntoma: </span>
+                        <span *ngFor="let text of hpo.text ; let j = index">
+                          <!--<span *ngIf="j==0" class="font-small-2 mb-0">{{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</span>-->
+                          <span *ngIf="text.source && j== 0" class="font-small-2 mb-0">{{text.source}}</span>
+                          <span *ngIf="!text.source && j== 0" class="font-small-2 mb-0">{{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</span>
+                        </span>
+                      </span>
+                    </span>
+                  </span>
+
+                  <div *ngIf="i== selectedInfoSymptomIndex" class="row mt-2">
+                    <span class="col-md-12">
+                      <span *ngIf="hpo.def!='' || hpo.comment!=''">
+                        <span *ngIf="hpo.def!=''">{{hpo.def}}</span>
+                        <span *ngIf="hpo.comment!=''">{{hpo.comment}}</span>
+                      </span>
+                      <span *ngIf="hpo.synonyms.length>0">
+                        <h6 class="mt-4"><strong>{{'generics.Synonyms' | translate }}</strong></h6>
+                        <p *ngFor="let synonym of hpo.synonyms ; let j = index">
+                          <span>{{j+1}}. </span> <span >{{synonym}}</span>
+                        </p>
+                      </span>
+                      <span class="mt-4">Si quieres saber más</span>
+                      <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}} {{hpo.comment}}"> pincha aquí</a>
+                    </span>
+                    <hr width="100%" size="20" color="#009DA0" *ngIf="ncrResultView==true" class="mt-2">
+                    <!--<span [ngClass]="(ncrResultView==true)?'col-md-4':'col-md-1'">
+                      <h6>{{'patdiagdashboard.Score' | translate }}:</h6> {{hpo.similarity | number}}
+                    </span>-->
+                    <span class="col-md-12">
+                      <h6 class="mb-0 mt-4">De donde hemos sacado este síntoma: </h6>
+                      <span *ngFor="let text of hpo.text ; let j = index">
+                        <!--<p *ngIf="j<3" class="font-small-2 mb-0">{{j+1}}. {{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</p>-->
+                        <span *ngIf="text.source && j< 3" class="font-small-2 mb-0">{{j+1}}. {{text.source}}</span>
+                        <span *ngIf="!text.source && j< 3" class="font-small-2 mb-0">{{j+1}}. {{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</span>
+                      </span>
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+	</div>
+  <div class="modal-footer" *ngIf="actualTemporalSymptomsIndex == temporalSymptoms.length || viewOptionNcr==1">
+    <div class="form-actions center">
+      <div class="center-elements mt-2">
+        <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
+				<button *ngIf="temporalSymptoms.length>0" type="button" class="btn btn-primary btn-raised" (click)="confirmSaveSymptomsNcr(); changeTriggerHotjar('generalincoming_')">{{'generics.Save' | translate }}</button>
+			</div>
+
+    </div>
+  </div>
+
+</ng-template>
 
 <ng-template #contentSuggestions let-c="close" let-d="dismiss" appendTo="body">
 	<a id="initpos"></a>
@@ -3198,6 +3380,6 @@
 			</div>
 		</div>
 </ng-template>
-<button id="openModalSymptomsNcrButton2" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr3)">.</button>
+<button id="openModalSymptomsNcrButton2" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr4)">.</button>
 <button id="openModalIntro" [hidden]="true" (click)="showPanelIntro(contentIntro)">.</button>
 <button id="openModalShowPanelSymptomsNcr2" [hidden]="true" (click)="showPanelSymptomsNcr2(contentSymptomsNcr3)">.</button>

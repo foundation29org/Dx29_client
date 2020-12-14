@@ -11,6 +11,9 @@ import { PatientService } from 'app/shared/services/patient.service';
 import { Data } from 'app/shared/services/data.service';
 import Swal from 'sweetalert2';
 import { EventsService} from 'app/shared/services/events.service';
+import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
+import { SearchService } from 'app/shared/services/search.service';
+import { ExomiserService } from 'app/shared/services/exomiser.service';
 import { Subscription } from 'rxjs/Subscription';
 
 import { LayoutService } from '../services/layout.service';
@@ -29,7 +32,7 @@ declare global {
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
   styleUrls: ["./navbar.component.scss"],
-  providers: [PatientService]
+  providers: [PatientService, ExomiserService, ApiDx29ServerService]
 })
 export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   currentLang = "en";
@@ -71,10 +74,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     isClinicalPage: boolean = false;
     age: any = {};
     showintrowizard: boolean = true;
-
+    tasks: any = [];
     private subscription: Subscription = new Subscription();
 
-  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService:ConfigService, private authService: AuthService, private router: Router, private route: ActivatedRoute, private patientService: PatientService, private modalService: NgbModal, private http: HttpClient, private sortService: SortService, private dataservice: Data, private eventsService: EventsService) {
+  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService:ConfigService, private authService: AuthService, private router: Router, private route: ActivatedRoute, private patientService: PatientService, private modalService: NgbModal, private http: HttpClient, private sortService: SortService, private dataservice: Data, private eventsService: EventsService, public exomiserService:ExomiserService, private apiDx29ServerService: ApiDx29ServerService, private searchService: SearchService) {
     if (this.isApp){
         if(device.platform == 'android' || device.platform == 'Android'){
           this.isAndroid = true;
@@ -148,6 +151,13 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.eventsService.on('showIntroWizard', function(showintrowizard) {
       this.showintrowizard= showintrowizard;
+    }.bind(this));
+    this.eventsService.on('exoservice', function(exoservice) {
+      var foundElement = this.searchService.search(this.tasks,'token', exoservice.token);
+      if(!foundElement){
+        this.tasks.push({token:exoservice.token, status: 'Created', patientName: exoservice.patientName});
+      }
+      this.checkExomiser(exoservice.patientId, exoservice.token, exoservice.patientName);
     }.bind(this));
   }
 
@@ -531,6 +541,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
         }.bind(this));
         this.patients.sort(this.sortService.GetSortOrderNames("patientName"));
         this.loadDataFromSharingAccounts();
+        this.checkStatusServices();
       }, (err) => {
         console.log(err);
       }));
@@ -688,6 +699,82 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
      this.eventsService.broadcast('setStepWizard', 'reports');
    }
 
+   checkStatusServices(){
+     for(var i = 0; i < this.patients.length; i++){
+       this.checkServices(this.patients[i].sub, this.patients[i].patientName);
+     }
+   }
 
+   checkServices(patientId, patientName){
+     // Find if the patient has pending works
+     this.subscription.add( this.apiDx29ServerService.getPendingJobs(patientId)
+     .subscribe( (res : any) => {
+       if(res.exomiser!=undefined){
+         if(res.exomiser.length>0){
+           console.log("Check services... true")
+           var actualToken=res.exomiser[res.exomiser.length-1]
+           this.checkExomiser(patientId, actualToken, patientName);
+         }
+       }
+     }, (err) => {
+       console.log(err);
+     }));
+   }
+
+   checkExomiser(patientId, actualToken, patientName){
+     // Llamar al servicio
+     console.log(patientName);
+     this.subscription.add( this.exomiserService.checkExomiserStatusNavBar(patientId, actualToken)
+       .subscribe( async (res2 : any) => {
+         if(res2.res.status=='Running'){
+
+         }
+         var foundElement = this.searchService.search(this.tasks,'token', res2.res.token);
+         if(!foundElement){
+           this.tasks.push({token:res2.res.token, status: res2.res.status, patientName: patientName});
+         }else{
+           var found=false;
+           for(var i = 0; i < this.tasks.length && !found; i++){
+             if(this.tasks[i].token==res2.res.token){
+               if(res2.res.status=='Running'){
+                 this.tasks[i].status =res2.res.status;
+               }else if(res2.res.status=='Succeeded' || res2.res.status=='Failed'){
+                 found=true;
+                 this.tasks.push({token:res2.res.token, status: res2.res.status, patientName: patientName});
+                 //this.deleteTask(i);
+               }
+
+             }
+
+           }
+         }
+
+         if(res2.message=="something pending"){
+           await this.delay(5000);
+           this.checkExomiser(patientId, actualToken, patientName);
+         }
+        }, (err) => {
+          console.log(err);
+          //this.manageErrorsExomiser("type1",err);
+        }));
+   }
+
+   delay(ms: number) {
+       return new Promise( resolve => setTimeout(resolve, ms) );
+   }
+
+   deleteTask(index){
+     var res = [];
+     for(var i = 0; i < this.tasks.length; i++){
+       if(i!=index){
+         res.push(this.tasks[i]);
+       }
+      }
+    this.tasks = res;
+   }
+
+   clearNotifications(){
+     this.tasks = [];
+   }
 
 }

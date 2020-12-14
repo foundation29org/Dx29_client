@@ -456,6 +456,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
           this.subscription.add( this.http.get('assets/jsons/orphanet_names_'+this.lang+'.json')
          .subscribe( (res : any) => {
+           console.log('loag data');
            this.orphanet_names = res;
           }, (err) => {
             console.log(err);
@@ -826,7 +827,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.initVarsPrograms();
       this.loadSymptoms();
       this.getDiagnosisInfo();
-      this.checkServices(); //esto habría que ponerlo en el topnavbar tb
+
       this.eventsService.on('infoStep', function(info) {
         console.log(info);
         if(info.maxStep!=null){
@@ -1169,27 +1170,33 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
          //console.log(res);
          var listSymptoms = [];
          var numSymptMatch = 0;
-         var resumeText = res.originalText.slice(0, 140);
+         var resumeText = '';
+         if(res.originalText!=undefined){
+           resumeText = res.originalText.slice(0, 140);
+         }
           var infoNcr = res.result
-         if(infoNcr.length>0){
-          for(var i = 0; i < infoNcr.length; i++) {
+          if(infoNcr!=undefined){
+            if(infoNcr.length>0){
+             for(var i = 0; i < infoNcr.length; i++) {
 
-            for(var j = 0; j < infoNcr[i].phens.length; j++) {
-              var foundElement = this.searchService.search(listSymptoms,'id', infoNcr[i].phens[j].id);
-              if(!foundElement){
-                listSymptoms.push(infoNcr[i].phens[j].id);
-              }
-            }
+               for(var j = 0; j < infoNcr[i].phens.length; j++) {
+                 var foundElement = this.searchService.search(listSymptoms,'id', infoNcr[i].phens[j].id);
+                 if(!foundElement){
+                   listSymptoms.push(infoNcr[i].phens[j].id);
+                 }
+               }
+             }
+
+             for(var i = 0; i < this.phenotype.data.length; i++) {
+               for(var j = 0; j < listSymptoms.length; j++) {
+                 if(this.phenotype.data[i].id==listSymptoms[j]){
+                   numSymptMatch++;
+                 }
+               }
+             }
+           }
           }
 
-          for(var i = 0; i < this.phenotype.data.length; i++) {
-            for(var j = 0; j < listSymptoms.length; j++) {
-              if(this.phenotype.data[i].id==listSymptoms[j]){
-                numSymptMatch++;
-              }
-            }
-          }
-        }
         var extension = this.listPatientFiles[index].origenFile.nameForShow.substr(this.listPatientFiles[index].origenFile.nameForShow.lastIndexOf('.'));
         this.listPatientFiles[index].ncrResults.extension = extension
         this.listPatientFiles[index].ncrResults.numberSymptoms= listSymptoms.length;
@@ -1227,7 +1234,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.relatedConditions = rows;
 
       this.calculatingH29Score = false;
-      this.renderMap(this.relatedConditions.slice(0, 10), this.paramgraph);
+      this.renderMap();
     }
 
     checkServices(){
@@ -1258,7 +1265,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       // Llamar al servicio
       this.subscription.add( this.exomiserService.checkExomiserStatus(patientId)
         .subscribe( async (res2 : any) => {
-          console.log(res2);
           if(res2.message){
             if(res2.message=="nothing pending"){
               this.getExomizer(patientId);
@@ -2461,7 +2467,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
         if(this.relatedConditions.length>0){
           this.indexListRelatedConditions = 10;
-          this.renderMap(this.relatedConditions.slice(0, 10), 'h29');
+          this.renderMap();
           if(this.selectedItemsFilter.length > 0){
             this.applyFilters();
           }
@@ -2551,7 +2557,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
       }
       this.indexListRelatedConditions = 10;
-      this.renderMap(this.relatedConditions.slice(0, 10), 'h29');
+      this.renderMap();
       console.log(this.relatedConditions);
       this.saveNotes();
       this.applyFilters();
@@ -3207,6 +3213,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           .subscribe( (res : any) => {
             //this.getExomizer(this.accessToken.patientId);
             this.checkExomiser()
+            var exoservice = {patientId: this.accessToken.patientId, token: this.exomiserService.getActualToken(), patientName: this.selectedPatient.patientName}
+            this.eventsService.broadcast('exoservice', exoservice);
             //alert("Create pending job with token:"+this.exomiserService.getActualToken)
 
           }, (err) => {
@@ -3669,7 +3677,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             this.getSymptomsApi2();
           }
         }
-
+        this.checkServices(); //esto habría que ponerlo en el topnavbar tb
        }, (err) => {
          console.log(err);
        }));
@@ -4816,7 +4824,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           tempRelatedConditions = [];
         }
         this.relatedConditions = JSON.parse(JSON.stringify(tempRelatedConditions));
-        this.renderMap(this.relatedConditions.slice(0, 10), this.paramgraph);
+        this.renderMap();
         if(this.modalReference!=undefined){
           this.modalReference.close();
         }
@@ -4834,7 +4842,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }
       this.relatedConditionsCopy = [];
       this.selectedItemsFilter = [];
-      this.renderMap(this.relatedConditions.slice(0, 10), this.paramgraph);
+      this.renderMap();
       if(this.modalReference!=undefined){
         this.modalReference.close();
       }
@@ -4842,67 +4850,52 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.saveNotes2();
     }
 
-    renderMap(data, param){
+    renderMap(){
       this.potentialDiagnostics = [];
       this.checkPrograms();
+      this.getOrphaNamesAndCheckPotentialDiagnostics();
+      //this.topRelatedConditions = data;
+    }
 
-      var tempParam = 'Dx29';
-
-    /*  if(param == 'matches'){
-        tempParam = 'C1';
-      }else */if(param == 'scoregenes'){
-        tempParam = 'C2';
-      }else if(param == 'score'){
-        tempParam = 'C1';
-      }
-
-      var tempdata = [];
-      for(var i = 0; i < data.length; i++) {
-        var tempColor= this.getColor(data[i].h29);
-        var tempValue= data[i].h29;
-        /*if(param == 'matches'){
-          tempValue= data[i].matches.length;
-        }else */if(param == 'scoregenes'){
-          tempValue= data[i].scoregenes;
-        }else if(param == 'score'){
-          tempValue= data[i].score;
-        }
-        tempdata.push({name: data[i].name.label, value: tempValue, color: tempColor});
-      }
-
-      for(var i = 0; i < this.relatedConditions.length; i++)
-        {
-          //get orpha name
-          var found = false;
-          var orphaId = this.maps_to_orpha.map[this.relatedConditions[i].name.id]
-          if(orphaId!=undefined){
-            var firstOrphaId = orphaId[0];
-            this.relatedConditions[i].name.label = this.orphanet_names.disorders[firstOrphaId].name;
-            found =true;
-          }
-          if(this.relatedConditions[i].xrefs!=undefined){
-            for(var j = 0; j < this.relatedConditions[i].xrefs.length && !found; j++){
-              var orphaId = this.maps_to_orpha.map[this.relatedConditions[i].xrefs[j]]
-              if(orphaId!=undefined){
-                var firstOrphaId = orphaId[0];
-                this.relatedConditions[i].name.label = this.orphanet_names.disorders[firstOrphaId].name;
-                found =true;
+    async getOrphaNamesAndCheckPotentialDiagnostics(){
+      if(this.orphanet_names.disorders==undefined){
+        await this.delay(1000);
+        this.getOrphaNamesAndCheckPotentialDiagnostics();
+      }else{
+        for(var i = 0; i < this.relatedConditions.length; i++)
+          {
+            //get orpha name
+            var found = false;
+            var orphaId = this.maps_to_orpha.map[this.relatedConditions[i].name.id]
+            if(orphaId!=undefined){
+              var firstOrphaId = orphaId[0];
+              this.relatedConditions[i].name.label = this.orphanet_names.disorders[firstOrphaId].name;
+              found =true;
+            }
+            if(this.relatedConditions[i].xrefs!=undefined){
+              for(var j = 0; j < this.relatedConditions[i].xrefs.length && !found; j++){
+                var orphaId = this.maps_to_orpha.map[this.relatedConditions[i].xrefs[j]]
+                if(orphaId!=undefined){
+                  var firstOrphaId = orphaId[0];
+                  this.relatedConditions[i].name.label = this.orphanet_names.disorders[firstOrphaId].name;
+                  found =true;
+                }
               }
             }
+
+
+
+            this.relatedConditions[i].name.label = this.textTransform.transform(this.relatedConditions[i].name.label);
+
+            //get potentialDiagnostics
+            if(this.relatedConditions[i].checked){
+              this.potentialDiagnostics.push(this.relatedConditions[i]);
+            }
+
           }
+        this.topRelatedConditions = this.relatedConditions.slice(0, this.indexListRelatedConditions)
+      }
 
-
-
-          this.relatedConditions[i].name.label = this.textTransform.transform(this.relatedConditions[i].name.label);
-
-          //get potentialDiagnostics
-          if(this.relatedConditions[i].checked){
-            this.potentialDiagnostics.push(this.relatedConditions[i]);
-          }
-
-        }
-
-      this.topRelatedConditions = data;
     }
 
     getColor(item){
@@ -5399,7 +5392,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         addLangToTrigger = 'es';
       }
       trigger = trigger+addLangToTrigger;
-      this.$hotjar.trigger(trigger);
+      var elemento = document.getElementById('_hj_feedback_container');
+      if(elemento){
+        this.$hotjar.trigger(trigger);
+      }
+
     }
 
     loadMoreInfoGenesPanel(contentMoreInfoGenes,element,geneName){
@@ -6073,6 +6070,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           var deep = 0;
           var parents = [];
           this.completeFrequencies(i, this.fullListSymptoms[i].id, list, deep, parents);
+          //this.completeFrequencies2(i, this.fullListSymptoms[i].id, list);
           //this.completeFrequencies3(i, this.fullListSymptoms[i].id, this.treeOrphaPredecessors, deep, parents);
         }
       }
@@ -6096,7 +6094,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                 this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
               }else if(this.fullListSymptoms[index].frequency!=null){
                 //REVISAR ESTO PORQUE ES PELIGROSO, SI CAMBIAN LOS HPOS DE PRIORIDAD PUEDE DEJAR DE FUNCIONAR
-                /*if(this.fullListSymptoms[index].frequency>this.orphaSymptoms[ipos].frequency){
+                if(this.fullListSymptoms[index].frequency>this.orphaSymptoms[ipos].frequency){
                   this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
                   this.orphaSymptoms[ipos].frequency =null;
                   console.log('ENCONTRADO');
@@ -6104,7 +6102,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                   console.log('Padres:'+parents);
                   console.log(this.fullListSymptoms[index].frequency)
                   this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
-                }*/
+                }
               }
             }
           }
@@ -6178,7 +6176,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
               }else if(this.fullListSymptoms[index].frequency!=null){
                 //REVISAR ESTO PORQUE ES PELIGROSO, SI CAMBIAN LOS HPOS DE PRIORIDAD PUEDE DEJAR DE FUNCIONAR
-                /*if(this.fullListSymptoms[index].frequency>this.orphaSymptoms[ipos].frequency){
+                if(this.fullListSymptoms[index].frequency>this.orphaSymptoms[ipos].frequency){
                   this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
                   this.orphaSymptoms[ipos].frequency =null;
                   console.log('ENCONTRADO');
@@ -6186,7 +6184,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                   console.log('Padres:'+parents);
                   console.log(this.fullListSymptoms[index].frequency)
                   this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
-                }*/
+                }
               }
             }
           }
@@ -6995,7 +6993,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     loat10More(){
       this.indexListRelatedConditions=this.indexListRelatedConditions+10;
-      this.renderMap(this.relatedConditions.slice(0, this.indexListRelatedConditions), this.paramgraph);
+      this.renderMap();
     }
 
 }
