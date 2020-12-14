@@ -46,7 +46,7 @@
 <mat-accordion>
 	<div class="row" *ngIf="!loadingPatients && (patients.length>0 || listOfArchivedCases.length>0)">
 		<div class="col-md-12 mt-2" *ngIf="!sending">
-			<button id="newpatient" class="btn btn-raised btn-primary" type="button" (click)="callNewPatient(contentNewCaseName)">{{'diagnosis.New case' | translate }}</button>
+			<button id="newpatient" class="btn btn-raised btn-primary" type="button" (click)="callNewPatient(contentNewCaseName)">{{'diagnosis.Help another patient' | translate }}</button>
 			<button id="updatepatient" [hidden]="true" (click)="callUpdatePatient(contentNewCaseName)">.</button>
 		</div>
 	</div>

@@ -338,6 +338,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     actualTemporalSymptomsIndex:number = 0;
     viewOptionNcr:number = 0;
     viewAvancedMode: boolean = false;
+    indexListRelatedConditions: number = 10;
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -2459,6 +2460,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           }
         }
         if(this.relatedConditions.length>0){
+          this.indexListRelatedConditions = 10;
           this.renderMap(this.relatedConditions.slice(0, 10), 'h29');
           if(this.selectedItemsFilter.length > 0){
             this.applyFilters();
@@ -2548,7 +2550,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           this.goToStep('5.0', false);
         }
       }
-
+      this.indexListRelatedConditions = 10;
       this.renderMap(this.relatedConditions.slice(0, 10), 'h29');
       console.log(this.relatedConditions);
       this.saveNotes();
@@ -2795,6 +2797,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     confirmDeletePhenotypeGroup(index1, index2){
       var indexElement = this.searchService.searchIndex(this.phenotype.data,'id', this.listOfSymptomGroups[index1].symptoms[index2].id);
+      console.log(indexElement);
       this.confirmDeletePhenotype(indexElement);
     }
 
@@ -2806,8 +2809,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           showCancelButton: true,
           confirmButtonColor: '#0CC27E',
           cancelButtonColor: '#f9423a',
-          confirmButtonText: this.translate.instant("generics.Delete"),
-          cancelButtonText: this.translate.instant("generics.Cancel"),
+          confirmButtonText: this.translate.instant("generics.Yes"),
+          cancelButtonText: this.translate.instant("generics.No"),
           showLoaderOnConfirm: true,
           allowOutsideClick: false,
           reverseButtons:true
@@ -2830,7 +2833,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           confirmButtonColor: '#0CC27E',
           cancelButtonColor: '#f9423a',
           confirmButtonText: this.translate.instant("phenotype.Delete all symptoms"),
-          cancelButtonText: this.translate.instant("generics.No, cancel"),
+          cancelButtonText: this.translate.instant("generics.No"),
           showLoaderOnConfirm: true,
           allowOutsideClick: false,
           reverseButtons:true
@@ -4253,7 +4256,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           confirmButtonColor: '#0CC27E',
           cancelButtonColor: '#f9423a',
           confirmButtonText: this.translate.instant("generics.Yes"),
-          cancelButtonText: this.translate.instant("generics.No, cancel"),
+          cancelButtonText: this.translate.instant("generics.No"),
           showLoaderOnConfirm: true,
           allowOutsideClick: false,
           reverseButtons:true
@@ -6988,6 +6991,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     changeViewAvancedMode(){
       this.viewAvancedMode = !this.viewAvancedMode;
+    }
+
+    loat10More(){
+      this.indexListRelatedConditions=this.indexListRelatedConditions+10;
+      this.renderMap(this.relatedConditions.slice(0, this.indexListRelatedConditions), this.paramgraph);
     }
 
 }

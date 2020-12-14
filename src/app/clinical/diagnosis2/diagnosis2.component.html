@@ -40,7 +40,7 @@
           <span class="content-sub-header">
               <p *ngIf="phenotype.data.length != 0">Gestiona los síntomas del paciente.</p>
               <p *ngIf="phenotype.data.length == 0">Añade los síntomas del paciente. Tiene varias opciones para ayudarle a hacerlo:</p>
-              <p *ngIf="numDeprecated==phenotype.data.length && numDeprecated>0" >Los sintomas que tiene están obsoletos. Añada síntomas con la ayuda de las siguientes opciones:</p>
+              <p *ngIf="numDeprecated==phenotype.data.length && numDeprecated>0" >Tiene síntomas obsoletos. Añada síntomas con la ayuda de las siguientes opciones:</p>
           </span>
         </div>
 
@@ -58,7 +58,7 @@
     							</div>
     						</div>
     						<div class="col-md-8 p-0">
-    							<button *ngIf="!loadingHpoExtractor && resultTextNcr!='' && medicalText== ''" type="button" class="ml-1 btn btn-flat btn-primary" style="float:right;" (click)="showPanelSymptomsNcr(contentSymptomsNcr)">{{'diagnosis.Edit last extraction' | translate }}</button>
+    							<!--<button *ngIf="!loadingHpoExtractor && resultTextNcr!='' && medicalText== ''" type="button" class="ml-1 btn btn-flat btn-primary" style="float:right;" (click)="showPanelSymptomsNcr(contentSymptomsNcr3)">{{'diagnosis.Edit last extraction' | translate }}</button>-->
                   <label class="ml-1 btn btn-outline-primary" style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
                       Encontrar en un documento <input type="file" (change)="onFileChangePDF($event, contentExtractorSteps);c('Close click')" style="display: none;">
                   </label>
@@ -323,11 +323,11 @@
                     <section>
                       <div *ngIf="filesVcf.length>0">
                           <p *ngFor="let onefile of filesVcf; let i = index">
-                            <span style="word-wrap: anywhere;" class="text-muted">
+                            <span style="word-wrap: anywhere;" class="ml-1 text-muted">
                               {{onefile.nameForShow}}
                             </span>
                             <span class="ml-2">
-                              <a class="danger" (click)="deleteVcfFile(onefile.name,i);" href="javascript:void(0)"><i class="ft-x"></i></a>
+                              <a class="danger" (click)="deleteVcfFile(onefile.name,i);" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
                             </span>
                           </p>
                       </div>
@@ -365,7 +365,7 @@
                 <span *ngIf="filesVcf.length==0"> que quieres que analicemos.</span>
                 <p *ngIf="filesVcf.length<=1">Si quieres ocultar el modo avanzado, <a class="font-small-3" href="javascript:void(0)" (click)="changeViewAvancedMode()">pulse aquí</a></p>
                 <p>
-                  <span> Si quieres cambiar los parámetros de los algoritmos que usamos</span>
+                  <span> Si quieres cambiar los parámetros de los algoritmos que usamos,</span>
                   <a class="font-small-3 ml-1" href="javascript:void(0)" (click)="changeSettingsExomiser(contentSettingsExomiser)">pulsa aquí</a>
                 </p>
               </span>
@@ -848,9 +848,6 @@
                             <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
                         </a>
                         <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
-                            <a class="dropdown-item py-1" href="javascript:;" (click)="goToStep('3.3', false)">
-                                <span>Ver la lista completa</span>
-                            </a>
                             <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelGenes(contentPanelGenes)">
                               <i class="fas fa-dna primary"></i>  <span class="ml-2" >Ver información de los genes</span>
                             </a>
@@ -1012,8 +1009,8 @@
                           </div>
                         </div>
                       </div>
-                      <div *ngIf="relatedConditions.length>10" class="center-elements">
-                        <a href="javascript:;" class="primary" (click)="goToStep('3.3', false)">
+                      <div *ngIf="relatedConditions.length>10 && indexListRelatedConditions<relatedConditions.length" class="center-elements">
+                        <a href="javascript:;" class="primary" (click)="loat10More()">
                             <span>{{'generics.Read more' | translate }}</span>
                         </a>
                       </div>
@@ -1434,7 +1431,7 @@
 															<span>{{j+1}}. </span> <span >{{synonym}}</span>
 														</p>
 													</span>
-													<h6 class="mt-4"><strong>External Links</strong></h6>
+													<h6 class="mt-4"><strong>{{'generics.More Info' | translate }}</strong></h6>
 													<a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}} {{hpo.comment}}">MONDO ({{hpo.id}})</a>
 												</span>
 												<hr width="100%" size="20" color="#009DA0" *ngIf="ncrResultView==true" class="mt-2">
@@ -1487,7 +1484,10 @@
 			<div>
 				<h4>{{'patdiagdashboard.Symptom extraction revision' | translate }}</h4>
 				<span>
-					{{'patdiagdashboard.We have found' | translate }} <h5 class="text-bold-400 d-inline"><ins>{{temporalSymptoms.length}} {{'diagnosis.Symptoms' | translate }}</ins></h5>
+					{{'patdiagdashboard.We have found' | translate }} <h5 class="text-bold-400 d-inline"><ins>{{temporalSymptoms.length}}
+            <span *ngIf="temporalSymptoms.length>1">{{'diagnosis.Symptoms' | translate }}</span>
+            <span *ngIf="temporalSymptoms.length==1">{{'diagnosis.Symptom' | translate }}</span>
+          </ins></h5>
 				</span>
         <span class="ml-1" *ngIf="temporalSymptoms.length>0">
 					{{'patdiagdashboard.msgnumbersymptomsfound2' | translate }}
@@ -1511,7 +1511,7 @@
       </div>
     </div>
     <div *ngIf="viewOptionNcr==0">
-			<div class="mt-2 row offset-md-2 col-md-8" *ngIf="actualTemporalSymptomsIndex < temporalSymptoms.length">
+			<div class="mt-2 row col-lg-12 offset-xl-2 col-xl-8" *ngIf="actualTemporalSymptomsIndex < temporalSymptoms.length">
 
           <div class="w-100" *ngFor="let hpo of temporalSymptoms ; let i = index">
             <div class="card bg-grey bg-lighten-3 box border" *ngIf="actualTemporalSymptomsIndex ==i">
@@ -1647,7 +1647,7 @@
       </div>
     </div>
 	</div>
-  <div class="modal-footer" *ngIf="actualTemporalSymptomsIndex == temporalSymptoms.length">
+  <div class="modal-footer" *ngIf="actualTemporalSymptomsIndex == temporalSymptoms.length || viewOptionNcr==1">
     <div class="form-actions center">
       <div class="center-elements mt-2">
         <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
@@ -1836,7 +1836,7 @@
                         </span>
                       </p>
                       <span *ngIf="i== selectedInfoSymptomIndex">
-                        <h6 class="mt-2"><strong>{{'generics.External Links' | translate }}</strong></h6>
+                        <h6 class="mt-2"><strong>{{'generics.More Info' | translate }}</strong></h6>
                         <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}}. {{hpo.comment}}">MONDO ({{hpo.id}})</a>
                       </span>
                     </div>
@@ -1875,7 +1875,7 @@
             </p>
           </div>
         </div>
-        <button id="openModalSymptomsNcrButton" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr)">.</button>
+        <button id="openModalSymptomsNcrButton" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr3)">.</button>
         <form class="form w-100" (ngSubmit)="c('Close click');onSubmitToExtractor(contentExtractorSteps);" #f="ngForm">
           <div class="form-body">
             <div class="row">
@@ -1928,7 +1928,7 @@
         </p>
       </div>
       <div class="p-2">
-        <h5><strong>{{'generics.External Links' | translate }}</strong></h5>
+        <h5><strong>{{'generics.More Info' | translate }}</strong></h5>
         <a href="https://monarchinitiative.org/phenotype/{{phenotype.data[selectedInfoSymptomIndex].id}}" target="_blank" title=" {{phenotype.data[selectedInfoSymptomIndex].name}} ({{phenotype.data[selectedInfoSymptomIndex].id}}):">MONDO ({{phenotype.data[selectedInfoSymptomIndex].id}})</a>
       </div>
 
@@ -3185,6 +3185,6 @@
 			</div>
 		</div>
 </ng-template>
-<button id="openModalSymptomsNcrButton2" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr)">.</button>
+<button id="openModalSymptomsNcrButton2" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr3)">.</button>
 <button id="openModalIntro" [hidden]="true" (click)="showPanelIntro(contentIntro)">.</button>
 <button id="openModalShowPanelSymptomsNcr2" [hidden]="true" (click)="showPanelSymptomsNcr2(contentSymptomsNcr3)">.</button>

@@ -213,6 +213,7 @@
     "Please select": "Please select",
     "and": "and",
     "External Links": "External Links",
+    "More Info": "More information",
     "Read more": "Read more",
     "Read less": "Read less",
     "Account name": "Account name",
@@ -598,6 +599,7 @@
   },
   "diagnosis":{
     "Symptoms": "Symptoms",
+    "Symptom": "Symptoms",
     "Genetics": "Genetics",
     "First results": "First results",
     "Summary": "Summary",
@@ -658,7 +660,8 @@
     "Overall score": "Overall score",
     "Calculating genes and their score": "Calculating genes and their score",
     "Calculating Dx29 score": "Calculating Dx29 score",
-    "New case": "Help another patient",
+    "New case": "Create the first patient",
+    "Help another patient": "Help another patient",
     "Cases": "My cases",
     "BackCases": "Back to my cases",
     "Case": "Case",
@@ -1704,7 +1707,7 @@
       "btn1": "Finish"
     }
   },
-  "Geneticprogram":{
+  "GeneticProgram":{
     "bannermsg1pat": "According to your data, you meet the criteria to participate in the \"Fundación 29 de Febrero\" genetic testing program.",
     "bannermsg1cli": "This patient meets the clinical criteria for the F29 genetic test aid program.",
     "bannermsg2.1": "If born later than",
