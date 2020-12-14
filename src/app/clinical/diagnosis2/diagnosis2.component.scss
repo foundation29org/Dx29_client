@@ -19,6 +19,18 @@
   height: 5px !important;
 }
 
+.referenceColor ::ng-deep .mat-checkbox-disabled.mat-checkbox-checked .mat-checkbox-background, .mat-checkbox-disabled.mat-checkbox-indeterminate .mat-checkbox-background {
+    background-color: #ff7f0e70;
+}
+
+.patientColor ::ng-deep .mat-checkbox-disabled.mat-checkbox-checked .mat-checkbox-background, .mat-checkbox-disabled.mat-checkbox-indeterminate .mat-checkbox-background {
+    background-color: #1f77b46e;
+}
+
+::ng-deep .venn-area>.label{
+  display:none;
+}
+
 .row.display-flex {
   display: flex;
   flex-wrap: wrap;

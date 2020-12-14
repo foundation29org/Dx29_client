@@ -841,35 +841,37 @@
             <div class="col-lg-12">
               <div class="card border">
                 <div class="card-header">
-                  <h4 class="card-title" style="text-transform: none;" *ngIf="infoGenesAndConditionsExomizer.length>0 || infoGenesAndConditionsPhen2Genes.length>0">
-                    <b>Resultados</b>
-                    <span class="nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right" title="Options">
-                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
-                            <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
-                        </a>
-                        <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
-                            <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelGenes(contentPanelGenes)">
-                              <i class="fas fa-dna primary"></i>  <span class="ml-2" >Ver información de los genes</span>
-                            </a>
-                            <a class="dropdown-item py-1" href="javascript:;" (click)="editDiagnosis(1)">
-                                <span>Navegar por las enfermedades</span>
-                            </a>
-                            <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelFeedback(contentGeneralNotes)">
-                                <span>Add Notes</span>
-                            </a>
-                        </div>
+                  <span class="nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right" title="Options">
+                      <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
+                          <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
+                      </a>
+                      <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
+                          <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelGenes(contentPanelGenes)">
+                            <i class="fas fa-dna primary"></i>  <span class="ml-2" >Ver información de los genes</span>
+                          </a>
+                          <a class="dropdown-item py-1" href="javascript:;" (click)="editDiagnosis(1)">
+                              <span>Navegar por las enfermedades</span>
+                          </a>
+                          <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelFeedback(contentGeneralNotes)">
+                              <span>Add Notes</span>
+                          </a>
+                      </div>
+                  </span>
+                  <span class="float-right">
+                    <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="!isgen" type="button" [ngClass]="(isgen != true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'" class="mr-1" (click)="getRelatedConditionsview(false);">Clinic view</button>
+                    <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="isgen" type="button" [ngClass]="(isgen == true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'"  class="mr-1" (click)="getRelatedConditionsview(true);">Genetic view</button>
+                    <span *ngIf="selectedItemsFilter.length>0 || (this.infoGenesAndConditionsExomizer.length>0 && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes) || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhen2Genes.length>0) && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes))" class="mr-1">
+                      <a href="javascript:void(0)" class="btn btn-outline-primary" (click)="setFitersDiseases(contentFilterDiseases)"><span *ngIf="selectedItemsFilter.length==0">{{'diagnosis.Filter diseases' | translate }}</span><span *ngIf="selectedItemsFilter.length>0">{{selectedItemsFilter.length}} applied filters</span></a>
+                      <!--<a class="ml-1" *ngIf="selectedItemsFilter.length>0" href="javascript:void(0)" (click)="removeFilters()" title="Remove filters">
+                        <i class="fa fa-trash red"></i>
+                      </a>-->
                     </span>
-                    <span class="float-right">
-                      <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="!isgen" type="button" [ngClass]="(isgen != true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'" class="btn-sm mr-1" (click)="getRelatedConditionsview(false);">Clinic view</button>
-                      <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="isgen" type="button" [ngClass]="(isgen == true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'"  class="btn-sm mr-1" (click)="getRelatedConditionsview(true);">Genetic view</button>
-                      <span *ngIf="selectedItemsFilter.length>0 || (this.infoGenesAndConditionsExomizer.length>0 && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes) || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhen2Genes.length>0) && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes))" class="mr-1">
-                        <a href="javascript:void(0)" class="btn btn-outline-primary" (click)="setFitersDiseases(contentFilterDiseases)"><span *ngIf="selectedItemsFilter.length==0">{{'diagnosis.Filter diseases' | translate }}</span><span *ngIf="selectedItemsFilter.length>0">{{selectedItemsFilter.length}} applied filters</span></a>
-                        <!--<a class="ml-1" *ngIf="selectedItemsFilter.length>0" href="javascript:void(0)" (click)="removeFilters()" title="Remove filters">
-                          <i class="fa fa-trash red"></i>
-                        </a>-->
-                      </span>
 
-                    </span>
+                  </span>
+                  <h4 class="card-title" style="text-transform: none;" *ngIf="infoGenesAndConditionsExomizer.length>0 || infoGenesAndConditionsPhen2Genes.length>0">
+                    <b class="d-block">Resultados</b>
+                    <span class="font-small-2 font-weight-normal">Select potential diagnostics</span>
+
                   </h4>
                   <h4 class="card-title" *ngIf="infoGenesAndConditionsExomizer.length==0 && infoGenesAndConditionsPhen2Genes.length==0">
                     <b>No ha analizado los datos</b>
@@ -946,7 +948,18 @@
                         										</div>
                                             <div [style.visibility]="(chartDataVenn.length==0)? 'hidden': 'visible'" class="d3-chart" #chartVenn id="chartVenn" title="{{'patdiagdashboard.panel3msgsubtitlegraph2b' | translate }}" style="cursor: pointer;" [style.margin-left.px]= "-margin.left">
                                               <svg [style.visibility]="(chartDataVenn.length>0)? 'hidden': 'visible'" id ="venn" viewBox="0 0 580 340" [style.margin-left.px]= "-margin.left"></svg>
+
                                             </div>
+                                            <div [style.visibility]="(chartDataVenn.length==0)? 'hidden': 'visible'" class="center-elements">
+                                              <span class="referenceColor">
+                                                <mat-checkbox [disabled]="true" [checked]="true"> Reference case
+                                               </mat-checkbox>
+                                             </span>
+                                             <span class="patientColor ml-2">
+                                               <mat-checkbox [disabled]="true" [checked]="true" class="ml-2"> Patient
+                                              </mat-checkbox>
+                                            </span>
+                                          </div>
                                           </div>
                                         </div>
                                       </div>
