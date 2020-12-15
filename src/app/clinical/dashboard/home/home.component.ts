@@ -115,6 +115,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
     )
   );
   isNewPatient: boolean = false;
+  avatars_boys: any = [];
+  avatars_girls: any = [];
+  placement = "right";
+
   private subscription: Subscription = new Subscription();
 
   constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private sanitizer: DomSanitizer, private router: Router, private dateService: DateService,  private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private authGuard: AuthGuard,
@@ -125,6 +129,14 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
       this.loadInfo();
       this.loadSharedPatients();
       this.loadMyEmail();
+      this.createAvatarLists();
+    }
+
+    createAvatarLists(){
+      this.avatars_boys = [{name: 'boy-0'}, {name: 'boy-1'}, {name: 'boy-3'}, {name: 'boy-4'}, {name: 'boy-5'}, {name: 'boy-6'}, {name: 'boy-7'}, {name: 'boy-8'}, {name: 'boy-9'}, {name: 'boy-10'}, {name: 'boy-11'}, {name: 'boy-12'}, {name: 'boy-13'}, {name: 'boy-14'}, {name: 'boy-15'}, {name: 'boy-16'},
+        {name: 'boy-17'}, {name: 'boy-18'}, {name: 'boy-19'}, {name: 'boy-20'}, {name: 'boy-21'}, {name: 'boy-22'}];
+      this.avatars_girls = [{name: 'girl-0'}, {name: 'girl-1'}, {name: 'girl-3'}, {name: 'girl-4'}, {name: 'girl-5'}, {name: 'girl-6'}, {name: 'girl-7'}, {name: 'girl-8'}, {name: 'girl-9'}, {name: 'girl-10'}, {name: 'girl-11'}, {name: 'girl-12'}, {name: 'girl-13'}, {name: 'girl-14'}, {name: 'girl-15'}, {name: 'girl-16'},
+        {name: 'girl-17'}, {name: 'girl-18'}, {name: 'girl-19'}, {name: 'girl-20'}, {name: 'girl-21'}, {name: 'girl-22'}, {name: 'girl-23'}, {name: 'girl-24'}, {name: 'girl-25'}, {name: 'girl-26'}];
     }
 
     loadCountries(){
@@ -311,6 +323,38 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
              this.patientsCopy[i].hasvcf = '<span class="danger">'+this.translate.instant("generics.No")+'</span>';
           }
 
+          if(this.patientsCopy[i].birthDate){
+            var dateRequest2=new Date(this.patientsCopy[i].birthDate);
+              var resul = ''
+              var temp = this.ageFromDateOfBirthday(dateRequest2);
+              console.log(temp);
+              if(temp!=null){
+                if(temp.years>0){
+                  resul= temp.years+" years"
+                }
+                if(temp.months>0){
+                  resul= resul+ " " +temp.months+" months"
+                }
+                if(temp.years==0 && temp.months==0){
+                  resul="Menos de un mes"
+                }
+              }
+             this.patientsCopy[i].birthDate2 = resul;
+          }else{
+             this.patientsCopy[i].birthDate2 = '-';
+          }
+
+          if(this.patientsCopy[i].gender){
+            if(this.patientsCopy[i].gender=='male'){
+              this.patientsCopy[i].gender2 = '<img class="avatar" src="assets/img/avatar/svg/'+this.patientsCopy[i].avatar+'.svg" />'+" "+this.translate.instant("personalinfo.Male") ;
+            }else{
+              this.patientsCopy[i].gender2 = '<img class="avatar" src="assets/img/avatar/svg/'+this.patientsCopy[i].avatar+'.svg" />'+" "+ this.translate.instant("personalinfo.Female");
+            }
+
+          }else{
+             this.patientsCopy[i].gender2 = '-';
+          }
+
           if(this.patientsCopy[i].symptoms<2){
             this.patientsCopy[i].symptoms = '<span class="danger">'+this.translate.instant("diagnosis.Poor")+' ('+this.patientsCopy[i].symptoms+')'+'</span>';
           }else if(this.patientsCopy[i].symptoms>=2 && this.patientsCopy[i].symptoms<5){
@@ -349,6 +393,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
 
         //this.patientsCopy = res.listpatients;
         this.alertSourceCasesArchived = new LocalDataSource(this.listOfArchivedCases);
+        console.log(this.patientsCopy);
         this.alertSource = new LocalDataSource(this.patientsCopy);
         this.alertsettings = {
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right'},
@@ -372,6 +417,16 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             title: this.translate.instant("diagnosis.Case"),
             placeholder: this.translate.instant("diagnosis.Case"),
             type: "html",
+            },
+            birthDate2: {
+              title: 'Edad',
+              placeholder: 'Edad',
+              type: "html",
+            },
+            gender2: {
+              title: 'Sexo',
+              placeholder: 'Sexo',
+              type: "html",
             },
             hasvcf: {
             title: this.translate.instant("diagnosis.Genetic information"),
@@ -457,6 +512,25 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
          this.loadingPatients = false;
        }));
     }
+
+    ageFromDateOfBirthday(dateOfBirth: any){
+      var res:any;
+      const today = new Date();
+      const birthDate = new Date(dateOfBirth);
+      var months;
+      months = (today.getFullYear() - birthDate.getFullYear()) * 12;
+      months -= birthDate.getMonth();
+      months += today.getMonth();
+      var res = months <= 0 ? 0 : months;
+      var m=res % 12;
+      var age =0;
+      if(res>0){
+        age= Math.abs(Math.round(res/12));
+      }
+      res = {years:age, months:m };
+      return res;
+    }
+
 
     loadMyEmail(){
       this.subscription.add( this.http.get(environment.api+'/api/users/email/'+this.authService.getIdUser())
@@ -752,7 +826,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             country: temp.country,
             birthDate: temp.birthDate,
             gender: temp.gender,
-            previousDiagnosis: temp.previousDiagnosis
+            previousDiagnosis: temp.previousDiagnosis,
+            avatar: ''
           };
           document.getElementById("updatepatient").click();
       }else{
@@ -842,7 +917,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         siblings: [],
         parents: [],
         previousDiagnosis: null,
-        stepClinic: '0.0'
+        stepClinic: '0.0',
+        avatar: ''
       };
 
       this.changeName = this.patient;
@@ -1149,6 +1225,18 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
          }
        }));
      }
+  }
+
+  changeSex($event){
+    if($event.value=='male'){
+      this.patient.avatar = 'boy-0'
+    }else{
+      this.patient.avatar = 'girl-0'
+    }
+  }
+
+  changeAvatar(name){
+    this.patient.avatar = name;
   }
 
 }

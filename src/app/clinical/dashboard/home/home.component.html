@@ -65,19 +65,6 @@
 		</div>
 
 	</mat-expansion-panel>
-	<mat-expansion-panel *ngIf="!loadingPatients && listOfArchivedCases.length>0">
-		<mat-expansion-panel-header>
-			<mat-panel-title>
-				{{'diagnosis.Archived cases' | translate }}
-			</mat-panel-title>
-		</mat-expansion-panel-header>
-		<div class="center-elements" *ngIf="loadinglangs">
-			<div><p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p></div>
-		</div>
-		<div class="card-body table-responsive" *ngIf="!loadinglangs">
-			<ng2-smart-table [settings]="alertsettingsCasesArchived" [source]="alertSourceCasesArchived" (deleteConfirm)="onDeleteConfirmArchive($event)" (custom)="onCustom($event, contentChangeCaseName)" (userRowSelect)="handleGridSelected($event)"></ng2-smart-table>
-		</div>
-	</mat-expansion-panel>
 	<mat-expansion-panel *ngIf="!loadingSharedCases && listOfSharedCases.length>0">
 		<mat-expansion-panel-header>
 			<mat-panel-title>
@@ -89,6 +76,19 @@
 		</div>
 		<div class="card-body table-responsive" *ngIf="!loadinglangs">
 			<ng2-smart-table [settings]="alertsettingsCasesShared" [source]="alertSourceCasesShared" (deleteConfirm)="onDeleteSharedCaseConfirm($event)" (custom)="onCustom($event, contentChangeSharedCaseName)" (userRowSelect)="handleGridSelectedShared($event)"></ng2-smart-table>
+		</div>
+	</mat-expansion-panel>
+	<mat-expansion-panel *ngIf="!loadingPatients && listOfArchivedCases.length>0">
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				{{'diagnosis.Archived cases' | translate }}
+			</mat-panel-title>
+		</mat-expansion-panel-header>
+		<div class="center-elements" *ngIf="loadinglangs">
+			<div><p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p></div>
+		</div>
+		<div class="card-body table-responsive" *ngIf="!loadinglangs">
+			<ng2-smart-table [settings]="alertsettingsCasesArchived" [source]="alertSourceCasesArchived" (deleteConfirm)="onDeleteConfirmArchive($event)" (custom)="onCustom($event, contentChangeCaseName)" (userRowSelect)="handleGridSelected($event)"></ng2-smart-table>
 		</div>
 	</mat-expansion-panel>
 </mat-accordion>
@@ -155,14 +155,39 @@
 						<mat-radio-group required
 							aria-labelledby="gender"
 							class="example-radio-group d-block" ngModel required #gender="ngModel" name="gender" id="gender" [(ngModel)]="patient.gender">
-							<mat-radio-button class="example-radio-button" value="male">
+							<mat-radio-button class="example-radio-button" value="male" (change)="changeSex($event)">
 							{{'personalinfo.Male' | translate }}
 							</mat-radio-button>
-							<mat-radio-button class="example-radio-button ml-2" value="female">
+							<mat-radio-button class="example-radio-button ml-2" value="female" (change)="changeSex($event)">
 							{{'personalinfo.Female' | translate }}
 							</mat-radio-button>
 						</mat-radio-group>
 						<small class="form-text text-muted danger" *ngIf="!gender.valid && (gender.dirty || gender.touched)">{{'generics.required' | translate }}</small>
+					</div>
+				</div>
+				<div class="col-md-3" *ngIf="patient.gender">
+					<div class="form-group">
+						<label>Avatar*</label>
+						<li *ngIf="patient.gender=='male'" class="nav-item" ngbDropdown display="dynamic" [placement]="placement" style="list-style-type: none; ">
+								<a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle>
+										<img class="avatar" src="assets/img/avatar/png/{{patient.avatar}}.png" />
+								</a>
+								<div ngbDropdownMenu aria-labelledby="dropdownBasic3" [autoClose]="true">
+										<a class="dropdown-item py-1" style="display: contents !important;" *ngFor="let avatar2 of avatars_boys" (click)="changeAvatar(avatar2.name)">
+												<img class="avatar" src="assets/img/avatar/png/{{avatar2.name}}.png" />
+										</a>
+								</div>
+						</li>
+						<li *ngIf="patient.gender=='female'" class="nav-item" ngbDropdown display="dynamic" [placement]="placement" style="list-style-type: none; ">
+								<a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle>
+										<img class="avatar" src="assets/img/avatar/png/{{patient.avatar}}.png" />
+								</a>
+								<div ngbDropdownMenu aria-labelledby="dropdownBasic3" [autoClose]="true">
+										<a class="dropdown-item py-1" style="display: contents !important;" *ngFor="let avatar2 of avatars_girls" (click)="changeAvatar(avatar2.name)">
+												<img class="avatar" src="assets/img/avatar/png/{{avatar2.name}}.png" />
+										</a>
+								</div>
+						</li>
 					</div>
 				</div>
 				<!--<div class="col-md-12">

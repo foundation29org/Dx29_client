@@ -15,6 +15,8 @@ import { HomeComponent } from "./home/home.component";
 
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatRadioModule} from '@angular/material/radio';
+import { MatTableModule } from '@angular/material/table'
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @NgModule({
     imports: [
@@ -27,7 +29,9 @@ import {MatRadioModule} from '@angular/material/radio';
         NgxChartsModule,
         Ng2SmartTableModule,
         MatExpansionModule,
-        MatRadioModule
+        MatRadioModule,
+        MatTableModule,
+        MatFormFieldModule
     ],
     exports: [TranslateModule],
     declarations: [

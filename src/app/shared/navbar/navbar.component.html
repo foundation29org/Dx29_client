@@ -35,12 +35,13 @@
         <div class="navbar-collapse" id="navbarSupportedContent">
 
             <ul class="navbar-nav m-r-0">
-              <li class="nav-item d-none d-lg-block" style="line-height: 1rem;">
+              <li class="nav-item d-none d-lg-block mt-2" style="line-height: 1rem;">
                 <a class="font-weight-bold" [routerLink]="redirectUrl" >
                   <span class="btn-no-style cursor-pointer" style="margin-bottom: 0;">{{'diagnosis.BackCases' | translate }}</span>
                 </a>
                 <span class="font-weight-bold mr-1 ml-1"> > </span>
               </li>
+              <img class="avatar float-left" src="assets/img/avatar/png/{{selectedPatient.avatar}}.png" />
               <li class="nav-item" style="line-height: 1rem;">
                 <span class="d-block font-weight-bold mb-1">
                   <span> {{selectedPatient.patientName}}</span>
