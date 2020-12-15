@@ -27,6 +27,11 @@
     background-color: #1f77b46e;
 }
 
+::ng-deep .mat-checkbox-inner-container{
+  height: 24px !important;
+  width: 24px !important;
+}
+
 ::ng-deep .venn-area>.label{
   display:none;
 }

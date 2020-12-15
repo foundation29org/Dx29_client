@@ -723,7 +723,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
    checkExomiser(patientId, actualToken, patientName){
      // Llamar al servicio
-     console.log(patientName);
      this.subscription.add( this.exomiserService.checkExomiserStatusNavBar(patientId, actualToken)
        .subscribe( async (res2 : any) => {
          if(res2.res.status=='Running'){
@@ -731,7 +730,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
          }
          var foundElement = this.searchService.search(this.tasks,'token', res2.res.token);
          if(!foundElement){
-           this.tasks.push({token:res2.res.token, status: res2.res.status, patientName: patientName});
+           this.tasks.push({token:res2.res.token, status: res2.res.status, patientName: patientName, patientId: patientId});
          }else{
            var found=false;
            for(var i = 0; i < this.tasks.length && !found; i++){
@@ -740,7 +739,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
                  this.tasks[i].status =res2.res.status;
                }else if(res2.res.status=='Succeeded' || res2.res.status=='Failed'){
                  found=true;
-                 this.tasks.push({token:res2.res.token, status: res2.res.status, patientName: patientName});
+                 this.tasks.push({token:res2.res.token, status: res2.res.status, patientName: patientName, patientId: patientId});
                  //this.deleteTask(i);
                }
 
@@ -775,6 +774,17 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
    clearNotifications(){
      this.tasks = [];
+   }
+
+   goToPatient(patientId, index){
+     var found = false;
+     for(var i = 0; i < this.patients.length && !found; i++){
+       if(this.patients[i].sub==patientId){
+         this.authService.setCurrentPatient(this.patients[i]);
+         this.router.navigate(['/clinical/diagnosis2']);
+         this.deleteTask(index);
+       }
+     }
    }
 
 }

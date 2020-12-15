@@ -59,7 +59,7 @@
                   </span>
                 </span>
               </li>
-                <li class="nav-item mr-2 d-block d-lg-none" *ngIf="maxStep>='5.0'">
+                <li class="nav-item mr-2 d-block d-xl-none" *ngIf="maxStep>='5.0'">
                   <span class="nav-item text-muted" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
                       <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownsections" ngbDropdownToggle>
                           <i class="fas fa-ellipsis-v"></i>
@@ -111,7 +111,7 @@
               </ul>
           </div>
       </div>
-        <div class="d-none d-lg-block" *ngIf="(role == 'Clinical' || role == 'Lab') && isClinicalPage && maxStep>='5.0'">
+        <div class="d-none d-xl-block" *ngIf="(role == 'Clinical' || role == 'Lab') && isClinicalPage && maxStep>='5.0'">
           <div class="navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav m-r-0">
                   <li class="nav-item mr-2">
@@ -202,12 +202,16 @@
                         </a>
                         <div class="notification-dropdown" ngbDropdownMenu aria-labelledby="dropdownBasic2">
                             <div>
-                                <a class="dropdown-item noti-container py-3 border-bottom border-bottom-blue-grey border-bottom-lighten-4" *ngFor="let task of tasks ; let j = index">
+                                <a class="dropdown-item noti-container py-3 border-bottom border-bottom-blue-grey border-bottom-lighten-4" style="cursor: pointer;" *ngFor="let task of tasks ; let j = index">
                                     <i class="ft-bell info float-left d-block font-large-1 mt-1 mr-2"></i>
                                     <span class="noti-wrapper">
                                         <span class="noti-title line-height-1 d-block text-bold-400 info">Analizando información</span>
                                         <span class="noti-text">
-                                          <span><strong>Patient: </strong>{{task.patientName}}</span>
+                                          <span>
+                                            <strong>Patient: </strong>
+                                            <span *ngIf="task.status!='Succeeded'">{{task.patientName}}</span>
+                                            <span *ngIf="task.status=='Succeeded'"><a class="primary" (click)="goToPatient(task.patientId, j)">{{task.patientName}}</a></span>
+                                          </span>
                                           <span class="ml-2">
                                             <strong>Status: </strong>
                                             <span *ngIf="task.status=='Created'">Created</span>

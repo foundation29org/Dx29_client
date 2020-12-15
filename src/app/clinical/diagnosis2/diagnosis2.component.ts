@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, ElementRef, OnDestroy, Input  } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef, OnDestroy, Input, HostListener  } from '@angular/core';
 import { NgbTooltip, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from '@angular/forms';
 import { environment } from 'environments/environment';
@@ -339,6 +339,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     viewOptionNcr:number = 0;
     viewAvancedMode: boolean = false;
     indexListRelatedConditions: number = 10;
+    loadingPotentialDiagnostics: boolean = false;
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -531,6 +532,13 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
       }
 
+    }
+
+    @HostListener('window:resize')
+    onResize() {
+        // call our matchHeight function here
+        this.redrawNewSize=true;
+        this.drawCharts();
     }
 
     ageFromDateOfBirthday(dateOfBirth: any){
@@ -779,6 +787,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     goToStep(indexStep, save){
+      this.selectedDisease = -1;
       if(indexStep=='0.0'){
         document.getElementById("openModalIntro").click();
       }
@@ -793,6 +802,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
       }else if(this.actualStep == '3.0'){
         this.symptomsExomiser = this.phenotype.data;
+        if(this.uploadingGenotype){
+          this.goToStep('3.1', save);
+        }
       }else if(this.actualStep == '6.0'){
         this.loadFilesContainer(false);
       }
@@ -1172,7 +1184,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
          var numSymptMatch = 0;
          var resumeText = '';
          if(res.originalText!=undefined){
-           resumeText = res.originalText.slice(0, 140);
+           resumeText = res.originalText.slice(0, 200);
          }
           var infoNcr = res.result
           if(infoNcr!=undefined){
@@ -1276,6 +1288,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             }
             else if(res2.message=="something pending"){
               this.uploadingGenotype = true;
+              if(this.actualStep=='3.0'){
+                this.goToStep('3.1', false);
+              }
               await this.delay(5000);
               this.checkExomiser();
             }
@@ -4415,6 +4430,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           reverseButtons:true
       }).then((result) => {
         if (result.value) {
+          if(this.modalReference!=undefined){
+            this.modalReference.close();
+          }
           this.saveSymptomsNcr();
         }
       });
@@ -4853,6 +4871,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     renderMap(){
       this.potentialDiagnostics = [];
       this.checkPrograms();
+      this.loadingPotentialDiagnostics = true;
       this.getOrphaNamesAndCheckPotentialDiagnostics();
       //this.topRelatedConditions = data;
     }
@@ -4894,6 +4913,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
           }
         this.topRelatedConditions = this.relatedConditions.slice(0, this.indexListRelatedConditions)
+        this.loadingPotentialDiagnostics = false;
       }
 
     }
@@ -6036,9 +6056,24 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           clinical_modifier.push({hpo:hpo, info: info.clinical_modifier[hpo]});
         }
       }
-      this.actualRelatedDisease = {clinical_course: clinical_course, clinical_modifier: clinical_modifier, xrefs: info.xrefs};
+      var xrefs = this.cleanOrphas(info.xrefs)
+      this.actualRelatedDisease = {clinical_course: clinical_course, clinical_modifier: clinical_modifier, xrefs: xrefs, name: info.name};
     }
 
+    cleanOrphas(xrefs){
+      var res = [];
+      var count = 0;
+      for (var i = 0; i < xrefs.length; i++){
+        console.log(xrefs[i]);
+        if(xrefs[i].indexOf('ORPHA')!=-1){
+          count++;
+        }
+        if(count<2){
+          res.push(xrefs[i]);
+        }
+      }
+      return res;
+    }
     async getPredecessorsOrpha(){
       return new Promise(async function (resolve, reject) {
         var result = { status: 200, data: [], message: "Calcule Conditions score OK" }
@@ -6497,7 +6532,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       d3.selectAll(".text").remove();
 
       var venn=document.getElementById('chartVenn')
-      venn.insertAdjacentHTML('beforeend', '<svg id ="venn" viewBox="0 0 580 340" [style.margin-left.px]= "-(((venn.offsetWidth)/2)+(margin.left/2))"></svg>');
+      venn.insertAdjacentHTML('beforeend', '<svg id ="venn" viewBox="0 0 500 340" [style.margin-left.px]= "-(((venn.offsetWidth)/2)+(margin.left/2))"></svg>');
 
       this.createChartVenn();
 
@@ -6527,7 +6562,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         //this.heightVenn = elementVenn.offsetHeight - 4*this.margin.top - 4*this.margin.bottom;
         document.getElementById('venn').remove()
         var vennSvg=document.getElementById('chartVenn')
-        vennSvg.insertAdjacentHTML('beforeend', '<svg id ="venn" viewBox="0 0 540 380" [style.margin-left.px]= "-(({{venn.offsetWidth}})/2)+({{margin.left}}/2))"></svg>');
+        vennSvg.insertAdjacentHTML('beforeend', '<svg id ="venn" viewBox="0 0 500 380" [style.margin-left.px]= "-(({{venn.offsetWidth}})/2)+({{margin.left}}/2))"></svg>');
       }
 
       //this.chartDataVenn.sort(function(a:any,b:any) { return b.size - a.size; })
