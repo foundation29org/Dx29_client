@@ -71,7 +71,7 @@
                   <h4 class="card-title">
                     Síntomas guardados
                     <span class="nav-item" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
-                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
+                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle title="{{'generics.Sort' | translate }}">
                             <i class="fas fa-sort font-medium-3 primary"></i>
                             <p class="d-none">Sort</p>
                         </a>
@@ -98,10 +98,10 @@
                           <li class="row symptoms-item">
                             <span style="font-size:1rem;flex-grow: 1;" class="text-muted col-md-8">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
                             <span class="col-md-4">
-                              <a class="btn btn-outline-info primary mr-1 mb-0" data-original-title="" title="" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
+                              <a class="btn btn-outline-info primary mr-1 mb-0" data-original-title="" title="{{'generics.More information' | translate }}" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
                                 <i class="fa fa-info"></i>
                               </a>
-                              <a class="btn btn-outline-danger danger  ml-1 mr-1 mb-0" data-original-title="" title="" (click)="confirmDeletePhenotypeGroup(j,i)">
+                              <a class="btn btn-outline-danger danger  ml-1 mr-1 mb-0" data-original-title="" title="{{'generics.Delete' | translate }}" (click)="confirmDeletePhenotypeGroup(j,i)">
                                 <i class="fa fa-trash"></i>
                               </a>
                             </span>
@@ -114,10 +114,10 @@
                         <li class="col-md-12 symptoms-item">
                           <span style="font-size:1rem;flex-grow: 1;" class="text-muted col-md-8">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
                           <span class="col-md-4">
-                            <a class="btn btn-outline-info primary mr-1 mb-0" data-original-title="" title="" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
+                            <a class="btn btn-outline-info primary mr-1 mb-0" data-original-title="" title="{{'generics.More information' | translate }}" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
                               <i class="fa fa-info"></i>
                             </a>
-                            <a class="btn btn-outline-danger danger ml-1 mr-1 mb-0" data-original-title="" title="" (click)="confirmDeletePhenotype(i)">
+                            <a class="btn btn-outline-danger danger ml-1 mr-1 mb-0" data-original-title="" title="{{'generics.Delete' | translate }}" (click)="confirmDeletePhenotype(i)">
                               <i class="fa fa-trash"></i>
                             </a>
                           </span>
@@ -294,7 +294,7 @@
                   {{'patnodiagdashboard.step3-2.msg1' | translate }} <b>{{'patnodiagdashboard.step3-2.msg2' | translate }}</b>{{'patnodiagdashboard.step3-2.msg3' | translate }}
                 </p>
                 <p>
-                  (<label for="VcfBlobName">{{'exomiserSettings.Whats is a VCF' | translate }} <i class="ft-help-circle danger"  style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContent" popoverTitle="VCF file"></i></label>)
+                  (<label for="VcfBlobName">{{'exomiserSettings.Whats is a VCF' | translate }} <i class="ft-help-circle danger"  title="{{'generics.More information' | translate }}" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContent" popoverTitle="VCF file"></i></label>)
                 </p>
               </div>
             </span>
@@ -327,7 +327,7 @@
                               {{onefile.nameForShow}}
                             </span>
                             <span class="ml-2">
-                              <a class="danger" (click)="deleteVcfFile(onefile.name,i);" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
+                              <a class="danger" (click)="deleteVcfFile(onefile.name,i);" href="javascript:void(0)" title="{{'generics.Delete' | translate }}"><i class="fa fa-trash"></i></a>
                             </span>
                           </p>
                       </div>
@@ -353,23 +353,29 @@
           </div>
           <span class="content-sub-header">
             <span *ngIf="actualStep == '3.0'">
-              <span *ngIf="!viewAvancedMode">
-                Enhorabuena! Ya has conseguido añadir los síntomas
-                <span *ngIf="filesVcf.length>0"> y la información genética.</span>
-                <span *ngIf="filesVcf.length==0">.</span>
-                <p>Si quieres ver un modo avanzado, <a class="font-small-3" href="javascript:void(0)" (click)="changeViewAvancedMode()">pulse aquí</a> para ver más opciones</p>
-              </span>
-              <span *ngIf="viewAvancedMode">
-                Antes de continuar, seleccione los síntomas
-                <span *ngIf="filesVcf.length>0"> y ficheros de información genética que quieres que analicemos.</span>
-                <span *ngIf="filesVcf.length==0"> que quieres que analicemos.</span>
-                <p *ngIf="filesVcf.length<=1">Si quieres ocultar el modo avanzado, <a class="font-small-3" href="javascript:void(0)" (click)="changeViewAvancedMode()">pulse aquí</a></p>
-                <p>
-                  <span> Si quieres cambiar los parámetros de los algoritmos que usamos,</span>
-                  <a class="font-small-3 ml-1" href="javascript:void(0)" (click)="changeSettingsExomiser(contentSettingsExomiser)">pulsa aquí</a>
-                </p>
-              </span>
+              <span *ngIf="phenotype.data.length>0">
+                <span *ngIf="!viewAvancedMode">
+                  <span>Enhorabuena! Ya has conseguido añadir los síntomas</span>
 
+                  <span *ngIf="filesVcf.length>0"> y la información genética.</span>
+                  <span *ngIf="filesVcf.length==0">.</span>
+                  <p>Si quieres ver un modo avanzado, <a class="font-small-3" href="javascript:void(0)" (click)="changeViewAvancedMode()">pulse aquí</a> para ver más opciones</p>
+                </span>
+                <span *ngIf="viewAvancedMode">
+                  Antes de continuar, seleccione los síntomas
+                  <span *ngIf="filesVcf.length>0"> y ficheros de información genética que quieres que analicemos.</span>
+                  <span *ngIf="filesVcf.length==0"> que quieres que analicemos.</span>
+                  <p *ngIf="filesVcf.length<=1">Si quieres ocultar el modo avanzado, <a class="font-small-3" href="javascript:void(0)" (click)="changeViewAvancedMode()">pulse aquí</a></p>
+                  <p>
+                    <span> Si quieres cambiar los parámetros de los algoritmos que usamos,</span>
+                    <a class="font-small-3 ml-1" href="javascript:void(0)" (click)="changeSettingsExomiser(contentSettingsExomiser)">pulsa aquí</a>
+                  </p>
+                </span>
+              </span>
+              <span *ngIf="phenotype.data.length==0">
+                <span>Se necesitan síntomas. You need to provide some symptoms to launch gene prioritization algorithm.</span>
+                <span class="mt-1 d-block"><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('1.0', false);">Symptoms</a></span>
+              </span>
             </span>
             <span *ngIf="actualStep > '3.0' && actualStep < '5.0'">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.f
@@ -380,7 +386,7 @@
           </span>
         </div>
       </div>
-      <div *ngIf="actualStep=='3.0'" class="offset-lg-1 col-lg-10 offset-xl-2 col-xl-8">
+      <div *ngIf="actualStep=='3.0' && phenotype.data.length>0" class="offset-lg-1 col-lg-10 offset-xl-2 col-xl-8">
         <section class="row" *ngIf="!viewAvancedMode">
           <div class="col-md-12 mt-2">
             <p *ngIf="filesVcf.length<=1">Ya están listos tus datos, ahora prepárate, y haremos mágia con ellos cuando pulse en el botón de analizar de la parte inferior</p>
@@ -637,8 +643,8 @@
                 <div  class="col-md-12">
                   <div class="content-header pb-1">
                     <span>Reportes</span>
-                    <span *ngIf="docsNcr.length>0" class="nav-item" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
-                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSort" ngbDropdownToggle>
+                    <span *ngIf="docsNcr.length>0" class="nav-item" ngbDropdown display="dynamic" placement="bottom-right">
+                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSort" ngbDropdownToggle title="{{'generics.Sort' | translate }}">
                             <i class="fas fa-sort font-medium-3 primary"></i>
                             <p class="d-none">Sort</p>
                         </a>
@@ -717,8 +723,8 @@
                 <div class="col-md-12">
                   <div class="content-header pb-1">
                     <span>Other Docs</span>
-                    <span *ngIf="otherDocs.length>0" class="nav-item" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
-                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSort" ngbDropdownToggle>
+                    <span *ngIf="otherDocs.length>0" class="nav-item" ngbDropdown display="dynamic" placement="bottom-right">
+                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSort" ngbDropdownToggle title="{{'generics.Sort' | translate }}">
                             <i class="fas fa-sort font-medium-3 primary"></i>
                             <p class="d-none">Sort</p>
                         </a>
@@ -841,7 +847,7 @@
             <div class="col-lg-12">
               <div class="card border">
                 <div class="card-header">
-                  <span class="nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right" title="Options">
+                  <span class="nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right" title="{{'generics.Options' | translate }}">
                       <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
                           <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
                       </a>
@@ -1542,7 +1548,7 @@
                 <div class="card-header text-center pb-0">
                   <span class="float-left">{{i+1}}/{{temporalSymptoms.length}}</span>
                   <strong class="w-75 d-inline-block align-middle">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></strong>
-                  <span style="cursor: pointer;" class="float-right" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">
+                  <span style="cursor: pointer;" class="float-right" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);" title="{{'generics.More information' | translate }}">
                     <i style="font-size: 1.3em;" class="fa fa-info primary"></i>
                   </span>
                 </div>
@@ -1595,7 +1601,7 @@
                     <button (click)="changeStateSymptom(i, hpo.checked)" [ngClass]="(hpo.checked==true)?'btn btn-success mr-1 mb-0 btn-fab':'btn btn-secondary mr-1 mb-0 btn-fab'" href="javascript:void(0)">
                       <span *ngIf="!hpo.checked"><i class="fa fa-times mr-1"></i> Click si lo tiene</span><span *ngIf="hpo.checked"><i class="fa fa-check mr-1"></i> Click si no lo tiene</span>
                     </button>
-                    <span style="cursor: pointer;" class="float-right ml-1 mt-1" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">
+                    <span style="cursor: pointer;" class="float-right ml-1 mt-1" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);" title="{{'generics.More information' | translate }}">
                       <i style="font-size: 1.3em;" class="fa fa-info primary"></i>
                     </span>
                     <span class="font-medium-3 ml-2">
@@ -1671,7 +1677,7 @@
                 <div class="card-header text-center pb-0">
                   <span class="float-left">{{i+1}}/{{temporalSymptoms.length}}</span>
                   <strong class="w-75 d-inline-block align-middle">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></strong>
-                  <span style="cursor: pointer;" class="float-right" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">
+                  <span style="cursor: pointer;" class="float-right" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);" title="{{'generics.More information' | translate }}">
                     <i style="font-size: 1.3em;" class="fa fa-info primary"></i>
                   </span>
                 </div>

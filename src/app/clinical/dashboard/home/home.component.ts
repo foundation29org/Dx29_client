@@ -133,8 +133,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
     }
 
     createAvatarLists(){
+      //this.avatars_boys = [{name: 'boy-0'}, {name: 'boy-1'}, {name: 'boy-3'}, {name: 'boy-4'}, {name: 'boy-5'}, {name: 'boy-6'}, {name: 'boy-7'}, {name: 'boy-8'}, {name: 'boy-9'}, {name: 'boy-10'}];
       this.avatars_boys = [{name: 'boy-0'}, {name: 'boy-1'}, {name: 'boy-3'}, {name: 'boy-4'}, {name: 'boy-5'}, {name: 'boy-6'}, {name: 'boy-7'}, {name: 'boy-8'}, {name: 'boy-9'}, {name: 'boy-10'}, {name: 'boy-11'}, {name: 'boy-12'}, {name: 'boy-13'}, {name: 'boy-14'}, {name: 'boy-15'}, {name: 'boy-16'},
-        {name: 'boy-17'}, {name: 'boy-18'}, {name: 'boy-19'}, {name: 'boy-20'}, {name: 'boy-21'}, {name: 'boy-22'}];
+          {name: 'boy-17'}, {name: 'boy-18'}, {name: 'boy-19'}, {name: 'boy-20'}, {name: 'boy-21'}, {name: 'boy-22'}];
       this.avatars_girls = [{name: 'girl-0'}, {name: 'girl-1'}, {name: 'girl-3'}, {name: 'girl-4'}, {name: 'girl-5'}, {name: 'girl-6'}, {name: 'girl-7'}, {name: 'girl-8'}, {name: 'girl-9'}, {name: 'girl-10'}, {name: 'girl-11'}, {name: 'girl-12'}, {name: 'girl-13'}, {name: 'girl-14'}, {name: 'girl-15'}, {name: 'girl-16'},
         {name: 'girl-17'}, {name: 'girl-18'}, {name: 'girl-19'}, {name: 'girl-20'}, {name: 'girl-21'}, {name: 'girl-22'}, {name: 'girl-23'}, {name: 'girl-24'}, {name: 'girl-25'}, {name: 'girl-26'}];
     }
@@ -163,7 +164,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
     }
 
     selected2(i) {
-      console.log(i.item.id);
       this.patient.previousDiagnosis = i.item.id;
       this.modelTemp = '';
     }
@@ -174,20 +174,50 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
       .subscribe( (res : any) => {
         res.listpatients.sort(this.sortService.GetSortOrderNames("alias"));
         this.listOfSharedCases = res.listpatients;
-        console.log(this.listOfSharedCases);
 
         for (var i = 0; i <  this.listOfSharedCases.length; i++) {
           //this.listOfSharedCases[i].patientName = '<span class="spantolink primary">'+this.listOfSharedCases[i].patientName+'</span>'
           if(this.listOfSharedCases[i].status == 'analyzed'){
              this.listOfSharedCases[i].status = '<span class="success">'+this.translate.instant("diagnosis.Analyzed")+'</span>';
           }else if(this.listOfSharedCases[i].status == 'new'){
-             this.listOfSharedCases[i].status = '<span class="danger">'+this.translate.instant("generics.New")+'</span>';
+             this.listOfSharedCases[i].status = '<span class="danger">'+this.translate.instant("diagnosis.NoAnalyzed")+'</span>';
           }
 
           if(this.listOfSharedCases[i].hasvcf){
              this.listOfSharedCases[i].hasvcf = '<span class="success">'+this.translate.instant("generics.Yes")+'</span>';
           }else{
              this.listOfSharedCases[i].hasvcf = '<span class="danger">'+this.translate.instant("generics.No")+'</span>';
+          }
+
+          if(this.listOfSharedCases[i].birthDate){
+            var dateRequest2=new Date(this.listOfSharedCases[i].birthDate);
+              var resul = ''
+              var temp = this.ageFromDateOfBirthday(dateRequest2);
+              if(temp!=null){
+                if(temp.years>0){
+                  resul= temp.years+" years"
+                }
+                if(temp.months>0){
+                  resul= resul+ " " +temp.months+" months"
+                }
+                if(temp.years==0 && temp.months==0){
+                  resul="Menos de un mes"
+                }
+              }
+             this.listOfSharedCases[i].birthDate2 = resul;
+          }else{
+             this.listOfSharedCases[i].birthDate2 = '-';
+          }
+
+          if(this.listOfSharedCases[i].gender){
+            if(this.listOfSharedCases[i].gender=='male'){
+              this.listOfSharedCases[i].gender2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.listOfSharedCases[i].avatar+'.png" />'+" "+this.translate.instant("personalinfo.Male") ;
+            }else{
+              this.listOfSharedCases[i].gender2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.listOfSharedCases[i].avatar+'.png" />'+" "+ this.translate.instant("personalinfo.Female");
+            }
+
+          }else{
+             this.listOfSharedCases[i].gender2 = '-';
           }
 
           if(this.listOfSharedCases[i].symptoms<2){
@@ -229,6 +259,16 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
               placeholder: this.translate.instant("diagnosis.Case"),
               type: "html",
             },
+            birthDate2: {
+              title: 'Edad',
+              placeholder: 'Edad',
+              type: "html",
+            },
+            gender2: {
+              title: 'Sexo',
+              placeholder: 'Sexo',
+              type: "html",
+            },
             /*userName: {
               title: this.translate.instant("generics.Account name"),
               placeholder: this.translate.instant("generics.Account name"),
@@ -264,7 +304,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             },
           },
           pager : {
-              display : false
+              display : true,
+              perPage :10
           },
           attr: {
             class: "table table-responsive"
@@ -272,7 +313,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         };
 
         this.loadingSharedCases = false;
-        console.log(res);
       }, (err) => {
         console.log(err);
         this.loadingSharedCases = false;
@@ -314,7 +354,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
           if(this.patientsCopy[i].status == 'analyzed'){
              this.patientsCopy[i].status = '<span class="success">'+this.translate.instant("diagnosis.Analyzed")+'</span>';
           }else if(this.patientsCopy[i].status == 'new'){
-             this.patientsCopy[i].status = '<span class="danger">'+this.translate.instant("generics.New")+'</span>';
+             this.patientsCopy[i].status = '<span class="danger">'+this.translate.instant("diagnosis.NoAnalyzed")+'</span>';
           }
 
           if(this.patientsCopy[i].hasvcf){
@@ -327,7 +367,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             var dateRequest2=new Date(this.patientsCopy[i].birthDate);
               var resul = ''
               var temp = this.ageFromDateOfBirthday(dateRequest2);
-              console.log(temp);
               if(temp!=null){
                 if(temp.years>0){
                   resul= temp.years+" years"
@@ -346,9 +385,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
 
           if(this.patientsCopy[i].gender){
             if(this.patientsCopy[i].gender=='male'){
-              this.patientsCopy[i].gender2 = '<img class="avatar" src="assets/img/avatar/svg/'+this.patientsCopy[i].avatar+'.svg" />'+" "+this.translate.instant("personalinfo.Male") ;
+              this.patientsCopy[i].gender2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.patientsCopy[i].avatar+'.png" />'+" "+this.translate.instant("personalinfo.Male") ;
             }else{
-              this.patientsCopy[i].gender2 = '<img class="avatar" src="assets/img/avatar/svg/'+this.patientsCopy[i].avatar+'.svg" />'+" "+ this.translate.instant("personalinfo.Female");
+              this.patientsCopy[i].gender2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.patientsCopy[i].avatar+'.png" />'+" "+ this.translate.instant("personalinfo.Female");
             }
 
           }else{
@@ -371,13 +410,44 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
           if(this.listOfArchivedCases[i].status == 'analyzed'){
              this.listOfArchivedCases[i].status = '<span class="success">'+this.translate.instant("diagnosis.Analyzed")+'</span>';
           }else if(this.listOfArchivedCases[i].status == 'new'){
-             this.listOfArchivedCases[i].status = '<span class="danger">'+this.translate.instant("generics.New")+'</span>';
+             this.listOfArchivedCases[i].status = '<span class="danger">'+this.translate.instant("diagnosis.NoAnalyzed")+'</span>';
           }
 
           if(this.listOfArchivedCases[i].hasvcf){
              this.listOfArchivedCases[i].hasvcf = '<span class="success">'+this.translate.instant("generics.Yes")+'</span>';
           }else{
              this.listOfArchivedCases[i].hasvcf = '<span class="danger">'+this.translate.instant("generics.No")+'</span>';
+          }
+
+          if(this.listOfArchivedCases[i].birthDate){
+            var dateRequest2=new Date(this.listOfArchivedCases[i].birthDate);
+              var resul = ''
+              var temp = this.ageFromDateOfBirthday(dateRequest2);
+              if(temp!=null){
+                if(temp.years>0){
+                  resul= temp.years+" years"
+                }
+                if(temp.months>0){
+                  resul= resul+ " " +temp.months+" months"
+                }
+                if(temp.years==0 && temp.months==0){
+                  resul="Menos de un mes"
+                }
+              }
+             this.listOfArchivedCases[i].birthDate2 = resul;
+          }else{
+             this.listOfArchivedCases[i].birthDate2 = '-';
+          }
+
+          if(this.listOfArchivedCases[i].gender){
+            if(this.listOfArchivedCases[i].gender=='male'){
+              this.listOfArchivedCases[i].gender2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.listOfArchivedCases[i].avatar+'.png" />'+" "+this.translate.instant("personalinfo.Male") ;
+            }else{
+              this.listOfArchivedCases[i].gender2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.listOfArchivedCases[i].avatar+'.png" />'+" "+ this.translate.instant("personalinfo.Female");
+            }
+
+          }else{
+             this.listOfArchivedCases[i].gender2 = '-';
           }
 
           if(this.listOfArchivedCases[i].symptoms<2){
@@ -393,7 +463,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
 
         //this.patientsCopy = res.listpatients;
         this.alertSourceCasesArchived = new LocalDataSource(this.listOfArchivedCases);
-        console.log(this.patientsCopy);
         this.alertSource = new LocalDataSource(this.patientsCopy);
         this.alertsettings = {
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right'},
@@ -445,7 +514,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             },
           },
           pager : {
-              display : false
+              display : true,
+              perPage :10
           },
           attr: {
             class: "table table-responsive"
@@ -475,6 +545,16 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             placeholder: this.translate.instant("diagnosis.Case"),
             type: "html",
             },
+            birthDate2: {
+              title: 'Edad',
+              placeholder: 'Edad',
+              type: "html",
+            },
+            gender2: {
+              title: 'Sexo',
+              placeholder: 'Sexo',
+              type: "html",
+            },
             hasvcf: {
             title: this.translate.instant("diagnosis.Genetic information"),
             placeholder: this.translate.instant("generics.Yes")+'/'+this.translate.instant("generics.No"),
@@ -492,7 +572,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             },
           },
           pager : {
-              display : false
+              display : true,
+              perPage :10
           },
           attr: {
             class: "table table-responsive"
@@ -518,15 +599,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
       const today = new Date();
       const birthDate = new Date(dateOfBirth);
       var months;
+      var age =0;
+      age = today.getFullYear() - birthDate.getFullYear();
       months = (today.getFullYear() - birthDate.getFullYear()) * 12;
       months -= birthDate.getMonth();
       months += today.getMonth();
       var res = months <= 0 ? 0 : months;
       var m=res % 12;
-      var age =0;
+      /*var age =0;
       if(res>0){
         age= Math.abs(Math.round(res/12));
-      }
+      }*/
       res = {years:age, months:m };
       return res;
     }
@@ -602,7 +685,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         //alert(`Custom event '${event.action}' fired on row №: ${event.data.sub}`)
         this.modalReference = this.modalService.open(contentTemplate);
       }else if(event.action=="moreInfoShared"){
-        console.log(event.data);
         this.moreInfoCaseEvent = JSON.parse(JSON.stringify(event.data));
         document.getElementById("openModalMoreInfoShared").click();
       }else if(event.action=="share"){
@@ -649,7 +731,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
     }
 
     archiveCase(index){
-      console.log(this.patients[index]);
       if(this.authGuard.testtoken()){
         //cargar los datos del usuario
         //var paramssend = this.authService.getIdUser()+'-code-'+this.patients[index];
@@ -681,7 +762,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
     }
 
     restoreCase(index){
-      console.log(this.patients[index]);
       if(this.authGuard.testtoken()){
         //cargar los datos del usuario
         //var paramssend = this.authService.getIdUser()+'-code-'+this.patients[index];
@@ -789,12 +869,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
     }
 
     handleGridSelected(e){
-      console.log(e);
       this.selectCase(e);
     }
 
     handleGridSelectedShared(e){
-      console.log(e);
       var enc = false;
       for (var i = 0; i <  this.listOfSharedCases.length && !enc; i++) {
         if(this.listOfSharedCases[i].sub == e.data.sub){
@@ -923,7 +1001,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
 
       this.changeName = this.patient;
       //alert(`Custom event '${event.action}' fired on row №: ${event.data.sub}`)
-      console.log(event);
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
             keyboard : false
@@ -945,14 +1022,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   submitInvalidForm() {
-    console.log('Invalid form');
     this.toastr.warning('', this.translate.instant("generics.fieldsRequired"));
     if (!this.newPatientform) { return; }
     const base = this.newPatientform;
     for (const field in base.form.controls) {
       if (!base.form.controls[field].valid) {
           base.form.controls[field].markAsTouched()
-          console.log('Invalid form');
       }
     }
   }
@@ -973,7 +1048,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         this.sending = true;
         this.subscription.add( this.http.post(environment.api+'/api/patients/'+this.authService.getIdUser(), this.patient)
         .subscribe( (res : any) => {
-          console.log(res);
           if(this.modalReference!=undefined){
             this.modalReference.close();
           }
@@ -1007,7 +1081,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         this.sending = true;
         this.subscription.add( this.http.put(environment.api+'/api/patients/'+this.patient.id, this.patient)
         .subscribe( (res : any) => {
-          console.log(res);
           if(this.modalReference!=undefined){
             this.modalReference.close();
           }
@@ -1035,7 +1108,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
 
 
   onDeleteConfirm(event) {
-    console.log(event);
     var enc = false;
     for (var i = 0; i <  this.patients.length && !enc; i++) {
       if(this.patients[i].sub == event.data.sub){
@@ -1046,7 +1118,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   selectCase(event) {
-    console.log(event);
     var enc = false;
     for (var i = 0; i <  this.patients.length && !enc; i++) {
       if(this.patients[i].sub == event.data.sub){
@@ -1088,7 +1159,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   deleteCase(index){
-    console.log(this.patients[index]);
     if(this.authGuard.testtoken()){
       //cargar los datos del usuario
       //var paramssend = this.authService.getIdUser()+'-code-'+this.patients[index];
@@ -1112,7 +1182,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   onDeleteConfirmArchive(event) {
-    console.log(event);
     var enc = false;
     for (var i = 0; i <  this.listOfArchivedCases.length && !enc; i++) {
       if(this.listOfArchivedCases[i].sub == event.data.sub){
@@ -1146,7 +1215,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   deleteArchiveCase(index){
-    console.log(this.listOfArchivedCases[index]);
     if(this.authGuard.testtoken()){
       //cargar los datos del usuario
       //var paramssend = this.authService.getIdUser()+'-code-'+this.patients[index];
@@ -1170,7 +1238,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
 
 
   onDeleteSharedCaseConfirm(event) {
-    console.log(event);
     var enc = false;
     for (var i = 0; i <  this.listOfSharedCases.length && !enc; i++) {
       if(this.listOfSharedCases[i].sub == event.data.sub){
@@ -1204,7 +1271,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   deleteSharedCase(index){
-    console.log(this.listOfSharedCases[index]);
     if(this.authGuard.testtoken()){
       //cargar los datos del usuario
       var params:any = {};

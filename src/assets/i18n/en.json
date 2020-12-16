@@ -698,6 +698,7 @@
     "Selected": "Selected",
     "Msgwait":"Due to the high demand, we're going to delay this operation by at least 25 seconds",
     "Analyzed": "Analyzed",
+    "NoAnalyzed": "No analyzed",
     "There is already a case with that name": "There is already a case with that name",
     "name empty": "You cannot leave the name empty",
     "Please write a different name": "Please write a different name",

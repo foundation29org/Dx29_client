@@ -165,15 +165,17 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     const today = new Date();
     const birthDate = new Date(dateOfBirth);
     var months;
+    var age =0;
+    age = today.getFullYear() - birthDate.getFullYear();
     months = (today.getFullYear() - birthDate.getFullYear()) * 12;
     months -= birthDate.getMonth();
     months += today.getMonth();
     var res = months <= 0 ? 0 : months;
     var m=res % 12;
-    var age =0;
+    /*var age =0;
     if(res>0){
       age= Math.abs(Math.round(res/12));
-    }
+    }*/
     this.age = {years:age, months:m }
   }
 

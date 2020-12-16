@@ -697,6 +697,7 @@
     "Selected": "Seleccionado",
     "Msgwait":"Debido a la gran demanda, vamos a retrasar esta operación al menos 25 segundos",
     "Analyzed": "Analizado",
+    "NoAnalyzed": "No analizado",
     "There is already a case with that name": "Ya existe un caso con ese nombre",
     "name empty": "No puedes dejar el nombre vacío",
     "Please write a different name": "Por favor, escribe un nombre distinto",

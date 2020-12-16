@@ -170,21 +170,21 @@
 						<label>Avatar*</label>
 						<li *ngIf="patient.gender=='male'" class="nav-item" ngbDropdown display="dynamic" [placement]="placement" style="list-style-type: none; ">
 								<a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle>
-										<img class="avatar" src="assets/img/avatar/png/{{patient.avatar}}.png" />
+										<img class="avatar" src="assets/img/avatar/png/sm/{{patient.avatar}}.png" />
 								</a>
 								<div ngbDropdownMenu aria-labelledby="dropdownBasic3" [autoClose]="true">
 										<a class="dropdown-item py-1" style="display: contents !important;" *ngFor="let avatar2 of avatars_boys" (click)="changeAvatar(avatar2.name)">
-												<img class="avatar" src="assets/img/avatar/png/{{avatar2.name}}.png" />
+												<img class="avatar" src="assets/img/avatar/png/sm/{{avatar2.name}}.png" />
 										</a>
 								</div>
 						</li>
 						<li *ngIf="patient.gender=='female'" class="nav-item" ngbDropdown display="dynamic" [placement]="placement" style="list-style-type: none; ">
 								<a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle>
-										<img class="avatar" src="assets/img/avatar/png/{{patient.avatar}}.png" />
+										<img class="avatar" src="assets/img/avatar/png/sm/{{patient.avatar}}.png" />
 								</a>
 								<div ngbDropdownMenu aria-labelledby="dropdownBasic3" [autoClose]="true">
 										<a class="dropdown-item py-1" style="display: contents !important;" *ngFor="let avatar2 of avatars_girls" (click)="changeAvatar(avatar2.name)">
-												<img class="avatar" src="assets/img/avatar/png/{{avatar2.name}}.png" />
+												<img class="avatar" src="assets/img/avatar/png/sm/{{avatar2.name}}.png" />
 										</a>
 								</div>
 						</li>

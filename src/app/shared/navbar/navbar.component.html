@@ -36,17 +36,15 @@
 
             <ul class="navbar-nav m-r-0">
               <li class="nav-item d-none d-lg-block mt-2" style="line-height: 1rem;">
-                <a class="font-weight-bold" [routerLink]="redirectUrl" >
+                <a class="font-weight-bold" [routerLink]="redirectUrl" title="{{'diagnosis.BackCases' | translate }}">
                   <span class="btn-no-style cursor-pointer" style="margin-bottom: 0;">{{'diagnosis.BackCases' | translate }}</span>
                 </a>
                 <span class="font-weight-bold mr-1 ml-1"> > </span>
               </li>
-              <img class="avatar float-left" src="assets/img/avatar/png/{{selectedPatient.avatar}}.png" />
+              <img class="avatar float-left" src="assets/img/avatar/png/sm/{{selectedPatient.avatar}}.png" />
               <li class="nav-item" style="line-height: 1rem;">
                 <span class="d-block font-weight-bold mb-1">
                   <span> {{selectedPatient.patientName}}</span>
-                  <i *ngIf="selectedPatient.gender=='male'" class="ml-1 fa fa-mars"></i>
-                  <i *ngIf="selectedPatient.gender=='female'" class="ml-1 fa fa-venus"></i>
                 </span>
                 <span class="text-muted">
                   <span>Age: </span>
@@ -61,7 +59,7 @@
                 </span>
               </li>
                 <li class="nav-item mr-2 d-block d-xl-none" *ngIf="maxStep>='5.0'">
-                  <span class="nav-item text-muted" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
+                  <span class="nav-item text-muted" ngbDropdown display="dynamic" placement="bottom-right" title="{{'generics.Options' | translate }}">
                       <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownsections" ngbDropdownToggle>
                           <i class="fas fa-ellipsis-v"></i>
                           <p class="d-none">Group</p>
@@ -144,7 +142,7 @@
                     </div>
                   </li>
                   <li class="nav-item mr-2">
-                  <span class="nav-item text-muted" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
+                  <span class="nav-item text-muted" ngbDropdown display="dynamic" placement="bottom-right" title="{{'generics.Options' | translate }}">
                       <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
                           <i class="fas fa-ellipsis-v"></i>
                           <p class="d-none">Group</p>
@@ -196,7 +194,7 @@
             <div  id="navbarSupportedContent">
                 <ul class="navbar-nav m-r-0">
                   <li class="nav-item" ngbDropdown display="dynamic" [placement]="placement" *ngIf="(role == 'Clinical' || role == 'Lab') && tasks.length>0">
-                        <a class="nav-link position-relative" id="dropdownBasic2" ngbDropdownToggle>
+                        <a class="nav-link position-relative" id="dropdownBasic2" ngbDropdownToggle title="Notifications">
                             <i class="ft-bell font-medium-3 blue-grey darken-4"></i>
                             <span class="notification badge badge-pill badge-danger">{{tasks.length}}</span>
                             <p class="d-none">Notifications</p>
@@ -228,7 +226,7 @@
                         </div>
                     </li>
                   <li class="nav-item mr-2">
-                      <a href="javascript:;" class="nav-link" id="buttonShareTo" (click)="shareApp(shareTo)" *ngIf="role=='User' || ((role == 'Clinical' || role == 'Lab') && isHomePage)">
+                      <a href="javascript:;" class="nav-link" id="buttonShareTo" (click)="shareApp(shareTo)" *ngIf="role=='User' || ((role == 'Clinical' || role == 'Lab') && isHomePage)" title="Share">
                           <i class="icon-share font-medium-3 blue-grey darken-4"></i>
                           <p class="d-none">Share</p>
                       </a>
@@ -241,7 +239,7 @@
                   </li>-->
 
                   <li class="nav-item mr-2" ngbDropdown display="dynamic" [placement]="placement" *ngIf="role == 'Clinical' || role == 'Lab'" [ngClass]="((role == 'Clinical' || role == 'Lab') && isClinicalPage) ?'d-none d-lg-block':''">
-                      <a class="nav-link position-relative" id="dropdownBasic1" ngbDropdownToggle>
+                      <a class="nav-link position-relative" id="dropdownBasic1" ngbDropdownToggle title="Help">
                           <i class="ft-help-circle font-medium-3 blue-grey darken-4"></i>
                           <p class="d-none">Help</p>
                       </a>
@@ -258,13 +256,13 @@
                       </div>
                   </li>
                   <li class="nav-item mr-2" *ngIf="role == 'User'">
-                      <a class="nav-link position-relative notification-sidebar-toggle" routerLink="/pages/support">
+                      <a class="nav-link position-relative notification-sidebar-toggle" routerLink="/pages/support" title="{{'support.support' | translate }}">
                           <i class="ft-mail font-medium-3 blue-grey darken-4"></i>
                           <p class="d-none">{{'support.support' | translate }}</p>
                       </a>
                   </li>
                   <li class="nav-item" ngbDropdown display="dynamic" [placement]="placement"  [ngClass]="((role == 'Clinical' || role == 'Lab') && isClinicalPage) ?'d-none d-lg-block':''">
-                      <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle>
+                      <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle title="{{'generics.Options' | translate }}">
                           <i class="ft-user font-medium-3 blue-grey darken-4"></i>
                           <p class="d-none">{{'navbar.User Settings' | translate }}</p>
                       </a>
@@ -286,7 +284,7 @@
                       </div>
                   </li>
                   <li class="nav-item mr-2" *ngIf="(role == 'Clinical' || role == 'Lab') && isClinicalPage" [ngClass]="((role == 'Clinical' || role == 'Lab') && isClinicalPage) ?'d-block d-lg-none':''">
-                      <a class="nav-link" href="javascript:;" (click)="logout()">
+                      <a class="nav-link" href="javascript:;" (click)="logout()" title="{{'navbar.Logout' | translate }}">
                         <i class="ft-log-out mr-2"></i>
                         <p class="d-none">{{'navbar.Logout' | translate }}</p>
                       </a>
