@@ -17,9 +17,6 @@
             <a class="list-group-item no-border" (click)="SetActive($event, 'panelResumenHerramientas')">
                 {{'about.Summary of Tools' | translate }}
             </a>
-            <a class="list-group-item no-border" (click)="SetActive($event, 'PanelPuntuajesResultados')">
-                {{'about.Result scores' | translate }}
-            </a>
           </div>
         </div>
 
@@ -27,15 +24,12 @@
 
             <div *ngIf="activeTittleMenu == 'FlujoTrabajo'">
                 <h4>{{'about.Summary of Dx29 workflow' | translate }}</h4>
-                <p>
-                    {{'about.There are no cases in your profile' | translate }}
-                  </p>
                   <p>
-                    {{'about.Dx29 consists of four steps' | translate }}:
+                    {{'about.Dx29 consists of four steps' | translate }}
                   </p>
                   <ol>
                     <li>
-                      <b>{{'about.Input patient symptoms' | translate }}</b> {{'about.Input patient symptoms description' | translate }} {{'about.The phenotype quality' | translate }}
+                      <b>{{'about.Input patient symptoms' | translate }}</b> {{'about.Input patient symptoms description' | translate }}
                     </li>
                     <li>
                       <b>{{'about.Input genetic information' | translate }}</b> {{'about.Input genetic information description' | translate }}
@@ -47,21 +41,12 @@
                       <b>{{'about.Phenotype expansion and results' | translate }}</b> {{'about.Phenotype expansion and results description' | translate }}
                     </li>
                   </ol>
-                  <h4><b>{{'about.Detailed workflow' | translate }}:</b></h4>
-                  <p>
-                    {{'about.Dx29 allows processing multiple cases...' | translate }} <a href="https://hpo.jax.org/app/" target="_blank">Human Phenotype Ontology (HPO)</a> {{'about.system. The next step...' | translate }}
-                  </p>
-                  <p>
-                    {{'about.In the previous explanation...' | translate }}
-                  </p>
-                  <p>
-                    {{'about.A notable absence from this...' | translate }} <a href="https://github.com/ccmbioinfo/NeuralCR" target="_blank">NeuralCR</a>. {{'about.NCR is included here under MIT license.' | translate }}
-                  </p>
             </div>
 
             <div *ngIf="activeTittleMenu == 'ResumenHerramientas'">
               <h4>{{'about.Summary of Tools' | translate }}</h4>
-                <h5>Exomiser:</h5>
+                <h5 class="pt-2"><ins>Exomiser:</ins></h5>
+                <p>{{'about.ExomiserIntro' | translate }}</p>
                 <p>{{'about.Exomiser is a program...' | translate }}</p>
                 <p>{{'about.Using the genetic information...' | translate }}</p>
                 <p>
@@ -70,40 +55,20 @@
                 <p>
                   {{'about.Exomiser is included...' | translate }}: <a href="https://monarch-exomiser-web-dev.monarchinitiative.org/exomiser/legal" target="_blank">https://monarch-exomiser-web-dev.monarchinitiative.org/exomiser/legal</a>
                 </p>
-                <h5>Phenolyzer:</h5>
+                <h5 class="pt-2"><ins>Phen2Genes:</ins></h5>
                 <p>
-                  {{'about.Phenolyzer stands for...' | translate }}:
-                </p>
-                <ol>
-                  <li>{{'about.Finds all the genes having a reported association with the terms.' | translate }}</li>
-                  <li>{{'about.Grows the genes into gene-gene relation...' | translate }}</li>
-                  <li>{{'about.Integrates all the information...' | translate }}</li>
-                </ol>
-                <p>
-                  {{'about.Phenolyzer is developed at...' | translate }} <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4718403/" target="_blank">PubMed</a>). {{'about.Phenolyzer is included here thanks to out non-profit nature.' | translate }}
-                </p>
-                <h5>OwlSim:</h5>
-                <p>
-                  {{'about.OwlSim provides ontology-based...' | translate }}
+                  {{'about.Phen2GenesIntro' | translate }}
                 </p>
                 <p>
-                  {{'about.OwlSim is developed by the OWL collaboration' | translate }} <a href="https://github.com/owlcollab/owltools/blob/master/LICENSE.txt" target="_blank">link</a>.
+                  {{'about.Phen2Genes-p1' | translate }}
                 </p>
-            </div>
-            <div *ngIf="activeTittleMenu == 'PuntuajesResultados'">
-              <h4>{{'about.Result scores' | translate }}</h4>
+                <p [innerHTML]="'about.Phen2Genes-p2' | translate"></p>
+                <p [innerHTML]="'about.Phen2Genes-p3' | translate"></p>
+                <h5 class="pt-2"><ins>OwlSim:</ins></h5>
                 <p>
-                    {{'about.The scores at the...' | translate }}:
-                  </p>
-                  <ul>
-                    <li>H1: {{'about.Number of symptoms given...' | translate }}</li>
-                    <li>H2: {{'about.Phenotype similarity score...' | translate }}</li>
-                    <li>H3: {{'about.Normalized gene score...' | translate }}</li>
-                    <li>H29: {{'about.Sum of scores' | translate }}.</li>
-                  </ul>
-                  <p>{{'about.are normalized to the 0-100 range...' | translate }}</p>
-                  <p><b>{{'about.The scores here included...' | translate }}</b> {{'about.This will be improved in the future...' | translate }}</p>
-                  <p>{{'about.It is the onus of the user...' | translate }}</p>
+                  {{'about.OwlSim-p1' | translate }}
+                </p>
+                <p [innerHTML]="'about.OwlSim-p2' | translate"></p>
             </div>
           </div>
 

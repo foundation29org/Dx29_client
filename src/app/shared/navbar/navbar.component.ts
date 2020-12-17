@@ -669,13 +669,13 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
    startWizardAgain(){
      Swal.fire({
-         title: 'Estas seguro de lanzar el asistente?',
+         title: this.translate.instant("diagnosis.wizardquestionlaunch"),
          icon: 'warning',
          showCancelButton: true,
          confirmButtonColor: '#0CC27E',
          cancelButtonColor: '#f9423a',
          confirmButtonText: this.translate.instant("generics.Yes"),
-         cancelButtonText: this.translate.instant("generics.No, cancel"),
+         cancelButtonText: this.translate.instant("generics.No"),
          showLoaderOnConfirm: true,
          allowOutsideClick: false,
          reverseButtons:true

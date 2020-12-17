@@ -1,46 +1,29 @@
 <div class="col-md-12 center-elements" *ngIf="sending">
 	<div><p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p></div>
 </div>
-<div class="row col-md-12" >
+<div class="row" [ngClass]="(!loadingPatients && patients.length==0 && listOfArchivedCases.length==0 )?'offset-md-2 col-md-8 col-lg-8':'col-md-12'">
 	<div class="content-header">
-		<span>{{'diagnosis.Cases' | translate }}</span>
+		<span >{{'diagnosis.Cases' | translate }}</span>
 	</div>
 	<p class="content-sub-header">
 
 	</p>
 </div>
-<div class="d-flex" *ngIf="!loadingPatients && patients.length==0 && listOfArchivedCases.length==0">
-	<div class="mat-accordion">
-		<div class="p-2 card col-md-12">
-			<div class="card-block">
-				<h3>{{'about.There are no cases in your profile' | translate }}</h3>
-				<p>
-					{{'about.Dx29 consists of four steps' | translate }}:
-				</p>
-				<ol>
-					<li>
-						<b>{{'about.Input patient symptoms' | translate }}</b> {{'about.Input patient symptoms description' | translate }} {{'about.The phenotype quality' | translate }}
-					</li>
-					<li>
-						<b>{{'about.Input genetic information' | translate }}</b> {{'about.Input genetic information description' | translate }}
-					</li>
-					<li>
-						<b>{{'about.Analysis' | translate }}</b> {{'about.Analysis description' | translate }}
-					</li>
-					<li>
-						<b>{{'about.Phenotype expansion and results' | translate }}</b> {{'about.Phenotype expansion and results description' | translate }}
-					</li>
-				</ol>
+<div class="d-flex offset-md-2 col-md-8 col-lg-8" *ngIf="!loadingPatients && patients.length==0 && listOfArchivedCases.length==0">
+	<div class="card box border">
+			<div class="card-header pb-0 row">
+				<h3 class="ml-2 mr-2 ">{{'about.There are no cases in your profile' | translate }}</h3>
+			</div>
+			<div class="card-body">
 				<p>
 					{{'about.These instructions can be found in the' | translate }}
 				</p>
-
+			</div>
+			<div class="card-footer bt-n">
 				<div class="col-md-12 center-elements" *ngIf="!sending">
 					<button id="newpatient" class="btn btn-lg btn-outline-primary" type="button" (click)="callNewPatient(contentNewCaseName)">{{'diagnosis.New case' | translate }}</button>
-					<button class="ml-2 btn btn-lg btn-outline-primary" type="button" routerLink="/clinical/about">{{'about.title' | translate }}</button>
 				</div>
 			</div>
-		</div>
 	</div>
 </div>
 <mat-accordion>

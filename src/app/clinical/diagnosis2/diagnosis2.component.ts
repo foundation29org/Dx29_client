@@ -337,9 +337,10 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     isLoadingStep: boolean = true;
     actualTemporalSymptomsIndex:number = 0;
     viewOptionNcr:number = 0;
-    viewAvancedMode: boolean = false;
     indexListRelatedConditions: number = 10;
     loadingPotentialDiagnostics: boolean = false;
+    placement = "bottom-right";
+    numberOfSymptomsExo:number =0;
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -741,7 +742,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           this.goToStep('3.0', true);
         }else{
           Swal.fire({
-              title: 'No ha subido ningún fichero con información genética, ¿desea continuar?',
+              title: this.translate.instant("geneticsection.nogeneticinfo"),
               icon: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#0CC27E',
@@ -760,10 +761,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
       }else if(this.actualStep == '1.0'){
         if((this.phenotype.data.length == 0) || (this.numDeprecated==this.phenotype.data.length && this.numDeprecated>0)){
-          console.log('entra');
-          console.log(this.phenotype.data)
-          Swal.fire('Necesita al menos un síntoma para continuar', '', "info");
-          //Swal.fire({ title: this.translate.instant("diagnosis.titleNotCanLaunchExomiser"), html: this.translate.instant("diagnosis.msgNotCanLaunchExomiser"),icon:"info" })
+          //Swal.fire(this.translate.instant("symptomssection.needsymtoms"), '', "info");
+          Swal.fire({ title: this.translate.instant("symptomssection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"info" })
         }else{
           this.goToStep('2.0', true)
         }
@@ -775,7 +774,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     goToStepGenotics(){
       if((this.phenotype.data.length == 0) || (this.numDeprecated==this.phenotype.data.length && this.numDeprecated>0)){
-        this.toastr.warning('', 'Añada al menos un síntoma');
+        Swal.fire({ title: this.translate.instant("symptomssection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"info" })
       }else{
         this.goToStep('2.0', true);
       }
@@ -802,6 +801,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
       }else if(this.actualStep == '3.0'){
         this.symptomsExomiser = this.phenotype.data;
+        this.getNumberOfSymptomsExo();
         if(this.uploadingGenotype){
           this.goToStep('3.1', save);
         }
@@ -1381,6 +1381,10 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             windowClass: 'ModalClass-sm'
       };
       this.modalReference = this.modalService.open(contentInfoSymptom, ngbModalOptions);
+    }
+
+    goPrevSymptom(){
+      this.actualTemporalSymptomsIndex--;
     }
 
     deleteItem(item) {
@@ -2647,7 +2651,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
             keyboard : false,
-            windowClass: 'ModalClass-xl'
+            windowClass: 'ModalClass-lg'// xl, lg, sm
       };
       this.modalReference = this.modalService.open(contentAddTextSymptoms, ngbModalOptions);
     }
@@ -2824,14 +2828,13 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     confirmDeletePhenotype(index){
       Swal.fire({
-          title: this.translate.instant("generics.Are you sure delete?"),
-          text:  "Vas a eliminar el síntoma '"+this.phenotype.data[index].name+"'",
+          title: this.translate.instant("generics.Are you sure delete")+" "+this.phenotype.data[index].name+" ?",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#0CC27E',
           cancelButtonColor: '#f9423a',
-          confirmButtonText: this.translate.instant("generics.Yes"),
-          cancelButtonText: this.translate.instant("generics.No"),
+          confirmButtonText: this.translate.instant("generics.Accept"),
+          cancelButtonText: this.translate.instant("generics.Cancel"),
           showLoaderOnConfirm: true,
           allowOutsideClick: false,
           reverseButtons:true
@@ -2848,7 +2851,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     deleteAllSymtoms(){
       Swal.fire({
-          title: this.translate.instant("generics.Are you sure delete?"),
+          title: this.translate.instant("generics.Are you sure delete"),
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#0CC27E',
@@ -3881,7 +3884,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               }
             }else{
               console.log('entra');
-              document.getElementById("openModalShowPanelSymptomsNcr2").click();
+              document.getElementById("openModalSymptomsNcrButton2").click();
             }
 
           }else{
@@ -4272,14 +4275,13 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     deleteVcfFile(file,i){
       Swal.fire({
-          title: this.translate.instant("generics.Are you sure delete?"),
-          text:  "Vas a eliminar el fichero '"+this.filesVcf[i].nameForShow+"'",
+          title: this.translate.instant("generics.Are you sure delete")+" "+this.filesVcf[i].nameForShow+" ?",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#0CC27E',
           cancelButtonColor: '#f9423a',
-          confirmButtonText: this.translate.instant("generics.Yes"),
-          cancelButtonText: this.translate.instant("generics.No"),
+          confirmButtonText: this.translate.instant("generics.Accept"),
+          cancelButtonText: this.translate.instant("generics.Cancel"),
           showLoaderOnConfirm: true,
           allowOutsideClick: false,
           reverseButtons:true
@@ -4337,6 +4339,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.variantEffectsFilterRequired=true;
 
     }
+
     showPanelSymptomsNcr(contentSymptomsNcr){
       if(this.modalReference!=undefined){
         this.modalReference.close();
@@ -4346,21 +4349,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             keyboard : false,
             windowClass: 'ModalClass-sm'// xl, lg, sm
       };
-      this.modalReference = this.modalService.open(contentSymptomsNcr, ngbModalOptions);
-    }
-
-    showPanelSymptomsNcr2(contentSymptomsNcr3){
-      if(this.modalReference!=undefined){
-        this.modalReference.close();
-      }
-      let ngbModalOptions: NgbModalOptions = {
-            backdrop : 'static',
-            keyboard : false,
-            windowClass: 'ModalClass-sm'// xl, lg, sm
-      };
       this.actualTemporalSymptomsIndex = 0;
-      console.log('epa');
-      this.modalReference = this.modalService.open(contentSymptomsNcr3, ngbModalOptions);
+      this.modalReference = this.modalService.open(contentSymptomsNcr, ngbModalOptions);
     }
 
     addSymptomTinder(index){
@@ -4414,28 +4404,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     showCompleteNcrResultView(){
       this.ncrResultView = !this.ncrResultView ;
-    }
-
-    confirmSaveSymptomsNcr(){
-      Swal.fire({
-          title: 'Este paso es el más importante, has revisado bien todos los síntomas?',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#0CC27E',
-          cancelButtonColor: '#f9423a',
-          confirmButtonText: this.translate.instant("generics.Yes"),
-          cancelButtonText: this.translate.instant("generics.No, cancel"),
-          showLoaderOnConfirm: true,
-          allowOutsideClick: false,
-          reverseButtons:true
-      }).then((result) => {
-        if (result.value) {
-          if(this.modalReference!=undefined){
-            this.modalReference.close();
-          }
-          this.saveSymptomsNcr();
-        }
-      });
     }
 
     saveSymptomsNcr(){
@@ -6892,34 +6860,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       });
     }
 
-    startWizardAgain(){
-      Swal.fire({
-          title: 'Estas seguro de lanzar el asistente?',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#0CC27E',
-          cancelButtonColor: '#f9423a',
-          confirmButtonText: this.translate.instant("generics.Yes"),
-          cancelButtonText: this.translate.instant("generics.No, cancel"),
-          showLoaderOnConfirm: true,
-          allowOutsideClick: false,
-          reverseButtons:true
-      }).then((result) => {
-        if (result.value) {
-          if(this.showIntroWizard){
-            this.setMaxStep('0.0');
-            this.goToStep('0.0', true)
-          }else{
-            this.setMaxStep('1.0');
-            this.goToStep('1.0', true)
-          }
-
-        }
-      });
-
-    }
-
-
     loadShowIntroWizard(){
       this.subscription.add( this.http.get(environment.api+'/api/users/showintrowizard/'+this.authService.getIdUser())
         .subscribe( (res : any) => {
@@ -7022,13 +6962,18 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       console.log(this.viewOptionNcr);
     }
 
-    changeViewAvancedMode(){
-      this.viewAvancedMode = !this.viewAvancedMode;
-    }
-
     loat10More(){
       this.indexListRelatedConditions=this.indexListRelatedConditions+10;
       this.renderMap();
+    }
+
+    getNumberOfSymptomsExo(){
+      this.numberOfSymptomsExo = 0;
+      for(var i=0;i<this.symptomsExomiser.length;i++){
+        if(this.symptomsExomiser[i].checked){
+          this.numberOfSymptomsExo++;
+        }
+      }
     }
 
 }
