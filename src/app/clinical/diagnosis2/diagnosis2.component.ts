@@ -666,14 +666,14 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }else if(this.actualStep > '3.0'){
         if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
           Swal.fire({
-              title: 'Todavía estamos analizando la información',
-              text:  "Si va hacia atrás, se cancelará en analisis, ¿Estas seguro?",
+              title: this.translate.instant("analysissection.analyzingdata"),
+              text:  this.translate.instant("analysissection.stopanalysis?"),
               icon: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#0CC27E',
               cancelButtonColor: '#f9423a',
-              confirmButtonText: 'Si, cancelar el análisis',
-              cancelButtonText: 'No, esperar un poco',
+              confirmButtonText: this.translate.instant("generics.Accept"),
+              cancelButtonText: this.translate.instant("generics.Cancel"),
               showLoaderOnConfirm: true,
               allowOutsideClick: false,
               reverseButtons:true
@@ -682,14 +682,17 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               this.cancelSubscription();
               this.setActualStep('3.0');
               this.setActualStepDB('3.0');
+              if(this.modalReference!=undefined){
+                this.modalReference.close();
+              }
             }
           });
 
         }else if(this.launchingPhen2Genes || this.calculatingH29Score || this.gettingRelatedConditions){
-          Swal.fire('Todavía estamos analizando, ten un poco de paciencia por favor', '', "info");
+          Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "info");
         }else{
           if(!this.loadingGeno && !this.calculatingH29Score && !this.gettingRelatedConditions && !this.uploadingGenotype && !this.launchingPhen2Genes && !this.uploadingGenotype){
-              Swal.fire('El analisis ha terminado, vaya a ver los resultados', '', "info");
+              Swal.fire(this.translate.instant("analysissection.analysisover"), '', "info");
           }else{
             this.setActualStep('3.0');
           }
@@ -709,13 +712,13 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.goToStep('5.0', true)
       }else if(this.actualStep == '3.2'){
         if(this.launchingPhen2Genes || this.calculatingH29Score || this.gettingRelatedConditions){
-          Swal.fire('Todavía estamos analizando, ten un poco de paciencia por favor', '', "info");
+          Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "info");
         }else{
           this.goToStep('5.0', true)
         }
       }else if(this.actualStep == '3.1'){
         if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
-          Swal.fire('Todavía estamos analizando, ten un poco de paciencia por favor', '', "info");
+          Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "info");
         }else{
           this.goToStep('5.0', true)
         }
@@ -728,7 +731,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           }
         }
         if(!haveSymptoms){
-            Swal.fire({ title: this.translate.instant("diagnosis.titleNotCanLaunchExomiser"), html: this.translate.instant("diagnosis.msgNotCanLaunchExomiser"),icon:"info" })
+          Swal.fire({ title: this.translate.instant("analysissection.nosymptoms"), text:  this.translate.instant("symptomssection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"info" })
         }else{
           if(this.filesVcf.length>0 && !this.notAnalyzeGeneticInfo){
             this.goToStep('3.1', true)
@@ -743,7 +746,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }else{
           Swal.fire({
               title: this.translate.instant("geneticsection.nogeneticinfo"),
-              icon: 'warning',
+              icon: 'info',
               showCancelButton: true,
               confirmButtonColor: '#0CC27E',
               cancelButtonColor: '#f9423a',
@@ -793,17 +796,22 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.setActualStep(indexStep);
       if(this.actualStep == '3.2'){
         this.lauchPhen2Genes();
+        document.getElementById("openModalPhen2genes").click();
       }else if(this.actualStep == '3.1'){
         console.log(save);
         if(save){
           this.callExomizerSameVcf();
         }
-
+        document.getElementById("openModalExomiser").click();
       }else if(this.actualStep == '3.0'){
         this.symptomsExomiser = this.phenotype.data;
         this.getNumberOfSymptomsExo();
         if(this.uploadingGenotype){
           this.goToStep('3.1', save);
+        }
+      }else if(this.actualStep == '5.0'){
+        if(this.modalReference!=undefined){
+          this.modalReference.close();
         }
       }else if(this.actualStep == '6.0'){
         this.loadFilesContainer(false);
@@ -858,38 +866,45 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           //this.actualStep = '4.0';
           this.loadFilesContainer(true);
         }else if(info=='cancelAnalysis'){
-          if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
-            Swal.fire({
-                title: 'Todavía estamos analizando la información',
-                text:  "¿Estas seguro de cancelar el análisis?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#0CC27E',
-                cancelButtonColor: '#f9423a',
-                confirmButtonText: 'Si, cancelar el análisis',
-                cancelButtonText: 'No, esperar un poco',
-                showLoaderOnConfirm: true,
-                allowOutsideClick: false,
-                reverseButtons:true
-            }).then((result) => {
-              if (result.value) {
-                this.cancelSubscription();
-                this.setActualStep('5.0');
-                this.loadingGeno =false;
-                this.calculatingH29Score=false;
-                this.gettingRelatedConditions=false;
-                this.uploadingGenotype=false;
-                //this.setActualStepDB('5.0');
-              }
-            });
-
-          }else if(this.launchingPhen2Genes || this.calculatingH29Score || this.gettingRelatedConditions){
-            Swal.fire('Todavía estamos analizando, ten un poco de paciencia por favor', '', "info");
-          }else{
-            this.setActualStep('5.0');
-          }
+          this.cancelAnalysis();
         }
       }.bind(this));
+    }
+
+    cancelAnalysis(){
+      if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
+          Swal.fire({
+            title: this.translate.instant("analysissection.analyzingdata"),
+            text:  this.translate.instant("analysissection.stopanalysis?"),
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#0CC27E',
+            cancelButtonColor: '#f9423a',
+            confirmButtonText: this.translate.instant("generics.Accept"),
+            cancelButtonText: this.translate.instant("generics.Cancel"),
+            showLoaderOnConfirm: true,
+            allowOutsideClick: false,
+            reverseButtons:true
+        }).then((result) => {
+          if (result.value) {
+            this.cancelSubscription();
+            this.setActualStep('5.0');
+            this.loadingGeno =false;
+            this.calculatingH29Score=false;
+            this.gettingRelatedConditions=false;
+            this.uploadingGenotype=false;
+            //this.setActualStepDB('5.0');
+            if(this.modalReference!=undefined){
+              this.modalReference.close();
+            }
+          }
+        });
+
+      }else if(this.launchingPhen2Genes || this.calculatingH29Score || this.gettingRelatedConditions){
+        Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "info");
+      }else{
+        this.setActualStep('5.0');
+      }
     }
 
     getAzureBlobSasToken(){
@@ -3211,7 +3226,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
       }
       if(tempSymptomsExo.length==0){
-        Swal.fire({ title: this.translate.instant("diagnosis.titleNotCanLaunchExomiser"), html: this.translate.instant("diagnosis.msgNotCanLaunchExomiser"),icon:"info" })
+        Swal.fire({ title: this.translate.instant("analysissection.nosymptoms"), text:  this.translate.instant("symptomssection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"info" })
       }
       // If yes: launch exomiser
       else{

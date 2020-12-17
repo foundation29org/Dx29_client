@@ -743,6 +743,14 @@
     "panelInfoVcfp2": "It is usual that these files are never sent to the patient or the physicians by the labs, but in many cases, it is vital to reanalyze them as the patient symptoms progress. The patient has the right to have a copy of these files, so the easiest way to get them is for the patient to request a copy. Ask the patient to get in touch with us at <a href='mailto:support@foundation29.org'>support@foundation29.org</a> and we will send a short tutorial on how to do it.",
     "nogeneticinfo": "There is no genetic information, do you want to continue?"
   },
+  "analysissection":{
+    "nosymptoms": "You have removed all symptoms",
+    "analyzingdata": "We are analyzing the data",
+    "stopanalysis?": "Do you want to stop the analysis?",
+    "stillanalyzing": "We are still analyzing, so please be patient.",
+    "analysisover": "The analysis is over, go see the results.",
+    "may10minutes": "This process may take up to 10 minutes, depending on the input. Please, do not close this window."
+  },
   "wizard":{
     "title": "Welcome to the wizard",
     "subtitle": "This wizard will guide you from the symptom input, through the results analysis. These are the steps to follow:",

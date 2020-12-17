@@ -479,42 +479,17 @@
         <section class="mt-2 card p-2 border">
           <div class="center-elements">
             <div class="donate">
-                <p *ngIf="!notAnalyzeGeneticInfo && (loadingGeno || calculatingH29Score || gettingRelatedConditions || uploadingGenotype)" class="text-muted">Nuestros robots están analizando tus síntomas y tu información genetica, en breves te mostrarán los resultados de posibles enfermedades</p>
-                <p *ngIf="notAnalyzeGeneticInfo  && (loadingGeno || calculatingH29Score || gettingRelatedConditions || uploadingGenotype)" class="text-muted">Nuestros robots están analizando tus síntomas, en breves te mostrarán los resultados de posibles enfermedades</p>
-                <section class="text-left">
-                  <div class="mt-2">
-                    <p>{{'patnodiagdashboard.step2-1.msg2' | translate }}</p>
+                <section>
+                  <div class="mt-2" *ngIf="substepExtract<4">
+                    <p>{{'analysissection.analyzingdata' | translate }}</p>
+                    <p>{{'analysissection.may10minutes' | translate }}</p>
                     <div>
-                      <ol>
-                        <li>
-                          <p>Analizando los datos
-                            <span *ngIf="uploadingGenotype"><i class="fa fa-spinner fa-spin fa-fw pink"></i>
-                            </span>
-                            <span *ngIf="!uploadingGenotype"><i class="fa fa-check success"></i></span>
-                          </p>
-                        </li>
-                        <li>
-                          <p>Obteniendo posibles condiciones
-                            <span *ngIf="!uploadingGenotype && gettingRelatedConditions"><i class="fa fa-spinner fa-spin fa-fw pink"></i>
-                            </span>
-                            <span *ngIf="!uploadingGenotype && !gettingRelatedConditions"><i class="fa fa-check success"></i></span>
-                          </p>
-                        </li>
-                        <li>
-                          <p>Priorizando las condiciones
-                            <span *ngIf="!uploadingGenotype && !gettingRelatedConditions && calculatingH29Score"><i class="fa fa-spinner fa-spin fa-fw pink"></i>
-                            </span>
-                            <span *ngIf="!uploadingGenotype && !gettingRelatedConditions && !calculatingH29Score"><i class="fa fa-check success"></i></span>
-                          </p>
-                        </li>
-                      </ol>
+                      <div class="mb-3 center-elements">
+                        <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+                      </div>
                     </div>
                   </div>
                 </section>
-            </div>
-            <div class="donate" *ngIf="!loadingGeno && !calculatingH29Score && !gettingRelatedConditions && !uploadingGenotype">
-                <p class="text-muted">El proceso ha terminado, pulsa en finalizar de la parte inferior derecha</p>
-                <button type="button" class="btn btn-outline-primary" (click)="goToStep('5.0', true)">Finish y ver diagnoses</button>
             </div>
       		</div>
         </section>
@@ -524,82 +499,23 @@
       <div *ngIf="actualStep=='3.2'" class="offset-lg-1 col-lg-10 offset-xl-2 col-xl-8">
         <section class="mt-2 card p-2 border">
           <div class="center-elements">
-            <div class="donate" *ngIf="launchingPhen2Genes || calculatingH29Score || gettingRelatedConditions">
-                <p class="text-muted">Nuestros robots están analizando tus síntomas, en breves te mostrarán los resultados de posibles enfermedades</p>
-                <section class="text-left">
-                  <div class="mt-2">
-                    <p>{{'patnodiagdashboard.step2-1.msg2' | translate }}</p>
+            <div class="donate">
+                <section>
+                  <div class="mt-2" *ngIf="substepExtract<4">
+                    <p>{{'analysissection.analyzingdata' | translate }}</p>
+                    <p>{{'analysissection.may10minutes' | translate }}</p>
                     <div>
-                      <ol>
-                        <li>
-                          <p>Analizando los datos
-                            <span *ngIf="launchingPhen2Genes"><i class="fa fa-spinner fa-spin fa-fw pink"></i>
-                            </span>
-                            <span *ngIf="!launchingPhen2Genes"><i class="fa fa-check success"></i></span>
-                          </p>
-                        </li>
-                        <li>
-                          <p>Obteniendo posibles condiciones
-                            <span *ngIf="!launchingPhen2Genes && gettingRelatedConditions"><i class="fa fa-spinner fa-spin fa-fw pink"></i>
-                            </span>
-                            <span *ngIf="!launchingPhen2Genes && !gettingRelatedConditions"><i class="fa fa-check success"></i></span>
-                          </p>
-                        </li>
-                        <li>
-                          <p>Priorizando las condiciones
-                            <span *ngIf="!launchingPhen2Genes && !gettingRelatedConditions && calculatingH29Score"><i class="fa fa-spinner fa-spin fa-fw pink"></i>
-                            </span>
-                            <span *ngIf="!launchingPhen2Genes && !gettingRelatedConditions && !calculatingH29Score"><i class="fa fa-check success"></i></span>
-                          </p>
-                        </li>
-                      </ol>
+                      <div class="mb-3 center-elements">
+                        <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+                      </div>
                     </div>
                   </div>
                 </section>
-            </div>
-            <div class="donate" *ngIf="!launchingPhen2Genes && !calculatingH29Score && !gettingRelatedConditions">
-                <p class="text-muted">El proceso ha terminado, pulsa en finalizar de la parte inferior derecha</p>
-                <button type="button" class="btn btn-outline-primary" (click)="goToStep('5.0', true)">Finish y ver diagnoses</button>
             </div>
       		</div>
         </section>
       </div>
       <!-- End Step 3.2 -->
-      <!-- Step 3.3 -->
-      <div *ngIf="actualStep=='3.3'" class="offset-lg-1 col-lg-10 offset-xl-2 col-xl-8">
-        <section class="mt-2">
-          <div class="center-elements">
-            <a class="btn btn-raised btn-primary" href="javascript:void(0)" (click)="editDiagnosis()">Navegar por las enfermedades</a>
-          </div>
-          <div class="col-md-12 center-elements" *ngIf="!gettingRelatedConditions">
-            <div class="" style="background:rgba(155, 155, 155, 0.09);">
-              <div class="row" *ngFor="let disease of relatedConditions; let i = index" style="height:6em;">
-                <div class="col-10 row mt-2">
-                  <span class="pl-4"> {{disease.name.label}}</span>
-                </div>
-                <div class="col-2 mt-3">
-                  <span class="text-muted">{{disease.h29}}</span>
-                  <a class="float-right ml-1" style="color:#009DA0;" (click)="onActivate2(disease, contentSeeSymptomsOfDisease);" href="javascript:void(0)"><i class="fas fa-chevron-right" title="{{'generics.More information' | translate }}"></i></a>
-
-                </div>
-                <div class="col-11">
-                  <ngb-progressbar type="primary" value="{{disease.h29}}" [striped]="false" [animated]="true" [max]="100"></ngb-progressbar>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-12 center-elements" *ngIf="gettingRelatedConditions">
-            <div>
-              <p>Recalculando la lista de enfermedades</p>
-              <p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
-            </div>
-          </div>
-          <p *ngIf="relatedConditions.length==0 && !gettingRelatedConditions">
-            {{'generics.No data' | translate }}
-          </p>
-        </section>
-      </div>
-      <!-- End Step 3.3 -->
       <div *ngIf="actualStep=='4.0'" class="">
           <!--<div class="content-header text-left">
             00. {{'patnodiagdashboard.menu.Welcome' | translate }}
@@ -3020,8 +2936,83 @@
       </div>
     </div>
   </div>
+</ng-template>
+
+<ng-template #contentModalPhen2genes let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-header d-block" id="idHeader">
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <div>
+      <h4>{{'analysissection.analyzingdata' | translate }}</h4>
+    </div>
+  </div>
+    <div class="content-wrapper">
+      <div class="row col-md-12">
+        <div class="col-md-12 offset-lg-1 col-lg-10">
+          <section>
+            <div class="mt-2" *ngIf="substepExtract<4">
+              <p>{{'analysissection.analyzingdata' | translate }}</p>
+              <p>{{'analysissection.may10minutes' | translate }}</p>
+              <div>
+                <div class="mb-3 center-elements">
+                  <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+  </div>
+  <!--<div class="modal-footer">
+    <div class="col-md-12 center-elements">
+      <div class="form-actions center">
+        <button *ngIf="maxStep>='5.0'" type="button" class="mt-2 mr-3 btn secondary btn-outline-secondary" (click)="cancelAnalysis()"><span style="margin-right: 10px;"></span> {{'generics.Cancel' | translate }}</button>
+        <button *ngIf="maxStep<'5.0'" type="button" class="mt-2 mr-3 btn secondary btn-outline-secondary" (click)="goPrevStep()"><span style="margin-right: 10px;"></span> {{'generics.Cancel' | translate }}</button>
+      </div>
+    </div>
+  </div>-->
+</ng-template>
+
+<ng-template #contentModalExomiser let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-header d-block" id="idHeader">
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <div>
+      <h4>{{'analysissection.analyzingdata' | translate }}</h4>
+    </div>
+  </div>
+    <div class="content-wrapper">
+      <div class="row col-md-12">
+        <div class="col-md-12 offset-lg-1 col-lg-10">
+          <section>
+            <div class="mt-2" *ngIf="substepExtract<4">
+              <p>{{'analysissection.analyzingdata' | translate }}</p>
+              <p>{{'analysissection.may10minutes' | translate }}</p>
+              <div>
+                <div class="mb-3 center-elements">
+                  <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+  </div>
+  <!--<div class="modal-footer">
+    <div class="col-md-12 center-elements">
+      <div class="form-actions center">
+        <button *ngIf="maxStep>='5.0'" type="button" class="mt-2 mr-3 btn secondary btn-outline-secondary" (click)="cancelAnalysis()"><span style="margin-right: 10px;"></span> {{'generics.Cancel' | translate }}</button>
+        <button *ngIf="maxStep<'5.0'" type="button" class="mt-2 mr-3 btn secondary btn-outline-secondary" (click)="goPrevStep()"><span style="margin-right: 10px;"></span> {{'generics.Cancel' | translate }}</button>
+      </div>
+    </div>
+  </div>-->
 
 </ng-template>
+
 <button id="openModalSymptomsNcrButton2" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr)">.</button>
 <button id="openModalIntro" [hidden]="true" (click)="showPanelIntro(contentIntro)">.</button>
 <button id="openModalShowPanelSymptomsNcr2" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr)">.</button>
+<button id="openModalPhen2genes" [hidden]="true" (click)="showPanelIntro(contentModalPhen2genes)">.</button>
+<button id="openModalExomiser" [hidden]="true" (click)="showPanelIntro(contentModalExomiser)">.</button>

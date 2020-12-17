@@ -742,6 +742,14 @@
     "panelInfoVcfp2": "Es habitual que estos archivos nunca se envíen al paciente o a los médicos desde los laboratorios, pero en muchos casos, es vital volver a analizarlos a medida que los síntomas del paciente progresan. El paciente tiene derecho a tener una copia de estos archivos, así que la forma más fácil de obtenerlos es que el paciente solicite una copia. Pídele al paciente que se ponga en contacto con nosotros en <a href='mailto:support@foundation29.org'>support@foundation29.org</a> y le enviaremos un breve tutorial sobre cómo hacerlo.",
     "nogeneticinfo": "No hay información genética, ¿deseas continuar?"
   },
+  "analysissection":{
+    "nosymptoms": "Has eliminado todos los síntomas",
+    "analyzingdata": "Estamos analizando la información",
+    "stopanalysis?": "¿Quieres parar el análisis?",
+    "stillanalyzing": "We are still analyzing, so please be patient.",
+    "analysisover": "El analisis ha terminado, vaya a ver los resultados.",
+    "may10minutes": "Este proceso puede tardar hasta 10 minutos en función de los datos. Por favor, no cierres esta ventana."
+  },
   "wizard":{
     "title": "Bienvenido al asistente",
     "subtitle": "Este asistente te guiará desde la introducción de síntomas, hasta el análisis de resultados. Estos son los pasos a seguir:",
