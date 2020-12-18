@@ -665,7 +665,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.setActualStep('0.0');
       }else if(this.actualStep > '3.0'){
         if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
-          Swal.fire({
+          Swal.fire(this.translate.instant("analysissection.stillanalyzing"), 'this.translate.instant("analysissection.may10minutesexov2")', "warning");
+
+          /*Swal.fire({
               title: this.translate.instant("analysissection.analyzingdata"),
               text:  this.translate.instant("analysissection.stopanalysis?"),
               icon: 'warning',
@@ -686,13 +688,13 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                 this.modalReference.close();
               }
             }
-          });
+          });*/
 
         }else if(this.launchingPhen2Genes || this.calculatingH29Score || this.gettingRelatedConditions){
-          Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "info");
+          Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "warning");
         }else{
           if(!this.loadingGeno && !this.calculatingH29Score && !this.gettingRelatedConditions && !this.uploadingGenotype && !this.launchingPhen2Genes && !this.uploadingGenotype){
-              Swal.fire(this.translate.instant("analysissection.analysisover"), '', "info");
+              Swal.fire(this.translate.instant("analysissection.analysisover"), '', "warning");
           }else{
             this.setActualStep('3.0');
           }
@@ -712,13 +714,13 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.goToStep('5.0', true)
       }else if(this.actualStep == '3.2'){
         if(this.launchingPhen2Genes || this.calculatingH29Score || this.gettingRelatedConditions){
-          Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "info");
+          Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "warning");
         }else{
           this.goToStep('5.0', true)
         }
       }else if(this.actualStep == '3.1'){
         if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
-          Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "info");
+          Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "warning");
         }else{
           this.goToStep('5.0', true)
         }
@@ -731,7 +733,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           }
         }
         if(!haveSymptoms){
-          Swal.fire({ title: this.translate.instant("analysissection.nosymptoms"), text:  this.translate.instant("symptomssection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"info" })
+          Swal.fire({ title: this.translate.instant("analysissection.nosymptoms"), text:  this.translate.instant("analysissection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"warning" })
         }else{
           if(this.filesVcf.length>0 && !this.notAnalyzeGeneticInfo){
             this.goToStep('3.1', true)
@@ -746,7 +748,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }else{
           Swal.fire({
               title: this.translate.instant("geneticsection.nogeneticinfo"),
-              icon: 'info',
+              icon: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#0CC27E',
               cancelButtonColor: '#f9423a',
@@ -764,8 +766,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
       }else if(this.actualStep == '1.0'){
         if((this.phenotype.data.length == 0) || (this.numDeprecated==this.phenotype.data.length && this.numDeprecated>0)){
-          //Swal.fire(this.translate.instant("symptomssection.needsymtoms"), '', "info");
-          Swal.fire({ title: this.translate.instant("symptomssection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"info" })
+          Swal.fire({ title: this.translate.instant("symptomssection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"warning" })
         }else{
           this.goToStep('2.0', true)
         }
@@ -777,7 +778,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     goToStepGenotics(){
       if((this.phenotype.data.length == 0) || (this.numDeprecated==this.phenotype.data.length && this.numDeprecated>0)){
-        Swal.fire({ title: this.translate.instant("symptomssection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"info" })
+        Swal.fire({ title: this.translate.instant("symptomssection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"warning" })
       }else{
         this.goToStep('2.0', true);
       }
@@ -873,10 +874,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     cancelAnalysis(){
       if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
-          Swal.fire({
+        Swal.fire(this.translate.instant("analysissection.stillanalyzing"), 'this.translate.instant("analysissection.may10minutesexov2")', "warning");
+        /*  Swal.fire({
             title: this.translate.instant("analysissection.analyzingdata"),
             text:  this.translate.instant("analysissection.stopanalysis?"),
-            icon: 'info',
+            icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#0CC27E',
             cancelButtonColor: '#f9423a',
@@ -898,10 +900,10 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               this.modalReference.close();
             }
           }
-        });
+        });*/
 
       }else if(this.launchingPhen2Genes || this.calculatingH29Score || this.gettingRelatedConditions){
-        Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "info");
+        Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "warning");
       }else{
         this.setActualStep('5.0');
       }
@@ -3226,7 +3228,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
       }
       if(tempSymptomsExo.length==0){
-        Swal.fire({ title: this.translate.instant("analysissection.nosymptoms"), text:  this.translate.instant("symptomssection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"info" })
+        Swal.fire({ title: this.translate.instant("analysissection.nosymptoms"), text:  this.translate.instant("analysissection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"warning" })
       }
       // If yes: launch exomiser
       else{
@@ -4290,7 +4292,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     deleteVcfFile(file,i){
       Swal.fire({
-          title: this.translate.instant("generics.Are you sure delete")+" "+this.filesVcf[i].nameForShow+" ?",
+          title: this.translate.instant("generics.Are you sure delete it"),
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#0CC27E',

@@ -341,104 +341,65 @@
       <div *ngIf="actualStep >= '3.0' && actualStep < '4.0'">
         <div class="offset-lg-1 col-lg-10 offset-xl-2 col-xl-8">
           <div class="content-header pb-1">
-            <span>Analizar</span>
+            <span>{{'analysissection.title' | translate }}</span>
           </div>
           <span class="content-sub-header">
             <span *ngIf="actualStep == '3.0'">
               <span *ngIf="phenotype.data.length>0">
-                <span >
-                  <span>Enhorabuena! Ya has conseguido añadir los síntomas</span>
-
-                  <span *ngIf="filesVcf.length>0"> y la información genética.</span>
-                  <span *ngIf="filesVcf.length==0">.</span>
-                </span>
+                <span [innerHTML]="'analysissection.subtitle' | translate"></span>
               </span>
               <span *ngIf="phenotype.data.length==0">
-                <span>Se necesitan síntomas. You need to provide some symptoms to launch gene prioritization algorithm.</span>
+                <span>{{'analysissection.nosymptoms' | translate }}</span>
+                <span>{{'symptomssection.needsymtoms' |translate }} </span>
                 <span class="mt-1 d-block"><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('1.0', false);">Symptoms</a></span>
               </span>
-            </span>
-            <span *ngIf="actualStep > '3.0' && actualStep < '5.0'">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.f
-            </span>
-            <span *ngIf="actualStep == '5.0'">
-              Cada vez que modifique los síntomas o ficheros VCF, le recomendamos recalcular, obtendrá distintos resultados.
             </span>
           </span>
         </div>
       </div>
-      <div *ngIf="actualStep=='3.0' && phenotype.data.length>0" class="offset-lg-1 col-lg-10 offset-xl-2 col-xl-8">
+      <div *ngIf="actualStep=='3.0' && phenotype.data.length>0" class="mt-3 offset-lg-1 col-lg-10 offset-xl-2 col-xl-8">
         <section class="row">
           <div class="card pb-2 border">
             <div class="card-header">
               <h4 class="card-title d-inline">
-                Aquí un título?
+                {{'analysissection.Settings' | translate }}
               </h4>
+              <h6 class="card-subtitle mb-2 text-muted">{{'analysissection.settingTitle' | translate }}</h6>
             </div>
             <div class="card-content">
               <div class="card-body">
                 <div class="mt-2">
-                  <span *ngIf="filesVcf.length<=1">
-                    <p>Ya están listos tus datos, ahora prepárate, y haremos mágia con ellos cuando pulse en el botón de analizar de la parte inferior</p>
-                  </span>
-                  <span *ngIf="filesVcf.length>1">
-                    <p>Ya están listos tus datos, pero hemos detectado más de un fichero de información genética, selecione el que quiera y prepárate, haremos mágia con tus datos cuando pulse en el botón de analizar de la parte inferior</p>
-                  </span>
                   <div class="row col-md-12 mt-2">
                     <div class="col-md-6">
                       <div class="card border">
                         <div class="card-header">
                           <h4 class="card-title">
-                            Show avanced symptoms
+                            {{'diagnosis.Symptoms' | translate }}
                           </h4>
+                          <h6 class="card-subtitle mb-2 text-muted">{{'analysissection.sectSymTxt1' | translate }}</h6>
                         </div>
                         <div class="card-content">
                           <div class="card-body">
-                            <span>Ha añadido {{symptomsExomiser.length}} <span class="text-lowercase"> {{'diagnosis.Symptom' | translate }}</span> <span *ngIf="symptomsExomiser.length>1">s</span> pero puede excluir alguno para no tenerlo en cuenta en el análisis</span>
-                            <p *ngIf="numberOfSymptomsExo<symptomsExomiser.length">Ha seleccionado {{numberOfSymptomsExo}} <span class="text-lowercase">{{'diagnosis.Symptom' | translate }}</span> <span *ngIf="numberOfSymptomsExo>1">s</span> de {{symptomsExomiser.length}}</p>
-                            <p *ngIf="numberOfSymptomsExo<symptomsExomiser.length && numberOfSymptomsExo==0">Tiene que seleccionar al menos un <span class="text-lowercase">{{'diagnosis.Symptom' | translate }}</span></p>
+                            <span class="info">{{'analysissection.sectSymTxt2.1' | translate }} {{symptomsExomiser.length}} <span class="text-lowercase"> {{'diagnosis.Symptom' | translate }}</span> <span *ngIf="symptomsExomiser.length>1">s</span> {{'analysissection.sectSymTxt2.2' | translate }} {{numberOfSymptomsExo}} {{'analysissection.sectSymTxt2.3' | translate }}</span>
+                            <p  class="danger" *ngIf="numberOfSymptomsExo<symptomsExomiser.length && numberOfSymptomsExo==0">{{'analysissection.sectSymTxt2.4' | translate }} <span class="text-lowercase">{{'diagnosis.Symptom' | translate }}</span></p>
                           </div>
                           <div class="card-footer">
-                            <span class="mt-1 d-block"><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="funShowOptionsSymptoms(contentInfoAlgorithmSymptoms);">Seleccionar síntomas</a></span>
+                            <span class="mt-1 d-block"><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="funShowOptionsSymptoms(contentInfoAlgorithmSymptoms);">{{'analysissection.Select symptoms' | translate }}</a></span>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-6" *ngIf="filesVcf.length==1">
+                    <div class="col-md-6" *ngIf="filesVcf.length>=1">
                       <div class="card border">
                         <div class="card-header">
                           <h4 class="card-title">
-                            Show avanced genetic
+                            {{'geneticsection.title' | translate }}
                           </h4>
+                          <h6 class="card-subtitle mb-2 text-muted"><span *ngIf="filesVcf.length>1">{{'analysissection.geneticTxt1.1' | translate }} </span>{{'analysissection.geneticTxt1.2' | translate }}</h6>
                         </div>
                         <div class="card-content">
                           <div class="card-body">
-                            <span>Ha añadido {{filesVcf.length}} fichero<span *ngIf="filesVcf.length>1">s</span></span>
-                            <div class="mb-2">
-                              <mat-checkbox color="primary" [checked]="notAnalyzeGeneticInfo" (change)="setNotAnalyzeGeneticInfo()">
-                                  No quiero que analizes la información genética
-                             </mat-checkbox>
-                           </div>
-                          </div>
-                          <div class="card-footer" *ngIf="!notAnalyzeGeneticInfo">
-                            <p>
-                              <span> Si quieres cambiar los parámetros de los algoritmos que usamos,</span>
-                            </p>
-                            <span class="mt-1 d-block"><a class="btn btn-outline-primary" [disabled]="notAnalyzeGeneticInfo" href="javascript:void(0)" (click)="changeSettingsExomiser(contentSettingsExomiser)">Cambiar parámetros</a></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6" *ngIf="filesVcf.length>1">
-                      <div class="card border">
-                        <div class="card-header">
-                          <h4 class="card-title">
-                            {{'dashboardpatient.Files uploaded' | translate }}
-                          </h4>
-                        </div>
-                        <div class="card-content">
-                          <div class="card-body">
-                            <section class="mb-4">
+                            <section class="mb-4" *ngIf="filesVcf.length>1">
                               <div>
                                 <mat-radio-group name="opciones" [(ngModel)]="filename">
                                   <mat-radio-button class="d-block" *ngFor="let onefile of filesVcf; let i = index" name="onefile" [value]="onefile.name"  title="{{onefile.nameForShow}}">
@@ -450,15 +411,12 @@
                             </section>
                             <div class="mb-2">
                               <mat-checkbox color="primary" [checked]="notAnalyzeGeneticInfo" (change)="setNotAnalyzeGeneticInfo()">
-                                  No quiero que analizes la información genética
+                                  {{'analysissection.geneticTxt2' | translate }}
                              </mat-checkbox>
                            </div>
                           </div>
                           <div class="card-footer" *ngIf="!notAnalyzeGeneticInfo">
-                            <p>
-                              <span> Si quieres cambiar los parámetros de los algoritmos que usamos,</span>
-                            </p>
-                            <span class="mt-1 d-block"><a class="btn btn-outline-primary" [disabled]="notAnalyzeGeneticInfo" href="javascript:void(0)" (click)="changeSettingsExomiser(contentSettingsExomiser)">Cambiar parámetros</a></span>
+                            <span class="mt-1 d-block"><a class="btn btn-outline-primary" [disabled]="notAnalyzeGeneticInfo" href="javascript:void(0)" (click)="changeSettingsExomiser(contentSettingsExomiser)">{{'analysissection.Advanced options' | translate }}</a></span>
                           </div>
                         </div>
                       </div>
@@ -482,7 +440,7 @@
                 <section>
                   <div class="mt-2" *ngIf="substepExtract<4">
                     <p>{{'analysissection.analyzingdata' | translate }}</p>
-                    <p>{{'analysissection.may10minutes' | translate }}</p>
+                    <p>{{'analysissection.may10minutesexo' | translate }}</p>
                     <div>
                       <div class="mb-3 center-elements">
                         <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
@@ -503,7 +461,7 @@
                 <section>
                   <div class="mt-2" *ngIf="substepExtract<4">
                     <p>{{'analysissection.analyzingdata' | translate }}</p>
-                    <p>{{'analysissection.may10minutes' | translate }}</p>
+                    <p>{{'analysissection.may10minutesphen2genes' | translate }}</p>
                     <div>
                       <div class="mb-3 center-elements">
                         <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
@@ -708,10 +666,10 @@
       <div *ngIf="actualStep=='5.0'">
         <div class="offset-lg-1 col-lg-10 offset-xl-2 col-xl-8" >
           <div class="content-header pb-1">
-            <span>Diagnoses</span>
+            <span>{{'diagnosesSection.title' | translate }}</span>
           </div>
           <p class="content-sub-header">
-            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
+            <span>{{'diagnosesSection.subtitle' | translate }}</span>
           </p>
         </div>
         <div class="mt-2 offset-lg-1 col-lg-10 offset-xl-2 col-xl-8" *ngIf="programs.length>0">
@@ -731,27 +689,24 @@
             <div class="col-lg-12">
               <div class="card border">
                 <div class="card-header">
-                  <span class="nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right" title="{{'generics.Options' | translate }}">
-                      <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle>
+                  <span class="mt-1 nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right" >
+                      <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle title="{{'generics.Options' | translate }}">
                           <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
                       </a>
                       <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
                           <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelGenes(contentPanelGenes)">
-                            <i class="fas fa-dna primary"></i>  <span class="ml-2" >Ver información de los genes</span>
-                          </a>
-                          <a class="dropdown-item py-1" href="javascript:;" (click)="editDiagnosis(1)">
-                              <span>Navegar por las enfermedades</span>
+                            <i class="fas fa-dna primary"></i>  <span class="ml-2" >{{'diagnosesSection.geneticvariants' | translate }}</span>
                           </a>
                           <a class="dropdown-item py-1" href="javascript:;" (click)="showPanelFeedback(contentGeneralNotes)">
-                              <span>Add Notes</span>
+                            <i class="fa fa-sticky-note-o primary"></i>  <span class="ml-2" >{{'diagnosesSection.Add notes' | translate }}</span>
                           </a>
                       </div>
                   </span>
                   <span class="float-right">
-                    <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="!isgen" type="button" [ngClass]="(isgen != true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'" class="mr-1" (click)="getRelatedConditionsview(false);">Clinic view</button>
-                    <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="isgen" type="button" [ngClass]="(isgen == true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'"  class="mr-1" (click)="getRelatedConditionsview(true);">Genetic view</button>
+                    <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="!isgen" type="button" [ngClass]="(isgen != true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'" class="mr-1" (click)="getRelatedConditionsview(false);">{{'diagnosesSection.Clinic view' | translate }}</button>
+                    <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="isgen" type="button" [ngClass]="(isgen == true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'"  class="mr-1" (click)="getRelatedConditionsview(true);">{{'diagnosesSection.Genetic view' | translate }}</button>
                     <span *ngIf="selectedItemsFilter.length>0 || (this.infoGenesAndConditionsExomizer.length>0 && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes) || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhen2Genes.length>0) && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes))" class="mr-1">
-                      <a href="javascript:void(0)" class="btn btn-outline-primary" (click)="setFitersDiseases(contentFilterDiseases)"><span *ngIf="selectedItemsFilter.length==0">{{'diagnosis.Filter diseases' | translate }}</span><span *ngIf="selectedItemsFilter.length>0">{{selectedItemsFilter.length}} applied filters</span></a>
+                      <a href="javascript:void(0)" class="btn btn-outline-primary" (click)="setFitersDiseases(contentFilterDiseases)"><span *ngIf="selectedItemsFilter.length==0">{{'diagnosesSection.Filter' | translate }}</span><span *ngIf="selectedItemsFilter.length>0">{{selectedItemsFilter.length}} {{'diagnosesSection.applied filters' | translate }}</span></a>
                       <!--<a class="ml-1" *ngIf="selectedItemsFilter.length>0" href="javascript:void(0)" (click)="removeFilters()" title="Remove filters">
                         <i class="fa fa-trash red"></i>
                       </a>-->
@@ -759,14 +714,14 @@
 
                   </span>
                   <h4 class="card-title" style="text-transform: none;" *ngIf="infoGenesAndConditionsExomizer.length>0 || infoGenesAndConditionsPhen2Genes.length>0">
-                    <b class="d-block">Resultados</b>
-                    <span class="font-small-2 font-weight-normal">Select potential diagnostics</span>
+                    <b class="d-block">{{'diagnosesSection.Results' | translate }}</b>
+                    <span class="font-small-2 font-weight-normal">{{'diagnosesSection.SelectCandidate' | translate }}</span>
 
                   </h4>
                   <h4 class="card-title" *ngIf="infoGenesAndConditionsExomizer.length==0 && infoGenesAndConditionsPhen2Genes.length==0">
-                    <b>No ha analizado los datos</b>
+                    <b>{{'diagnosesSection.no_analyzed' | translate }}</b>
                     <span class="float-right">
-                      <button type="button" class="btn btn-outline-primary  btn-sm mr-1" (click)="goToStepDiagnoses();">Analizar</button>
+                      <button type="button" class="btn btn-outline-primary  btn-sm mr-1" (click)="goToStepDiagnoses();">{{'diagnosesSection.gotoanalysis' | translate }}</button>
                     </span>
                   </h4>
                 </div>
@@ -809,12 +764,12 @@
                     							<div class="card-content card card-outline-primary border">
                     								<div class="card-body">
                                       <div class="row">
-                                        <div class="col-xl-6" >
-                                          <p>{{actualDiseaseDesc.desc}} <a href="https://monarchinitiative.org/disease/{{disease.name.id}}" target="_blank" rel="tooltip" title="{{disease.name.id}}">More Info <i class="ft-external-link"></i></a></p>
+                                        <div class="col-xl-6" *ngIf="actualDiseaseDesc.desc!='' || actualRelatedDisease.clinical_modifier!=undefined || actualRelatedDisease.xrefs!=undefined">
+                                          <p *ngIf="actualDiseaseDesc.desc">{{actualDiseaseDesc.desc}} <a href="https://monarchinitiative.org/disease/{{disease.name.id}}" target="_blank" rel="tooltip" title="{{disease.name.id}}">More Info <i class="ft-external-link"></i></a></p>
                                           <div *ngIf="actualRelatedDisease!=undefined">
                                             <div *ngIf="actualRelatedDisease.clinical_course!=undefined" class="pb-1">
                                               <span *ngIf="actualRelatedDisease.clinical_course.length>0">
-                                                <p class="mb-1 bg-info"><span class="ml-1">Clinical course</span></p>
+                                                <p class="mb-1 bg-secondary white"><span class="ml-1">{{'diagnosesSection.Clinical course' | translate }}</span></p>
                                                 <p *ngFor="let hpo of actualRelatedDisease.clinical_course ; let i = index">
                                                   <span class="d-block mb-2">{{hpo.info.name}}:<span class="ml-1">{{hpo.info.desc}}</span> (<a href="https://hpo.jax.org/app/browse/term/{{hpo.hpo}}" target="_blank" title=" {{hpo.hpo}}">{{hpo.hpo}} <i class="ft-external-link"></i></a>)</span>
                                                 </p>
@@ -822,7 +777,7 @@
                                             </div>
                                             <div *ngIf="actualRelatedDisease.clinical_modifier!=undefined" class="pb-1">
                                               <span *ngIf="actualRelatedDisease.clinical_modifier.length>0">
-                                                <p class="mb-1 bg-warning"><span class="ml-1">Clinical modifier</span></p>
+                                                <p class="mb-1 bg-secondary white"><span class="ml-1">{{'diagnosesSection.Clinical modifier' | translate }}</span></p>
                                                 <p *ngFor="let hpo of actualRelatedDisease.clinical_modifier ; let i = index">
                                                   <span class="d-block mb-2">{{hpo.info.name}}:<span class="ml-1">{{hpo.info.desc}}</span> (<a href="https://hpo.jax.org/app/browse/term/{{hpo.hpo}}" target="_blank" title=" {{hpo.hpo}}">{{hpo.hpo}} <i class="ft-external-link"></i></a>)</span>
                                                 </p>
@@ -830,7 +785,7 @@
                                             </div>
                                             <div *ngIf="actualRelatedDisease.xrefs!=undefined" class="pb-1">
                                               <span *ngIf="actualRelatedDisease.xrefs.length>0">
-                                                <p class="mb-1 bg-grey"><span class="ml-1">Referencias externas</span></p>
+                                                <p class="mb-1 bg-secondary white"><span class="ml-1">{{'diagnosesSection.External references' | translate }}</span></p>
                                                 <span *ngFor="let hpo of actualRelatedDisease.xrefs ; let i = index">
                                                   <a class="primary" target="_blank" title=" {{hpo}}">{{hpo}} <i class="ft-external-link"></i></a><span *ngIf="i<(actualRelatedDisease.xrefs.length-1)">, </span>
                                                 </span>
@@ -852,7 +807,7 @@
                                                </mat-checkbox>
                                              </span>
                                              <span class="patientColor ml-2">
-                                               <mat-checkbox [disabled]="true" [checked]="true" class="ml-2"> Patient
+                                               <mat-checkbox [disabled]="true" [checked]="true" class="ml-2"> {{'menu.Patient' | translate }}
                                               </mat-checkbox>
                                             </span>
 
@@ -868,11 +823,11 @@
                     									<div class="row mt-3">
                                         <div *ngIf="fullListSymptoms.length>0">
                                           <div class="col-md-12">
-                    												<table class="table text-center" *ngIf="fullListSymptoms.length>0 && !loadingGraphSymptomFreq" style="margin-top:2%">
+                    												<table class="mb-0 table text-center" *ngIf="fullListSymptoms.length>0 && !loadingGraphSymptomFreq" style="margin-top:2%">
                     													<thead>
                     														<tr>
                     															<th style="text-align:left">{{'diagnosis.Symptoms' | translate }}</th>
-                                                  <th>Frecuencia</th>
+                                                  <th>{{'diagnosis.Frequency' | translate }}</th>
                     															<th>{{'patdiagdashboard.panel3MyCase' | translate }}</th>
                     															<th>{{'patdiagdashboard.panel3ReferenceCase' | translate }}</th>
                     														</tr>
@@ -920,7 +875,7 @@
                       </div>
                       <div *ngIf="relatedConditions.length>10 && indexListRelatedConditions<relatedConditions.length" class="center-elements">
                         <a href="javascript:;" class="primary" (click)="loat10More()">
-                            <span>{{'generics.Read more' | translate }}</span>
+                            <span>{{'diagnosesSection.Load more' | translate }}</span>
                         </a>
                       </div>
                     </div>
@@ -2868,8 +2823,8 @@
 <ng-template #contentInfoAlgorithmSymptoms let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-header" id="idHeader">
     <div class="content-header text-left">
-				<h4 class="modal-title" >Seleccionar/deselecionar sintomas a analizar</h4>
-        <span class="content-sub-header text-muted">no se modificara los sintomas del paciente, solo es para el análisis</span>
+				<h4 class="modal-title">{{'analysissection.Selectsymptomstitle' | translate }}</h4>
+        <span class="content-sub-header text-muted">{{'analysissection.Selectsymptomssubtitle' | translate }}</span>
     </div>
   </div>
     <div class="content-wrapper p-2" *ngIf="symptomsExomiser.length > 0">
@@ -2890,12 +2845,16 @@
       </div>
   </div>
   <div class="content-wrapper p-2" *ngIf="symptomsExomiser.length == 0">
-    <p>No hay síntomas guardados</p>
+    <p>
+      <span>{{'analysissection.nosymptoms' | translate }}</span>
+      <span>{{'symptomssection.needsymtoms' |translate }} </span>
+      <span class="mt-1 d-block"><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('1.0', false);c('Close click');">Symptoms</a></span>
+    </p>
   </div>
   <div class="modal-footer">
     <div class="col-md-12 center-elements">
       <div class="form-actions center">
-          <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click');getNumberOfSymptomsExo();">{{'generics.Accept' | translate }}</button>
+        <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click');getNumberOfSymptomsExo();">{{'generics.Close' | translate }}</button>
       </div>
     </div>
   </div>
@@ -2905,8 +2864,8 @@
 <ng-template #contentInfoAlgorithmGenetic let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-header" id="idHeader">
     <div class="content-header text-left">
-				<h4 class="modal-title" >Seleccionar/deselecionar sintomas a analizar</h4>
-        <span class="content-sub-header text-muted">no se modificara los sintomas del paciente, solo es para el análisis</span>
+				<h4 class="modal-title" >{{'analysissection.Selectsymptomstitle' | translate }}</h4>
+        <span class="content-sub-header text-muted">{{'analysissection.Selectsymptomssubtitle' | translate }}</span>
     </div>
   </div>
     <div class="content-wrapper p-2" *ngIf="symptomsExomiser.length > 0">
@@ -2927,12 +2886,16 @@
       </div>
   </div>
   <div class="content-wrapper p-2" *ngIf="symptomsExomiser.length == 0">
-    <p>No hay síntomas guardados</p>
+    <p>
+      <span>{{'analysissection.nosymptoms' | translate }}</span>
+      <span>{{'symptomssection.needsymtoms' |translate }} </span>
+      <span class="mt-1 d-block"><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('1.0', false);c('Close click');">Symptoms</a></span>
+    </p>
   </div>
   <div class="modal-footer">
     <div class="col-md-12 center-elements">
       <div class="form-actions center">
-          <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click');getNumberOfSymptomsExo();">{{'generics.Accept' | translate }}</button>
+          <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click');getNumberOfSymptomsExo();">{{'generics.Close' | translate }}</button>
       </div>
     </div>
   </div>
@@ -2953,7 +2916,7 @@
           <section>
             <div class="mt-2" *ngIf="substepExtract<4">
               <p>{{'analysissection.analyzingdata' | translate }}</p>
-              <p>{{'analysissection.may10minutes' | translate }}</p>
+              <p>{{'analysissection.may10minutesphen2genes' | translate }}</p>
               <div>
                 <div class="mb-3 center-elements">
                   <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
@@ -2989,7 +2952,7 @@
           <section>
             <div class="mt-2" *ngIf="substepExtract<4">
               <p>{{'analysissection.analyzingdata' | translate }}</p>
-              <p>{{'analysissection.may10minutes' | translate }}</p>
+              <p>{{'analysissection.may10minutesexo' | translate }}</p>
               <div>
                 <div class="mb-3 center-elements">
                   <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
