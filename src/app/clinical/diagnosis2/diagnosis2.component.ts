@@ -341,6 +341,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     loadingPotentialDiagnostics: boolean = false;
     placement = "bottom-right";
     numberOfSymptomsExo:number =0;
+    exostring: string = "3' UTR exon variant";
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -1143,7 +1144,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                }else{
                  var extension = this.listPatientFiles[i].origenFile.nameForShow.substr(this.listPatientFiles[i].origenFile.nameForShow.lastIndexOf('.'));
                  this.listPatientFiles[i].origenFile.extension=extension;
-                 if(extension=='.vcf'|| extension=='.vcf.gz' || extension=='.html')
+                 if(extension=='.vcf'|| extension=='.vcf.gz')
                  this.otherDocs.push(this.listPatientFiles[i]);
                }
              }
@@ -6049,13 +6050,21 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       var res = [];
       var count = 0;
       for (var i = 0; i < xrefs.length; i++){
-        console.log(xrefs[i]);
-        if(xrefs[i].indexOf('ORPHA')!=-1){
-          count++;
+        if(xrefs[i].indexOf('ORPHA')!=-1 || xrefs[i].indexOf('OMIM')!=-1){
+          if(xrefs[i].indexOf('ORPHA')!=-1){
+            count++;
+          }
+          if(count<2){
+            var value = xrefs[i].split(':');
+            if(xrefs[i].indexOf('ORPHA')!=-1){
+              res.push({name: 'Orphanet', id: value[1]});
+            }else if(xrefs[i].indexOf('OMIM')!=-1){
+              res.push({name: 'OMIM', id: value[1]});
+            }
+
+          }
         }
-        if(count<2){
-          res.push(xrefs[i]);
-        }
+
       }
       return res;
     }
@@ -6991,6 +7000,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           this.numberOfSymptomsExo++;
         }
       }
+    }
+
+    getTotalReports(){
+      var sum =  this.docsNcr.length+ this.otherDocs.length;
+      return sum;
     }
 
 }

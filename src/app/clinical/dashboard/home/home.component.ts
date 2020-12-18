@@ -260,13 +260,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
               type: "html",
             },
             birthDate2: {
-              title: 'Edad',
-              placeholder: 'Edad',
+              title: this.translate.instant("topnavbar.age"),
+              placeholder: this.translate.instant("topnavbar.age"),
               type: "html",
             },
             gender2: {
-              title: 'Sexo',
-              placeholder: 'Sexo',
+              title: this.translate.instant("personalinfo.Gender"),
+              placeholder: this.translate.instant("personalinfo.Gender"),
               type: "html",
             },
             /*userName: {
@@ -488,13 +488,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             type: "html",
             },
             birthDate2: {
-              title: 'Edad',
-              placeholder: 'Edad',
+              title: this.translate.instant("topnavbar.age"),
+              placeholder: this.translate.instant("topnavbar.age"),
               type: "html",
             },
             gender2: {
-              title: 'Sexo',
-              placeholder: 'Sexo',
+              title: this.translate.instant("personalinfo.Gender"),
+              placeholder: this.translate.instant("personalinfo.Gender"),
               type: "html",
             },
             hasvcf: {
@@ -546,13 +546,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             type: "html",
             },
             birthDate2: {
-              title: 'Edad',
-              placeholder: 'Edad',
+              title: this.translate.instant("topnavbar.age"),
+              placeholder: this.translate.instant("topnavbar.age"),
               type: "html",
             },
             gender2: {
-              title: 'Sexo',
-              placeholder: 'Sexo',
+              title: this.translate.instant("personalinfo.Gender"),
+              placeholder: this.translate.instant("personalinfo.Gender"),
               type: "html",
             },
             hasvcf: {

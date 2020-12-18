@@ -194,16 +194,16 @@
 
 			<div class="modal-footer">
 				<div *ngIf="!sending" class="center-elements mt-1">
-					<button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
+					<button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Cancel' | translate }}</button>
 	          <div *ngIf="newPatientform.valid;then formValid else formError"></div>
 	          <ng-template #formValid>
-							<button *ngIf="isNewPatient" class="btn btn-primary btn-raised mr-1" (click)="saveNewCase()"> {{'patient.newPatient' | translate }}</button>
-							<button *ngIf="!isNewPatient" class="btn btn-primary btn-raised mr-1" (click)="updateCase()"> {{'patient.updatePatient' | translate }}</button>
+							<button *ngIf="isNewPatient" class="btn btn-primary btn-raised mr-1" (click)="saveNewCase()"> {{'generics.Accept' | translate }}</button>
+							<button *ngIf="!isNewPatient" class="btn btn-primary btn-raised mr-1" (click)="updateCase()"> {{'generics.Accept' | translate }}</button>
 						</ng-template>
 	          <ng-template #formError>
 							<button class="btn btn-primary btn-raised mr-1" type="button" (click)="submitInvalidForm()" title="{{'generics.fieldsRequired' | translate }}">
-								<span *ngIf="isNewPatient">{{'patient.newPatient' | translate }}</span>
-								<span *ngIf="!isNewPatient">{{'patient.updatePatient' | translate }}</span>
+								<span *ngIf="isNewPatient">{{'generics.Accept' | translate }}</span>
+								<span *ngIf="!isNewPatient">{{'generics.Accept' | translate }}</span>
 							</button>
 						</ng-template>
 
