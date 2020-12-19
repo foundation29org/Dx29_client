@@ -736,7 +736,7 @@
     "sortgroup": "Ordenar por grupos",
     "See cards": "Vista de cartas",
     "See list": "Vista de lista",
-    "Found in": "Encontrado en el texto en:",
+    "Found in": "Encontrado en el texto en",
     "Does not have the symptom": "No",
     "Has the symptom": "Si",
     "No description": "No hemos encontrado una descripción de este síntoma.",
@@ -756,7 +756,7 @@
   },
   "analysissection":{
     "nosymptoms": "Has eliminado todos los síntomas",
-    "analyzingdata": "Estamos analizando los datos",
+    "analyzingdata": "Estamos buscando síntomas en el texto",
     "stopanalysis?": "¿Quieres parar el análisis?",
     "stillanalyzing": "Todavía estamos analizando, así que por favor tengan paciencia.",
     "analysisover": "El analisis ha terminado, vaya a ver los resultados.",
@@ -846,8 +846,8 @@
     "Exomiser Score": "Puntuación de Exomiser",
     "Score": "Puntuación",
     "List of genes and variants": "Lista de genes y variantes",
-    "subtitle": "Esta contiene las variantes de cada gen que son potencialmente causativas de los síntomas del paciente.",
-    "title": "List of genes and variants"
+    "subtitle": "Esta lista contiene los genes que pueden ser la causa de los síntomas del paciente.",
+    "title": "Lista de genes"
   },
   "wizard":{
     "title": "Bienvenido al asistente",
@@ -882,7 +882,10 @@
     "Running": "En ejecución",
     "Succeeded": "Terminado",
     "Failed": "Error",
-    "Clear notifications": "Eliminar notificaciones "
+    "Clear notifications": "Eliminar notificaciones",
+    "There are no notifications to show": "No hay notificaciones que mostrar",
+    "Notifications": "Notificaciones",
+    "Help": "Ayuda"
   },
   "sharesection":{
     "Sharing menu": "Menú de compartición",

@@ -52,8 +52,8 @@
                     <strong>{{ r.name}}</strong>
                     <span *ngIf="r.desc!=null" class="d-block">{{ (r.desc.length>140)? (r.desc | slice:0:140)+'...':(r.desc) }}</span>
     							</ng-template>
-    							<div>
-    							<input #input class="input" type="text" class="form-control" [(ngModel)]="modelTemp" [ngbTypeahead]="searchSymptom" [resultTemplate]="rt" [inputFormatter]="formatter1" placeholder="{{'symptomssection.manualinput' | translate }}" (selectItem)="selected($event)"/>
+    							<div class="form-group">
+    							<input #input class="input" type="text" class="form-control ngbTypeaheadclass" [(ngModel)]="modelTemp" [ngbTypeahead]="searchSymptom" [resultTemplate]="rt" [inputFormatter]="formatter1" placeholder="{{'symptomssection.manualinput' | translate }}" (selectItem)="selected($event)"/>
     							</div>
     						</div>
     						<div class="col-md-8 p-0">
@@ -833,27 +833,27 @@
                     															<td style="text-align:left">
                     																<span><a href="javascript:;" (click)="showMoreInfoSymptomPopup(j, contentInfoSymptomOthers)" title="{{symptom.def}}. {{symptom.comment}} ">{{symptom.name}}</a> <span *ngIf="symptom.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
                     															</td>
-                                                  <td style="text-align:left" *ngIf="symptom.frequency==undefined">
+                                                  <td style="text-align:center" *ngIf="symptom.frequency==undefined">
                                                     <span> {{'diagnosis.unknown frequency' | translate }} </span>
                     															</td>
-                                                  <td style="text-align:left" *ngIf="symptom.frequency!=undefined">
+                                                  <td style="text-align:center" *ngIf="symptom.frequency!=undefined">
                     																<span *ngIf="symptom.frequencyInfo!=undefined"  title="{{symptom.frequencyInfo.desc}}"> {{symptom.frequencyInfo.name}}</span>
                                                     <span *ngIf="symptom.frequencyInfo==undefined"> {{symptom.frequency}} </span>
                                                     <span *ngIf="symptom.frequency==null">{{'diagnosis.unknown frequency' | translate }} </span>
                     															</td>
-                    															<td>
+                    															<td style="text-align:center">
                     																<span *ngIf="symptom.patient"><i class="fa fa-check success"></i></span>
                     																<span *ngIf="!symptom.patient && !symptom.patientbutsuccessor"><i class="fa fa-times danger"></i></span>
                     																<span *ngIf="!symptom.patient && symptom.patientbutsuccessor"><i class="fa fa-check success"></i></span>
                     															</td>
-                    															<td>
+                    															<td style="text-align:center">
                     																<span *ngIf="symptom.patient && (symptom.orphanet || symptom.omim)"><i class="fa fa-check success"></i></span>
                     																<span *ngIf="symptom.patient && !symptom.orphanet && !symptom.omim && !symptom.notpatientbutsuccessor"><i class="fa fa-times danger"></i></span>
                     																<span *ngIf="symptom.patient && !symptom.orphanet && !symptom.omim && symptom.notpatientbutsuccessor"><i class="fa fa-check success"></i></span>
                     																<span *ngIf="!symptom.patient"><i class="fa fa-check success"></i></span>
                     															</td>
-                                                  <td>
-                                                    <span class="mt-1 nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right" >
+                                                  <td style="text-align:center">
+                                                    <span class="mt-1 nav-item" ngbDropdown display="dynamic" placement="bottom-right" >
                                                         <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang{{j}}" ngbDropdownToggle title="{{'generics.Options' | translate }}">
                                                             <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
                                                         </a>
@@ -924,7 +924,7 @@
         <section class="mt-3">
           <div class="row">
             <div class="col-lg-6 col-xl-8 row">
-              <div class="col-md-12 col-xl-6">
+              <div class="mt-2 col-md-12 col-xl-6">
                 <div class="card border">
                   <div class="card-header">
                     <h4 class="card-title d-inline">
@@ -1019,7 +1019,7 @@
                   </div>
                 </div>-->
               </div>
-              <div class="col-md-12 col-xl-6">
+              <div class="mt-2 col-md-12 col-xl-6">
                 <div class="card border">
                   <div class="card-header">
                     <h4 class="card-title d-inline">
@@ -1049,7 +1049,7 @@
               </div>
 
             </div>
-            <div class="col-lg-6 col-xl-4">
+            <div class="mt-2 col-lg-6 col-xl-4">
               <div class="card border" *ngIf="!loadingPotentialDiagnostics">
                 <div class="card-header">
                   <h4 class="card-title d-inline">
@@ -1143,9 +1143,9 @@
 				<h4>{{'patdiagdashboard.Symptom extraction revision' | translate }}</h4>
 				<span>
 					{{'patdiagdashboard.We have found' | translate }} <h5 class="text-bold-400 d-inline"><ins>{{temporalSymptoms.length}}
-            <span *ngIf="temporalSymptoms.length>1">{{'diagnosis.Symptoms' | translate }}.</span>
-            <span *ngIf="temporalSymptoms.length==1">{{'diagnosis.Symptom' | translate }}.</span>
-          </ins></h5>
+            <span *ngIf="temporalSymptoms.length>1">{{'diagnosis.Symptoms' | translate }}</span>
+            <span *ngIf="temporalSymptoms.length==1">{{'diagnosis.Symptom' | translate }}</span>
+          </ins>.</h5>
 				</span>
         <span class="ml-1" *ngIf="temporalSymptoms.length>0">
 					{{'patdiagdashboard.msgnumbersymptomsfound2' | translate }}
@@ -2994,7 +2994,6 @@
         <div class="col-md-12 offset-lg-1 col-lg-10">
           <section>
             <div class="mt-2" *ngIf="substepExtract<4">
-              <p>{{'analysissection.analyzingdata' | translate }}</p>
               <p>{{'analysissection.may10minutesphen2genes' | translate }}</p>
               <div>
                 <div class="mb-3 center-elements">
@@ -3030,7 +3029,6 @@
         <div class="col-md-12 offset-lg-1 col-lg-10">
           <section>
             <div class="mt-2" *ngIf="substepExtract<4">
-              <p>{{'analysissection.analyzingdata' | translate }}</p>
               <p>{{'analysissection.may10minutesexo' | translate }}</p>
               <div>
                 <div class="mb-3 center-elements">

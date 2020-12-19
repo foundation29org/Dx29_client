@@ -275,6 +275,11 @@ display: none;
   .card-columns{
     column-count: 2;
   }
+
+  ::ng-deep ngb-typeahead-window.dropdown-menu {
+   width:90vh;
+  }
+
 }
 
 @media ( max-width: 960px ){
@@ -296,6 +301,10 @@ display: none;
     column-count: 1;
   }
 
+  ::ng-deep ngb-typeahead-window.dropdown-menu {
+   width:60vh;
+  }
+
 }
 @media ( max-width: 575px ){
 
@@ -309,6 +318,10 @@ display: none;
     left: 75% !important;
   }
 
+  ::ng-deep ngb-typeahead-window.dropdown-menu {
+   width: 100%;
+  }
+  
 }
 
 table {

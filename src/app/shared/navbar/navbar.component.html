@@ -148,7 +148,7 @@
                           <p class="d-none">Group</p>
                       </a>
                       <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang text-muted">
-                          <a class="dropdown-item py-1" href="javascript:;" (click)="shareApp(shareTo)" title="Share">
+                          <a class="dropdown-item py-1" href="javascript:;" (click)="shareApp(shareTo)" title="{{'topnavbar.Share' | translate }}">
                               <span> <span> <i class="icon-share primary"></i></span> <span class="col-md-10">{{'topnavbar.Share' | translate }}</span></span>
                           </a>
                       </div>
@@ -193,13 +193,19 @@
         <div class="navbar-container pl-0">
             <div  id="navbarSupportedContent">
                 <ul class="navbar-nav m-r-0">
-                  <li class="nav-item" ngbDropdown display="dynamic" [placement]="placement" *ngIf="(role == 'Clinical' || role == 'Lab') && tasks.length>0">
-                        <a class="nav-link position-relative" id="dropdownBasic2" ngbDropdownToggle title="Notifications">
+                  <li class="nav-item mr-2">
+                      <a href="javascript:;" class="nav-link" id="buttonShareTo" (click)="shareApp(shareTo)" *ngIf="role=='User' || ((role == 'Clinical' || role == 'Lab') && isHomePage)" title="{{'topnavbar.Share' | translate }}">
+                          <i class="icon-share font-medium-3 blue-grey darken-4"></i>
+                          <p class="d-none">Share</p>
+                      </a>
+                  </li>
+                  <li class="nav-item" ngbDropdown display="dynamic" [placement]="placement" *ngIf="(role == 'Clinical' || role == 'Lab')">
+                        <a class="nav-link position-relative" id="dropdownBasic2" ngbDropdownToggle title="{{'topnavbar.Notifications' | translate }}">
                             <i class="ft-bell font-medium-3 blue-grey darken-4"></i>
-                            <span class="notification badge badge-pill badge-danger">{{tasks.length}}</span>
+                            <span *ngIf="tasks.length>0" class="notification badge badge-pill badge-danger">{{tasks.length}}</span>
                             <p class="d-none">Notifications</p>
                         </a>
-                        <div class="notification-dropdown" ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                        <div class="notification-dropdown" ngbDropdownMenu aria-labelledby="dropdownBasic2" [ngbCollapse]="isCollapsed">
                             <div>
                                 <a class="dropdown-item noti-container py-3 border-bottom border-bottom-blue-grey border-bottom-lighten-4" style="cursor: pointer;" *ngFor="let task of tasks ; let j = index">
                                     <i class="ft-bell info float-left d-block font-large-1 mt-1 mr-2"></i>
@@ -221,16 +227,12 @@
                                         </span>
                                     </span>
                                 </a>
+                                <a *ngIf="tasks.length>0" class="noti-footer primary text-center d-block border-top border-top-blue-grey border-top-lighten-4 text-bold-400 py-1" (click)="clearNotifications();">{{'topnavbar.Clear notifications' | translate }}</a>
+                                <span *ngIf="tasks.length==0" class="noti-footer text-center text-muted d-block border-top border-top-blue-grey border-top-lighten-4 text-bold-400 py-1" (click)="isCollapsed = !isCollapsed">{{'topnavbar.There are no notifications to show' | translate }}</span>
                             </div>
-                            <a class="noti-footer primary text-center d-block border-top border-top-blue-grey border-top-lighten-4 text-bold-400 py-1" (click)="clearNotifications()">{{'topnavbar.Clear notifications' | translate }}</a>
-                        </div>
+                          </div>
+
                     </li>
-                  <li class="nav-item mr-2">
-                      <a href="javascript:;" class="nav-link" id="buttonShareTo" (click)="shareApp(shareTo)" *ngIf="role=='User' || ((role == 'Clinical' || role == 'Lab') && isHomePage)" title="Share">
-                          <i class="icon-share font-medium-3 blue-grey darken-4"></i>
-                          <p class="d-none">Share</p>
-                      </a>
-                  </li>
                   <!--<li class="nav-item mr-2" *ngIf="!isApp">
                       <a href="javascript:;" class="nav-link" id="navbar-fullscreen" appToggleFullscreen (click)="ToggleClass()">
                           <i class="{{toggleClass}} + ' ' + font-medium-3 blue-grey darken-4"></i>
@@ -239,7 +241,7 @@
                   </li>-->
 
                   <li class="nav-item mr-2" ngbDropdown display="dynamic" [placement]="placement" *ngIf="role == 'Clinical' || role == 'Lab'" [ngClass]="((role == 'Clinical' || role == 'Lab') && isClinicalPage) ?'d-none d-lg-block':''">
-                      <a class="nav-link position-relative" id="dropdownBasic1" ngbDropdownToggle title="Help">
+                      <a class="nav-link position-relative" id="dropdownBasic1" ngbDropdownToggle title="{{'topnavbar.Help' | translate }}">
                           <i class="ft-help-circle font-medium-3 blue-grey darken-4"></i>
                           <p class="d-none">Help</p>
                       </a>

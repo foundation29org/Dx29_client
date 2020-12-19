@@ -756,7 +756,7 @@
   },
   "analysissection":{
     "nosymptoms": "You have removed all symptoms",
-    "analyzingdata": "We are analyzing the data",
+    "analyzingdata": "We are searching for symptoms",
     "stopanalysis?": "Do you want to stop the analysis?",
     "stillanalyzing": "We are still analyzing, so please be patient.",
     "analysisover": "The analysis is over, go see the results.",
@@ -846,8 +846,8 @@
     "Exomiser Score": "Exomiser Score",
     "Score": "Score",
     "List of genes and variants": "List of genes and variants",
-    "subtitle": "This list contains the variants of each gen that may be causative of the patient symptoms.",
-    "title": "List of genes and variants"
+    "subtitle": "This list contains the genes that may be the cause of the patient symptoms.",
+    "title": "List of genes"
   },
   "wizard":{
     "title": "Welcome to the wizard",
@@ -882,7 +882,10 @@
     "Running": "Running",
     "Succeeded": "Succeeded",
     "Failed": "Failed",
-    "Clear notifications": "Clear notifications"
+    "Clear notifications": "Clear notifications",
+    "There are no notifications to show": "There are no notifications to show",
+    "Notifications": "Notifications",
+    "Help": "Help"
   },
   "sharesection":{
     "Sharing menu": "Sharing menu",

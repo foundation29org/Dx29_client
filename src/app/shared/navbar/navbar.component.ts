@@ -776,6 +776,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
    clearNotifications(){
      this.tasks = [];
+     this.isCollapsed=true;
    }
 
    goToPatient(patientId, index){
