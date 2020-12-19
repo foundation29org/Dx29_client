@@ -662,7 +662,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     goPrevStep(){
       console.log(this.actualStep);
-      if(this.actualStep == '1.0' && this.showIntroWizard){
+      if((this.actualStep == '1.0' || this.actualStep == '1') && this.showIntroWizard){
         this.setActualStep('0.0');
       }else if(this.actualStep > '3.0'){
         if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
@@ -701,7 +701,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           }
 
         }
-      }else if(this.actualStep == '3.0'){
+      }else if(this.actualStep == '3.0' || this.actualStep == '3'){
         this.setActualStep('2.0');
       }else if(this.actualStep > '1.0'){
         this.setActualStep('1.0');
@@ -725,7 +725,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }else{
           this.goToStep('5.0', true)
         }
-      }else if(this.actualStep == '3.0'){
+      }else if(this.actualStep == '3.0' || this.actualStep == '3'){
         var haveSymptoms = false;
         for(var i=0;i<this.symptomsExomiser.length;i++){
           if(this.symptomsExomiser[i].checked){
@@ -743,7 +743,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           }
 
         }
-      }else if(this.actualStep == '2.0'){
+      }else if(this.actualStep == '2.0' || this.actualStep == '2'){
         if(this.filesVcf.length>0){
           this.goToStep('3.0', true);
         }else{
@@ -765,7 +765,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           });
 
         }
-      }else if(this.actualStep == '1.0'){
+      }else if(this.actualStep == '1.0' || this.actualStep == '1'){
         if((this.phenotype.data.length == 0) || (this.numDeprecated==this.phenotype.data.length && this.numDeprecated>0)){
           Swal.fire({ title: this.translate.instant("symptomssection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"warning" })
         }else{
