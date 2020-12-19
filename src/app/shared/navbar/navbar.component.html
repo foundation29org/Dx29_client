@@ -51,7 +51,7 @@
                   <span *ngIf="age!=null">
                     <span *ngIf="age.years>0">{{age.years}} {{'topnavbar.year' | translate }}<span *ngIf="age.years>1">s</span> <span *ngIf="age.months>0">, </span></span>
                     <span *ngIf="age.months>0">{{age.months}} <span *ngIf="age.months<=1">{{'topnavbar.month' | translate }}</span><span *ngIf="age.months>1">{{'topnavbar.months' | translate }}</span></span>
-                    <span *ngIf="age.months==0 && age.years==0" title="Tiene menos de un mes de vida">0 {{'topnavbar.months' | translate }}</span>
+                    <span *ngIf="age.months==0 && age.years==0">0 {{'topnavbar.months' | translate }}</span>
                   </span>
                   <span *ngIf="age==null">
                     -

@@ -195,13 +195,22 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
               var temp = this.ageFromDateOfBirthday(dateRequest2);
               if(temp!=null){
                 if(temp.years>0){
-                  resul= temp.years+" years"
+                  if(temp.years>1){
+                    resul= temp.years+" "+this.translate.instant("topnavbar.year")+"s";
+                  }else{
+                    resul= temp.years+" "+this.translate.instant("topnavbar.year");
+                  }
+
                 }
                 if(temp.months>0){
-                  resul= resul+ " " +temp.months+" months"
+                  if(temp.months>1){
+                    resul= resul+ " " +temp.months+" "+this.translate.instant("topnavbar.months")
+                  }else{
+                    resul= resul+ " " +temp.months+" "+this.translate.instant("topnavbar.month")
+                  }
                 }
                 if(temp.years==0 && temp.months==0){
-                  resul="Menos de un mes"
+                  resul="0 "+this.translate.instant("topnavbar.months")
                 }
               }
              this.listOfSharedCases[i].birthDate2 = resul;
@@ -369,13 +378,22 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
               var temp = this.ageFromDateOfBirthday(dateRequest2);
               if(temp!=null){
                 if(temp.years>0){
-                  resul= temp.years+" years"
+                  if(temp.years>1){
+                    resul= temp.years+" "+this.translate.instant("topnavbar.year")+"s";
+                  }else{
+                    resul= temp.years+" "+this.translate.instant("topnavbar.year");
+                  }
+
                 }
                 if(temp.months>0){
-                  resul= resul+ " " +temp.months+" months"
+                  if(temp.months>1){
+                    resul= resul+ " " +temp.months+" "+this.translate.instant("topnavbar.months")
+                  }else{
+                    resul= resul+ " " +temp.months+" "+this.translate.instant("topnavbar.month")
+                  }
                 }
                 if(temp.years==0 && temp.months==0){
-                  resul="Menos de un mes"
+                  resul="0 "+this.translate.instant("topnavbar.months")
                 }
               }
              this.patientsCopy[i].birthDate2 = resul;
@@ -425,13 +443,22 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
               var temp = this.ageFromDateOfBirthday(dateRequest2);
               if(temp!=null){
                 if(temp.years>0){
-                  resul= temp.years+" years"
+                  if(temp.years>1){
+                    resul= temp.years+" "+this.translate.instant("topnavbar.year")+"s";
+                  }else{
+                    resul= temp.years+" "+this.translate.instant("topnavbar.year");
+                  }
+
                 }
                 if(temp.months>0){
-                  resul= resul+ " " +temp.months+" months"
+                  if(temp.months>1){
+                    resul= resul+ " " +temp.months+" "+this.translate.instant("topnavbar.months")
+                  }else{
+                    resul= resul+ " " +temp.months+" "+this.translate.instant("topnavbar.month")
+                  }
                 }
                 if(temp.years==0 && temp.months==0){
-                  resul="Menos de un mes"
+                  resul="0 "+this.translate.instant("topnavbar.months")
                 }
               }
              this.listOfArchivedCases[i].birthDate2 = resul;

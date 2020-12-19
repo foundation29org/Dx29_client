@@ -3338,7 +3338,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             //this.filename=filename;
             this.blob.loadFilesVCF(this.accessToken.containerName);
           }else{
-            Swal.fire('The VCF file must have .vcf extension or .vcf.gz', '', "error");
+            Swal.fire(this.translate.instant("diagnosis.The VCF file must have"), '', "error");
           }
 
 
@@ -3397,7 +3397,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
           //preguntar si quiere eliminar el file
           Swal.fire({
-              title: 'Do you want to delete the VCF file?',
+              title: this.translate.instant("diagnosis.Do you want to delete the VCF file"),
               icon: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#0CC27E',
@@ -4159,7 +4159,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               if(this.medicalText!=''){
                 this.onSubmitToExtractor(contentExtractorSteps);
               }else{
-                Swal.fire('No text has been detected in the file.', '', "error");
+                Swal.fire(this.translate.instant("patdiagdashboard.No text has been detected in the file"), '', "error");
               }
             }
           });
@@ -4173,7 +4173,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           if(this.medicalText!=''){
             this.onSubmitToExtractor(contentExtractorSteps);
           }else{
-            Swal.fire('No text has been detected in the file.', '', "error");
+            Swal.fire(this.translate.instant("patdiagdashboard.No text has been detected in the file"), '', "error");
           }
 
         }
@@ -4237,18 +4237,18 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       filename = filename + extension;
       if((extension!='.ped')||(event.target.files[0].size > 12048)){
         if(((extension!='.ped'))&&(event.target.files[0].size > 12048)){
-          Swal.fire('The ped file must have .ped extension and the file is too big!', '', "error");
+          Swal.fire(this.translate.instant("diagnosis.The ped file must have and is big"), '', "error");
         }else{
           if(extension!='.ped'){
-            Swal.fire('The ped file must have .ped extension.', '', "error");
+            Swal.fire(this.translate.instant("diagnosis.The ped file must"), '', "error");
           }
           else if(event.target.files[0].size > 12048){
-            Swal.fire('The file is too big!', '', "error");
+            Swal.fire(this.translate.instant("diagnosis.The file is too big"), '', "error");
           }
         }
       }else{
         if(event.target.files[0].size > 12048){
-          Swal.fire('The file is too big!', '', "error");
+          Swal.fire(this.translate.instant("diagnosis.The file is too big"), '', "error");
         }
         else{
           this.uploadingPed = true;
@@ -4727,7 +4727,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.selectedItemsFilterWithIndex = {"id":this.tempSymptom,"index":(this.selectedItemsFilter.length-1)};
         this.tempSymptom = {};
       }else{
-        this.toastr.error('', 'The symptom is already added');
+        this.toastr.error('', this.translate.instant("phenotype.The symptom is already added"));
       }
     }
 

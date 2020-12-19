@@ -404,7 +404,12 @@
     "I have this": "Tengo esto",
     "I dont have this": "No tengo esto",
     "Deprecated": "Obsoleto",
-    "msg Deprecated": "Tienes síntomas que ya no se usan, verifícalos."
+    "msg Deprecated": "Tienes síntomas que ya no se usan, verifícalos.",
+    "Check them again": "Revisarlos otra vez",
+    "Click to check it": "Click para marcarlo",
+    "Click to uncheck it": "Click para desmarcarlo",
+    "Where did we get this symptom from": "¿De dónde sacamos este síntoma?",
+    "The symptom is already added": "El síntoma ya está añadido."
   },
   "genotype":{
     "My genotype": "Mi genotipo",
@@ -669,6 +674,7 @@
     "Case deleted": "Caso eliminado",
     "Case name": "Nombre del paciente",
     "Dont enter any identifiable patient information": "No introduzca ninguna información identificable del paciente",
+    "Complete the patient data": "Completa los datos del paciente",
     "Genetic information": "Información genética",
     "Notes and Conclusion": "Comentarios",
     "Diagnosis powered by genes": "Diagnóstico impulsado por genes",
@@ -689,6 +695,8 @@
     "Remove filters":"Borrar filtros",
     "Advanced Settings":"Ajustes avanzados",
     "VCF file":"Archivo VCF",
+    "The VCF file must have": "El archivo VCF debe tener la extensión .vcf o .vcf.gz",
+    "Do you want to delete the VCF file": "¿Quieres borrar el archivo VCF?",
     "click to add it": "Si tiene el síntoma, haga click para agregrarlo",
     "click to delete it": "Si no tiene el síntoma, haga click para eliminarlo",
     "infosuggestbutton1": "Debe agregar al menos un síntoma para sugerir más.",
@@ -711,7 +719,10 @@
     "unknown frequency": "Frecuencia desconocida",
     "born": "Nacido",
     "age": "Edad",
-    "wizardquestionlaunch": "¿Quieres abrir el asistente?"
+    "wizardquestionlaunch": "¿Quieres abrir el asistente?",
+    "The file is too big": "¡El archivo es demasiado grande!",
+    "The ped file must": "El archivo ped debe tener la extensión .ped.",
+    "The ped file must have and is big": "El archivo ped debe tener la extensión .ped y el archivo es demasiado grande!"
   },
   "symptomssection":{
     "title": "Síntomas",
@@ -807,7 +818,8 @@
     "Number of symptoms": "Número de síntomas",
     "Candidate diagnosis": "Diagnósticos candidatos",
     "no candidate": "No has seleccionado ningún diagnóstico candidato.",
-    "Free text": "Texto libre"
+    "Free text": "Texto libre",
+    "Other documents": "Otros documentos"
   },
   "reportsSection":{
     "subtitle": "Estos son los archivos que se han incluido en el caso de este paciente. Puedes revisar si su contenido se ha interpretado correctamente.",
@@ -847,7 +859,8 @@
     "s3t": "Análisis",
     "s3c": "Analiza una lista de enfermedades sugeridas",
     "check": "No volver a mostrar este mensaje",
-    "btn": "Continuar"
+    "btn": "Continuar",
+    "Tutorial-Step": "Tutorial: Paso"
   },
   "topnavbar":{
     "age": "Edad",
@@ -1510,7 +1523,8 @@
     "swalbuttonNoSymptoms":"Ok, entiendo.",
     "symptomstoWorkspace": "Debe agregrar al menos un síntoma para poder acceder al área de trabajo",
     "conditiontoWorkspace": "You have to select a condition in order to access the workspace.",
-    "noSymptomstoshow": "Lo sentimos, no tenemos sintomas que mostrarle"
+    "noSymptomstoshow": "Lo sentimos, no tenemos sintomas que mostrarle",
+    "No text has been detected in the file": "No se ha detectado ningún texto en el archivo."
   },
   "welcome":{
     "diagnosismsg1": "Después de completar el proceso, podrá compararse con su comunidad y ayudar a los pacientes sin diagnóstico.",

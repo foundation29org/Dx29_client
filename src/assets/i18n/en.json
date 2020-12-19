@@ -404,7 +404,12 @@
     "I have this": "I have this",
     "I dont have this": "I do not have this",
     "Deprecated": "Deprecated",
-    "msg Deprecated": "You have deprecated symptoms to check"
+    "msg Deprecated": "You have deprecated symptoms to check",
+    "Check them again": "Check them again",
+    "Click to check it": "Click to check it",
+    "Click to uncheck it": "Click to uncheck it",
+    "Where did we get this symptom from": "Where did we get this symptom from?",
+    "The symptom is already added": "The symptom is already added."
   },
   "genotype":{
     "My genotype": "My genotype",
@@ -669,6 +674,7 @@
     "Case deleted": "Case deleted",
     "Case name": "Patient name",
     "Dont enter any identifiable patient information": "Do not enter any identifiable patient information",
+    "Complete the patient data": "Complete the patient's data",
     "Genetic information": "Genetic information",
     "Notes and Conclusion": "Feedback",
     "Diagnosis powered by genes": "Diagnosis powered by genes",
@@ -689,6 +695,8 @@
     "Remove filters":"Remove filters",
     "Advanced Settings":"Advanced Settings",
     "VCF file":"VCF file",
+    "The VCF file must have": "The VCF file must have .vcf extension or .vcf.gz",
+    "Do you want to delete the VCF file": "Do you want to delete the VCF file?",
     "click to add it": "Click if you have the symptom",
     "click to delete it": "If you do not have the symptom, click to remove it",
     "infosuggestbutton1": "You must add at least one symptom in order to suggest more.",
@@ -711,7 +719,10 @@
     "unknown frequency": "Unknown frequency",
     "born": "Born",
     "age": "Age",
-    "wizardquestionlaunch": "Do you want to launch the wizard?"
+    "wizardquestionlaunch": "Do you want to launch the wizard?",
+    "The file is too big": "The file is too big!",
+    "The ped file must": "The ped file must have .ped extension.",
+    "The ped file must have and is big": "The ped file must have .ped extension and the file is too big!"
   },
   "symptomssection":{
     "title": "Symptoms",
@@ -807,7 +818,8 @@
     "Number of symptoms": "Number of symptoms",
     "Candidate diagnosis": "Candidate diagnosis",
     "no candidate": "You haven’t selected any candidate diagnosis.",
-    "Free text": "Free text"
+    "Free text": "Free text",
+    "Other documents": "Other documents"
   },
   "reportsSection":{
     "subtitle": "These are the files included in this case. You can review that their content has been correctly interpreted.",
@@ -847,7 +859,8 @@
     "s3t": "Analysis",
     "s3c": "Analyze a list of suggested conditions",
     "check": "Don’t show this message again",
-    "btn": "Continue"
+    "btn": "Continue",
+    "Tutorial-Step": "Tutorial: Step"
   },
   "topnavbar":{
     "age": "Age",
@@ -858,7 +871,7 @@
     "Reports": "Reports",
     "Symptoms": "Symptoms",
     "Genetics": "Genetics",
-    "Analyze": "Analizar",
+    "Analyze": "Analyze",
     "Diagnoses": "Diagnoses",
     "Summary": "Summary",
     "Share": "Share",
@@ -1508,7 +1521,8 @@
     "swalbuttonNoSymptoms":"Ok, I understand",
     "symptomstoWorkspace": "You must add at least one symptom to be able to access the Workspace",
     "conditiontoWorkspace": "You have to select a condition to access the workspace.",
-    "noSymptomstoshow": "Sorry, we have no symptoms to show you"
+    "noSymptomstoshow": "Sorry, we have no symptoms to show you",
+    "No text has been detected in the file": "No text has been detected in the file."
   },
   "welcome":{
     "diagnosismsg1": "After completing the process, you will be able to compare yourself with your community and help patients without a diagnosis.",

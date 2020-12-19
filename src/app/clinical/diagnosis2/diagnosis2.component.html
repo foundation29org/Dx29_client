@@ -571,7 +571,7 @@
               <div *ngIf="otherDocs.length>0" class="row">
                 <div class="col-md-12">
                   <div class="content-header pb-1">
-                    <span>Other Docs</span>
+                    <span>{{'summarySection.Other documents' | translate }}</span>
                   </div>
                   <p class="content-sub-header">
                     <span *ngIf="otherDocs.length>0" class="mr-3">
@@ -1211,7 +1211,7 @@
               </div>
             </div>
             <div class="card-footer pt-0 bt-n">
-              <a type="button" class="primary mr-1" (click)="startAgainTinder()">Revisarlos otra vez</a>
+              <a type="button" class="primary mr-1" (click)="startAgainTinder()">{{'phenotype.Check them again' | translate }}</a>
             </div>
         </div>
 
@@ -1227,7 +1227,7 @@
                   <span>
 
                     <button (click)="changeStateSymptom(i, hpo.checked)" [ngClass]="(hpo.checked==true)?'btn btn-success mr-1 mb-0 btn-fab':'btn btn-secondary mr-1 mb-0 btn-fab'" href="javascript:void(0)">
-                      <span *ngIf="!hpo.checked"><i class="fa fa-times mr-1"></i> Click si lo tiene</span><span *ngIf="hpo.checked"><i class="fa fa-check mr-1"></i> Click si no lo tiene</span>
+                      <span *ngIf="!hpo.checked"><i class="fa fa-times mr-1"></i> {{'phenotype.Click to check it' | translate }}</span><span *ngIf="hpo.checked"><i class="fa fa-check mr-1"></i> {{'phenotype.Click to uncheck it' | translate }}</span>
                     </button>
                     <span style="cursor: pointer;" class="float-right ml-1 mt-1" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);" title="{{'generics.More information' | translate }}">
                       <i style="font-size: 1.3em;" class="fa fa-info primary"></i>
@@ -1235,7 +1235,7 @@
                     <span class="font-medium-3 ml-2">
                       <strong class="align-middle">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></strong>
                       <span class="align-middle d-block">
-                        <span class="mr-1 font-small-2">De donde hemos sacado este síntoma: </span>
+                        <span class="mr-1 font-small-2">{{'phenotype.Where did we get this symptom from' | translate }} </span>
                         <span *ngFor="let text of hpo.text ; let j = index">
                           <!--<span *ngIf="j==0" class="font-small-2 mb-0">{{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</span>-->
                           <span *ngIf="text.source && j== 0" class="font-small-2 mb-0">{{text.source}}</span>
@@ -2645,7 +2645,7 @@
 				<span aria-hidden="true">&times;</span>
 			</button>
 			<div>
-				<h4 class="modal-title text-muted">Notes</h4>
+				<h4 class="modal-title text-muted">{{'diagnosis.Notes and Conclusion' | translate }}</h4>
 			</div>
 		</div>
 		<div class="modal-body">
