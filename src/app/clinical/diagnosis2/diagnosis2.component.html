@@ -399,20 +399,19 @@
                         </div>
                         <div class="card-content">
                           <div class="card-body">
-                            <section class="mb-4">
+                            <section>
                               <div>
                                 <mat-radio-group name="opciones" [(ngModel)]="filename">
-                                  <mat-radio-button class="d-block" *ngFor="let onefile of filesVcf; let i = index" name="onefile" [value]="onefile.name"  title="{{onefile.nameForShow}}">
+                                  <mat-radio-button class="d-block" *ngFor="let onefile of filesVcf; let i = index" name="onefile" [value]="onefile.name"  title="{{onefile.nameForShow}}" (change)="setNotAnalyzeGeneticInfo2()">
                                     {{ (onefile.nameForShow.length>60)? (onefile.nameForShow | slice:0:60)+'...':(onefile.nameForShow) }}
                                   </mat-radio-button>
                                 </mat-radio-group>
                               </div>
-
                             </section>
                             <div class="mb-2">
-                              <mat-checkbox color="primary" [checked]="notAnalyzeGeneticInfo" (change)="setNotAnalyzeGeneticInfo()">
+                              <mat-radio-button color="primary" [checked]="notAnalyzeGeneticInfo" (change)="setNotAnalyzeGeneticInfo()">
                                   {{'analysissection.geneticTxt2' | translate }}
-                             </mat-checkbox>
+                             </mat-radio-button>
                            </div>
                           </div>
                           <div class="card-footer" *ngIf="!notAnalyzeGeneticInfo">

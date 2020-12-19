@@ -30,24 +30,12 @@ cursor: pointer;
   }
 }
 
-/*
-:host /deep/ a:link { color: black; }
-:host /deep/ a:hover { color: black; }
-:host /deep/ a:focus { color: black; }*/
-
-/*
-:host /deep/ table thead tr:nth-child(even) {
-background: #eef5f9!important;
+::ng-deep .mat-radio-label{
+  font-size: 1rem !important;
+  text-transform: none !important;
+  letter-spacing: 0.3px !important;
+  font-family: "Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  white-space: pre-wrap;
+  font-weight: 300 !important;
+  //color: inherit !important;
 }
-
-:host /deep/ table thead {
-background: #4a83a3!important;
-}
-
-
-:host /deep/ table tbody tr:nth-child(even) {
-background: white!important;
-}
-:host /deep/ table tbody tr:nth-child(odd) {
-background: grey!important;
-}*/

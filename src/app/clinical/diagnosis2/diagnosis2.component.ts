@@ -806,6 +806,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
         document.getElementById("openModalExomiser").click();
       }else if(this.actualStep == '3.0'){
+        this.notAnalyzeGeneticInfo=false;
         this.symptomsExomiser = this.phenotype.data;
         this.getNumberOfSymptomsExo();
         if(this.uploadingGenotype){
@@ -6924,6 +6925,10 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       if(this.notAnalyzeGeneticInfo){
         this.filename = '';
       }
+    }
+
+    setNotAnalyzeGeneticInfo2(){
+      this.notAnalyzeGeneticInfo = false;
     }
 
     orderFilesNcr(field){

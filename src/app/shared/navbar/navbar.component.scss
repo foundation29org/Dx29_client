@@ -10,6 +10,40 @@
   background-color: #009DA0 !important;
 }
 
+ ::ng-deep .mat-checkbox-layout{
+  white-space: normal;
+}
+
+::ng-deep .mat-checkbox-label{
+  font-size: 1rem !important;
+  text-transform: none !important;
+  letter-spacing: 0.3px !important;
+  display: block;
+  font-family: "Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  white-space: pre-wrap;
+  font-weight: 300 !important;
+  //color: inherit !important;
+}
+
+ form label{
+  font-size: 1rem !important;
+  text-transform: none !important;
+  letter-spacing: 0.3px !important;
+  //color: inherit !important;
+}
+
+ ::ng-deep .mat-radio-label-content{
+  font-weight: normal !important;
+}
+
+ ::ng-deep .example-radio-group > .mat-radio-button{
+  font-family: "Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+ ::ng-deep .mat-radio-label {
+    white-space: pre-wrap;
+}
+
 .menuClinic-sm{
   padding: 1em;
 }

@@ -207,7 +207,7 @@
                                         <span class="noti-title line-height-1 d-block text-bold-400 info">{{'topnavbar.Analyzing information' | translate }}</span>
                                         <span class="noti-text">
                                           <span>
-                                            <strong>>{{'topnavbar.Patient' | translate }}: </strong>
+                                            <strong>{{'topnavbar.Patient' | translate }}: </strong>
                                             <span *ngIf="task.status!='Succeeded'">{{task.patientName}}</span>
                                             <span *ngIf="task.status=='Succeeded'"><a class="primary" (click)="goToPatient(task.patientId, j)">{{task.patientName}}</a></span>
                                           </span>
@@ -314,7 +314,7 @@
       <form #f="ngForm">
         <div *ngIf="!loading">
           <div class="mt-2">
-            <div class="col-md-12 mt-4">
+            <div class="col-md-12 mt-3">
     					<div class="form-group">
     						<label>{{'sharesection.Invite' | translate }}*</label>
                 <select id="roleShare" name="roleShare" class="form-control" ngModel required [(ngModel)]="roleShare">
@@ -345,10 +345,10 @@
                   <!--<h5>Items to share</h5>
                   <mat-checkbox class="example-margin" [checked]="true" [disabled]="true">{{'permissions.List of symptoms' | translate }}</mat-checkbox>
                   <mat-checkbox class="example-margin d-block" [checked]="true" [disabled]="true">{{'permissions.Genetics information if available' | translate }}</mat-checkbox>-->
-                  <h5 class="mt-2" for="Permissions">{{'permissions.Permissions' | translate }}</h5>
-                  <h6 class="mt-2" for="Permissions">{{'sharesection.What can it be done' | translate }}</h6>
+                  <label class="mb-0" for="Permissions">{{'permissions.Permissions' | translate }}</label>
+                  <span class="d-block mb-1" for="Permissions">{{'sharesection.What can it be done' | translate }}</span>
                   <!--<mat-checkbox class="example-margin" [disabled]="!onepatient.ismine" name="shareEmr" ngModel  [(ngModel)]="permissions.shareEmr" #shareEmr="ngModel" id="shareEmr">{{'permissions.Share EMR' | translate }}</mat-checkbox>-->
-                  <mat-checkbox class="ml-2 example-margin" [disabled]="!onepatient.ismine" name="askFirst" ngModel (change)="setPermissionsForm('askFirst')" [(ngModel)]="permissions.askFirst" #askFirst="ngModel" id="askFirst">{{'permissions.Ask before sharing' | translate }}</mat-checkbox>
+                  <mat-checkbox class="example-margin" [disabled]="!onepatient.ismine" name="askFirst" ngModel (change)="setPermissionsForm('askFirst')" [(ngModel)]="permissions.askFirst" #askFirst="ngModel" id="askFirst">{{'permissions.Ask before sharing' | translate }}</mat-checkbox>
                   <mat-checkbox class="ml-2 example-margin" [disabled]="!onepatient.ismine" name="shareWithAll" ngModel (change)="setPermissionsForm('shareWithAll')" [(ngModel)]="permissions.shareWithAll" #shareWithAll="ngModel" id="shareWithAll">{{'permissions.Sharing with third parties' | translate }}</mat-checkbox>
                   <span *ngIf="!onepatient.ismine" class="text-muted d-block">{{'permissions.message to deny permission' | translate }}</span>
                 </span>
@@ -379,7 +379,7 @@
               <button class="btn btn-primary btn-outline-primary" (click)="inviteShare()"> <span *ngIf="roleShare=='User'">{{'dashboardpatient.Invite' | translate }}</span><span *ngIf="roleShare!='User'">{{'dashboardpatient.Share' | translate }}</span></button>
             </ng-template>
             <ng-template #formError>
-              <button class="btn btn-primary btn-outline-primary" type="button" disabled="true" (click)="submitInvalidForm()"> <label *ngIf="roleShare=='User'">{{'dashboardpatient.Invite' | translate }}</label><label *ngIf="roleShare!='User'">{{'dashboardpatient.Share' | translate }}</label></button>
+              <button class="btn btn-primary btn-outline-primary" type="button" disabled="true" (click)="submitInvalidForm()"> <span *ngIf="roleShare=='User'">{{'dashboardpatient.Invite' | translate }}</span><span *ngIf="roleShare!='User'">{{'dashboardpatient.Share' | translate }}</span></button>
             </ng-template>
           </div>
           <div class="center-elements" *ngIf="sending">
@@ -390,7 +390,7 @@
       </form>
 
       <div class="col-md-12 bg-grey bg-lighten-3 pt-2 mt-2" *ngIf="listOfSharingAccounts.length>0 && !sending && !loading">
-        <div class="col-md-12">
+        <div>
           <h5>{{'dashboardpatient.Shared with' | translate }}:</h5>
         </div>
         <div class="table-responsive">
