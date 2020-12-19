@@ -4,4 +4,7 @@ export interface ICurrentPatient{
     surname: string;
     permissions: any;
     alias: string;
+    birthDate: Date;
+    gender: string;
+    country: string;
 }

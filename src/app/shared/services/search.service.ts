@@ -28,5 +28,19 @@ export class SearchService {
 
   }
 
+  searchIndex(items: any[], field: string, value: string): number {
+    if (!items) return -1;
+    var index = items.findIndex(it => it[field] == value);
+    return index;
+
+  }
+
+  searchIndexLevel2(items: any[], field: string, field2: string, value: string): number {
+    if (!items) return -1;
+    var index = items.findIndex(it => it[field][field2] == value);
+    return index;
+
+  }
+
 
 }

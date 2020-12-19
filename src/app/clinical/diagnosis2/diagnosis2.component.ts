@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, ElementRef, OnDestroy, Input  } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef, OnDestroy, Input, HostListener  } from '@angular/core';
 import { NgbTooltip, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from '@angular/forms';
 import { environment } from 'environments/environment';
@@ -16,6 +16,8 @@ import { ExomiserService } from 'app/shared/services/exomiser.service';
 import {ExomiserHttpService} from 'app/shared/services/exomiserHttp.service';
 import { Apif29SrvControlErrors } from 'app/shared/services/api-f29srv-errors';
 import Swal from 'sweetalert2';
+import { EventsService} from 'app/shared/services/events.service';
+import { Injectable, Injector } from '@angular/core';
 import { sha512 } from "js-sha512";
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -23,9 +25,18 @@ import 'rxjs/add/operator/toPromise';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
 import { HighlightSearch} from 'app/shared/services/search-filter-highlight.service';
 import { TextTransform } from 'app/shared/services/transform-text.service';
+import { Data } from 'app/shared/services/data.service';
 //para la parte de genes
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { NgxHotjarService } from 'ngx-hotjar';
+import * as d3 from 'd3';
+import {symbol, symbolTriangle} from "d3-shape";
+import * as venn from 'venn.js'
+
+import * as faker from 'faker';
+import { fromEvent } from 'rxjs';
+import { brush } from 'd3';
+import { FlexibleConnectedPositionStrategy } from '@angular/cdk/overlay';
 import { BlobStorageService, IBlobAccessToken } from 'app/shared/services/blob-storage.service';
 import { BlobStoragePedService } from 'app/shared/services/blob-storage-ped.service';
 import { SearchFilterPipe} from 'app/shared/services/search-filter.service';
@@ -58,6 +69,7 @@ let phenotypesinfo = [];
     ]
 })
 
+@Injectable()
 export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     //Variable Declaration
     @Input() variantEffectsFilterRequired: boolean=true;
@@ -85,6 +97,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     relatedConditionsCopy: any = [];
     gettingRelatedConditions: boolean = false;
     topRelatedConditions: any = [];
+    potentialDiagnostics: any = [];
     medicalText: string = '';
     resultTextNcr: string = '';
     resultTextNcrCopy: string = '';
@@ -201,7 +214,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     infoNcrToSave: any = {};
     fileUploadInfo: any;
     listPatientFiles: any= [];
-    contentDownloadFiles: any;
     isNewNcrFile: boolean = false;
     listOfDiseases: any= [];
 
@@ -222,9 +234,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     actualProgram: any= [];
     dateGeneticProgram1:Date;
     myEmail: string = '';
-    listOfphenotypesinfo: any = [];
-    listOfphenotypesinfoOld: any = [];
-    listOfFilteredSymptoms: any = [];
     selectedSymptomIndex: number = -1;
     selectedInfoSymptomIndex: number = -1;
     numDeprecated: number = -1;
@@ -259,10 +268,85 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     listOfSymptomGroups: any = [];
     viewSymptoms: number = 0;
     selectedPatient: any = {};
+    age: any = {};
+    symptomsExomiser: any = [];
+    selectedDisease: number = -1;
+
+    //graph
+    fullListSymptoms: any = [];
+    exampleParent:String=this.translate.instant("patdiagdashboard.ExampleParent");
+    exampleSuccesorOfParent:String=this.translate.instant("patdiagdashboard.ExampleSuccesorOfParent");
+    omimSymptoms: any = [];
+    orphaSymptoms: any = [];
+    listGenericSymptoms: any=[];
+    loadingSymptomsDataForGraph: boolean = false;
+    @ViewChild('chartVenn') private chartContainerVenn: ElementRef;
+
+
+    @Input() private chartDataVenn: Array<any>=[];
+    //chartSize_MeOmim: number = 0;
+    //chartSize_MeOrpha: number = 0;
+    //chartSize_OmimOrpha: number = 0;
+    //chartSize_All: number = 0;
+    chartSize_MeGeneric:number =0;
+    listSymptomsMe:any=[];
+    listSymptomsGeneric:any=[];
+    listSymptomsMeGeneric:any=[];
+
+    // booleano que indica cuando se puede mostrar el histograma(cuando los datos esten cargados)
+    loadingGraphSymptomFreq:boolean=false;
+
+
+    private margin: any = { top: 60, bottom: 0, left: 35, right: 20};
+    private marginFreq: any = { top: 60, bottom: 10, left: 10, right: 40};
+    private chartVenn: any;
+
+
+    private widthVenn: number;
+    private heightVenn: number;
+    private yZoom:any;
+    private gBrush:any;
+    private handle:any;
+    private brush:any;
+    private previousSelection:any;
+    private xAxisSymptomsFreq: any;
+    private yAxisSymptomsFreq: any;
+    private maxWidth: any=0;
+    private redrawNewSize:boolean=true;
+    loadingquality: boolean = false;
+    listOfphenotypesinfo: any = [];
+    listOfphenotypesinfoOld: any = [];
+    listOfFilteredSymptoms: any = [];
+    symptomsPermissions:any = {shareWithCommunity:false};
+    actualDiseaseDesc: any = {};
+    indexExpandedElementGenes: number = -1;
+    expandedElement: any = null;
+    actualRelatedDisease: any = {};
+    isgen: boolean = true;
+    treeOrphaPredecessors: any = {};
+    eventsService: any = null;
+    showIntroWizard: boolean = true;
+    notAnalyzeGeneticInfo: boolean = false;
+    loadingDocuments: boolean = false;
+    otherDocs: any = [];
+    docsNcr: any = [];
+    selectedOrderFilesNcr: string = 'lastModified';
+    selectedOrderFilesOther: string = 'lastModified';
+    maps_to_orpha: any = {};
+    orphanet_names: any = {};
+    isLoadingStep: boolean = true;
+    actualTemporalSymptomsIndex:number = 0;
+    viewOptionNcr:number = 0;
+    indexListRelatedConditions: number = 10;
+    loadingPotentialDiagnostics: boolean = false;
+    placement = "bottom-right";
+    numberOfSymptomsExo:number =0;
+    exostring: string = "3' UTR exon variant";
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
-    protected $hotjar: NgxHotjarService, private textTransform: TextTransform) {
+    protected $hotjar: NgxHotjarService, private textTransform: TextTransform, private inj: Injector, private dataservice: Data) {
+      this.eventsService = this.inj.get(EventsService);
       this.loadingTable=false;
       //this.columnsToDisplay=[this.translate.instant('diagnosis.Ranked genes'),this.translate.instant('phenotype.Related conditions')]
       //Columnas para el header
@@ -366,6 +450,22 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
          }));
 
 
+         this.subscription.add( this.http.get('assets/jsons/maps_to_orpha.json')
+         .subscribe( (res : any) => {
+           this.maps_to_orpha = res;
+          }, (err) => {
+            console.log(err);
+          }));
+
+          this.subscription.add( this.http.get('assets/jsons/orphanet_names_'+this.lang+'.json')
+         .subscribe( (res : any) => {
+           console.log('loag data');
+           this.orphanet_names = res;
+          }, (err) => {
+            console.log(err);
+          }));
+
+
         $.getScript("./assets/js/docs/jszip-utils.js").done(function(script, textStatus) {
           //console.log("finished loading and running jszip-utils.js. with a status of" + textStatus);
         });
@@ -394,6 +494,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
      if (this.subscriptionLoadSymptoms) {
           this.subscriptionLoadSymptoms.unsubscribe();
       }
+      this.eventsService.listeners.setStepWizard=[];
+      this.eventsService.listeners.infoStep=[];
     }
 
     initVarsPrograms(){
@@ -405,6 +507,14 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     ngOnInit() {
+      $("#wizardpanel").scroll(function() {
+         if($("#wizardpanel").scrollTop() > 80){
+          $("#nav-buttons-wizard").css("box-shadow","0 0 6px -6px rgba(0, 0, 0, 0.01), 0 12px 15px 6px rgba(0, 0, 0, 0.06)");
+        }else if($("#wizardpanel").scrollTop() <= 80){
+          $("#nav-buttons-wizard").css("box-shadow","none");
+         }
+       });
+
       console.log("ng on init")
       this.exomiserHttpService.cancelPendingRequests();
       this.lang = this.authService.getLang();
@@ -412,39 +522,94 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.router.navigate(['clinical/dashboard/home']);
       }else{
         this.selectedPatient = this.authService.getCurrentPatient();
-        this.getActualStep(this.authService.getCurrentPatient().sub);
+        console.log(this.selectedPatient);
+        this.eventsService.broadcast('selectedPatient', this.selectedPatient);
+        var dateRequest2=new Date(this.selectedPatient.birthDate);
+        if(this.selectedPatient.birthDate == null){
+          this.age = null;
+        }else{
+          this.ageFromDateOfBirthday(dateRequest2);
+        }
         this.loadAllData();
+
       }
+
+    }
+
+    @HostListener('window:resize')
+    onResize() {
+        // call our matchHeight function here
+        this.redrawNewSize=true;
+        this.drawCharts();
+    }
+
+    ageFromDateOfBirthday(dateOfBirth: any){
+      const today = new Date();
+      const birthDate = new Date(dateOfBirth);
+      var months;
+      months = (today.getFullYear() - birthDate.getFullYear()) * 12;
+      months -= birthDate.getMonth();
+      months += today.getMonth();
+      var res = months <= 0 ? 0 : months;
+      var m=res % 12;
+      var age =0;
+      if(res>0){
+        age= Math.abs(Math.round(res/12));
+      }
+      this.age = {years:age, months:m }
     }
 
     getActualStep(patientId:string){
       this.subscription.add( this.http.get(environment.api+'/api/case/stepclinic/'+patientId)
           .subscribe( (res : any) => {
-            console.log(this.actualStep);
-            this.actualStep = res;
-            this.maxStep = res;
+            this.isLoadingStep = false;
+            if(!this.showIntroWizard && res.stepClinic=='0.0'){
+              this.setActualStep('1.0');
+              this.setMaxStep('1.0');
+            }else{
+              if(res.stepClinic=='5.0'){
+                this.setActualStepDB('6.0');
+                this.setActualStep('6.0');
+                this.setMaxStep('6.0');
+              }else{
+                this.setActualStep(res.stepClinic);
+                this.setMaxStep(res.stepClinic);
+              }
+
+            }
+
             this.loadedStep = true;
             //si ya había comenzado el wizard y no lo ha terminado, preguntar si quiere continuar donde lo dejó o empezar de nuevo
-            if(this.actualStep>"0.0" && this.actualStep<"5.0"){
+            if((this.actualStep>"0.0" && this.actualStep<"5.0" && this.showIntroWizard) || (this.actualStep>"1.0" && this.actualStep<"5.0" && !this.showIntroWizard)){
               Swal.fire({
                   title: this.translate.instant("patnodiagdashboard.swalContinue.msgtitle1"),
                   text:  this.translate.instant("patnodiagdashboard.swalContinue.msg1"),
                   showCancelButton: true,
-                  confirmButtonColor: '#0CC27E',
-                  cancelButtonColor: '#f9423a',
+                  confirmButtonColor: '#009DA0',
+                  cancelButtonColor: '#6c757d',
                   confirmButtonText: this.translate.instant("patnodiagdashboard.swalContinue.btn1"),
                   cancelButtonText: this.translate.instant("patnodiagdashboard.swalContinue.btn2"),
                   showLoaderOnConfirm: true,
-                  allowOutsideClick: false
+                  allowOutsideClick: false,
+                  reverseButtons:true
               }).then((result) => {
                 if (result.value) {
-                  this.goToStep(this.actualStep, true);
+                  this.goToStep(this.actualStep, false);
                 }else{
-                  this.goToStep('0.0', true);
+                  if(this.showIntroWizard){
+                    this.goToStep('0.0', true);
+                  }else{
+                    this.goToStep('1.0', true);
+                  }
+
                 }
               });
             }else if(this.actualStep=="0.0"){
-              this.goToStep('0.0', false);
+              if(this.showIntroWizard){
+                this.goToStep('0.0', false);
+              }else{
+                this.goToStep('1.0', false);
+              }
             }else if(this.actualStep>="5.0"){
               this.goToStep(this.actualStep, false);
             }
@@ -459,10 +624,16 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     }
 
-    setActualStep(actualStep:string){
+    setActualStepDB(actualStep:string){
       var object = {actualStep:actualStep}
       if(actualStep>=this.maxStep && this.maxStep<"5.0"){
-        this.maxStep = actualStep;
+
+        console.log(actualStep);
+        if(actualStep=='5.0'){
+          actualStep = '6.0';
+          object = {actualStep:actualStep}
+        }
+        this.setMaxStep(actualStep);
         this.subscription.add( this.http.put(environment.api+'/api/case/stepclinic/'+this.authService.getCurrentPatient().sub, object)
             .subscribe( (res : any) => {
              }, (err) => {
@@ -473,23 +644,205 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     }
 
+    setActualStep(actualStep:string){
+      this.actualStep = actualStep;
+      this.dataservice.steps = {actualStep: this.actualStep, maxStep: this.maxStep};
+      console.log(this.dataservice.steps);
+      this.eventsService.broadcast('maxStep', this.maxStep);
+      this.eventsService.broadcast('actualStep', this.actualStep);
+    }
+
+    setMaxStep(maxStep:string){
+      this.maxStep = maxStep;
+      this.dataservice.steps = {actualStep: this.actualStep, maxStep: this.maxStep};
+      console.log(this.dataservice.steps);
+      this.eventsService.broadcast('maxStep', this.maxStep);
+      this.eventsService.broadcast('actualStep', this.actualStep);
+    }
+
+    goPrevStep(){
+      console.log(this.actualStep);
+      if(this.actualStep == '1.0' && this.showIntroWizard){
+        this.setActualStep('0.0');
+      }else if(this.actualStep > '3.0'){
+        if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
+          Swal.fire(this.translate.instant("analysissection.stillanalyzing"), 'this.translate.instant("analysissection.may10minutesexov2")', "warning");
+
+          /*Swal.fire({
+              title: this.translate.instant("analysissection.analyzingdata"),
+              text:  this.translate.instant("analysissection.stopanalysis?"),
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#0CC27E',
+              cancelButtonColor: '#f9423a',
+              confirmButtonText: this.translate.instant("generics.Accept"),
+              cancelButtonText: this.translate.instant("generics.Cancel"),
+              showLoaderOnConfirm: true,
+              allowOutsideClick: false,
+              reverseButtons:true
+          }).then((result) => {
+            if (result.value) {
+              this.cancelSubscription();
+              this.setActualStep('3.0');
+              this.setActualStepDB('3.0');
+              if(this.modalReference!=undefined){
+                this.modalReference.close();
+              }
+            }
+          });*/
+
+        }else if(this.launchingPhen2Genes || this.calculatingH29Score || this.gettingRelatedConditions){
+          Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "warning");
+        }else{
+          if(!this.loadingGeno && !this.calculatingH29Score && !this.gettingRelatedConditions && !this.uploadingGenotype && !this.launchingPhen2Genes && !this.uploadingGenotype){
+              Swal.fire(this.translate.instant("analysissection.analysisover"), '', "warning");
+          }else{
+            this.setActualStep('3.0');
+          }
+
+        }
+      }else if(this.actualStep == '3.0'){
+        this.setActualStep('2.0');
+      }else if(this.actualStep > '1.0'){
+        this.setActualStep('1.0');
+      }
+    }
+
+    goNextStep(){
+      console.log(this.actualStep);
+      console.log(this.numberOfSymptoms);
+      if(this.actualStep >= '3.3'){
+        this.goToStep('5.0', true)
+      }else if(this.actualStep == '3.2'){
+        if(this.launchingPhen2Genes || this.calculatingH29Score || this.gettingRelatedConditions){
+          Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "warning");
+        }else{
+          this.goToStep('5.0', true)
+        }
+      }else if(this.actualStep == '3.1'){
+        if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
+          Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "warning");
+        }else{
+          this.goToStep('5.0', true)
+        }
+      }else if(this.actualStep == '3.0'){
+        var haveSymptoms = false;
+        for(var i=0;i<this.symptomsExomiser.length;i++){
+          if(this.symptomsExomiser[i].checked){
+            haveSymptoms = true;
+            break;
+          }
+        }
+        if(!haveSymptoms){
+          Swal.fire({ title: this.translate.instant("analysissection.nosymptoms"), text:  this.translate.instant("analysissection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"warning" })
+        }else{
+          if(this.filesVcf.length>0 && !this.notAnalyzeGeneticInfo){
+            this.goToStep('3.1', true)
+          }else{
+            this.goToStep('3.2', true)
+          }
+
+        }
+      }else if(this.actualStep == '2.0'){
+        if(this.filesVcf.length>0){
+          this.goToStep('3.0', true);
+        }else{
+          Swal.fire({
+              title: this.translate.instant("geneticsection.nogeneticinfo"),
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#0CC27E',
+              cancelButtonColor: '#f9423a',
+              confirmButtonText: this.translate.instant("generics.Yes"),
+              cancelButtonText: this.translate.instant("generics.No, cancel"),
+              showLoaderOnConfirm: true,
+              allowOutsideClick: false,
+              reverseButtons:true
+          }).then((result) => {
+            if (result.value) {
+              this.goToStep('3.0', true);
+            }
+          });
+
+        }
+      }else if(this.actualStep == '1.0'){
+        if((this.phenotype.data.length == 0) || (this.numDeprecated==this.phenotype.data.length && this.numDeprecated>0)){
+          Swal.fire({ title: this.translate.instant("symptomssection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"warning" })
+        }else{
+          this.goToStep('2.0', true)
+        }
+
+      }else if(this.actualStep == '0.0'){
+        this.goToStep('1.0', true)
+      }
+    }
+
+    goToStepGenotics(){
+      if((this.phenotype.data.length == 0) || (this.numDeprecated==this.phenotype.data.length && this.numDeprecated>0)){
+        Swal.fire({ title: this.translate.instant("symptomssection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"warning" })
+      }else{
+        this.goToStep('2.0', true);
+      }
+
+    }
+
+    goToStepDiagnoses(){
+      this.goToStep('3.0', false);
+    }
+
     goToStep(indexStep, save){
-      this.actualStep = indexStep;
+      this.selectedDisease = -1;
+      if(indexStep=='0.0'){
+        document.getElementById("openModalIntro").click();
+      }
+      this.setActualStep(indexStep);
       if(this.actualStep == '3.2'){
         this.lauchPhen2Genes();
+        document.getElementById("openModalPhen2genes").click();
       }else if(this.actualStep == '3.1'){
-        this.callExomizerSameVcf();
+        console.log(save);
+        if(save){
+          this.callExomizerSameVcf();
+        }
+        document.getElementById("openModalExomiser").click();
+      }else if(this.actualStep == '3.0'){
+        this.notAnalyzeGeneticInfo=false;
+        this.symptomsExomiser = this.phenotype.data;
+        this.getNumberOfSymptomsExo();
+        if(this.uploadingGenotype){
+          this.goToStep('3.1', save);
+        }
+      }else if(this.actualStep == '5.0'){
+        if(this.modalReference!=undefined){
+          this.modalReference.close();
+        }
+      }else if(this.actualStep == '6.0'){
+        this.loadFilesContainer(false);
       }
       window.scrollTo(0, 0)
       if(save){
-        this.setActualStep(indexStep);
+        this.setActualStepDB(indexStep);
       }
       /*if(this.actualStep== '4.0'){
-        this.setActualStep('5.0');
+        this.setActualStepDB('5.0');
       }*/
     }
 
+    showPanelIntro(contentIntro){
+      if(this.modalReference!=undefined){
+        this.modalReference.close();
+      }
+      let ngbModalOptions: NgbModalOptions = {
+            backdrop : 'static',
+            keyboard : false,
+            windowClass: 'ModalClass-sm'
+      };
+      this.modalReference = this.modalService.open(contentIntro, ngbModalOptions);
+    }
+
     loadAllData(){
+
+      this.loadShowIntroWizard();
       this.getAzureBlobSasToken();
       this.loadMyEmail();
       this.loadTranslations();
@@ -497,7 +850,65 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.initVarsPrograms();
       this.loadSymptoms();
       this.getDiagnosisInfo();
-      this.checkServices(); //esto habría que ponerlo en el topnavbar tb
+
+      this.eventsService.on('infoStep', function(info) {
+        console.log(info);
+        if(info.maxStep!=null){
+          this.setMaxStep('0.0');
+        }
+        this.goToStep(info.step, info.save);
+      }.bind(this));
+
+      this.eventsService.on('setStepWizard', function(info) {
+        if(info=='next'){
+          this.goNextStep();
+        }else if(info=='prev'){
+          this.goPrevStep();
+        }else if(info=='reports'){
+          this.setActualStep('4.0');
+          //this.actualStep = '4.0';
+          this.loadFilesContainer(true);
+        }else if(info=='cancelAnalysis'){
+          this.cancelAnalysis();
+        }
+      }.bind(this));
+    }
+
+    cancelAnalysis(){
+      if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
+        Swal.fire(this.translate.instant("analysissection.stillanalyzing"), 'this.translate.instant("analysissection.may10minutesexov2")', "warning");
+        /*  Swal.fire({
+            title: this.translate.instant("analysissection.analyzingdata"),
+            text:  this.translate.instant("analysissection.stopanalysis?"),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#0CC27E',
+            cancelButtonColor: '#f9423a',
+            confirmButtonText: this.translate.instant("generics.Accept"),
+            cancelButtonText: this.translate.instant("generics.Cancel"),
+            showLoaderOnConfirm: true,
+            allowOutsideClick: false,
+            reverseButtons:true
+        }).then((result) => {
+          if (result.value) {
+            this.cancelSubscription();
+            this.setActualStep('5.0');
+            this.loadingGeno =false;
+            this.calculatingH29Score=false;
+            this.gettingRelatedConditions=false;
+            this.uploadingGenotype=false;
+            //this.setActualStepDB('5.0');
+            if(this.modalReference!=undefined){
+              this.modalReference.close();
+            }
+          }
+        });*/
+
+      }else if(this.launchingPhen2Genes || this.calculatingH29Score || this.gettingRelatedConditions){
+        Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "warning");
+      }else{
+        this.setActualStep('5.0');
+      }
     }
 
     getAzureBlobSasToken(){
@@ -661,7 +1072,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
          }));
 
 
-        this.subscription.add( this.blob.changeFilesPatientBlob.subscribe(filesPatientBlob => {
+        this.subscription.add( this.blob.changeFilesPatientBlob.subscribe(async filesPatientBlob => {
+          this.docsNcr = [];
+          this.otherDocs = [];
            if(filesPatientBlob.length>0){
              filesPatientBlob.sort(this.sortService.DateSort("lastModified"));
              var listPatientFiles = [];
@@ -710,7 +1123,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                }
              }
              for(var i=0;i<listPatientFiles.length;i++){
-               listPatientFiles[i].origenFile.nameForShow=""
+               listPatientFiles[i].origenFile.nameForShow="";
              }
              for(var i=0;i<listPatientFiles.length;i++){
                if(listPatientFiles[i].origenFile.simplename!=undefined){
@@ -724,17 +1137,26 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                }
              }
              this.listPatientFiles = listPatientFiles;
+             for(var i=0;i<this.listPatientFiles.length;i++){
+               this.listPatientFiles[i].origenFile.contentLength = this.formatBytes(this.listPatientFiles[i].origenFile.contentLength);
+               if((this.listPatientFiles[i].ncrResults.name).indexOf('ncrresult.json')!=-1){
+                 await this.getResumeNcr(this.listPatientFiles[i].ncrResults.name, i)
+
+               }else{
+                 var extension = this.listPatientFiles[i].origenFile.nameForShow.substr(this.listPatientFiles[i].origenFile.nameForShow.lastIndexOf('.'));
+                 this.listPatientFiles[i].origenFile.extension=extension;
+                 if(extension=='.vcf'|| extension=='.vcf.gz')
+                 this.otherDocs.push(this.listPatientFiles[i]);
+               }
+             }
+
             // this.urlFileHtmlExomiserBlob = this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+filesPatientBlob[0].name+this.accessToken.sasToken;
            }else{
             console.log('no tiene!');
             this.listPatientFiles = [];
            }
+           this.loadingDocuments = false;
            Swal.close();
-           let ngbModalOptions: NgbModalOptions = {
-                 windowClass: 'ModalClass-lg',
-                 centered: true
-           };
-           this.modalReference = this.modalService.open(this.contentDownloadFiles, ngbModalOptions);
          }));
 
 
@@ -757,6 +1179,65 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.getLastPhen2GenesResults();
 
 
+
+    }
+
+    formatBytes(bytes, decimals = 2) {
+        if (bytes === 0) return '0 Bytes';
+
+        const k = 1024;
+        const dm = decimals < 0 ? 0 : decimals;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+
+    async getResumeNcr(name, index){
+      //this.listPatientFiles[i].origenFile.name
+      this.subscription.add( this.http.get(this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+name+this.accessToken.sasToken)
+       .subscribe( (res : any) => {
+         //console.log(res);
+         var listSymptoms = [];
+         var numSymptMatch = 0;
+         var resumeText = '';
+         if(res.originalText!=undefined){
+           resumeText = res.originalText.slice(0, 200);
+         }
+          var infoNcr = res.result
+          if(infoNcr!=undefined){
+            if(infoNcr.length>0){
+             for(var i = 0; i < infoNcr.length; i++) {
+
+               for(var j = 0; j < infoNcr[i].phens.length; j++) {
+                 var foundElement = this.searchService.search(listSymptoms,'id', infoNcr[i].phens[j].id);
+                 if(!foundElement){
+                   listSymptoms.push(infoNcr[i].phens[j].id);
+                 }
+               }
+             }
+
+             for(var i = 0; i < this.phenotype.data.length; i++) {
+               for(var j = 0; j < listSymptoms.length; j++) {
+                 if(this.phenotype.data[i].id==listSymptoms[j]){
+                   numSymptMatch++;
+                 }
+               }
+             }
+           }
+          }
+
+        var extension = this.listPatientFiles[index].origenFile.nameForShow.substr(this.listPatientFiles[index].origenFile.nameForShow.lastIndexOf('.'));
+        this.listPatientFiles[index].ncrResults.extension = extension
+        this.listPatientFiles[index].ncrResults.numberSymptoms= listSymptoms.length;
+        this.listPatientFiles[index].ncrResults.numSymptMatch= numSymptMatch;
+        this.listPatientFiles[index].ncrResults.resumeText = resumeText
+        console.log(this.listPatientFiles[index]);
+        this.docsNcr.push(this.listPatientFiles[index]);
+       }, (err) => {
+         console.log(err);
+       }));
 
     }
 
@@ -784,7 +1265,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.relatedConditions = rows;
 
       this.calculatingH29Score = false;
-      this.renderMap(this.relatedConditions.slice(0, 10), this.paramgraph);
+      this.renderMap();
     }
 
     checkServices(){
@@ -815,7 +1296,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       // Llamar al servicio
       this.subscription.add( this.exomiserService.checkExomiserStatus(patientId)
         .subscribe( async (res2 : any) => {
-          console.log(res2);
           if(res2.message){
             if(res2.message=="nothing pending"){
               this.getExomizer(patientId);
@@ -827,6 +1307,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             }
             else if(res2.message=="something pending"){
               this.uploadingGenotype = true;
+              if(this.actualStep=='3.0'){
+                this.goToStep('3.1', false);
+              }
               await this.delay(5000);
               this.checkExomiser();
             }
@@ -845,18 +1328,26 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     selected($e) {
       $e.preventDefault();
       //this.selectedItems.push($e.item);
-      this.addSymptom($e.item, 'manual');
-      //this.phenotype.data.push($e.item);
+
+      var symptom = $e.item;
+      var foundElement = this.searchService.search(this.phenotype.data,'id', symptom.id);
+      if(!foundElement){
+        this.phenotype.data.push({id: symptom.id,name: symptom.name, new: true, checked: true, percentile:-1, inputType: 'manual', importance: '1', polarity: '0', synonyms: symptom.synonyms});
+        this.numberOfSymptoms++;
+        this.saveSymptomsToDb();
+        //this.toastr.success(this.translate.instant("generics.Name")+': '+symptom.name, this.translate.instant("phenotype.Symptom added"));
+      }else{
+        //this.toastr.warning(this.translate.instant("generics.Name")+': '+symptom.name, this.translate.instant("phenotype.You already had the symptom"));
+      }
       this.modelTemp = '';
       //this.inputEl.nativeElement.value = '';
     }
 
     selected2(i) {
       console.log(this.listOfFilteredSymptoms[i]);
-      //$e.preventDefault();
-      this.selectedItems.push(this.listOfFilteredSymptoms[i]);
+      this.addSymptom(this.listOfFilteredSymptoms[i], 'manual');
+      this.hasSymptomsToSave();
       //this.addSymptom($e.item, 'manual');
-      //this.phenotype.data.push($e.item);
       this.modelTemp = '';
       this.listOfFilteredSymptoms = [];
       //this.inputEl.nativeElement.value = '';
@@ -872,9 +1363,26 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       if( this.modelTemp.trim().length > 3){
         var tempModelTimp = this.modelTemp.trim();
         this.listOfFilteredSymptoms = this.searchFilterPipe.transformDiseases(this.listOfphenotypesinfo, 'name', tempModelTimp);
+        this.listOfFilteredSymptoms = this.clearSavedSymptoms(this.listOfFilteredSymptoms);
       }else{
         this.listOfFilteredSymptoms = [];
       }
+    }
+
+    clearSavedSymptoms(filterSymptoms){
+      var result = [];
+      for(var i = 0; i < filterSymptoms.length; i++){
+        var found = false;
+        for(var j = 0; j < this.phenotype.data.length && !found ; j++){
+          if(filterSymptoms[i].id==this.phenotype.data[j].id) {
+            found = true;
+          }
+        }
+        if(!found){
+          result.push(filterSymptoms[i]);
+        }
+      }
+      return result;
     }
 
     showMoreInfoSymptom(symptomIndex){
@@ -887,13 +1395,15 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     showMoreInfoSymptomPopup(symptomIndex, contentInfoSymptom){
       this.selectedInfoSymptomIndex = symptomIndex;
-      console.log(this.selectedInfoSymptomIndex );
-      console.log(this.phenotype.data[this.selectedInfoSymptomIndex]);
       let ngbModalOptions: NgbModalOptions = {
             keyboard : true,
-            windowClass: 'ModalClass-lg'
+            windowClass: 'ModalClass-sm'
       };
       this.modalReference = this.modalService.open(contentInfoSymptom, ngbModalOptions);
+    }
+
+    goPrevSymptom(){
+      this.actualTemporalSymptomsIndex--;
     }
 
     deleteItem(item) {
@@ -1036,7 +1546,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
             if(this.isDeletingPhenotype){this.isDeletingPhenotype=false;}
             this.numberOfSymptoms = this.phenotype.data.length;
-            //this.getRelatedConditions();
           }else{
             //no tiene fenotipo
             this.phenotype = res.phenotype;
@@ -1051,7 +1560,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     testCallGetInfoSymptomsJSON(hposStrins){
-      this.subscriptionLoadSymptoms = Observable.interval(1000 * 60 * 5 ).subscribe(() => {
+      this.subscriptionLoadSymptoms = Observable.interval(1000).subscribe(() => {
         this.numDeprecated = 0;
         if(this.listOfphenotypesinfo.length>0){
           this.subscriptionLoadSymptoms.unsubscribe();
@@ -1162,6 +1671,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       $('#panelPhenotypeList').hide();
     }
 
+    getRelatedConditionsview(isgen){
+      this.isgen=isgen
+      this.getRelatedConditions();
+    }
+
     getRelatedConditions(){
       this.gettingRelatedConditions = true;
 
@@ -1182,7 +1696,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         priorizeGenes=false;
       }
       console.log(infoToExtractGenes)
-      if((infoToExtractGenes!= [])&&(priorizeGenes==true)&&(this.infoGenesAndConditionsExomizer.length>0)){
+      if((infoToExtractGenes!= [])&&(priorizeGenes==true && this.isgen)&&(this.infoGenesAndConditionsExomizer.length>0)){
         this.getRelatedConditionsExomiser(infoToExtractGenes);
       }
       else{
@@ -1363,6 +1877,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                       var obttemp = (res1[idDesease]).genes;
                       var genIncluded=false;
                         for(var gen in obttemp) {
+                          foundeleme = false;
                           // Filter by "is_defined_by" (all that not have ONLY orphanet source)
                           var definedByOnlyOrphanet=false;
                           if(obttemp[gen].is_defined_by.indexOf('#orphanet')>-1){
@@ -1407,7 +1922,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                               encposiel = true;
                             }
                           }
-                          if(!encposiel){
+                          if(!encposiel && foundeleme){
                             this.relatedConditions[i].genes.push({gen:obttemp[gen].label});
                           }
                         }
@@ -1796,6 +2311,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           //console.log(info);
           if(info!=undefined){
             var listOfSymptoms = info.phenotypes
+            this.relatedConditions[i].xrefs = info.xrefs;
             if(Object.keys(listOfSymptoms).length>0){
               for(var indexSymptom in listOfSymptoms) {
                 var comment = "";
@@ -1841,7 +2357,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         if(diseaseWithoutScore.length>0){
           //calculateScore
 
-          this.phenotype.data
           var arraySymptomsIds=[];
 
           for(var lo = 0; lo < this.phenotype.data.length; lo++) {
@@ -1964,6 +2479,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           //console.log(info);
           if(info!=undefined){
             var listOfSymptoms = info.phenotypes
+            this.relatedConditions[i].xrefs = info.xrefs;
             if(Object.keys(listOfSymptoms).length>0){
               for(var indexSymptom in listOfSymptoms) {
                 var comment = "";
@@ -1988,7 +2504,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           }
         }
         if(this.relatedConditions.length>0){
-          this.renderMap(this.relatedConditions.slice(0, 10), 'h29');
+          this.indexListRelatedConditions = 10;
+          this.renderMap();
           if(this.selectedItemsFilter.length > 0){
             this.applyFilters();
           }
@@ -2030,18 +2547,26 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
       this.relatedConditions = rows;
 
+      var listOfDiseases = [];
+      for(var i = 0; i < this.relatedConditions.length; i++) {
+        if(this.relatedConditions[i]!=undefined){
+          listOfDiseases.push(this.relatedConditions[i].name.id);
+        }
+      }
       //deleteDuplicatedConditions
       this.subscription.add(this.apif29BioService.getInfoOfDiseases(this.listOfDiseases)
       .subscribe( (res1 : any) => {
         var copyrelatedConditionsIni = [];
         for(var i = 0; i < this.relatedConditions.length; i++) {
           var valtemp = this.relatedConditions[i].name.id;
-          this.relatedConditions[i].name.id = res1[valtemp].id;
-          var foundElement = this.searchService.search2Levels(copyrelatedConditionsIni,'name','id', this.relatedConditions[i].name.id);
-          if(!foundElement){
-            copyrelatedConditionsIni.push(this.relatedConditions[i]);
-          }else{
-            //console.log('Found: '+ this.relatedConditions[i].name.id);
+          if(res1[valtemp]!=undefined){
+            this.relatedConditions[i].name.id = res1[valtemp].id;
+            var foundElement = this.searchService.search2Levels(copyrelatedConditionsIni,'name','id', this.relatedConditions[i].name.id);
+            if(!foundElement){
+              copyrelatedConditionsIni.push(this.relatedConditions[i]);
+            }else{
+              //console.log('Found: '+ this.relatedConditions[i].name.id);
+            }
           }
         }
 
@@ -2062,8 +2587,15 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }
       this.relatedConditions = copyrelatedConditions;
       this.calculatingH29Score = false;
-
-      this.renderMap(this.relatedConditions.slice(0, 10), 'h29');
+      if(this.actualStep<'5.0'){
+        if(this.maxStep<'5.0'){
+          this.goToStep('5.0', true);
+        }else{
+          this.goToStep('5.0', false);
+        }
+      }
+      this.indexListRelatedConditions = 10;
+      this.renderMap();
       console.log(this.relatedConditions);
       this.saveNotes();
       this.applyFilters();
@@ -2073,7 +2605,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     checkChange(){
       this.checksChanged = true;
-      //this.getRelatedConditions();
     }
 
     lastIndexOfRegex (info, regex){
@@ -2087,7 +2618,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
             keyboard : false,
-            windowClass: 'ModalClass-xl'
+            windowClass: 'ModalClass-sm'// xl, lg, sm
       };
       this.modalReference = this.modalService.open(contentExtractorSteps, ngbModalOptions);
       /*this.documentIntoSentences = false;
@@ -2139,7 +2670,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
             keyboard : false,
-            windowClass: 'ModalClass-xl'
+            windowClass: 'ModalClass-lg'// xl, lg, sm
       };
       this.modalReference = this.modalService.open(contentAddTextSymptoms, ngbModalOptions);
     }
@@ -2308,17 +2839,24 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }
     }
 
+    confirmDeletePhenotypeGroup(index1, index2){
+      var indexElement = this.searchService.searchIndex(this.phenotype.data,'id', this.listOfSymptomGroups[index1].symptoms[index2].id);
+      console.log(indexElement);
+      this.confirmDeletePhenotype(indexElement);
+    }
+
     confirmDeletePhenotype(index){
       Swal.fire({
-          title: this.translate.instant("generics.Are you sure?"),
+          title: this.translate.instant("generics.Are you sure delete")+" "+this.phenotype.data[index].name+" ?",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#0CC27E',
           cancelButtonColor: '#f9423a',
-          confirmButtonText: this.translate.instant("generics.Delete"),
-          cancelButtonText: this.translate.instant("generics.No, cancel"),
+          confirmButtonText: this.translate.instant("generics.Accept"),
+          cancelButtonText: this.translate.instant("generics.Cancel"),
           showLoaderOnConfirm: true,
-          allowOutsideClick: false
+          allowOutsideClick: false,
+          reverseButtons:true
       }).then((result) => {
         if (result.value) {
           this.phenotype.data.splice(index, 1);
@@ -2332,20 +2870,20 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     deleteAllSymtoms(){
       Swal.fire({
-          title: this.translate.instant("generics.Are you sure?"),
+          title: this.translate.instant("generics.Are you sure delete"),
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#0CC27E',
           cancelButtonColor: '#f9423a',
           confirmButtonText: this.translate.instant("phenotype.Delete all symptoms"),
-          cancelButtonText: this.translate.instant("generics.No, cancel"),
+          cancelButtonText: this.translate.instant("generics.No"),
           showLoaderOnConfirm: true,
-          allowOutsideClick: false
+          allowOutsideClick: false,
+          reverseButtons:true
       }).then((result) => {
         if (result.value) {
           this.phenotype.data = [];
           this.onSubmit();
-          //this.getRelatedConditions();
         }
       });
     }
@@ -2647,7 +3185,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           this.loadingTable=false;
 
           if(this.actualStep == '3.1'){
-            this.getRelatedConditions();
+            this.getRelatedConditionsview(true);
+            //this.getRelatedConditions();
           }
           if(document.getElementById("idShowPanelWorkbench")!=null){
             //document.getElementById("idShowPanelWorkbench").click();
@@ -2664,7 +3203,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             this.newVcf = false;
           }else{
             if(this.diagnosisInfo.infoGenesAndConditionsExomizer.length == 0){
-              //this.getRelatedConditions();
             }
             this.numberOfSymptoms = this.phenotype.data.length;
             this.actualPosDisease = 0;
@@ -2682,15 +3220,22 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     callExomizerSameVcf(){
+      this.gettingRelatedConditions = true;
       // Check if there are any symptoms
       // If not: swal and not launch exomiser
-      if(this.phenotype.data.length==0){
-        Swal.fire({ title: this.translate.instant("diagnosis.titleNotCanLaunchExomiser"), html: this.translate.instant("diagnosis.msgNotCanLaunchExomiser"),icon:"info" })
+      var tempSymptomsExo = [];
+      for(var i=0;i<this.symptomsExomiser.length;i++){
+        if(this.symptomsExomiser[i].checked){
+          tempSymptomsExo.push(this.symptomsExomiser[i]);
+        }
+      }
+      if(tempSymptomsExo.length==0){
+        Swal.fire({ title: this.translate.instant("analysissection.nosymptoms"), text:  this.translate.instant("analysissection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"warning" })
       }
       // If yes: launch exomiser
       else{
         this.uploadingGenotype = true;
-        this.getExomiserSettings();
+        this.getExomiserSettings(tempSymptomsExo);
         if(this.settingExomizer.VariantEffectFilters!=undefined){
           if(this.settingExomizer.VariantEffectFilters.remove!=undefined){
             if(this.settingExomizer.VariantEffectFilters.remove.length==0){
@@ -2698,12 +3243,15 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             }
           }
         }
+        this.settingExomizer.genomeAssembly='hg38';
         this.subscription.add(this.exomiserService.analyzeExomiser(this.settingExomizer)
         .subscribe( (res : any) => {
           this.subscription.add( this.apiDx29ServerService.setPendingJobs(this.accessToken.patientId,this.exomiserService.getActualToken())
           .subscribe( (res : any) => {
             //this.getExomizer(this.accessToken.patientId);
             this.checkExomiser()
+            var exoservice = {patientId: this.accessToken.patientId, token: this.exomiserService.getActualToken(), patientName: this.selectedPatient.patientName}
+            this.eventsService.broadcast('exoservice', exoservice);
             //alert("Create pending job with token:"+this.exomiserService.getActualToken)
 
           }, (err) => {
@@ -2790,7 +3338,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             //this.filename=filename;
             this.blob.loadFilesVCF(this.accessToken.containerName);
           }else{
-            Swal.fire('The VCF file must have .vcf extension or .vcf.gz', '', "error");
+            Swal.fire(this.translate.instant("diagnosis.The VCF file must have"), '', "error");
           }
 
 
@@ -2825,28 +3373,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       document.getElementById("openModalButton").click();
     }
 
-    selectOldVcf(contentSelectVcf){
-      if(this.filesVcf){
-        if(this.filesVcf.length>1){
-          let ngbModalOptions: NgbModalOptions = {
-            windowClass: 'ModalClass-lg'
-          };
-          this.modalReference = this.modalService.open(contentSelectVcf, ngbModalOptions);
-        }else{
-          this.launchExomizerOldVcf();
-        }
-      }else{
-        this.launchExomizerOldVcf();
-      }
-    }
-
-    launchExomizerOldVcf(){
-      this.relatedConditions = [];
-      this.infoGenesAndConditionsExomizer = [];
-      this.saveNotes();
-      this.callExomizerSameVcf();
-    }
-
     cancelExomiser(place){
       Swal.fire({
           title: this.translate.instant("generics.Are you sure?"),
@@ -2857,7 +3383,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           confirmButtonText: this.translate.instant("generics.Yes"),
           cancelButtonText: this.translate.instant("generics.No"),
           showLoaderOnConfirm: true,
-          allowOutsideClick: false
+          allowOutsideClick: false,
+          reverseButtons:true
       }).then((result) => {
         if (result.value) {
           console.log("Cancel exomiser")
@@ -2870,7 +3397,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
           //preguntar si quiere eliminar el file
           Swal.fire({
-              title: 'Do you want to delete the VCF file?',
+              title: this.translate.instant("diagnosis.Do you want to delete the VCF file"),
               icon: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#0CC27E',
@@ -2878,7 +3405,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               confirmButtonText: this.translate.instant("generics.Yes"),
               cancelButtonText: this.translate.instant("generics.No"),
               showLoaderOnConfirm: true,
-              allowOutsideClick: false
+              allowOutsideClick: false,
+              reverseButtons:true
           }).then((result) => {
             if (result.value) {
               if(place=='workbench'){
@@ -3072,7 +3600,12 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
          this.checksChanged = true;
        }
        if(haschanged || this.relatedConditions != []){
-         this.getRelatedConditions();
+         if(this.infoGenesAndConditions == this.infoGenesAndConditionsPhen2Genes){
+           this.getRelatedConditionsview(false);
+         }else{
+           this.getRelatedConditionsview(true);
+         }
+         //this.getRelatedConditions();
        }
 
     }
@@ -3094,13 +3627,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }
       this.unknownSymptoms = datadetcopy;
       this.phenotype.data.sort(this.sortService.GetSortOrder("name"));
-      //this.getRelatedConditions();
     }
 
     resetSavedSymptoms(){
       this.phenotype = JSON.parse(JSON.stringify(this.phenotypeCopy));
       this.geneName = '';
-    //  this.getRelatedConditions();
     }
 
     addSymptomsManual(contentAddSymptomsManual){
@@ -3183,7 +3714,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             this.getSymptomsApi2();
           }
         }
-
+        this.checkServices(); //esto habría que ponerlo en el topnavbar tb
        }, (err) => {
          console.log(err);
        }));
@@ -3195,6 +3726,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.savingDiagnosis = true;
         for(var i = 0; i < this.relatedConditions.length; i++) {
           delete this.relatedConditions[i].symptoms;
+          delete this.relatedConditions[i].xrefs;
           //delete this.relatedConditions[i].genes;
         }
         if(this.modalReference!=undefined){
@@ -3278,7 +3810,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     changeStateSymptom(index, state){
-      this.temporalSymptoms[index].checked = state;
+      this.temporalSymptoms[index].checked = !state;
     }
 
     callNCR(){
@@ -3349,6 +3881,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             this.sortBySimilarity();
 
             this.medicalText ='';
+            this.isNewNcrFile = true;
             //var actualDate = Date.now();
             //this.infoNcrToSave = {ncrVersion:environment.ncrVersion, originalText: '', result: {}, rejectedSymptoms: [], date: actualDate, docUrl: ''};
 
@@ -3362,10 +3895,25 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
            this.substepExtract = '4';
             /*document.getElementById("openModalSymptomsNcrButton").click();
             this.changeTriggerHotjar('ncrresults_');*/
+            console.log(this.temporalSymptoms);
+            if(this.temporalSymptoms.length==0){
+              this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
+              if(this.modalReference!=undefined){
+                this.modalReference.close();
+              }
+            }else{
+              console.log('entra');
+              document.getElementById("openModalSymptomsNcrButton2").click();
+            }
+
           }else{
             this.substepExtract = '4';
             this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
+            if(this.modalReference!=undefined){
+              this.modalReference.close();
+            }
           }
+
           this.loadingHpoExtractor = false;
         }
 
@@ -3551,7 +4099,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               confirmButtonText: self.translate.instant("generics.Yes"),
               cancelButtonText: self.translate.instant("generics.No"),
               showLoaderOnConfirm: true,
-              allowOutsideClick: false
+              allowOutsideClick: false,
+              reverseButtons:true
           }).then((result) => {
             if (result.value) {
               self.callParser(contentExtractorSteps);
@@ -3597,7 +4146,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               confirmButtonText: this.translate.instant("generics.Yes"),
               cancelButtonText: this.translate.instant("generics.No"),
               showLoaderOnConfirm: true,
-              allowOutsideClick: false
+              allowOutsideClick: false,
+              reverseButtons:true
           }).then((result) => {
             if (result.value) {
               this.langToExtract = res[0].language
@@ -3609,7 +4159,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               if(this.medicalText!=''){
                 this.onSubmitToExtractor(contentExtractorSteps);
               }else{
-                Swal.fire('No text has been detected in the file.', '', "error");
+                Swal.fire(this.translate.instant("patdiagdashboard.No text has been detected in the file"), '', "error");
               }
             }
           });
@@ -3623,7 +4173,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           if(this.medicalText!=''){
             this.onSubmitToExtractor(contentExtractorSteps);
           }else{
-            Swal.fire('No text has been detected in the file.', '', "error");
+            Swal.fire(this.translate.instant("patdiagdashboard.No text has been detected in the file"), '', "error");
           }
 
         }
@@ -3643,11 +4193,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     }
 
-    getExomiserSettings(){
+    getExomiserSettings(tempSymptomsExo){
 
       var listSymptoms = [];
-      for(var i = 0; i < this.phenotype.data.length; i++) {
-        listSymptoms.push(this.phenotype.data[i].id);
+      for(var i = 0; i < tempSymptomsExo.length; i++) {
+        listSymptoms.push(tempSymptomsExo[i].id);
       }
 
       this.settingExomizer.VcfBlobName = this.filename;
@@ -3659,7 +4209,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     changeSettingsExomiser(contentSettingsExomiser){
-      this.getExomiserSettings();
+      this.getExomiserSettings(this.phenotype.data);
 
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
@@ -3687,18 +4237,18 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       filename = filename + extension;
       if((extension!='.ped')||(event.target.files[0].size > 12048)){
         if(((extension!='.ped'))&&(event.target.files[0].size > 12048)){
-          Swal.fire('The ped file must have .ped extension and the file is too big!', '', "error");
+          Swal.fire(this.translate.instant("diagnosis.The ped file must have and is big"), '', "error");
         }else{
           if(extension!='.ped'){
-            Swal.fire('The ped file must have .ped extension.', '', "error");
+            Swal.fire(this.translate.instant("diagnosis.The ped file must"), '', "error");
           }
           else if(event.target.files[0].size > 12048){
-            Swal.fire('The file is too big!', '', "error");
+            Swal.fire(this.translate.instant("diagnosis.The file is too big"), '', "error");
           }
         }
       }else{
         if(event.target.files[0].size > 12048){
-          Swal.fire('The file is too big!', '', "error");
+          Swal.fire(this.translate.instant("diagnosis.The file is too big"), '', "error");
         }
         else{
           this.uploadingPed = true;
@@ -3743,6 +4293,26 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     deleteVcfFile(file,i){
+      Swal.fire({
+          title: this.translate.instant("generics.Are you sure delete it"),
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#0CC27E',
+          cancelButtonColor: '#f9423a',
+          confirmButtonText: this.translate.instant("generics.Accept"),
+          cancelButtonText: this.translate.instant("generics.Cancel"),
+          showLoaderOnConfirm: true,
+          allowOutsideClick: false,
+          reverseButtons:true
+      }).then((result) => {
+        if (result.value) {
+          this.confirmDeleteVcfFile(file,i);
+        }
+      });
+    }
+
+
+    confirmDeleteVcfFile(file,i){
 
       if(file==this.filename){
         if(this.filesVcf.length>1){
@@ -3760,8 +4330,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
       }
       this.filesVcf.splice(i, 1);
-      this.blob.deleteBlob(this.accessToken.containerName , file);
-      this.blob.loadFilesVCF(this.accessToken.containerName);
+      this.blob.deleteBlobAndLoadVCF(this.accessToken.containerName , file);
     }
 
     clearValuesFrequencySources(){
@@ -3789,6 +4358,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.variantEffectsFilterRequired=true;
 
     }
+
     showPanelSymptomsNcr(contentSymptomsNcr){
       if(this.modalReference!=undefined){
         this.modalReference.close();
@@ -3796,10 +4366,27 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
             keyboard : false,
-            windowClass: 'ModalClass-xl'
+            windowClass: 'ModalClass-sm'// xl, lg, sm
       };
+      this.actualTemporalSymptomsIndex = 0;
       this.modalReference = this.modalService.open(contentSymptomsNcr, ngbModalOptions);
     }
+
+    addSymptomTinder(index){
+      this.temporalSymptoms[index].checked=true;
+      this.actualTemporalSymptomsIndex++;
+    }
+
+    rejectSymptomTinder(index){
+      this.temporalSymptoms[index].checked=false;
+      this.actualTemporalSymptomsIndex++;
+    }
+
+    startAgainTinder(){
+      this.actualTemporalSymptomsIndex = 0;
+      this.selectedInfoSymptomIndex = -1;
+    }
+
 
     markText(text, pos1, pos2){
       this.searchTerm = text.substring(pos1, pos2);
@@ -3894,7 +4481,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             confirmButtonText: this.translate.instant("diagnosis.Notify me when active"),
             cancelButtonText: this.translate.instant("generics.No, cancel"),
             showLoaderOnConfirm: true,
-            allowOutsideClick: false
+            allowOutsideClick: false,
+            reverseButtons:true
         }).then((result) => {
           if (result.value) {
             //enviar email a cada usuario cuando este disponible el servicio, para ello tenemos que guardar los ids...
@@ -4021,7 +4609,10 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           this.modalReference.close();
 
         }
-        this.modalReference = this.modalService.open(contentSeeSymptomsOfDisease, ngbModalOptions);
+        if(contentSeeSymptomsOfDisease!=null){
+          this.modalReference = this.modalService.open(contentSeeSymptomsOfDisease, ngbModalOptions);
+        }
+
         this.loadingSymptomsOfDisease = false;
 
        }, (err) => {
@@ -4136,7 +4727,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.selectedItemsFilterWithIndex = {"id":this.tempSymptom,"index":(this.selectedItemsFilter.length-1)};
         this.tempSymptom = {};
       }else{
-        this.toastr.error('', 'The symptom is already added');
+        this.toastr.error('', this.translate.instant("phenotype.The symptom is already added"));
       }
     }
 
@@ -4238,7 +4829,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           tempRelatedConditions = [];
         }
         this.relatedConditions = JSON.parse(JSON.stringify(tempRelatedConditions));
-        this.renderMap(this.relatedConditions.slice(0, 10), this.paramgraph);
+        this.renderMap();
         if(this.modalReference!=undefined){
           this.modalReference.close();
         }
@@ -4256,7 +4847,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }
       this.relatedConditionsCopy = [];
       this.selectedItemsFilter = [];
-      this.renderMap(this.relatedConditions.slice(0, 10), this.paramgraph);
+      this.renderMap();
       if(this.modalReference!=undefined){
         this.modalReference.close();
       }
@@ -4264,39 +4855,53 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.saveNotes2();
     }
 
-    renderMap(data, param){
+    renderMap(){
+      this.potentialDiagnostics = [];
       this.checkPrograms();
+      this.loadingPotentialDiagnostics = true;
+      this.getOrphaNamesAndCheckPotentialDiagnostics();
+      //this.topRelatedConditions = data;
+    }
 
-      var tempParam = 'Dx29';
+    async getOrphaNamesAndCheckPotentialDiagnostics(){
+      if(this.orphanet_names.disorders==undefined){
+        await this.delay(1000);
+        this.getOrphaNamesAndCheckPotentialDiagnostics();
+      }else{
+        for(var i = 0; i < this.relatedConditions.length; i++)
+          {
+            //get orpha name
+            var found = false;
+            var orphaId = this.maps_to_orpha.map[this.relatedConditions[i].name.id]
+            if(orphaId!=undefined){
+              var firstOrphaId = orphaId[0];
+              this.relatedConditions[i].name.label = this.orphanet_names.disorders[firstOrphaId].name;
+              found =true;
+            }
+            if(this.relatedConditions[i].xrefs!=undefined){
+              for(var j = 0; j < this.relatedConditions[i].xrefs.length && !found; j++){
+                var orphaId = this.maps_to_orpha.map[this.relatedConditions[i].xrefs[j]]
+                if(orphaId!=undefined){
+                  var firstOrphaId = orphaId[0];
+                  this.relatedConditions[i].name.label = this.orphanet_names.disorders[firstOrphaId].name;
+                  found =true;
+                }
+              }
+            }
 
-    /*  if(param == 'matches'){
-        tempParam = 'C1';
-      }else */if(param == 'scoregenes'){
-        tempParam = 'C2';
-      }else if(param == 'score'){
-        tempParam = 'C1';
+
+
+            this.relatedConditions[i].name.label = this.textTransform.transform(this.relatedConditions[i].name.label);
+
+            //get potentialDiagnostics
+            if(this.relatedConditions[i].checked){
+              this.potentialDiagnostics.push(this.relatedConditions[i]);
+            }
+
+          }
+        this.topRelatedConditions = this.relatedConditions.slice(0, this.indexListRelatedConditions)
+        this.loadingPotentialDiagnostics = false;
       }
-
-      var tempdata = [];
-      for(var i = 0; i < data.length; i++) {
-        var tempColor= this.getColor(data[i].h29);
-        var tempValue= data[i].h29;
-        /*if(param == 'matches'){
-          tempValue= data[i].matches.length;
-        }else */if(param == 'scoregenes'){
-          tempValue= data[i].scoregenes;
-        }else if(param == 'score'){
-          tempValue= data[i].score;
-        }
-        tempdata.push({name: data[i].name.label, value: tempValue, color: tempColor});
-      }
-
-      for(var i = 0; i < this.relatedConditions.length; i++)
-        {
-          this.relatedConditions[i].name.label = this.textTransform.transform(this.relatedConditions[i].name.label);
-        }
-
-      this.topRelatedConditions = data;
 
     }
 
@@ -4385,18 +4990,20 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     }
 
-    loadFilesContainer(contentDownloadFiles){
-      this.contentDownloadFiles = contentDownloadFiles;
+    loadFilesContainer(showloading){
+      this.loadingDocuments = true;
       this.blob.loadFilesPatientBlob(this.accessToken.containerName);
-      Swal.fire({
-          title: this.translate.instant("generics.Please wait"),
-          html: '<i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>',
-          showCancelButton: false,
-          showConfirmButton: false,
-          allowOutsideClick: false
-      }).then((result) => {
+      if(showloading){
+        Swal.fire({
+            title: this.translate.instant("generics.Please wait"),
+            html: '<i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>',
+            showCancelButton: false,
+            showConfirmButton: false,
+            allowOutsideClick: false
+        }).then((result) => {
 
-      });
+        });
+      }
     }
 
     openNcrResult(name){
@@ -4435,9 +5042,14 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
                  for(var k = 0; k < res.rejectedSymptoms.length; k++) {
                    if(this.temporalSymptoms[j].id == res.rejectedSymptoms[k].id){
-                     this.changeStateSymptom(j, false);
+                     this.changeStateSymptom(j, true);
                    }
                   }
+                  for(var jio = 0; jio < this.phenotype.data.length; jio++) {
+                    if(this.temporalSymptoms[j].id == this.phenotype.data[jio].id){
+                      this.temporalSymptoms[j].checked = true;
+                    }
+                   }
                }
 
                //this.phenotype.data.sort(this.sortService.GetSortOrder("name"));
@@ -4513,6 +5125,14 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
                   //this.addSymptom(symptomExtractor, 'auto')
                 }
+                for(var j = 0; j < this.temporalSymptoms.length; j++) {
+                  for(var jio = 0; jio < this.phenotype.data.length; jio++) {
+                    if(this.temporalSymptoms[j].id == this.phenotype.data[jio].id){
+                      this.temporalSymptoms[j].checked = true;
+                    }
+                   }
+                }
+
                 this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
                 //this.phenotype.data.sort(this.sortService.GetSortOrder("name"));
                 //this.hasSymptomsToSave();
@@ -4568,12 +5188,12 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     checkPrograms(){
       this.programs = [];
-      this.subscription.add( this.http.get(environment.api+'/api/programs/'+this.authService.getCurrentPatient().sub)
+      /*this.subscription.add( this.http.get(environment.api+'/api/programs/'+this.authService.getCurrentPatient().sub)
       .subscribe( (res : any) => {
         this.programs = res;
         }, (err) => {
           console.log(err);
-        }));
+        }));*/
     }
 
     showProgramRequest(program, contentGeneticProgram){
@@ -4602,7 +5222,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           confirmButtonText: this.translate.instant("generics.Yes"),
           cancelButtonText: this.translate.instant("generics.No, cancel"),
           showLoaderOnConfirm: true,
-          allowOutsideClick: false
+          allowOutsideClick: false,
+          reverseButtons:true
       }).then((result) => {
         if (result.value) {
           var para= this.authService.getCurrentPatient();
@@ -4666,7 +5287,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       console.log("Discard settings exomiser")
 
       this.getDiagnosisInfo();
-      this.getExomiserSettings();
+      this.getExomiserSettings(this.phenotype.data);
       this.blob.loadFilesOnBlobExomizer(this.accessToken.containerName,null);
       //this.settingExomizer=this.settingExomizerCopy;
       //this.settingExomizer = this.diagnosisInfo.settingExomizer;
@@ -4678,7 +5299,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     manageErrorsExomiser(type,err){
       if(this.actualStep== '3.1'){
-        this.goToStep('2.1', true);
+        this.goToStep('2.0', true);
       }
       this.subscription.add(this.apif29SrvControlErrors.getDescriptionErrorAndNotify(type,err,this.authService.getLang(),this.exomiserService.getActualToken())
       .subscribe( (res : any) => {
@@ -4778,7 +5399,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         addLangToTrigger = 'es';
       }
       trigger = trigger+addLangToTrigger;
-      this.$hotjar.trigger(trigger);
+      var elemento = document.getElementById('_hj_feedback_container');
+      if(elemento){
+        this.$hotjar.trigger(trigger);
+      }
+
     }
 
     loadMoreInfoGenesPanel(contentMoreInfoGenes,element,geneName){
@@ -5061,6 +5686,23 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.router.navigate(['clinical/dashboard/home']);
     }
 
+    logIndex(index){
+      this.indexExpandedElementGenes = index;
+      this.expandedElement = this.infoGenesAndConditionsExomizer[index];
+    }
+
+    setIndexAndshowPanelGenes(contentPanelGenes, gene){
+      var index = -1;
+      for(var i = 0; i < this.infoGenesAndConditionsExomizer.length; i++) {
+        if(this.infoGenesAndConditionsExomizer[i].name==gene){
+          index=i;
+          break;
+        }
+      }
+      this.expandedElement = this.infoGenesAndConditionsExomizer[index];
+      this.showPanelGenes(contentPanelGenes);
+    }
+
     showPanelGenes(contentPanelGenes){
       var size= 'ModalClass-lg';
       if(this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhen2Genes.length>0){
@@ -5143,7 +5785,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }
       this.launchingPhen2Genes = false;
       if(this.actualStep == '3.2'){
-        this.getRelatedConditions();
+        this.getRelatedConditionsview(false);
+        //this.getRelatedConditions();
       }
     }
 
@@ -5182,6 +5825,1191 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       var url = '/clinical/'+page;
       console.log(url);
       this.router.navigate([url]);
+    }
+
+    toggleMenu(){
+      if($('.chat-app-sidebar-toggle').hasClass('ft-align-justify')){
+        $('.chat-app-sidebar-toggle').removeClass('ft-align-justify').addClass('ft-x');
+        $('.chat-sidebar').removeClass('d-none d-sm-none').addClass('d-block d-sm-block');
+        $('.content-overlay').addClass('show');
+      }else{
+        $('.content-overlay').removeClass('show');
+        $('.chat-app-sidebar-toggle').removeClass('ft-x').addClass('ft-align-justify');
+        $('.chat-sidebar').removeClass('d-block d-sm-block').addClass('d-none d-sm-none');
+      }
+    }
+
+    funShowOptionsSymptoms(contentOptionsSymptoms){
+      let ngbModalOptions: NgbModalOptions = {
+            backdrop : 'static',
+            keyboard : false,
+            windowClass: 'ModalClass-sm' // xl, lg, sm
+      };
+      this.modalReference = this.modalService.open(contentOptionsSymptoms, ngbModalOptions);
+    }
+
+    changeExomiserStateSymptom(index){
+      this.symptomsExomiser[index].checked = !this.symptomsExomiser[index].checked;
+    }
+
+    showMoreInfoDisease(diseaseIndex, disease){
+      if(this.selectedDisease == diseaseIndex ){
+        this.selectedDisease = -1;
+      }else{
+        this.selectedDisease = diseaseIndex;
+      }
+      if(this.selectedDisease != -1){
+        console.log(disease);
+        this.loadSymptomsOfDiseaseForGraph(disease);
+      }
+
+    }
+
+    loadSymptomsOfDiseaseForGraph(disease){
+      this.loadingGraphSymptomFreq=true;
+      this.fullListSymptoms = [];
+      this.omimSymptoms = [];
+      this.orphaSymptoms = [];
+      this.actualDiseaseDesc = {};
+
+      this.loadingSymptomsDataForGraph = true;
+      var xrefs = disease.name.id;
+      var listXRefs = [disease.name.id];
+      //get symtoms
+      var lang = this.authService.getLang();
+      this.subscription.add(this.apif29BioService.getSymptomsOfDisease(lang,listXRefs,0)
+      .subscribe( (res : any) => {
+        console.log(res);
+          var idDesease = listXRefs[0];
+          var info = res[idDesease];
+          this.parseOtherInfoSymptomsOfDisease(info);
+          //console.log(info);
+          if(info!=undefined){
+            this.actualDiseaseDesc = {desc: info.desc, comment: info.comment};
+            var listOfSymptoms = info.phenotypes
+            if(Object.keys(listOfSymptoms).length>0){
+              for(var indexSymptom in listOfSymptoms) {
+                var comment = "";
+                var def = "";
+                if(listOfSymptoms[indexSymptom].desc!="None"){
+                  def = listOfSymptoms[indexSymptom].desc;
+                }
+                if(listOfSymptoms[indexSymptom].comment!=""){
+                  comment = listOfSymptoms[indexSymptom].comment;
+                }
+                var onlyOrpha = false;
+                var frec = null;
+                for(var i = 0; i < listOfSymptoms[indexSymptom].source.length; i++) {
+                  if(listOfSymptoms[indexSymptom].source[i].indexOf( 'ORPHA' ) != -1){
+                    this.orphaSymptoms.push({id:indexSymptom, name: listOfSymptoms[indexSymptom].name, def: def, comment: comment, synonyms: listOfSymptoms[indexSymptom].synonyms, frequency: listOfSymptoms[indexSymptom].frequency});
+                    if(listOfSymptoms[indexSymptom].source.length<=1){
+                      onlyOrpha=true;
+                    }else{
+                      frec =  listOfSymptoms[indexSymptom].frequency;
+                    }
+                  }
+                }
+                if(!onlyOrpha && listOfSymptoms[indexSymptom].source.length>0){
+                  this.omimSymptoms.push({id:indexSymptom, name: listOfSymptoms[indexSymptom].name, def: def, comment: comment, synonyms: listOfSymptoms[indexSymptom].synonyms, frequency: frec});
+                }
+               }
+
+            }
+            var listOfOtherDiseasesSymptoms = info.children
+            if(Object.keys(listOfOtherDiseasesSymptoms).length>0){
+              for(var diseasesSymptoms in listOfOtherDiseasesSymptoms) {
+                if(listOfOtherDiseasesSymptoms[diseasesSymptoms].phenotypes!=undefined){
+                  var listOfOtherSymptoms = listOfOtherDiseasesSymptoms[diseasesSymptoms].phenotypes
+                  for(var k in listOfOtherSymptoms) {
+                     //console.log(k, listOfOtherSymptoms[k]);
+                     var foundElement = this.searchService.search(this.phenotype.data,'id', k);
+                     var foundElement2 = this.searchService.search(this.omimSymptoms,'id', k);
+                     var foundElement3 = this.searchService.search(this.orphaSymptoms,'id', k);
+                     if(!foundElement2 || !foundElement3){
+                       var comment = "";
+                       var def = "";
+                       var frequency = null;
+                       if(listOfOtherSymptoms[k].desc!="None"){
+                         def = listOfOtherSymptoms[k].desc;
+                       }
+                       if(listOfOtherSymptoms[k].comment!=""){
+                         comment = listOfOtherSymptoms[k].comment;
+                       }else{
+                         comment = "None"
+                       }
+                       console.log(listOfOtherSymptoms[k].frequency);
+                       if(listOfOtherSymptoms[k].frequency!=undefined){
+                         frequency = listOfOtherSymptoms[k].frequency;
+                       }
+                       console.log(frequency);
+                       if(!foundElement2){
+                         if(foundElement){
+                           this.omimSymptoms.push({id:k, name: listOfOtherSymptoms[k].name, def: def, comment: comment, synonyms: listOfOtherSymptoms[k].synonyms, checked: true, frequency: frequency});
+                         }else{
+                           this.omimSymptoms.push({id:k, name: listOfOtherSymptoms[k].name, def: def, comment: comment, synonyms: listOfOtherSymptoms[k].synonyms, checked: false, frequency: frequency});
+                         }
+                       }
+                       if(!foundElement3){
+                         if(foundElement){
+                           this.orphaSymptoms.push({id:k, name: listOfOtherSymptoms[k].name, def: def, comment: comment, synonyms: listOfOtherSymptoms[k].synonyms, checked: true, frequency: frequency});
+                         }else{
+                           this.orphaSymptoms.push({id:k, name: listOfOtherSymptoms[k].name, def: def, comment: comment, synonyms: listOfOtherSymptoms[k].synonyms, checked: false, frequency: frequency});
+                         }
+                       }
+
+                     }
+                  }
+                }
+              }
+            }
+
+            this.omimSymptoms.sort(this.sortService.GetSortOrder("name"));
+            this.orphaSymptoms.sort(this.sortService.GetSortOrder("name"));
+            console.log(this.omimSymptoms);
+            console.log(this.orphaSymptoms);
+            //asign frequency of orpha to omim symptoms
+            for(var i=0;i<this.omimSymptoms.length;i++)
+              {
+                for(var j=0;j<this.orphaSymptoms.length;j++){
+                  if(this.omimSymptoms[i].id==this.orphaSymptoms[j].id){
+                    this.omimSymptoms[i].frequency = this.orphaSymptoms[j].frequency;
+                  }
+                }
+
+              }
+              for(var i=0;i<this.phenotype.data.length;i++)
+              {
+                for(var j=0;j<this.orphaSymptoms.length;j++){
+                  if(this.phenotype.data[i].id==this.orphaSymptoms[j].id){
+                    this.phenotype.data[i].frequency = this.orphaSymptoms[j].frequency;
+                  }
+                }
+
+              }
+            this.checkOPatientSymptoms();
+            this.checkOrphaSymptoms();
+            this.checkOmimSymptoms();
+
+
+
+            console.log(this.fullListSymptoms);
+            // Llamada para coger los hijos de los sintomas
+            // List IDs
+            var symptomsOfDiseaseIds =[];
+            this.fullListSymptoms.forEach(function(element) {
+              symptomsOfDiseaseIds.push(element.id);
+            });
+            this.getSuccessors(symptomsOfDiseaseIds);
+
+            this.calculateAll(symptomsOfDiseaseIds);
+          }
+      }, (err) => {
+        console.log(err);
+        this.toastr.error('', this.translate.instant("dashboardpatient.error try again"));
+        this.loadingSymptomsOfDisease = false;
+        this.loadingGraphSymptomFreq=false;
+      }));
+
+    }
+    async getSuccessors(symptomsOfDiseaseIds){
+      return new Promise(async function (resolve, reject) {
+        var result = { status: 200, data: [], message: "Calcule Conditions score OK" }
+        this.subscription.add(this.apif29BioService.getSuccessorsOfSymptomsDepth(symptomsOfDiseaseIds)
+        .subscribe( async (res1 : any) => {
+          console.log(res1);
+            //await this.getPredecessorsOrpha();
+            await this.setFrequencies(res1);
+            await this.getfrequencies()
+        }, (err) => {
+          console.log(err);
+        }));
+        return resolve(result);
+      }.bind(this))
+    }
+
+    parseOtherInfoSymptomsOfDisease(info){
+      console.log(info);
+      var clinical_course = [];
+      if(Object.keys(info.clinical_course).length>0){
+        for(var hpo in info.clinical_course) {
+          console.log(hpo);
+          console.log(info.clinical_course[hpo]);
+          clinical_course.push({hpo:hpo, info: info.clinical_course[hpo]});
+        }
+      }
+      var clinical_modifier = [];
+      if(Object.keys(info.clinical_modifier).length>0){
+        for(var hpo in info.clinical_modifier) {
+          clinical_modifier.push({hpo:hpo, info: info.clinical_modifier[hpo]});
+        }
+      }
+      var xrefs = this.cleanOrphas(info.xrefs)
+      this.actualRelatedDisease = {clinical_course: clinical_course, clinical_modifier: clinical_modifier, xrefs: xrefs, name: info.name};
+    }
+
+    cleanOrphas(xrefs){
+      var res = [];
+      var count = 0;
+      for (var i = 0; i < xrefs.length; i++){
+        if(xrefs[i].indexOf('ORPHA')!=-1 || xrefs[i].indexOf('OMIM')!=-1){
+          if(xrefs[i].indexOf('ORPHA')!=-1){
+            count++;
+          }
+          if(count<2){
+            var value = xrefs[i].split(':');
+            if(xrefs[i].indexOf('ORPHA')!=-1){
+              res.push({name: 'Orphanet', id: value[1]});
+            }else if(xrefs[i].indexOf('OMIM')!=-1){
+              res.push({name: 'OMIM', id: value[1]});
+            }
+
+          }
+        }
+
+      }
+      return res;
+    }
+    async getPredecessorsOrpha(){
+      return new Promise(async function (resolve, reject) {
+        var result = { status: 200, data: [], message: "Calcule Conditions score OK" }
+        var symptomsOfDiseaseIds =[];
+        this.orphaSymptoms.forEach(function(element) {
+          symptomsOfDiseaseIds.push(element.id);
+        });
+
+        this.subscription.add(this.apif29BioService.​getPredecessorsOfSymptomsDepth(symptomsOfDiseaseIds)
+        .subscribe( async (res1 : any) => {
+          this.treeOrphaPredecessors=res1;
+          console.log(res1);
+        }, (err) => {
+          console.log(err);
+        }));
+        return resolve(result);
+      }.bind(this))
+    }
+
+
+    async setFrequencies(list){
+      for (var i = 0; i < this.fullListSymptoms.length; i++){
+        if(this.fullListSymptoms[i].frequency==null){
+          var actualList = list[this.fullListSymptoms[i].id];
+          console.log(actualList);
+          var actualList2 ={}
+          actualList2[this.fullListSymptoms[i].id]=actualList
+          console.log(actualList2);
+          var deep = 0;
+          var parents = [];
+          this.completeFrequencies(i, this.fullListSymptoms[i].id, list, deep, parents);
+          //this.completeFrequencies2(i, this.fullListSymptoms[i].id, list);
+          //this.completeFrequencies3(i, this.fullListSymptoms[i].id, this.treeOrphaPredecessors, deep, parents);
+        }
+      }
+    }
+
+    async completeFrequencies(index, id, list, deep, parents){
+      var foundSymptom = false;
+      for (var ipos = 0; ipos < this.orphaSymptoms.length && !foundSymptom; ipos++){
+        var tamano= Object.keys(list).length;
+        if(tamano>0){
+          for(var j in list){
+            if(this.orphaSymptoms[ipos].id==j && this.orphaSymptoms[ipos].frequency!=null){//&& j==this.orphaSymptoms[ipos].id
+              foundSymptom=true;
+              if(this.fullListSymptoms[index].frequency==null){
+                this.fullListSymptoms[index].frequency=this.orphaSymptoms[ipos].frequency;
+                this.orphaSymptoms[ipos].frequency =null;
+                console.log('ENCONTRADO');
+                console.log('deep: '+deep);
+                console.log('Padres:'+parents);
+                console.log(this.fullListSymptoms[index].frequency)
+                this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
+              }else if(this.fullListSymptoms[index].frequency!=null){
+                //REVISAR ESTO PORQUE ES PELIGROSO, SI CAMBIAN LOS HPOS DE PRIORIDAD PUEDE DEJAR DE FUNCIONAR
+                if(this.fullListSymptoms[index].frequency>this.orphaSymptoms[ipos].frequency){
+                  this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
+                  this.orphaSymptoms[ipos].frequency =null;
+                  console.log('ENCONTRADO');
+                  console.log('deep: '+deep);
+                  console.log('Padres:'+parents);
+                  console.log(this.fullListSymptoms[index].frequency)
+                  this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
+                }
+              }
+            }
+          }
+        }
+      }
+
+      if(!foundSymptom){
+        for(var j in list){
+          var tamano2= Object.keys(list[j]).length;
+          if(tamano2>0){
+            deep= deep+1;
+            parents.push(j);
+            this.completeFrequencies(index, id, list[j], deep, parents);
+          }
+        }
+      }
+    }
+
+    async completeFrequencies2(index, id, list){
+      var foundSymptom = false;
+      for (var ipos = 0; ipos < this.orphaSymptoms.length && !foundSymptom; ipos++){
+        var tamano= Object.keys(list).length;
+        if(tamano>0){
+          for(var j in list){
+            if(this.orphaSymptoms[ipos].id==j && this.orphaSymptoms[ipos].frequency!=null){//&& j==this.orphaSymptoms[ipos].id
+              foundSymptom=true;
+              if(this.fullListSymptoms[index].frequency==null){
+                this.fullListSymptoms[index].frequency=this.orphaSymptoms[ipos].frequency;
+                this.orphaSymptoms[ipos].frequency =null;
+              }else if(this.fullListSymptoms[index].frequency!=null){
+                //REVISAR ESTO PORQUE ES PELIGROSO, SI CAMBIAN LOS HPOS DE PRIORIDAD PUEDE DEJAR DE FUNCIONAR
+                var temp1 = this.fullListSymptoms[index].frequency.split('HP:');
+                var temp1_1: number = +temp1[1];
+                var temp2 = this.orphaSymptoms[ipos].frequency.split('HP:');
+                var temp2_1: number = +temp2[1];
+                if(temp1_1>temp2_1){
+                  this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      if(!foundSymptom){
+        for(var j in list){
+          var tamano2= Object.keys(list[j]).length;
+          if(tamano2>0){
+            this.completeFrequencies2(index, id, list[j]);
+          }
+        }
+      }
+    }
+
+    async completeFrequencies3(index, id, list, deep, parents){
+      var foundSymptom = false;
+      for (var ipos = 0; ipos < this.orphaSymptoms.length && !foundSymptom; ipos++){
+        var tamano= Object.keys(list).length;
+        if(tamano>0){
+          for(var j in list){
+            if(this.orphaSymptoms[ipos].id==j && this.orphaSymptoms[ipos].frequency!=null){//&& j==this.orphaSymptoms[ipos].id
+              foundSymptom=true;
+              if(this.fullListSymptoms[index].frequency==null){
+                this.fullListSymptoms[index].frequency=this.orphaSymptoms[ipos].frequency;
+                this.orphaSymptoms[ipos].frequency =null;
+                console.log('ENCONTRADO');
+                console.log('deep: '+deep);
+                console.log('Padres:'+parents);
+                console.log(this.fullListSymptoms[index].frequency)
+                this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
+
+              }else if(this.fullListSymptoms[index].frequency!=null){
+                //REVISAR ESTO PORQUE ES PELIGROSO, SI CAMBIAN LOS HPOS DE PRIORIDAD PUEDE DEJAR DE FUNCIONAR
+                if(this.fullListSymptoms[index].frequency>this.orphaSymptoms[ipos].frequency){
+                  this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
+                  this.orphaSymptoms[ipos].frequency =null;
+                  console.log('ENCONTRADO');
+                  console.log('deep: '+deep);
+                  console.log('Padres:'+parents);
+                  console.log(this.fullListSymptoms[index].frequency)
+                  this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
+                }
+              }
+            }
+          }
+        }
+      }
+
+      if(!foundSymptom){
+        for(var j in list){
+          var tamano2= Object.keys(list[j]).length;
+          if(tamano2>0){
+            deep= deep+1;
+            parents.push(j);
+            this.completeFrequencies(index, id, list[j], deep, parents);
+          }
+        }
+      }
+    }
+
+
+    setFrequencyToParents(parents, frequency){
+      for (var i = 0; i < this.fullListSymptoms.length; i++){
+        for (var j = 0; j < parents.length; j++){
+          if(this.fullListSymptoms[i].id==parents[j] && this.fullListSymptoms[i].frequency>frequency){
+            this.fullListSymptoms[i].frequency= frequency;
+          }
+        }
+      }
+    }
+
+    async getfrequencies() {
+      //getInfo symptoms
+      var hposStrins =[];
+      this.fullListSymptoms.forEach(function(element) {
+        if(element.frequency!=null){
+          hposStrins.push(element.frequency);
+        }
+
+      });
+      var lang = this.authService.getLang();
+      await this.apif29BioService.getInfoOfSymptoms(lang,hposStrins)
+      .subscribe( (res : any) => {
+        var tamano= Object.keys(res).length;
+        if(tamano>0){
+          for(var i in res) {
+            for (var j = 0; j < this.fullListSymptoms.length; j++) {
+              if(res[i].id==this.fullListSymptoms[j].frequency){
+                if(this.fullListSymptoms[j].frequencyInfo==undefined){
+                  this.fullListSymptoms[j].frequencyInfo = {name:res[i].name, desc:res[i].desc};
+                  this.fullListSymptoms[j].frequencyId= res[i].id
+                }
+              }
+              this.fullListSymptoms[j].myCase = false;
+              if((this.fullListSymptoms[j].patient) || (!this.fullListSymptoms[j].patient && this.fullListSymptoms[j].patientbutsuccessor)){
+                this.fullListSymptoms[j].myCase = true;
+              }
+              this.fullListSymptoms[j].referenceCase = false;
+              if((!this.fullListSymptoms[j].patient) || (this.fullListSymptoms[j].patient && (this.fullListSymptoms[j].orphanet || this.fullListSymptoms[j].omim)) || (this.fullListSymptoms[j].patient && !this.fullListSymptoms[j].orphanet && !this.fullListSymptoms[j].omim && this.fullListSymptoms[j].notpatientbutsuccessor)){
+                this.fullListSymptoms[j].referenceCase = true;
+              }
+            }
+          }
+          //this.fullListSymptoms.sort(this.sortService.GetSortOrder("frequencyId"));
+          for (var ki = 0; ki < this.fullListSymptoms.length; ki++) {
+            if(this.fullListSymptoms[ki].frequency==undefined){
+              this.fullListSymptoms[ki].frequencyId= "HP:0040289";
+            }
+          }
+          this.fullListSymptoms.sort(this.sortService.GetSortTwoElements("frequency", "name"));
+          this.fullListSymptoms.sort(this.sortService.GetSortSymptoms());
+          console.log(this.fullListSymptoms);
+        }
+
+     }, (err) => {
+       console.log(err);
+     });
+    }
+
+    calculateAll(symptomsOfDiseaseIds){
+      this.listGenericSymptoms = [];
+      // Get predecessors
+      this.subscription.add(this.apif29BioService.getSuccessorsOfSymptoms(symptomsOfDiseaseIds)
+      .subscribe( (res1 : any) => {
+        //console.log(res1)
+        //console.log(this.phenotype.data)
+        //console.log(this.fullListSymptoms)
+        var successorsAllSymptoms=res1;
+        // Añadir los succesors a la lista de symptoms
+        Object.keys(successorsAllSymptoms).forEach(key => {
+          Object.keys(successorsAllSymptoms[key]).forEach(keyValue=>{
+            for(var i=0;i<this.fullListSymptoms.length;i++){
+              if(this.fullListSymptoms[i].id==key){
+                if(this.fullListSymptoms[i].id==key){
+                  if(this.fullListSymptoms[i].succesors==undefined){
+                    this.fullListSymptoms[i].succesors = [keyValue]
+                  }
+                  else{
+                    this.fullListSymptoms[i].succesors.push(keyValue)
+                  }
+                }
+              }
+            }
+          });
+        });
+
+        //console.log(this.fullListSymptoms)
+        // Separar los sintomas genericos a  this.listGenericSymptoms
+        var symptonmPhen=false;
+        for(var i=0;i<this.fullListSymptoms.length;i++){
+          symptonmPhen=false;
+          for (var j=0;j<this.phenotype.data.length;j++){
+            if(this.phenotype.data[j].id==this.fullListSymptoms[i].id){
+              symptonmPhen=true;
+            }
+          }
+          if(symptonmPhen==false){
+            this.listGenericSymptoms.push(this.fullListSymptoms[i])
+          }
+          else{
+            for(var j=0;j<this.omimSymptoms.length;j++){
+              if(this.fullListSymptoms[i].id==this.omimSymptoms[j].id){
+                this.listGenericSymptoms.push(this.fullListSymptoms[i])
+              }
+            }
+            for(var j=0;j<this.orphaSymptoms.length;j++){
+              if(this.fullListSymptoms[i].id==this.orphaSymptoms[j].id){
+                this.listGenericSymptoms.push(this.fullListSymptoms[i])
+              }
+            }
+          }
+        }
+        // Eliminar los repetidos
+        this.listGenericSymptoms= this.listGenericSymptoms.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
+        this.fullListSymptoms=this.compareListAndUpdateChecksForPredecessors(this.fullListSymptoms,this.phenotype.data,this.listGenericSymptoms)
+
+        //console.log(this.listGenericSymptoms)
+        // Asi ya tenemos por un lado los genericos y por otro los de phenotype
+
+        this.listSymptomsMe=[];
+        this.listSymptomsGeneric=[];
+        this.listSymptomsMeGeneric=[];
+
+        // Calculo la información del los diagramas
+        this.calculeChartSymptomsInfo(); //(listas de cada caso)
+
+        //console.log(this.listSymptomsMe)
+        //console.log(this.listSymptomsGeneric)
+        //console.log(this.listSymptomsMeGeneric)
+        var listSymptomsMeWithoutSuccessors=[]
+
+        // Diagrama de Venn
+        // De mis sintomas tengo que quitar los que son succesors para el data
+        // Es decir, solo quedarme con los de phenotype.data
+        for(var i=0;i<this.phenotype.data.length;i++){
+          listSymptomsMeWithoutSuccessors.push(this.phenotype.data[i].name)
+        }
+
+        // Lista de datos de entrada para la representacion del diagrama de Venn
+        this.chartDataVenn = [];
+        this.chartDataVenn = [
+          {sets: ['My case'], size: this.listSymptomsMe.length,label: this.translate.instant("patdiagdashboard.panel3MyCase"),data:listSymptomsMeWithoutSuccessors},
+          {sets: ['Reference case'], size: this.listSymptomsGeneric.length, label:this.translate.instant("patdiagdashboard.panel3ReferenceCase"),data:this.listSymptomsGeneric},
+          {sets: ['My case','Reference case'], size: this.listSymptomsMeGeneric.length,data:this.listSymptomsMeGeneric}
+        ];
+
+        this.drawCharts();
+        this.loadingGraphSymptomFreq= false;
+
+      }, (err) => {
+        console.log(err);
+        this.loadingGraphSymptomFreq=false;
+        this.toastr.error('', this.translate.instant("dashboardpatient.error try again"));
+      }));
+    }
+
+    checkOmimSymptoms(){
+      for(var i = 0; i < this.omimSymptoms.length; i++) {
+        var foundElement = this.searchService.search(this.fullListSymptoms,'id', this.omimSymptoms[i].id);
+        if(foundElement){
+          for(var j = 0; j < this.fullListSymptoms.length; j++) {
+            if(this.fullListSymptoms[j].id==this.omimSymptoms[i].id){
+              this.fullListSymptoms[j].omim= true;
+            }
+          }
+        }else{
+          this.fullListSymptoms.push({id:this.omimSymptoms[i].id, name: this.omimSymptoms[i].name, def: this.omimSymptoms[i].def, comment: this.omimSymptoms[i].comment, synonyms: this.omimSymptoms[i].synonyms, group: 'none', omim: true, orphanet: false, patient: false, frequency: this.omimSymptoms[i].frequency});
+        }
+      }
+    }
+
+    checkOrphaSymptoms(){
+      for(var i = 0; i < this.orphaSymptoms.length; i++) {
+        var foundElement = this.searchService.search(this.fullListSymptoms,'id', this.orphaSymptoms[i].id);
+        if(foundElement){
+          for(var j = 0; j < this.fullListSymptoms.length; j++) {
+            if(this.fullListSymptoms[j].id==this.orphaSymptoms[i].id){
+              this.fullListSymptoms[j].orphanet= true;
+            }
+          }
+        }else{
+          //this.fullListSymptoms.push({id:this.orphaSymptoms[i].id, name: this.orphaSymptoms[i].name, def: this.orphaSymptoms[i].def, comment: this.orphaSymptoms[i].comment, synonyms: this.orphaSymptoms[i].synonyms, group: 'none', omim: false, orphanet: true, patient: false});
+        }
+      }
+    }
+
+    checkOPatientSymptoms(){
+      this.fullListSymptoms = [];
+      for(var i = 0; i < this.phenotype.data.length; i++) {
+        var foundElement = this.searchService.search(this.fullListSymptoms,'id', this.phenotype.data[i].id);
+        if(foundElement){
+          for(var j = 0; j < this.fullListSymptoms.length; j++) {
+            if(this.fullListSymptoms[j].id==this.phenotype.data[i].id){
+              this.fullListSymptoms[j].patient= true;
+            }
+          }
+        }else{
+          var frequency = null;
+          if(this.phenotype.data[i].frequency!=undefined){
+            if(this.phenotype.data[i].frequency!=null){
+              frequency = this.phenotype.data[i].frequency
+            }
+          }
+          this.fullListSymptoms.push({id:this.phenotype.data[i].id, name: this.phenotype.data[i].name, def: this.phenotype.data[i].def, comment: this.phenotype.data[i].comment, synonyms: this.phenotype.data[i].synonyms, group: 'none', omim: false, orphanet: false, patient: true, frequency: frequency});
+        }
+      }
+    }
+
+    calculeChartSymptomsInfo(){
+      this.chartSize_MeGeneric=0;
+      this.listSymptomsMe=[];
+      this.listSymptomsGeneric=[];
+      this.listSymptomsMeGeneric=[];
+
+      // Calcule Me
+      for(var i=0;i<this.phenotype.data.length;i++){
+        this.listSymptomsMe.push(this.phenotype.data[i].name)
+      }
+      // Calcule Generic
+      for(var i=0;i<this.listGenericSymptoms.length;i++){
+        this.listSymptomsGeneric.push(this.listGenericSymptoms[i].name)
+      }
+      // Calcule size Me-Generic
+      for(var i=0;i<this.phenotype.data.length;i++){
+        for(var j=0;j<this.listGenericSymptoms.length;j++){
+          if(this.phenotype.data[i].id==this.listGenericSymptoms[j].id){
+            this.listSymptomsMeGeneric.push(this.phenotype.data[i].name)
+            this.chartSize_MeGeneric=this.chartSize_MeGeneric+1;
+          }
+        }
+      }
+
+      var resultListSuccesors=this.compareListAndUpdateChecksForPredecessors(this.fullListSymptoms,this.phenotype.data,this.listGenericSymptoms)
+      for(var i=0;i<resultListSuccesors.length;i++){
+        if(resultListSuccesors[i].patientbutsuccessor==true){
+          this.listSymptomsMeGeneric.push(resultListSuccesors[i].name)
+          this.listSymptomsMe.push(resultListSuccesors[i].name)
+        }
+        if(resultListSuccesors[i].notpatientbutsuccessor==true){
+          this.listSymptomsMeGeneric.push(resultListSuccesors[i].name)
+        }
+      }
+      this.listSymptomsGeneric= this.listSymptomsGeneric.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
+      this.listSymptomsMeGeneric= this.listSymptomsMeGeneric.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
+      this.listSymptomsMe= this.listSymptomsMe.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
+
+    }
+
+    compareListAndUpdateChecksForPredecessors(totalList,p1,p2){
+      // this.fullListSymptoms[j].notpatientbutsuccessor= true;
+      // p1:pheno
+      // p2:generic
+
+      for(var i=0;i<totalList.length;i++){
+        // Comparo con p1:
+        // tengo que separar los que son de la lista de p1, para comparar el resto con la lista de p1
+        if(p1.includes(totalList[i])==false){
+          for(var j=0;j<p1.length;j++){
+            // miro si el de la total es padre de alguno de p1: si en la lista de sucesores del total esta incluido p1
+            if(totalList[i].succesors!=undefined){
+              if(totalList[i].succesors.includes(p1[j].id)){
+                totalList[i].patientbutsuccessor= true;
+              }
+            }
+          }
+        }
+      }
+      for(var i=0;i<totalList.length;i++){
+        // Comparo con p2:
+        // tengo que separar los que son de la lista de p2, para comparar el resto con la lista de p2
+        if(p2.includes(totalList[i])==false){
+          // Recorro entonces p2 y comparo los de la lista p2 con los que tengo
+          for(var j=0;j<p2.length;j++){
+            if(totalList[i].succesors!=undefined){
+              // miro si el de la total es padre de alguno de p2: si en la lista de sucesores del total esta incluido p2
+              if(totalList[i].succesors.includes(p2[j].id)){
+                totalList[i].notpatientbutsuccessor= true;
+              }
+            }
+          }
+        }
+      }
+      return totalList;
+    }
+
+
+    drawCharts(){
+      // Dibujo los gráficos
+      // Elimino todo lo que hubiese (limpio la pantalla)
+      d3.selectAll("svg").remove();
+      d3.selectAll(".venntooltip").remove();
+      d3.selectAll(".text").remove();
+
+      var venn=document.getElementById('chartVenn')
+      venn.insertAdjacentHTML('beforeend', '<svg id ="venn" viewBox="0 0 500 340" [style.margin-left.px]= "-(((venn.offsetWidth)/2)+(margin.left/2))"></svg>');
+
+      this.createChartVenn();
+
+      //this.redrawNewSize=true
+
+      // Check if the lists have info- if not svg size to 0
+
+      if(this.chartDataVenn.length==0){
+        var graphVennSvg=document.getElementById('venn')
+        graphVennSvg.style.height = "0px";
+        graphVennSvg.style.width = "0px";
+      }
+
+    }
+
+    createChartVenn(){
+      // --- First graph --------------------------------------------------------------------------
+      // 1. create Venn diagram
+
+      let elementVenn = this.chartContainerVenn.nativeElement;
+
+      this.widthVenn = elementVenn.offsetWidth - this.margin.left - this.margin.right;
+      this.heightVenn = elementVenn.offsetHeight - this.margin.top - this.margin.bottom;
+
+      if(this.listSymptomsMeGeneric.length==0){
+        //this.widthVenn = elementVenn.offsetWidth - 4*this.margin.left - 4*this.margin.right;
+        //this.heightVenn = elementVenn.offsetHeight - 4*this.margin.top - 4*this.margin.bottom;
+        document.getElementById('venn').remove()
+        var vennSvg=document.getElementById('chartVenn')
+        vennSvg.insertAdjacentHTML('beforeend', '<svg id ="venn" viewBox="0 0 500 380" [style.margin-left.px]= "-(({{venn.offsetWidth}})/2)+({{margin.left}}/2))"></svg>');
+      }
+
+      //this.chartDataVenn.sort(function(a:any,b:any) { return b.size - a.size; })
+      //console.log(this.chartDataVenn)
+      this.chartVenn = venn.VennDiagram()
+      let svg1 = d3.select("#venn")
+        .datum(this.chartDataVenn)
+        .call(this.chartVenn)
+        .attr('width', this.widthVenn)
+        .attr('height', this.heightVenn);
+
+
+      svg1.selectAll("g").sort(function(a:any,b:any) { return b.size - a.size; })
+      svg1.selectAll("svg").attr("class","venn2");
+
+      // 2. Add style to venn diagram
+      //var colors2 = d3.scaleLinear().domain([0, this.chartDataVenn.length]).range(<any[]>['red', 'blue']);
+      /*svg1.selectAll('.venn-circle path').transition()
+        .style('fill', (d, i) => colors2(i));*/
+      if(this.listSymptomsMe.length>0){
+        if(this.listSymptomsGeneric.length>0){
+          svg1.selectAll(".venn-circle path")
+          .style("fill-opacity", .4)
+          .style("stroke-width", 1)
+          .style("stroke-opacity", 1)
+          .style("stroke", "fff")
+        }
+        else{
+          svg1.selectAll(".venn-circle path")
+          .style("fill-opacity", .4)
+          .style("stroke-width", 1)
+          .style("stroke-opacity", 1)
+          .style("stroke", "fff")
+          .style("fill","#1f77b4")
+        }
+      }
+      else{
+        svg1.selectAll(".venn-circle path")
+          .style("fill-opacity", .4)
+          .style("stroke-width", 1)
+          .style("stroke-opacity", 1)
+          .style("stroke", "fff")
+          .style("fill","#ff7f0e")
+      }
+      svg1.selectAll(".venn-circle text")
+        .style("font-size","14px")
+        .style("fill","black")
+        .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+
+      // 3. Add a tooltip
+      var tooltip = d3.select("#chartVenn").append("div")
+        .attr("class", "venntooltip")
+        .attr("data-html", "true");
+
+
+      var graphOnClick=[];
+      for(var i=0;i<this.chartDataVenn.length;i++){
+        graphOnClick.push(false)
+      }
+      var chartData=this.chartDataVenn;
+      var lastD=undefined;
+      var listVennSelected=[];
+      var lang=this.authService.getLang();
+      // 4. add listeners to all the groups to display tooltip on mouseover
+      svg1.selectAll("g").on("click", function(d:any, i) {
+        for(var i=0;i<chartData.length;i++){
+          if(d==chartData[i]){
+            lastD=d;
+            graphOnClick[i]=!graphOnClick[i]
+            //console.log(graphOnClick[i])
+            if(graphOnClick[i]==true){
+              // sort all the areas relative to the current item
+              venn.sortAreas(svg1, d);
+              tooltip.transition().duration(400)
+              .style("fill-opacity", 0)
+              .style("stroke-width", 1)
+              .style("stroke-opacity", 1)
+              .style("stroke", "fff")
+              .style("border","none");
+              tooltip.html("");
+
+              // Display a tooltip
+              tooltip.transition().duration(400)
+              .style("fill-opacity", .8)
+              .style("stroke-width", 2)
+              .style("stroke-opacity", 1)
+              .style("display", "block")
+              .style("position", "absolute")
+              .style("background-color","white")
+              .style("color","black")
+              .style("border","1px solid black")
+              .style("z-index","9999");;
+
+              // tooltim html content
+              var symptomsAreaList="";
+              for(var j=0;j<d.data.length;j++){
+                symptomsAreaList=symptomsAreaList+'<li style="float: left;width: 40%; margin-left:3%">'+d.data[j]+'</li>';
+              }
+              var nameArea="";
+              if(d.label!=undefined){
+                nameArea=d.label
+              }
+              else{
+                nameArea="common symptoms"
+              }
+
+              if(lang=='es'){
+                if(d.data.length==1){
+                  tooltip.html('<div><button type="button" class="close" aria-label="Close" style="padding-right:3%"> <span aria-hidden="true">&times;</span></button></div><div> En el área <b>'+ nameArea +"</b> hay "+d.data.length + " síntoma: <br> <ul>"+symptomsAreaList+"</ul></div>");
+                }
+                else{
+                  tooltip.html('<div><button type="button" class="close" aria-label="Close" style="padding-right:3%"> <span aria-hidden="true">&times;</span></button></div><div> En el área <b>'+ nameArea +"</b> hay "+d.data.length + " síntomas: <br> <ul>"+symptomsAreaList+"</ul></div>");
+                }
+              }
+              else{
+                if(d.data.length==1){
+                  tooltip.html('<div><button type="button" class="close" aria-label="Close" style="padding-right:3%"> <span aria-hidden="true">&times;</span></button></div><div>In <b>'+ nameArea +" area</b> there is "+d.data.length + " symptom: <br> <ul>"+symptomsAreaList+"</ul></div>");
+                }
+                else{
+                  tooltip.html('<div><button type="button" class="close" aria-label="Close" style="padding-right:3%"> <span aria-hidden="true">&times;</span></button></div><div>In <b>'+ nameArea +" area</b> there are "+d.data.length + " symptoms: <br> <ul>"+symptomsAreaList+"</ul></div>");
+                }
+              }
+              tooltip
+              .style("padding-top","2%")
+              .style("padding-left","3%")
+              .style("padding-bottom","2%")
+              // highlight the current path
+              var selection = d3.select(this).transition("tooltip").duration(400);
+              //console.log(selection)
+              //console.log(this)
+              listVennSelected.push({d:d,element:this,label:d.label})
+              if(d.label!=undefined){
+                selection.select("path")
+                  .style("stroke-width", 3)
+                  .style("fill-opacity", .7)
+                  .style("stroke-opacity", 1)
+                  .style("color","white");
+
+                selection.select("text")
+                  .style("fill","white");
+                }
+              else{
+                selection.select("path")
+                  .style("stroke-width", 3)
+                  .style("fill-opacity", .5)
+                  .style("stroke-opacity", 1)
+                  .style("color","white");
+
+                selection.select("text")
+                  .style("font-size","14px")
+                  .style("fill","white")
+                  .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+              }
+              tooltip.select("button").on("click",function(){
+                //console.log(chartData)
+                for(var i=0;i<chartData.length;i++){
+                  if(lastD==chartData[i]){
+                    //console.log(graphOnClick)
+                    //console.log("click")
+                    svg1.selectAll("g").sort(function(a:any,b:any) { return b.size - a.size; })
+                    svg1.selectAll(".venn-intersection path")
+                      .style("fill-opacity", 0)
+                    svg1.selectAll(".venn-circle path")
+                      .style("fill-opacity", .4)
+                      .style("stroke-width", 1)
+                      .style("stroke-opacity", 1)
+                      .style("stroke", "fff");
+                    svg1.selectAll(".venn-circle text")
+                      .style("font-size","14px")
+                      .style("fill","black")
+                      .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+                    tooltip.transition().duration(400)
+                      .style("background-color","transparent")
+                      .style("fill-opacity", 0)
+                      .style("stroke-width", 1)
+                      .style("stroke-opacity", 1)
+                      .style("stroke", "fff")
+                      .style("border","none")
+
+                    tooltip.html("");
+                    graphOnClick[i]=false;
+                    listVennSelected=[];
+                    /*console.log(graphOnClick[i])
+                    console.log(i)
+                    console.log(graphOnClick)*/
+                  }
+                }
+              })
+
+            }
+            else{
+              svg1.selectAll(".venn-intersection path")
+              .style("fill-opacity", 0)
+              /*svg1.selectAll('.venn-circle path').transition()
+              .style('fill', (d, i) => colors2(i));*/
+              svg1.selectAll(".venn-circle path")
+                .style("fill-opacity", .4)
+                .style("stroke-width", 1)
+                .style("stroke-opacity", 1)
+                .style("stroke", "fff");
+              svg1.selectAll(".venn-circle text")
+                .style("font-size","14px")
+                .style("fill","black")
+                .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+              tooltip.transition().duration(400)
+                .style("fill-opacity", 0)
+                .style("stroke-width", 1)
+                .style("stroke-opacity", 1)
+                .style("stroke", "fff")
+                .style("border","none")
+                .style("background-color","transparent")
+              tooltip.html("");
+              listVennSelected=[];
+            }
+          }
+          else{
+            //console.log(listVennSelected)
+            graphOnClick[i]=false;
+
+            if(listVennSelected.length>0){
+              //console.log(listVennSelected.length)
+              for(var j=0;j<listVennSelected.length;j++){
+                if(listVennSelected[j].d==chartData[i]){
+                  //console.log(j)
+                  var selection2 = d3.select(listVennSelected[j].element).transition("tooltip").duration(400);
+                  //console.log(selection2)
+                  if(listVennSelected[j].label!=undefined){
+                    //console.log(selection)
+                    selection2.select("path")
+                      .style("fill-opacity", .4)
+                      .style("stroke-width", 1)
+                      .style("stroke-opacity", 1)
+                      .style("stroke", "fff");
+
+                    selection2.select("text")
+                      .style("font-size","14px")
+                      .style("fill","black")
+                      .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+                  }
+                  else{
+                    selection2.select("path")
+                      .style("fill-opacity", 0)
+
+                    selection2.select("text")
+                      .style("fill","black");
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+      svg1.selectAll("g").on("mouseover", function(d:any, i) {
+        var selection = d3.select(this).transition("tooltip").duration(400);
+        for(var i=0;i<graphOnClick.length;i++){
+          if(graphOnClick[i]==false){
+            if(d.label!=undefined){
+              //console.log(selection)
+              selection.select("path")
+                  .style("stroke-width", 3)
+                  .style("fill-opacity", .7)
+                  .style("stroke-opacity", 1)
+                  .style("color","white");
+
+              selection.select("text")
+                .style("font-size","14px")
+                .style("fill","white")
+                .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+            }
+            else{
+              selection.select("path")
+              .style("stroke-width", 3)
+              .style("fill-opacity", .5)
+              .style("stroke-opacity", 1)
+              .style("color","white");
+
+              selection.select("text")
+                .style("font-size","14px")
+                .style("fill","white")
+                .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+            }
+          }
+        }
+      });
+      svg1.selectAll("g").on("mouseout", function(d:any, i) {
+        //console.log(graphOnClick)
+        svg1.selectAll("g").sort(function(a:any,b:any) { return b.size - a.size; })
+        var selection = d3.select(this).transition("tooltip").duration(400);
+        for(var i=0;i<chartData.length;i++){
+          if(d==chartData[i]){
+            if(graphOnClick[i]==false){
+              /*svg1.selectAll('.venn-circle path').transition()
+              .style('fill', (d, i) => colors2(i));*/
+              if(d.label!=undefined){
+                selection.select("path")
+                  .style("fill-opacity", .4)
+                  .style("stroke-width", 1)
+                  .style("stroke-opacity", 1)
+                  .style("stroke", "fff")
+                selection.select("text")
+                  .style("font-size","14px")
+                  .style("fill","black")
+                  .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+              }
+              else{
+                selection.select("path")
+                .style("fill-opacity", 0)
+              }
+            }
+          }
+        }
+        var anySelected=false;
+        for(var i=0;i<graphOnClick.length;i++){
+          if(graphOnClick[i]==true){
+            anySelected=true;
+          }
+        }
+        if(anySelected==false){
+          tooltip.transition().duration(400)
+            .style("fill-opacity", 0)
+            .style("stroke-width", 1)
+            .style("stroke-opacity", 1)
+            .style("stroke", "fff")
+            .style("border","none");
+          tooltip.html("");
+        }
+      });
+    }
+
+    loadShowIntroWizard(){
+      this.subscription.add( this.http.get(environment.api+'/api/users/showintrowizard/'+this.authService.getIdUser())
+        .subscribe( (res : any) => {
+          console.log(res);
+          this.showIntroWizard = res.showIntroWizard
+          this.eventsService.broadcast('showIntroWizard', this.showIntroWizard);
+          this.getActualStep(this.authService.getCurrentPatient().sub);
+
+        }, (err) => {
+          console.log(err);
+        }));
+    }
+
+    setShowIntroWizard(showIntroWizard2:boolean){
+      var object = {showIntroWizard:showIntroWizard2}
+      this.subscription.add( this.http.put(environment.api+'/api/users/showintrowizard/'+this.authService.getIdUser(), object)
+      .subscribe( (res : any) => {
+        this.showIntroWizard = showIntroWizard2;
+        this.eventsService.broadcast('showIntroWizard', this.showIntroWizard);
+       }, (err) => {
+         console.log(err);
+       }));
+
+    }
+
+    showOptions($event){
+      if($event.checked){
+        this.setShowIntroWizard(false);
+      }else{
+        this.setShowIntroWizard(true);
+      }
+    }
+
+    setNotAnalyzeGeneticInfo(){
+      this.notAnalyzeGeneticInfo = !this.notAnalyzeGeneticInfo;
+      if(this.notAnalyzeGeneticInfo){
+        this.filename = '';
+      }
+    }
+
+    setNotAnalyzeGeneticInfo2(){
+      this.notAnalyzeGeneticInfo = false;
+    }
+
+    orderFilesNcr(field){
+      this.selectedOrderFilesNcr = field;
+      if(field=='lastModified'){
+        this.docsNcr.sort(this.sortService.DateSortFiles("lastModified"));
+      }else{
+        this.docsNcr.sort(this.sortService.GetSortFilesNcr(field));
+      }
+    }
+
+    orderFilesOthers(field){
+      this.selectedOrderFilesOther = field;
+      if(field=='lastModified'){
+        this.otherDocs.sort(this.sortService.DateSortFiles("lastModified"));
+      }else{
+        this.otherDocs.sort(this.sortService.GetSortOtherFiles(field));
+      }
+    }
+
+    setStateDisease(index,info, $event){
+      this.topRelatedConditions[index].checked = $event.checked;
+      var indexElement = this.searchService.searchIndexLevel2(this.relatedConditions,'name','id', this.topRelatedConditions[index].name.id);
+      this.relatedConditions[indexElement].checked= this.topRelatedConditions[index].checked;
+      this.saveRelatedConditions();
+    }
+
+    saveRelatedConditions(){
+      console.log("save RelatedConditions")
+      if(this.authGuard.testtoken() && !this.savingDiagnosis){
+        this.savingDiagnosis = true;
+        var obtToSave = [];
+        for(var i = 0; i < this.relatedConditions.length; i++) {
+          delete this.relatedConditions[i].symptoms;
+          delete this.relatedConditions[i].xrefs;
+          //delete this.relatedConditions[i].genes;
+        }
+
+        this.subscription.add( this.http.put(environment.api+'/api/diagnosis/relatedconditions/'+this.diagnosisInfo._id, this.relatedConditions)
+        .subscribe( (res : any) => {
+          this.diagnosisInfo.relatedConditions = res.relatedConditions;//relatedConditions
+          //this.diagnosisInfo = res.diagnosis;
+          this.savingDiagnosis = false;
+          this.getSymptomsApi2();
+
+          //this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
+         }, (err) => {
+           console.log(err.error);
+           this.toastr.error('', this.translate.instant("generics.error try again"));
+           this.savingDiagnosis = false;
+         }));
+      }
+    }
+
+    changeViewOptionNcr(){
+      console.log(this.viewOptionNcr);
+      if(this.viewOptionNcr == 1){
+        this.viewOptionNcr = 0;
+      }else{
+        this.viewOptionNcr = 1;
+      }
+      console.log(this.viewOptionNcr);
+    }
+
+    loat10More(){
+      this.indexListRelatedConditions=this.indexListRelatedConditions+10;
+      this.renderMap();
+    }
+
+    getNumberOfSymptomsExo(){
+      this.numberOfSymptomsExo = 0;
+      for(var i=0;i<this.symptomsExomiser.length;i++){
+        if(this.symptomsExomiser[i].checked){
+          this.numberOfSymptomsExo++;
+        }
+      }
+    }
+
+    getTotalReports(){
+      var sum =  this.docsNcr.length+ this.otherDocs.length;
+      return sum;
     }
 
 }

@@ -21,7 +21,6 @@ export class AboutComponent implements OnDestroy{
   msgActiveTittleMenu: string = '';
   tittleFlujoTrabajo: string = '';
   tittleResumenHerramientas: string = '';
-  tittlePuntuajesResultados: string = '';
 
   constructor(private translate : TranslateService, private authService: AuthService, private elRef: ElementRef) {
 
@@ -51,9 +50,6 @@ export class AboutComponent implements OnDestroy{
     }else if (panelId === 'panelResumenHerramientas') {
       this.activeTittleMenu = "ResumenHerramientas";
       this.msgActiveTittleMenu = this.tittleResumenHerramientas;
-    }else if (panelId === 'PanelPuntuajesResultados') {
-      this.activeTittleMenu = "PuntuajesResultados";
-      this.msgActiveTittleMenu = this.tittlePuntuajesResultados;
     }
 
 

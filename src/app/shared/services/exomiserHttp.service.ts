@@ -13,7 +13,6 @@ export class ExomiserHttpService {
         //this.cancelPendingRequests$.complete()
     }
     onCancelPendingRequests() {
-        console.log(this.cancelPendingRequests$.asObservable())
         return this.cancelPendingRequests$.asObservable()
     }
 

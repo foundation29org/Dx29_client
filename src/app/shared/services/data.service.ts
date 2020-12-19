@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 export class Data {
 
     public storage: any;
+    public steps: any;
 
     public constructor() { }
 

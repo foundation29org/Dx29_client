@@ -1,4 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+
+/*
+.card {
+  background-color: #353535 !important;
+  color: gray !important;
+}
+
+.modal-content{
+  background-color: #353535 !important;
+  color: gray !important;
+}*/
+
 footer{
   margin-top: 1em;
 }
@@ -15,6 +27,21 @@ footer{
 
  .pointer{
    cursor: pointer;
+ }
+
+ .avatar{
+   width: 40px;
+   height: 40px;
+ }
+
+ .btn-no-style{
+   background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
  }
 
 .labelLower{
@@ -123,9 +150,10 @@ mark{
 .bt-n{
   border-top: none;
 }
+
 .inactiveLink {
-   pointer-events: none;
-   cursor: default;
+   pointer-events: unset;
+   cursor: auto !important;
 }
 /* You can add global styles to this file, and also import other style files */
 

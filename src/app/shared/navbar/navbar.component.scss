@@ -1,3 +1,59 @@
+.logo-img {
+  width: 60px;
+}
+
+::ng-deep .swal2-modal .swal2-cancel{
+  background-color: #6c757d !important;
+}
+
+::ng-deep .swal2-modal .swal2-confirm{
+  background-color: #009DA0 !important;
+}
+
+ ::ng-deep .mat-checkbox-layout{
+  white-space: normal;
+}
+
+::ng-deep .mat-checkbox-label{
+  font-size: 1rem !important;
+  text-transform: none !important;
+  letter-spacing: 0.3px !important;
+  display: block;
+  font-family: "Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  white-space: pre-wrap;
+  font-weight: 300 !important;
+  //color: inherit !important;
+}
+
+ form label{
+  font-size: 1rem !important;
+  text-transform: none !important;
+  letter-spacing: 0.3px !important;
+  //color: inherit !important;
+}
+
+ ::ng-deep .mat-radio-label-content{
+  font-weight: normal !important;
+}
+
+ ::ng-deep .example-radio-group > .mat-radio-button{
+  font-family: "Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+ ::ng-deep .mat-radio-label {
+    white-space: pre-wrap;
+}
+
+.menuClinic-sm{
+  padding: 1em;
+}
+
+.btn-header:hover {
+  border-bottom-width: 2px !important;
+  border-color: #009DA0 !important;
+  border-bottom: 2px solid #009DA0 !important;
+}
+
 @media ( max-width: 991.98px ){
 .navbar-container {
     width: unset !important;
@@ -11,4 +67,41 @@
 .font-alert {
     font-size: 0.7rem;
   }
+}
+
+@media (max-width: 481px) {
+
+
+  .navbar-header-logos{
+    max-width: 50px;
+  }
+}
+
+@media (max-width: 377px) {
+  .navbar-container{
+    margin-top:1em;
+  }
+
+  .logo-img{
+    width: 50px;
+  }
+
+  .custom-navbar{
+    padding: 0.4em;
+  }
+
+  .btn-navbar{
+    padding: 0.175rem 0.35rem;
+  }
+
+}
+
+@media (max-width: 320px) {
+  .navbar .navbar-nav{
+    display: ruby-base !important;
+  }
+  .logo-img{
+    width: 40px;
+  }
+
 }

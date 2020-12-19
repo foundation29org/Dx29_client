@@ -14,6 +14,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { HomeComponent } from "./home/home.component";
 
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @NgModule({
     imports: [
@@ -25,7 +27,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
         TranslateModule,
         NgxChartsModule,
         Ng2SmartTableModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatRadioModule,
+        MatFormFieldModule
     ],
     exports: [TranslateModule],
     declarations: [

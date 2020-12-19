@@ -18,6 +18,12 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { BlobStorageService, IBlobAccessToken } from 'app/shared/services/blob-storage.service';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/toPromise';
+import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
+
+let listOfDiseasesFilter = [];
 
 @Component({
     selector: 'app-home',
@@ -27,6 +33,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
+  @ViewChild('newPatientform') newPatientform: NgForm;
   group: string;
   nameundiagnosed: string = 'Undiagnosed';
   oneTime: boolean= false;
@@ -77,37 +84,149 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
   loadedInfoPatient: boolean = false;
   patientEmail: string = '';
 
+  countries: any;
+  listOfDiseases: any = [];
+  loadedListOfDiseases: boolean = false;
+  modelTemp: any;
+  formatter1 = (x: { name: string }) => x.name;
+  // Flag search
+  searchDisease = (text$: Observable<string>) =>
+  text$.pipe(
+    debounceTime(200),
+    map(term => term === '' ? []
+      : ((listOfDiseasesFilter.filter(
+        v =>  {
+          var finish = false;
+          if((v.id.toLowerCase().indexOf(term.toLowerCase().trim()) > -1)){
+            finish = true;
+            return v;
+          }
+          if((v.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").indexOf(term.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim()) > -1) && !finish){
+            finish = true;
+            return v;
+          }
+          for (var i = 0; i <  v.synonyms.length && !finish; i++) {
+            if((v.synonyms[i].toLowerCase().indexOf(term.toLowerCase().trim()) > -1)){
+              return v;
+              break;
+            }
+          }
+        })))
+    )
+  );
+  isNewPatient: boolean = false;
+  avatars_boys: any = [];
+  avatars_girls: any = [];
+  placement = "right";
+
   private subscription: Subscription = new Subscription();
 
   constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private sanitizer: DomSanitizer, private router: Router, private dateService: DateService,  private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private authGuard: AuthGuard,
     private sortService: SortService, private blob: BlobStorageService, private modalService: NgbModal){
-
+      this.actualLang = this.authService.getLang();
       this.group = this.authService.getGroup();
       this.role = this.authService.getRole();
       this.loadInfo();
       this.loadSharedPatients();
       this.loadMyEmail();
+      this.createAvatarLists();
+    }
+
+    createAvatarLists(){
+      //this.avatars_boys = [{name: 'boy-0'}, {name: 'boy-1'}, {name: 'boy-3'}, {name: 'boy-4'}, {name: 'boy-5'}, {name: 'boy-6'}, {name: 'boy-7'}, {name: 'boy-8'}, {name: 'boy-9'}, {name: 'boy-10'}];
+      this.avatars_boys = [{name: 'boy-0'}, {name: 'boy-1'}, {name: 'boy-3'}, {name: 'boy-4'}, {name: 'boy-5'}, {name: 'boy-6'}, {name: 'boy-7'}, {name: 'boy-8'}, {name: 'boy-9'}, {name: 'boy-10'}, {name: 'boy-11'}, {name: 'boy-12'}, {name: 'boy-13'}, {name: 'boy-14'}, {name: 'boy-15'}, {name: 'boy-16'},
+          {name: 'boy-17'}, {name: 'boy-18'}, {name: 'boy-19'}, {name: 'boy-20'}, {name: 'boy-21'}, {name: 'boy-22'}];
+      this.avatars_girls = [{name: 'girl-0'}, {name: 'girl-1'}, {name: 'girl-3'}, {name: 'girl-4'}, {name: 'girl-5'}, {name: 'girl-6'}, {name: 'girl-7'}, {name: 'girl-8'}, {name: 'girl-9'}, {name: 'girl-10'}, {name: 'girl-11'}, {name: 'girl-12'}, {name: 'girl-13'}, {name: 'girl-14'}, {name: 'girl-15'}, {name: 'girl-16'},
+        {name: 'girl-17'}, {name: 'girl-18'}, {name: 'girl-19'}, {name: 'girl-20'}, {name: 'girl-21'}, {name: 'girl-22'}, {name: 'girl-23'}, {name: 'girl-24'}, {name: 'girl-25'}, {name: 'girl-26'}];
+    }
+
+    loadCountries(){
+      this.subscription.add( this.http.get('assets/jsons/countries.json')
+      .subscribe( (res : any) => {
+        this.countries=res;
+      }, (err) => {
+        console.log(err);
+      }));
+    }
+
+    loadListOfDiseases(){
+      this.loadedListOfDiseases = false;
+      this.subscription.add( this.http.get('assets/jsons/diseases_'+this.actualLang+'.json')
+      //this.subscription.add( this.http.get('https://f29bio.northeurope.cloudapp.azure.com/api/BioEntity/diseases/'+lang+'/all')
+       .subscribe( (res : any) => {
+         this.listOfDiseases = res;
+         listOfDiseasesFilter = res;
+         this.loadedListOfDiseases = true;
+        }, (err) => {
+          console.log(err);
+          this.loadedListOfDiseases = true;
+        }));
+    }
+
+    selected2(i) {
+      this.patient.previousDiagnosis = i.item.id;
+      this.modelTemp = '';
     }
 
     loadSharedPatients(){
       this.loadingSharedCases = true;
       this.subscription.add( this.http.get(environment.api+'/api/sharedcase/'+this.authService.getIdUser())
       .subscribe( (res : any) => {
+        res.listpatients.sort(this.sortService.GetSortOrderNames("alias"));
         this.listOfSharedCases = res.listpatients;
-        console.log(this.listOfSharedCases);
 
         for (var i = 0; i <  this.listOfSharedCases.length; i++) {
           //this.listOfSharedCases[i].patientName = '<span class="spantolink primary">'+this.listOfSharedCases[i].patientName+'</span>'
           if(this.listOfSharedCases[i].status == 'analyzed'){
              this.listOfSharedCases[i].status = '<span class="success">'+this.translate.instant("diagnosis.Analyzed")+'</span>';
           }else if(this.listOfSharedCases[i].status == 'new'){
-             this.listOfSharedCases[i].status = '<span class="danger">'+this.translate.instant("generics.New")+'</span>';
+             this.listOfSharedCases[i].status = '<span class="danger">'+this.translate.instant("diagnosis.NoAnalyzed")+'</span>';
           }
 
           if(this.listOfSharedCases[i].hasvcf){
              this.listOfSharedCases[i].hasvcf = '<span class="success">'+this.translate.instant("generics.Yes")+'</span>';
           }else{
              this.listOfSharedCases[i].hasvcf = '<span class="danger">'+this.translate.instant("generics.No")+'</span>';
+          }
+
+          if(this.listOfSharedCases[i].birthDate){
+            var dateRequest2=new Date(this.listOfSharedCases[i].birthDate);
+              var resul = ''
+              var temp = this.ageFromDateOfBirthday(dateRequest2);
+              if(temp!=null){
+                if(temp.years>0){
+                  if(temp.years>1){
+                    resul= temp.years+" "+this.translate.instant("topnavbar.year")+"s";
+                  }else{
+                    resul= temp.years+" "+this.translate.instant("topnavbar.year");
+                  }
+
+                }
+                if(temp.months>0){
+                  if(temp.months>1){
+                    resul= resul+ " " +temp.months+" "+this.translate.instant("topnavbar.months")
+                  }else{
+                    resul= resul+ " " +temp.months+" "+this.translate.instant("topnavbar.month")
+                  }
+                }
+                if(temp.years==0 && temp.months==0){
+                  resul="0 "+this.translate.instant("topnavbar.months")
+                }
+              }
+             this.listOfSharedCases[i].birthDate2 = resul;
+          }else{
+             this.listOfSharedCases[i].birthDate2 = '-';
+          }
+
+          if(this.listOfSharedCases[i].gender){
+            if(this.listOfSharedCases[i].gender=='male'){
+              this.listOfSharedCases[i].gender2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.listOfSharedCases[i].avatar+'.png" />'+" "+this.translate.instant("personalinfo.Male") ;
+            }else{
+              this.listOfSharedCases[i].gender2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.listOfSharedCases[i].avatar+'.png" />'+" "+ this.translate.instant("personalinfo.Female");
+            }
+
+          }else{
+             this.listOfSharedCases[i].gender2 = '-';
           }
 
           if(this.listOfSharedCases[i].symptoms<2){
@@ -125,7 +244,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         this.alertsettingsCasesShared = {
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right'},<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-info primary"></i> <i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-archive primary"></i>
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'editShared', title: '<span class="primary mr-3">'+this.translate.instant("dashboardpatient.Rename")+'</span>'}, { name: 'moreInfoShared', title: '<span class="info mr-3">'+this.translate.instant("generics.More information")+'</span>'}]},
-          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'moreInfoShared', title: '<i title='+this.translate.instant("generics.More information")+' class="fa fa-info fa-1_5x info mr-3"></i>'},{ name: 'editShared', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-3"></i>'}]},
+          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'moreInfoShared', title: '<i title='+this.translate.instant("generics.More information")+' class="fa fa-info fa-1_5x primary mr-3"></i>'},{ name: 'editShared', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-3"></i>'}, { name: 'share', title: '<i title='+this.translate.instant("generics.Share")+' class="fas fa-share fa-1_5x primary mr-3"></i>'}]},
           delete: {
             confirmDelete: true,
             deleteButtonContent: '<i title='+this.translate.instant("generics.Delete")+' class="fa fa-trash fa-1_5x danger"></i>'
@@ -147,6 +266,16 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             patientName: {
               title: this.translate.instant("diagnosis.Case"),
               placeholder: this.translate.instant("diagnosis.Case"),
+              type: "html",
+            },
+            birthDate2: {
+              title: this.translate.instant("topnavbar.age"),
+              placeholder: this.translate.instant("topnavbar.age"),
+              type: "html",
+            },
+            gender2: {
+              title: this.translate.instant("personalinfo.Gender"),
+              placeholder: this.translate.instant("personalinfo.Gender"),
               type: "html",
             },
             /*userName: {
@@ -184,7 +313,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             },
           },
           pager : {
-              display : false
+              display : true,
+              perPage :10
           },
           attr: {
             class: "table table-responsive"
@@ -192,7 +322,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         };
 
         this.loadingSharedCases = false;
-        console.log(res);
       }, (err) => {
         console.log(err);
         this.loadingSharedCases = false;
@@ -202,8 +331,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
     transformDate(value) {
       let newValue;
       var format = 'yyyy-MM-dd';
-      var lang = this.authService.getLang();
-      if(lang == 'es'){
+      if(this.actualLang == 'es'){
         format = 'dd-MM-yyyy'
       }
       newValue = this.dateService.transformFormatDate(value, format);
@@ -217,7 +345,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
       this.subscription.add( this.http.get(environment.api+'/api/case/'+this.authService.getIdUser())
       .subscribe( (res : any) => {
         res.listpatients.sort(this.sortService.GetSortOrderNames("patientName"));
-        console.log(res.listpatients);
         this.listOfArchivedCases = [];
 
         res.listpatients.forEach(function(element) {
@@ -236,13 +363,53 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
           if(this.patientsCopy[i].status == 'analyzed'){
              this.patientsCopy[i].status = '<span class="success">'+this.translate.instant("diagnosis.Analyzed")+'</span>';
           }else if(this.patientsCopy[i].status == 'new'){
-             this.patientsCopy[i].status = '<span class="danger">'+this.translate.instant("generics.New")+'</span>';
+             this.patientsCopy[i].status = '<span class="danger">'+this.translate.instant("diagnosis.NoAnalyzed")+'</span>';
           }
 
           if(this.patientsCopy[i].hasvcf){
              this.patientsCopy[i].hasvcf = '<span class="success">'+this.translate.instant("generics.Yes")+'</span>';
           }else{
              this.patientsCopy[i].hasvcf = '<span class="danger">'+this.translate.instant("generics.No")+'</span>';
+          }
+
+          if(this.patientsCopy[i].birthDate){
+            var dateRequest2=new Date(this.patientsCopy[i].birthDate);
+              var resul = ''
+              var temp = this.ageFromDateOfBirthday(dateRequest2);
+              if(temp!=null){
+                if(temp.years>0){
+                  if(temp.years>1){
+                    resul= temp.years+" "+this.translate.instant("topnavbar.year")+"s";
+                  }else{
+                    resul= temp.years+" "+this.translate.instant("topnavbar.year");
+                  }
+
+                }
+                if(temp.months>0){
+                  if(temp.months>1){
+                    resul= resul+ " " +temp.months+" "+this.translate.instant("topnavbar.months")
+                  }else{
+                    resul= resul+ " " +temp.months+" "+this.translate.instant("topnavbar.month")
+                  }
+                }
+                if(temp.years==0 && temp.months==0){
+                  resul="0 "+this.translate.instant("topnavbar.months")
+                }
+              }
+             this.patientsCopy[i].birthDate2 = resul;
+          }else{
+             this.patientsCopy[i].birthDate2 = '-';
+          }
+
+          if(this.patientsCopy[i].gender){
+            if(this.patientsCopy[i].gender=='male'){
+              this.patientsCopy[i].gender2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.patientsCopy[i].avatar+'.png" />'+" "+this.translate.instant("personalinfo.Male") ;
+            }else{
+              this.patientsCopy[i].gender2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.patientsCopy[i].avatar+'.png" />'+" "+ this.translate.instant("personalinfo.Female");
+            }
+
+          }else{
+             this.patientsCopy[i].gender2 = '-';
           }
 
           if(this.patientsCopy[i].symptoms<2){
@@ -261,13 +428,53 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
           if(this.listOfArchivedCases[i].status == 'analyzed'){
              this.listOfArchivedCases[i].status = '<span class="success">'+this.translate.instant("diagnosis.Analyzed")+'</span>';
           }else if(this.listOfArchivedCases[i].status == 'new'){
-             this.listOfArchivedCases[i].status = '<span class="danger">'+this.translate.instant("generics.New")+'</span>';
+             this.listOfArchivedCases[i].status = '<span class="danger">'+this.translate.instant("diagnosis.NoAnalyzed")+'</span>';
           }
 
           if(this.listOfArchivedCases[i].hasvcf){
              this.listOfArchivedCases[i].hasvcf = '<span class="success">'+this.translate.instant("generics.Yes")+'</span>';
           }else{
              this.listOfArchivedCases[i].hasvcf = '<span class="danger">'+this.translate.instant("generics.No")+'</span>';
+          }
+
+          if(this.listOfArchivedCases[i].birthDate){
+            var dateRequest2=new Date(this.listOfArchivedCases[i].birthDate);
+              var resul = ''
+              var temp = this.ageFromDateOfBirthday(dateRequest2);
+              if(temp!=null){
+                if(temp.years>0){
+                  if(temp.years>1){
+                    resul= temp.years+" "+this.translate.instant("topnavbar.year")+"s";
+                  }else{
+                    resul= temp.years+" "+this.translate.instant("topnavbar.year");
+                  }
+
+                }
+                if(temp.months>0){
+                  if(temp.months>1){
+                    resul= resul+ " " +temp.months+" "+this.translate.instant("topnavbar.months")
+                  }else{
+                    resul= resul+ " " +temp.months+" "+this.translate.instant("topnavbar.month")
+                  }
+                }
+                if(temp.years==0 && temp.months==0){
+                  resul="0 "+this.translate.instant("topnavbar.months")
+                }
+              }
+             this.listOfArchivedCases[i].birthDate2 = resul;
+          }else{
+             this.listOfArchivedCases[i].birthDate2 = '-';
+          }
+
+          if(this.listOfArchivedCases[i].gender){
+            if(this.listOfArchivedCases[i].gender=='male'){
+              this.listOfArchivedCases[i].gender2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.listOfArchivedCases[i].avatar+'.png" />'+" "+this.translate.instant("personalinfo.Male") ;
+            }else{
+              this.listOfArchivedCases[i].gender2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.listOfArchivedCases[i].avatar+'.png" />'+" "+ this.translate.instant("personalinfo.Female");
+            }
+
+          }else{
+             this.listOfArchivedCases[i].gender2 = '-';
           }
 
           if(this.listOfArchivedCases[i].symptoms<2){
@@ -287,7 +494,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         this.alertsettings = {
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right'},
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<span class="primary mr-3">'+this.translate.instant("dashboardpatient.Rename")+'</span>'}, { name: 'archive', title: '<span class="info mr-3">'+this.translate.instant("dashboardpatient.Archive")+'</span>'}]},
-          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-3"></i>'}, { name: 'archive', title: '<i title='+this.translate.instant("dashboardpatient.Archive")+' class="fa fa-archive fa-1_5x info mr-3"></i>'}]},
+          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-3"></i>'}, { name: 'archive', title: '<i title='+this.translate.instant("dashboardpatient.Archive")+' class="fa fa-archive fa-1_5x primary mr-3"></i>'}, { name: 'share', title: '<i title='+this.translate.instant("generics.Share")+' class="fas fa-share fa-1_5x primary mr-3"></i>'}]},
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<span class="primary">'+this.translate.instant("generics.Edit")+'</span>'}]},
           delete: {
             confirmDelete: true,
@@ -307,6 +514,16 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             placeholder: this.translate.instant("diagnosis.Case"),
             type: "html",
             },
+            birthDate2: {
+              title: this.translate.instant("topnavbar.age"),
+              placeholder: this.translate.instant("topnavbar.age"),
+              type: "html",
+            },
+            gender2: {
+              title: this.translate.instant("personalinfo.Gender"),
+              placeholder: this.translate.instant("personalinfo.Gender"),
+              type: "html",
+            },
             hasvcf: {
             title: this.translate.instant("diagnosis.Genetic information"),
             placeholder: this.translate.instant("generics.Yes")+'/'+this.translate.instant("generics.No"),
@@ -324,7 +541,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             },
           },
           pager : {
-              display : false
+              display : true,
+              perPage :10
           },
           attr: {
             class: "table table-responsive"
@@ -334,7 +552,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         this.alertsettingsCasesArchived = {
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right'},
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<span class="primary mr-3">Rename</span>'}, { name: 'restore', title: '<span class="info mr-3">Restore</span>'}]},
-          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-3"></i>'}, { name: 'restore', title: '<i title='+this.translate.instant("dashboardpatient.Restore")+' class="fa fa-undo fa-1_5x info mr-3"></i>'}]},
+          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-3"></i>'}, { name: 'restore', title: '<i title='+this.translate.instant("dashboardpatient.Restore")+' class="fa fa-undo fa-1_5x primary mr-3"></i>'}, { name: 'share', title: '<i title='+this.translate.instant("generics.Share")+' class="fas fa-share fa-1_5x primary mr-3"></i>'}]},
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<span class="primary">'+this.translate.instant("generics.Edit")+'</span>'}]},
           delete: {
             confirmDelete: true,
@@ -354,6 +572,16 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             placeholder: this.translate.instant("diagnosis.Case"),
             type: "html",
             },
+            birthDate2: {
+              title: this.translate.instant("topnavbar.age"),
+              placeholder: this.translate.instant("topnavbar.age"),
+              type: "html",
+            },
+            gender2: {
+              title: this.translate.instant("personalinfo.Gender"),
+              placeholder: this.translate.instant("personalinfo.Gender"),
+              type: "html",
+            },
             hasvcf: {
             title: this.translate.instant("diagnosis.Genetic information"),
             placeholder: this.translate.instant("generics.Yes")+'/'+this.translate.instant("generics.No"),
@@ -371,7 +599,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             },
           },
           pager : {
-              display : false
+              display : true,
+              perPage :10
           },
           attr: {
             class: "table table-responsive"
@@ -392,6 +621,27 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
        }));
     }
 
+    ageFromDateOfBirthday(dateOfBirth: any){
+      var res:any;
+      const today = new Date();
+      const birthDate = new Date(dateOfBirth);
+      var months;
+      var age =0;
+      age = today.getFullYear() - birthDate.getFullYear();
+      months = (today.getFullYear() - birthDate.getFullYear()) * 12;
+      months -= birthDate.getMonth();
+      months += today.getMonth();
+      var res = months <= 0 ? 0 : months;
+      var m=res % 12;
+      /*var age =0;
+      if(res>0){
+        age= Math.abs(Math.round(res/12));
+      }*/
+      res = {years:age, months:m };
+      return res;
+    }
+
+
     loadMyEmail(){
       this.subscription.add( this.http.get(environment.api+'/api/users/email/'+this.authService.getIdUser())
         .subscribe( (res : any) => {
@@ -401,8 +651,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         }));
     }
     onCustom(event, contentTemplate) {
-      console.log(event.data);
-      console.log(event);
       if(event.action=="archive"){
         Swal.fire({
             title: this.translate.instant("generics.Are you sure?"),
@@ -414,7 +662,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             confirmButtonText: this.translate.instant("dashboardpatient.Archive"),
             cancelButtonText: this.translate.instant("generics.No, cancel"),
             showLoaderOnConfirm: true,
-            allowOutsideClick: false
+            allowOutsideClick: false,
+            reverseButtons:true
         }).then((result) => {
           if (result.value) {
             var enc = false;
@@ -439,7 +688,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             confirmButtonText: this.translate.instant("dashboardpatient.Restore"),
             cancelButtonText: this.translate.instant("generics.No, cancel"),
             showLoaderOnConfirm: true,
-            allowOutsideClick: false
+            allowOutsideClick: false,
+            reverseButtons:true
         }).then((result) => {
           if (result.value) {
             var enc = false;
@@ -461,10 +711,22 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         this.changeNameShared = JSON.parse(JSON.stringify(event.data));
         //alert(`Custom event '${event.action}' fired on row №: ${event.data.sub}`)
         this.modalReference = this.modalService.open(contentTemplate);
-      }else if(event.action=="openModalMoreInfo"){
-        console.log(event.data);
+      }else if(event.action=="moreInfoShared"){
         this.moreInfoCaseEvent = JSON.parse(JSON.stringify(event.data));
-        document.getElementById("openModalMoreInfo").click();
+        document.getElementById("openModalMoreInfoShared").click();
+      }else if(event.action=="share"){
+        var temp = JSON.parse(JSON.stringify(event.data));
+       var hasvcf = temp.hasvcf
+        var status = temp.status
+        var symptoms = temp.symptoms
+        var htmlObjecthasvcf = $(hasvcf); // jquery call
+        var htmlObjectstatus = $(status); // jquery call
+        var htmlObjectsymptoms = $(symptoms); // jquery call
+        temp.hasvcf =htmlObjecthasvcf[0].textContent
+        temp.status =htmlObjectstatus[0].textContent
+        temp.symptoms =htmlObjectsymptoms[0].textContent
+        this.authService.setCurrentPatient(temp);
+        document.getElementById("buttonShareTo").click();
       }
 
 
@@ -496,7 +758,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
     }
 
     archiveCase(index){
-      console.log(this.patients[index]);
       if(this.authGuard.testtoken()){
         //cargar los datos del usuario
         //var paramssend = this.authService.getIdUser()+'-code-'+this.patients[index];
@@ -528,7 +789,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
     }
 
     restoreCase(index){
-      console.log(this.patients[index]);
       if(this.authGuard.testtoken()){
         //cargar los datos del usuario
         //var paramssend = this.authService.getIdUser()+'-code-'+this.patients[index];
@@ -636,12 +896,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
     }
 
     handleGridSelected(e){
-      console.log(e);
       this.selectCase(e);
     }
 
     handleGridSelectedShared(e){
-      console.log(e);
       var enc = false;
       for (var i = 0; i <  this.listOfSharedCases.length && !enc; i++) {
         if(this.listOfSharedCases[i].sub == e.data.sub){
@@ -652,11 +910,45 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
     }
 
     onChangePatient(value){
-      console.log(value);
-      this.authService.setCurrentPatient(value);
-      if(this.authService.getCurrentPatient()!=null){
-        this.router.navigate(['/clinical/diagnosis2']);
+      var temp = JSON.parse(JSON.stringify(value));
+     var hasvcf = temp.hasvcf
+      var status = temp.status
+      var symptoms = temp.symptoms
+      var htmlObjecthasvcf = $(hasvcf); // jquery call
+      var htmlObjectstatus = $(status); // jquery call
+      var htmlObjectsymptoms = $(symptoms); // jquery call
+      temp.hasvcf =htmlObjecthasvcf[0].textContent
+      temp.status =htmlObjectstatus[0].textContent
+      temp.symptoms =htmlObjectsymptoms[0].textContent
+      if(temp.birthDate==null || temp.gender == null){
+          temp.birthDate=this.dateService.transformDate(temp.birthDate);
+          //request data
+          this.isNewPatient=false;
+          this.patient = {
+            id: temp.sub,
+            patientName: value.patientName,
+            surname: temp.surname,
+            country: temp.country,
+            birthDate: temp.birthDate,
+            gender: temp.gender,
+            previousDiagnosis: temp.previousDiagnosis,
+            avatar: ''
+          };
+          document.getElementById("updatepatient").click();
+      }else{
+        this.authService.setCurrentPatient(temp);
+        if(this.authService.getCurrentPatient()!=null){
+          this.goToPatientPage();
+        }
       }
+    }
+
+    callUpdatePatient(contentNewCaseName){
+      let ngbModalOptions: NgbModalOptions = {
+            backdrop : 'static',
+            keyboard : false
+      };
+      this.modalReference = this.modalService.open(contentNewCaseName, ngbModalOptions);
     }
 
   ngOnDestroy() {
@@ -688,13 +980,18 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   callNewPatient(contentNewCaseName){
-
+    this.loadCountries();
+    this.loadListOfDiseases();
+    var tagPatient = 'Patient-';
+    if(this.actualLang=='es'){
+      tagPatient = 'Paciente-';
+    }
       var posNewPatient = 1;
       if(this.patients.length>0){
         var maxIndexCase = 0;
         for (var i = 0; i <  this.patients.length; i++) {
           var patientName = this.patients[i].patientName;
-          var splitNumberName = patientName.split('case-');
+          var splitNumberName = patientName.split(tagPatient);
           var posActualPatient = parseInt(splitNumberName[1]);
           if(!(isNaN(posActualPatient))){
             if(maxIndexCase<posActualPatient){
@@ -706,8 +1003,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
           posNewPatient = maxIndexCase+1;
         }
       }
+      this.isNewPatient = true;
       this.patient = {
-        patientName: 'case-'+posNewPatient,
+        patientName: tagPatient+posNewPatient,
         surname: '',
         street: '',
         postalCode: '',
@@ -723,12 +1021,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         gender: null,
         siblings: [],
         parents: [],
-        stepClinic: '0.0'
+        previousDiagnosis: null,
+        stepClinic: '0.0',
+        avatar: ''
       };
 
       this.changeName = this.patient;
       //alert(`Custom event '${event.action}' fired on row №: ${event.data.sub}`)
-      console.log(event);
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
             keyboard : false
@@ -736,8 +1035,31 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
       this.modalReference = this.modalService.open(contentNewCaseName, ngbModalOptions);
   }
 
-  saveNewCase(){
+  goToPatientPage(){
+    this.updateLastAccess();
+    this.router.navigate(['/clinical/diagnosis2']);
+  }
 
+  updateLastAccess(){
+      this.subscription.add( this.http.get(environment.api+'/api/case/updateLastAccess/'+this.authService.getCurrentPatient().sub)
+      .subscribe( (res : any) => {
+       }, (err) => {
+         console.log(err);
+       }));
+  }
+
+  submitInvalidForm() {
+    this.toastr.warning('', this.translate.instant("generics.fieldsRequired"));
+    if (!this.newPatientform) { return; }
+    const base = this.newPatientform;
+    for (const field in base.form.controls) {
+      if (!base.form.controls[field].valid) {
+          base.form.controls[field].markAsTouched()
+      }
+    }
+  }
+
+  saveNewCase(){
     var found = false;
     for (var i = 0; i <  this.patients.length && !found; i++) {
       if(this.patients[i].patientName == this.patient.patientName){
@@ -753,7 +1075,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         this.sending = true;
         this.subscription.add( this.http.post(environment.api+'/api/patients/'+this.authService.getIdUser(), this.patient)
         .subscribe( (res : any) => {
-          console.log(res);
           if(this.modalReference!=undefined){
             this.modalReference.close();
           }
@@ -762,7 +1083,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
           //this.toastr.success('', this.msgDataSavedOk);
           if(this.authService.getCurrentPatient()!=null){
             //this.loadData();
-            this.router.navigate(['/clinical/diagnosis2']);
+            this.goToPatientPage();
           }
           //this.loadPatients();
          }, (err) => {
@@ -779,8 +1100,41 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
 
   }
 
+  updateCase(){
+    if(this.patient.patientName==''){
+        Swal.fire(this.translate.instant("diagnosis.name empty"), '', "warning");
+    }else{
+      if(this.authGuard.testtoken()){
+        this.sending = true;
+        this.subscription.add( this.http.put(environment.api+'/api/patients/'+this.patient.id, this.patient)
+        .subscribe( (res : any) => {
+          if(this.modalReference!=undefined){
+            this.modalReference.close();
+          }
+          this.authService.setCurrentPatient(res.patientInfo);
+          this.sending = false;
+          //this.toastr.success('', this.msgDataSavedOk);
+          if(this.authService.getCurrentPatient()!=null){
+            //this.loadData();
+            this.goToPatientPage();
+          }
+          //this.loadPatients();
+         }, (err) => {
+           console.log(err);
+           this.sending = false;
+           if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
+             this.authGuard.testtoken();
+           }else{
+             this.toastr.error('', this.msgDataSavedFail);
+           }
+         }));
+      }
+    }
+
+  }
+
+
   onDeleteConfirm(event) {
-    console.log(event);
     var enc = false;
     for (var i = 0; i <  this.patients.length && !enc; i++) {
       if(this.patients[i].sub == event.data.sub){
@@ -791,7 +1145,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   selectCase(event) {
-    console.log(event);
     var enc = false;
     for (var i = 0; i <  this.patients.length && !enc; i++) {
       if(this.patients[i].sub == event.data.sub){
@@ -821,7 +1174,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         confirmButtonText: this.translate.instant("generics.Delete"),
         cancelButtonText: this.translate.instant("generics.No, cancel"),
         showLoaderOnConfirm: true,
-        allowOutsideClick: false
+        allowOutsideClick: false,
+        reverseButtons:true
     }).then((result) => {
       if (result.value) {
         this.deleteCase(index);
@@ -832,7 +1186,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   deleteCase(index){
-    console.log(this.patients[index]);
     if(this.authGuard.testtoken()){
       //cargar los datos del usuario
       //var paramssend = this.authService.getIdUser()+'-code-'+this.patients[index];
@@ -856,7 +1209,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   onDeleteConfirmArchive(event) {
-    console.log(event);
     var enc = false;
     for (var i = 0; i <  this.listOfArchivedCases.length && !enc; i++) {
       if(this.listOfArchivedCases[i].sub == event.data.sub){
@@ -878,7 +1230,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         confirmButtonText: this.translate.instant("generics.Delete"),
         cancelButtonText: this.translate.instant("generics.No, cancel"),
         showLoaderOnConfirm: true,
-        allowOutsideClick: false
+        allowOutsideClick: false,
+        reverseButtons:true
     }).then((result) => {
       if (result.value) {
         this.deleteArchiveCase(index);
@@ -889,7 +1242,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   deleteArchiveCase(index){
-    console.log(this.listOfArchivedCases[index]);
     if(this.authGuard.testtoken()){
       //cargar los datos del usuario
       //var paramssend = this.authService.getIdUser()+'-code-'+this.patients[index];
@@ -913,7 +1265,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
 
 
   onDeleteSharedCaseConfirm(event) {
-    console.log(event);
     var enc = false;
     for (var i = 0; i <  this.listOfSharedCases.length && !enc; i++) {
       if(this.listOfSharedCases[i].sub == event.data.sub){
@@ -935,7 +1286,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         confirmButtonText: this.translate.instant("generics.Delete"),
         cancelButtonText: this.translate.instant("generics.No, cancel"),
         showLoaderOnConfirm: true,
-        allowOutsideClick: false
+        allowOutsideClick: false,
+        reverseButtons:true
     }).then((result) => {
       if (result.value) {
         this.deleteSharedCase(index);
@@ -946,7 +1298,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   deleteSharedCase(index){
-    console.log(this.listOfSharedCases[index]);
     if(this.authGuard.testtoken()){
       //cargar los datos del usuario
       var params:any = {};
@@ -967,6 +1318,18 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
          }
        }));
      }
+  }
+
+  changeSex($event){
+    if($event.value=='male'){
+      this.patient.avatar = 'boy-0'
+    }else{
+      this.patient.avatar = 'girl-0'
+    }
+  }
+
+  changeAvatar(name){
+    this.patient.avatar = name;
   }
 
 }
