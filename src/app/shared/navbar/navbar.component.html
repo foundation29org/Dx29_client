@@ -348,7 +348,7 @@
                   <label class="mb-0" for="Permissions">{{'permissions.Permissions' | translate }}</label>
                   <span class="d-block mb-1" for="Permissions">{{'sharesection.What can it be done' | translate }}</span>
                   <!--<mat-checkbox class="example-margin" [disabled]="!onepatient.ismine" name="shareEmr" ngModel  [(ngModel)]="permissions.shareEmr" #shareEmr="ngModel" id="shareEmr">{{'permissions.Share EMR' | translate }}</mat-checkbox>-->
-                  <mat-checkbox class="example-margin" [disabled]="!onepatient.ismine" name="askFirst" ngModel (change)="setPermissionsForm('askFirst')" [(ngModel)]="permissions.askFirst" #askFirst="ngModel" id="askFirst">{{'permissions.Ask before sharing' | translate }}</mat-checkbox>
+                  <mat-checkbox class="example-margin ml-0" [disabled]="!onepatient.ismine" name="askFirst" ngModel (change)="setPermissionsForm('askFirst')" [(ngModel)]="permissions.askFirst" #askFirst="ngModel" id="askFirst">{{'permissions.Ask before sharing' | translate }}</mat-checkbox>
                   <mat-checkbox class="ml-2 example-margin" [disabled]="!onepatient.ismine" name="shareWithAll" ngModel (change)="setPermissionsForm('shareWithAll')" [(ngModel)]="permissions.shareWithAll" #shareWithAll="ngModel" id="shareWithAll">{{'permissions.Sharing with third parties' | translate }}</mat-checkbox>
                   <span *ngIf="!onepatient.ismine" class="text-muted d-block">{{'permissions.message to deny permission' | translate }}</span>
                 </span>
