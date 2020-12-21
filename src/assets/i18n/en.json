@@ -145,6 +145,7 @@
     "requiredfieldsmissing": "Some required fields are missing!",
     "Section": "Section",
     "Are you sure?": "Are you sure?",
+    "Are you sure delete": "Do you want to remove",
     "Are you sure delete it": "Do you want to remove it?",
     "Exit the application without logging off": "Exit the application without logging off",
     "We will reply as soon as possible": "We will reply as soon as possible. Thank you!",
@@ -804,7 +805,10 @@
     "Prevalence": "Prevalence",
     "Disease": "Disease",
     "Patient": "Patient",
-    "Add symptom to the patient": "Add symptom to the patient"
+    "Add symptom to the patient": "Add symptom to the patient",
+    "Calculations details": "Calculations details",
+    "Files included in the calculation": "Files included in the calculation",
+    "No genetic information has been included": "No genetic information has been included"
   },
   "summarySection":{
     "subtitle":"This summary contains the available data and the selected candidate diagnosis.",

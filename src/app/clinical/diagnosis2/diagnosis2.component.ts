@@ -342,6 +342,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     placement = "bottom-right";
     numberOfSymptomsExo:number =0;
     exostring: string = "3' UTR exon variant";
+    tempVcfBlobName: string = '';
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -2639,6 +2640,12 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     showPanelFeedback(contentFeedback){
+      this.modalReference = this.modalService.open(contentFeedback);
+    }
+
+    showPanelCalculationsDetails(contentFeedback){
+      this.tempVcfBlobName = this.settingExomizer.VcfBlobName.substr(this.settingExomizer.VcfBlobName.lastIndexOf('/'));
+      this.tempVcfBlobName = this.tempVcfBlobName.split(("/"))[1];
       this.modalReference = this.modalService.open(contentFeedback);
     }
 

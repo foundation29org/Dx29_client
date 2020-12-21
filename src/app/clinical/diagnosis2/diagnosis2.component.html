@@ -694,12 +694,25 @@
                     <!--<span *ngIf="selectedItemsFilter.length>0 || (this.infoGenesAndConditionsExomizer.length>0 && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes) || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhen2Genes.length>0) && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes))" class="mr-1">
                       <a href="javascript:void(0)" class="btn btn-outline-primary" (click)="setFitersDiseases(contentFilterDiseases)"><span *ngIf="selectedItemsFilter.length==0">{{'diagnosesSection.Filter' | translate }}</span><span *ngIf="selectedItemsFilter.length>0">{{selectedItemsFilter.length}} {{'diagnosesSection.applied filters' | translate }}</span></a>
                     </span>-->
-
+                    <span class="nav-item" ngbDropdown display="dynamic" placement="bottom-right">
+                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownOptions" ngbDropdownToggle title="{{'generics.Options' | translate }}">
+                            <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
+                            <p class="d-none">Sort</p>
+                        </a>
+                        <div ngbDropdownMenu aria-labelledby="dropdownOptions" class="dropdown">
+                            <a class="dropdown-item py-1 primary" href="javascript:;" (click)="showPanelCalculationsDetails(contentCalculationsDetails);">
+                                <span> <span> <i class="fa fa-info"></i></span> <span class="ml-2">{{'diagnosesSection.Calculations details' | translate }}</span></span>
+                            </a>
+                        </div>
+                    </span>
                   </span>
+                  <!--<span class="float-right">
+                    <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="!isgen" type="button" [ngClass]="(isgen != true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'" class="mr-1" (click)="getRelatedConditionsview(false);">Clinic view</button>
+                    <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="isgen" type="button" [ngClass]="(isgen == true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'" class="mr-1" (click)="getRelatedConditionsview(true);">Genetic view</button>
+                  </span>-->
                   <h4 class="card-title" style="text-transform: none;" *ngIf="infoGenesAndConditionsExomizer.length>0 || infoGenesAndConditionsPhen2Genes.length>0">
                     <b class="d-block">{{'diagnosesSection.Results' | translate }}</b>
                     <span class="font-small-2 font-weight-normal">{{'diagnosesSection.SelectCandidate' | translate }}</span>
-
                   </h4>
                   <h4 class="card-title" *ngIf="infoGenesAndConditionsExomizer.length==0 && infoGenesAndConditionsPhen2Genes.length==0">
                     <b>{{'diagnosesSection.no_analyzed' | translate }}</b>
@@ -3036,6 +3049,39 @@
     </div>
   </div>-->
 
+</ng-template>
+
+<ng-template #contentCalculationsDetails let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header d-block" id="idHeader">
+			<button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<div>
+				<h4 class="modal-title text-muted">{{'diagnosesSection.Calculations details' | translate }}</h4>
+			</div>
+		</div>
+		<div class="modal-body">
+        <div class="form-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="hasDiagnosis">{{'diagnosesSection.Files included in the calculation' | translate }}:</label>
+                <p *ngIf="isgen">
+                  {{tempVcfBlobName}}
+                </p>
+                <p *ngIf="!isgen">
+                  {{'diagnosesSection.No genetic information has been included' | translate }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+		</div>
+		<div class="modal-footer">
+			<div class="form-actions center">
+					<button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
+			</div>
+		</div>
 </ng-template>
 
 <button id="openModalSymptomsNcrButton2" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr)">.</button>

@@ -804,7 +804,10 @@
     "Prevalence": "Prevalencia",
     "Disease": "Enfermedad",
     "Patient": "Paciente",
-    "Add symptom to the patient": "Añadir síntoma al paciente"
+    "Add symptom to the patient": "Añadir síntoma al paciente",
+    "Calculations details": "Calculations details",
+    "Files included in the calculation": "Archivos incluidos en el cálculo",
+    "No genetic information has been included": "No genetic information has been included"
   },
   "summarySection":{
     "subtitle":"Este resumen contiene los datos disponibles del paciente y de los posibles diagnósticos seleccionados.",
