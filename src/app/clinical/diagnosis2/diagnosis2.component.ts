@@ -1217,21 +1217,25 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       //this.listPatientFiles[i].origenFile.name
       this.subscription.add( this.http.get(this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+name+this.accessToken.sasToken)
        .subscribe( (res : any) => {
-         console.log(res);
          var listSymptoms = [];
          var numSymptMatch = 0;
          var resumeText = '';
          if(res.originalText!=undefined){
            resumeText = res.originalText.slice(0, 200);
          }
-          var infoNcr = res.result
+          var infoNcr = res.result;
           if(infoNcr!=undefined){
             if(infoNcr.length>0){
              for(var i = 0; i < infoNcr.length; i++) {
 
                for(var j = 0; j < infoNcr[i].phens.length; j++) {
-                 var foundElement = this.searchService.search(listSymptoms,'id', infoNcr[i].phens[j].id);
-                 if(!foundElement){
+                 var foundkio =false;
+                 for(var kio = 0; kio < listSymptoms.length && !foundkio; kio++) {
+                   if(listSymptoms[kio]==infoNcr[i].phens[j].id){
+                     foundkio=true;
+                   }
+                 }
+                 if(!foundkio){
                    listSymptoms.push(infoNcr[i].phens[j].id);
                  }
                }
@@ -1240,7 +1244,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
              for(var i = 0; i < this.phenotype.data.length; i++) {
                var found = false;
                for(var j = 0; j < listSymptoms.length && !found; j++) {
-                 if(this.phenotype.data[i].id==listSymptoms[j]){
+                 if(this.phenotype.data[i].id==listSymptoms[j] && this.phenotype.data[i].checked){
                    numSymptMatch++;
                    found=true;
                  }
@@ -1253,7 +1257,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.listPatientFiles[index].ncrResults.numberSymptoms= listSymptoms.length;
         this.listPatientFiles[index].ncrResults.numSymptMatch= numSymptMatch;
         this.listPatientFiles[index].ncrResults.resumeText = resumeText;
-        console.log(this.listPatientFiles[index].ncrResults);
         this.docsNcr.push(this.listPatientFiles[index]);
        }, (err) => {
          console.log(err);
