@@ -459,7 +459,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
           this.subscription.add( this.http.get('assets/jsons/orphanet_names_'+this.lang+'.json')
          .subscribe( (res : any) => {
-           console.log('loag data');
            this.orphanet_names = res;
           }, (err) => {
             console.log(err);
@@ -515,14 +514,13 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
          }
        });
 
-      console.log("ng on init")
       this.exomiserHttpService.cancelPendingRequests();
       this.lang = this.authService.getLang();
       if(this.authService.getCurrentPatient()==null){
         this.router.navigate(['clinical/dashboard/home']);
       }else{
         this.selectedPatient = this.authService.getCurrentPatient();
-        console.log(this.selectedPatient);
+        console.log(this.selectedPatient )
         this.eventsService.broadcast('selectedPatient', this.selectedPatient);
         var dateRequest2=new Date(this.selectedPatient.birthDate);
         if(this.selectedPatient.birthDate == null){
@@ -627,8 +625,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     setActualStepDB(actualStep:string){
       var object = {actualStep:actualStep}
       if(actualStep>=this.maxStep && this.maxStep<"5.0"){
-
-        console.log(actualStep);
         if(actualStep=='5.0'){
           actualStep = '6.0';
           object = {actualStep:actualStep}
@@ -647,7 +643,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     setActualStep(actualStep:string){
       this.actualStep = actualStep;
       this.dataservice.steps = {actualStep: this.actualStep, maxStep: this.maxStep};
-      console.log(this.dataservice.steps);
       this.eventsService.broadcast('maxStep', this.maxStep);
       this.eventsService.broadcast('actualStep', this.actualStep);
     }
@@ -655,13 +650,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     setMaxStep(maxStep:string){
       this.maxStep = maxStep;
       this.dataservice.steps = {actualStep: this.actualStep, maxStep: this.maxStep};
-      console.log(this.dataservice.steps);
       this.eventsService.broadcast('maxStep', this.maxStep);
       this.eventsService.broadcast('actualStep', this.actualStep);
     }
 
     goPrevStep(){
-      console.log(this.actualStep);
       if((this.actualStep == '1.0' || this.actualStep == '1') && this.showIntroWizard){
         this.setActualStep('0.0');
       }else if(this.actualStep > '3.0'){
@@ -709,8 +702,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     goNextStep(){
-      console.log(this.actualStep);
-      console.log(this.numberOfSymptoms);
       if(this.actualStep >= '3.3'){
         this.goToStep('5.0', true)
       }else if(this.actualStep == '3.2'){
@@ -800,7 +791,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.lauchPhen2Genes();
         document.getElementById("openModalPhen2genes").click();
       }else if(this.actualStep == '3.1'){
-        console.log(save);
         if(save){
           this.callExomizerSameVcf();
         }
@@ -852,7 +842,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.getDiagnosisInfo();
 
       this.eventsService.on('infoStep', function(info) {
-        console.log(info);
         if(info.maxStep!=null){
           this.setMaxStep('0.0');
         }
@@ -929,7 +918,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     loadBlobFiles(){
       this.subscription.add( this.blob.change.subscribe(uploaded => {
          this.uploaded = uploaded;
-         console.log("subscription blob")
          this.uploadingGenotype = false;
        }));
 
@@ -1015,7 +1003,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
         //SI TIENE JSON DE EXOMIZER
        this.subscription.add( this.blob.changeFilesExomizerBlob.subscribe(filesOnBlob => {
-         console.log(filesOnBlob);
          this.loadingGeno = false;
           this.filesOnBlob = filesOnBlob;
           //console.log(this.filesOnBlob);
@@ -1029,7 +1016,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               //document.getElementById("idShowPanelWorkbench").click();
             }
           }else{
-            console.log('change blob exomiser no tiene!');
             this.uploadingGenotype = false;
           }
           this.loading = false;
@@ -1073,6 +1059,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
 
         this.subscription.add( this.blob.changeFilesPatientBlob.subscribe(async filesPatientBlob => {
+          console.log(filesPatientBlob);
           this.docsNcr = [];
           this.otherDocs = [];
            if(filesPatientBlob.length>0){
@@ -1098,8 +1085,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                }
                if((indexFileExecution1[0] == indexFileExecution2[0]) && ncrresultfiles){
                  if(extension1 == '.json'){
-                   var name = filesPatientBlob[i+1].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
-                   filesPatientBlob[i].simplename = name;
+                   var name = filesPatientBlob[i+1].name.substr(filesPatientBlob[i+1].name.indexOf('-')+1)
+                   filesPatientBlob[i+1].simplename = name;
                    listPatientFiles.push({origenFile:filesPatientBlob[i+1], ncrResults:filesPatientBlob[i]})
                  }else{
                    var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
@@ -1114,8 +1101,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                    //listPatientFiles.push({origenFile:undefined, ncrResults:filesPatientBlob[i]})
                    listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i]})
                  }else{
-                   var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
-                   filesPatientBlob[i].simplename = name;
+                   var name = filesPatientBlob[i+1].name.substr(filesPatientBlob[i+1].name.indexOf('-')+1)
+                   filesPatientBlob[i+1].simplename = name;
                    //listPatientFiles.push({origenFile:undefined, ncrResults:filesPatientBlob[i]})
                    listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i]})
                  }
@@ -1136,6 +1123,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                  }
                }
              }
+             console.log(listPatientFiles);
              this.listPatientFiles = listPatientFiles;
              for(var i=0;i<this.listPatientFiles.length;i++){
                this.listPatientFiles[i].origenFile.contentLength = this.formatBytes(this.listPatientFiles[i].origenFile.contentLength);
@@ -1227,13 +1215,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
              }
            }
           }
-
-        var extension = this.listPatientFiles[index].origenFile.nameForShow.substr(this.listPatientFiles[index].origenFile.nameForShow.lastIndexOf('.'));
-        this.listPatientFiles[index].ncrResults.extension = extension
+        var extension = this.listPatientFiles[index].origenFile.name.substr(this.listPatientFiles[index].origenFile.name.lastIndexOf('.'));
+        this.listPatientFiles[index].ncrResults.extension = extension;
         this.listPatientFiles[index].ncrResults.numberSymptoms= listSymptoms.length;
         this.listPatientFiles[index].ncrResults.numSymptMatch= numSymptMatch;
-        this.listPatientFiles[index].ncrResults.resumeText = resumeText
-        console.log(this.listPatientFiles[index]);
+        this.listPatientFiles[index].ncrResults.resumeText = resumeText;
         this.docsNcr.push(this.listPatientFiles[index]);
        }, (err) => {
          console.log(err);
@@ -1344,7 +1330,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     selected2(i) {
-      console.log(this.listOfFilteredSymptoms[i]);
       this.addSymptom(this.listOfFilteredSymptoms[i], 'manual');
       this.hasSymptomsToSave();
       //this.addSymptom($e.item, 'manual');
@@ -1502,7 +1487,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     loadSymptoms(){
 
       //cargar los datos del usuario
-      console.log("load symptoms");
       this.loadingSymptoms = true;
       this.numDeprecated = 0;
       var para= this.authService.getCurrentPatient();
@@ -1525,10 +1509,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             });
 
             //this.idPhenotype = res.phenotype._id;
-            console.log(hposStrins.length);
             //get symtoms
             var lang = this.authService.getLang();
-            console.log(this.listOfphenotypesinfo.length);
             if(this.listOfphenotypesinfo.length==0){
               this.testCallGetInfoSymptomsJSON(hposStrins);
             }else{
@@ -1573,10 +1555,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.subscription.add(this.apif29BioService.getInfoSymptomsJSON(hposStrins,this.listOfphenotypesinfo)
       //this.subscription.add(this.apif29BioService.getInfoOfSymptoms(lang,hposStrins)
       .subscribe( (res2 : any) => {
-        console.log(res2);
-
         var tamano= Object.keys(res2).length;
-        console.log(tamano)
         if(tamano>0){
           var hposStrinsOld =[];
           for(var i in res2) {
@@ -1695,7 +1674,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         infoToExtractGenes = this.infoGenesAndConditionsPhen2Genes;
         priorizeGenes=false;
       }
-      console.log(infoToExtractGenes)
       if((infoToExtractGenes!= [])&&(priorizeGenes==true && this.isgen)&&(this.infoGenesAndConditionsExomizer.length>0)){
         this.getRelatedConditionsExomiser(infoToExtractGenes);
       }
@@ -1736,7 +1714,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
       this.subscription.add( this.apif29BioService.getDiseaseOfGenes(listGenes_names)
       .subscribe( (resDiseases : any) => {
-        console.log(resDiseases);
         for(var i=0;i<listGenes_names.length;i++){
           var idGen = listGenes_names[i];
           if((resDiseases[idGen] !=undefined)&&(resDiseases[idGen] !=null)){
@@ -1789,7 +1766,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
         this.subscription.add( this.apiDx29ServerService.getRelatedConditions(jsonHpos)
         .subscribe( (res : any) => {
-          console.log(res);
           this.relatedConditions = res;
           if(infoToExtractGenes!= []){
             this.loadingInfoGenes = true;
@@ -1849,7 +1825,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               }
             }
             this.relatedConditions = temp2;
-            console.log(temp2);
 
             //quedarse con 100 this.listOfDiseases
             this.listOfDiseases = [];
@@ -1861,7 +1836,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             //get genes
             this.subscription.add(this.apif29BioService.getGenesOfDiseases(this.listOfDiseases)
             .subscribe( (res1 : any) => {
-              console.log(res1)
               var genRelationValuesListAccepted=["RO:0003303", "RO:0004012", "RO:0004013", "RO:0004014"]
               var infoGenesDiscard_null= new Object();
               infoGenesDiscard_null={};
@@ -2047,7 +2021,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
       this.subscription.add( this.apif29BioService.getDiseaseOfGenes(listGenes_names)
       .subscribe( (resDiseases : any) => {
-        console.log(resDiseases);
         for(var i=0;i<listGenes_names.length;i++){
           var idGen = listGenes_names[i];
           if((resDiseases[idGen] !=undefined)&&(resDiseases[idGen] !=null)){
@@ -2087,8 +2060,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           this.uploadProgress = this.blob
           .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
         }
-
-        console.log(infoToExtractGenes)
         //Get list of diseases with Monarch (la de ahora).
         this.relatedConditions = [];
         var jsonPhenotype = { hpos: this.phenotype.data };
@@ -2100,7 +2071,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
         this.subscription.add( this.apiDx29ServerService.getRelatedConditions(jsonHpos)
         .subscribe( (res : any) => {
-        console.log(res);
         this.relatedConditions = res;
 
         //Merge and keep unique diseases.
@@ -2143,7 +2113,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           //get genes
           this.subscription.add(this.apif29BioService.getGenesOfDiseases(this.listOfDiseases)
           .subscribe( (res1 : any) => {
-            console.log(res1)
             var genRelationValuesListAccepted=["RO:0003303", "RO:0004012", "RO:0004013", "RO:0004014"]
             var infoGenesDiscard_null= new Object();
             infoGenesDiscard_null={};
@@ -2257,14 +2226,12 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             .uploadToBlobStorage(this.accessToken, fileRelatedConditionsParams, fileNameRelatedConditions, 'relatedConditions');
 
             var copyrelatedConditions2 = [];
-            console.log(this.relatedConditions);
             for(var i = 0; i < this.relatedConditions.length; i++) {
               if(this.relatedConditions[i].iscondition){
                 copyrelatedConditions2.push(this.relatedConditions[i]);
               }
             }
             this.relatedConditions = copyrelatedConditions2;
-            console.log(this.relatedConditions);
             this.loadingInfoGenes = false;
             //this.calcularScoreHealth29();
             this.getSymptomsApi();
@@ -2420,10 +2387,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               var limit = diseaseWithoutScore.length
               this.subscription.add(this.apif29BioService.getOWLSim3Match(hposStrins, limit)
               .subscribe( (res : any) => {
-                console.log(res);
-                console.log(diseaseWithoutScore);
                 for(var i = 0; i < diseaseWithoutScore.length; i++) {
-                  console.log('i=: '+i);
                   if(diseaseWithoutScore[i].positionOnResults>=0){
                     diseaseWithoutScore[i].score = res.matches[diseaseWithoutScore[i].positionOnResults].percentageScore//.score
                   }
@@ -2596,7 +2560,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }
       this.indexListRelatedConditions = 10;
       this.renderMap();
-      console.log(this.relatedConditions);
       this.saveNotes();
       this.applyFilters();
       this.onchangeparamgraph();
@@ -2721,7 +2684,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     saveSymptomsToDb() {
-      console.log("save symptoms to Db");
       this.loadingGeno = false;
       if(this.authGuard.testtoken()){
         this.sending = true;
@@ -2777,7 +2739,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     onSubmit() {
-      console.log("On submit")
       if(this.authGuard.testtoken()){
         this.sending = true;
         //remove the new property
@@ -2841,7 +2802,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     confirmDeletePhenotypeGroup(index1, index2){
       var indexElement = this.searchService.searchIndex(this.phenotype.data,'id', this.listOfSymptomGroups[index1].symptoms[index2].id);
-      console.log(indexElement);
       this.confirmDeletePhenotype(indexElement);
     }
 
@@ -2860,7 +2820,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }).then((result) => {
         if (result.value) {
           this.phenotype.data.splice(index, 1);
-          console.log("phenotype delete OK");
           this.isDeletingPhenotype=true;
           this.saveSymptomsToDb();
         }
@@ -3268,7 +3227,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     getExomizer(patientId){
-      console.log("getExomizer")
       this.subscription.add(this.exomiserService.getExomiserResults()
       .subscribe( (res2 : any) => {
         if(this.uploadingGenotype){
@@ -3387,10 +3345,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           reverseButtons:true
       }).then((result) => {
         if (result.value) {
-          console.log("Cancel exomiser")
           this.uploadingGenotype = false;
           if(place=='wizard'){
-            console.log(this.filename);
             this.filename = '';
           }
           this.cancelSubscription();
@@ -3410,7 +3366,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           }).then((result) => {
             if (result.value) {
               if(place=='workbench'){
-                console.log(this.filename);
                 this.filename = '';
               }
               this.blob.deleteBlob(this.accessToken.containerName , this.filename);
@@ -3646,7 +3601,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     getDiagnosisInfo(){
-      console.log("get diagnosis info")
       this.accessToken.containerName = this.authService.getCurrentPatient().sub.substr(1);
       this.accessToken.patientId = this.authService.getCurrentPatient().sub;
 
@@ -3721,7 +3675,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     saveNotes(){
-      console.log("save Notes")
       if(this.authGuard.testtoken() && !this.savingDiagnosis){
         this.savingDiagnosis = true;
         for(var i = 0; i < this.relatedConditions.length; i++) {
@@ -3768,7 +3721,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     saveNotes2(){
-      console.log("save filters")
       if(this.authGuard.testtoken() && !this.savingDiagnosis){
         this.savingDiagnosis = true;
         var obtToSave = [];
@@ -3826,7 +3778,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
         }
       }
-      console.log(temporal)
       this.substepExtract = '3';
       this.subscription.add(this.apif29NcrService.getAnnotate_batch(temporal)
       .subscribe( (res : any) => {
@@ -3895,14 +3846,12 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
            this.substepExtract = '4';
             /*document.getElementById("openModalSymptomsNcrButton").click();
             this.changeTriggerHotjar('ncrresults_');*/
-            console.log(this.temporalSymptoms);
             if(this.temporalSymptoms.length==0){
               this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
               if(this.modalReference!=undefined){
                 this.modalReference.close();
               }
             }else{
-              console.log('entra');
               document.getElementById("openModalSymptomsNcrButton2").click();
             }
 
@@ -3928,10 +3877,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.subscription.add(this.apif29BioService.getInfoSymptomsJSON(hposStrins,this.listOfphenotypesinfo)
       //this.subscription.add(this.apif29BioService.getInfoOfSymptoms(lang,hposStrins)
       .subscribe( (res2 : any) => {
-        console.log(res2);
 
         var tamano= Object.keys(res2).length;
-        console.log(tamano)
         if(tamano>0){
           var hposStrinsOld =[];
           for(var i in res2) {
@@ -4770,9 +4717,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     applyFilters(){
-      console.log(this.selectedItemsFilter)
-      console.log(this.relatedConditionsCopy)
-      console.log(this.relatedConditions)
       if(this.selectedItemsFilter.length == 0){
         this.removeFilters();
       }else{
@@ -5284,7 +5228,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     discardSettingsExomiser(){
-      console.log("Discard settings exomiser")
 
       this.getDiagnosisInfo();
       this.getExomiserSettings(this.phenotype.data);
@@ -5604,7 +5547,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.subscription.add(this.apif29BioService.getGroupsSymptoms(lang, hposStrins)
       //this.subscription.add(this.apif29BioService.getInfoOfSymptoms(lang,hposStrins)
       .subscribe( (res2 : any) => {
-        console.log(res2);
         for (var ini = 0; ini < this.phenotype.data.length; ini++) {
           this.phenotype.data[ini].groups = [];
         }
@@ -5657,7 +5599,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             }
           }
         }
-        console.log(this.listOfSymptomGroups);
      }, (err) => {
        console.log(err);
      }));
@@ -5727,7 +5668,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
      this.subscription.add( this.apiDx29ServerService.lauchPhene2Gene(patientId, jsonfile)
      .subscribe( (res : any) => {
-       console.log(res);
        this.processPhenToGenesInfo(res.fileName, res.data);
      }, (err) => {
        console.log(err);
@@ -5803,8 +5743,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     continueAndCallPhen2Genes(){
 
-      console.log("continueAndCallPhen2Genes")
-
       this.gettingRelatedConditions=false;
       this.loadingDiagnosisInfo=false;
       this.launchingPhen2Genes=false;
@@ -5823,7 +5761,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     goToVersion(page){
       var url = '/clinical/'+page;
-      console.log(url);
       this.router.navigate([url]);
     }
 
@@ -5859,7 +5796,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.selectedDisease = diseaseIndex;
       }
       if(this.selectedDisease != -1){
-        console.log(disease);
         this.loadSymptomsOfDiseaseForGraph(disease);
       }
 
@@ -5879,7 +5815,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       var lang = this.authService.getLang();
       this.subscription.add(this.apif29BioService.getSymptomsOfDisease(lang,listXRefs,0)
       .subscribe( (res : any) => {
-        console.log(res);
           var idDesease = listXRefs[0];
           var info = res[idDesease];
           this.parseOtherInfoSymptomsOfDisease(info);
@@ -5937,11 +5872,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                        }else{
                          comment = "None"
                        }
-                       console.log(listOfOtherSymptoms[k].frequency);
                        if(listOfOtherSymptoms[k].frequency!=undefined){
                          frequency = listOfOtherSymptoms[k].frequency;
                        }
-                       console.log(frequency);
                        if(!foundElement2){
                          if(foundElement){
                            this.omimSymptoms.push({id:k, name: listOfOtherSymptoms[k].name, def: def, comment: comment, synonyms: listOfOtherSymptoms[k].synonyms, checked: true, frequency: frequency});
@@ -5965,8 +5898,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
             this.omimSymptoms.sort(this.sortService.GetSortOrder("name"));
             this.orphaSymptoms.sort(this.sortService.GetSortOrder("name"));
-            console.log(this.omimSymptoms);
-            console.log(this.orphaSymptoms);
             //asign frequency of orpha to omim symptoms
             for(var i=0;i<this.omimSymptoms.length;i++)
               {
@@ -5977,7 +5908,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                 }
 
               }
-              for(var i=0;i<this.phenotype.data.length;i++)
+              /*for(var i=0;i<this.phenotype.data.length;i++)
               {
                 for(var j=0;j<this.orphaSymptoms.length;j++){
                   if(this.phenotype.data[i].id==this.orphaSymptoms[j].id){
@@ -5985,14 +5916,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                   }
                 }
 
-              }
+              }*/
+
             this.checkOPatientSymptoms();
-            this.checkOrphaSymptoms();
             this.checkOmimSymptoms();
-
-
-
-            console.log(this.fullListSymptoms);
+            this.checkOrphaSymptoms();
             // Llamada para coger los hijos de los sintomas
             // List IDs
             var symptomsOfDiseaseIds =[];
@@ -6016,7 +5944,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         var result = { status: 200, data: [], message: "Calcule Conditions score OK" }
         this.subscription.add(this.apif29BioService.getSuccessorsOfSymptomsDepth(symptomsOfDiseaseIds)
         .subscribe( async (res1 : any) => {
-          console.log(res1);
             //await this.getPredecessorsOrpha();
             await this.setFrequencies(res1);
             await this.getfrequencies()
@@ -6028,12 +5955,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     parseOtherInfoSymptomsOfDisease(info){
-      console.log(info);
       var clinical_course = [];
       if(Object.keys(info.clinical_course).length>0){
         for(var hpo in info.clinical_course) {
-          console.log(hpo);
-          console.log(info.clinical_course[hpo]);
           clinical_course.push({hpo:hpo, info: info.clinical_course[hpo]});
         }
       }
@@ -6080,7 +6004,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.subscription.add(this.apif29BioService.​getPredecessorsOfSymptomsDepth(symptomsOfDiseaseIds)
         .subscribe( async (res1 : any) => {
           this.treeOrphaPredecessors=res1;
-          console.log(res1);
         }, (err) => {
           console.log(err);
         }));
@@ -6093,10 +6016,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       for (var i = 0; i < this.fullListSymptoms.length; i++){
         if(this.fullListSymptoms[i].frequency==null){
           var actualList = list[this.fullListSymptoms[i].id];
-          console.log(actualList);
           var actualList2 ={}
           actualList2[this.fullListSymptoms[i].id]=actualList
-          console.log(actualList2);
           var deep = 0;
           var parents = [];
           this.completeFrequencies(i, this.fullListSymptoms[i].id, list, deep, parents);
@@ -6117,20 +6038,12 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               if(this.fullListSymptoms[index].frequency==null){
                 this.fullListSymptoms[index].frequency=this.orphaSymptoms[ipos].frequency;
                 this.orphaSymptoms[ipos].frequency =null;
-                console.log('ENCONTRADO');
-                console.log('deep: '+deep);
-                console.log('Padres:'+parents);
-                console.log(this.fullListSymptoms[index].frequency)
                 this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
               }else if(this.fullListSymptoms[index].frequency!=null){
                 //REVISAR ESTO PORQUE ES PELIGROSO, SI CAMBIAN LOS HPOS DE PRIORIDAD PUEDE DEJAR DE FUNCIONAR
                 if(this.fullListSymptoms[index].frequency>this.orphaSymptoms[ipos].frequency){
                   this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
                   this.orphaSymptoms[ipos].frequency =null;
-                  console.log('ENCONTRADO');
-                  console.log('deep: '+deep);
-                  console.log('Padres:'+parents);
-                  console.log(this.fullListSymptoms[index].frequency)
                   this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
                 }
               }
@@ -6198,10 +6111,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               if(this.fullListSymptoms[index].frequency==null){
                 this.fullListSymptoms[index].frequency=this.orphaSymptoms[ipos].frequency;
                 this.orphaSymptoms[ipos].frequency =null;
-                console.log('ENCONTRADO');
-                console.log('deep: '+deep);
-                console.log('Padres:'+parents);
-                console.log(this.fullListSymptoms[index].frequency)
                 this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
 
               }else if(this.fullListSymptoms[index].frequency!=null){
@@ -6209,10 +6118,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                 if(this.fullListSymptoms[index].frequency>this.orphaSymptoms[ipos].frequency){
                   this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
                   this.orphaSymptoms[ipos].frequency =null;
-                  console.log('ENCONTRADO');
-                  console.log('deep: '+deep);
-                  console.log('Padres:'+parents);
-                  console.log(this.fullListSymptoms[index].frequency)
                   this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
                 }
               }
@@ -6284,7 +6189,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           }
           this.fullListSymptoms.sort(this.sortService.GetSortTwoElements("frequency", "name"));
           this.fullListSymptoms.sort(this.sortService.GetSortSymptoms());
-          console.log(this.fullListSymptoms);
+          this.fullListSymptoms.sort(this.sortService.GetSortSymptoms2());
         }
 
      }, (err) => {
@@ -6297,9 +6202,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       // Get predecessors
       this.subscription.add(this.apif29BioService.getSuccessorsOfSymptoms(symptomsOfDiseaseIds)
       .subscribe( (res1 : any) => {
-        //console.log(res1)
-        //console.log(this.phenotype.data)
-        //console.log(this.fullListSymptoms)
         var successorsAllSymptoms=res1;
         // Añadir los succesors a la lista de symptoms
         Object.keys(successorsAllSymptoms).forEach(key => {
@@ -6358,10 +6260,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
         // Calculo la información del los diagramas
         this.calculeChartSymptomsInfo(); //(listas de cada caso)
-
-        //console.log(this.listSymptomsMe)
-        //console.log(this.listSymptomsGeneric)
-        //console.log(this.listSymptomsMeGeneric)
         var listSymptomsMeWithoutSuccessors=[]
 
         // Diagrama de Venn
@@ -6890,7 +6788,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     loadShowIntroWizard(){
       this.subscription.add( this.http.get(environment.api+'/api/users/showintrowizard/'+this.authService.getIdUser())
         .subscribe( (res : any) => {
-          console.log(res);
           this.showIntroWizard = res.showIntroWizard
           this.eventsService.broadcast('showIntroWizard', this.showIntroWizard);
           this.getActualStep(this.authService.getCurrentPatient().sub);
@@ -6935,8 +6832,10 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.selectedOrderFilesNcr = field;
       if(field=='lastModified'){
         this.docsNcr.sort(this.sortService.DateSortFiles("lastModified"));
+      }else if(field=='extension'){
+        this.docsNcr.sort(this.sortService.GetSortFilesNcrType("extension"));
       }else{
-        this.docsNcr.sort(this.sortService.GetSortFilesNcr(field));
+        this.docsNcr.sort(this.sortService.GetSortFilesNcrName(field, this.lang));
       }
     }
 
@@ -6957,7 +6856,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     saveRelatedConditions(){
-      console.log("save RelatedConditions")
       if(this.authGuard.testtoken() && !this.savingDiagnosis){
         this.savingDiagnosis = true;
         var obtToSave = [];
@@ -6984,13 +6882,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     changeViewOptionNcr(){
-      console.log(this.viewOptionNcr);
       if(this.viewOptionNcr == 1){
         this.viewOptionNcr = 0;
       }else{
         this.viewOptionNcr = 1;
       }
-      console.log(this.viewOptionNcr);
     }
 
     loat10More(){

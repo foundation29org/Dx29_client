@@ -135,9 +135,7 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label id="gender">{{'personalinfo.Gender' | translate }}*</label>
-						<mat-radio-group required
-							aria-labelledby="gender"
-							class="example-radio-group d-block" ngModel required #gender="ngModel" name="gender" id="gender" [(ngModel)]="patient.gender">
+						<mat-radio-group required	class="example-radio-group d-block" ngModel required #gender="ngModel" name="gender" id="gender" [(ngModel)]="patient.gender">
 							<mat-radio-button class="example-radio-button" value="male" (change)="changeSex($event)">
 							{{'personalinfo.Male' | translate }}
 							</mat-radio-button>

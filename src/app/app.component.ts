@@ -104,7 +104,6 @@ export class AppComponent implements OnInit, OnDestroy{
       var date = Date.now();
       this.subscription.add( this.http.get(environment.settingsAccessToken.blobAccountUrl+'version.json'+environment.settingsAccessToken.sasToken+'&'+date)
        .subscribe( (res : any) => {
-         console.log(res)
          this.versionServer = res;
          if(this.versionServer.launchTime!=null){
             this.actualVersion.secondsNextRelease = this.getSecondsToNextRelease(this.versionServer.launchTime);
@@ -226,8 +225,6 @@ export class AppComponent implements OnInit, OnDestroy{
      }
 
      onBackKeyDown(){
-       console.log("back");
-       console.log(this.actualPage);
        if(this.actualPage.indexOf('menu.Dashboard')!=-1){
        //if(this.actualPage == 'menu.Dashboard'){
          Swal.fire({
@@ -262,10 +259,6 @@ export class AppComponent implements OnInit, OnDestroy{
 
        //evento que escucha si ha habido un error de conexión
        this.eventsService.on('http-error', function(error) {
-             console.group("HttpErrorHandler");
-             console.log(error.status, "status code detected.");
-             console.log(error);
-             console.groupEnd();
              var msg1 = 'No internet connection';
              var msg2 = 'Trying to connect ...';
 
@@ -358,7 +351,6 @@ export class AppComponent implements OnInit, OnDestroy{
       .mergeMap((route) => route.data)
       .subscribe((event) => {
         (async () => {
-          console.log(event);
              await this.delay(500);
              this.tituloEvent = event['title'];
              var titulo= this.translate.instant(this.tituloEvent);
@@ -397,10 +389,8 @@ export class AppComponent implements OnInit, OnDestroy{
       this.eventsService.on('changelang', function(lang) {
         this.launchHotjarTrigger(lang);
         (async () => {
-          console.log(event);
              await this.delay(500);
              var titulo= this.translate.instant(this.tituloEvent);
-             console.log(titulo);
              this.titleService.setTitle(titulo);
              sessionStorage.setItem('lang', lang);
          })();

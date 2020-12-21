@@ -284,7 +284,7 @@
 													</thead>
 													<tbody>
 														<tr *ngFor="let symptom of phenotype.data ; let i = index">
-															<td><a href="https://monarchinitiative.org/phenotype/{{symptom.id}}" target="_blank" title="{{symptom.def}}. {{symptom.comment}} ">{{symptom.name}}</a> <span *ngIf="symptom.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></td>
+															<td><a href="https://monarchinitiative.org/phenotype/{{symptom.id}}" target="_blank" title="{{symptom.def}} {{symptom.comment}} ">{{symptom.name}}</a> <span *ngIf="symptom.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></td>
 															<td>
 																<a class="danger" data-original-title="" title="" (click)="confirmDeletePhenotype(i)">
 																	<i class="ft-x"></i>
@@ -694,7 +694,7 @@
 													<tbody>
 														<tr *ngFor="let symptom of fullListSymptoms ; let i = index">
 															<td style="text-align:left">
-																<span><a href="https://monarchinitiative.org/phenotype/{{symptom.id}}" target="_blank" title="{{symptom.def}}. {{symptom.comment}} ">{{symptom.name}}</a><span *ngIf="symptom.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
+																<span><a href="https://monarchinitiative.org/phenotype/{{symptom.id}}" target="_blank" title="{{symptom.def}} {{symptom.comment}} ">{{symptom.name}}</a><span *ngIf="symptom.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
 															</td>
 															<td>
 																<span *ngIf="symptom.patient"><i class="fa fa-check success"></i></span>
@@ -758,7 +758,6 @@
 
 		<div class="card" *ngIf="resultTextNcrCopy!=''">
 			<div class="center-elements">
-				<button type="button" class="btn btn-primary btn-raised" (click)="saveSymptomsNcr(); changeTriggerHotjar('generalincoming_')">{{'generics.Save' | translate }}</button>
 				<button *ngIf="!ncrResultView" type="button" class="btn btn-primary btn-raised ml-1" (click)="showCompleteNcrResultView()">{{'patdiagdashboard.Show full text' | translate }}</button>
 				<button *ngIf="ncrResultView" type="button" class="btn btn-primary btn-raised ml-1" (click)="showCompleteNcrResultView()">{{'patdiagdashboard.Hide full text' | translate }}</button>
 			</div>
@@ -766,76 +765,6 @@
 				<div [ngClass]="(ncrResultView==true)?'col-xl-6':'col-xl-12'">
 					<div class="">
 						<div class="tableFixHead">
-							<!--<div class="row col-md-12 table table-striped">
-									<div *ngFor="let hpo of temporalSymptoms ; let i = index" [ngClass]="(ncrResultView==true)?'col-md-12 mb-2':'col-md-4 mb-2 mt-2'" >
-											<div style="background-color: aliceblue;padding: 1em;margin: 1em;">
-												<span class="font-medium-3">
-													<strong *ngIf="i== selectedInfoSymptomIndex" class="align-middle">{{hpo.name}}</strong>
-													<span *ngIf="i!= selectedInfoSymptomIndex" class="align-middle">{{hpo.name}}</span>
-													<span *ngIf="i!= selectedInfoSymptomIndex" class="align-middle d-block">
-														<p class="font-small-2">Score: {{hpo.similarity | number}}</p>
-														<span class="font-small-2">Text: </span>
-														<span *ngFor="let position of hpo.positions ; let j = index">
-															<span *ngIf="ncrResultView==true && j< 3" class="font-small-2 primary" style="cursor: pointer;" (click)="showPieceOfText(i,j);">{{copyResultTextNcr | slice:position[0]:position[1]}}</span>
-															<p *ngIf="ncrResultView!=true && j< 3" class="font-small-2">... {{copyResultTextNcr | slice:(position[0]-40):(position[0]-1)}} <b>{{copyResultTextNcr | slice:(position[0]):(position[1])}}</b>  {{copyResultTextNcr | slice:(position[1]+1):(position[1]+40)}}...</p>
-															<span *ngIf="ncrResultView==true && j<(hpo.positions.length-1) && j< 3" class="font-small-2">, </span>
-														</span>
-													</span>
-												</span>
-												<span class="d-block">
-													<button (click)="changeStateSymptom(i)" [ngClass]="(hpo.checked==true)?'btn btn-success mr-1 mb-0 btn-fab':'btn btn-secondary mr-1 mb-0 btn-fab'" [disabled]=hpo.checked href="javascript:void(0)">
-														<i class="fa fa-check"></i>
-													</button>
-													<button (click)="changeStateSymptom(i)" [ngClass]="(hpo.checked==false)?'btn btn-danger mr-1 mb-0 btn-fab':'btn btn-secondary mr-1 mb-0 btn-fab'" [disabled]=!hpo.checked href="javascript:void(0)">
-														<i class="fa fa-times"></i>
-													</button>
-													<span *ngIf="i!= selectedInfoSymptomIndex" style="cursor: pointer;" class="float-right ml-1" (click)="showMoreInfoSymptom(i);">
-														<i style="font-size: 1.3em;" class="fa fas fa-arrow-down danger"></i>
-													</span>
-													<span *ngIf="i== selectedInfoSymptomIndex" style="cursor: pointer;" class="float-right ml-1" (click)="showMoreInfoSymptom(i);">
-														<i style="font-size: 1.3em;" class="fa fas fa-arrow-up danger"></i>
-													</span>
-												</span>
-											</div>
-
-											<div *ngIf="i== selectedInfoSymptomIndex" class="row mt-2" style="background-color: #fdb7b7;padding: 1em;margin: 1em;">
-												<span [ngClass]="(ncrResultView==true)?'col-md-12':'col-md-12'">
-													<span *ngIf="hpo.def!='' || hpo.comment!=''">
-														<span *ngIf="hpo.def!=''">{{hpo.def}}.</span>
-														<span *ngIf="hpo.comment!=''">{{hpo.comment}}</span>
-													</span>
-													<span *ngIf="hpo.synonyms.length>0">
-														<h6 class="mt-4"><strong>Synonyms</strong></h6>
-														<p *ngFor="let synonym of hpo.synonyms ; let j = index">
-															<span>{{j+1}}. </span> <span >{{synonym.label}}</span>
-														</p>
-													</span>
-													<h6 class="mt-4"><strong>External Links</strong></h6>
-													<a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}}. {{hpo.comment}}">MONDO ({{hpo.id}})</a>
-												</span>
-												<hr *ngIf="ncrResultView==true" width="100%" size="20" color="#868e96" class="mt-2">
-												<span *ngIf="ncrResultView==true" [ngClass]="(ncrResultView==true)?'col-md-4':'col-md-12'">
-													<h6>Score:</h6> {{hpo.similarity | number}}
-												</span>
-												<span *ngIf="ncrResultView==true" [ngClass]="(ncrResultView==true)?'col-md-8':'col-md-12 mt-2'">
-													<h6># / {{'dashboardpatient.Apparitions' | translate }}</h6>
-													<p class="mb-0">#: {{hpo.positions.length}} <span *ngIf="ncrResultView" (click)="markAllText(copyResultTextNcr, hpo);"><a class="primary" title="{{'dashboardpatient.Shows the apparitions in the text' | translate }}">{{'dashboardpatient.Shows the apparitions in the text' | translate }}</a></span></p>
-													<span *ngFor="let position of hpo.positions ; let j = index">
-														<p>{{copyResultTextNcr | slice:position[0]:position[1]}}
-															<i *ngIf="i!= selectedSymptomIndex || j != selectedHpoIndex" class="ml-1 fa fa-search primary" style="cursor: pointer;" (click)="showPieceOfText(i,j);"></i>
-														</p>
-														<i *ngIf="i== selectedSymptomIndex && j == selectedHpoIndex"class="close fa fa-times float-right" style="cursor: pointer;" (click)="showPieceOfText(i,j)"></i>
-														<p *ngIf="i== selectedSymptomIndex && j == selectedHpoIndex" class="card card-outline-warning col-md-12">
-															<span class="warning">... {{copyResultTextNcr | slice:(position[0]-40):(position[0]-1)}} <b>{{copyResultTextNcr | slice:(position[0]):(position[1])}}</b>  {{copyResultTextNcr | slice:(position[1]+1):(position[1]+40)}}...</span>
-															<span *ngIf="!ncrResultView" class="primary" style="cursor: pointer;" (click)="markText(copyResultTextNcr, position[0], position[1])">View full text</span>
-															<span *ngIf="ncrResultView" class="primary" style="cursor: pointer;" (click)="showCompleteNcrResultView()">Hide full text</span>
-														</p>
-													</span>
-												</span>
-											</div>
-									</div>
-							</div>-->
-
 							<table class="col-md-12 table table-striped">
 								<tbody>
 									<tr *ngFor="let hpo of temporalSymptoms ; let i = index">
@@ -883,7 +812,7 @@
 														</p>
 													</span>
 													<h6 class="mt-4"><strong>External Links</strong></h6>
-													<a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}}. {{hpo.comment}}">MONDO ({{hpo.id}})</a>
+													<a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}} {{hpo.comment}}">MONDO ({{hpo.id}})</a>
 												</span>
 												<hr width="100%" size="20" color="#868e96" *ngIf="ncrResultView==true" class="mt-2">
 												<span [ngClass]="(ncrResultView==true)?'col-md-4':'col-md-1'">
@@ -918,6 +847,15 @@
 				</div>
 			</div>
 	</div>
+	<div class="modal-footer">
+    <div class="form-actions center">
+      <div class="center-elements mt-2">
+        <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">{{'generics.Close' | translate }}</button>
+				<button type="button" class="btn btn-primary btn-raised" (click)="saveSymptomsNcr(); changeTriggerHotjar('generalincoming_')">{{'generics.Save' | translate }}</button>
+			</div>
+
+    </div>
+  </div>
 
 </ng-template>
 
@@ -942,8 +880,8 @@
 
           </p>
           <div class="center-elements">
-            <button *ngIf="selectedItems.length > 0" type="button" class="btn btn-outline-danger btn-lg" [disabled]='phenotype.data.length == 0 && selectedItems.length == 0' (click)="addSymptomsOption1();c('Close click');">{{'diagnosis.Add symptoms' | translate }} {{'generics.and' | translate }} {{'patnodiagdashboard.step2-4.btn1' | translate }}</button>
-            <button *ngIf="selectedItems.length == 0" type="button" class="btn btn-outline-danger btn-lg" [disabled]='phenotype.data.length == 0' (click)="c('Close click')">
+            <button *ngIf="selectedItems.length > 0" type="button" class="btn btn-outline-danger btn-lg" (click)="addSymptomsOption1();c('Close click');">{{'diagnosis.Add symptoms' | translate }} {{'generics.and' | translate }} {{'patnodiagdashboard.step2-4.btn1' | translate }}</button>
+            <button *ngIf="selectedItems.length == 0" type="button" class="btn btn-outline-danger btn-lg" (click)="c('Close click')">
               {{'generics.Close' | translate }}
             </button>
           </div>
@@ -986,7 +924,7 @@
                       </p>
                       <span *ngIf="i== selectedInfoSymptomIndex">
                         <h6 class="mt-2"><strong>{{'generics.External Links' | translate }}</strong></h6>
-                        <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}}. {{hpo.comment}}">MONDO ({{hpo.id}})</a>
+                        <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}} {{hpo.comment}}">MONDO ({{hpo.id}})</a>
                       </span>
                     </div>
                     <div class="col-3">

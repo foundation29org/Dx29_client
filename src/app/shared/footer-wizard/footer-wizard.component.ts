@@ -43,7 +43,6 @@ export class FooterWizardComponent implements OnInit{
       }.bind(this));
 
       this.eventsService.on('showIntroWizard', function(showintrowizard) {
-        console.log(showintrowizard);
         this.showIntroWizard= showintrowizard;
       }.bind(this));
 

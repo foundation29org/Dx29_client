@@ -756,7 +756,7 @@
   },
   "analysissection":{
     "nosymptoms": "Has eliminado todos los síntomas",
-    "analyzingdata": "Estamos buscando síntomas en el texto",
+    "analyzingdata": "Estamos analizando la información",
     "stopanalysis?": "¿Quieres parar el análisis?",
     "stillanalyzing": "Todavía estamos analizando, así que por favor tengan paciencia.",
     "analysisover": "El analisis ha terminado, vaya a ver los resultados.",
@@ -764,7 +764,7 @@
     "may10minutesexo": "Si has incluido información genética este proceso puede tardar hasta 10 minutos. Puedes cerrar esta ventana, te avisaremos en las notificaciones que ha terminado.",
     "may10minutesexov2": "Este proceso puede tardar hasta 10 minutos. Te avisaremos en las notificaciones que ha terminado.",
     "title": "Configuración del análisis",
-    "subtitle": "Define qué quieres analizar y cómo. Si los valores por defecto están bien, pulsa <b>Analizar</b> para continuar.",
+    "subtitle": "Define qué quieres analizar y cómo. Si los valores por defecto están bien, pulsa <b>Análisis</b> para continuar.",
     "Settings": "Configuración",
     "settingTitle": "Edita sobre qué síntomas y qué datos genéticos quieres basar la lista de enfermedades.",
     "sectSymTxt1": "Para obtener las mejores sugerencias de diagnóstico diferencial, incluye solamente síntomas guía.",
@@ -793,7 +793,7 @@
     "applied filters": "filtros aplicados",
     "geneticvariants": "Ver variantes genéticas",
     "Add notes": "Añadir notas",
-    "gotoanalysis": "Ir a 'Analizar'",
+    "gotoanalysis": "Ir a 'Análisis'",
     "Load more": "Ver más",
     "External references": "Referencias externas",
     "Clinical modifier": "Modificador clínico",
@@ -871,7 +871,7 @@
     "Reports": "Informes",
     "Symptoms": "Síntomas",
     "Genetics": "Genética",
-    "Analyze": "Analizar",
+    "Analyze": "Análisis",
     "Diagnoses": "Diagnósticos",
     "Summary": "Resumen",
     "Share": "Compartir",
@@ -890,7 +890,7 @@
   "sharesection":{
     "Sharing menu": "Menú de compartición",
     "Invite": "Invitar a otro médico al caso",
-    "What can it be done": "What can it be done with the case?",
+    "What can it be done": "¿Qué se puede hacer con el caso?",
     "Write a message for the receptor": "Escribe un mensaje para darle contexto al receptor.",
     "Role": "Rol"
   },
@@ -1743,7 +1743,7 @@
     },
     "step2-1":{
       "title1": "extracción",
-      "msg1": "Estamos buscando síntomas en el texto.",
+      "msg1": "Buscando síntomas",
       "msg2": "Este proceso puede tardar entre 1 y 2 minutos. Por favor, no cierres esta ventana.",
       "msg3": "¡SÍNTOMAS EXTRAIDOS!",
       "btn1": "Vamos a verlos"

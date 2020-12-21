@@ -49,8 +49,8 @@
               <div class="row col-md-12">
     						<div class="col-md-4 p-0">
     							<ng-template #rt let-r="result" let-t="term">
-                    <strong>{{ r.name}}</strong>
-                    <span *ngIf="r.desc!=null" class="d-block">{{ (r.desc.length>140)? (r.desc | slice:0:140)+'...':(r.desc) }}</span>
+                    <strong title="{{r.name}}">{{ r.name}}</strong>
+                    <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc | slice:0:140)+'...':(r.desc) }}</span>
     							</ng-template>
     							<div class="form-group">
     							<input #input class="input" type="text" class="form-control ngbTypeaheadclass" [(ngModel)]="modelTemp" [ngbTypeahead]="searchSymptom" [resultTemplate]="rt" [inputFormatter]="formatter1" placeholder="{{'symptomssection.manualinput' | translate }}" (selectItem)="selected($event)"/>
@@ -70,11 +70,11 @@
                   <h4 class="card-title float-right">
                     {{'generics.Sort' | translate }}
                     <span class="nav-item" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
-                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang" ngbDropdownToggle title="{{'generics.Sort' | translate }}">
+                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt" ngbDropdownToggle title="{{'generics.Sort' | translate }}">
                             <i class="fas fa-sort font-medium-3 primary"></i>
                             <p class="d-none">Sort</p>
                         </a>
-                        <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
+                        <div ngbDropdownMenu aria-labelledby="dropdownSympt" class="dropdown">
                             <a class="dropdown-item py-1" href="javascript:;" (click)="changeSuggestedViewSymptoms(1)">
                                 <span *ngIf="viewSymptoms==1"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">{{'symptomssection.sortalpha' | translate }}</span></span>
                                 <span *ngIf="viewSymptoms==0" class="offset-md-1 col-md-8">{{'symptomssection.sortalpha' | translate }}</span>
@@ -440,11 +440,6 @@
                   <div class="mt-2" *ngIf="substepExtract<4">
                     <p>{{'analysissection.analyzingdata' | translate }}</p>
                     <p>{{'analysissection.may10minutesexo' | translate }}</p>
-                    <div>
-                      <div class="mb-3 center-elements">
-                        <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
-                      </div>
-                    </div>
                   </div>
                 </section>
             </div>
@@ -461,11 +456,6 @@
                   <div class="mt-2" *ngIf="substepExtract<4">
                     <p>{{'analysissection.analyzingdata' | translate }}</p>
                     <p>{{'analysissection.may10minutesphen2genes' | translate }}</p>
-                    <div>
-                      <div class="mb-3 center-elements">
-                        <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
-                      </div>
-                    </div>
                   </div>
                 </section>
             </div>
@@ -494,7 +484,7 @@
                               <i class="fas fa-sort font-medium-3 primary"></i>
                               <p class="d-none">Sort</p>
                           </a>
-                          <div ngbDropdownMenu aria-labelledby="dropdownSort" class="dropdownLang">
+                          <div ngbDropdownMenu aria-labelledby="dropdownSort" class="dropdown">
                               <a class="dropdown-item py-1" href="javascript:;" (click)="orderFilesNcr('lastModified')">
                                   <span *ngIf="selectedOrderFilesNcr=='lastModified'"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">{{'reportsSection.Date' | translate }}</span></span>
                                   <span *ngIf="selectedOrderFilesNcr!='lastModified'" class="offset-md-1 col-md-8">{{'reportsSection.Date' | translate }}</span>
@@ -577,11 +567,11 @@
                     <span *ngIf="otherDocs.length>0" class="mr-3">
                       <span>{{'reportsSection.Sort by' | translate }}</span>
                       <span class="nav-item" ngbDropdown display="dynamic" placement="bottom-right">
-                          <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSort" ngbDropdownToggle title="{{'generics.Sort' | translate }}">
+                          <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSort2" ngbDropdownToggle title="{{'generics.Sort' | translate }}">
                               <i class="fas fa-sort font-medium-3 primary"></i>
                               <p class="d-none">Sort</p>
                           </a>
-                          <div ngbDropdownMenu aria-labelledby="dropdownSort" class="dropdownLang">
+                          <div ngbDropdownMenu aria-labelledby="dropdownSort2" class="dropdown">
                               <a class="dropdown-item py-1" href="javascript:;" (click)="orderFilesOthers('lastModified')">
                                   <span *ngIf="selectedOrderFilesOther=='lastModified'"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">{{'reportsSection.Date' | translate }}</span></span>
                                   <span *ngIf="selectedOrderFilesOther!='lastModified'" class="offset-md-1 col-md-8">{{'reportsSection.Date' | translate }}</span>
@@ -698,7 +688,7 @@
             <div class="col-lg-12">
               <div class="card border">
                 <div class="card-header">
-                  <span class="float-right">
+                  <span class="float-right" *ngIf="infoGenesAndConditionsExomizer.length!=0 || infoGenesAndConditionsPhen2Genes.length!=0">
                     <button type="button" class="mr-1 btn btn-outline-primary" (click)="showPanelGenes(contentPanelGenes);"><i class="fas fa-dna"></i>  <span class="ml-2" >{{'diagnosesSection.geneticvariants' | translate }}</span></button>
                     <button type="button" class="mr-1 btn btn-outline-primary" (click)="showPanelFeedback(contentGeneralNotes);"><i class="fa fa-sticky-note-o"></i>  <span class="ml-2" >{{'diagnosesSection.Add notes' | translate }}</span></button>
                     <!--<span *ngIf="selectedItemsFilter.length>0 || (this.infoGenesAndConditionsExomizer.length>0 && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes) || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhen2Genes.length>0) && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes))" class="mr-1">
@@ -714,7 +704,7 @@
                   <h4 class="card-title" *ngIf="infoGenesAndConditionsExomizer.length==0 && infoGenesAndConditionsPhen2Genes.length==0">
                     <b>{{'diagnosesSection.no_analyzed' | translate }}</b>
                     <span class="float-right">
-                      <button type="button" class="btn btn-outline-primary  btn-sm mr-1" (click)="goToStepDiagnoses();">{{'diagnosesSection.gotoanalysis' | translate }}</button>
+                      <button type="button" class="btn btn-outline-primary mr-1" (click)="goToStepDiagnoses();">{{'diagnosesSection.gotoanalysis' | translate }}</button>
                     </span>
                   </h4>
                 </div>
@@ -854,10 +844,10 @@
                     															</td>
                                                   <td style="text-align:center">
                                                     <span class="mt-1 nav-item" ngbDropdown display="dynamic" placement="bottom-right" >
-                                                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownLang{{j}}" ngbDropdownToggle title="{{'generics.Options' | translate }}">
+                                                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt{{j}}" ngbDropdownToggle title="{{'generics.Options' | translate }}">
                                                             <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
                                                         </a>
-                                                        <div ngbDropdownMenu aria-labelledby="dropdownLang{{j}}" class="dropdownLang{{j}}">
+                                                        <div ngbDropdownMenu aria-labelledby="dropdownSympt{{j}}" class="dropdown">
                                                             <a *ngIf="!symptom.patient && !symptom.patientbutsuccessor" class="dropdown-item py-1" href="javascript:;" (click)="addSymptom(symptom, 'table candidates');selectedDisease = -1;showMoreInfoDisease(i, disease);">
                                                               <i class="fa fa-plus primary"></i>  <span class="ml-2" >{{'diagnosesSection.Add symptom to the patient' | translate }}</span>
                                                             </a>
@@ -1107,7 +1097,7 @@
 <ng-template #contentExtractorSteps let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-header" id="idHeader">
     <div class="content-header text-left">
-      <h4>{{'patnodiagdashboard.menu.Your symptoms' | translate }}: {{'patnodiagdashboard.step2-1.title1' | translate }}</h4>
+      <h4>{{'patnodiagdashboard.step2-1.msg1' | translate }}</h4>
     </div>
   </div>
     <div class="content-wrapper">
@@ -1115,7 +1105,6 @@
         <div class="col-md-12 offset-lg-1 col-lg-10">
           <section>
             <div class="mt-2" *ngIf="substepExtract<4">
-              <p>{{'patnodiagdashboard.step2-1.msg1' | translate }}</p>
               <p>{{'patnodiagdashboard.step2-1.msg2' | translate }}</p>
               <div>
                 <div class="mb-3 center-elements">
@@ -2508,9 +2497,7 @@
           <div class="col-md-6">
             <div class="form-group">
                   <label id="gender">{{'personalinfo.Gender' | translate }}</label>
-                  <mat-radio-group
-                    aria-labelledby="gender"
-                    class="example-radio-group d-block" ngModel required #gender="ngModel" name="gender" id="gender">
+                  <mat-radio-group class="example-radio-group d-block" ngModel required #gender="ngModel" name="gender" id="gender">
                     <mat-radio-button class="example-radio-button" value="male">
                     {{'personalinfo.Male' | translate }}
                     </mat-radio-button>
