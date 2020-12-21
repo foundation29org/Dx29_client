@@ -97,7 +97,7 @@
                           <li class="row symptoms-item">
                             <span style="font-size:1rem;flex-grow: 1; line-height: 1.3em;" class="mb-1 text-muted col-md-8">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
                             <span class="col-md-4">
-                              <a class="btn btn-outline-info primary mr-1 mb-0" data-original-title="" title="{{'generics.More information' | translate }}" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
+                              <a class="btn btn-outline-info primary mr-1 mb-0" data-original-title="" title="{{'generics.More information' | translate }}" (click)="showMoreInfoSymptomPopupGroup(j,i, contentInfoSymptom)">
                                 <i class="fa fa-info"></i>
                               </a>
                               <a class="btn btn-outline-danger danger  ml-1 mr-1 mb-0" data-original-title="" title="{{'generics.Delete' | translate }}" (click)="confirmDeletePhenotypeGroup(j,i)">
@@ -437,7 +437,7 @@
           <div class="center-elements">
             <div class="donate">
                 <section>
-                  <div class="mt-2" *ngIf="substepExtract<4">
+                  <div class="mt-2">
                     <p>{{'analysissection.analyzingdata' | translate }}</p>
                     <p>{{'analysissection.may10minutesexo' | translate }}</p>
                   </div>
@@ -453,7 +453,7 @@
           <div class="center-elements">
             <div class="donate">
                 <section>
-                  <div class="mt-2" *ngIf="substepExtract<4">
+                  <div class="mt-2">
                     <p>{{'analysissection.analyzingdata' | translate }}</p>
                     <p>{{'analysissection.may10minutesphen2genes' | translate }}</p>
                   </div>
@@ -760,9 +760,9 @@
                     							<div class="card-content card card-outline-primary border">
                     								<div class="card-body">
                                       <div class="row">
-                                        <div class="col-xl-6 border border-top-0 border border-bottom-0 border-left-0" *ngIf="actualDiseaseDesc.desc!='' || actualRelatedDisease.clinical_modifier!=undefined || actualRelatedDisease.xrefs!=undefined">
-                                          <p *ngIf="actualDiseaseDesc.desc!=''" [ngClass]="(actualRelatedDisease.xrefs!=undefined)?'mb-0':''">{{actualDiseaseDesc.desc}}</p>
-                                            <p *ngIf="actualDiseaseDesc.desc==''" [ngClass]="(actualRelatedDisease.xrefs!=undefined)?'mb-0':''">{{'diagnosesSection.no description' | translate }}</p>
+                                        <div class="col-xl-6 border border-top-0 border border-bottom-0 border-left-0" *ngIf="(actualDiseaseDesc.desc!=null && actualDiseaseDesc.desc!='None') || actualRelatedDisease.clinical_modifier!=undefined || actualRelatedDisease.xrefs!=undefined">
+                                          <p *ngIf="actualDiseaseDesc.desc!=null && actualDiseaseDesc.desc!='None'" [ngClass]="(actualRelatedDisease.xrefs!=undefined)?'mb-0':''">{{actualDiseaseDesc.desc}}</p>
+                                            <p *ngIf="actualDiseaseDesc.desc==null || actualDiseaseDesc.desc=='None'" [ngClass]="(actualRelatedDisease.xrefs!=undefined)?'mb-0':''">{{'diagnosesSection.no description' | translate }}</p>
                                           <p *ngIf="actualRelatedDisease.xrefs!=undefined">{{'diagnosesSection.More information' | translate }}:
                                             <span *ngFor="let hpo of actualRelatedDisease.xrefs ; let i = index">
                                               <a *ngIf="hpo.name=='Orphanet'" class="primary" href="https://monarchinitiative.org/disease/{{hpo.id}}" target="_blank" title=" {{hpo.id}}">{{hpo.name}} <i class="ft-external-link"></i></a>
@@ -834,7 +834,11 @@
                     													<tbody>
                     														<tr *ngFor="let symptom of fullListSymptoms ; let j = index">
                     															<td style="text-align:left">
-                    																<span><a href="javascript:;" (click)="showMoreInfoSymptomPopup(j, contentInfoSymptomOthers)" title="{{symptom.def}}. {{symptom.comment}} ">{{symptom.name}}</a> <span *ngIf="symptom.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
+                    																<span>
+                                                      <a *ngIf="symptom.def!=null || symptom.comment!=''" href="javascript:;" (click)="showMoreInfoSymptomPopup(j, contentInfoSymptomOthers)" title="{{symptom.def}} {{symptom.comment}} ">{{symptom.name}}</a>
+                                                      <a *ngIf="symptom.def==null && symptom.comment==''" href="javascript:;" (click)="showMoreInfoSymptomPopup(j, contentInfoSymptomOthers)" title="{{nodescriptionSymptom}}">{{symptom.name}}</a>
+                                                      <span *ngIf="symptom.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span>
+                                                    </span>
                     															</td>
                                                   <td style="text-align:center" *ngIf="symptom.frequency==undefined">
                                                     <span> {{'diagnosis.unknown frequency' | translate }} </span>
@@ -1117,7 +1121,7 @@
       <div class="row col-md-12">
         <div class="col-md-12 offset-lg-1 col-lg-10">
           <section>
-            <div class="mt-2" *ngIf="substepExtract<4">
+            <div class="mt-2">
               <p>{{'patnodiagdashboard.step2-1.msg2' | translate }}</p>
               <div>
                 <div class="mb-3 center-elements">
@@ -1339,9 +1343,9 @@
 									<a class="float-left" (click)="openLinkMonarch(hpo.id, $event)" href="javascript:void(0)">{{hpo.name}} <i class="ft-external-link" title="{{'generics.More information' | translate }}"></i></a>
 								</div>
 								<div class="pl-0 col-md-7 col-sm-7">
-									<span *ngIf="hpo.def!=undefined">{{hpo.def}}.</span>
+									<span *ngIf="hpo.def!=null">{{hpo.def}}.</span>
 									<span *ngIf="hpo.comment!=''">{{hpo.comment}}</span>
-									<span *ngIf="hpo.def=='' && hpo.comment==''">{{'symptomssection.No description' | translate }}</span>
+									<span *ngIf="hpo.def==null && hpo.comment==''">{{'symptomssection.No description' | translate }}</span>
 								</div>
 								<div class="pl-0 col-md-2 col-sm-2" >
 									<span *ngIf="hpo.synonyms!=undefined" class="text-break">
@@ -1520,13 +1524,17 @@
   </div>
     <div class="content-wrapper p-2">
       <div class="row col-md-12" class="p-2">
-        <span *ngIf="phenotype.data[selectedInfoSymptomIndex].def!='' || phenotype.data[selectedInfoSymptomIndex].comment!=''">
+        <span *ngIf="phenotype.data[selectedInfoSymptomIndex].def!=null || phenotype.data[selectedInfoSymptomIndex].comment!=''">
           <h5><strong>{{'generics.Description' | translate }}</strong></h5>
-          <span *ngIf="phenotype.data[selectedInfoSymptomIndex].def!=''">{{phenotype.data[selectedInfoSymptomIndex].def}} </span>
+          <span *ngIf="phenotype.data[selectedInfoSymptomIndex].def!=null">{{phenotype.data[selectedInfoSymptomIndex].def}} </span>
           <span *ngIf="phenotype.data[selectedInfoSymptomIndex].comment!=''">{{phenotype.data[selectedInfoSymptomIndex].comment}}</span>
-          <span *ngIf="phenotype.data[selectedInfoSymptomIndex].def=='' && phenotype.data[selectedInfoSymptomIndex].comment==''">{{'symptomssection.No description' | translate }}</span>
+        </span>
+        <span *ngIf="phenotype.data[selectedInfoSymptomIndex].def==null && phenotype.data[selectedInfoSymptomIndex].comment==''">
+          <h5><strong>{{'generics.Description' | translate }}</strong></h5>
+          <span> {{'symptomssection.No description' | translate }} </span>
         </span>
       </div>
+
       <div *ngIf="phenotype.data[selectedInfoSymptomIndex].synonyms!=undefined" class="p-2">
         <h5><strong>{{'generics.Synonyms' | translate }}</strong></h5>
         <span *ngIf="phenotype.data[selectedInfoSymptomIndex].synonyms.length>0">
@@ -1556,21 +1564,25 @@
   </div>
     <div class="content-wrapper p-2">
       <div class="row col-md-12" class="p-2">
-        <span *ngIf="fullListSymptoms[selectedInfoSymptomIndex].def!='' || fullListSymptoms[selectedInfoSymptomIndex].comment!=''">
+        <span *ngIf="fullListSymptoms[selectedInfoSymptomIndex].def!=null || fullListSymptoms[selectedInfoSymptomIndex].comment!=''">
           <h5><strong>{{'generics.Description' | translate }}</strong></h5>
-          <span *ngIf="fullListSymptoms[selectedInfoSymptomIndex].def!=''">{{fullListSymptoms[selectedInfoSymptomIndex].def}} </span>
+          <span *ngIf="fullListSymptoms[selectedInfoSymptomIndex].def!=null">{{fullListSymptoms[selectedInfoSymptomIndex].def}} </span>
           <span *ngIf="fullListSymptoms[selectedInfoSymptomIndex].comment!=''">{{fullListSymptoms[selectedInfoSymptomIndex].comment}}</span>
-          <span *ngIf="fullListSymptoms[selectedInfoSymptomIndex].def=='' && fullListSymptoms[selectedInfoSymptomIndex].comment==''">{{'symptomssection.No description' | translate }}</span>
+        </span>
+        <span *ngIf="fullListSymptoms[selectedInfoSymptomIndex].def==null && fullListSymptoms[selectedInfoSymptomIndex].comment==''">
+          <h5><strong>{{'generics.Description' | translate }}</strong></h5>
+          <span> {{'symptomssection.No description' | translate }} </span>
         </span>
       </div>
       <div *ngIf="fullListSymptoms[selectedInfoSymptomIndex].synonyms!=undefined" class="p-2">
         <h5><strong>{{'generics.Synonyms' | translate }}</strong></h5>
         <span *ngIf="fullListSymptoms[selectedInfoSymptomIndex].synonyms.length>0">
           <p *ngFor="let synonym of fullListSymptoms[selectedInfoSymptomIndex].synonyms ; let j = index" [ngClass]="(j==fullListSymptoms[selectedInfoSymptomIndex].synonyms.length-1)?'mb-0':''">
-            <span>{{j+1}}. </span> <span >{{synonym}}</span>
+            <span>{{j+1}}. </span> <span *ngIf="synonym.label">{{synonym.label}}</span><span *ngIf="!synonym.label">{{synonym}}</span>
           </p>
         </span>
         <span *ngIf="fullListSymptoms[selectedInfoSymptomIndex].synonyms.length==0">
+          <h5><strong>{{'generics.Synonyms' | translate }}</strong></h5>
           {{'symptomssection.No synonyms' | translate }}
         </span>
       </div>
@@ -1592,13 +1604,17 @@
   </div>
     <div class="content-wrapper p-2">
       <div class="row col-md-12" class="p-2">
-        <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].def!='' || temporalSymptoms[selectedInfoSymptomIndex].comment!=''">
+        <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].def!=null || temporalSymptoms[selectedInfoSymptomIndex].comment!=''">
           <h5><strong>{{'generics.Description' | translate }}</strong></h5>
-          <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].def!=''">{{temporalSymptoms[selectedInfoSymptomIndex].def}} </span>
+          <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].def!=null">{{temporalSymptoms[selectedInfoSymptomIndex].def}} </span>
           <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].comment!=''">{{temporalSymptoms[selectedInfoSymptomIndex].comment}}</span>
-          <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].def=='' && temporalSymptoms[selectedInfoSymptomIndex].comment==''">{{'symptomssection.No description' | translate }}</span>
+        </span>
+        <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].def==null && temporalSymptoms[selectedInfoSymptomIndex].comment==''">
+          <h5><strong>{{'generics.Description' | translate }}</strong></h5>
+          <span> {{'symptomssection.No description' | translate }} </span>
         </span>
       </div>
+
       <div *ngIf="temporalSymptoms[selectedInfoSymptomIndex].synonyms!=undefined" class="p-2">
         <h5><strong>{{'generics.Synonyms' | translate }}</strong></h5>
         <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].synonyms.length>0">
@@ -2719,7 +2735,7 @@
           <div class="row col-md-12 pr-0">
             <span class="row col-md-12 mb-2 pr-0" *ngFor="let symptom of phenotype.data ; let k = index" >
               <span class="col-md-6 pr-0">
-                <a (click)="openLinkMonarch(symptom.id, $event)" href="javascript:void(0)" title="{{symptom.def}}. {{symptom.comment}} " >{{symptom.name}}</a>
+                <a (click)="openLinkMonarch(symptom.id, $event)" href="javascript:void(0)" title="{{symptom.def}} {{symptom.comment}} " >{{symptom.name}}</a>
               </span>
               <span class="col-md-6 pr-0 mt-03">
                 <button (click)="addToo(k, false)" class="ml-1 btn btn-danger btn-sm btn-fab" title="Add to 'Exclude diseases with these symptoms'" style="margin-bottom: 0; float: right;">
@@ -2993,7 +3009,7 @@
       <div class="row col-md-12">
         <div class="col-md-12 offset-lg-1 col-lg-10">
           <section>
-            <div class="mt-2" *ngIf="substepExtract<4">
+            <div class="mt-2">
               <p>{{'analysissection.may10minutesphen2genes' | translate }}</p>
               <div>
                 <div class="mb-3 center-elements">

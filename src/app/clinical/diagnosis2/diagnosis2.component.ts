@@ -343,6 +343,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     numberOfSymptomsExo:number =0;
     exostring: string = "3' UTR exon variant";
     tempVcfBlobName: string = '';
+    nodescriptionSymptom:String=this.translate.instant("symptomssection.No description");
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -1084,7 +1085,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                    ncrresultfiles=true;
                  }
                }
-               if((indexFileExecution1[0] == indexFileExecution2[0]) && ncrresultfiles){
+               /*if((indexFileExecution1[0] == indexFileExecution2[0]) && ncrresultfiles){
                  if(extension1 == '.json'){
                    var name = filesPatientBlob[i+1].name.substr(filesPatientBlob[i+1].name.indexOf('-')+1)
                    filesPatientBlob[i+1].simplename = name;
@@ -1108,7 +1109,34 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                    listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i]})
                  }
                  //i=i+1;
+               }*/
+
+               if((indexFileExecution1[0] == indexFileExecution2[0]) && ncrresultfiles){
+                 if(extension1 == '.json'){
+                   var name = filesPatientBlob[i+1].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
+                   filesPatientBlob[i].simplename = name;
+                   listPatientFiles.push({origenFile:filesPatientBlob[i+1], ncrResults:filesPatientBlob[i]})
+                 }else{
+                   var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
+                   filesPatientBlob[i].simplename = name;
+                   listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i+1]})
+                 }
+                 i=i+1;
+               }else{
+                 if(extension1 == '.json'){
+                   var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
+                   filesPatientBlob[i].simplename = name;
+                   //listPatientFiles.push({origenFile:undefined, ncrResults:filesPatientBlob[i]})
+                   listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i]})
+                 }else{
+                   var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
+                   filesPatientBlob[i].simplename = name;
+                   //listPatientFiles.push({origenFile:undefined, ncrResults:filesPatientBlob[i]})
+                   listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i]})
+                 }
+                 //i=i+1;
                }
+
              }
              for(var i=0;i<listPatientFiles.length;i++){
                listPatientFiles[i].origenFile.nameForShow="";
@@ -1138,6 +1166,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                  this.otherDocs.push(this.listPatientFiles[i]);
                }
              }
+             this.docsNcr.sort(this.sortService.DateSortFiles("lastModified"));
+             this.otherDocs.sort(this.sortService.DateSortFiles("lastModified"));
 
             // this.urlFileHtmlExomiserBlob = this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+filesPatientBlob[0].name+this.accessToken.sasToken;
            }else{
@@ -1187,7 +1217,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       //this.listPatientFiles[i].origenFile.name
       this.subscription.add( this.http.get(this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+name+this.accessToken.sasToken)
        .subscribe( (res : any) => {
-         //console.log(res);
+         console.log(res);
          var listSymptoms = [];
          var numSymptMatch = 0;
          var resumeText = '';
@@ -1208,9 +1238,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
              }
 
              for(var i = 0; i < this.phenotype.data.length; i++) {
-               for(var j = 0; j < listSymptoms.length; j++) {
+               var found = false;
+               for(var j = 0; j < listSymptoms.length && !found; j++) {
                  if(this.phenotype.data[i].id==listSymptoms[j]){
                    numSymptMatch++;
+                   found=true;
                  }
                }
              }
@@ -1221,6 +1253,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.listPatientFiles[index].ncrResults.numberSymptoms= listSymptoms.length;
         this.listPatientFiles[index].ncrResults.numSymptMatch= numSymptMatch;
         this.listPatientFiles[index].ncrResults.resumeText = resumeText;
+        console.log(this.listPatientFiles[index].ncrResults);
         this.docsNcr.push(this.listPatientFiles[index]);
        }, (err) => {
          console.log(err);
@@ -1386,6 +1419,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             windowClass: 'ModalClass-sm'
       };
       this.modalReference = this.modalService.open(contentInfoSymptom, ngbModalOptions);
+    }
+
+    showMoreInfoSymptomPopupGroup(index1, index2, contentInfoSymptom){
+      var indexElement = this.searchService.searchIndex(this.phenotype.data,'id', this.listOfSymptomGroups[index1].symptoms[index2].id);
+      this.showMoreInfoSymptomPopup(indexElement, contentInfoSymptom);
     }
 
     goPrevSymptom(){
@@ -2284,7 +2322,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               for(var indexSymptom in listOfSymptoms) {
                 var comment = "";
                 var def = "";
-                if(listOfSymptoms[indexSymptom].desc!="None"){
+                if(listOfSymptoms[indexSymptom].desc!="None" && listOfSymptoms[indexSymptom].desc!=null){
                   def = listOfSymptoms[indexSymptom].desc;
                 }
                 if(listOfSymptoms[indexSymptom].comment!=""){
@@ -2449,7 +2487,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               for(var indexSymptom in listOfSymptoms) {
                 var comment = "";
                 var def = "";
-                if(listOfSymptoms[indexSymptom].desc!="None"){
+                if(listOfSymptoms[indexSymptom].desc!="None" && listOfSymptoms[indexSymptom].desc!=null){
                   def = listOfSymptoms[indexSymptom].desc;
                 }
                 if(listOfSymptoms[indexSymptom].comment!=""){
@@ -4527,7 +4565,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
              if(!foundElement2){
                var comment = "";
                var def = "";
-               if(listOfSymptoms[k].desc!="None"){
+               if(listOfSymptoms[k].desc!="None" && listOfSymptoms[k].desc!=null){
                  def = listOfSymptoms[k].desc;
                }
                if(listOfSymptoms[k].comment!=""){
@@ -5414,7 +5452,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                   for(var indexSymptom in listOfSymptoms) {
                     var comment = "";
                     var def = "";
-                    if(listOfSymptoms[indexSymptom].desc!="None"){
+                    if(listOfSymptoms[indexSymptom].desc!="None" && listOfSymptoms[indexSymptom].desc!=null){
                       def = listOfSymptoms[indexSymptom].desc;
                     }
                     if(listOfSymptoms[indexSymptom].comment!=""){
@@ -5833,7 +5871,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               for(var indexSymptom in listOfSymptoms) {
                 var comment = "";
                 var def = "";
-                if(listOfSymptoms[indexSymptom].desc!="None"){
+                if(listOfSymptoms[indexSymptom].desc!="None" && listOfSymptoms[indexSymptom].desc!=null){
                   def = listOfSymptoms[indexSymptom].desc;
                 }
                 if(listOfSymptoms[indexSymptom].comment!=""){
@@ -5871,7 +5909,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                        var comment = "";
                        var def = "";
                        var frequency = null;
-                       if(listOfOtherSymptoms[k].desc!="None"){
+                       if(listOfOtherSymptoms[k].desc!="None" && listOfOtherSymptoms[k].desc!=null){
                          def = listOfOtherSymptoms[k].desc;
                        }
                        if(listOfOtherSymptoms[k].comment!=""){

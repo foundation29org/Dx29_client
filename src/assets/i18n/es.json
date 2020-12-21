@@ -766,7 +766,7 @@
     "title": "Configuración del análisis",
     "subtitle": "Define qué quieres analizar y cómo. Si los valores por defecto están bien, pulsa <b>Análisis</b> para continuar.",
     "Settings": "Configuración",
-    "settingTitle": "Edita sobre qué síntomas y qué datos genéticos quieres basar la lista de enfermedades.",
+    "settingTitle": "Define qué datos incluir en el cálculo de la lista de enfermedades sugeridas.",
     "sectSymTxt1": "Para obtener las mejores sugerencias de diagnóstico diferencial, incluye solamente síntomas guía.",
     "sectSymTxt2.1": "Has incluido",
     "sectSymTxt2.2": "de los",
