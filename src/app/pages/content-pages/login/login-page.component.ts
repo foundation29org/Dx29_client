@@ -279,6 +279,9 @@ export class LoginPageComponent implements OnDestroy, OnInit{
                    console.log('entra');
                      console.log('Redirect Url:'+ url);
                     this.router.navigate([ url ]);
+                    if(this.authService.getLang()=='es'){
+                      Swal.fire({ title: 'Los textos en este idioma pueden contener errores', text:  "Este idioma está en desarrollo. Los nombres de los síntomas y las enfermedades, así como sus descripciones y sinónimos pueden contener errores. Para mejorar las traducciones, por favor, envíanos cualquier error a support@foundation29.org", confirmButtonText: this.translate.instant("generics.Accept"),icon:"warning" })
+                    }
                  }
                  else if(this.authService.getRole()=='Admin'){
                   this.sending = false;

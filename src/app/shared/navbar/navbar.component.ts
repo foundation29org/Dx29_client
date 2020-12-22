@@ -297,6 +297,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         }
       }
+      if(this.patients.length==0){
+        this.roleShare='User';
+      }
       this.modalReference = this.modalService.open(shareTo, ngbModalOptions);
     }
 

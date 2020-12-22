@@ -2721,6 +2721,19 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }
     }
 
+    deleteSymptom(symptom, index2, disease){
+      var index = -1;
+      var found = false;
+      for(var i=0;i<this.phenotype.data.length;i++)
+        {
+          if(symptom.id==this.phenotype.data[i].id){
+            index= i;
+            found = true;
+            this.confirmDeletePhenotype2(index, index2, disease);
+          }
+        }
+    }
+
     hasSymptomsToSave(){
       if(this.phenotype.data.length>0){
         this.saveSymptomsToDb();
@@ -2869,6 +2882,30 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           this.phenotype.data.splice(index, 1);
           this.isDeletingPhenotype=true;
           this.saveSymptomsToDb();
+        }
+      });
+
+    }
+
+    confirmDeletePhenotype2(index, index2, disease){
+      Swal.fire({
+          title: this.translate.instant("generics.Are you sure delete")+" "+this.phenotype.data[index].name+" ?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#0CC27E',
+          cancelButtonColor: '#f9423a',
+          confirmButtonText: this.translate.instant("generics.Accept"),
+          cancelButtonText: this.translate.instant("generics.Cancel"),
+          showLoaderOnConfirm: true,
+          allowOutsideClick: false,
+          reverseButtons:true
+      }).then((result) => {
+        if (result.value) {
+          this.phenotype.data.splice(index, 1);
+          this.isDeletingPhenotype=true;
+          this.saveSymptomsToDb();
+          this.selectedDisease = -1;
+          this.showMoreInfoDisease(index2, disease);
         }
       });
 
@@ -4419,6 +4456,29 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.ncrResultView = !this.ncrResultView ;
     }
 
+    confirmCloseSymptomsNcr(){
+      Swal.fire({
+          title: this.translate.instant("symptomssection.want to close this window"),
+          text:  this.translate.instant("symptomssection.You will miss the changes"),
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#0CC27E',
+          cancelButtonColor: '#f9423a',
+          confirmButtonText: this.translate.instant("generics.Accept"),
+          cancelButtonText: this.translate.instant("generics.Cancel"),
+          showLoaderOnConfirm: true,
+          allowOutsideClick: false,
+          reverseButtons:true
+      }).then((result) => {
+        if (result.value) {
+          if(this.modalReference!=undefined){
+            this.modalReference.close();
+          }
+        }
+      });
+
+    }
+
     saveSymptomsNcr(){
       for(var i = 0; i < this.temporalSymptoms.length; i++) {
         if(this.temporalSymptoms[i].checked){
@@ -5089,7 +5149,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                this.medicalText ='';
                this.isNewNcrFile = false;
                document.getElementById("openModalSymptomsNcrButton2").click();
-               this.changeTriggerHotjar('ncrresults_');
+               //this.changeTriggerHotjar('ncrresults_');
              }else{
                //is new versión
                if(infoNcr.length>0){
@@ -5166,7 +5226,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                }));
                Swal.close();
                 document.getElementById("openModalSymptomsNcrButton2").click();
-                this.changeTriggerHotjar('ncrresults_');
+                //this.changeTriggerHotjar('ncrresults_');
               }else{
                 this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
               }

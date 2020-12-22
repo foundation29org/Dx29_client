@@ -224,7 +224,8 @@
     "errorServTitle":"Error ",
     "errorSrvMsg":"Se ha producido un error.",
     "Fill in the required data": "Complete los datos obligatorios",
-    "Calculate":"Calcular"
+    "Calculate":"Calcular",
+    "There is no patient data to export": "No hay datos de pacientes para exportar."
   },
   "lang":{
     "Question deleted successfully": "Pregunta eliminada con éxito",
@@ -735,20 +736,23 @@
     "nosymptoms": "El paciente no tiene síntomas.",
     "sortalpha": "Ordenar alfabéticamente",
     "sortgroup": "Ordenar por grupos",
-    "See cards": "Vista de cartas",
+    "See cards": "Vista de tarjetas",
     "See list": "Vista de lista",
     "Found in": "Encontrado en el texto en",
     "Does not have the symptom": "No",
     "Has the symptom": "Si",
     "No description": "No hemos encontrado una descripción de este síntoma.",
     "No synonyms": "No hemos encontrado sinónimos de este síntoma.",
-    "needsymtoms": "Para continuar necesitas añadir un síntoma"
+    "needsymtoms": "Para continuar necesitas añadir un síntoma",
+    "want to close this window": "¿Estás seguro de cerrar esta ventana? ",
+    "You will miss the changes": "Perderan los cambios.",
+    "There might be repeated symptoms": "Puedes haber síntomas repetidos en caso de que pertenezcan a varios grupos."
   },
   "geneticsection":{
     "title":"Información genética",
-    "subtitle1": "Si tienes información genética del paciente la puedes incluir paraanalizarla. Necesitamos los datos en formato VCF",
+    "subtitle1": "Si tienes información genética del paciente la puedes incluir para analizarla. Necesitamos los datos en formato VCF",
     "subtitle2": "¿Qué es y cómo consigo este archivo?",
-    "nogenetic": "El paciente no tiene información genética.",
+    "nogenetic": "El paciente no tiene información genética. Esto está bien, puedes continuar con el siguiente paso.",
     "Upload file": "Añadir archivo",
     "pantelInfoVcfSubtitle": "Te explicamos la importancia de los archivos VCF y como los puedes conseguir.",
     "panelInfoVcfp1": "Para identificar la causa de muchas enfermedades raras, la mejor estrategia es buscar características genéticas que se puedan relacionar con los síntomas del paciente. Estas características se conocen como variantes. Hay muchas variantes, por lo que normalmente se recogen en uno o más archivos de Variant Call Format (VCF) como variantes candidatas.",
@@ -792,7 +796,7 @@
     "Genetic view": "Vista genética",
     "Filter": "Filtrar por síntomas",
     "applied filters": "filtros aplicados",
-    "geneticvariants": "Ver variantes genéticas",
+    "geneticvariants": "Ver genes",
     "Add notes": "Añadir notas",
     "gotoanalysis": "Ir a 'Análisis'",
     "Load more": "Ver más",
@@ -806,9 +810,10 @@
     "Disease": "Enfermedad",
     "Patient": "Paciente",
     "Add symptom to the patient": "Añadir síntoma al paciente",
-    "Calculations details": "Calculations details",
+    "Delete symptom to the patient": "Eliminar el síntoma del paciente",
+    "Calculations details": "Detalles de los cálculos",
     "Files included in the calculation": "Archivos incluidos en el cálculo",
-    "No genetic information has been included": "No genetic information has been included"
+    "No genetic information has been included": "No se ha incluido ninguna información genética."
   },
   "summarySection":{
     "subtitle":"Este resumen contiene los datos disponibles del paciente y de los posibles diagnósticos seleccionados.",
@@ -855,11 +860,11 @@
   },
   "wizard":{
     "title": "Bienvenido al asistente",
-    "subtitle": "Este asistente te guiará desde la introducción de síntomas, hasta el análisis de resultados. Estos son los pasos a seguir:",
+    "subtitle": "Este asistente te guiará desde la introducción de síntomas hasta el análisis de resultados. Estos son los pasos a seguir:",
     "s1t": "Síntomas",
     "s1c": "Introdúcelos uno a uno o automáticamente desde un documento",
     "s2t": "Genética",
-    "s2c": "Añadir información genética",
+    "s2c": "Añade información genética",
     "s3t": "Análisis",
     "s3c": "Analiza una lista de enfermedades sugeridas",
     "check": "No volver a mostrar este mensaje",

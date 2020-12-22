@@ -225,7 +225,8 @@
     "errorServTitle":"Error",
     "errorSrvMsg":"An error has occurred",
     "Fill in the required data": "Fill in the required data",
-    "Calculate":"Calculate"
+    "Calculate":"Calculate",
+    "There is no patient data to export": "There is no patient data to export."
   },
   "lang":{
     "Question deleted successfully": "Question deleted successfully",
@@ -743,16 +744,19 @@
     "Has the symptom": "Yes",
     "No description": "No description has been found for this symptom.",
     "No synonyms": "No synonyms have been found for this symptom.",
-    "needsymtoms": "You need to add symptoms to continue"
+    "needsymtoms": "You need to add symptoms to continue",
+    "want to close this window": "Are you sure you want to close this window?",
+    "You will miss the changes": "You will miss the changes.",
+    "There might be repeated symptoms": "There might be repeated symptoms in the case they belong to multiple groups."
   },
   "geneticsection":{
     "title":"Genetic information",
     "subtitle1": "If you have genetic information on the patient you can upload it here. We need the data in VCF format",
     "subtitle2": "What is this file and how to get it?",
-    "nogenetic": "The patient doesn’t have genetic information.",
+    "nogenetic": "The patient doesn’t have genetic information. This is fine, you can continue to the next step.",
     "Upload file": "Upload file",
     "pantelInfoVcfSubtitle": "We explain here the importance of the VCF files and how to get them.",
-    "panelInfoVcfp1": "In order to identify the cause of many rare diseases, the best strategy is to search for genetic characteristics that can be linked to the patient set of symptoms. There characteristics are known as variants. There are many variants, so they are usually put together in one or more Variant Call Format (VCF) files as candidate variants.",
+    "panelInfoVcfp1": "In order to identify the cause of many rare diseases, the best strategy is to search for genetic characteristics that can be linked to the patient set of symptoms. These characteristics are known as variants. There are many variants, so they are usually put together in one or more Variant Call Format (VCF) files as candidate variants.",
     "panelInfoVcfp2": "It is usual that these files are never sent to the patient or the physicians by the labs, but in many cases, it is vital to reanalyze them as the patient symptoms progress. The patient has the right to have a copy of these files, so the easiest way to get them is for the patient to request a copy. Ask the patient to get in touch with us at <a href='mailto:support@foundation29.org'>support@foundation29.org</a> and we will send a short tutorial on how to do it.",
     "nogeneticinfo": "There is no genetic information, do you want to continue?"
   },
@@ -793,7 +797,7 @@
     "Genetic view": "Genetic view",
     "Filter": "Filter by symptoms",
     "applied filters": "applied filters",
-    "geneticvariants": "See genetic variants",
+    "geneticvariants": "View genes",
     "Add notes": "Add notes",
     "gotoanalysis": "Go to 'Analysis'",
     "Load more": "Load more",
@@ -807,6 +811,7 @@
     "Disease": "Disease",
     "Patient": "Patient",
     "Add symptom to the patient": "Add symptom to the patient",
+    "Delete symptom to the patient": "Detele the patient's symptom",
     "Calculations details": "Calculations details",
     "Files included in the calculation": "Files included in the calculation",
     "No genetic information has been included": "No genetic information has been included"
@@ -865,7 +870,7 @@
     "s3c": "Analyze a list of suggested conditions",
     "check": "Don’t show this message again",
     "btn": "Continue",
-    "Tutorial-Step": "Tutorial: Step"
+    "Tutorial-Step": "Wizard: Step"
   },
   "topnavbar":{
     "age": "Age",

@@ -11,6 +11,11 @@
   background-color: #6c757d !important;
 }
 
+
+.btn-m-l-115{
+  margin-left: 1.15rem !important;
+}
+
 ::ng-deep .swal2-modal .swal2-confirm{
   background-color: #009DA0 !important;
 }
@@ -321,7 +326,7 @@ display: none;
   ::ng-deep ngb-typeahead-window.dropdown-menu {
    width: 100%;
   }
-  
+
 }
 
 table {
