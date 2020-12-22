@@ -520,11 +520,14 @@
                               <span class="col-9">
                                 <span class="font-medium-2 grey darken-1 text-bold-400 d-block">
                                   <span *ngIf="onefile.origenFile != undefined">
-                                    <span *ngIf="onefile.origenFile.nameForShow != 'ncrresult.json'">
+                                    <span *ngIf="onefile.origenFile.nameForShow != 'ncrresult.json' && onefile.origenFile.nameForShow !=''">
                                       {{onefile.origenFile.nameForShow}}
                                     </span>
                                     <span *ngIf="onefile.origenFile.nameForShow == 'ncrresult.json'">
                                       {{'summarySection.Free text' | translate }}
+                                    </span>
+                                    <span *ngIf="onefile.origenFile.nameForShow ==''">
+                                      {{onefile.ncrResults.simplename}}
                                     </span>
                                   </span>
                                   <span *ngIf="onefile.origenFile == undefined">
@@ -952,11 +955,14 @@
                             <span style="line-height: 1rem;">
                               <span class="d-block">
                                 <span *ngIf="onefile.origenFile != undefined">
-                                  <span *ngIf="onefile.origenFile.nameForShow != 'ncrresult.json'">
+                                  <span *ngIf="onefile.origenFile.nameForShow != 'ncrresult.json' && onefile.origenFile.nameForShow !=''">
                                     {{onefile.origenFile.nameForShow}}
                                   </span>
                                   <span *ngIf="onefile.origenFile.nameForShow == 'ncrresult.json'">
                                     {{'summarySection.Free text' | translate }}
+                                  </span>
+                                  <span *ngIf="onefile.origenFile.nameForShow ==''">
+                                    {{onefile.ncrResults.simplename}}
                                   </span>
                                 </span>
                                 <span *ngIf="onefile.origenFile == undefined">
