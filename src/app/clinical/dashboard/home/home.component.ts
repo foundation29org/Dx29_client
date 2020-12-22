@@ -792,7 +792,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
       if(this.authGuard.testtoken()){
         //cargar los datos del usuario
         //var paramssend = this.authService.getIdUser()+'-code-'+this.patients[index];
-        this.subscription.add( this.http.get(environment.api+'/api/case/restore/'+this.patients[index].sub)
+        this.subscription.add( this.http.get(environment.api+'/api/case/restore/'+this.listOfArchivedCases[index].sub)
         .subscribe( (res : any) => {
           if(res.message=="The case has been restored"){
             this.toastr.success('', this.translate.instant("dashboardpatient.Case restored"));

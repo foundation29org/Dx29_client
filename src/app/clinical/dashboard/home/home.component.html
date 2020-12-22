@@ -146,8 +146,8 @@
 						<small class="form-text text-muted danger" *ngIf="!gender.valid && (gender.dirty || gender.touched)">{{'generics.required' | translate }}</small>
 					</div>
 				</div>
-				<div class="col-md-3" *ngIf="patient.gender">
-					<div class="form-group">
+				<div class="col-md-3">
+					<div class="form-group" [ngClass]="( patient.gender!='female' && patient.gender!='male' )?'mb-0':''">
 						<label>Avatar*</label>
 						<li *ngIf="patient.gender=='male'" class="nav-item" ngbDropdown display="dynamic" [placement]="placement" style="list-style-type: none; ">
 								<a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle>
@@ -169,7 +169,13 @@
 										</a>
 								</div>
 						</li>
+						<li *ngIf="patient.gender!='female' && patient.gender!='male'" class="nav-item nav-link" style="list-style-type: none; ">
+								<img class="avatar" src="assets/img/avatar/png/sm/default.png" />
+						</li>
 					</div>
+				</div>
+				<div class="col-md-12" *ngIf="patient.gender!='female' && patient.gender!='male'">
+					<span>{{'personalinfo.Select the sex to change the avatar' | translate }}</span>
 				</div>
 				<!--<div class="col-md-12">
 						<div class="form-group">

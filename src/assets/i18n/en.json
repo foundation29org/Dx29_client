@@ -282,7 +282,8 @@
     "Fill personal info": "No patients. Fill in the personal information data to access the rest of the sections.",
     "Relationship": "Relationship",
     "Father": "Father",
-    "Mother": "Mother"
+    "Mother": "Mother",
+    "Select the sex to change the avatar": "Select the sex to change the avatar."
   },
   "social":{
     "Social patient information": "Social patient information",
@@ -1509,7 +1510,7 @@
     "Symptom extraction revision": "Symptom validation",
     "We have found": "We have found",
     "msgnumbersymptomsfound": "in the information you loaded.",
-    "msgnumbersymptomsfound2": "Please, review them to make sure they are correct.",
+    "msgnumbersymptomsfound2": "Please, add those presented in your case.",
     "Show full text": "Show full text",
     "Hide full text": "Hide full text",
     "Score": "Score",

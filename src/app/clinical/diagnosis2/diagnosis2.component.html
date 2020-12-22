@@ -768,7 +768,7 @@
                                             <p *ngIf="actualDiseaseDesc.desc==null || actualDiseaseDesc.desc=='None'" [ngClass]="(actualRelatedDisease.xrefs!=undefined)?'mb-0':''">{{'diagnosesSection.no description' | translate }}</p>
                                           <p *ngIf="actualRelatedDisease.xrefs!=undefined">{{'diagnosesSection.More information' | translate }}:
                                             <span *ngFor="let hpo of actualRelatedDisease.xrefs ; let i = index">
-                                              <a *ngIf="hpo.name=='Orphanet'" class="primary" href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert={{hpo.id}}" target="_blank" title=" {{hpo.id}}">{{hpo.name}} <i class="ft-external-link"></i></a>
+                                              <a *ngIf="hpo.name=='Orphanet'" class="primary" href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert={{hpo.id}}&lng={{lang}}" target="_blank" title=" {{hpo.id}}">{{hpo.name}} <i class="ft-external-link"></i></a>
                                               <a *ngIf="hpo.name=='OMIM'" class="primary" href="https://omim.org/entry/{{hpo.id}}" target="_blank" title=" {{hpo.id}}">{{hpo.name}} <i class="ft-external-link"></i></a>
                                               <span *ngIf="i<(actualRelatedDisease.xrefs.length-1)">, </span>
                                             </span>
@@ -1155,8 +1155,8 @@
 				<h4>{{'patdiagdashboard.Symptom extraction revision' | translate }}</h4>
 				<span>
 					{{'patdiagdashboard.We have found' | translate }} <h5 class="text-bold-400 d-inline"><ins>{{temporalSymptoms.length}}
-            <span *ngIf="temporalSymptoms.length>1">{{'diagnosis.Symptoms' | translate }}</span>
-            <span *ngIf="temporalSymptoms.length==1">{{'diagnosis.Symptom' | translate }}</span>
+            <span *ngIf="temporalSymptoms.length>1" class="text-lowercase">{{'diagnosis.Symptoms' | translate }}</span>
+            <span *ngIf="temporalSymptoms.length==1" class="text-lowercase">{{'diagnosis.Symptom' | translate }}</span>
           </ins>.</h5>
 				</span>
         <span class="ml-1" *ngIf="temporalSymptoms.length>0">
@@ -1191,7 +1191,7 @@
                   </span>
                 </div>
                 <div class="card-body">
-                    <p class="mb-0">{{'symptomssection.Found in' | translate }}:</p>
+                    <p class="mb-0">{{'phenotype.Where did we get this symptom from' | translate }}</p>
                     <span *ngFor="let text of hpo.text ; let j = index">
                       <!--<span *ngIf="j==0" class="font-small-2 mb-0">{{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</span>-->
                       <span *ngIf="text.source && j== 0" class="mb-0">"{{text.source}}"</span>

@@ -281,7 +281,8 @@
     "Fill personal info": "Sin pacientes. Complete los datos de información personal para acceder al resto de las secciones.",
     "Relationship": "Parentesco",
     "Father": "Padre",
-    "Mother": "Madre"
+    "Mother": "Madre",
+    "Select the sex to change the avatar": "Selecciona el sexo para cambiar el avatar."
   },
   "social":{
     "Social patient information": "Información social del paciente",
@@ -1501,7 +1502,7 @@
     "Symptom extraction revision": "Validación de los síntomas encontrados",
     "We have found": "Hemos encontrado",
     "msgnumbersymptomsfound": "en la información que cargó.",
-    "msgnumbersymptomsfound2": "Revísalos para asegurar que el paciente tiene estos síntomas.",
+    "msgnumbersymptomsfound2": "Por favor, añada los que tiene su caso.",
     "Show full text": "Mostrar texto completo",
     "Hide full text": "Ocultar texto completo",
     "Score": "Puntuación",
