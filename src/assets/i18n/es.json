@@ -411,7 +411,8 @@
     "Click to check it": "Click para marcarlo",
     "Click to uncheck it": "Click para desmarcarlo",
     "Where did we get this symptom from": "¿De dónde sacamos este síntoma?",
-    "The symptom is already added": "El síntoma ya está añadido."
+    "The symptom is already added": "El síntoma ya está añadido.",
+    "Group": "Grupo"
   },
   "genotype":{
     "My genotype": "Mi genotipo",
@@ -813,7 +814,9 @@
     "Delete symptom to the patient": "Eliminar el síntoma del paciente",
     "Calculations details": "Detalles de los cálculos",
     "Files included in the calculation": "Archivos incluidos en el cálculo",
-    "No genetic information has been included": "No se ha incluido ninguna información genética."
+    "No genetic information has been included": "No se ha incluido ninguna información genética.",
+    "Sorry, we have not found any disease": "Lo sentimos, no hemos encontrado ninguna enfermedad",
+    "try adding": "Prueba a añadir más síntomas o ..."
   },
   "summarySection":{
     "subtitle":"Este resumen contiene los datos disponibles del paciente y de los posibles diagnósticos seleccionados.",

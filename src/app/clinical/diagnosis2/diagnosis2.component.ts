@@ -345,6 +345,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     exostring: string = "3' UTR exon variant";
     tempVcfBlobName: string = '';
     nodescriptionSymptom:String=this.translate.instant("symptomssection.No description");
+    launchedPhen2genes: boolean = false;
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -530,6 +531,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.router.navigate(['clinical/dashboard/home']);
       }else{
         this.selectedPatient = this.authService.getCurrentPatient();
+        console.log(this.selectedPatient);
         this.eventsService.broadcast('selectedPatient', this.selectedPatient);
         var dateRequest2=new Date(this.selectedPatient.birthDate);
         if(this.selectedPatient.birthDate == null){
@@ -5783,7 +5785,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
      this.subscription.add( this.apiDx29ServerService.lauchPhene2Gene(patientId, jsonfile)
      .subscribe( (res : any) => {
-       this.processPhenToGenesInfo(res.fileName, res.data);
+       this.processPhenToGenesInfo(res.fileName, res.data, res.message);
      }, (err) => {
        console.log(err);
      }));
@@ -5794,7 +5796,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
      this.subscription.add( this.apiDx29ServerService.getLastPhen2GenesResults(patientId)
      .subscribe( (res : any) => {
        if(res.data!=null){
-         this.processPhenToGenesInfo(res.fileName, res.data);
+         this.processPhenToGenesInfo(res.fileName, res.data, res.message);
        }else{
          this.filePhen2GenesOnBlob = '';
          this.launchingPhen2Genes = false;
@@ -5804,7 +5806,10 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
      }));
     }
 
-    processPhenToGenesInfo(fileName, data){
+    processPhenToGenesInfo(fileName, data, message){
+      if(message=='found'){
+        this.launchedPhen2genes=true;
+      }
       this.filePhen2GenesOnBlob = fileName;
       this.infoGenesAndConditions = [];
       this.infoGenesAndConditionsPhen2Genes = [];
@@ -6119,7 +6124,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
         this.subscription.add(this.apif29BioService.​getPredecessorsOfSymptomsDepth(symptomsOfDiseaseIds)
         .subscribe( async (res1 : any) => {
-          // Para cada res tengo que pedir info de la frequencia y guardar 
+          // Para cada res tengo que pedir info de la frequencia y guardar
           this.treeOrphaPredecessors=res1;
           await this.setPredecessorsOrpha()
           return resolve(result);
@@ -6193,11 +6198,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           var actualList = list[this.fullListSymptoms[i].id];
           var actualList2 ={}
           actualList2[this.fullListSymptoms[i].id]=actualList
-          
+
           var found_in_symptom = false;
           // Comparando cada sintoma con orpha y los padres
           found_in_symptom = await this.completeFrequencies(i, this.fullListSymptoms[i].id, parents);
-          
+
           /*if ((found_in_symptom == false) && (this.fullListSymptoms[i].succesors != undefined)) {
             // Comparando los hijos del sintoma con orpha y los padres
             for (var j=0; j<this.fullListSymptoms[i].succesors.length; j++) {
@@ -6206,14 +6211,14 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           }*/
         }
       }
-      
+
     }
 
     async completeFrequencies(index, id, parents){
       var foundSymptom = false;
       // Si el id está en la lista de Orpha o en los padres de la lista de orpha
       for (var ipos = 0; ipos < this.orphaSymptoms.length && !foundSymptom; ipos++){
-        
+
         // Si el id está en la lista de Orpha
         if(id==this.orphaSymptoms[ipos].id){
           this.setFrequencyToSymptom(index,ipos,null,parents)
@@ -6261,7 +6266,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           }
         }
       }
-      
+
     }
 
     async setFrequencyToParents(parents, frequency){

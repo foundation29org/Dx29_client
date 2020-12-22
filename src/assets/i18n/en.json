@@ -412,7 +412,8 @@
     "Click to check it": "Click to check it",
     "Click to uncheck it": "Click to uncheck it",
     "Where did we get this symptom from": "Where did we get this symptom from?",
-    "The symptom is already added": "The symptom is already added."
+    "The symptom is already added": "The symptom is already added.",
+    "Group": "Group"
   },
   "genotype":{
     "My genotype": "My genotype",
@@ -814,7 +815,9 @@
     "Delete symptom to the patient": "Detele the patient's symptom",
     "Calculations details": "Calculations details",
     "Files included in the calculation": "Files included in the calculation",
-    "No genetic information has been included": "No genetic information has been included"
+    "No genetic information has been included": "No genetic information has been included",
+    "Sorry, we have not found any disease": "Sorry, we have not found any disease",
+    "try adding": "Try adding more symptoms or ..."
   },
   "summarySection":{
     "subtitle":"This summary contains the available data and the selected candidate diagnosis.",

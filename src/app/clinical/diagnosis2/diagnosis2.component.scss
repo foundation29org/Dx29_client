@@ -7,6 +7,10 @@
  overflow-y: auto;
 }
 
+.border-top-custom{
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+}
+
 ::ng-deep .swal2-modal .swal2-cancel{
   background-color: #6c757d !important;
 }

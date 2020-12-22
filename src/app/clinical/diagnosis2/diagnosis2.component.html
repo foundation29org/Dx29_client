@@ -92,8 +92,8 @@
                   <div class="card-body" [ngClass]="(viewSymptoms ==0 )?'pt-1':''">
                     <section *ngIf="viewSymptoms ==0" class="col-md-12 mb-4">
                       <div class="row" *ngFor="let group of listOfSymptomGroups ; let j = index">
-                        <h4 class="col-md-12" [ngClass]="(j > '0' )?'mt-3':''"><span class="text-bold-400">{{group.nameGroup}}</span></h4>
-                        <ul *ngFor="let hpo of group.symptoms ; let i = index" class="col-lg-12 col-xl-6 mb-1">
+                        <h4 class="col-md-12" [ngClass]="(j > '0' )?'pt-2 border-top-custom pb-2':''"><ins class="text-bold-400">{{'phenotype.Group' | translate }}: {{group.nameGroup}}</ins></h4>
+                        <ul *ngFor="let hpo of group.symptoms ; let i = index" class="col-lg-12 col-xl-6 mb-1" [ngClass]="(i == (group.symptoms.length-1) )?'pb-2':''">
                           <li class="row symptoms-item">
                             <span style="font-size:1rem;flex-grow: 1; line-height: 1.3em;" class="mt-1 mb-1 text-muted col-md-8">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
                             <span class="col-md-4">
@@ -718,11 +718,19 @@
                     <b class="d-block">{{'diagnosesSection.Results' | translate }}</b>
                     <span class="font-small-2 font-weight-normal">{{'diagnosesSection.SelectCandidate' | translate }}</span>
                   </h4>
-                  <h4 class="card-title" *ngIf="infoGenesAndConditionsExomizer.length==0 && infoGenesAndConditionsPhen2Genes.length==0">
-                    <b>{{'diagnosesSection.no_analyzed' | translate }}</b>
+                  <h4 class="card-title" *ngIf="infoGenesAndConditionsExomizer.length==0 && (infoGenesAndConditionsPhen2Genes.length==0 && !launchedPhen2genes)">
                     <span class="float-right">
                       <button type="button" class="btn btn-outline-primary mr-1" (click)="goToStepDiagnoses();">{{'diagnosesSection.gotoanalysis' | translate }}</button>
                     </span>
+                    <b>{{'diagnosesSection.no_analyzed' | translate }}</b>
+                  </h4>
+                  {{infoGenesAndConditionsExomizer.length}} {{infoGenesAndConditionsPhen2Genes.length}} {{launchedPhen2genes}}
+                  <h4 class="card-title" *ngIf="infoGenesAndConditionsExomizer.length==0 && (infoGenesAndConditionsPhen2Genes.length==0 && launchedPhen2genes)">
+                    <span class="float-right">
+                      <button type="button" class="btn btn-outline-primary mr-1" (click)="goToStepDiagnoses();">{{'diagnosesSection.gotoanalysis' | translate }}</button>
+                    </span>
+                    <b>{{'diagnosesSection.Sorry, we have not found any disease' | translate }}</b>
+                    <p>{{'diagnosesSection.try adding' | translate }}</p>
                   </h4>
                 </div>
                 <div class="card-content" *ngIf="!gettingRelatedConditions">
