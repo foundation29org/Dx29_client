@@ -724,7 +724,6 @@
                     </span>
                     <b>{{'diagnosesSection.no_analyzed' | translate }}</b>
                   </h4>
-                  {{infoGenesAndConditionsExomizer.length}} {{infoGenesAndConditionsPhen2Genes.length}} {{launchedPhen2genes}}
                   <h4 class="card-title" *ngIf="infoGenesAndConditionsExomizer.length==0 && (infoGenesAndConditionsPhen2Genes.length==0 && launchedPhen2genes)">
                     <span class="float-right">
                       <button type="button" class="btn btn-outline-primary mr-1" (click)="goToStepDiagnoses();">{{'diagnosesSection.gotoanalysis' | translate }}</button>
