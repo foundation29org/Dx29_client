@@ -768,7 +768,7 @@
                                             <p *ngIf="actualDiseaseDesc.desc==null || actualDiseaseDesc.desc=='None'" [ngClass]="(actualRelatedDisease.xrefs!=undefined)?'mb-0':''">{{'diagnosesSection.no description' | translate }}</p>
                                           <p *ngIf="actualRelatedDisease.xrefs!=undefined">{{'diagnosesSection.More information' | translate }}:
                                             <span *ngFor="let hpo of actualRelatedDisease.xrefs ; let i = index">
-                                              <a *ngIf="hpo.name=='Orphanet'" class="primary" href="https://monarchinitiative.org/disease/{{hpo.id}}" target="_blank" title=" {{hpo.id}}">{{hpo.name}} <i class="ft-external-link"></i></a>
+                                              <a *ngIf="hpo.name=='Orphanet'" class="primary" href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert={{hpo.id}}" target="_blank" title=" {{hpo.id}}">{{hpo.name}} <i class="ft-external-link"></i></a>
                                               <a *ngIf="hpo.name=='OMIM'" class="primary" href="https://omim.org/entry/{{hpo.id}}" target="_blank" title=" {{hpo.id}}">{{hpo.name}} <i class="ft-external-link"></i></a>
                                               <span *ngIf="i<(actualRelatedDisease.xrefs.length-1)">, </span>
                                             </span>
@@ -1647,7 +1647,7 @@
       <div class="row col-md-12">
         <div class="row col-md-12 mb-4">
           <div class="col-md-12">
-            <h4><a href="https://monarchinitiative.org/disease/{{actualProposedDisease.name.id}}" target="_blank" rel="tooltip" title="{{actualProposedDisease.name.id}}">{{actualProposedDisease.name.label | titlecase}}</a></h4>
+            <h4><a href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert={{actualProposedDisease.name.id}}" target="_blank" rel="tooltip" title="{{actualProposedDisease.name.id}}">{{actualProposedDisease.name.label | titlecase}}</a></h4>
           </div>
           <div class="col-md-12 mt-2">
             <h5>Genes:</h5>

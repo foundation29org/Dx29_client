@@ -522,7 +522,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.router.navigate(['clinical/dashboard/home']);
       }else{
         this.selectedPatient = this.authService.getCurrentPatient();
-        console.log(this.selectedPatient )
         this.eventsService.broadcast('selectedPatient', this.selectedPatient);
         var dateRequest2=new Date(this.selectedPatient.birthDate);
         if(this.selectedPatient.birthDate == null){
@@ -5965,7 +5964,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                 }
 
               }*/
-
             this.checkOPatientSymptoms();
             this.checkOmimSymptoms();
             this.checkOrphaSymptoms();
@@ -5990,11 +5988,12 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     async getSuccessors(symptomsOfDiseaseIds){
       return new Promise(async function (resolve, reject) {
         var result = { status: 200, data: [], message: "Calcule Conditions score OK" }
+        //obtengo los hijos de la lista completa
         this.subscription.add(this.apif29BioService.getSuccessorsOfSymptomsDepth(symptomsOfDiseaseIds)
         .subscribe( async (res1 : any) => {
-            //await this.getPredecessorsOrpha();
-            await this.setFrequencies(res1);
-            await this.getfrequencies()
+            await this.getPredecessorsOrpha(); //padres de orpha
+            await this.setFrequencies(res1);//magia
+            await this.getfrequencies()//pintar
         }, (err) => {
           console.log(err);
         }));
@@ -6041,6 +6040,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }
       return res;
     }
+
+
     async getPredecessorsOrpha(){
       return new Promise(async function (resolve, reject) {
         var result = { status: 200, data: [], message: "Calcule Conditions score OK" }
@@ -6052,11 +6053,47 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.subscription.add(this.apif29BioService.​getPredecessorsOfSymptomsDepth(symptomsOfDiseaseIds)
         .subscribe( async (res1 : any) => {
           this.treeOrphaPredecessors=res1;
+          await this.setPredecessorsOrpha()
+          return resolve(result);
         }, (err) => {
           console.log(err);
+          return resolve(result);
         }));
-        return resolve(result);
+
       }.bind(this))
+    }
+
+    async setPredecessorsOrpha(){
+      var tamanotreeOrpha= Object.keys(this.treeOrphaPredecessors).length;
+      if(tamanotreeOrpha>0){
+        for (var ipos = 0; ipos < this.orphaSymptoms.length; ipos++){
+          var result = [];
+          var ojjToSearch = this.treeOrphaPredecessors[this.orphaSymptoms[ipos].id];
+          var tamano= Object.keys(ojjToSearch).length;
+          if(tamano>0){
+            this.orphaSymptoms[ipos].tree = [];
+            this.getTree(ipos, ojjToSearch)
+          }
+          //console.log(this.orphaSymptoms[ipos]);
+        }
+      }
+    }
+
+    getTree(index, ojjToSearch){
+      var tamano= Object.keys(ojjToSearch).length;
+      if(tamano>0){
+        for(var j in ojjToSearch){
+          var foundElement = this.searchService.search(this.orphaSymptoms[index].tree,'id', j);
+          if(!foundElement){
+            this.orphaSymptoms[index].tree.push({id:j});
+          }
+          var tamano2= Object.keys(ojjToSearch[j]).length;
+          if(tamano2>0){
+            this.getTree(index, ojjToSearch[j]);
+          }
+        }
+      }
+
     }
 
 
@@ -6069,19 +6106,18 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           var deep = 0;
           var parents = [];
           this.completeFrequencies(i, this.fullListSymptoms[i].id, list, deep, parents);
-          //this.completeFrequencies2(i, this.fullListSymptoms[i].id, list);
-          //this.completeFrequencies3(i, this.fullListSymptoms[i].id, this.treeOrphaPredecessors, deep, parents);
         }
       }
     }
 
     async completeFrequencies(index, id, list, deep, parents){
       var foundSymptom = false;
+      var foundSymptom2 = false;
       for (var ipos = 0; ipos < this.orphaSymptoms.length && !foundSymptom; ipos++){
         var tamano= Object.keys(list).length;
         if(tamano>0){
           for(var j in list){
-            if(this.orphaSymptoms[ipos].id==j && this.orphaSymptoms[ipos].frequency!=null){//&& j==this.orphaSymptoms[ipos].id
+            if(this.orphaSymptoms[ipos].id==j && id==j){//&& j==this.orphaSymptoms[ipos].id
               foundSymptom=true;
               if(this.fullListSymptoms[index].frequency==null){
                 this.fullListSymptoms[index].frequency=this.orphaSymptoms[ipos].frequency;
@@ -6096,11 +6132,38 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                 }
               }
             }
+
+            if(!foundSymptom && this.orphaSymptoms.tree!=undefined){
+
+              for (var index1 = 0; index1 < this.orphaSymptoms.tree.length && !foundSymptom2; index1++){
+                if(this.orphaSymptoms.tree[index1].id==j && this.orphaSymptoms.tree[index1].id==j){//&& j==this.orphaSymptoms[ipos].id
+                  foundSymptom2=true;
+                  if(this.fullListSymptoms[index].id=='HP:0002463'){
+                    console.log(id);
+                    console.log(this.fullListSymptoms[index].id);
+                    console.log(j);
+                  }
+                  if(this.fullListSymptoms[index].frequency==null){
+                    this.fullListSymptoms[index].frequency=this.orphaSymptoms[ipos].frequency;
+                    this.orphaSymptoms[ipos].frequency =null;
+                    this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
+                  }else if(this.fullListSymptoms[index].frequency!=null){
+                    //REVISAR ESTO PORQUE ES PELIGROSO, SI CAMBIAN LOS HPOS DE PRIORIDAD PUEDE DEJAR DE FUNCIONAR
+                    if(this.fullListSymptoms[index].frequency>this.orphaSymptoms[ipos].frequency){
+                      this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
+                      this.orphaSymptoms[ipos].frequency =null;
+                      this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
 
-      if(!foundSymptom){
+
+      if(!foundSymptom && !foundSymptom2){
         for(var j in list){
           var tamano2= Object.keys(list[j]).length;
           if(tamano2>0){
@@ -6112,79 +6175,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }
     }
 
-    async completeFrequencies2(index, id, list){
-      var foundSymptom = false;
-      for (var ipos = 0; ipos < this.orphaSymptoms.length && !foundSymptom; ipos++){
-        var tamano= Object.keys(list).length;
-        if(tamano>0){
-          for(var j in list){
-            if(this.orphaSymptoms[ipos].id==j && this.orphaSymptoms[ipos].frequency!=null){//&& j==this.orphaSymptoms[ipos].id
-              foundSymptom=true;
-              if(this.fullListSymptoms[index].frequency==null){
-                this.fullListSymptoms[index].frequency=this.orphaSymptoms[ipos].frequency;
-                this.orphaSymptoms[ipos].frequency =null;
-              }else if(this.fullListSymptoms[index].frequency!=null){
-                //REVISAR ESTO PORQUE ES PELIGROSO, SI CAMBIAN LOS HPOS DE PRIORIDAD PUEDE DEJAR DE FUNCIONAR
-                var temp1 = this.fullListSymptoms[index].frequency.split('HP:');
-                var temp1_1: number = +temp1[1];
-                var temp2 = this.orphaSymptoms[ipos].frequency.split('HP:');
-                var temp2_1: number = +temp2[1];
-                if(temp1_1>temp2_1){
-                  this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
-                }
-              }
-            }
-          }
-        }
-      }
-
-      if(!foundSymptom){
-        for(var j in list){
-          var tamano2= Object.keys(list[j]).length;
-          if(tamano2>0){
-            this.completeFrequencies2(index, id, list[j]);
-          }
-        }
-      }
-    }
-
-    async completeFrequencies3(index, id, list, deep, parents){
-      var foundSymptom = false;
-      for (var ipos = 0; ipos < this.orphaSymptoms.length && !foundSymptom; ipos++){
-        var tamano= Object.keys(list).length;
-        if(tamano>0){
-          for(var j in list){
-            if(this.orphaSymptoms[ipos].id==j && this.orphaSymptoms[ipos].frequency!=null){//&& j==this.orphaSymptoms[ipos].id
-              foundSymptom=true;
-              if(this.fullListSymptoms[index].frequency==null){
-                this.fullListSymptoms[index].frequency=this.orphaSymptoms[ipos].frequency;
-                this.orphaSymptoms[ipos].frequency =null;
-                this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
-
-              }else if(this.fullListSymptoms[index].frequency!=null){
-                //REVISAR ESTO PORQUE ES PELIGROSO, SI CAMBIAN LOS HPOS DE PRIORIDAD PUEDE DEJAR DE FUNCIONAR
-                if(this.fullListSymptoms[index].frequency>this.orphaSymptoms[ipos].frequency){
-                  this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
-                  this.orphaSymptoms[ipos].frequency =null;
-                  this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
-                }
-              }
-            }
-          }
-        }
-      }
-
-      if(!foundSymptom){
-        for(var j in list){
-          var tamano2= Object.keys(list[j]).length;
-          if(tamano2>0){
-            deep= deep+1;
-            parents.push(j);
-            this.completeFrequencies(index, id, list[j], deep, parents);
-          }
-        }
-      }
-    }
 
 
     setFrequencyToParents(parents, frequency){
@@ -6379,7 +6369,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           var frequency = null;
           if(this.phenotype.data[i].frequency!=undefined){
             if(this.phenotype.data[i].frequency!=null){
-              frequency = this.phenotype.data[i].frequency
+              //frequency = this.phenotype.data[i].frequency
             }
           }
           this.fullListSymptoms.push({id:this.phenotype.data[i].id, name: this.phenotype.data[i].name, def: this.phenotype.data[i].def, comment: this.phenotype.data[i].comment, synonyms: this.phenotype.data[i].synonyms, group: 'none', omim: false, orphanet: false, patient: true, frequency: frequency});
