@@ -92,7 +92,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
         var tempUrl= (event.url).toString().split('?');
         this.actualUrl = tempUrl[0];
         var tempUrl1 = (this.actualUrl).toString();
-        console.log(tempUrl1);
         if(tempUrl1.indexOf('/dashboard')!=-1){
           this.isHomePage = true;
           this.isClinicalPage = false;
@@ -107,7 +106,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
       }
     );
-    console.log(this.role);
     if(this.role != 'SuperAdmin' && this.role != 'Admin'){
       this.initVars();
     }
@@ -136,7 +134,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.eventsService.on('selectedPatient', function(selectedPatient) {
       this.selectedPatient= selectedPatient;
-      console.log(this.selectedPatient);
       var dateRequest2=new Date(this.selectedPatient.birthDate);
       this.ageFromDateOfBirthday(dateRequest2);
     }.bind(this));
@@ -279,9 +276,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
             keyboard : false,
-            windowClass: 'ModalClass-xl'
+            windowClass: 'ModalClass-sm'// xl, lg, sm
       };
-      console.log(this.authService.getCurrentPatient());
       if(this.authService.getCurrentPatient()!=null){
         this.selectedPatient = this.authService.getCurrentPatient();
         this.isMine = false;
@@ -300,6 +296,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
             this.isMine = this.patients[i].ismine;
           }
         }
+      }
+      if(this.patients.length==0){
+        this.roleShare='User';
       }
       this.modalReference = this.modalService.open(shareTo, ngbModalOptions);
     }
@@ -320,7 +319,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
         this.subscription.add( this.http.post(environment.api+'/api/sharingaccountsclinical/'+this.authService.getIdUser(), this.patients)
         .subscribe( (res2 : any) => {
           res2.sort(this.sortService.DateSort("date"));
-          console.log(res2);
           this.listOfSharingAccounts = res2;
           this.loading = false;
          }, (err) => {
@@ -355,16 +353,13 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
     revokePermission(i){
       this.revonking = true;
-      console.log(this.listOfSharingAccounts[i]);
 
       var patientId = this.listOfSharingAccounts[i].patientid;
       var userId = this.listOfSharingAccounts[i]._id;
       var objectData = { userId: userId};
-      console.log(objectData);
       this.subscription.add( this.http.post(environment.api+'/api/revokepermission/'+patientId, objectData)
       .subscribe( (res : any) => {
         this.revonking = false;
-        console.log(res);
         this.loadDataFromSharingAccounts();
        }, (err) => {
          console.log(err);
@@ -385,7 +380,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
         params.account = {};
         var patientparams = this.authService.getCurrentPatient();
-        console.log(this.selectedPatient);
 
         this.patients.forEach(function(element) {
           if(element.sub  == this.selectedPatient.sub){
@@ -425,7 +419,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
         if(!alreadyShared){
           this.subscription.add( this.http.post(environment.api+'/api/shareorinvite',params)
             .subscribe( (res : any) => {
-              console.log(res);
               if(params.role == 'User'){
                 if(res.message == 'Email sent'){
                   this.initVars();
@@ -471,8 +464,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     resend(i){
-      console.log('test');
-      console.log(this.listOfSharingAccounts[i]);
       this.sending = true;
       var params:any = {};
       //params.userId = this.authService.getIdUser();
@@ -488,7 +479,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.subscription.add( this.http.post(environment.api+'/api/resendshareorinvite',params)
         .subscribe( (res : any) => {
-          console.log(res);
           if(params.role == 'User'){
             if(res.message == 'Email sent'){
               this.initVars();
@@ -569,7 +559,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.shareWithObject = this.listOfSharingAccounts[index];
       //this.permissions = this.listOfSharingAccounts[index].permissions;
       this.indexPermissions = index;
-      console.log(this.indexPermissions);
       if(this.modalReference!=undefined){
         this.modalReference.close();
       }
@@ -597,7 +586,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       //var patientId = this.currentPatient.sub;
        this.subscription.add( this.http.post(environment.api+'/api/setpermission/'+patientId, this.listOfSharingAccounts)
        .subscribe( (res : any) => {
-         console.log(res)
        }))
    }
 
@@ -713,7 +701,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
      .subscribe( (res : any) => {
        if(res.exomiser!=undefined){
          if(res.exomiser.length>0){
-           console.log("Check services... true")
            var actualToken=res.exomiser[res.exomiser.length-1]
            this.checkExomiser(patientId, actualToken, patientName);
          }
@@ -776,6 +763,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
    clearNotifications(){
      this.tasks = [];
+     this.isCollapsed=true;
    }
 
    goToPatient(patientId, index){

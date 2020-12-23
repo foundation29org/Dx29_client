@@ -58,7 +58,6 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
 
         event => {
           var tempUrl = (event.url).toString();
-          console.log(tempUrl);
           if(tempUrl.indexOf('/.')!=-1){
             this.isHomePage = true;
             this.isClinicianPage = false;
@@ -143,7 +142,6 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
           }
         }
       );
-      console.log(this.router.url);
       if((this.router.url).indexOf('/.')!=-1){
             this.isHomePage = true;
             this.isClinicianPage = false;
@@ -278,7 +276,6 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
     loadLanguages() {
         this.subscription.add( this.langService.getLangs()
         .subscribe( (res : any) => {
-          console.log(res);
           this.langs=res;
           if(sessionStorage.getItem('lang')){
             this.translate.use(sessionStorage.getItem('lang'));

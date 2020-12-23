@@ -145,6 +145,7 @@
     "requiredfieldsmissing": "Some required fields are missing!",
     "Section": "Section",
     "Are you sure?": "Are you sure?",
+    "Are you sure delete": "Do you want to remove",
     "Are you sure delete it": "Do you want to remove it?",
     "Exit the application without logging off": "Exit the application without logging off",
     "We will reply as soon as possible": "We will reply as soon as possible. Thank you!",
@@ -193,7 +194,7 @@
     "Welcome to dx29": "Welcome to Dx29",
     "Please enter the basic data": "Add information about your condition and symptoms.",
     "Change": "Change",
-    "Foundation 29": "Foundation Twenty-nine",
+    "Foundation 29": "Foundation 29 of February",
     "Copied to the clipboard": "Copied to the clipboard",
     "Contact us!": "Contact us!",
     "Resend": "Resend",
@@ -224,7 +225,9 @@
     "errorServTitle":"Error",
     "errorSrvMsg":"An error has occurred",
     "Fill in the required data": "Fill in the required data",
-    "Calculate":"Calculate"
+    "Calculate":"Calculate",
+    "There is no patient data to export": "There is no patient data to export.",
+    "OPTIONAL": "Optional"
   },
   "lang":{
     "Question deleted successfully": "Question deleted successfully",
@@ -281,7 +284,8 @@
     "Fill personal info": "No patients. Fill in the personal information data to access the rest of the sections.",
     "Relationship": "Relationship",
     "Father": "Father",
-    "Mother": "Mother"
+    "Mother": "Mother",
+    "Select the sex to change the avatar": "Select the sex to change the avatar."
   },
   "social":{
     "Social patient information": "Social patient information",
@@ -409,7 +413,8 @@
     "Click to check it": "Click to check it",
     "Click to uncheck it": "Click to uncheck it",
     "Where did we get this symptom from": "Where did we get this symptom from?",
-    "The symptom is already added": "The symptom is already added."
+    "The symptom is already added": "The symptom is already added.",
+    "Group": "Group"
   },
   "genotype":{
     "My genotype": "My genotype",
@@ -676,7 +681,7 @@
     "Dont enter any identifiable patient information": "Do not enter any identifiable patient information",
     "Complete the patient data": "Complete the patient's data",
     "Genetic information": "Genetic information",
-    "Notes and Conclusion": "Feedback",
+    "Notes and Conclusion": "Notes",
     "Diagnosis powered by genes": "Diagnosis powered by genes",
     "DashboardTitle": "Dx29 is for research use only. It does not diagnose, it produces a ranked list of suspected genes which provide assistance for rare disease cases. Patients should discuss their findings with their healthcare provider. Our clinical results use a set of scoring algorithms which compare semantic similarity of each of your clinical findings to those that are normally exhibited by each disease. High similarity results in a high score for a disease.",
     "MsgExtractorField": "You are cautioned not to enter in the following field personal data or identification of the patient whose case is being reviewed, under your responsibility",
@@ -732,8 +737,8 @@
     "searchdoc": "Search a document",
     "searchtext": "Search in text",
     "nosymptoms": "The patient does not have symptoms.",
-    "sortalpha": "Sort alphabetically",
-    "sortgroup": "Sort by groups",
+    "sortalpha": "Alphabetically",
+    "sortgroup": "By groups",
     "See cards": "Cards view",
     "See list": "List view",
     "Found in": "Found in",
@@ -741,16 +746,19 @@
     "Has the symptom": "Yes",
     "No description": "No description has been found for this symptom.",
     "No synonyms": "No synonyms have been found for this symptom.",
-    "needsymtoms": "You need to add symptoms to continue"
+    "needsymtoms": "You need to add symptoms to continue",
+    "want to close this window": "Are you sure you want to close this window?",
+    "You will miss the changes": "You will miss the changes.",
+    "There might be repeated symptoms": "There might be repeated symptoms in the case they belong to multiple groups."
   },
   "geneticsection":{
     "title":"Genetic information",
     "subtitle1": "If you have genetic information on the patient you can upload it here. We need the data in VCF format",
     "subtitle2": "What is this file and how to get it?",
-    "nogenetic": "The patient doesn’t have genetic information.",
+    "nogenetic": "The patient doesn’t have genetic information. This is fine, you can continue to the next step.",
     "Upload file": "Upload file",
     "pantelInfoVcfSubtitle": "We explain here the importance of the VCF files and how to get them.",
-    "panelInfoVcfp1": "In order to identify the cause of many rare diseases, the best strategy is to search for genetic characteristics that can be linked to the patient set of symptoms. There characteristics are known as variants. There are many variants, so they are usually put together in one or more Variant Call Format (VCF) files as candidate variants.",
+    "panelInfoVcfp1": "In order to identify the cause of many rare diseases, the best strategy is to search for genetic characteristics that can be linked to the patient set of symptoms. These characteristics are known as variants. There are many variants, so they are usually put together in one or more Variant Call Format (VCF) files as candidate variants.",
     "panelInfoVcfp2": "It is usual that these files are never sent to the patient or the physicians by the labs, but in many cases, it is vital to reanalyze them as the patient symptoms progress. The patient has the right to have a copy of these files, so the easiest way to get them is for the patient to request a copy. Ask the patient to get in touch with us at <a href='mailto:support@foundation29.org'>support@foundation29.org</a> and we will send a short tutorial on how to do it.",
     "nogeneticinfo": "There is no genetic information, do you want to continue?"
   },
@@ -764,9 +772,9 @@
     "may10minutesexo": "If you have included genetic information this process may take up to 10 minutes. You can close this window, we will notify you when this has finished.",
     "may10minutesexov2": "This process may take up to 10 minutes. We will notify you when this has finished.",
     "title": "Analysis settings",
-    "subtitle": "Define what you want to analyze and how. If the default values are ok, continue with <b>Analyze</b>.",
+    "subtitle": "Define what you want to analyze and how. If the default values are ok, continue with <b>Analysis</b>.",
     "Settings": "Settings",
-    "settingTitle": "Edit on what symptoms and on what genetic information to base the list of diseases.",
+    "settingTitle": "Define what inputs to consider in the calculation of the list of suggested diseases.",
     "sectSymTxt1": "To obtain the best differential diagnosis suggestions, include only the key symptoms.",
     "sectSymTxt2.1": "You have selected",
     "sectSymTxt2.2": "of the patient’s",
@@ -791,7 +799,7 @@
     "Genetic view": "Genetic view",
     "Filter": "Filter by symptoms",
     "applied filters": "applied filters",
-    "geneticvariants": "See genetic variants",
+    "geneticvariants": "View genes",
     "Add notes": "Add notes",
     "gotoanalysis": "Go to 'Analysis'",
     "Load more": "Load more",
@@ -799,12 +807,18 @@
     "Clinical modifier": "Clinical modifier",
     "Clinical course": "Clinical course",
     "More information": "More information",
-    "no description": "There is no description on this disease.",
+    "no description": "No description has been found for this disease.",
     "no external references": "There are no external references.",
     "Prevalence": "Prevalence",
     "Disease": "Disease",
     "Patient": "Patient",
-    "Add symptom to the patient": "Add symptom to the patient"
+    "Add symptom to the patient": "Add symptom to the patient",
+    "Delete symptom to the patient": "Detele the patient's symptom",
+    "Calculations details": "Calculations details",
+    "Files included in the calculation": "Files included in the calculation",
+    "No genetic information has been included": "No genetic information has been included",
+    "Sorry, we have not found any disease": "Sorry, we have not found any disease",
+    "try adding": "Try adding more symptoms or ..."
   },
   "summarySection":{
     "subtitle":"This summary contains the available data and the selected candidate diagnosis.",
@@ -819,7 +833,9 @@
     "Candidate diagnosis": "Candidate diagnosis",
     "no candidate": "You haven’t selected any candidate diagnosis.",
     "Free text": "Free text",
-    "Other documents": "Other documents"
+    "Other documents": "Other documents",
+    "Advanced": "Advanced",
+    "Simple": "Simple"
   },
   "reportsSection":{
     "subtitle": "These are the files included in this case. You can review that their content has been correctly interpreted.",
@@ -846,8 +862,8 @@
     "Exomiser Score": "Exomiser Score",
     "Score": "Score",
     "List of genes and variants": "List of genes and variants",
-    "subtitle": "This list contains the variants of each gen that may be causative of the patient symptoms.",
-    "title": "List of genes and variants"
+    "subtitle": "This list contains the genes that may be the cause of the patient symptoms.",
+    "title": "List of genes"
   },
   "wizard":{
     "title": "Welcome to the wizard",
@@ -860,7 +876,7 @@
     "s3c": "Analyze a list of suggested conditions",
     "check": "Don’t show this message again",
     "btn": "Continue",
-    "Tutorial-Step": "Tutorial: Step"
+    "Tutorial-Step": "Wizard: Step"
   },
   "topnavbar":{
     "age": "Age",
@@ -871,7 +887,7 @@
     "Reports": "Reports",
     "Symptoms": "Symptoms",
     "Genetics": "Genetics",
-    "Analyze": "Analyze",
+    "Analyze": "Analysis",
     "Diagnoses": "Diagnoses",
     "Summary": "Summary",
     "Share": "Share",
@@ -882,7 +898,10 @@
     "Running": "Running",
     "Succeeded": "Succeeded",
     "Failed": "Failed",
-    "Clear notifications": "Clear notifications"
+    "Clear notifications": "Clear notifications",
+    "There are no notifications to show": "There are no notifications to show",
+    "Notifications": "Notifications",
+    "Help": "Help"
   },
   "sharesection":{
     "Sharing menu": "Sharing menu",
@@ -1273,7 +1292,7 @@
     "Loading data": "Loading data",
     "Share": "Share",
     "Send invite to use Dx29": "Patient - send invite to use Dx29",
-    "Share your data anonymously": "Clinician - share your data anonymously",
+    "Share your data anonymously": "Physician",
     "Invite": "Invite",
     "Shared with": "Shared cases",
     "Revoke": "Revoke",
@@ -1502,7 +1521,7 @@
     "Symptom extraction revision": "Symptom validation",
     "We have found": "We have found",
     "msgnumbersymptomsfound": "in the information you loaded.",
-    "msgnumbersymptomsfound2": "Please, review them to make sure they are correct.",
+    "msgnumbersymptomsfound2": "Please, add those present in this case.",
     "Show full text": "Show full text",
     "Hide full text": "Hide full text",
     "Score": "Score",
@@ -1738,7 +1757,7 @@
     },
     "step2-1":{
       "title1": "extraction",
-      "msg1": "We are searching for symptoms.",
+      "msg1": "Searching for symptoms",
       "msg2": "This process can take 1-2 minutes. Please, do not close this window.",
       "msg3": "SYMPTOMS EXTRACTED!",
       "btn1": "Let's go see them"

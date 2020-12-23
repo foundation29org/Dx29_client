@@ -16,7 +16,6 @@ export class PatientService {
       //cargar las faqs del knowledgeBaseID
       return this.http.get(environment.api+'/api/patients-all/'+this.authService.getIdUser())
         .map( (res : any) => {
-          console.log(res);
           if(res.listpatients.length>0){
             this.authService.setPatientList(res.listpatients);
             this.authService.setCurrentPatient(res.listpatients[0]);
@@ -33,7 +32,6 @@ export class PatientService {
       //cargar las faqs del knowledgeBaseID
       return this.http.get(environment.api+'/api/patients-all/'+this.authService.getIdUser())
         .map( (res : any) => {
-          console.log(res);
           if(res.listpatients.length>0){
             this.authService.setPatientList(res.listpatients);
             /*
@@ -54,7 +52,6 @@ export class PatientService {
       //cargar las faqs del knowledgeBaseID
       return this.http.get(environment.api+'/api/patients-all/'+idUser)
         .map( (res : any) => {
-          console.log(res);
           if(res.listpatients.length>0){
             this.authService.setPatientList(res.listpatients);
             /*

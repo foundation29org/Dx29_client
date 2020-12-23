@@ -311,7 +311,7 @@
                   </p>
                   <span *ngIf="i== selectedInfoSymptomIndex">
                     <h6 class="mt-2"><strong>{{'generics.External Links' | translate }}</strong></h6>
-                    <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}}. {{hpo.comment}}">MONDO ({{hpo.id}})</a>
+                    <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}} {{hpo.comment}}">MONDO ({{hpo.id}})</a>
                   </span>
                 </div>
                 <div class="col-4">
@@ -462,7 +462,7 @@
                       </p>
                       <span *ngIf="i== selectedInfoSymptomIndex">
                         <h6 class="mt-2"><strong>{{'generics.External Links' | translate }}</strong></h6>
-                        <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}}. {{hpo.comment}}">MONDO ({{hpo.id}})</a>
+                        <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}} {{hpo.comment}}">MONDO ({{hpo.id}})</a>
                       </span>
                     </div>
                     <div class="col-3">
@@ -625,7 +625,7 @@
                   </p>
                   <span *ngIf="i== selectedInfoSymptomIndex">
                     <h6 class="mt-2"><strong>{{'generics.External Links' | translate }}</strong></h6>
-                    <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}}. {{hpo.comment}}">MONDO ({{hpo.id}})</a>
+                    <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}} {{hpo.comment}}">MONDO ({{hpo.id}})</a>
                   </span>
                 </div>
                 <div class="col-4">
@@ -709,7 +709,7 @@
                   </p>
                   <span *ngIf="i== selectedInfoSymptomIndex">
                     <h6 class="mt-2"><strong>{{'generics.External Links' | translate }}</strong></h6>
-                    <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}}. {{hpo.comment}}">MONDO ({{hpo.id}})</a>
+                    <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}} {{hpo.comment}}">MONDO ({{hpo.id}})</a>
                   </span>
                 </div>
                 <div class="col-4">
@@ -1053,7 +1053,7 @@
     					</h4>
               <p class="mb-0"><b>{{'patnodiagdashboard.step4-1.msg5' | translate }}</b></p>
               <p class="row">
-                <span *ngFor="let test of geneticTests ; let i = index" class="col-md-6">{{test.translation}}</span> <!--<span *ngIf="i<geneticTests.length-1">, </span>-->
+                <span *ngFor="let test of geneticTests ; let i = index"><span *ngIf="test.checked" class="col-md-6">{{test.translation}}</span></span> <!--<span *ngIf="i<geneticTests.length-1">, </span>-->
               </p>
               <p class="mb-0"><b>{{'patnodiagdashboard.step4-1.msg6' | translate }}</b></p>
               <p *ngIf="otherGeneFiles.length==0 && filesVcf.length==0"><span>{{'generics.No' | translate }}</span></p>
@@ -1317,7 +1317,7 @@
                     </p>
                     <span *ngIf="i== selectedInfoSymptomIndex">
                       <h6 class="mt-2"><strong>{{'generics.External Links' | translate }}</strong></h6>
-                      <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}}. {{hpo.comment}}">MONDO ({{hpo.id}})</a>
+                      <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}} {{hpo.comment}}">MONDO ({{hpo.id}})</a>
                     </span>
                   </div>
                   <div class="col-4">
@@ -1359,7 +1359,7 @@
 <ng-template #contentExtractorSteps let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-header" id="idHeader">
     <div class="content-header text-left">
-      <h4>{{'patnodiagdashboard.menu.Your symptoms' | translate }}: {{'patnodiagdashboard.step2-1.title1' | translate }}</h4>
+      <h4>{{'patnodiagdashboard.step2-1.msg1' | translate }}</h4>
     </div>
   </div>
     <div class="content-wrapper">
@@ -1367,7 +1367,6 @@
         <div class="offset-md-3 col-md-6 offset-lg-2 col-lg-8">
           <section>
             <div class="mt-2">
-              <p>{{'patnodiagdashboard.step2-1.msg1' | translate }}</p>
               <p>{{'patnodiagdashboard.step2-1.msg2' | translate }}</p>
               <div>
                 <ol>

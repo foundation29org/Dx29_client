@@ -38,8 +38,8 @@
                                 <div class="form-group" *ngIf="!sending">
                                     <div class="col-md-12">
                                       <div *ngIf="f.valid;then formValid else formError"></div>
-                                      <ng-template #formValid><button class="btn btn-pink btn-block btn-foursquare" type="submit"> {{'login.Login' | translate }}</button></ng-template>
-                                      <ng-template #formError><button class="btn btn-pink btn-block btn-foursquare" type="button" (click)="submitInvalidForm()"> {{'login.Login' | translate }}</button></ng-template>
+                                      <ng-template #formValid><button class="btn btn-primary btn-raised btn-block" type="submit"> {{'login.Login' | translate }}</button></ng-template>
+                                      <ng-template #formError><button class="btn btn-primary btn-raised btn-block" type="button" (click)="submitInvalidForm()"> {{'login.Login' | translate }}</button></ng-template>
                                     </div>
                                     <!--<a class="white" (click)="launchDemo()">Demo</a>-->
                                 </div>

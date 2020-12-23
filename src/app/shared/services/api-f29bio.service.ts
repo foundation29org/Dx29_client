@@ -117,7 +117,7 @@ export class Apif29BioService {
     }
 
     ​getPredecessorsOfSymptomsDepth(listOfSymptoms){
-        return this.http.post(environment.f29bio+'/api/BioEntity/phenotype/predecessors​/?depth=-1',listOfSymptoms)
+        return this.http.post(environment.f29bio+'/api/BioEntity/phenotype/predecessors/?depth=-1',listOfSymptoms)
         .map( (res : any) => {
             return res;
         }, (err) => {

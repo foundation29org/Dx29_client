@@ -224,7 +224,9 @@
     "errorServTitle":"Error ",
     "errorSrvMsg":"Se ha producido un error.",
     "Fill in the required data": "Complete los datos obligatorios",
-    "Calculate":"Calcular"
+    "Calculate":"Calcular",
+    "There is no patient data to export": "No hay datos de pacientes para exportar.",
+    "OPTIONAL": "Opcional"
   },
   "lang":{
     "Question deleted successfully": "Pregunta eliminada con éxito",
@@ -281,7 +283,8 @@
     "Fill personal info": "Sin pacientes. Complete los datos de información personal para acceder al resto de las secciones.",
     "Relationship": "Parentesco",
     "Father": "Padre",
-    "Mother": "Madre"
+    "Mother": "Madre",
+    "Select the sex to change the avatar": "Selecciona el sexo para cambiar el avatar."
   },
   "social":{
     "Social patient information": "Información social del paciente",
@@ -409,7 +412,8 @@
     "Click to check it": "Click para marcarlo",
     "Click to uncheck it": "Click para desmarcarlo",
     "Where did we get this symptom from": "¿De dónde sacamos este síntoma?",
-    "The symptom is already added": "El síntoma ya está añadido."
+    "The symptom is already added": "El síntoma ya está añadido.",
+    "Group": "Grupo"
   },
   "genotype":{
     "My genotype": "Mi genotipo",
@@ -676,7 +680,7 @@
     "Dont enter any identifiable patient information": "No introduzca ninguna información identificable del paciente",
     "Complete the patient data": "Completa los datos del paciente",
     "Genetic information": "Información genética",
-    "Notes and Conclusion": "Comentarios",
+    "Notes and Conclusion": "Notas",
     "Diagnosis powered by genes": "Diagnóstico impulsado por genes",
     "DashboardTitle": "Dx29 es sólo para uso de investigación. No diagnostica, produce una lista clasificada de genes sospechosos que proporcionan asistencia para casos de enfermedades raras. Los pacientes deben discutir sus hallazgos con su proveedor de atención médica. Nuestros resultados clínicos utilizan un conjunto de algoritmos de puntuación que comparan la similitud semántica de cada uno de sus hallazgos clínicos con los que normalmente presenta cada enfermedad. La alta similitud resulta en una puntuación alta para una enfermedad.",
     "MsgExtractorField": "Se le advierte que no ingrese los siguientes datos personales de campo o identificación del paciente cuyo caso se está revisando, bajo su responsabilidad",
@@ -732,22 +736,25 @@
     "searchdoc": "Buscar en un documento",
     "searchtext": "Buscar en un texto",
     "nosymptoms": "El paciente no tiene síntomas.",
-    "sortalpha": "Ordenar alfabéticamente",
-    "sortgroup": "Ordenar por grupos",
-    "See cards": "Vista de cartas",
+    "sortalpha": "Alfabéticamente",
+    "sortgroup": "Por grupos",
+    "See cards": "Vista de tarjetas",
     "See list": "Vista de lista",
-    "Found in": "Encontrado en el texto en:",
+    "Found in": "Encontrado en el texto en",
     "Does not have the symptom": "No",
     "Has the symptom": "Si",
     "No description": "No hemos encontrado una descripción de este síntoma.",
     "No synonyms": "No hemos encontrado sinónimos de este síntoma.",
-    "needsymtoms": "Para continuar necesitas añadir un síntoma"
+    "needsymtoms": "Para continuar necesitas añadir un síntoma",
+    "want to close this window": "¿Estás seguro de cerrar esta ventana? ",
+    "You will miss the changes": "Perderan los cambios.",
+    "There might be repeated symptoms": "Puedes haber síntomas repetidos en caso de que pertenezcan a varios grupos."
   },
   "geneticsection":{
     "title":"Información genética",
-    "subtitle1": "Si tienes información genética del paciente la puedes incluir paraanalizarla. Necesitamos los datos en formato VCF",
+    "subtitle1": "Si tienes información genética del paciente la puedes incluir para analizarla. Necesitamos los datos en formato VCF",
     "subtitle2": "¿Qué es y cómo consigo este archivo?",
-    "nogenetic": "El paciente no tiene información genética.",
+    "nogenetic": "El paciente no tiene información genética. Esto está bien, puedes continuar con el siguiente paso.",
     "Upload file": "Añadir archivo",
     "pantelInfoVcfSubtitle": "Te explicamos la importancia de los archivos VCF y como los puedes conseguir.",
     "panelInfoVcfp1": "Para identificar la causa de muchas enfermedades raras, la mejor estrategia es buscar características genéticas que se puedan relacionar con los síntomas del paciente. Estas características se conocen como variantes. Hay muchas variantes, por lo que normalmente se recogen en uno o más archivos de Variant Call Format (VCF) como variantes candidatas.",
@@ -756,7 +763,7 @@
   },
   "analysissection":{
     "nosymptoms": "Has eliminado todos los síntomas",
-    "analyzingdata": "Estamos analizando los datos",
+    "analyzingdata": "Estamos analizando la información",
     "stopanalysis?": "¿Quieres parar el análisis?",
     "stillanalyzing": "Todavía estamos analizando, así que por favor tengan paciencia.",
     "analysisover": "El analisis ha terminado, vaya a ver los resultados.",
@@ -764,9 +771,9 @@
     "may10minutesexo": "Si has incluido información genética este proceso puede tardar hasta 10 minutos. Puedes cerrar esta ventana, te avisaremos en las notificaciones que ha terminado.",
     "may10minutesexov2": "Este proceso puede tardar hasta 10 minutos. Te avisaremos en las notificaciones que ha terminado.",
     "title": "Configuración del análisis",
-    "subtitle": "Define qué quieres analizar y cómo. Si los valores por defecto están bien, pulsa <b>Analizar</b> para continuar.",
+    "subtitle": "Define qué quieres analizar y cómo. Si los valores por defecto están bien, pulsa <b>Análisis</b> para continuar.",
     "Settings": "Configuración",
-    "settingTitle": "Edita sobre qué síntomas y qué datos genéticos quieres basar la lista de enfermedades.",
+    "settingTitle": "Define qué datos incluir en el cálculo de la lista de enfermedades sugeridas.",
     "sectSymTxt1": "Para obtener las mejores sugerencias de diagnóstico diferencial, incluye solamente síntomas guía.",
     "sectSymTxt2.1": "Has incluido",
     "sectSymTxt2.2": "de los",
@@ -791,9 +798,9 @@
     "Genetic view": "Vista genética",
     "Filter": "Filtrar por síntomas",
     "applied filters": "filtros aplicados",
-    "geneticvariants": "Ver variantes genéticas",
+    "geneticvariants": "Ver genes",
     "Add notes": "Añadir notas",
-    "gotoanalysis": "Ir a 'Analizar'",
+    "gotoanalysis": "Ir a 'Análisis'",
     "Load more": "Ver más",
     "External references": "Referencias externas",
     "Clinical modifier": "Modificador clínico",
@@ -804,7 +811,13 @@
     "Prevalence": "Prevalencia",
     "Disease": "Enfermedad",
     "Patient": "Paciente",
-    "Add symptom to the patient": "Añadir síntoma al paciente"
+    "Add symptom to the patient": "Añadir síntoma al paciente",
+    "Delete symptom to the patient": "Eliminar el síntoma del paciente",
+    "Calculations details": "Detalles de los cálculos",
+    "Files included in the calculation": "Archivos incluidos en el cálculo",
+    "No genetic information has been included": "No se ha incluido ninguna información genética.",
+    "Sorry, we have not found any disease": "Lo sentimos, no hemos encontrado ninguna enfermedad",
+    "try adding": "Prueba a añadir más síntomas o ..."
   },
   "summarySection":{
     "subtitle":"Este resumen contiene los datos disponibles del paciente y de los posibles diagnósticos seleccionados.",
@@ -819,7 +832,9 @@
     "Candidate diagnosis": "Diagnósticos candidatos",
     "no candidate": "No has seleccionado ningún diagnóstico candidato.",
     "Free text": "Texto libre",
-    "Other documents": "Otros documentos"
+    "Other documents": "Otros documentos",
+    "Advanced": "Avanzada",
+    "Simple": "Simple"
   },
   "reportsSection":{
     "subtitle": "Estos son los archivos que se han incluido en el caso de este paciente. Puedes revisar si su contenido se ha interpretado correctamente.",
@@ -846,16 +861,16 @@
     "Exomiser Score": "Puntuación de Exomiser",
     "Score": "Puntuación",
     "List of genes and variants": "Lista de genes y variantes",
-    "subtitle": "Esta contiene las variantes de cada gen que son potencialmente causativas de los síntomas del paciente.",
-    "title": "List of genes and variants"
+    "subtitle": "Esta lista contiene los genes que pueden ser la causa de los síntomas del paciente.",
+    "title": "Lista de genes"
   },
   "wizard":{
     "title": "Bienvenido al asistente",
-    "subtitle": "Este asistente te guiará desde la introducción de síntomas, hasta el análisis de resultados. Estos son los pasos a seguir:",
+    "subtitle": "Este asistente te guiará desde la introducción de síntomas hasta el análisis de resultados. Estos son los pasos a seguir:",
     "s1t": "Síntomas",
     "s1c": "Introdúcelos uno a uno o automáticamente desde un documento",
     "s2t": "Genética",
-    "s2c": "Añadir información genética",
+    "s2c": "Añade información genética",
     "s3t": "Análisis",
     "s3c": "Analiza una lista de enfermedades sugeridas",
     "check": "No volver a mostrar este mensaje",
@@ -871,7 +886,7 @@
     "Reports": "Informes",
     "Symptoms": "Síntomas",
     "Genetics": "Genética",
-    "Analyze": "Analizar",
+    "Analyze": "Análisis",
     "Diagnoses": "Diagnósticos",
     "Summary": "Resumen",
     "Share": "Compartir",
@@ -882,12 +897,15 @@
     "Running": "En ejecución",
     "Succeeded": "Terminado",
     "Failed": "Error",
-    "Clear notifications": "Eliminar notificaciones "
+    "Clear notifications": "Eliminar notificaciones",
+    "There are no notifications to show": "No hay notificaciones que mostrar",
+    "Notifications": "Notificaciones",
+    "Help": "Ayuda"
   },
   "sharesection":{
     "Sharing menu": "Menú de compartición",
     "Invite": "Invitar a otro médico al caso",
-    "What can it be done": "What can it be done with the case?",
+    "What can it be done": "¿Qué se puede hacer con el caso?",
     "Write a message for the receptor": "Escribe un mensaje para darle contexto al receptor.",
     "Role": "Rol"
   },
@@ -1273,7 +1291,7 @@
     "Loading data": "Cargando información",
     "Share": "Compartir",
     "Send invite to use Dx29": "Paciente – envía invitación para unirse a Dx29",
-    "Share your data anonymously": "Médico – comparte tus datos con un médico de manera anónima",
+    "Share your data anonymously": "Médico",
     "Invite": "Invitar",
     "Shared with": "Casos compartidos",
     "Revoke": "Anular",
@@ -1495,7 +1513,7 @@
     "Symptom extraction revision": "Validación de los síntomas encontrados",
     "We have found": "Hemos encontrado",
     "msgnumbersymptomsfound": "en la información que cargó.",
-    "msgnumbersymptomsfound2": "Revísalos para asegurar que el paciente tiene estos síntomas.",
+    "msgnumbersymptomsfound2": "Por favor, añada los que tiene su caso.",
     "Show full text": "Mostrar texto completo",
     "Hide full text": "Ocultar texto completo",
     "Score": "Puntuación",
@@ -1740,7 +1758,7 @@
     },
     "step2-1":{
       "title1": "extracción",
-      "msg1": "Estamos buscando síntomas en el texto.",
+      "msg1": "Buscando síntomas",
       "msg2": "Este proceso puede tardar entre 1 y 2 minutos. Por favor, no cierres esta ventana.",
       "msg3": "¡SÍNTOMAS EXTRAIDOS!",
       "btn1": "Vamos a verlos"

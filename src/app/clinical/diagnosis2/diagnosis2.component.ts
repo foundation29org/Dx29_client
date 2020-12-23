@@ -45,6 +45,7 @@ import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
 import { Apif29NcrService } from 'app/shared/services/api-f29ncr.service';
+import{GoogleAnalyticsService} from 'app/shared/services/google-analytics.service';
 import { Subject } from 'rxjs/Rx';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
@@ -334,6 +335,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     selectedOrderFilesOther: string = 'lastModified';
     maps_to_orpha: any = {};
     orphanet_names: any = {};
+    hp_frequencies:any = {};
     isLoadingStep: boolean = true;
     actualTemporalSymptomsIndex:number = 0;
     viewOptionNcr:number = 0;
@@ -342,10 +344,15 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     placement = "bottom-right";
     numberOfSymptomsExo:number =0;
     exostring: string = "3' UTR exon variant";
+    tempVcfBlobName: string = '';
+    nodescriptionSymptom:String=this.translate.instant("symptomssection.No description");
+    launchedPhen2genes: boolean = false;
+    viewSummarySymptoms: string = 'Simple';
+    isNew: boolean = false;
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
-    protected $hotjar: NgxHotjarService, private textTransform: TextTransform, private inj: Injector, private dataservice: Data) {
+    protected $hotjar: NgxHotjarService, private textTransform: TextTransform, private inj: Injector, private dataservice: Data, public googleAnalyticsService: GoogleAnalyticsService) {
       this.eventsService = this.inj.get(EventsService);
       this.loadingTable=false;
       //this.columnsToDisplay=[this.translate.instant('diagnosis.Ranked genes'),this.translate.instant('phenotype.Related conditions')]
@@ -459,8 +466,14 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
           this.subscription.add( this.http.get('assets/jsons/orphanet_names_'+this.lang+'.json')
          .subscribe( (res : any) => {
-           console.log('loag data');
            this.orphanet_names = res;
+          }, (err) => {
+            console.log(err);
+          }));
+
+          this.subscription.add( this.http.get('assets/jsons/hp_frequencies.json')
+          .subscribe( (res : any) => {
+            this.hp_frequencies = res;
           }, (err) => {
             console.log(err);
           }));
@@ -515,14 +528,12 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
          }
        });
 
-      console.log("ng on init")
       this.exomiserHttpService.cancelPendingRequests();
       this.lang = this.authService.getLang();
       if(this.authService.getCurrentPatient()==null){
         this.router.navigate(['clinical/dashboard/home']);
       }else{
         this.selectedPatient = this.authService.getCurrentPatient();
-        console.log(this.selectedPatient);
         this.eventsService.broadcast('selectedPatient', this.selectedPatient);
         var dateRequest2=new Date(this.selectedPatient.birthDate);
         if(this.selectedPatient.birthDate == null){
@@ -627,8 +638,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     setActualStepDB(actualStep:string){
       var object = {actualStep:actualStep}
       if(actualStep>=this.maxStep && this.maxStep<"5.0"){
-
-        console.log(actualStep);
         if(actualStep=='5.0'){
           actualStep = '6.0';
           object = {actualStep:actualStep}
@@ -647,7 +656,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     setActualStep(actualStep:string){
       this.actualStep = actualStep;
       this.dataservice.steps = {actualStep: this.actualStep, maxStep: this.maxStep};
-      console.log(this.dataservice.steps);
       this.eventsService.broadcast('maxStep', this.maxStep);
       this.eventsService.broadcast('actualStep', this.actualStep);
     }
@@ -655,14 +663,12 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     setMaxStep(maxStep:string){
       this.maxStep = maxStep;
       this.dataservice.steps = {actualStep: this.actualStep, maxStep: this.maxStep};
-      console.log(this.dataservice.steps);
       this.eventsService.broadcast('maxStep', this.maxStep);
       this.eventsService.broadcast('actualStep', this.actualStep);
     }
 
     goPrevStep(){
-      console.log(this.actualStep);
-      if(this.actualStep == '1.0' && this.showIntroWizard){
+      if((this.actualStep == '1.0' || this.actualStep == '1') && this.showIntroWizard){
         this.setActualStep('0.0');
       }else if(this.actualStep > '3.0'){
         if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
@@ -701,7 +707,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           }
 
         }
-      }else if(this.actualStep == '3.0'){
+      }else if(this.actualStep == '3.0' || this.actualStep == '3'){
         this.setActualStep('2.0');
       }else if(this.actualStep > '1.0'){
         this.setActualStep('1.0');
@@ -709,8 +715,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     goNextStep(){
-      console.log(this.actualStep);
-      console.log(this.numberOfSymptoms);
       if(this.actualStep >= '3.3'){
         this.goToStep('5.0', true)
       }else if(this.actualStep == '3.2'){
@@ -725,7 +729,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }else{
           this.goToStep('5.0', true)
         }
-      }else if(this.actualStep == '3.0'){
+      }else if(this.actualStep == '3.0' || this.actualStep == '3'){
         var haveSymptoms = false;
         for(var i=0;i<this.symptomsExomiser.length;i++){
           if(this.symptomsExomiser[i].checked){
@@ -743,7 +747,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           }
 
         }
-      }else if(this.actualStep == '2.0'){
+      }else if(this.actualStep == '2.0' || this.actualStep == '2'){
         if(this.filesVcf.length>0){
           this.goToStep('3.0', true);
         }else{
@@ -765,7 +769,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           });
 
         }
-      }else if(this.actualStep == '1.0'){
+      }else if(this.actualStep == '1.0' || this.actualStep == '1'){
         if((this.phenotype.data.length == 0) || (this.numDeprecated==this.phenotype.data.length && this.numDeprecated>0)){
           Swal.fire({ title: this.translate.instant("symptomssection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"warning" })
         }else{
@@ -800,7 +804,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.lauchPhen2Genes();
         document.getElementById("openModalPhen2genes").click();
       }else if(this.actualStep == '3.1'){
-        console.log(save);
         if(save){
           this.callExomizerSameVcf();
         }
@@ -852,7 +855,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.getDiagnosisInfo();
 
       this.eventsService.on('infoStep', function(info) {
-        console.log(info);
         if(info.maxStep!=null){
           this.setMaxStep('0.0');
         }
@@ -929,7 +931,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     loadBlobFiles(){
       this.subscription.add( this.blob.change.subscribe(uploaded => {
          this.uploaded = uploaded;
-         console.log("subscription blob")
          this.uploadingGenotype = false;
        }));
 
@@ -985,7 +986,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
              //document.getElementById("idShowPanelWorkbench").click();
            }
           }else{
-            console.log('no tiene!');
+            //console.log('no tiene!');
           }
         }));
 
@@ -1015,7 +1016,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
         //SI TIENE JSON DE EXOMIZER
        this.subscription.add( this.blob.changeFilesExomizerBlob.subscribe(filesOnBlob => {
-         console.log(filesOnBlob);
          this.loadingGeno = false;
           this.filesOnBlob = filesOnBlob;
           //console.log(this.filesOnBlob);
@@ -1029,7 +1029,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               //document.getElementById("idShowPanelWorkbench").click();
             }
           }else{
-            console.log('change blob exomiser no tiene!');
             this.uploadingGenotype = false;
           }
           this.loading = false;
@@ -1096,6 +1095,32 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                    ncrresultfiles=true;
                  }
                }
+               /*if((indexFileExecution1[0] == indexFileExecution2[0]) && ncrresultfiles){
+                 if(extension1 == '.json'){
+                   var name = filesPatientBlob[i+1].name.substr(filesPatientBlob[i+1].name.indexOf('-')+1)
+                   filesPatientBlob[i+1].simplename = name;
+                   listPatientFiles.push({origenFile:filesPatientBlob[i+1], ncrResults:filesPatientBlob[i]})
+                 }else{
+                   var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
+                   filesPatientBlob[i].simplename = name;
+                   listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i+1]})
+                 }
+                 i=i+1;
+               }else{
+                 if(extension1 == '.json'){
+                   var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
+                   filesPatientBlob[i].simplename = name;
+                   //listPatientFiles.push({origenFile:undefined, ncrResults:filesPatientBlob[i]})
+                   listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i]})
+                 }else{
+                   var name = filesPatientBlob[i+1].name.substr(filesPatientBlob[i+1].name.indexOf('-')+1)
+                   filesPatientBlob[i+1].simplename = name;
+                   //listPatientFiles.push({origenFile:undefined, ncrResults:filesPatientBlob[i]})
+                   listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i]})
+                 }
+                 //i=i+1;
+               }*/
+
                if((indexFileExecution1[0] == indexFileExecution2[0]) && ncrresultfiles){
                  if(extension1 == '.json'){
                    var name = filesPatientBlob[i+1].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
@@ -1121,6 +1146,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                  }
                  //i=i+1;
                }
+
              }
              for(var i=0;i<listPatientFiles.length;i++){
                listPatientFiles[i].origenFile.nameForShow="";
@@ -1149,6 +1175,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                  this.otherDocs.push(this.listPatientFiles[i]);
                }
              }
+             this.docsNcr.sort(this.sortService.DateSortFiles("lastModified"));
+             this.otherDocs.sort(this.sortService.DateSortFiles("lastModified"));
 
             // this.urlFileHtmlExomiserBlob = this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+filesPatientBlob[0].name+this.accessToken.sasToken;
            }else{
@@ -1198,42 +1226,46 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       //this.listPatientFiles[i].origenFile.name
       this.subscription.add( this.http.get(this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+name+this.accessToken.sasToken)
        .subscribe( (res : any) => {
-         //console.log(res);
          var listSymptoms = [];
          var numSymptMatch = 0;
          var resumeText = '';
          if(res.originalText!=undefined){
            resumeText = res.originalText.slice(0, 200);
          }
-          var infoNcr = res.result
+          var infoNcr = res.result;
           if(infoNcr!=undefined){
             if(infoNcr.length>0){
              for(var i = 0; i < infoNcr.length; i++) {
 
                for(var j = 0; j < infoNcr[i].phens.length; j++) {
-                 var foundElement = this.searchService.search(listSymptoms,'id', infoNcr[i].phens[j].id);
-                 if(!foundElement){
+                 var foundkio =false;
+                 for(var kio = 0; kio < listSymptoms.length && !foundkio; kio++) {
+                   if(listSymptoms[kio]==infoNcr[i].phens[j].id){
+                     foundkio=true;
+                   }
+                 }
+                 if(!foundkio){
                    listSymptoms.push(infoNcr[i].phens[j].id);
                  }
                }
              }
 
              for(var i = 0; i < this.phenotype.data.length; i++) {
-               for(var j = 0; j < listSymptoms.length; j++) {
-                 if(this.phenotype.data[i].id==listSymptoms[j]){
+               var found = false;
+               for(var j = 0; j < listSymptoms.length && !found; j++) {
+                 if(this.phenotype.data[i].id==listSymptoms[j] && this.phenotype.data[i].checked){
                    numSymptMatch++;
+                   found=true;
                  }
                }
              }
            }
           }
-
-        var extension = this.listPatientFiles[index].origenFile.nameForShow.substr(this.listPatientFiles[index].origenFile.nameForShow.lastIndexOf('.'));
-        this.listPatientFiles[index].ncrResults.extension = extension
+        var extension = this.listPatientFiles[index].origenFile.name.substr(this.listPatientFiles[index].origenFile.name.lastIndexOf('.'));
+        this.listPatientFiles[index].ncrResults.extension = extension;
         this.listPatientFiles[index].ncrResults.numberSymptoms= listSymptoms.length;
         this.listPatientFiles[index].ncrResults.numSymptMatch= numSymptMatch;
-        this.listPatientFiles[index].ncrResults.resumeText = resumeText
-        console.log(this.listPatientFiles[index]);
+        this.listPatientFiles[index].ncrResults.resumeText = resumeText;
         this.docsNcr.push(this.listPatientFiles[index]);
        }, (err) => {
          console.log(err);
@@ -1344,7 +1376,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     selected2(i) {
-      console.log(this.listOfFilteredSymptoms[i]);
       this.addSymptom(this.listOfFilteredSymptoms[i], 'manual');
       this.hasSymptomsToSave();
       //this.addSymptom($e.item, 'manual');
@@ -1400,6 +1431,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             windowClass: 'ModalClass-sm'
       };
       this.modalReference = this.modalService.open(contentInfoSymptom, ngbModalOptions);
+    }
+
+    showMoreInfoSymptomPopupGroup(index1, index2, contentInfoSymptom){
+      var indexElement = this.searchService.searchIndex(this.phenotype.data,'id', this.listOfSymptomGroups[index1].symptoms[index2].id);
+      this.showMoreInfoSymptomPopup(indexElement, contentInfoSymptom);
     }
 
     goPrevSymptom(){
@@ -1502,7 +1538,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     loadSymptoms(){
 
       //cargar los datos del usuario
-      console.log("load symptoms");
       this.loadingSymptoms = true;
       this.numDeprecated = 0;
       var para= this.authService.getCurrentPatient();
@@ -1525,10 +1560,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             });
 
             //this.idPhenotype = res.phenotype._id;
-            console.log(hposStrins.length);
             //get symtoms
             var lang = this.authService.getLang();
-            console.log(this.listOfphenotypesinfo.length);
             if(this.listOfphenotypesinfo.length==0){
               this.testCallGetInfoSymptomsJSON(hposStrins);
             }else{
@@ -1573,10 +1606,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.subscription.add(this.apif29BioService.getInfoSymptomsJSON(hposStrins,this.listOfphenotypesinfo)
       //this.subscription.add(this.apif29BioService.getInfoOfSymptoms(lang,hposStrins)
       .subscribe( (res2 : any) => {
-        console.log(res2);
-
         var tamano= Object.keys(res2).length;
-        console.log(tamano)
         if(tamano>0){
           var hposStrinsOld =[];
           for(var i in res2) {
@@ -1695,7 +1725,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         infoToExtractGenes = this.infoGenesAndConditionsPhen2Genes;
         priorizeGenes=false;
       }
-      console.log(infoToExtractGenes)
       if((infoToExtractGenes!= [])&&(priorizeGenes==true && this.isgen)&&(this.infoGenesAndConditionsExomizer.length>0)){
         this.getRelatedConditionsExomiser(infoToExtractGenes);
       }
@@ -1736,7 +1765,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
       this.subscription.add( this.apif29BioService.getDiseaseOfGenes(listGenes_names)
       .subscribe( (resDiseases : any) => {
-        console.log(resDiseases);
         for(var i=0;i<listGenes_names.length;i++){
           var idGen = listGenes_names[i];
           if((resDiseases[idGen] !=undefined)&&(resDiseases[idGen] !=null)){
@@ -1789,7 +1817,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
         this.subscription.add( this.apiDx29ServerService.getRelatedConditions(jsonHpos)
         .subscribe( (res : any) => {
-          console.log(res);
           this.relatedConditions = res;
           if(infoToExtractGenes!= []){
             this.loadingInfoGenes = true;
@@ -1849,7 +1876,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               }
             }
             this.relatedConditions = temp2;
-            console.log(temp2);
 
             //quedarse con 100 this.listOfDiseases
             this.listOfDiseases = [];
@@ -1861,7 +1887,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             //get genes
             this.subscription.add(this.apif29BioService.getGenesOfDiseases(this.listOfDiseases)
             .subscribe( (res1 : any) => {
-              console.log(res1)
               var genRelationValuesListAccepted=["RO:0003303", "RO:0004012", "RO:0004013", "RO:0004014"]
               var infoGenesDiscard_null= new Object();
               infoGenesDiscard_null={};
@@ -2047,7 +2072,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
       this.subscription.add( this.apif29BioService.getDiseaseOfGenes(listGenes_names)
       .subscribe( (resDiseases : any) => {
-        console.log(resDiseases);
         for(var i=0;i<listGenes_names.length;i++){
           var idGen = listGenes_names[i];
           if((resDiseases[idGen] !=undefined)&&(resDiseases[idGen] !=null)){
@@ -2087,8 +2111,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           this.uploadProgress = this.blob
           .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
         }
-
-        console.log(infoToExtractGenes)
         //Get list of diseases with Monarch (la de ahora).
         this.relatedConditions = [];
         var jsonPhenotype = { hpos: this.phenotype.data };
@@ -2100,7 +2122,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
         this.subscription.add( this.apiDx29ServerService.getRelatedConditions(jsonHpos)
         .subscribe( (res : any) => {
-        console.log(res);
         this.relatedConditions = res;
 
         //Merge and keep unique diseases.
@@ -2143,7 +2164,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           //get genes
           this.subscription.add(this.apif29BioService.getGenesOfDiseases(this.listOfDiseases)
           .subscribe( (res1 : any) => {
-            console.log(res1)
             var genRelationValuesListAccepted=["RO:0003303", "RO:0004012", "RO:0004013", "RO:0004014"]
             var infoGenesDiscard_null= new Object();
             infoGenesDiscard_null={};
@@ -2257,14 +2277,19 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             .uploadToBlobStorage(this.accessToken, fileRelatedConditionsParams, fileNameRelatedConditions, 'relatedConditions');
 
             var copyrelatedConditions2 = [];
-            console.log(this.relatedConditions);
-            for(var i = 0; i < this.relatedConditions.length; i++) {
-              if(this.relatedConditions[i].iscondition){
+            if(this.infoGenesAndConditionsExomizer.length==0 && (this.infoGenesAndConditionsPhen2Genes.length==0 && this.launchedPhen2genes)){
+              for(var i = 0; i < this.relatedConditions.length; i++) {
                 copyrelatedConditions2.push(this.relatedConditions[i]);
               }
+            }else{
+              for(var i = 0; i < this.relatedConditions.length; i++) {
+                if(this.relatedConditions[i].iscondition){
+                  copyrelatedConditions2.push(this.relatedConditions[i]);
+                }
+              }
             }
+
             this.relatedConditions = copyrelatedConditions2;
-            console.log(this.relatedConditions);
             this.loadingInfoGenes = false;
             //this.calcularScoreHealth29();
             this.getSymptomsApi();
@@ -2316,7 +2341,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               for(var indexSymptom in listOfSymptoms) {
                 var comment = "";
                 var def = "";
-                if(listOfSymptoms[indexSymptom].desc!="None"){
+                if(listOfSymptoms[indexSymptom].desc!="None" && listOfSymptoms[indexSymptom].desc!=null){
                   def = listOfSymptoms[indexSymptom].desc;
                 }
                 if(listOfSymptoms[indexSymptom].comment!=""){
@@ -2408,22 +2433,19 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             }, (err) => {
               console.log(err);
               var hposStrins ='';
-              	arraySymptomsIds.forEach(function(element) {
+                arraySymptomsIds.forEach(function(element) {
                   if(hposStrins==''){
                     hposStrins='?id='+element;
                   }else{
                     hposStrins+='&id='+element;
                   }
 
-              		//hposStrins+= '&id=';
-              	});
+                  //hposStrins+= '&id=';
+                });
               var limit = diseaseWithoutScore.length
               this.subscription.add(this.apif29BioService.getOWLSim3Match(hposStrins, limit)
               .subscribe( (res : any) => {
-                console.log(res);
-                console.log(diseaseWithoutScore);
                 for(var i = 0; i < diseaseWithoutScore.length; i++) {
-                  console.log('i=: '+i);
                   if(diseaseWithoutScore[i].positionOnResults>=0){
                     diseaseWithoutScore[i].score = res.matches[diseaseWithoutScore[i].positionOnResults].percentageScore//.score
                   }
@@ -2484,7 +2506,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               for(var indexSymptom in listOfSymptoms) {
                 var comment = "";
                 var def = "";
-                if(listOfSymptoms[indexSymptom].desc!="None"){
+                if(listOfSymptoms[indexSymptom].desc!="None" && listOfSymptoms[indexSymptom].desc!=null){
                   def = listOfSymptoms[indexSymptom].desc;
                 }
                 if(listOfSymptoms[indexSymptom].comment!=""){
@@ -2509,6 +2531,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           if(this.selectedItemsFilter.length > 0){
             this.applyFilters();
           }
+        }else{
+          this.loadingPotentialDiagnostics = false;
         }
       }, (err) => {
         console.log(err);
@@ -2596,7 +2620,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }
       this.indexListRelatedConditions = 10;
       this.renderMap();
-      console.log(this.relatedConditions);
       this.saveNotes();
       this.applyFilters();
       this.onchangeparamgraph();
@@ -2679,6 +2702,12 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.modalReference = this.modalService.open(contentFeedback);
     }
 
+    showPanelCalculationsDetails(contentFeedback){
+      this.tempVcfBlobName = this.settingExomizer.VcfBlobName.substr(this.settingExomizer.VcfBlobName.lastIndexOf('/'));
+      this.tempVcfBlobName = this.tempVcfBlobName.split(("/"))[1];
+      this.modalReference = this.modalService.open(contentFeedback);
+    }
+
     addSymptomsOption1(){
       for(var hpo in this.selectedItems){
         this.addSymptom(this.selectedItems[hpo], 'manual');
@@ -2711,6 +2740,19 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }
     }
 
+    deleteSymptom(symptom, index2, disease){
+      var index = -1;
+      var found = false;
+      for(var i=0;i<this.phenotype.data.length;i++)
+        {
+          if(symptom.id==this.phenotype.data[i].id){
+            index= i;
+            found = true;
+            this.confirmDeletePhenotype2(index, index2, disease);
+          }
+        }
+    }
+
     hasSymptomsToSave(){
       if(this.phenotype.data.length>0){
         this.saveSymptomsToDb();
@@ -2721,7 +2763,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     saveSymptomsToDb() {
-      console.log("save symptoms to Db");
       this.loadingGeno = false;
       if(this.authGuard.testtoken()){
         this.sending = true;
@@ -2746,6 +2787,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             this.sending = false;
             //this.toastr.success('', this.msgDataSavedOk);
             this.loadSymptoms();
+            if(!this.isNew){
+              this.loadFilesContainer(true);
+            }
 
            }, (err) => {
              console.log(err);
@@ -2762,6 +2806,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             //this.toastr.success('', this.msgDataSavedOk);
             this.sending = false;
             this.loadSymptoms();
+            if(!this.isNew){
+              this.loadFilesContainer(true);
+            }
 
            }, (err) => {
              console.log(err.error);
@@ -2777,7 +2824,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     onSubmit() {
-      console.log("On submit")
       if(this.authGuard.testtoken()){
         this.sending = true;
         //remove the new property
@@ -2841,7 +2887,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     confirmDeletePhenotypeGroup(index1, index2){
       var indexElement = this.searchService.searchIndex(this.phenotype.data,'id', this.listOfSymptomGroups[index1].symptoms[index2].id);
-      console.log(indexElement);
       this.confirmDeletePhenotype(indexElement);
     }
 
@@ -2860,9 +2905,32 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }).then((result) => {
         if (result.value) {
           this.phenotype.data.splice(index, 1);
-          console.log("phenotype delete OK");
           this.isDeletingPhenotype=true;
           this.saveSymptomsToDb();
+        }
+      });
+
+    }
+
+    confirmDeletePhenotype2(index, index2, disease){
+      Swal.fire({
+          title: this.translate.instant("generics.Are you sure delete")+" "+this.phenotype.data[index].name+" ?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#0CC27E',
+          cancelButtonColor: '#f9423a',
+          confirmButtonText: this.translate.instant("generics.Accept"),
+          cancelButtonText: this.translate.instant("generics.Cancel"),
+          showLoaderOnConfirm: true,
+          allowOutsideClick: false,
+          reverseButtons:true
+      }).then((result) => {
+        if (result.value) {
+          this.phenotype.data.splice(index, 1);
+          this.isDeletingPhenotype=true;
+          this.saveSymptomsToDb();
+          this.selectedDisease = -1;
+          this.showMoreInfoDisease(index2, disease);
         }
       });
 
@@ -3268,7 +3336,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     getExomizer(patientId){
-      console.log("getExomizer")
       this.subscription.add(this.exomiserService.getExomiserResults()
       .subscribe( (res2 : any) => {
         if(this.uploadingGenotype){
@@ -3387,10 +3454,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           reverseButtons:true
       }).then((result) => {
         if (result.value) {
-          console.log("Cancel exomiser")
           this.uploadingGenotype = false;
           if(place=='wizard'){
-            console.log(this.filename);
             this.filename = '';
           }
           this.cancelSubscription();
@@ -3410,7 +3475,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           }).then((result) => {
             if (result.value) {
               if(place=='workbench'){
-                console.log(this.filename);
                 this.filename = '';
               }
               this.blob.deleteBlob(this.accessToken.containerName , this.filename);
@@ -3646,7 +3710,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     getDiagnosisInfo(){
-      console.log("get diagnosis info")
+      this.loadingPotentialDiagnostics = true;
       this.accessToken.containerName = this.authService.getCurrentPatient().sub.substr(1);
       this.accessToken.patientId = this.authService.getCurrentPatient().sub;
 
@@ -3721,7 +3785,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     saveNotes(){
-      console.log("save Notes")
       if(this.authGuard.testtoken() && !this.savingDiagnosis){
         this.savingDiagnosis = true;
         for(var i = 0; i < this.relatedConditions.length; i++) {
@@ -3768,7 +3831,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     saveNotes2(){
-      console.log("save filters")
       if(this.authGuard.testtoken() && !this.savingDiagnosis){
         this.savingDiagnosis = true;
         var obtToSave = [];
@@ -3826,7 +3888,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
         }
       }
-      console.log(temporal)
       this.substepExtract = '3';
       this.subscription.add(this.apif29NcrService.getAnnotate_batch(temporal)
       .subscribe( (res : any) => {
@@ -3895,14 +3956,12 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
            this.substepExtract = '4';
             /*document.getElementById("openModalSymptomsNcrButton").click();
             this.changeTriggerHotjar('ncrresults_');*/
-            console.log(this.temporalSymptoms);
             if(this.temporalSymptoms.length==0){
               this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
               if(this.modalReference!=undefined){
                 this.modalReference.close();
               }
             }else{
-              console.log('entra');
               document.getElementById("openModalSymptomsNcrButton2").click();
             }
 
@@ -3928,10 +3987,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.subscription.add(this.apif29BioService.getInfoSymptomsJSON(hposStrins,this.listOfphenotypesinfo)
       //this.subscription.add(this.apif29BioService.getInfoOfSymptoms(lang,hposStrins)
       .subscribe( (res2 : any) => {
-        console.log(res2);
 
         var tamano= Object.keys(res2).length;
-        console.log(tamano)
         if(tamano>0){
           var hposStrinsOld =[];
           for(var i in res2) {
@@ -4359,7 +4416,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     }
 
-    showPanelSymptomsNcr(contentSymptomsNcr){
+    showPanelSymptomsNcr(contentSymptomsNcr, isNew){
+      this.isNew = isNew;
       if(this.modalReference!=undefined){
         this.modalReference.close();
       }
@@ -4425,6 +4483,29 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.ncrResultView = !this.ncrResultView ;
     }
 
+    confirmCloseSymptomsNcr(){
+      Swal.fire({
+          title: this.translate.instant("symptomssection.want to close this window"),
+          text:  this.translate.instant("symptomssection.You will miss the changes"),
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#0CC27E',
+          cancelButtonColor: '#f9423a',
+          confirmButtonText: this.translate.instant("generics.Accept"),
+          cancelButtonText: this.translate.instant("generics.Cancel"),
+          showLoaderOnConfirm: true,
+          allowOutsideClick: false,
+          reverseButtons:true
+      }).then((result) => {
+        if (result.value) {
+          if(this.modalReference!=undefined){
+            this.modalReference.close();
+          }
+        }
+      });
+
+    }
+
     saveSymptomsNcr(){
       for(var i = 0; i < this.temporalSymptoms.length; i++) {
         if(this.temporalSymptoms[i].checked){
@@ -4446,7 +4527,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
 
       }
-      if(this.isNewNcrFile){
+      if(this.isNewNcrFile && this.isNew){
         this.saveResultsNcr();
       }
       this.saveSymptomsToDb();
@@ -4573,7 +4654,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
              if(!foundElement2){
                var comment = "";
                var def = "";
-               if(listOfSymptoms[k].desc!="None"){
+               if(listOfSymptoms[k].desc!="None" && listOfSymptoms[k].desc!=null){
                  def = listOfSymptoms[k].desc;
                }
                if(listOfSymptoms[k].comment!=""){
@@ -4770,9 +4851,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     applyFilters(){
-      console.log(this.selectedItemsFilter)
-      console.log(this.relatedConditionsCopy)
-      console.log(this.relatedConditions)
       if(this.selectedItemsFilter.length == 0){
         this.removeFilters();
       }else{
@@ -5097,8 +5175,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
                this.medicalText ='';
                this.isNewNcrFile = false;
-               document.getElementById("openModalSymptomsNcrButton2").click();
-               this.changeTriggerHotjar('ncrresults_');
+               document.getElementById("openModalShowPanelSymptomsNcr2").click();
+               //this.changeTriggerHotjar('ncrresults_');
              }else{
                //is new versión
                if(infoNcr.length>0){
@@ -5174,8 +5252,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                  console.log(err);
                }));
                Swal.close();
-                document.getElementById("openModalSymptomsNcrButton2").click();
-                this.changeTriggerHotjar('ncrresults_');
+                document.getElementById("openModalShowPanelSymptomsNcr2").click();
+                //this.changeTriggerHotjar('ncrresults_');
               }else{
                 this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
               }
@@ -5284,7 +5362,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     discardSettingsExomiser(){
-      console.log("Discard settings exomiser")
 
       this.getDiagnosisInfo();
       this.getExomiserSettings(this.phenotype.data);
@@ -5464,7 +5541,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                   for(var indexSymptom in listOfSymptoms) {
                     var comment = "";
                     var def = "";
-                    if(listOfSymptoms[indexSymptom].desc!="None"){
+                    if(listOfSymptoms[indexSymptom].desc!="None" && listOfSymptoms[indexSymptom].desc!=null){
                       def = listOfSymptoms[indexSymptom].desc;
                     }
                     if(listOfSymptoms[indexSymptom].comment!=""){
@@ -5604,7 +5681,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.subscription.add(this.apif29BioService.getGroupsSymptoms(lang, hposStrins)
       //this.subscription.add(this.apif29BioService.getInfoOfSymptoms(lang,hposStrins)
       .subscribe( (res2 : any) => {
-        console.log(res2);
         for (var ini = 0; ini < this.phenotype.data.length; ini++) {
           this.phenotype.data[ini].groups = [];
         }
@@ -5657,7 +5733,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             }
           }
         }
-        console.log(this.listOfSymptomGroups);
      }, (err) => {
        console.log(err);
      }));
@@ -5666,6 +5741,18 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     changeSuggestedViewSymptoms(value){
       this.viewSymptoms = value;
       //console.log(this.viewSymptoms);
+      var result = ''
+      if(this.viewSymptoms==0){
+        result= 'Simple';
+      }else{
+        result= 'Advanced';
+      }
+      this.googleAnalyticsService.eventEmitter("View symptoms - page symptoms: "+result, "general", "2");
+    }
+
+    changeViewSummarySymptoms(value){
+      this.viewSummarySymptoms = value;
+      this.googleAnalyticsService.eventEmitter("View symptoms - summary: "+value, "general", "1");
     }
 
     changeSuggestedViewSuggestions(){
@@ -5727,8 +5814,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
      this.subscription.add( this.apiDx29ServerService.lauchPhene2Gene(patientId, jsonfile)
      .subscribe( (res : any) => {
-       console.log(res);
-       this.processPhenToGenesInfo(res.fileName, res.data);
+       this.processPhenToGenesInfo(res.fileName, res.data, res.message);
      }, (err) => {
        console.log(err);
      }));
@@ -5739,7 +5825,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
      this.subscription.add( this.apiDx29ServerService.getLastPhen2GenesResults(patientId)
      .subscribe( (res : any) => {
        if(res.data!=null){
-         this.processPhenToGenesInfo(res.fileName, res.data);
+         this.processPhenToGenesInfo(res.fileName, res.data, res.message);
        }else{
          this.filePhen2GenesOnBlob = '';
          this.launchingPhen2Genes = false;
@@ -5749,7 +5835,10 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
      }));
     }
 
-    processPhenToGenesInfo(fileName, data){
+    processPhenToGenesInfo(fileName, data, message){
+      if(message=='found'){
+        this.launchedPhen2genes=true;
+      }
       this.filePhen2GenesOnBlob = fileName;
       this.infoGenesAndConditions = [];
       this.infoGenesAndConditionsPhen2Genes = [];
@@ -5803,8 +5892,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     continueAndCallPhen2Genes(){
 
-      console.log("continueAndCallPhen2Genes")
-
       this.gettingRelatedConditions=false;
       this.loadingDiagnosisInfo=false;
       this.launchingPhen2Genes=false;
@@ -5823,7 +5910,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     goToVersion(page){
       var url = '/clinical/'+page;
-      console.log(url);
       this.router.navigate([url]);
     }
 
@@ -5859,7 +5945,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.selectedDisease = diseaseIndex;
       }
       if(this.selectedDisease != -1){
-        console.log(disease);
         this.loadSymptomsOfDiseaseForGraph(disease);
       }
 
@@ -5879,7 +5964,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       var lang = this.authService.getLang();
       this.subscription.add(this.apif29BioService.getSymptomsOfDisease(lang,listXRefs,0)
       .subscribe( (res : any) => {
-        console.log(res);
           var idDesease = listXRefs[0];
           var info = res[idDesease];
           this.parseOtherInfoSymptomsOfDisease(info);
@@ -5891,7 +5975,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               for(var indexSymptom in listOfSymptoms) {
                 var comment = "";
                 var def = "";
-                if(listOfSymptoms[indexSymptom].desc!="None"){
+                if(listOfSymptoms[indexSymptom].desc!="None" && listOfSymptoms[indexSymptom].desc!=null){
                   def = listOfSymptoms[indexSymptom].desc;
                 }
                 if(listOfSymptoms[indexSymptom].comment!=""){
@@ -5929,7 +6013,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                        var comment = "";
                        var def = "";
                        var frequency = null;
-                       if(listOfOtherSymptoms[k].desc!="None"){
+                       if(listOfOtherSymptoms[k].desc!="None" && listOfOtherSymptoms[k].desc!=null){
                          def = listOfOtherSymptoms[k].desc;
                        }
                        if(listOfOtherSymptoms[k].comment!=""){
@@ -5937,11 +6021,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                        }else{
                          comment = "None"
                        }
-                       console.log(listOfOtherSymptoms[k].frequency);
                        if(listOfOtherSymptoms[k].frequency!=undefined){
                          frequency = listOfOtherSymptoms[k].frequency;
                        }
-                       console.log(frequency);
                        if(!foundElement2){
                          if(foundElement){
                            this.omimSymptoms.push({id:k, name: listOfOtherSymptoms[k].name, def: def, comment: comment, synonyms: listOfOtherSymptoms[k].synonyms, checked: true, frequency: frequency});
@@ -5965,8 +6047,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
             this.omimSymptoms.sort(this.sortService.GetSortOrder("name"));
             this.orphaSymptoms.sort(this.sortService.GetSortOrder("name"));
-            console.log(this.omimSymptoms);
-            console.log(this.orphaSymptoms);
             //asign frequency of orpha to omim symptoms
             for(var i=0;i<this.omimSymptoms.length;i++)
               {
@@ -5977,7 +6057,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                 }
 
               }
-              for(var i=0;i<this.phenotype.data.length;i++)
+              /*for(var i=0;i<this.phenotype.data.length;i++)
               {
                 for(var j=0;j<this.orphaSymptoms.length;j++){
                   if(this.phenotype.data[i].id==this.orphaSymptoms[j].id){
@@ -5985,14 +6065,10 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                   }
                 }
 
-              }
+              }*/
             this.checkOPatientSymptoms();
-            this.checkOrphaSymptoms();
             this.checkOmimSymptoms();
-
-
-
-            console.log(this.fullListSymptoms);
+            this.checkOrphaSymptoms();
             // Llamada para coger los hijos de los sintomas
             // List IDs
             var symptomsOfDiseaseIds =[];
@@ -6014,12 +6090,12 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     async getSuccessors(symptomsOfDiseaseIds){
       return new Promise(async function (resolve, reject) {
         var result = { status: 200, data: [], message: "Calcule Conditions score OK" }
+        //obtengo los hijos de la lista completa
         this.subscription.add(this.apif29BioService.getSuccessorsOfSymptomsDepth(symptomsOfDiseaseIds)
         .subscribe( async (res1 : any) => {
-          console.log(res1);
-            //await this.getPredecessorsOrpha();
-            await this.setFrequencies(res1);
-            await this.getfrequencies()
+            await this.getPredecessorsOrpha(); //padres de orpha
+            await this.setFrequencies(res1);//magia
+            await this.getfrequencies()//pintar
         }, (err) => {
           console.log(err);
         }));
@@ -6028,12 +6104,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     parseOtherInfoSymptomsOfDisease(info){
-      console.log(info);
       var clinical_course = [];
       if(Object.keys(info.clinical_course).length>0){
         for(var hpo in info.clinical_course) {
-          console.log(hpo);
-          console.log(info.clinical_course[hpo]);
           clinical_course.push({hpo:hpo, info: info.clinical_course[hpo]});
         }
       }
@@ -6069,6 +6142,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       }
       return res;
     }
+
     async getPredecessorsOrpha(){
       return new Promise(async function (resolve, reject) {
         var result = { status: 200, data: [], message: "Calcule Conditions score OK" }
@@ -6079,169 +6153,145 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
         this.subscription.add(this.apif29BioService.​getPredecessorsOfSymptomsDepth(symptomsOfDiseaseIds)
         .subscribe( async (res1 : any) => {
+          // Para cada res tengo que pedir info de la frequencia y guardar
           this.treeOrphaPredecessors=res1;
-          console.log(res1);
+          await this.setPredecessorsOrpha()
+          return resolve(result);
         }, (err) => {
           console.log(err);
+          return resolve(result);
         }));
-        return resolve(result);
+
       }.bind(this))
     }
 
 
+    async setPredecessorsOrpha(){
+      var tamanotreeOrpha= Object.keys(this.treeOrphaPredecessors).length;
+      if(tamanotreeOrpha>0){
+        for (var ipos = 0; ipos < this.orphaSymptoms.length; ipos++){
+          var result = [];
+          var ojjToSearch = this.treeOrphaPredecessors[this.orphaSymptoms[ipos].id];
+          var tamano= Object.keys(ojjToSearch).length;
+          if(tamano>0){
+            this.orphaSymptoms[ipos].tree = [];
+            this.getTree(ipos, ojjToSearch, this.orphaSymptoms[ipos].frequency)
+          }
+        }
+      }
+    }
+
+    getTree(index, ojjToSearch, frequency){
+      var tamano= Object.keys(ojjToSearch).length;
+      if(tamano>0){
+        for(var j in ojjToSearch){
+          var foundElement = this.searchService.search(this.orphaSymptoms[index].tree,'id', j);
+          if(!foundElement){
+            this.orphaSymptoms[index].tree.push({id:j,frequency:frequency});
+          }
+          var tamano2= Object.keys(ojjToSearch[j]).length;
+          if(tamano2>0){
+            this.getTree(index, ojjToSearch[j],frequency);
+          }
+        }
+      }
+
+    }
+
     async setFrequencies(list){
+      // Recorrer todos los trees, y los ids duplicados me quedo con la freq mayor = padres de orpha.
+      var parents = [];
+      for (var ipos = 0; ipos < this.orphaSymptoms.length; ipos++){
+        for(var jpos = 0; jpos < this.orphaSymptoms[ipos].tree.length; jpos++){
+          var foundInParents = false
+          for (var kpos=0;kpos<parents.length;kpos++){
+            if(parents[kpos].id == this.orphaSymptoms[ipos].tree[jpos].id){
+              var parentFrequency = this.hp_frequencies[parents[kpos].frequency].present;
+              var orphaFrequency = this.hp_frequencies[this.orphaSymptoms[ipos].tree[jpos].frequency].present;
+              if(orphaFrequency > parentFrequency){
+                parents[kpos].frequency = this.orphaSymptoms[ipos].tree[jpos].frequency;
+              }
+              foundInParents = true;
+            }
+          }
+          if(foundInParents == false){
+            parents.push(this.orphaSymptoms[ipos].tree[jpos])
+          }
+        }
+      }
+
       for (var i = 0; i < this.fullListSymptoms.length; i++){
         if(this.fullListSymptoms[i].frequency==null){
           var actualList = list[this.fullListSymptoms[i].id];
-          console.log(actualList);
           var actualList2 ={}
           actualList2[this.fullListSymptoms[i].id]=actualList
-          console.log(actualList2);
-          var deep = 0;
-          var parents = [];
-          this.completeFrequencies(i, this.fullListSymptoms[i].id, list, deep, parents);
-          //this.completeFrequencies2(i, this.fullListSymptoms[i].id, list);
-          //this.completeFrequencies3(i, this.fullListSymptoms[i].id, this.treeOrphaPredecessors, deep, parents);
+
+          var found_in_symptom = false;
+          // Comparando cada sintoma con orpha y los padres
+          found_in_symptom = await this.completeFrequencies(i, this.fullListSymptoms[i].id, parents);
+
+          /*if ((found_in_symptom == false) && (this.fullListSymptoms[i].succesors != undefined)) {
+            // Comparando los hijos del sintoma con orpha y los padres
+            for (var j=0; j<this.fullListSymptoms[i].succesors.length; j++) {
+              this.completeFrequencies(i, this.fullListSymptoms[i].succesors[j], parents);
+            }
+          }*/
         }
       }
+
     }
 
-    async completeFrequencies(index, id, list, deep, parents){
+    async completeFrequencies(index, id, parents){
       var foundSymptom = false;
+      // Si el id está en la lista de Orpha o en los padres de la lista de orpha
       for (var ipos = 0; ipos < this.orphaSymptoms.length && !foundSymptom; ipos++){
-        var tamano= Object.keys(list).length;
-        if(tamano>0){
-          for(var j in list){
-            if(this.orphaSymptoms[ipos].id==j && this.orphaSymptoms[ipos].frequency!=null){//&& j==this.orphaSymptoms[ipos].id
+
+        // Si el id está en la lista de Orpha
+        if(id==this.orphaSymptoms[ipos].id){
+          this.setFrequencyToSymptom(index,ipos,null,parents)
+          foundSymptom=true;
+        }
+        // Si no busco en los padres de orpha
+        else {
+          for (var jpos = 0; jpos < this.orphaSymptoms[ipos].tree.length && !foundSymptom; jpos++){
+            // Si está en los padres de la lista de orpha
+            if(id==this.orphaSymptoms[ipos].tree[jpos].id){
+              this.setFrequencyToSymptom(index,ipos,jpos,parents)
               foundSymptom=true;
-              if(this.fullListSymptoms[index].frequency==null){
-                this.fullListSymptoms[index].frequency=this.orphaSymptoms[ipos].frequency;
-                this.orphaSymptoms[ipos].frequency =null;
-                console.log('ENCONTRADO');
-                console.log('deep: '+deep);
-                console.log('Padres:'+parents);
-                console.log(this.fullListSymptoms[index].frequency)
-                this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
-              }else if(this.fullListSymptoms[index].frequency!=null){
-                //REVISAR ESTO PORQUE ES PELIGROSO, SI CAMBIAN LOS HPOS DE PRIORIDAD PUEDE DEJAR DE FUNCIONAR
-                if(this.fullListSymptoms[index].frequency>this.orphaSymptoms[ipos].frequency){
-                  this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
-                  this.orphaSymptoms[ipos].frequency =null;
-                  console.log('ENCONTRADO');
-                  console.log('deep: '+deep);
-                  console.log('Padres:'+parents);
-                  console.log(this.fullListSymptoms[index].frequency)
-                  this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
-                }
-              }
             }
           }
         }
       }
 
-      if(!foundSymptom){
-        for(var j in list){
-          var tamano2= Object.keys(list[j]).length;
-          if(tamano2>0){
-            deep= deep+1;
-            parents.push(j);
-            this.completeFrequencies(index, id, list[j], deep, parents);
-          }
-        }
-      }
+      return foundSymptom;
     }
 
-    async completeFrequencies2(index, id, list){
-      var foundSymptom = false;
-      for (var ipos = 0; ipos < this.orphaSymptoms.length && !foundSymptom; ipos++){
-        var tamano= Object.keys(list).length;
-        if(tamano>0){
-          for(var j in list){
-            if(this.orphaSymptoms[ipos].id==j && this.orphaSymptoms[ipos].frequency!=null){//&& j==this.orphaSymptoms[ipos].id
-              foundSymptom=true;
-              if(this.fullListSymptoms[index].frequency==null){
-                this.fullListSymptoms[index].frequency=this.orphaSymptoms[ipos].frequency;
-                this.orphaSymptoms[ipos].frequency =null;
-              }else if(this.fullListSymptoms[index].frequency!=null){
-                //REVISAR ESTO PORQUE ES PELIGROSO, SI CAMBIAN LOS HPOS DE PRIORIDAD PUEDE DEJAR DE FUNCIONAR
-                var temp1 = this.fullListSymptoms[index].frequency.split('HP:');
-                var temp1_1: number = +temp1[1];
-                var temp2 = this.orphaSymptoms[ipos].frequency.split('HP:');
-                var temp2_1: number = +temp2[1];
-                if(temp1_1>temp2_1){
-                  this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
-                }
-              }
-            }
+    async setFrequencyToSymptom(index,ipos,jpos,parents){
+      if(this.fullListSymptoms[index].frequency == null){
+        if(jpos == null) {
+          this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
+          this.orphaSymptoms[ipos].frequency = null;
+        }
+        else {
+          this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].tree[jpos].frequency;
+          this.orphaSymptoms[ipos].tree[jpos].frequency = null;
+        }
+      }else if(this.fullListSymptoms[index].frequency!=null){
+        //REVISAR ESTO PORQUE ES PELIGROSO, SI CAMBIAN LOS HPOS DE PRIORIDAD PUEDE DEJAR DE FUNCIONAR
+        if(jpos == null) {
+          if(this.fullListSymptoms[index].frequency>this.orphaSymptoms[ipos].frequency){
+            this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
+            this.orphaSymptoms[ipos].frequency = null;
+          }
+        }
+        else {
+          if(this.fullListSymptoms[index].frequency>this.orphaSymptoms[ipos].tree[jpos].frequency){
+            this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].tree[jpos].frequency;
+            this.orphaSymptoms[ipos].tree[jpos].frequency = null;
           }
         }
       }
 
-      if(!foundSymptom){
-        for(var j in list){
-          var tamano2= Object.keys(list[j]).length;
-          if(tamano2>0){
-            this.completeFrequencies2(index, id, list[j]);
-          }
-        }
-      }
-    }
-
-    async completeFrequencies3(index, id, list, deep, parents){
-      var foundSymptom = false;
-      for (var ipos = 0; ipos < this.orphaSymptoms.length && !foundSymptom; ipos++){
-        var tamano= Object.keys(list).length;
-        if(tamano>0){
-          for(var j in list){
-            if(this.orphaSymptoms[ipos].id==j && this.orphaSymptoms[ipos].frequency!=null){//&& j==this.orphaSymptoms[ipos].id
-              foundSymptom=true;
-              if(this.fullListSymptoms[index].frequency==null){
-                this.fullListSymptoms[index].frequency=this.orphaSymptoms[ipos].frequency;
-                this.orphaSymptoms[ipos].frequency =null;
-                console.log('ENCONTRADO');
-                console.log('deep: '+deep);
-                console.log('Padres:'+parents);
-                console.log(this.fullListSymptoms[index].frequency)
-                this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
-
-              }else if(this.fullListSymptoms[index].frequency!=null){
-                //REVISAR ESTO PORQUE ES PELIGROSO, SI CAMBIAN LOS HPOS DE PRIORIDAD PUEDE DEJAR DE FUNCIONAR
-                if(this.fullListSymptoms[index].frequency>this.orphaSymptoms[ipos].frequency){
-                  this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
-                  this.orphaSymptoms[ipos].frequency =null;
-                  console.log('ENCONTRADO');
-                  console.log('deep: '+deep);
-                  console.log('Padres:'+parents);
-                  console.log(this.fullListSymptoms[index].frequency)
-                  this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
-                }
-              }
-            }
-          }
-        }
-      }
-
-      if(!foundSymptom){
-        for(var j in list){
-          var tamano2= Object.keys(list[j]).length;
-          if(tamano2>0){
-            deep= deep+1;
-            parents.push(j);
-            this.completeFrequencies(index, id, list[j], deep, parents);
-          }
-        }
-      }
-    }
-
-
-    setFrequencyToParents(parents, frequency){
-      for (var i = 0; i < this.fullListSymptoms.length; i++){
-        for (var j = 0; j < parents.length; j++){
-          if(this.fullListSymptoms[i].id==parents[j] && this.fullListSymptoms[i].frequency>frequency){
-            this.fullListSymptoms[i].frequency= frequency;
-          }
-        }
-      }
     }
 
     async getfrequencies() {
@@ -6284,7 +6334,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           }
           this.fullListSymptoms.sort(this.sortService.GetSortTwoElements("frequency", "name"));
           this.fullListSymptoms.sort(this.sortService.GetSortSymptoms());
-          console.log(this.fullListSymptoms);
+          this.fullListSymptoms.sort(this.sortService.GetSortSymptoms2());
         }
 
      }, (err) => {
@@ -6297,9 +6347,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       // Get predecessors
       this.subscription.add(this.apif29BioService.getSuccessorsOfSymptoms(symptomsOfDiseaseIds)
       .subscribe( (res1 : any) => {
-        //console.log(res1)
-        //console.log(this.phenotype.data)
-        //console.log(this.fullListSymptoms)
         var successorsAllSymptoms=res1;
         // Añadir los succesors a la lista de symptoms
         Object.keys(successorsAllSymptoms).forEach(key => {
@@ -6358,10 +6405,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
         // Calculo la información del los diagramas
         this.calculeChartSymptomsInfo(); //(listas de cada caso)
-
-        //console.log(this.listSymptomsMe)
-        //console.log(this.listSymptomsGeneric)
-        //console.log(this.listSymptomsMeGeneric)
         var listSymptomsMeWithoutSuccessors=[]
 
         // Diagrama de Venn
@@ -6433,7 +6476,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           var frequency = null;
           if(this.phenotype.data[i].frequency!=undefined){
             if(this.phenotype.data[i].frequency!=null){
-              frequency = this.phenotype.data[i].frequency
+              //frequency = this.phenotype.data[i].frequency
             }
           }
           this.fullListSymptoms.push({id:this.phenotype.data[i].id, name: this.phenotype.data[i].name, def: this.phenotype.data[i].def, comment: this.phenotype.data[i].comment, synonyms: this.phenotype.data[i].synonyms, group: 'none', omim: false, orphanet: false, patient: true, frequency: frequency});
@@ -6890,7 +6933,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     loadShowIntroWizard(){
       this.subscription.add( this.http.get(environment.api+'/api/users/showintrowizard/'+this.authService.getIdUser())
         .subscribe( (res : any) => {
-          console.log(res);
           this.showIntroWizard = res.showIntroWizard
           this.eventsService.broadcast('showIntroWizard', this.showIntroWizard);
           this.getActualStep(this.authService.getCurrentPatient().sub);
@@ -6935,8 +6977,10 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.selectedOrderFilesNcr = field;
       if(field=='lastModified'){
         this.docsNcr.sort(this.sortService.DateSortFiles("lastModified"));
+      }else if(field=='extension'){
+        this.docsNcr.sort(this.sortService.GetSortFilesNcrType("extension"));
       }else{
-        this.docsNcr.sort(this.sortService.GetSortFilesNcr(field));
+        this.docsNcr.sort(this.sortService.GetSortFilesNcrName(field, this.lang));
       }
     }
 
@@ -6957,7 +7001,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     saveRelatedConditions(){
-      console.log("save RelatedConditions")
       if(this.authGuard.testtoken() && !this.savingDiagnosis){
         this.savingDiagnosis = true;
         var obtToSave = [];
@@ -6984,13 +7027,15 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     changeViewOptionNcr(){
-      console.log(this.viewOptionNcr);
+      var value = ''
       if(this.viewOptionNcr == 1){
         this.viewOptionNcr = 0;
+        value = 'cards';
       }else{
         this.viewOptionNcr = 1;
+        value = 'list';
       }
-      console.log(this.viewOptionNcr);
+      this.googleAnalyticsService.eventEmitter("View ncr: "+value, "general", "1");
     }
 
     loat10More(){

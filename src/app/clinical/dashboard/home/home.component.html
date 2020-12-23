@@ -135,9 +135,7 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label id="gender">{{'personalinfo.Gender' | translate }}*</label>
-						<mat-radio-group required
-							aria-labelledby="gender"
-							class="example-radio-group d-block" ngModel required #gender="ngModel" name="gender" id="gender" [(ngModel)]="patient.gender">
+						<mat-radio-group required	class="example-radio-group d-block" ngModel required #gender="ngModel" name="gender" id="gender" [(ngModel)]="patient.gender">
 							<mat-radio-button class="example-radio-button" value="male" (change)="changeSex($event)">
 							{{'personalinfo.Male' | translate }}
 							</mat-radio-button>
@@ -148,8 +146,8 @@
 						<small class="form-text text-muted danger" *ngIf="!gender.valid && (gender.dirty || gender.touched)">{{'generics.required' | translate }}</small>
 					</div>
 				</div>
-				<div class="col-md-3" *ngIf="patient.gender">
-					<div class="form-group">
+				<div class="col-md-3">
+					<div class="form-group" [ngClass]="( patient.gender!='female' && patient.gender!='male' )?'mb-0':''">
 						<label>Avatar*</label>
 						<li *ngIf="patient.gender=='male'" class="nav-item" ngbDropdown display="dynamic" [placement]="placement" style="list-style-type: none; ">
 								<a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle>
@@ -171,7 +169,13 @@
 										</a>
 								</div>
 						</li>
+						<li *ngIf="patient.gender!='female' && patient.gender!='male'" class="nav-item nav-link" style="list-style-type: none; ">
+								<img class="avatar" src="assets/img/avatar/png/sm/default.png" />
+						</li>
 					</div>
+				</div>
+				<div class="col-md-12" *ngIf="patient.gender!='female' && patient.gender!='male'">
+					<span>{{'personalinfo.Select the sex to change the avatar' | translate }}</span>
 				</div>
 				<!--<div class="col-md-12">
 						<div class="form-group">

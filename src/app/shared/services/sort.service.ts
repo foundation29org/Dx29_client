@@ -146,6 +146,32 @@ export class SortService {
       }
   }
 
+  GetSortSymptoms2() {
+    var prop1 = "frequencyId";
+    var prop2_1= "myCase";
+    var prop2_2= "referenceCase";
+    var prop3 = "name";
+      return function(a, b) {
+          if ((a[prop1]) == (b[prop1])) {
+            if ((a[prop2_1] && a[prop2_2]) && (b[prop2_1] && b[prop2_2])) {
+              if ((a[prop3]).toLowerCase()  > (b[prop3]).toLowerCase() ) {
+                  return 1;
+              } else if ((a[prop3]).toLowerCase()  < (b[prop3]).toLowerCase() ) {
+                  return -1;
+              }else{
+                return 0;
+              }
+
+            }else{
+              return 0;
+            }
+          }else{
+            return 0;
+          }
+
+      }
+  }
+
   GetSortTwoElements(prop1:string, prop2:string) {
       return function(a, b) {
           if (a[prop1] < b[prop1]) {
@@ -165,12 +191,30 @@ export class SortService {
       }
   }
 
-  GetSortFilesNcr(prop:string) {
+  GetSortFilesNcrType(prop:string) {
       return function(a, b) {
-        console.log(a);
           if (a.ncrResults[prop] > b.ncrResults[prop]) {
               return 1;
           } else if (a.ncrResults[prop] < b.ncrResults[prop]) {
+              return -1;
+          }
+          return 0;
+      }
+  }
+
+  GetSortFilesNcrName(prop:string, lang:string) {
+      return function(a, b) {
+        if(a.origenFile[prop]=='ncrresult.json'){
+          if(lang == 'es'){
+            a.origenFile[prop] = 'Free Text'
+          }else{
+            a.origenFile[prop] = 'Texto libre'
+          }
+
+        }
+          if (a.origenFile[prop] > b.origenFile[prop]) {
+              return 1;
+          } else if (a.origenFile[prop] < b.origenFile[prop]) {
               return -1;
           }
           return 0;

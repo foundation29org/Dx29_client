@@ -7,8 +7,17 @@
  overflow-y: auto;
 }
 
+.border-top-custom{
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+}
+
 ::ng-deep .swal2-modal .swal2-cancel{
   background-color: #6c757d !important;
+}
+
+
+.btn-m-l-115{
+  margin-left: 1.15rem !important;
 }
 
 ::ng-deep .swal2-modal .swal2-confirm{
@@ -30,6 +39,10 @@
 ::ng-deep .xl-check .mat-checkbox-inner-container{
   height: 24px !important;
   width: 24px !important;
+}
+
+::ng-deep .custom-check .mat-checkbox-layout{
+  margin-top: 0.375rem !important;
 }
 
 ::ng-deep .venn-area>.label{
@@ -275,6 +288,11 @@ display: none;
   .card-columns{
     column-count: 2;
   }
+
+  ::ng-deep ngb-typeahead-window.dropdown-menu {
+   width:90vh;
+  }
+
 }
 
 @media ( max-width: 960px ){
@@ -296,6 +314,10 @@ display: none;
     column-count: 1;
   }
 
+  ::ng-deep ngb-typeahead-window.dropdown-menu {
+   width:60vh;
+  }
+
 }
 @media ( max-width: 575px ){
 
@@ -307,6 +329,10 @@ display: none;
   }
   .right-elements{
     left: 75% !important;
+  }
+
+  ::ng-deep ngb-typeahead-window.dropdown-menu {
+   width: 100%;
   }
 
 }

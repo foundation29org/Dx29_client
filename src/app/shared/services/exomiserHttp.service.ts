@@ -8,7 +8,6 @@ export class ExomiserHttpService {
     constructor() {}
 
     cancelPendingRequests(){
-        console.log("cancel pending request")
         this.cancelPendingRequests$.next()
         //this.cancelPendingRequests$.complete()
     }

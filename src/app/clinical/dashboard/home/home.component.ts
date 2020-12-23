@@ -792,7 +792,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
       if(this.authGuard.testtoken()){
         //cargar los datos del usuario
         //var paramssend = this.authService.getIdUser()+'-code-'+this.patients[index];
-        this.subscription.add( this.http.get(environment.api+'/api/case/restore/'+this.patients[index].sub)
+        this.subscription.add( this.http.get(environment.api+'/api/case/restore/'+this.listOfArchivedCases[index].sub)
         .subscribe( (res : any) => {
           if(res.message=="The case has been restored"){
             this.toastr.success('', this.translate.instant("dashboardpatient.Case restored"));
@@ -987,10 +987,20 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
       tagPatient = 'Paciente-';
     }
       var posNewPatient = 1;
-      if(this.patients.length>0){
+      if(this.patients.length>0 || this.listOfArchivedCases.length>0){
         var maxIndexCase = 0;
         for (var i = 0; i <  this.patients.length; i++) {
           var patientName = this.patients[i].patientName;
+          var splitNumberName = patientName.split(tagPatient);
+          var posActualPatient = parseInt(splitNumberName[1]);
+          if(!(isNaN(posActualPatient))){
+            if(maxIndexCase<posActualPatient){
+              maxIndexCase = posActualPatient;
+            }
+          }
+        }
+        for (var i = 0; i <  this.listOfArchivedCases.length; i++) {
+          var patientName = this.listOfArchivedCases[i].patientName;
           var splitNumberName = patientName.split(tagPatient);
           var posActualPatient = parseInt(splitNumberName[1]);
           if(!(isNaN(posActualPatient))){
@@ -1063,6 +1073,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
     var found = false;
     for (var i = 0; i <  this.patients.length && !found; i++) {
       if(this.patients[i].patientName == this.patient.patientName){
+        found = true;
+      }
+    }
+    for (var i = 0; i <  this.listOfArchivedCases.length && !found; i++) {
+      if(this.listOfArchivedCases[i].patientName == this.patient.patientName){
         found = true;
       }
     }
