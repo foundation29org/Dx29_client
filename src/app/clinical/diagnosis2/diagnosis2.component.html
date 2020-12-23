@@ -67,7 +67,7 @@
               </div>
               <div class="row card border" [ngClass]="(viewSymptoms ==1)?'col-md-12':'col-md-9'" *ngIf="phenotype.data.length > 0">
                 <div class="card-header">
-                  <h4 class="card-title float-right">
+                  <span class="card-title float-right">
                     {{'generics.Sort' | translate }}
                     <span class="nav-item" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
                         <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt" ngbDropdownToggle title="{{'generics.Sort' | translate }}">
@@ -86,7 +86,7 @@
                         </div>
                     </span>
                     <!--<button type="button" class="float-right btn btn-outline-primary" (click)="funShowOptionsSymptoms(contentOptionsSymptoms)">Añadir más síntomas</button>-->
-                  </h4>
+                  </span>
                 </div>
                 <div class="card-content" *ngIf="phenotype.data.length > 0">
                   <div class="card-body" [ngClass]="(viewSymptoms ==0 )?'':'pt-1'">
@@ -1047,20 +1047,20 @@
                 <div class="card border">
                   <div class="card-header">
                     <span class="float-right">
-                      {{'patdiagdashboard.Select view' | translate }}
+                      {{'generics.Sort' | translate }}
                       <span class="nav-item" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
-                          <a class="position-relative colorlink" style="padding: 0rem 0.5rem;" id="dropdownSymptSummary" ngbDropdownToggle title="{{'patdiagdashboard.Select view' | translate }}">
+                          <a class="position-relative colorlink" style="padding: 0rem 0.5rem;" id="dropdownSymptSummary" ngbDropdownToggle title="{{'generics.Sort' | translate }}">
                               <i class="fas fa-sort font-medium-3 primary"></i>
                               <p class="d-none">Sort</p>
                           </a>
                           <div ngbDropdownMenu aria-labelledby="dropdownSymptSummary" class="dropdown">
                               <a class="dropdown-item py-1" href="javascript:;" (click)="changeViewSummarySymptoms('Simple')">
-                                  <span *ngIf="viewSummarySymptoms == 'Simple'"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">{{'summarySection.Simple' | translate }}</span></span>
-                                  <span *ngIf="viewSummarySymptoms == 'Advanced'" class="offset-md-1 col-md-8">{{'summarySection.Simple' | translate }}</span>
+                                  <span *ngIf="viewSummarySymptoms == 'Simple'"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">{{'symptomssection.sortalpha' | translate }}</span></span>
+                                  <span *ngIf="viewSummarySymptoms == 'Advanced'" class="offset-md-1 col-md-8">{{'symptomssection.sortalpha' | translate }}</span>
                               </a>
                               <a class="dropdown-item py-1" href="javascript:;" (click)="changeViewSummarySymptoms('Advanced')">
-                                  <span *ngIf="viewSummarySymptoms == 'Advanced'"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">{{'summarySection.Advanced' | translate }}</span></span>
-                                  <span *ngIf="viewSummarySymptoms == 'Simple'" class="offset-md-1 col-md-8">{{'summarySection.Advanced' | translate }}</span>
+                                  <span *ngIf="viewSummarySymptoms == 'Advanced'"> <span> <i class="fa fa-check"></i></span> <span class="col-md-10">{{'symptomssection.sortgroup' | translate }}</span></span>
+                                  <span *ngIf="viewSummarySymptoms == 'Simple'" class="offset-md-1 col-md-8">{{'symptomssection.sortgroup' | translate }}</span>
                               </a>
                           </div>
                       </span>
