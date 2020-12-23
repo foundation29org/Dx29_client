@@ -3776,6 +3776,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           this.selectedItemsFilter = this.diagnosisInfo.selectedItemsFilter;
           if(this.relatedConditions.length>0){
             this.getSymptomsApi2();
+          }else{
+            this.loadingPotentialDiagnostics = false;
           }
         }
         this.checkServices(); //esto habría que ponerlo en el topnavbar tb
