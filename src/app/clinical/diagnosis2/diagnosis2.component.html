@@ -1046,7 +1046,7 @@
               <div class="mt-2 col-md-12 col-xl-6">
                 <div class="card border">
                   <div class="card-header">
-                    <span class="float-right">
+                    <span class="float-right" *ngIf="phenotype.data.length>0">
                       {{'generics.Sort' | translate }}
                       <span class="nav-item" ngbDropdown display="dynamic" placement="bottom-right" title="Views">
                           <a class="position-relative colorlink" style="padding: 0rem 0.5rem;" id="dropdownSymptSummary" ngbDropdownToggle title="{{'generics.Sort' | translate }}">
