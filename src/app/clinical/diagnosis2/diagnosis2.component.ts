@@ -6176,12 +6176,12 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
               var parentFrequency = this.hp_frequencies[parents[kpos].frequency].present;
               var orphaFrequency = this.hp_frequencies[this.orphaSymptoms[ipos].tree[jpos].frequency].present;
               if(orphaFrequency > parentFrequency){
-                this.orphaSymptoms[ipos].tree[jpos].frequency = parents[kpos].frequency;
+                parents[kpos].frequency = this.orphaSymptoms[ipos].tree[jpos].frequency;
               }
               foundInParents = true;
             }
           }
-          if( foundInParents == false){
+          if(foundInParents == false){
             parents.push(this.orphaSymptoms[ipos].tree[jpos])
           }
         }
@@ -6239,7 +6239,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         if(jpos == null) {
           this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
           this.orphaSymptoms[ipos].frequency = null;
-          this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
         }
         else {
           this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].tree[jpos].frequency;
@@ -6252,7 +6251,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
             this.orphaSymptoms[ipos].frequency = null;
           }
-          this.setFrequencyToParents(parents, this.fullListSymptoms[index].frequency)
         }
         else {
           if(this.fullListSymptoms[index].frequency>this.orphaSymptoms[ipos].tree[jpos].frequency){
@@ -6262,16 +6260,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
       }
       
-    }
-
-    async setFrequencyToParents(parents, frequency){
-      for (var i = 0; i < this.fullListSymptoms.length; i++){
-        for (var j = 0; j < parents.length; j++){
-          if(this.fullListSymptoms[i].id==parents[j].id && this.fullListSymptoms[i].frequency>frequency){
-            this.fullListSymptoms[i].frequency= frequency;
-          }
-        }
-      }
     }
 
     async getfrequencies() {
