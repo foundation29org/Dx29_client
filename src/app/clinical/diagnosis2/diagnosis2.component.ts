@@ -45,6 +45,7 @@ import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
 import { Apif29NcrService } from 'app/shared/services/api-f29ncr.service';
+import{GoogleAnalyticsService} from 'app/shared/services/google-analytics.service';
 import { Subject } from 'rxjs/Rx';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
@@ -350,7 +351,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
-    protected $hotjar: NgxHotjarService, private textTransform: TextTransform, private inj: Injector, private dataservice: Data) {
+    protected $hotjar: NgxHotjarService, private textTransform: TextTransform, private inj: Injector, private dataservice: Data, public googleAnalyticsService: GoogleAnalyticsService) {
       this.eventsService = this.inj.get(EventsService);
       this.loadingTable=false;
       //this.columnsToDisplay=[this.translate.instant('diagnosis.Ranked genes'),this.translate.instant('phenotype.Related conditions')]
@@ -5735,11 +5736,18 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     changeSuggestedViewSymptoms(value){
       this.viewSymptoms = value;
       //console.log(this.viewSymptoms);
+      var result = ''
+      if(this.viewSymptoms==0){
+        result= 'Simple';
+      }else{
+        result= 'Advanced';
+      }
+      this.googleAnalyticsService.eventEmitter("View symptoms - page symptoms: "+result, "general", "2");
     }
 
     changeViewSummarySymptoms(value){
       this.viewSummarySymptoms = value;
-      //console.log(this.viewSymptoms);
+      this.googleAnalyticsService.eventEmitter("View symptoms - summary: "+value, "general", "1");
     }
 
     changeSuggestedViewSuggestions(){
@@ -7016,11 +7024,15 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     changeViewOptionNcr(){
+      var value = ''
       if(this.viewOptionNcr == 1){
         this.viewOptionNcr = 0;
+        value = 'cards';
       }else{
         this.viewOptionNcr = 1;
+        value = 'list';
       }
+      this.googleAnalyticsService.eventEmitter("View ncr: "+value, "general", "1");
     }
 
     loat10More(){
