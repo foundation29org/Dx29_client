@@ -135,8 +135,8 @@
                                             <button (click)="goToLogin()" type="button" class="btn btn-grey btn-outline-grey">{{'generics.Cancel' | translate }}</button>
                                             <span *ngIf="!sending">
                                               <div *ngIf="f.valid && openedTerms;then formValid else formError"></div>
-                              								<ng-template #formValid><button class="btn btn-primary btn-outline-primary" type="submit"> {{'registration.Get Started' | translate }}</button></ng-template>
-                              								<ng-template #formError><button class="btn btn-primary btn-outline-primary" type="button" (click)="submitInvalidForm()"> {{'registration.Get Started' | translate }}</button></ng-template>
+                              								<ng-template #formValid><button class="ml-2 btn btn-primary btn-outline-primary" type="submit"> {{'registration.Get Started' | translate }}</button></ng-template>
+                              								<ng-template #formError><button class="ml-2 btn btn-primary btn-outline-primary" type="button" (click)="submitInvalidForm()"> {{'registration.Get Started' | translate }}</button></ng-template>
                                             </span>
                                             <span *ngIf="sending">
                                               <i class="fa fa-spinner fa-spin fa-3x fa-fw white"></i>
@@ -152,7 +152,7 @@
                                     <span class="">{{'registration.Check the email' | translate }} <a mailto="support@foundation29.org" href="mailto:support@foundation29.org">support@foundation29.org</a></span>
                                   </div>
                                   <div class="col-md-12">
-                                    <button (click)="goToLogin()" type="button" class="btn btn-orange btn-block btn-raised">{{'menu.Login' | translate }}</button>
+                                    <button (click)="goToLogin()" type="button" class="btn btn-primary btn-block btn-raised">{{'menu.Login' | translate }}</button>
                                   </div>
                                 </div>
                                 <div *ngIf="isFailEmail" class="card-block mx-auto">

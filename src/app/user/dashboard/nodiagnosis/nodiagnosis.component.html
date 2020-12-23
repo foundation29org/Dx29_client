@@ -311,7 +311,7 @@
                   </p>
                   <span *ngIf="i== selectedInfoSymptomIndex">
                     <h6 class="mt-2"><strong>{{'generics.External Links' | translate }}</strong></h6>
-                    <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}}. {{hpo.comment}}">MONDO ({{hpo.id}})</a>
+                    <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}} {{hpo.comment}}">MONDO ({{hpo.id}})</a>
                   </span>
                 </div>
                 <div class="col-4">
@@ -338,9 +338,9 @@
                     <ng-template ngbTabTitle># / {{'dashboardpatient.Apparitions' | translate }}</ng-template>
                     <ng-template ngbTabContent>
                       <span *ngFor="let text of hpo.text ; let j = index">
-                        <p *ngIf="j<3">{{j+1}}. {{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</p>
-                        <!--<p *ngIf="text.source && j< 3">{{j+1}}. {{text.source}}</p>
-                        <p *ngIf="!text.source && j< 3">{{j+1}}. {{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</p>-->
+                        <!--<span *ngIf="j==0" class="font-small-2 mb-0">{{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</span>-->
+                        <span *ngIf="text.source && j== 0" class="font-small-2 mb-0">{{text.source}}</span>
+                        <span *ngIf="!text.source && j== 0" class="font-small-2 mb-0">{{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</span>
                       </span>
                     </ng-template>
                   </ngb-tab>
@@ -462,7 +462,7 @@
                       </p>
                       <span *ngIf="i== selectedInfoSymptomIndex">
                         <h6 class="mt-2"><strong>{{'generics.External Links' | translate }}</strong></h6>
-                        <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}}. {{hpo.comment}}">MONDO ({{hpo.id}})</a>
+                        <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}} {{hpo.comment}}">MONDO ({{hpo.id}})</a>
                       </span>
                     </div>
                     <div class="col-3">
@@ -625,7 +625,7 @@
                   </p>
                   <span *ngIf="i== selectedInfoSymptomIndex">
                     <h6 class="mt-2"><strong>{{'generics.External Links' | translate }}</strong></h6>
-                    <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}}. {{hpo.comment}}">MONDO ({{hpo.id}})</a>
+                    <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}} {{hpo.comment}}">MONDO ({{hpo.id}})</a>
                   </span>
                 </div>
                 <div class="col-4">
@@ -692,7 +692,7 @@
                   <!-- Title -->
                   <h4 *ngIf="i!= selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{ (hpo.name.length>40)? (hpo.name | slice:0:40)+'...':(hpo.name) }}</h4>
                   <h4 *ngIf="i== selectedInfoSymptomIndex" class="card-title font-weight-bold" style="font-size:1rem;">{{hpo.name}}</h4>
-                  <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning">({{'phenotype.Deprecated' | translate }})</span>
+                  <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span>
                   <!-- Text
                   <span class="card-text mb-4">
                     <h6 class="d-inline">{{'patdiagdashboard.Score' | translate }}:</h6> {{hpo.similarity | number}}
@@ -709,7 +709,7 @@
                   </p>
                   <span *ngIf="i== selectedInfoSymptomIndex">
                     <h6 class="mt-2"><strong>{{'generics.External Links' | translate }}</strong></h6>
-                    <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}}. {{hpo.comment}}">MONDO ({{hpo.id}})</a>
+                    <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}} {{hpo.comment}}">MONDO ({{hpo.id}})</a>
                   </span>
                 </div>
                 <div class="col-4">
@@ -1053,7 +1053,7 @@
     					</h4>
               <p class="mb-0"><b>{{'patnodiagdashboard.step4-1.msg5' | translate }}</b></p>
               <p class="row">
-                <span *ngFor="let test of geneticTests ; let i = index" class="col-md-6">{{test.translation}}</span> <!--<span *ngIf="i<geneticTests.length-1">, </span>-->
+                <span *ngFor="let test of geneticTests ; let i = index"><span *ngIf="test.checked" class="col-md-6">{{test.translation}}</span></span> <!--<span *ngIf="i<geneticTests.length-1">, </span>-->
               </p>
               <p class="mb-0"><b>{{'patnodiagdashboard.step4-1.msg6' | translate }}</b></p>
               <p *ngIf="otherGeneFiles.length==0 && filesVcf.length==0"><span>{{'generics.No' | translate }}</span></p>
@@ -1208,7 +1208,7 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let hpo of phenotype.data ; let i = index">
-                      <td class="rm-borders">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning">({{'phenotype.Deprecated' | translate }})</span></td>
+                      <td class="rm-borders">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></td>
                       <td class="rm-borders">{{hpo.id}}</td>
                     </tr>
                   </tbody>
@@ -1317,7 +1317,7 @@
                     </p>
                     <span *ngIf="i== selectedInfoSymptomIndex">
                       <h6 class="mt-2"><strong>{{'generics.External Links' | translate }}</strong></h6>
-                      <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}}. {{hpo.comment}}">MONDO ({{hpo.id}})</a>
+                      <a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}} {{hpo.comment}}">MONDO ({{hpo.id}})</a>
                     </span>
                   </div>
                   <div class="col-4">
@@ -1359,7 +1359,7 @@
 <ng-template #contentExtractorSteps let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-header" id="idHeader">
     <div class="content-header text-left">
-      <h4>{{'patnodiagdashboard.menu.Your symptoms' | translate }}: {{'patnodiagdashboard.step2-1.title1' | translate }}</h4>
+      <h4>{{'patnodiagdashboard.step2-1.msg1' | translate }}</h4>
     </div>
   </div>
     <div class="content-wrapper">
@@ -1367,7 +1367,6 @@
         <div class="offset-md-3 col-md-6 offset-lg-2 col-lg-8">
           <section>
             <div class="mt-2">
-              <p>{{'patnodiagdashboard.step2-1.msg1' | translate }}</p>
               <p>{{'patnodiagdashboard.step2-1.msg2' | translate }}</p>
               <div>
                 <ol>

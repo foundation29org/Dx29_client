@@ -57,7 +57,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
               this.logoUrl = 'assets/img/logo.png';
             }
           }
-          console.log(options.compactMenu);
           if (options.compactMenu === true) {
             this.expanded = false;
             this.renderer.addClass(this.toggleIcon.nativeElement, 'ft-toggle-left');
@@ -82,7 +81,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
       event => {
         var tempUrl = (event.url).toString();
-        console.log(tempUrl);
         if(this.authService.getRole() == 'SuperAdmin'){
           //cargar menú del Admin
           this.menuItems = ROUTESSUPERADMIN.filter(menuItem => menuItem);

@@ -33,7 +33,6 @@ export class NavbarComponentNolog implements OnDestroy{
     loadLanguages() {
         this.subscription.add( this.langService.getLangs()
         .subscribe( (res : any) => {
-          console.log(res);
           this.langs=res;
           if(sessionStorage.getItem('lang')){
             this.translate.use(sessionStorage.getItem('lang'));

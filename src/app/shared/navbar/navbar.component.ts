@@ -11,6 +11,9 @@ import { PatientService } from 'app/shared/services/patient.service';
 import { Data } from 'app/shared/services/data.service';
 import Swal from 'sweetalert2';
 import { EventsService} from 'app/shared/services/events.service';
+import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
+import { SearchService } from 'app/shared/services/search.service';
+import { ExomiserService } from 'app/shared/services/exomiser.service';
 import { Subscription } from 'rxjs/Subscription';
 
 import { LayoutService } from '../services/layout.service';
@@ -29,7 +32,7 @@ declare global {
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
   styleUrls: ["./navbar.component.scss"],
-  providers: [PatientService]
+  providers: [PatientService, ExomiserService, ApiDx29ServerService]
 })
 export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   currentLang = "en";
@@ -50,7 +53,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     actualUrl: string = '';
     email: string = '';
     role: string = 'User';
-    roleShare: string = 'User';
+    roleShare: string = 'Clinical';
     modalReference: NgbModalRef;
     @ViewChild('f') sendForm: NgForm;
     sending: boolean = false;
@@ -65,10 +68,16 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     loading: boolean = true;
     myUserId: string = '';
     myEmail: string = '';
-
+    actualStep: string = "0.0";
+    maxStep: string = "0.0";
+    isHomePage: boolean = false;
+    isClinicalPage: boolean = false;
+    age: any = {};
+    showintrowizard: boolean = true;
+    tasks: any = [];
     private subscription: Subscription = new Subscription();
 
-  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService:ConfigService, private authService: AuthService, private router: Router, private route: ActivatedRoute, private patientService: PatientService, private modalService: NgbModal, private http: HttpClient, private sortService: SortService, private data: Data, private eventsService: EventsService) {
+  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService:ConfigService, private authService: AuthService, private router: Router, private route: ActivatedRoute, private patientService: PatientService, private modalService: NgbModal, private http: HttpClient, private sortService: SortService, private dataservice: Data, private eventsService: EventsService, public exomiserService:ExomiserService, private apiDx29ServerService: ApiDx29ServerService, private searchService: SearchService) {
     if (this.isApp){
         if(device.platform == 'android' || device.platform == 'Android'){
           this.isAndroid = true;
@@ -82,9 +91,21 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       event => {
         var tempUrl= (event.url).toString().split('?');
         this.actualUrl = tempUrl[0];
+        var tempUrl1 = (this.actualUrl).toString();
+        if(tempUrl1.indexOf('/dashboard')!=-1){
+          this.isHomePage = true;
+          this.isClinicalPage = false;
+        }else{
+          if(tempUrl1.indexOf('/clinical/diagnosis')!=-1){
+            this.isClinicalPage = true;
+          }else{
+            this.isClinicalPage = false;
+          }
+          this.isHomePage = false;
+        }
+
       }
     );
-    console.log(this.role);
     if(this.role != 'SuperAdmin' && this.role != 'Admin'){
       this.initVars();
     }
@@ -110,6 +131,49 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.eventsService.on('changelang', function(lang) {
       this.currentLang = lang;
     }.bind(this));
+
+    this.eventsService.on('selectedPatient', function(selectedPatient) {
+      this.selectedPatient= selectedPatient;
+      var dateRequest2=new Date(this.selectedPatient.birthDate);
+      this.ageFromDateOfBirthday(dateRequest2);
+    }.bind(this));
+
+    this.eventsService.on('actualStep', function(actualStep) {
+      this.actualStep= this.dataservice.steps.actualStep;
+    }.bind(this));
+
+    this.eventsService.on('maxStep', function(maxStep) {
+      this.maxStep= this.dataservice.steps.maxStep;
+    }.bind(this));
+
+    this.eventsService.on('showIntroWizard', function(showintrowizard) {
+      this.showintrowizard= showintrowizard;
+    }.bind(this));
+    this.eventsService.on('exoservice', function(exoservice) {
+      var foundElement = this.searchService.search(this.tasks,'token', exoservice.token);
+      if(!foundElement){
+        this.tasks.push({token:exoservice.token, status: 'Created', patientName: exoservice.patientName});
+      }
+      this.checkExomiser(exoservice.patientId, exoservice.token, exoservice.patientName);
+    }.bind(this));
+  }
+
+  ageFromDateOfBirthday(dateOfBirth: any){
+    const today = new Date();
+    const birthDate = new Date(dateOfBirth);
+    var months;
+    var age =0;
+    age = today.getFullYear() - birthDate.getFullYear();
+    months = (today.getFullYear() - birthDate.getFullYear()) * 12;
+    months -= birthDate.getMonth();
+    months += today.getMonth();
+    var res = months <= 0 ? 0 : months;
+    var m=res % 12;
+    /*var age =0;
+    if(res>0){
+      age= Math.abs(Math.round(res/12));
+    }*/
+    this.age = {years:age, months:m }
   }
 
   loadMyEmail(){
@@ -172,10 +236,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   initVars(){
       //coger parámetros por si viene de modulo de visitas
       this.subscription.add( this.route.params.subscribe(params => {
-        if(this.data.storage!=undefined){
-          console.log(this.data);
-          if(this.data.storage.roleShare!=undefined){
-            this.roleShare = this.data.storage.roleShare;
+        if(this.dataservice.storage!=undefined){
+          if(this.dataservice.storage.roleShare!=undefined){
+            this.roleShare = this.dataservice.storage.roleShare;
           }
         }
       }));
@@ -213,9 +276,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
             keyboard : false,
-            windowClass: 'ModalClass-xl'
+            windowClass: 'ModalClass-sm'// xl, lg, sm
       };
-      console.log(this.authService.getCurrentPatient());
       if(this.authService.getCurrentPatient()!=null){
         this.selectedPatient = this.authService.getCurrentPatient();
         this.isMine = false;
@@ -234,6 +296,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
             this.isMine = this.patients[i].ismine;
           }
         }
+      }
+      if(this.patients.length==0){
+        this.roleShare='User';
       }
       this.modalReference = this.modalService.open(shareTo, ngbModalOptions);
     }
@@ -254,7 +319,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
         this.subscription.add( this.http.post(environment.api+'/api/sharingaccountsclinical/'+this.authService.getIdUser(), this.patients)
         .subscribe( (res2 : any) => {
           res2.sort(this.sortService.DateSort("date"));
-          console.log(res2);
           this.listOfSharingAccounts = res2;
           this.loading = false;
          }, (err) => {
@@ -278,7 +342,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
           confirmButtonText: this.translate.instant("generics.Delete"),
           cancelButtonText: this.translate.instant("generics.No, cancel"),
           showLoaderOnConfirm: true,
-          allowOutsideClick: false
+          allowOutsideClick: false,
+          reverseButtons:true
       }).then((result) => {
         if (result.value) {
           this.revokePermission(i);
@@ -288,16 +353,13 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
     revokePermission(i){
       this.revonking = true;
-      console.log(this.listOfSharingAccounts[i]);
 
       var patientId = this.listOfSharingAccounts[i].patientid;
       var userId = this.listOfSharingAccounts[i]._id;
       var objectData = { userId: userId};
-      console.log(objectData);
       this.subscription.add( this.http.post(environment.api+'/api/revokepermission/'+patientId, objectData)
       .subscribe( (res : any) => {
         this.revonking = false;
-        console.log(res);
         this.loadDataFromSharingAccounts();
        }, (err) => {
          console.log(err);
@@ -318,7 +380,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
         params.account = {};
         var patientparams = this.authService.getCurrentPatient();
-        console.log(this.selectedPatient);
 
         this.patients.forEach(function(element) {
           if(element.sub  == this.selectedPatient.sub){
@@ -358,7 +419,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
         if(!alreadyShared){
           this.subscription.add( this.http.post(environment.api+'/api/shareorinvite',params)
             .subscribe( (res : any) => {
-              console.log(res);
               if(params.role == 'User'){
                 if(res.message == 'Email sent'){
                   this.initVars();
@@ -404,8 +464,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     resend(i){
-      console.log('test');
-      console.log(this.listOfSharingAccounts[i]);
       this.sending = true;
       var params:any = {};
       //params.userId = this.authService.getIdUser();
@@ -421,7 +479,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.subscription.add( this.http.post(environment.api+'/api/resendshareorinvite',params)
         .subscribe( (res : any) => {
-          console.log(res);
           if(params.role == 'User'){
             if(res.message == 'Email sent'){
               this.initVars();
@@ -476,6 +533,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
         }.bind(this));
         this.patients.sort(this.sortService.GetSortOrderNames("patientName"));
         this.loadDataFromSharingAccounts();
+        this.checkStatusServices();
       }, (err) => {
         console.log(err);
       }));
@@ -501,7 +559,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.shareWithObject = this.listOfSharingAccounts[index];
       //this.permissions = this.listOfSharingAccounts[index].permissions;
       this.indexPermissions = index;
-      console.log(this.indexPermissions);
       if(this.modalReference!=undefined){
         this.modalReference.close();
       }
@@ -529,7 +586,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       //var patientId = this.currentPatient.sub;
        this.subscription.add( this.http.post(environment.api+'/api/setpermission/'+patientId, this.listOfSharingAccounts)
        .subscribe( (res : any) => {
-         console.log(res)
        }))
    }
 
@@ -597,6 +653,128 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
         Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
       }));
 
+   }
+
+   startWizardAgain(){
+     Swal.fire({
+         title: this.translate.instant("diagnosis.wizardquestionlaunch"),
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonColor: '#0CC27E',
+         cancelButtonColor: '#f9423a',
+         confirmButtonText: this.translate.instant("generics.Yes"),
+         cancelButtonText: this.translate.instant("generics.No"),
+         showLoaderOnConfirm: true,
+         allowOutsideClick: false,
+         reverseButtons:true
+     }).then((result) => {
+       if (result.value) {
+
+         if(this.showintrowizard){
+           this.goToStep('0.0', true, '0.0')
+         }else{
+           this.goToStep('1.0', true, '1.0')
+         }
+       }
+     });
+
+   }
+
+   goToStep(index, save, maxStep){
+     var info = {step: index, save: save, maxStep: maxStep}
+     this.eventsService.broadcast('infoStep', info);
+   }
+
+   goToReports(){
+     this.eventsService.broadcast('setStepWizard', 'reports');
+   }
+
+   checkStatusServices(){
+     for(var i = 0; i < this.patients.length; i++){
+       this.checkServices(this.patients[i].sub, this.patients[i].patientName);
+     }
+   }
+
+   checkServices(patientId, patientName){
+     // Find if the patient has pending works
+     this.subscription.add( this.apiDx29ServerService.getPendingJobs(patientId)
+     .subscribe( (res : any) => {
+       if(res.exomiser!=undefined){
+         if(res.exomiser.length>0){
+           var actualToken=res.exomiser[res.exomiser.length-1]
+           this.checkExomiser(patientId, actualToken, patientName);
+         }
+       }
+     }, (err) => {
+       console.log(err);
+     }));
+   }
+
+   checkExomiser(patientId, actualToken, patientName){
+     // Llamar al servicio
+     this.subscription.add( this.exomiserService.checkExomiserStatusNavBar(patientId, actualToken)
+       .subscribe( async (res2 : any) => {
+         if(res2.res.status=='Running'){
+
+         }
+         var foundElement = this.searchService.search(this.tasks,'token', res2.res.token);
+         if(!foundElement){
+           this.tasks.push({token:res2.res.token, status: res2.res.status, patientName: patientName, patientId: patientId});
+         }else{
+           var found=false;
+           for(var i = 0; i < this.tasks.length && !found; i++){
+             if(this.tasks[i].token==res2.res.token){
+               if(res2.res.status=='Running'){
+                 this.tasks[i].status =res2.res.status;
+               }else if(res2.res.status=='Succeeded' || res2.res.status=='Failed'){
+                 found=true;
+                 this.tasks.push({token:res2.res.token, status: res2.res.status, patientName: patientName, patientId: patientId});
+                 //this.deleteTask(i);
+               }
+
+             }
+
+           }
+         }
+
+         if(res2.message=="something pending"){
+           await this.delay(5000);
+           this.checkExomiser(patientId, actualToken, patientName);
+         }
+        }, (err) => {
+          console.log(err);
+          //this.manageErrorsExomiser("type1",err);
+        }));
+   }
+
+   delay(ms: number) {
+       return new Promise( resolve => setTimeout(resolve, ms) );
+   }
+
+   deleteTask(index){
+     var res = [];
+     for(var i = 0; i < this.tasks.length; i++){
+       if(i!=index){
+         res.push(this.tasks[i]);
+       }
+      }
+    this.tasks = res;
+   }
+
+   clearNotifications(){
+     this.tasks = [];
+     this.isCollapsed=true;
+   }
+
+   goToPatient(patientId, index){
+     var found = false;
+     for(var i = 0; i < this.patients.length && !found; i++){
+       if(this.patients[i].sub==patientId){
+         this.authService.setCurrentPatient(this.patients[i]);
+         this.router.navigate(['/clinical/diagnosis2']);
+         this.deleteTask(index);
+       }
+     }
    }
 
 }

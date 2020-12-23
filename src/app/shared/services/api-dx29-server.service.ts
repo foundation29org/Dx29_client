@@ -105,4 +105,24 @@ export class ApiDx29ServerService {
         })
     }
 
+    lauchPhene2Gene(patientId, data){
+        return this.http.post(environment.api+'/api/phen2Gene/'+patientId, data)
+        .map( (res : any) => {
+            return res;
+        }, (err) => {
+            console.log(err);
+            return err;
+        })
+    }
+
+    getLastPhen2GenesResults(patientId){
+        return this.http.get(environment.api+'/api/lastPhen2Gene/'+patientId)
+        .map( (res : any) => {
+            return res;
+        }, (err) => {
+            console.log(err);
+            return err;
+        })
+    }
+
 }

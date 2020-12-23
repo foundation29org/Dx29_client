@@ -18,7 +18,6 @@ export class ExomiserService {
 
     // Analyze
     analyzeExomiser(settingExomizer){
-        console.log(settingExomizer)
         //return this.http.post(environment.exomiserUrl,settingExomizer)
         return this.http.post(environment.f29svc+'/api/exomiser/analyse',settingExomizer)
         .map( (res : any) => {
@@ -63,12 +62,41 @@ export class ExomiserService {
         })
     }
 
+    checkExomiserStatusNavBar(patientId, actualToken){
+        //return this.http.get(environment.api+'/api/exomizerservices/'+patientId)
+        return this.http.get(environment.f29svc+'/api/exomiser/status?token='+actualToken)
+        .map( (res : any) => {
+            var resultMessage={message:"",res:{}};
+            if(res.status=="Running"){
+                resultMessage.message="something pending";
+            }
+            else if(res.status=="Succeeded"){
+                resultMessage.message="nothing pending";
+            }
+            else if(res.status=="Failed"){
+                resultMessage.message="Error";
+                // res.code y con esto y el lang llamo a la descripcion del error
+            }
+            else{
+                resultMessage.message="something pending";
+            }
+            resultMessage.res=res;
+            return resultMessage;
+            //return res;
+        }, (err) => {
+            // 404 token not found
+            // token mal construido
+            // 500 otros errores
+            console.log(err);
+            return err;
+        })
+    }
+
     // Results
     getExomiserResults(){
         //return this.http.get(environment.api+'/api/exomizerservice/'+patientId)
         return this.http.get(environment.f29svc+'/api/exomiser/results?token='+this.actualToken)
         .map( (res : any) => {
-            console.log(res)
             return res;
         }, (err) => {
             // 404 token not found
