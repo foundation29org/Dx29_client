@@ -225,7 +225,8 @@
     "errorSrvMsg":"Se ha producido un error.",
     "Fill in the required data": "Complete los datos obligatorios",
     "Calculate":"Calcular",
-    "There is no patient data to export": "No hay datos de pacientes para exportar."
+    "There is no patient data to export": "No hay datos de pacientes para exportar.",
+    "OPTIONAL": "Opcional"
   },
   "lang":{
     "Question deleted successfully": "Pregunta eliminada con éxito",
@@ -679,7 +680,7 @@
     "Dont enter any identifiable patient information": "No introduzca ninguna información identificable del paciente",
     "Complete the patient data": "Completa los datos del paciente",
     "Genetic information": "Información genética",
-    "Notes and Conclusion": "Comentarios",
+    "Notes and Conclusion": "Notas",
     "Diagnosis powered by genes": "Diagnóstico impulsado por genes",
     "DashboardTitle": "Dx29 es sólo para uso de investigación. No diagnostica, produce una lista clasificada de genes sospechosos que proporcionan asistencia para casos de enfermedades raras. Los pacientes deben discutir sus hallazgos con su proveedor de atención médica. Nuestros resultados clínicos utilizan un conjunto de algoritmos de puntuación que comparan la similitud semántica de cada uno de sus hallazgos clínicos con los que normalmente presenta cada enfermedad. La alta similitud resulta en una puntuación alta para una enfermedad.",
     "MsgExtractorField": "Se le advierte que no ingrese los siguientes datos personales de campo o identificación del paciente cuyo caso se está revisando, bajo su responsabilidad",
@@ -1290,7 +1291,7 @@
     "Loading data": "Cargando información",
     "Share": "Compartir",
     "Send invite to use Dx29": "Paciente – envía invitación para unirse a Dx29",
-    "Share your data anonymously": "Médico – comparte tus datos con un médico de manera anónima",
+    "Share your data anonymously": "Médico",
     "Invite": "Invitar",
     "Shared with": "Casos compartidos",
     "Revoke": "Anular",

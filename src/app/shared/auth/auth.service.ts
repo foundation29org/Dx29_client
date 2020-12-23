@@ -93,10 +93,8 @@ export class AuthService {
       this.setRedirectUrl('/clinical/dashboard/home')
     }else if(tokenPayload.role == 'Admin'){
       // Admin
-      console.log("Init environment admin")
       if(tokenPayload.subrole == 'AdminGTP'){
         //AdminGTP
-        console.log("Init environment adminGTP")
 
         this.setRedirectUrl('/admin/dashboard/admingtp')
       }
@@ -115,10 +113,8 @@ export class AuthService {
 
   signinUser(formValue: any): Observable<boolean> {
     //your code for signing up the new user
-    console.log("Sign in user")
     return this.http.post(environment.api+'/api/signin',formValue)
       .map( (res : any) => {
-        console.log(res);
           if(res.message == "You have successfully logged in"){
             //entrar en la app
             this.setLang(res.lang);

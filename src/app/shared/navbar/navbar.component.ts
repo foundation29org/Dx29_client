@@ -276,7 +276,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
             keyboard : false,
-            windowClass: 'ModalClass-xl'
+            windowClass: 'ModalClass-sm'// xl, lg, sm
       };
       if(this.authService.getCurrentPatient()!=null){
         this.selectedPatient = this.authService.getCurrentPatient();

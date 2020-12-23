@@ -299,7 +299,7 @@
 
 <!-- Navbar (Header) Ends -->
 <ng-template #shareTo let-c="close" let-d="dismiss" appendTo="body">
-		<div class="modal-header" id="idHeader">
+		<div class="modal-header pb-0" id="idHeader">
 			<h4>{{'sharesection.Sharing menu' | translate }}
         <span *ngIf="role =='User'" class="font-small-2 d-block mt-1">{{'patdiagdashboard.msgshare' | translate }}</span>
         <span *ngIf="role !='User'" class="font-small-2 d-block mt-1">{{'patdiagdashboard.msgshareClinician' | translate }}</span>
@@ -318,7 +318,7 @@
           <div class="mt-2">
             <div class="col-md-12 mt-3">
     					<div class="form-group">
-    						<label>{{'sharesection.Invite' | translate }}*</label>
+    						<label>{{'sharesection.Invite' | translate }}</label>
                 <select id="roleShare" name="roleShare" class="form-control" ngModel required [(ngModel)]="roleShare">
                   <option value="User">{{'dashboardpatient.Send invite to use Dx29' | translate }}</option>
                   <option value="Clinical" [disabled]="patients.length==0">{{'dashboardpatient.Share your data anonymously' | translate }} <span *ngIf="patients.length==0">({{'permissions.can not share with clinicians' | translate }}) </span></option>
@@ -327,7 +327,7 @@
     				</div>
             <div class="col-md-12">
     					<div class="form-group">
-    						<label>{{'generics.Email' | translate }}*</label>
+    						<label>{{'generics.Email' | translate }}</label>
     						<input type="email" class="form-control" name="emailt" id="emailt" placeholder="{{'generics.Email' | translate }}" ngModel [(ngModel)]="email" required emailt #emailt="ngModel">
     						<small class="form-text text-muted danger" *ngIf="!emailt.valid && (emailt.dirty || emailt.touched)">{{'generics.entervalidemail' | translate }}</small>
     					</div>
@@ -347,11 +347,10 @@
                   <!--<h5>Items to share</h5>
                   <mat-checkbox class="example-margin" [checked]="true" [disabled]="true">{{'permissions.List of symptoms' | translate }}</mat-checkbox>
                   <mat-checkbox class="example-margin d-block" [checked]="true" [disabled]="true">{{'permissions.Genetics information if available' | translate }}</mat-checkbox>-->
-                  <label class="mb-0" for="Permissions">{{'permissions.Permissions' | translate }}</label>
-                  <span class="d-block mb-1" for="Permissions">{{'sharesection.What can it be done' | translate }}</span>
+                  <label for="Permissions">{{'permissions.Permissions' | translate }}</label>
                   <!--<mat-checkbox class="example-margin" [disabled]="!onepatient.ismine" name="shareEmr" ngModel  [(ngModel)]="permissions.shareEmr" #shareEmr="ngModel" id="shareEmr">{{'permissions.Share EMR' | translate }}</mat-checkbox>-->
-                  <mat-checkbox class="example-margin ml-0" [disabled]="!onepatient.ismine" name="askFirst" ngModel (change)="setPermissionsForm('askFirst')" [(ngModel)]="permissions.askFirst" #askFirst="ngModel" id="askFirst">{{'permissions.Ask before sharing' | translate }}</mat-checkbox>
-                  <mat-checkbox class="ml-2 example-margin" [disabled]="!onepatient.ismine" name="shareWithAll" ngModel (change)="setPermissionsForm('shareWithAll')" [(ngModel)]="permissions.shareWithAll" #shareWithAll="ngModel" id="shareWithAll">{{'permissions.Sharing with third parties' | translate }}</mat-checkbox>
+                  <mat-checkbox class="example-margin ml-0 d-block" [disabled]="!onepatient.ismine" name="askFirst" ngModel (change)="setPermissionsForm('askFirst')" [(ngModel)]="permissions.askFirst" #askFirst="ngModel" id="askFirst">{{'permissions.Ask before sharing' | translate }}</mat-checkbox>
+                  <mat-checkbox class="ml-0 example-margin d-block" [disabled]="!onepatient.ismine" name="shareWithAll" ngModel (change)="setPermissionsForm('shareWithAll')" [(ngModel)]="permissions.shareWithAll" #shareWithAll="ngModel" id="shareWithAll">{{'permissions.Sharing with third parties' | translate }}</mat-checkbox>
                   <span *ngIf="!onepatient.ismine" class="text-muted d-block">{{'permissions.message to deny permission' | translate }}</span>
                 </span>
               </p>
@@ -368,7 +367,7 @@
 
           <div>
             <div class="form-group">
-              <label for="message">{{'support.Message' | translate }}</label>
+              <label for="message">{{'support.Message' | translate }} ({{'generics.OPTIONAL' | translate }})</label>
               <textarea name="message" id="textarea1" (ngModelChange)="resizeTextArea()" placeholder="{{'sharesection.Write a message for the receptor' | translate }}" class="autoajustable form-control" [(ngModel)]="message"></textarea>
             </div>
           </div>

@@ -58,7 +58,6 @@ export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy
     private renderer: Renderer2,
     private router: Router
   ) {
-    console.log(this.router.url);
     if((this.router.url).indexOf('/juntoshaciaeldiagnostico')!=-1){
       this.isGTPPage = true;
     }else{
@@ -243,7 +242,6 @@ export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy
 
       event => {
         var tempUrl = (event.url).toString();
-        console.log(tempUrl);
         if(tempUrl.indexOf('/juntoshaciaeldiagnostico')!=-1){
           this.isGTPPage = true;
         }else{
@@ -300,7 +298,6 @@ export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   toggleHideSidebar($event: boolean): void {
-    console.log($event);
     setTimeout(() => {
       this.hideSidebar = $event;
     }, 0);

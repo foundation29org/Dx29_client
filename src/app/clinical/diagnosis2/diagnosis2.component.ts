@@ -348,6 +348,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     nodescriptionSymptom:String=this.translate.instant("symptomssection.No description");
     launchedPhen2genes: boolean = false;
     viewSummarySymptoms: string = 'Simple';
+    isNew: boolean = false;
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -533,7 +534,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         this.router.navigate(['clinical/dashboard/home']);
       }else{
         this.selectedPatient = this.authService.getCurrentPatient();
-        console.log(this.selectedPatient);
         this.eventsService.broadcast('selectedPatient', this.selectedPatient);
         var dateRequest2=new Date(this.selectedPatient.birthDate);
         if(this.selectedPatient.birthDate == null){
@@ -986,7 +986,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
              //document.getElementById("idShowPanelWorkbench").click();
            }
           }else{
-            console.log('no tiene!');
+            //console.log('no tiene!');
           }
         }));
 
@@ -1072,7 +1072,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
 
         this.subscription.add( this.blob.changeFilesPatientBlob.subscribe(async filesPatientBlob => {
-          console.log(filesPatientBlob);
           this.docsNcr = [];
           this.otherDocs = [];
            if(filesPatientBlob.length>0){
@@ -1163,7 +1162,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                  }
                }
              }
-             console.log(listPatientFiles);
              this.listPatientFiles = listPatientFiles;
              for(var i=0;i<this.listPatientFiles.length;i++){
                this.listPatientFiles[i].origenFile.contentLength = this.formatBytes(this.listPatientFiles[i].origenFile.contentLength);
@@ -2789,6 +2787,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             this.sending = false;
             //this.toastr.success('', this.msgDataSavedOk);
             this.loadSymptoms();
+            if(!this.isNew){
+              this.loadFilesContainer(true);
+            }
 
            }, (err) => {
              console.log(err);
@@ -2805,6 +2806,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             //this.toastr.success('', this.msgDataSavedOk);
             this.sending = false;
             this.loadSymptoms();
+            if(!this.isNew){
+              this.loadFilesContainer(true);
+            }
 
            }, (err) => {
              console.log(err.error);
@@ -4412,7 +4416,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     }
 
-    showPanelSymptomsNcr(contentSymptomsNcr){
+    showPanelSymptomsNcr(contentSymptomsNcr, isNew){
+      this.isNew = isNew;
       if(this.modalReference!=undefined){
         this.modalReference.close();
       }
@@ -4522,7 +4527,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
         }
 
       }
-      if(this.isNewNcrFile){
+      if(this.isNewNcrFile && this.isNew){
         this.saveResultsNcr();
       }
       this.saveSymptomsToDb();
@@ -5170,7 +5175,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
                this.medicalText ='';
                this.isNewNcrFile = false;
-               document.getElementById("openModalSymptomsNcrButton2").click();
+               document.getElementById("openModalShowPanelSymptomsNcr2").click();
                //this.changeTriggerHotjar('ncrresults_');
              }else{
                //is new versión
@@ -5247,7 +5252,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
                  console.log(err);
                }));
                Swal.close();
-                document.getElementById("openModalSymptomsNcrButton2").click();
+                document.getElementById("openModalShowPanelSymptomsNcr2").click();
                 //this.changeTriggerHotjar('ncrresults_');
               }else{
                 this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
@@ -6194,7 +6199,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     async setFrequencies(list){
-      console.log(JSON.parse(JSON.stringify(this.orphaSymptoms)))
       // Recorrer todos los trees, y los ids duplicados me quedo con la freq mayor = padres de orpha.
       var parents = [];
       for (var ipos = 0; ipos < this.orphaSymptoms.length; ipos++){
@@ -6215,7 +6219,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           }
         }
       }
-      console.log(JSON.parse(JSON.stringify(parents)))
 
       for (var i = 0; i < this.fullListSymptoms.length; i++){
         if(this.fullListSymptoms[i].frequency==null){

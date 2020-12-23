@@ -55,8 +55,6 @@ export class LoginPageComponent implements OnDestroy, OnInit{
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, public authService: AuthService, private authGuard: AuthGuard,  public translate: TranslateService, private patientService: PatientService, private inj: Injector) {
       //var param = router.parseUrl(router.url).queryParams["email","key"];
       var param = router.parseUrl(router.url).queryParams;
-      console.log("Extracted value: ")
-      console.log(param);
       if(param.email && param.key){
         //activar la cuenta
         this.subscription.add( this.http.post(environment.api+'/api/activateuser',param)
@@ -80,7 +78,6 @@ export class LoginPageComponent implements OnDestroy, OnInit{
           this.translate.use(this.authService.getLang());
           sessionStorage.setItem('lang', this.authService.getLang());
           let url =  this.authService.getRedirectUrl();
-          console.log('Redirect Url:'+ url);
           this.router.navigate([ url ]);
         }
       }
@@ -178,10 +175,8 @@ export class LoginPageComponent implements OnDestroy, OnInit{
           'sitekey' : environment.captcha,
           'callback': (response) => {
             this.captchaToken = response;
-            console.log(response);
             this.subscription.add( this.http.get(environment.api+'/api/verifyingcaptcha/'+this.captchaToken)
               .subscribe( (res : any) => {
-                console.log(res);
                 this.needCaptcha = false;
               }, (err) => {
                 this.needCaptcha = true;
@@ -244,7 +239,6 @@ export class LoginPageComponent implements OnDestroy, OnInit{
         this.isLoginFailed = false;
         this.isActivationPending = false;
         this.isBlocked = false;
-        console.log(this.loginForm.value)
         this.userEmail = this.loginForm.value.email
         this.loginForm.value.password= sha512(this.loginForm.value.password)
     	   this.subscription.add( this.authService.signinUser(this.loginForm.value).subscribe(
@@ -259,14 +253,12 @@ export class LoginPageComponent implements OnDestroy, OnInit{
                  if(this.authService.getRole()=='User'){
                    this.subscription.add( this.patientService.getPatientId()
                    .subscribe( (res : any) => {
-                     console.log(res);
                      if(res==null){
                        //crear el paciente, y mostrar mensaje de bienvenida, e invitarle a completar los datos básicos
                        this.createPatient();
 
                      }else{
                        this.authService.setCurrentPatient(res);
-                       console.log('Redirect Url:'+ url);
                 			 this.router.navigate([ url ]);
                      }
                      this.sending = false;
@@ -276,8 +268,6 @@ export class LoginPageComponent implements OnDestroy, OnInit{
                     }));
                  }else if(this.authService.getRole()=='Clinical'){
                    this.sending = false;
-                   console.log('entra');
-                     console.log('Redirect Url:'+ url);
                     this.router.navigate([ url ]);
                     if(this.authService.getLang()=='es'){
                       Swal.fire({
@@ -290,25 +280,19 @@ export class LoginPageComponent implements OnDestroy, OnInit{
                  }
                  else if(this.authService.getRole()=='Admin'){
                   this.sending = false;
-                  console.log('entra');
-                  console.log('Redirect Url:'+ url);
                   this.router.navigate([ url ]);
                  }
                  else{
                     this.sending = false;
-                   console.log(url);
                    this.router.navigate([ url ]);
                  }
 
       		    }else {
                 this.sending = false;
-                console.log("ha fallado");
                 let message =  this.authService.getMessage();
                  if(message == "Login failed" || message == "Not found"){
-                     console.log("Login failed");
                      this.isLoginFailed = true;
                    }else if(message == "Account is temporarily locked"){
-                     console.log("Account is temporarily locked");
                      this.isBlockedAccount = true;
                    }else if(message == "Account is unactivated"){
                      this.isActivationPending = true;
@@ -332,7 +316,6 @@ export class LoginPageComponent implements OnDestroy, OnInit{
                         var param = {"email": this.userEmail, "lang": this.translate.store.currentLang, "type": "resendEmail"};
                         this.subscription.add( this.http.post(environment.api+'/api/sendEmail',param)
                         .subscribe( (res : any) => {
-                          console.log(res.message)
                           if(res.message=='Email resent'){
                             this.emailResent = true;
                             this.errorAccountActivated = false;
@@ -350,7 +333,6 @@ export class LoginPageComponent implements OnDestroy, OnInit{
                       var param = {"email": this.userEmail, "lang": this.translate.store.currentLang, "type": "contactSupport"};
                       this.subscription.add( this.http.post(environment.api+'/api/sendEmail',param)
                       .subscribe( (res : any) => {
-                        console.log(res.message)
                         if(res.message=='Support contacted'){
                           this.supportContacted = true
                           this.errorAccountActivated = false;

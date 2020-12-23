@@ -226,7 +226,8 @@
     "errorSrvMsg":"An error has occurred",
     "Fill in the required data": "Fill in the required data",
     "Calculate":"Calculate",
-    "There is no patient data to export": "There is no patient data to export."
+    "There is no patient data to export": "There is no patient data to export.",
+    "OPTIONAL": "Optional"
   },
   "lang":{
     "Question deleted successfully": "Question deleted successfully",
@@ -680,7 +681,7 @@
     "Dont enter any identifiable patient information": "Do not enter any identifiable patient information",
     "Complete the patient data": "Complete the patient's data",
     "Genetic information": "Genetic information",
-    "Notes and Conclusion": "Feedback",
+    "Notes and Conclusion": "Notes",
     "Diagnosis powered by genes": "Diagnosis powered by genes",
     "DashboardTitle": "Dx29 is for research use only. It does not diagnose, it produces a ranked list of suspected genes which provide assistance for rare disease cases. Patients should discuss their findings with their healthcare provider. Our clinical results use a set of scoring algorithms which compare semantic similarity of each of your clinical findings to those that are normally exhibited by each disease. High similarity results in a high score for a disease.",
     "MsgExtractorField": "You are cautioned not to enter in the following field personal data or identification of the patient whose case is being reviewed, under your responsibility",
@@ -1291,7 +1292,7 @@
     "Loading data": "Loading data",
     "Share": "Share",
     "Send invite to use Dx29": "Patient - send invite to use Dx29",
-    "Share your data anonymously": "Clinician - share your data anonymously",
+    "Share your data anonymously": "Physician",
     "Invite": "Invite",
     "Shared with": "Shared cases",
     "Revoke": "Revoke",
@@ -1520,7 +1521,7 @@
     "Symptom extraction revision": "Symptom validation",
     "We have found": "We have found",
     "msgnumbersymptomsfound": "in the information you loaded.",
-    "msgnumbersymptomsfound2": "Please, add those presented in your case.",
+    "msgnumbersymptomsfound2": "Please, add those present in this case.",
     "Show full text": "Show full text",
     "Hide full text": "Hide full text",
     "Score": "Score",

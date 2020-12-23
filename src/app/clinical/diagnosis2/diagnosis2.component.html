@@ -1206,10 +1206,10 @@
 			<div>
 				<h4>{{'patdiagdashboard.Symptom extraction revision' | translate }}</h4>
 				<span>
-					{{'patdiagdashboard.We have found' | translate }} <h5 class="text-bold-400 d-inline"><ins>{{temporalSymptoms.length}}
+					{{'patdiagdashboard.We have found' | translate }} <h5 class="text-bold-400 d-inline">{{temporalSymptoms.length}}
             <span *ngIf="temporalSymptoms.length>1" class="text-lowercase">{{'diagnosis.Symptoms' | translate }}</span>
             <span *ngIf="temporalSymptoms.length==1" class="text-lowercase">{{'diagnosis.Symptom' | translate }}</span>
-          </ins>.</h5>
+          .</h5>
 				</span>
         <span *ngIf="temporalSymptoms.length>0">
 					{{'patdiagdashboard.msgnumbersymptomsfound2' | translate }}
@@ -1289,7 +1289,7 @@
               <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
                 <td>
                   <span>
-                    <mat-checkbox color="primary" class="xl-check" [checked]="hpo.checked" (change)="changeStateSymptom(i, hpo.checked)">
+                    <mat-checkbox color="primary" class="custom-check" [checked]="hpo.checked" (change)="changeStateSymptom(i, hpo.checked)">
                    </mat-checkbox>
                     <!--<button (click)="changeStateSymptom(i, hpo.checked)" [ngClass]="(hpo.checked==true)?'btn btn-success mr-1 mb-0 btn-fab':'btn btn-secondary mr-1 mb-0 btn-fab'" href="javascript:void(0)">
                       <span *ngIf="!hpo.checked"><i class="fa fa-times mr-1"></i> {{'phenotype.Click to check it' | translate }}</span><span *ngIf="hpo.checked"><i class="fa fa-check mr-1"></i> {{'phenotype.Click to uncheck it' | translate }}</span>
@@ -1546,7 +1546,7 @@
   </div>
     <div class="content-wrapper p-2">
       <div class="row col-md-12">
-        <button id="openModalSymptomsNcrButton" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr)">.</button>
+        <button id="openModalSymptomsNcrButton" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr, true)">.</button>
         <form class="form w-100" #f="ngForm">
           <div class="form-body">
             <div class="row">
@@ -3162,8 +3162,8 @@
 		</div>
 </ng-template>
 
-<button id="openModalSymptomsNcrButton2" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr)">.</button>
+<button id="openModalSymptomsNcrButton2" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr, true)">.</button>
 <button id="openModalIntro" [hidden]="true" (click)="showPanelIntro(contentIntro)">.</button>
-<button id="openModalShowPanelSymptomsNcr2" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr)">.</button>
+<button id="openModalShowPanelSymptomsNcr2" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr, false)">.</button>
 <button id="openModalPhen2genes" [hidden]="true" (click)="showPanelIntro(contentModalPhen2genes)">.</button>
 <button id="openModalExomiser" [hidden]="true" (click)="showPanelIntro(contentModalExomiser)">.</button>
