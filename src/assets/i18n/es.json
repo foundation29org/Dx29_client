@@ -831,7 +831,9 @@
     "Candidate diagnosis": "Diagnósticos candidatos",
     "no candidate": "No has seleccionado ningún diagnóstico candidato.",
     "Free text": "Texto libre",
-    "Other documents": "Otros documentos"
+    "Other documents": "Otros documentos",
+    "Advanced": "Avanzada",
+    "Simple": "Simple"
   },
   "reportsSection":{
     "subtitle": "Estos son los archivos que se han incluido en el caso de este paciente. Puedes revisar si su contenido se ha interpretado correctamente.",

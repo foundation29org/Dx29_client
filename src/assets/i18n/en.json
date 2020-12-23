@@ -832,7 +832,9 @@
     "Candidate diagnosis": "Candidate diagnosis",
     "no candidate": "You haven’t selected any candidate diagnosis.",
     "Free text": "Free text",
-    "Other documents": "Other documents"
+    "Other documents": "Other documents",
+    "Advanced": "Advanced",
+    "Simple": "Simple"
   },
   "reportsSection":{
     "subtitle": "These are the files included in this case. You can review that their content has been correctly interpreted.",

@@ -346,6 +346,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     tempVcfBlobName: string = '';
     nodescriptionSymptom:String=this.translate.instant("symptomssection.No description");
     launchedPhen2genes: boolean = false;
+    viewSummarySymptoms: string = 'Simple';
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -2277,11 +2278,18 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             .uploadToBlobStorage(this.accessToken, fileRelatedConditionsParams, fileNameRelatedConditions, 'relatedConditions');
 
             var copyrelatedConditions2 = [];
-            for(var i = 0; i < this.relatedConditions.length; i++) {
-              if(this.relatedConditions[i].iscondition){
+            if(this.infoGenesAndConditionsExomizer.length==0 && (this.infoGenesAndConditionsPhen2Genes.length==0 && this.launchedPhen2genes)){
+              for(var i = 0; i < this.relatedConditions.length; i++) {
                 copyrelatedConditions2.push(this.relatedConditions[i]);
               }
+            }else{
+              for(var i = 0; i < this.relatedConditions.length; i++) {
+                if(this.relatedConditions[i].iscondition){
+                  copyrelatedConditions2.push(this.relatedConditions[i]);
+                }
+              }
             }
+
             this.relatedConditions = copyrelatedConditions2;
             this.loadingInfoGenes = false;
             //this.calcularScoreHealth29();
@@ -2524,6 +2532,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           if(this.selectedItemsFilter.length > 0){
             this.applyFilters();
           }
+        }else{
+          this.loadingPotentialDiagnostics = false;
         }
       }, (err) => {
         console.log(err);
@@ -3695,6 +3705,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     getDiagnosisInfo(){
+      this.loadingPotentialDiagnostics = true;
       this.accessToken.containerName = this.authService.getCurrentPatient().sub.substr(1);
       this.accessToken.patientId = this.authService.getCurrentPatient().sub;
 
@@ -5723,6 +5734,11 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
 
     changeSuggestedViewSymptoms(value){
       this.viewSymptoms = value;
+      //console.log(this.viewSymptoms);
+    }
+
+    changeViewSummarySymptoms(value){
+      this.viewSummarySymptoms = value;
       //console.log(this.viewSymptoms);
     }
 

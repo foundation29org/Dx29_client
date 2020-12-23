@@ -180,7 +180,12 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
       var eventsLang = this.inj.get(EventsService);
       eventsLang.broadcast('changelang', newValue);
       if(newValue=='es'){
-        Swal.fire({ title: 'Los textos en este idioma pueden contener errores', text:  "Este idioma está en desarrollo. Los nombres de los síntomas y las enfermedades, así como sus descripciones y sinónimos pueden contener errores. Para mejorar las traducciones, por favor, envíanos cualquier error a support@foundation29.org", confirmButtonText: this.translate.instant("generics.Accept"),icon:"warning" })
+        Swal.fire({
+            title: this.translate.instant("Los textos en este idioma pueden contener errores"),
+            html: '<p>Este idioma está en desarrollo. Los nombres de los síntomas y las enfermedades, así como sus descripciones y sinónimos pueden contener errores.</p> <p>Para mejorar las traducciones, por favor, envíanos cualquier error a <a href="mailto:support@foundation29.org">support@foundation29.org</a></p>',
+            confirmButtonText: this.translate.instant("generics.Accept"),
+            icon:"warning"
+        })
       }
     }
 
