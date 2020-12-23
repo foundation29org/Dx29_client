@@ -3766,6 +3766,8 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             _id: null
           };
 
+          this.loadingPotentialDiagnostics = false;
+
         }else{
           this.diagnosisInfo = res.diagnosis
           this.infoGenesAndConditionsExomizer = this.diagnosisInfo.infoGenesAndConditionsExomizer;
