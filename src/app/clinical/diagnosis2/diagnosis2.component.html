@@ -695,7 +695,7 @@
             <div class="col-lg-12">
               <div class="card border">
                 <div class="card-header">
-                  <span class="float-right" *ngIf="infoGenesAndConditionsExomizer.length!=0 || infoGenesAndConditionsPhen2Genes.length!=0">
+                  <span class="float-right" *ngIf="(infoGenesAndConditionsExomizer.length!=0 || infoGenesAndConditionsPhen2Genes.length!=0) && topRelatedConditions.length>0">
                     <button type="button" class="mr-1 btn btn-outline-primary" (click)="showPanelGenes(contentPanelGenes);"><span class="" >{{'diagnosesSection.geneticvariants' | translate }}</span> <i class="ml-2 fas fa-dna"></i></button>
                     <button type="button" class="mr-1 btn btn-outline-primary" (click)="showPanelFeedback(contentGeneralNotes);"><span class="" >{{'diagnosesSection.Add notes' | translate }}</span> <i class="ml-2 fa fa-sticky-note-o"></i></button>
                     <!--<span *ngIf="selectedItemsFilter.length>0 || (this.infoGenesAndConditionsExomizer.length>0 && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes) || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhen2Genes.length>0) && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes))" class="mr-1">
@@ -717,17 +717,17 @@
                     <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="!isgen" type="button" [ngClass]="(isgen != true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'" class="mr-1" (click)="getRelatedConditionsview(false);">Clinic view</button>
                     <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="isgen" type="button" [ngClass]="(isgen == true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'" class="mr-1" (click)="getRelatedConditionsview(true);">Genetic view</button>
                   </span>-->
-                  <h4 class="card-title" style="text-transform: none;" *ngIf="infoGenesAndConditionsExomizer.length>0 || infoGenesAndConditionsPhen2Genes.length>0">
+                  <h4 class="card-title" style="text-transform: none;" *ngIf="(infoGenesAndConditionsExomizer.length>0 || infoGenesAndConditionsPhen2Genes.length>0) && topRelatedConditions.length>0">
                     <b class="d-block">{{'diagnosesSection.Results' | translate }}</b>
                     <span class="font-small-2 font-weight-normal">{{'diagnosesSection.SelectCandidate' | translate }}</span>
                   </h4>
-                  <h4 class="card-title" *ngIf="infoGenesAndConditionsExomizer.length==0 && (infoGenesAndConditionsPhen2Genes.length==0 && !launchedPhen2genes)">
+                  <h4 class="card-title" *ngIf="infoGenesAndConditionsExomizer.length==0 && (infoGenesAndConditionsPhen2Genes.length==0 && !launchedPhen2genes) || topRelatedConditions.length==0">
                     <span class="float-right">
                       <button type="button" class="btn btn-outline-primary mr-1" (click)="goToStepDiagnoses();">{{'diagnosesSection.gotoanalysis' | translate }}</button>
                     </span>
                     <b>{{'diagnosesSection.no_analyzed' | translate }}</b>
                   </h4>
-                  <h4 class="card-title" *ngIf="infoGenesAndConditionsExomizer.length==0 && (infoGenesAndConditionsPhen2Genes.length==0 && launchedPhen2genes)">
+                  <h4 class="card-title" *ngIf="infoGenesAndConditionsExomizer.length==0 && (infoGenesAndConditionsPhen2Genes.length==0 && launchedPhen2genes) && topRelatedConditions.length>0">
                     <b class="d-block">{{'diagnosesSection.Results' | translate }}</b>
                     <span class="font-small-2 font-weight-normal">{{'diagnosesSection.SelectCandidate' | translate }}</span>
                   </h4>
