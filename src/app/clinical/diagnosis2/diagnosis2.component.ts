@@ -5794,6 +5794,18 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
       this.showPanelGenes(contentPanelGenes);
     }
 
+    setIndexAndshowPanelGenes2(contentPanelGenes, gene){
+      var index = -1;
+      for(var i = 0; i < this.infoGenesAndConditionsPhen2Genes.length; i++) {
+        if(this.infoGenesAndConditionsPhen2Genes[i].name==gene){
+          index=i;
+          break;
+        }
+      }
+      this.expandedElement = this.infoGenesAndConditionsPhen2Genes[index];
+      this.showPanelGenes(contentPanelGenes);
+    }
+
     showPanelGenes(contentPanelGenes){
       var size= 'ModalClass-lg';
       if(this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhen2Genes.length>0){
@@ -6073,6 +6085,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             this.checkOPatientSymptoms();
             this.checkOmimSymptoms();
             this.checkOrphaSymptoms();
+            console.log(this.orphaSymptoms)
             // Llamada para coger los hijos de los sintomas
             // List IDs
             var symptomsOfDiseaseIds =[];
@@ -6210,12 +6223,18 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           var foundInParents = false
           for (var kpos=0;kpos<parents.length;kpos++){
             if(parents[kpos].id == this.orphaSymptoms[ipos].tree[jpos].id){
-              var parentFrequency = this.hp_frequencies[parents[kpos].frequency].present;
-              var orphaFrequency = this.hp_frequencies[this.orphaSymptoms[ipos].tree[jpos].frequency].present;
-              if(orphaFrequency > parentFrequency){
-                parents[kpos].frequency = this.orphaSymptoms[ipos].tree[jpos].frequency;
+              if(this.hp_frequencies[parents[kpos].frequency]!=undefined){
+                var parentFrequency = this.hp_frequencies[parents[kpos].frequency].present;
+                if(this.hp_frequencies[this.orphaSymptoms[ipos].tree[jpos].frequency]!=undefined){
+                  var orphaFrequency = this.hp_frequencies[this.orphaSymptoms[ipos].tree[jpos].frequency].present;
+                  if(orphaFrequency > parentFrequency){
+                    parents[kpos].frequency = this.orphaSymptoms[ipos].tree[jpos].frequency;
+                  }
+                  foundInParents = true;
+                }
               }
-              foundInParents = true;
+
+
             }
           }
           if(foundInParents == false){
