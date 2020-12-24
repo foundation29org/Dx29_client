@@ -758,7 +758,8 @@
                                 Gene<spam *ngIf="disease.genes.length>1">s</spam>:
                                 <span *ngFor="let gen of disease.genes; let k = index">
                                   <a *ngIf="infoGenesAndConditionsExomizer.length>0" class="primary" href="javascript:void(0)" title="Click to see more information." (click)="setIndexAndshowPanelGenes(contentPanelGenes, gen.gen)"> {{gen.gen}}</a>
-                                  <a *ngIf="infoGenesAndConditionsExomizer.length==0" class="primary" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" title="Click to see more information."> {{gen.gen}}</a>
+                                  <a *ngIf="infoGenesAndConditionsExomizer.length==0" class="primary" href="javascript:void(0)" title="Click to see more information." (click)="setIndexAndshowPanelGenes2(contentPanelGenes, gen.gen)"> {{gen.gen}}</a>
+                                  <!--<a *ngIf="infoGenesAndConditionsExomizer.length==0" class="primary" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" title="Click to see more information."> {{gen.gen}}</a>-->
                                   <span *ngIf="k<disease.genes.length-1">,</span>
                                 </span>
                               </div>
@@ -1207,9 +1208,8 @@
 				<h4>{{'patdiagdashboard.Symptom extraction revision' | translate }}</h4>
 				<span>
 					{{'patdiagdashboard.We have found' | translate }} <h5 class="text-bold-400 d-inline">{{temporalSymptoms.length}}
-            <span *ngIf="temporalSymptoms.length>1" class="text-lowercase">{{'diagnosis.Symptoms' | translate }}</span>
-            <span *ngIf="temporalSymptoms.length==1" class="text-lowercase">{{'diagnosis.Symptom' | translate }}</span>
-          .</h5>
+            <span *ngIf="temporalSymptoms.length>1" class="text-lowercase">{{'diagnosis.Symptoms' | translate }}.</span>
+            <span *ngIf="temporalSymptoms.length==1" class="text-lowercase">{{'diagnosis.Symptom' | translate }}.</span></h5>
 				</span>
         <span *ngIf="temporalSymptoms.length>0">
 					{{'patdiagdashboard.msgnumbersymptomsfound2' | translate }}
