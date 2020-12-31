@@ -320,6 +320,20 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
         .subscribe( (res2 : any) => {
           res2.sort(this.sortService.DateSort("date"));
           this.listOfSharingAccounts = res2;
+          for(var i = 0; i < this.listOfSharingAccounts.length; i++){
+            var found = false;
+            for(var j = 0; j < this.patients.length && !found; j++){
+              if(this.patients[j].sub==this.listOfSharingAccounts[i].patientid && this.patients[j].ismine){
+                found = true;
+              }
+            }
+            if(found){
+              this.listOfSharingAccounts[i].isMine = true;
+            }else{
+              this.listOfSharingAccounts[i].isMine = false;
+            }
+          }
+
           this.loading = false;
          }, (err) => {
            console.log(err);
@@ -584,7 +598,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       var patientparams = this.authService.getCurrentPatient();
       var patientId = patientparams.sub;
       //var patientId = this.currentPatient.sub;
-       this.subscription.add( this.http.post(environment.api+'/api/setpermission/'+patientId, this.listOfSharingAccounts)
+      var sharingId = this.listOfSharingAccounts[this.indexPermissions]._id;
+      var objectData = { sharingId: sharingId, permissions: this.listOfSharingAccounts[this.indexPermissions].permissions};
+       this.subscription.add( this.http.post(environment.api+'/api/setpermission/'+patientId, objectData)
        .subscribe( (res : any) => {
        }))
    }
