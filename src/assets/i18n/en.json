@@ -1412,7 +1412,9 @@
     "A request has been submitted": "Your application has been sent successfully. You will be contacted to continue the process. Stay tuned to your email.",
     "Patient sharing done": "Your case has been successfully shared with the clinician ",
     "Request completed": "Request completed",
-    "Notsharewithyourself": "You cannot share the case with yourself"
+    "Notsharewithyourself": "You cannot share the case with yourself",
+    "Not editable": "Not editable",
+    "Invited": "Invited"
   },
   "footer":{
     "Dx29info": "Dx29 is a search and reference tool provided for informational purposes and not intended to replace the clinician’s judgement or experience. It should not be used to diagnose or treat medical conditions."
