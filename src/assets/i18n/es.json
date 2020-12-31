@@ -1411,7 +1411,9 @@
     "A request has been submitted": "Tu solicitud se ha enviado con éxito. Serás contactado para continuar con el proceso. Por favor, mantente atento a tu email.",
     "Patient sharing done": "Tu caso se ha compartido correctamente con el médico",
     "Request completed": "Solicitud realizada",
-    "Notsharewithyourself": "No puede compartirse el caso con usted mismo"
+    "Notsharewithyourself": "No puede compartirse el caso con usted mismo",
+    "Not editable": "No editable",
+    "Invited": "Invitado"
   },
   "footer":{
     "Dx29info": "Dx29 es una herramienta de búsqueda y referencia que se proporciona con fines informativos y no pretende sustituir el juicio o la experiencia del clínico. No debe utilizarse para diagnosticar o tratar afecciones médicas."

@@ -418,14 +418,15 @@
                     <!--<span *ngIf="account.permissions.shareEmr" class="d-block">{{'permissions.Share EMR' | translate }} </span>-->
                     <span *ngIf="account.permissions.askFirst" class="d-block">{{'permissions.Ask before sharing' | translate }} </span>
                     <span *ngIf="account.permissions.shareWithAll" class="d-block">{{'permissions.Sharing with third parties' | translate }} </span>
-                    <span class="d-block"><i class="fa fa-edit" style="cursor: pointer;" title="Importance" (click)="changePermissions(i, contentChangePermissions)"></i></span>
+                    <span class="d-block" *ngIf="account.isMine"><i class="fa fa-edit primary" style="cursor: pointer;" title="{{'permissions.Permissions' | translate }}" (click)="changePermissions(i, contentChangePermissions)"></i></span>
+                    <span class="d-block" *ngIf="!account.isMine"><b>{{'permissions.Not editable' | translate }}</b></span>
                   </p>
                   <p *ngIf="!account.permissions || account.role == 'User'">
                     <span> - </span>
                   </p>
                 </td>
                 <td>
-                  <span *ngIf="account._id==null && account.role == 'User'">Invited</span>
+                  <span *ngIf="account._id==null && account.role == 'User'">{{'permissions.Invited' | translate }}</span>
                   <!--<span *ngIf="account._id==null && account.role != 'User' && account.state == 'Pending'">{{'generics.Pending' | translate }}</span>-->
                   <span *ngIf="account.role != 'User' && account.state == 'Pending'">{{'generics.Pending' | translate }}</span>
                   <span *ngIf="(account._id==null && account.role != 'User' && account.state == '') || account._id != null && account.state != 'Pending' && account.state != 'Rejected'">{{'generics.Shared' | translate }}</span>
