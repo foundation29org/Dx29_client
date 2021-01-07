@@ -590,40 +590,48 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
             }
 
             this.loadedStep = true;
-            //si ya había comenzado el wizard y no lo ha terminado, preguntar si quiere continuar donde lo dejó o empezar de nuevo
-            if((this.actualStep>"0.0" && this.actualStep<"5.0" && this.showIntroWizard) || (this.actualStep>"1.0" && this.actualStep<"5.0" && !this.showIntroWizard)){
-              Swal.fire({
-                  title: this.translate.instant("patnodiagdashboard.swalContinue.msgtitle1"),
-                  text:  this.translate.instant("patnodiagdashboard.swalContinue.msg1"),
-                  showCancelButton: true,
-                  confirmButtonColor: '#009DA0',
-                  cancelButtonColor: '#6c757d',
-                  confirmButtonText: this.translate.instant("patnodiagdashboard.swalContinue.btn1"),
-                  cancelButtonText: this.translate.instant("patnodiagdashboard.swalContinue.btn2"),
-                  showLoaderOnConfirm: true,
-                  allowOutsideClick: false,
-                  reverseButtons:true
-              }).then((result) => {
-                if (result.value) {
-                  this.goToStep(this.actualStep, false);
-                }else{
-                  if(this.showIntroWizard){
-                    this.goToStep('0.0', true);
-                  }else{
-                    this.goToStep('1.0', true);
-                  }
 
-                }
-              });
-            }else if(this.actualStep=="0.0"){
-              if(this.showIntroWizard){
-                this.goToStep('0.0', false);
-              }else{
-                this.goToStep('1.0', false);
+            if(this.selectedPatient.showSwalIntro && this.selectedPatient.isShared){
+              if(this.selectedPatient.showSwalIntro){
+                document.getElementById("openModalIntro2").click();
               }
-            }else if(this.actualStep>="5.0"){
-              this.goToStep(this.actualStep, false);
+            }else{
+              //si ya había comenzado el wizard y no lo ha terminado, preguntar si quiere continuar donde lo dejó o empezar de nuevo
+              if((this.actualStep>"0.0" && this.actualStep<"5.0" && this.showIntroWizard) || (this.actualStep>"1.0" && this.actualStep<"5.0" && !this.showIntroWizard)){
+                Swal.fire({
+                    title: this.translate.instant("patnodiagdashboard.swalContinue.msgtitle1"),
+                    text:  this.translate.instant("patnodiagdashboard.swalContinue.msg1"),
+                    showCancelButton: true,
+                    confirmButtonColor: '#009DA0',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: this.translate.instant("patnodiagdashboard.swalContinue.btn1"),
+                    cancelButtonText: this.translate.instant("patnodiagdashboard.swalContinue.btn2"),
+                    showLoaderOnConfirm: true,
+                    allowOutsideClick: false,
+                    reverseButtons:true
+                }).then((result) => {
+                  if (result.value) {
+                    this.goToStep(this.actualStep, false);
+                  }else{
+                    if(this.showIntroWizard){
+                      this.goToStep('0.0', true);
+                    }else{
+                      this.goToStep('1.0', true);
+                    }
+
+                  }
+                });
+              }else if(this.actualStep=="0.0"){
+                if(this.showIntroWizard){
+                  this.goToStep('0.0', false);
+                }else{
+                  this.goToStep('1.0', false);
+                }
+              }else if(this.actualStep>="5.0"){
+                this.goToStep(this.actualStep, false);
+              }
             }
+
 
             this.showingWizard = false;
            }, (err) => {
@@ -2705,6 +2713,9 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     showPanelCalculationsDetails(contentFeedback){
       this.tempVcfBlobName = this.settingExomizer.VcfBlobName.substr(this.settingExomizer.VcfBlobName.lastIndexOf('/'));
       this.tempVcfBlobName = this.tempVcfBlobName.split(("/"))[1];
+      if(!this.isgen || this.tempVcfBlobName == undefined){
+        this.tempVcfBlobName = ''
+      }
       this.modalReference = this.modalService.open(contentFeedback);
     }
 
@@ -7078,6 +7089,30 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     getTotalReports(){
       var sum =  this.docsNcr.length+ this.otherDocs.length;
       return sum;
+    }
+
+    setShowSwal(showWizard){
+      if(showWizard){
+        this.showIntroWizard = true
+        this.goToStep('1.0', false);
+        this.setMaxStep('1.0');
+      }
+      this.setShowSwalIntro()
+
+    }
+
+    setShowSwalIntro(){
+      console.log(this.selectedPatient.sub)
+      console.log(this.myEmail)
+
+      var patientId = this.selectedPatient.sub;
+      var objectData = { email: this.myEmail};
+      this.subscription.add( this.http.post(environment.api+'/api/updateshowSwalIntro/'+patientId, objectData)
+      .subscribe( (res : any) => {
+        console.log(res);
+       }, (err) => {
+         console.log(err);
+       }));
     }
 
 }

@@ -710,7 +710,8 @@
     "Selected": "Seleccionado",
     "Msgwait":"Debido a la gran demanda, vamos a retrasar esta operación al menos 25 segundos",
     "Analyzed": "Analizado",
-    "NoAnalyzed": "No analizado",
+    "NoAnalyzed": "Pendiente",
+    "Candidate diagnosis": "Diagnósticos candidatos",
     "There is already a case with that name": "Ya existe un caso con ese nombre",
     "name empty": "No puedes dejar el nombre vacío",
     "Please write a different name": "Por favor, escribe un nombre distinto",
@@ -790,7 +791,7 @@
   },
   "diagnosesSection":{
     "title": "Sugerencias de diagnóstico diferencial",
-    "subtitle": "Esta lista contiene diagnósticos candidatos. Puedes consultar detalles y visualizar la similitud del paciente con cada uno.",
+    "subtitle": "Esta lista contiene diagnósticos candidatos y los genes potencialmente causativos. Puedes consultar detalles y visualizar la similitud del paciente con cada uno.",
     "no_analyzed": "No has analizado los datos.",
     "Results": "Resultados",
     "SelectCandidate": "Selecciona los diagnósticos candidatos.",
@@ -813,8 +814,8 @@
     "Patient": "Paciente",
     "Add symptom to the patient": "Añadir síntoma al paciente",
     "Delete symptom to the patient": "Eliminar el síntoma del paciente",
-    "Calculations details": "Detalles de los cálculos",
-    "Files included in the calculation": "Archivos incluidos en el cálculo",
+    "Calculations details": "Detalles del análisis",
+    "Files included in the calculation": "Archivos de información genética",
     "No genetic information has been included": "No se ha incluido ninguna información genética.",
     "Sorry, we have not found any disease": "Lo sentimos, no hemos encontrado ninguna enfermedad",
     "try adding": "Prueba a añadir más síntomas o ..."
@@ -876,6 +877,17 @@
     "check": "No volver a mostrar este mensaje",
     "btn": "Continuar",
     "Tutorial-Step": "Tutorial: Paso"
+  },
+  "wizard2":{
+    "title": "Cómo trabajar con casos compartidos",
+    "subtitle": "Este es un caso compartido nuevo. Antes de proceder con el análisis, verifica que los datos introducidos son correctos. Estos son los pasos a seguir:",
+    "s1t": "Síntomas",
+    "s1c": "Valida que los síntomas del representan correctamente el fenotipo del paciente. Si no estás familiarizado con este paciente puedes leer los informes adjuntos.",
+    "s2t": "Genética",
+    "s2c": "Si están disponible, selecciona los datos pertinentes para analizarlos. Siempre puedes añadir más.",
+    "s3t": "Análisis",
+    "s3c": "Calcula la lista de enfermedades sugeridas.",
+    "question": "¿Quieres abrir el asistente?"
   },
   "topnavbar":{
     "age": "Edad",

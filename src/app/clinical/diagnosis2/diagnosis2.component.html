@@ -698,10 +698,11 @@
                   <span class="float-right" *ngIf="(infoGenesAndConditionsExomizer.length!=0 || infoGenesAndConditionsPhen2Genes.length!=0) && topRelatedConditions.length>0">
                     <button type="button" class="mr-1 btn btn-outline-primary" (click)="showPanelGenes(contentPanelGenes);"><span class="" >{{'diagnosesSection.geneticvariants' | translate }}</span> <i class="ml-2 fas fa-dna"></i></button>
                     <button type="button" class="mr-1 btn btn-outline-primary" (click)="showPanelFeedback(contentGeneralNotes);"><span class="" >{{'diagnosesSection.Add notes' | translate }}</span> <i class="ml-2 fa fa-sticky-note-o"></i></button>
+                    <button type="button" class="mr-1 btn btn-outline-primary" (click)="showPanelCalculationsDetails(contentCalculationsDetails);"><span class="" >{{'diagnosesSection.Calculations details' | translate }}</span> <i class="ml-2 fa fa-info"></i></button>
                     <!--<span *ngIf="selectedItemsFilter.length>0 || (this.infoGenesAndConditionsExomizer.length>0 && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes) || (this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhen2Genes.length>0) && (relatedConditions.length>0 && !gettingRelatedConditions && !calculatingH29Score && !loadingInfoGenes))" class="mr-1">
                       <a href="javascript:void(0)" class="btn btn-outline-primary" (click)="setFitersDiseases(contentFilterDiseases)"><span *ngIf="selectedItemsFilter.length==0">{{'diagnosesSection.Filter' | translate }}</span><span *ngIf="selectedItemsFilter.length>0">{{selectedItemsFilter.length}} {{'diagnosesSection.applied filters' | translate }}</span></a>
                     </span>-->
-                    <span class="nav-item" ngbDropdown display="dynamic" placement="bottom-right">
+                    <!--<span class="nav-item" ngbDropdown display="dynamic" placement="bottom-right">
                         <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownOptions" ngbDropdownToggle title="{{'generics.Options' | translate }}">
                             <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
                             <p class="d-none">Sort</p>
@@ -711,7 +712,7 @@
                                 <span><span>{{'diagnosesSection.Calculations details' | translate }}</span> <span class="ml-2"> <i class="fa fa-info"></i></span></span>
                             </a>
                         </div>
-                    </span>
+                    </span>-->
                   </span>
                   <!--<span class="float-right">
                     <button *ngIf="infoGenesAndConditionsExomizer.length>0" [disabled]="!isgen" type="button" [ngClass]="(isgen != true )?'btn btn-outline-secondary inactiveLink':'btn btn-outline-primary'" class="mr-1" (click)="getRelatedConditionsview(false);">Clinic view</button>
@@ -1009,7 +1010,7 @@
                         <span class="info">{{ getTotalReports() }}</span>
                       </span>
                       <span class="float-right">
-                        <span><a class="btn btn-outline-primary mb-0 mt-1" href="javascript:void(0)" (click)="goToStep('4.0', true);">{{'diagnosesSection.More information' | translate }}</a></span>
+                        <span><a class="btn btn-outline-primary mb-0 mt-1" href="javascript:void(0)" (click)="goToStep('4.0', true);">{{'generics.Edit' | translate }}</a></span>
                       </span>
                     </div>
                   </div>
@@ -1108,7 +1109,7 @@
                       <span class="info">{{phenotype.data.length}}</span>
                     </span>
                     <span class="float-right">
-                      <span><a class="btn btn-outline-primary mb-0 mt-1" href="javascript:void(0)" (click)="goToStep('1.0', true);">{{'diagnosesSection.More information' | translate }}</a></span>
+                      <span><a class="btn btn-outline-primary mb-0 mt-1" href="javascript:void(0)" (click)="goToStep('1.0', true);">{{'generics.Edit' | translate }}</a></span>
                     </span>
                   </div>
                 </div>
@@ -1154,7 +1155,7 @@
                   </div>
                 </div>
                 <div class="card-footer center-elements pb-0">
-                  <span><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('5.0', true);">{{'diagnosesSection.More information' | translate }}</a></span>
+                  <span><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('5.0', true);">{{'generics.Edit' | translate }}</a></span>
                 </div>
               </div>
               <div class="card border" *ngIf="loadingPotentialDiagnostics">
@@ -2950,6 +2951,50 @@
 			</div>
 		</div>
 </ng-template>
+<ng-template #contentIntro2 let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header d-block" id="idHeader">
+			<button type="button" class="close" aria-label="Close" (click)="c('Close click');goToStep('1.0', true);">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<div>
+				<h4 class="modal-title text-muted">{{'wizard2.title' | translate }}</h4>
+        <p class="mb-1 content-sub-header"><span>{{'wizard2.subtitle' | translate }}</span></p>
+			</div>
+		</div>
+		<div class="modal-body">
+      <section>
+          <div class="row text-left card border">
+            <div class="card-body col-md-12 mt-1">
+
+              <div class="row center-elements">
+                <div class="col-sm-4 p-2">
+                  <i class="fas fa-notes-medical fa-4x primary"></i>
+                  <span class="d-block font-medium-3 d-inline mt-3">01. {{'wizard2.s1t' | translate }}</span>
+                  <span class="d-inline-block pl-2 pr-2">{{'wizard2.s1c' | translate }} </span>
+                </div>
+                <div class="col-sm-4 p-2">
+                  <i class="fas fa-dna fa-4x primary"></i>
+                  <span class="d-block font-medium-3 d-inline mt-3">02. {{'wizard2.s2t' | translate }}</span>
+                  <span class="d-inline">{{'wizard2.s2c' | translate }}</span>
+                </div>
+                <div class="col-sm-4 p-2">
+                  <i class="fas fa-align-left fa-4x primary"></i>
+                  <span class="d-block font-medium-3 d-inline mt-3">03. {{'wizard2.s3t' | translate }}</span>
+                  <span class="d-inline">{{'wizard2.s3c' | translate }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+      </section>
+		</div>
+		<div class="modal-footer">
+			<div class="form-actions center">
+        <label>{{'wizard2.question' | translate }}</label>
+				<button type="button" class="ml-2 btn btn-raised btn-secondary" (click)="c('Close click');setShowSwal(false);">{{'generics.Cancel' | translate }}</button>
+        <button type="button" class="btn btn-raised btn-primary" (click)="c('Close click');setShowSwal(true);">{{'generics.Accept' | translate }}</button>
+			</div>
+		</div>
+</ng-template>
 
 <ng-template #contentInfoVcf let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-header" id="idHeader">
@@ -3143,11 +3188,11 @@
           <div class="row">
             <div class="col-md-12">
               <div class="form-group">
-                <label for="hasDiagnosis">{{'diagnosesSection.Files included in the calculation' | translate }}:</label>
-                <p *ngIf="isgen">
+                <p class="mb-1" for="hasDiagnosis">{{'diagnosesSection.Files included in the calculation' | translate }}:</p>
+                <p *ngIf="tempVcfBlobName!=''">
                   {{tempVcfBlobName}}
                 </p>
-                <p *ngIf="!isgen">
+                <p *ngIf="tempVcfBlobName==''">
                   {{'diagnosesSection.No genetic information has been included' | translate }}
                 </p>
               </div>
@@ -3164,6 +3209,7 @@
 
 <button id="openModalSymptomsNcrButton2" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr, true)">.</button>
 <button id="openModalIntro" [hidden]="true" (click)="showPanelIntro(contentIntro)">.</button>
+<button id="openModalIntro2" [hidden]="true" (click)="showPanelIntro(contentIntro2)">.</button>
 <button id="openModalShowPanelSymptomsNcr2" [hidden]="true" (click)="showPanelSymptomsNcr(contentSymptomsNcr, false)">.</button>
 <button id="openModalPhen2genes" [hidden]="true" (click)="showPanelIntro(contentModalPhen2genes)">.</button>
 <button id="openModalExomiser" [hidden]="true" (click)="showPanelIntro(contentModalExomiser)">.</button>

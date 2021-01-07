@@ -711,7 +711,8 @@
     "Selected": "Selected",
     "Msgwait":"Due to the high demand, we're going to delay this operation by at least 25 seconds",
     "Analyzed": "Analyzed",
-    "NoAnalyzed": "No analyzed",
+    "NoAnalyzed": "Pending",
+    "Candidate diagnosis": "Candidate diagnosis",
     "There is already a case with that name": "There is already a case with that name",
     "name empty": "You cannot leave the name empty",
     "Please write a different name": "Please write a different name",
@@ -791,7 +792,7 @@
   },
   "diagnosesSection":{
     "title": "Differential diagnosis suggestions",
-    "subtitle": "This list contains diseases to consider in a differential diagnosis. You can see further details and the similarity of the patient with each disease.",
+    "subtitle": "This list contains diseases to consider in a differential diagnosis and their related genes. You can see further details and the similarity of the patient with each disease.",
     "no_analyzed": "You haven’t analyzed the data.",
     "Results": "Results",
     "SelectCandidate": "Select the candidate diagnosis.",
@@ -814,8 +815,8 @@
     "Patient": "Patient",
     "Add symptom to the patient": "Add symptom to the patient",
     "Delete symptom to the patient": "Detele the patient's symptom",
-    "Calculations details": "Calculations details",
-    "Files included in the calculation": "Files included in the calculation",
+    "Calculations details": "Analysis details",
+    "Files included in the calculation": "Genetic information files",
     "No genetic information has been included": "No genetic information has been included",
     "Sorry, we have not found any disease": "Sorry, we have not found any disease",
     "try adding": "Try adding more symptoms or ..."
@@ -877,6 +878,17 @@
     "check": "Don’t show this message again",
     "btn": "Continue",
     "Tutorial-Step": "Wizard: Step"
+  },
+  "wizard2":{
+    "title": "How to work with shared cases",
+    "subtitle": "This is a new shared case. Before proceeding with the analysis, you should first validate that the data in it is correct. These are the steps to follow:",
+    "s1t": "Symptoms",
+    "s1c": "Validate that the symptoms correctly represent the patient’s phenotype. If you are not familiar with this patient you may review the reports.",
+    "s2t": "Genetics",
+    "s2c": "If available, select the file(s) to analyze. You may add more data.",
+    "s3t": "Analysis",
+    "s3c": "Calculate the list of suggested diagnosis.",
+    "question": "Do you want to launch the wizard?"
   },
   "topnavbar":{
     "age": "Age",

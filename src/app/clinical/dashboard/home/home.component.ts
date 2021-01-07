@@ -178,15 +178,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         for (var i = 0; i <  this.listOfSharedCases.length; i++) {
           //this.listOfSharedCases[i].patientName = '<span class="spantolink primary">'+this.listOfSharedCases[i].patientName+'</span>'
           if(this.listOfSharedCases[i].status == 'analyzed'){
-             this.listOfSharedCases[i].status = '<span class="success">'+this.translate.instant("diagnosis.Analyzed")+'</span>';
+             this.listOfSharedCases[i].status = '<span class="black">'+this.translate.instant("diagnosis.Analyzed")+'</span>';
           }else if(this.listOfSharedCases[i].status == 'new'){
-             this.listOfSharedCases[i].status = '<span class="danger">'+this.translate.instant("diagnosis.NoAnalyzed")+'</span>';
+             this.listOfSharedCases[i].status = '<span class="black">'+this.translate.instant("diagnosis.NoAnalyzed")+'</span>';
+          }else{
+            this.listOfSharedCases[i].status = '<span class="success">'+this.translate.instant("diagnosis.Candidate diagnosis")+' ('+this.listOfSharedCases[i].status+')</span>';
           }
 
           if(this.listOfSharedCases[i].hasvcf){
-             this.listOfSharedCases[i].hasvcf = '<span class="success">'+this.translate.instant("generics.Yes")+'</span>';
+             this.listOfSharedCases[i].hasvcf = '<span class="black">'+this.translate.instant("generics.Yes")+'</span>';
           }else{
-             this.listOfSharedCases[i].hasvcf = '<span class="danger">'+this.translate.instant("generics.No")+'</span>';
+             this.listOfSharedCases[i].hasvcf = '<span class="black">'+this.translate.instant("generics.No")+'</span>';
           }
 
           if(this.listOfSharedCases[i].birthDate){
@@ -309,7 +311,18 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             status: {
               title: this.translate.instant("generics.Status"),
               placeholder: this.translate.instant("generics.Yes")+'/'+this.translate.instant("generics.No"),
-              type: "html"
+              type: "html",
+              filter: {
+                type: 'list',
+                config: {
+                  selectText: 'Select...',
+                  list: [
+                    { value: this.translate.instant("diagnosis.NoAnalyzed"), title: this.translate.instant("diagnosis.NoAnalyzed") },
+                    { value: this.translate.instant("diagnosis.Analyzed"), title: this.translate.instant("diagnosis.Analyzed") },
+                    { value: this.translate.instant("diagnosis.Candidate diagnosis"), title: this.translate.instant("diagnosis.Candidate diagnosis") },
+                  ],
+                },
+              },
             },
           },
           pager : {
@@ -361,15 +374,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         for (var i = 0; i <  this.patientsCopy.length; i++) {
           //this.patientsCopy[i].patientName = '<span class="spantolink primary">'+this.patientsCopy[i].patientName+'</span>'
           if(this.patientsCopy[i].status == 'analyzed'){
-             this.patientsCopy[i].status = '<span class="success">'+this.translate.instant("diagnosis.Analyzed")+'</span>';
+             this.patientsCopy[i].status = '<span class="black">'+this.translate.instant("diagnosis.Analyzed")+'</span>';
           }else if(this.patientsCopy[i].status == 'new'){
-             this.patientsCopy[i].status = '<span class="danger">'+this.translate.instant("diagnosis.NoAnalyzed")+'</span>';
+             this.patientsCopy[i].status = '<span class="black">'+this.translate.instant("diagnosis.NoAnalyzed")+'</span>';
+          }else{
+            this.patientsCopy[i].status = '<span class="success">'+this.translate.instant("diagnosis.Candidate diagnosis")+' ('+this.patientsCopy[i].status+')</span>';
           }
 
           if(this.patientsCopy[i].hasvcf){
-             this.patientsCopy[i].hasvcf = '<span class="success">'+this.translate.instant("generics.Yes")+'</span>';
+             this.patientsCopy[i].hasvcf = '<span class="black">'+this.translate.instant("generics.Yes")+'</span>';
           }else{
-             this.patientsCopy[i].hasvcf = '<span class="danger">'+this.translate.instant("generics.No")+'</span>';
+             this.patientsCopy[i].hasvcf = '<span class="black">'+this.translate.instant("generics.No")+'</span>';
           }
 
           if(this.patientsCopy[i].birthDate){
@@ -426,15 +441,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         for (var i = 0; i <  this.listOfArchivedCases.length; i++) {
           //this.listOfArchivedCases[i].patientName = '<span class="spantolink primary">'+this.listOfArchivedCases[i].patientName+'</span>'
           if(this.listOfArchivedCases[i].status == 'analyzed'){
-             this.listOfArchivedCases[i].status = '<span class="success">'+this.translate.instant("diagnosis.Analyzed")+'</span>';
+             this.listOfArchivedCases[i].status = '<span class="black">'+this.translate.instant("diagnosis.Analyzed")+'</span>';
           }else if(this.listOfArchivedCases[i].status == 'new'){
-             this.listOfArchivedCases[i].status = '<span class="danger">'+this.translate.instant("diagnosis.NoAnalyzed")+'</span>';
+             this.listOfArchivedCases[i].status = '<span class="black">'+this.translate.instant("diagnosis.NoAnalyzed")+'</span>';
+          }else{
+            this.listOfArchivedCases[i].status = '<span class="success">'+this.translate.instant("diagnosis.Candidate diagnosis")+' ('+this.listOfArchivedCases[i].status+')</span>';
           }
 
           if(this.listOfArchivedCases[i].hasvcf){
-             this.listOfArchivedCases[i].hasvcf = '<span class="success">'+this.translate.instant("generics.Yes")+'</span>';
+             this.listOfArchivedCases[i].hasvcf = '<span class="black">'+this.translate.instant("generics.Yes")+'</span>';
           }else{
-             this.listOfArchivedCases[i].hasvcf = '<span class="danger">'+this.translate.instant("generics.No")+'</span>';
+             this.listOfArchivedCases[i].hasvcf = '<span class="black">'+this.translate.instant("generics.No")+'</span>';
           }
 
           if(this.listOfArchivedCases[i].birthDate){
@@ -537,7 +554,18 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             status: {
               title: this.translate.instant("generics.Status"),
               placeholder: this.translate.instant("generics.Yes")+'/'+this.translate.instant("generics.No"),
-              type: "html"
+              type: "html",
+              filter: {
+                type: 'list',
+                config: {
+                  selectText: 'Select...',
+                  list: [
+                    { value: this.translate.instant("diagnosis.NoAnalyzed"), title: this.translate.instant("diagnosis.NoAnalyzed") },
+                    { value: this.translate.instant("diagnosis.Analyzed"), title: this.translate.instant("diagnosis.Analyzed") },
+                    { value: this.translate.instant("diagnosis.Candidate diagnosis"), title: this.translate.instant("diagnosis.Candidate diagnosis") },
+                  ],
+                },
+              },
             },
           },
           pager : {
@@ -595,7 +623,18 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             status: {
               title: this.translate.instant("generics.Status"),
               placeholder: this.translate.instant("generics.Yes")+'/'+this.translate.instant("generics.No"),
-              type: "html"
+              type: "html",
+              filter: {
+                type: 'list',
+                config: {
+                  selectText: 'Select...',
+                  list: [
+                    { value: this.translate.instant("diagnosis.NoAnalyzed"), title: this.translate.instant("diagnosis.NoAnalyzed") },
+                    { value: this.translate.instant("diagnosis.Analyzed"), title: this.translate.instant("diagnosis.Analyzed") },
+                    { value: this.translate.instant("diagnosis.Candidate diagnosis"), title: this.translate.instant("diagnosis.Candidate diagnosis") },
+                  ],
+                },
+              },
             },
           },
           pager : {
@@ -904,12 +943,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
       for (var i = 0; i <  this.listOfSharedCases.length && !enc; i++) {
         if(this.listOfSharedCases[i].sub == e.data.sub){
           enc = true;
-          this.onChangePatient(this.listOfSharedCases[i]);
+          this.onChangePatient(this.listOfSharedCases[i], true);
         }
       }
     }
 
-    onChangePatient(value){
+    onChangePatient(value, isShared){
       var temp = JSON.parse(JSON.stringify(value));
      var hasvcf = temp.hasvcf
       var status = temp.status
@@ -920,6 +959,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
       temp.hasvcf =htmlObjecthasvcf[0].textContent
       temp.status =htmlObjectstatus[0].textContent
       temp.symptoms =htmlObjectsymptoms[0].textContent
+      temp.isShared = isShared;
       if(temp.birthDate==null || temp.gender == null){
           temp.birthDate=this.dateService.transformDate(temp.birthDate);
           //request data
@@ -932,7 +972,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
             birthDate: temp.birthDate,
             gender: temp.gender,
             previousDiagnosis: temp.previousDiagnosis,
-            avatar: ''
+            avatar: '',
+            showSwalIntro: temp.showSwalIntro,
+            isShared: isShared
           };
           document.getElementById("updatepatient").click();
       }else{
@@ -1164,14 +1206,14 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
     for (var i = 0; i <  this.patients.length && !enc; i++) {
       if(this.patients[i].sub == event.data.sub){
         enc = true;
-        this.onChangePatient(this.patients[i]);
+        this.onChangePatient(this.patients[i], false);
       }
     }
     if(!enc){
       for (var i = 0; i <  this.listOfArchivedCases.length && !enc; i++) {
         if(this.listOfArchivedCases[i].sub == event.data.sub){
           enc = true;
-          this.onChangePatient(this.listOfArchivedCases[i]);
+          this.onChangePatient(this.listOfArchivedCases[i], false);
         }
       }
     }
