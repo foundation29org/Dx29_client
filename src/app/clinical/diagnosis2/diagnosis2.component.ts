@@ -7102,9 +7102,6 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
     }
 
     setShowSwalIntro(){
-      console.log(this.selectedPatient.sub)
-      console.log(this.myEmail)
-
       var patientId = this.selectedPatient.sub;
       var objectData = { email: this.myEmail};
       this.subscription.add( this.http.post(environment.api+'/api/updateshowSwalIntro/'+patientId, objectData)

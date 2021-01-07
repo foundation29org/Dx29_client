@@ -2953,7 +2953,7 @@
 </ng-template>
 <ng-template #contentIntro2 let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header d-block" id="idHeader">
-			<button type="button" class="close" aria-label="Close" (click)="c('Close click');goToStep('1.0', true);">
+			<button type="button" class="close" aria-label="Close" (click)="c('Close click');setShowSwal(false);">
 				<span aria-hidden="true">&times;</span>
 			</button>
 			<div>
