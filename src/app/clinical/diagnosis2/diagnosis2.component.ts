@@ -828,7 +828,7 @@ export class DiagnosisComponent2 implements OnInit, OnDestroy  {
           this.modalReference.close();
         }
       }else if(this.actualStep == '6.0'){
-        this.loadFilesContainer(false);
+        //this.loadFilesContainer(false);
       }
       window.scrollTo(0, 0)
       if(save){

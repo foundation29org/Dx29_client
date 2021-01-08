@@ -21,6 +21,9 @@ cursor: pointer;
   justify-content: center !important;
 }
 
+:host /deep/ .ml-custom-1-2{
+  margin-left: 1.2rem !important;
+}
 
 :host {
   /deep/ {
