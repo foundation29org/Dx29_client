@@ -1076,10 +1076,13 @@
                   </div>
                   <div class="card-content">
                     <div class="card-body" *ngIf="phenotype.data.length>0">
-                      <p *ngFor="let hpo of phenotype.data ; let i = index" [ngClass]="(i == (phenotype.data.length-1))?'mb-0':''">
+
                         <span *ngIf="viewSummarySymptoms == 'Simple'">
-                          <i class="fas fa-notes-medical grey"></i>
-                          <span class="text-muted ml-1" title="{{hpo.name}}">{{hpo.name}} </span>
+                          <p *ngFor="let hpo of phenotype.data ; let i = index" [ngClass]="(i == (phenotype.data.length-1))?'mb-0':''">
+                            <i class="fas fa-notes-medical grey"></i>
+                            <span class="text-muted ml-1" title="{{hpo.name}}">{{hpo.name}} </span>
+                            <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span>
+                          </p>
                           <!--<span class="text-muted ml-1" title="{{hpo.name}}">{{ (hpo.name.length>45)? (hpo.name | slice:0:45)+'...':(hpo.name) }}</span>-->
                         </span>
                         <span *ngIf="viewSummarySymptoms == 'Advanced'">
@@ -1095,8 +1098,8 @@
                             </ul>
                           </div>
                         </span>
-                        <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span>
-                      </p>
+
+
                     </div>
                     <div class="card-body" *ngIf="phenotype.data.length==0">
                       {{'summarySection.No symptoms available' | translate }}
