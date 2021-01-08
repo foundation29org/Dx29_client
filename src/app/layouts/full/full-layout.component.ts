@@ -152,7 +152,12 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
 
     toggleHideSidebar($event: boolean): void {
         setTimeout(() => {
+          if(this.isHomePage){
+            this.hideSidebar = true;
+          }else{
             this.hideSidebar = $event;
+          }
+
         }, 0);
     }
 
