@@ -221,14 +221,16 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
           }
 
           if(this.listOfSharedCases[i].gender){
+            this.listOfSharedCases[i].avatar2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.listOfSharedCases[i].avatar+'.png" />';
             if(this.listOfSharedCases[i].gender=='male'){
-              this.listOfSharedCases[i].gender2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.listOfSharedCases[i].avatar+'.png" />'+" "+this.translate.instant("personalinfo.Male") ;
+              this.listOfSharedCases[i].gender2 = this.translate.instant("personalinfo.Male") ;
             }else{
-              this.listOfSharedCases[i].gender2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.listOfSharedCases[i].avatar+'.png" />'+" "+ this.translate.instant("personalinfo.Female");
+              this.listOfSharedCases[i].gender2 = this.translate.instant("personalinfo.Female");
             }
 
           }else{
              this.listOfSharedCases[i].gender2 = '-';
+             this.listOfSharedCases[i].avatar2 = '<span class="ml-custom-1-2">-</span>';
           }
 
           if(this.listOfSharedCases[i].symptoms<2){
@@ -245,8 +247,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         this.alertSourceCasesShared = new LocalDataSource(this.listOfSharedCases);
         this.alertsettingsCasesShared = {
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right'},<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-info primary"></i> <i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-archive primary"></i>
-          //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'editShared', title: '<span class="primary mr-3">'+this.translate.instant("dashboardpatient.Rename")+'</span>'}, { name: 'moreInfoShared', title: '<span class="info mr-3">'+this.translate.instant("generics.More information")+'</span>'}]},
-          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'moreInfoShared', title: '<i title='+this.translate.instant("generics.More information")+' class="fa fa-info fa-1_5x primary mr-3"></i>'},{ name: 'editShared', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-3"></i>'}, { name: 'share', title: '<i title='+this.translate.instant("generics.Share")+' class="fas fa-share fa-1_5x primary mr-3"></i>'}]},
+          //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'editShared', title: '<span class="primary mr-2">'+this.translate.instant("dashboardpatient.Rename")+'</span>'}, { name: 'moreInfoShared', title: '<span class="info mr-2">'+this.translate.instant("generics.More information")+'</span>'}]},
+          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'moreInfoShared', title: '<i title='+this.translate.instant("generics.More information")+' class="fa fa-info fa-1_5x primary mr-2"></i>'},{ name: 'editShared', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-2"></i>'}, { name: 'share', title: '<i title='+this.translate.instant("generics.Share")+' class="fas fa-share fa-1_5x primary mr-2"></i>'}]},
           delete: {
             confirmDelete: true,
             deleteButtonContent: '<i title='+this.translate.instant("generics.Delete")+' class="fa fa-trash fa-1_5x danger"></i>'
@@ -257,9 +259,14 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
           },
           edit: {
             confirmSave: false,
-            editButtonContent: '<i class="ft-edit-2 info font-medium-1 mr-3"></i>'
+            editButtonContent: '<i class="ft-edit-2 info font-medium-1 mr-2"></i>'
           },
           columns: {
+            avatar2: {
+            title: '',
+            type: "html",
+            filter: false,
+            },
             alias: {
               title: 'Alias',
               placeholder: 'Alias',
@@ -270,6 +277,22 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
               placeholder: this.translate.instant("diagnosis.Case"),
               type: "html",
             },
+            status: {
+              title: this.translate.instant("generics.Status"),
+              placeholder: this.translate.instant("generics.Yes")+'/'+this.translate.instant("generics.No"),
+              type: "html",
+              filter: {
+                type: 'list',
+                config: {
+                  selectText: 'Select...',
+                  list: [
+                    { value: this.translate.instant("diagnosis.NoAnalyzed"), title: this.translate.instant("diagnosis.NoAnalyzed") },
+                    { value: this.translate.instant("diagnosis.Analyzed"), title: this.translate.instant("diagnosis.Analyzed") },
+                    { value: this.translate.instant("diagnosis.Candidate diagnosis"), title: this.translate.instant("diagnosis.Candidate diagnosis") },
+                  ],
+                },
+              },
+            },
             birthDate2: {
               title: this.translate.instant("topnavbar.age"),
               placeholder: this.translate.instant("topnavbar.age"),
@@ -279,6 +302,24 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
               title: this.translate.instant("personalinfo.Gender"),
               placeholder: this.translate.instant("personalinfo.Gender"),
               type: "html",
+              filter: {
+                type: 'list',
+                config: {
+                  selectText: 'Select...',
+                  list: [
+                    { value: this.translate.instant("personalinfo.Male"), title: this.translate.instant("personalinfo.Male") },
+                    { value: this.translate.instant("personalinfo.Female"), title: this.translate.instant("personalinfo.Female") },
+                    { value: '-', title: this.translate.instant("personalinfo.Unassigned") },
+                  ],
+                },
+              },
+              filterFunction(cell?: string, search?:string): boolean {
+                if(cell.indexOf(search)!=-1){
+                  return true;
+                }else{
+                  return false;
+                }
+              },
             },
             /*userName: {
               title: this.translate.instant("generics.Account name"),
@@ -298,18 +339,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
                 else { return false; }
               }
             },
-            hasvcf: {
-              title: this.translate.instant("diagnosis.Genetic information"),
-              placeholder: this.translate.instant("generics.Yes")+'/'+this.translate.instant("generics.No"),
-              type: "html",
-            },
             symptoms: {
               title: this.translate.instant("phenotype.Number of symptoms"),
               placeholder: this.translate.instant("phenotype.Number of symptoms"),
               type: "html",
             },
-            status: {
-              title: this.translate.instant("generics.Status"),
+            hasvcf: {
+              title: this.translate.instant("diagnosis.Genetic information"),
               placeholder: this.translate.instant("generics.Yes")+'/'+this.translate.instant("generics.No"),
               type: "html",
               filter: {
@@ -317,9 +353,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
                 config: {
                   selectText: 'Select...',
                   list: [
-                    { value: this.translate.instant("diagnosis.NoAnalyzed"), title: this.translate.instant("diagnosis.NoAnalyzed") },
-                    { value: this.translate.instant("diagnosis.Analyzed"), title: this.translate.instant("diagnosis.Analyzed") },
-                    { value: this.translate.instant("diagnosis.Candidate diagnosis"), title: this.translate.instant("diagnosis.Candidate diagnosis") },
+                    { value: this.translate.instant("generics.Yes"), title: this.translate.instant("generics.Yes") },
+                    { value: this.translate.instant("generics.No"), title: this.translate.instant("generics.No") },
                   ],
                 },
               },
@@ -417,14 +452,16 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
           }
 
           if(this.patientsCopy[i].gender){
+            this.patientsCopy[i].avatar2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.patientsCopy[i].avatar+'.png" />';
             if(this.patientsCopy[i].gender=='male'){
-              this.patientsCopy[i].gender2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.patientsCopy[i].avatar+'.png" />'+" "+this.translate.instant("personalinfo.Male") ;
+              this.patientsCopy[i].gender2 = this.translate.instant("personalinfo.Male") ;
             }else{
-              this.patientsCopy[i].gender2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.patientsCopy[i].avatar+'.png" />'+" "+ this.translate.instant("personalinfo.Female");
+              this.patientsCopy[i].gender2 = this.translate.instant("personalinfo.Female");
             }
 
           }else{
              this.patientsCopy[i].gender2 = '-';
+             this.patientsCopy[i].avatar2 = '<span class="ml-custom-1-2">-</span>';
           }
 
           if(this.patientsCopy[i].symptoms<2){
@@ -484,14 +521,16 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
           }
 
           if(this.listOfArchivedCases[i].gender){
+            this.listOfArchivedCases[i].avatar2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.listOfArchivedCases[i].avatar+'.png" />';
             if(this.listOfArchivedCases[i].gender=='male'){
-              this.listOfArchivedCases[i].gender2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.listOfArchivedCases[i].avatar+'.png" />'+" "+this.translate.instant("personalinfo.Male") ;
+              this.listOfArchivedCases[i].gender2 = this.translate.instant("personalinfo.Male") ;
             }else{
-              this.listOfArchivedCases[i].gender2 = '<img class="avatar" src="assets/img/avatar/png/sm/'+this.listOfArchivedCases[i].avatar+'.png" />'+" "+ this.translate.instant("personalinfo.Female");
+              this.listOfArchivedCases[i].gender2 = this.translate.instant("personalinfo.Female");
             }
 
           }else{
              this.listOfArchivedCases[i].gender2 = '-';
+             this.listOfArchivedCases[i].avatar2 = '<span class="ml-custom-1-2">-</span>';
           }
 
           if(this.listOfArchivedCases[i].symptoms<2){
@@ -510,8 +549,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
         this.alertSource = new LocalDataSource(this.patientsCopy);
         this.alertsettings = {
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right'},
-          //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<span class="primary mr-3">'+this.translate.instant("dashboardpatient.Rename")+'</span>'}, { name: 'archive', title: '<span class="info mr-3">'+this.translate.instant("dashboardpatient.Archive")+'</span>'}]},
-          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-3"></i>'}, { name: 'archive', title: '<i title='+this.translate.instant("dashboardpatient.Archive")+' class="fa fa-archive fa-1_5x primary mr-3"></i>'}, { name: 'share', title: '<i title='+this.translate.instant("generics.Share")+' class="fas fa-share fa-1_5x primary mr-3"></i>'}]},
+          //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<span class="primary mr-2">'+this.translate.instant("dashboardpatient.Rename")+'</span>'}, { name: 'archive', title: '<span class="info mr-2">'+this.translate.instant("dashboardpatient.Archive")+'</span>'}]},
+          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-2"></i>'}, { name: 'archive', title: '<i title='+this.translate.instant("dashboardpatient.Archive")+' class="fa fa-archive fa-1_5x primary mr-2"></i>'}, { name: 'share', title: '<i title='+this.translate.instant("generics.Share")+' class="fas fa-share fa-1_5x primary mr-2"></i>'}]},
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<span class="primary">'+this.translate.instant("generics.Edit")+'</span>'}]},
           delete: {
             confirmDelete: true,
@@ -523,32 +562,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
           },
           edit: {
             confirmSave: false,
-            editButtonContent: '<i class="ft-edit-2 info font-medium-1 mr-3"></i>'
+            editButtonContent: '<i class="ft-edit-2 info font-medium-1 mr-2"></i>'
           },
           columns: {
+            avatar2: {
+            title: '',
+            type: "html",
+            filter: false,
+            },
             patientName: {
             title: this.translate.instant("diagnosis.Case"),
             placeholder: this.translate.instant("diagnosis.Case"),
-            type: "html",
-            },
-            birthDate2: {
-              title: this.translate.instant("topnavbar.age"),
-              placeholder: this.translate.instant("topnavbar.age"),
-              type: "html",
-            },
-            gender2: {
-              title: this.translate.instant("personalinfo.Gender"),
-              placeholder: this.translate.instant("personalinfo.Gender"),
-              type: "html",
-            },
-            hasvcf: {
-            title: this.translate.instant("diagnosis.Genetic information"),
-            placeholder: this.translate.instant("generics.Yes")+'/'+this.translate.instant("generics.No"),
-            type: "html",
-            },
-            symptoms: {
-            title: this.translate.instant("phenotype.Number of symptoms"),
-            placeholder: this.translate.instant("phenotype.Number of symptoms"),
             type: "html",
             },
             status: {
@@ -566,6 +590,54 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
                   ],
                 },
               },
+            },
+            birthDate2: {
+              title: this.translate.instant("topnavbar.age"),
+              placeholder: this.translate.instant("topnavbar.age"),
+              type: "html",
+            },
+            gender2: {
+              title: this.translate.instant("personalinfo.Gender"),
+              placeholder: this.translate.instant("personalinfo.Gender"),
+              type: "html",
+              filter: {
+                type: 'list',
+                config: {
+                  selectText: 'Select...',
+                  list: [
+                    { value: this.translate.instant("personalinfo.Male"), title: this.translate.instant("personalinfo.Male") },
+                    { value: this.translate.instant("personalinfo.Female"), title: this.translate.instant("personalinfo.Female") },
+                    { value: '-', title: this.translate.instant("personalinfo.Unassigned") },
+                  ],
+                },
+              },
+              filterFunction(cell?: string, search?:string): boolean {
+                if(cell.indexOf(search)!=-1){
+                  return true;
+                }else{
+                  return false;
+                }
+              },
+            },
+            symptoms: {
+            title: this.translate.instant("phenotype.Number of symptoms"),
+            placeholder: this.translate.instant("phenotype.Number of symptoms"),
+            type: "html",
+            },
+            hasvcf: {
+            title: this.translate.instant("diagnosis.Genetic information"),
+            placeholder: this.translate.instant("generics.Yes")+'/'+this.translate.instant("generics.No"),
+            type: "html",
+            filter: {
+              type: 'list',
+              config: {
+                selectText: 'Select...',
+                list: [
+                  { value: this.translate.instant("generics.Yes"), title: this.translate.instant("generics.Yes") },
+                  { value: this.translate.instant("generics.No"), title: this.translate.instant("generics.No") },
+                ],
+              },
+            },
             },
           },
           pager : {
@@ -579,8 +651,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
 
         this.alertsettingsCasesArchived = {
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right'},
-          //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<span class="primary mr-3">Rename</span>'}, { name: 'restore', title: '<span class="info mr-3">Restore</span>'}]},
-          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-3"></i>'}, { name: 'restore', title: '<i title='+this.translate.instant("dashboardpatient.Restore")+' class="fa fa-undo fa-1_5x primary mr-3"></i>'}, { name: 'share', title: '<i title='+this.translate.instant("generics.Share")+' class="fas fa-share fa-1_5x primary mr-3"></i>'}]},
+          //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<span class="primary mr-2">Rename</span>'}, { name: 'restore', title: '<span class="info mr-2">Restore</span>'}]},
+          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-2"></i>'}, { name: 'restore', title: '<i title='+this.translate.instant("dashboardpatient.Restore")+' class="fa fa-undo fa-1_5x primary mr-2"></i>'}, { name: 'share', title: '<i title='+this.translate.instant("generics.Share")+' class="fas fa-share fa-1_5x primary mr-2"></i>'}]},
           //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'edit', title: '<span class="primary">'+this.translate.instant("generics.Edit")+'</span>'}]},
           delete: {
             confirmDelete: true,
@@ -592,32 +664,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
           },
           edit: {
             confirmSave: false,
-            editButtonContent: '<i class="ft-edit-2 info font-medium-1 mr-3"></i>'
+            editButtonContent: '<i class="ft-edit-2 info font-medium-1 mr-2"></i>'
           },
           columns: {
+            avatar2: {
+            title: '',
+            type: "html",
+            filter: false,
+            },
             patientName: {
             title: this.translate.instant("diagnosis.Case"),
             placeholder: this.translate.instant("diagnosis.Case"),
-            type: "html",
-            },
-            birthDate2: {
-              title: this.translate.instant("topnavbar.age"),
-              placeholder: this.translate.instant("topnavbar.age"),
-              type: "html",
-            },
-            gender2: {
-              title: this.translate.instant("personalinfo.Gender"),
-              placeholder: this.translate.instant("personalinfo.Gender"),
-              type: "html",
-            },
-            hasvcf: {
-            title: this.translate.instant("diagnosis.Genetic information"),
-            placeholder: this.translate.instant("generics.Yes")+'/'+this.translate.instant("generics.No"),
-            type: "html",
-            },
-            symptoms: {
-            title: this.translate.instant("phenotype.Number of symptoms"),
-            placeholder: this.translate.instant("phenotype.Number of symptoms"),
             type: "html",
             },
             status: {
@@ -635,6 +692,54 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
                   ],
                 },
               },
+            },
+            birthDate2: {
+              title: this.translate.instant("topnavbar.age"),
+              placeholder: this.translate.instant("topnavbar.age"),
+              type: "html",
+            },
+            gender2: {
+              title: this.translate.instant("personalinfo.Gender"),
+              placeholder: this.translate.instant("personalinfo.Gender"),
+              type: "html",
+              filter: {
+                type: 'list',
+                config: {
+                  selectText: 'Select...',
+                  list: [
+                    { value: this.translate.instant("personalinfo.Male"), title: this.translate.instant("personalinfo.Male") },
+                    { value: this.translate.instant("personalinfo.Female"), title: this.translate.instant("personalinfo.Female") },
+                    { value: '-', title: this.translate.instant("personalinfo.Unassigned") },
+                  ],
+                },
+              },
+              filterFunction(cell?: string, search?:string): boolean {
+                if(cell.indexOf(search)!=-1){
+                  return true;
+                }else{
+                  return false;
+                }
+              },
+            },
+            symptoms: {
+            title: this.translate.instant("phenotype.Number of symptoms"),
+            placeholder: this.translate.instant("phenotype.Number of symptoms"),
+            type: "html",
+            },
+            hasvcf: {
+            title: this.translate.instant("diagnosis.Genetic information"),
+            placeholder: this.translate.instant("generics.Yes")+'/'+this.translate.instant("generics.No"),
+            type: "html",
+            filter: {
+              type: 'list',
+              config: {
+                selectText: 'Select...',
+                list: [
+                  { value: this.translate.instant("generics.Yes"), title: this.translate.instant("generics.Yes") },
+                  { value: this.translate.instant("generics.No"), title: this.translate.instant("generics.No") },
+                ],
+              },
+            },
             },
           },
           pager : {
@@ -1089,7 +1194,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
 
   goToPatientPage(){
     this.updateLastAccess();
-    this.router.navigate(['/clinical/diagnosis2']);
+    this.router.navigate(['/clinical/diagnosis']);
   }
 
   updateLastAccess(){

@@ -1,11 +1,9 @@
-.show-scroll{
-  height:91% !important;
-  overflow-y: auto;
+.showmenu{
+  margin-left: 275px;
 }
 
-.main-panel-custom {
-  max-height: 100%;
-  height: calc(100% - 85px);
-  min-height: calc(100% - 85px);
-  width: 100%;
+@media ( max-width: 991px ){
+  .showmenu{
+    margin-left: 0px;
+  }
 }
