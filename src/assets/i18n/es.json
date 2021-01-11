@@ -790,7 +790,8 @@
     "Advanced options": "Opciones avanzadas",
     "Selectsymptomstitle": "Selecciona los síntomas a analizar",
     "Selectsymptomssubtitle": "Para obtener las mejores sugerencias de diagnóstico diferencial, selecciona los síntomas que más importancia tienen.",
-    "needsymtoms": "Se necesita un síntoma para poder continuar."
+    "needsymtoms": "Se necesita un síntoma para poder continuar.",
+    "analyze the data": "¿Quieres analizar los datos?"
   },
   "diagnosesSection":{
     "title": "Sugerencias de enfermedades",

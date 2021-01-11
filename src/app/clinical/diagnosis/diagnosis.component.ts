@@ -707,6 +707,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }else if(this.actualStep > '5.0'){
         this.setActualStep('5.0');
       }else if(this.actualStep > '3.0'){
+        this.symptomsExomiser = this.phenotype.data;
+        this.getNumberOfSymptomsExo();
         if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
           Swal.fire(this.translate.instant("analysissection.stillanalyzing"), this.translate.instant("analysissection.may10minutesexov2"), "warning");
 
@@ -749,6 +751,32 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }else if(this.actualStep > '1.0'){
         this.setActualStep('1.0');
       }
+    }
+
+    askAnalyze(){
+      if(this.maxStep<'5.0'){
+        this.goNextStep();
+      }else{
+        Swal.fire({
+            title: this.translate.instant("analysissection.analyze the data"),
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#0CC27E',
+            cancelButtonColor: '#f9423a',
+            confirmButtonText: this.translate.instant("generics.Yes"),
+            cancelButtonText: this.translate.instant("generics.No"),
+            showLoaderOnConfirm: true,
+            allowOutsideClick: false,
+            reverseButtons:true
+        }).then((result) => {
+          if (result.value) {
+            this.goNextStep();
+          }else{
+            this.goToStep('5.0', true)
+          }
+        });
+      }
+
     }
 
     goNextStep(){

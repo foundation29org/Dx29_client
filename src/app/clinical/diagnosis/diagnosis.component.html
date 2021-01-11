@@ -28,7 +28,7 @@
         </span>
         <span *ngIf="actualStep<'6.0'" class="col-lg-3">
           <button *ngIf="actualStep != '3.1' && actualStep != '3.2' && actualStep != '3.0' && actualStep != '1.0'" type="button" class="mt-2 mr-3 float-right btn" [ngClass]="(actualStep < '3.3' ||  actualStep >= '5.0')?'btn-raised btn-primary':'text-muted inactiveLink btn-raised btn-secondary white'" (click)="goNextStep()">{{'generics.Next' | translate }} <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
-          <button *ngIf="actualStep == '3.0'" type="button" class="mt-2 mr-3 float-right btn btn-raised btn-primary" (click)="goNextStep()">{{'topnavbar.Analyze' | translate }} <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+          <button *ngIf="actualStep == '3.0'" type="button" class="mt-2 mr-3 float-right btn btn-raised btn-primary" (click)="askAnalyze()">{{'generics.Next' | translate }} <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
           <button *ngIf="(actualStep != '3.1' && actualStep != '3.2') && actualStep == '1.0'" type="button" class="mt-2 mr-3 float-right btn btn-raised btn-primary" (click)="goNextStep()">{{'generics.Next' | translate }} <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
         </span>
       </div>
@@ -63,12 +63,12 @@
         <span *ngIf="actualStep<'6.0'" class="col-6">
           <span *ngIf="actualWidth=='xs'">
             <button *ngIf="actualStep != '3.1' && actualStep != '3.2' && actualStep != '3.0' && actualStep != '1.0'" type="button" class="mt-2 float-right btn btn-sm" [ngClass]="(actualStep < '3.3' ||  actualStep >= '5.0')?'btn-raised btn-primary':'text-muted inactiveLink btn-raised btn-secondary white'" (click)="goNextStep()">{{'generics.Next' | translate }} <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
-            <button *ngIf="actualStep == '3.0'" type="button" class="mt-2 float-right btn btn-raised btn-primary btn-sm" (click)="goNextStep()">{{'topnavbar.Analyze' | translate }} <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+            <button *ngIf="actualStep == '3.0'" type="button" class="mt-2 float-right btn btn-raised btn-primary btn-sm" (click)="askAnalyze()">{{'generics.Next' | translate }} <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
             <button *ngIf="(actualStep != '3.1' && actualStep != '3.2') && actualStep == '1.0'" type="button" class="mt-2 float-right btn btn-raised btn-primary btn-sm" (click)="goNextStep()">{{'generics.Next' | translate }} <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
           </span>
           <span *ngIf="actualWidth!='xs'">
             <button *ngIf="actualStep != '3.1' && actualStep != '3.2' && actualStep != '3.0' && actualStep != '1.0'" type="button" class="mt-2 mr-3 float-right btn" [ngClass]="(actualStep < '3.3' ||  actualStep >= '5.0')?'btn-raised btn-primary':'text-muted inactiveLink btn-raised btn-secondary white'" (click)="goNextStep()">{{'generics.Next' | translate }} <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
-            <button *ngIf="actualStep == '3.0'" type="button" class="mt-2 mr-3 float-right btn btn-raised btn-primary" (click)="goNextStep()">{{'topnavbar.Analyze' | translate }} <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
+            <button *ngIf="actualStep == '3.0'" type="button" class="mt-2 mr-3 float-right btn btn-raised btn-primary" (click)="askAnalyze()">{{'generics.Next' | translate }} <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
             <button *ngIf="(actualStep != '3.1' && actualStep != '3.2') && actualStep == '1.0'" type="button" class="mt-2 mr-3 float-right btn btn-raised btn-primary" (click)="goNextStep()">{{'generics.Next' | translate }} <span style="margin-left: 10px;"><i class="ft-chevron-right"></i></span></button>
           </span>
         </span>

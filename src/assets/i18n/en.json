@@ -791,7 +791,8 @@
     "Advanced options": "Advanced options",
     "Selectsymptomstitle": "Select the symptoms to analyze",
     "Selectsymptomssubtitle": "To obtain the best differential diagnosis suggestions, select the most important symptoms.",
-    "needsymtoms": "Symptoms are needed to proceed."
+    "needsymtoms": "Symptoms are needed to proceed.",
+    "analyze the data": "Do you want to analyze the data?"
   },
   "diagnosesSection":{
     "title": "Diseases suggestions",
