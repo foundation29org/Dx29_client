@@ -7,4 +7,5 @@ export interface ICurrentPatient{
     birthDate: Date;
     gender: string;
     country: string;
+    showSwalIntro: boolean;
 }

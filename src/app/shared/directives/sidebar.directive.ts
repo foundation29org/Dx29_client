@@ -10,7 +10,7 @@ import {
   Renderer2
 } from "@angular/core";
 import { SidebarLinkDirective } from "./sidebarlink.directive";
-import { Router } from "@angular/router";
+import { Router, NavigationEnd } from "@angular/router";
 import { filter } from "rxjs/operators";
 
 @Directive({ selector: "[appSidebar]" })
@@ -29,7 +29,41 @@ export class SidebarDirective implements OnInit, AfterViewInit {
     private renderer: Renderer2,
     private router: Router,
     private cd: ChangeDetectorRef
-  ) {}
+  ) {
+
+    this.router.events.filter((event: any) => event instanceof NavigationEnd).subscribe(
+      event => {
+        var tempUrl= (event.url).toString().split('?');
+        var tempUrl1 = (tempUrl[0]).toString();
+        if(tempUrl1.indexOf('/clinical/diagnosis')!=-1){
+          this.innerWidth = window.innerWidth;
+          if (this.innerWidth < 992) {
+            this.renderer.removeClass(this.$wrapper, 'nav-collapsed');
+            this.renderer.removeClass(this.$wrapper, 'menu-collapsed');
+            this.toggleHideSidebar.emit(true);
+          }
+          if (this.innerWidth > 992) {
+            const toggleStatus = this.el.nativeElement
+            this.el.nativeElement.querySelector('.toggle-icon')
+              .getAttribute("data-toggle");
+            if (
+              toggleStatus === "collapsed" &&
+              this.$wrapper.classList.contains("nav-collapsed") &&
+              this.$wrapper.classList.contains("menu-collapsed")
+            ) {
+              this.$wrapper.classList.add("nav-collapsed");
+              this.$wrapper.classList.add("menu-collapsed");
+            }
+            this.toggleHideSidebar.emit(false);
+          }
+        }else{
+          this.toggleHideSidebar.emit(true);
+        }
+
+
+      }
+    );
+  }
 
   ngOnInit() {
     this.activeRoute = this.router.url;

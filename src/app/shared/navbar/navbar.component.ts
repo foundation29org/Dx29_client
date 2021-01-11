@@ -35,7 +35,6 @@ declare global {
   providers: [PatientService, ExomiserService, ApiDx29ServerService]
 })
 export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
-  currentLang = "en";
   toggleClass = "ft-maximize";
   placement = "bottom-right";
   public isCollapsed = true;
@@ -68,12 +67,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     loading: boolean = true;
     myUserId: string = '';
     myEmail: string = '';
-    actualStep: string = "0.0";
-    maxStep: string = "0.0";
     isHomePage: boolean = false;
     isClinicalPage: boolean = false;
     age: any = {};
-    showintrowizard: boolean = true;
     tasks: any = [];
     private subscription: Subscription = new Subscription();
 
@@ -125,12 +121,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.config = this.configService.templateConf;
     this.loadMyEmail();
-    if(sessionStorage.getItem('lang')){
-      this.currentLang = sessionStorage.getItem('lang');
-    }
-    this.eventsService.on('changelang', function(lang) {
-      this.currentLang = lang;
-    }.bind(this));
 
     this.eventsService.on('selectedPatient', function(selectedPatient) {
       this.selectedPatient= selectedPatient;
@@ -138,17 +128,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ageFromDateOfBirthday(dateRequest2);
     }.bind(this));
 
-    this.eventsService.on('actualStep', function(actualStep) {
-      this.actualStep= this.dataservice.steps.actualStep;
-    }.bind(this));
-
-    this.eventsService.on('maxStep', function(maxStep) {
-      this.maxStep= this.dataservice.steps.maxStep;
-    }.bind(this));
-
-    this.eventsService.on('showIntroWizard', function(showintrowizard) {
-      this.showintrowizard= showintrowizard;
-    }.bind(this));
     this.eventsService.on('exoservice', function(exoservice) {
       var foundElement = this.searchService.search(this.tasks,'token', exoservice.token);
       if(!foundElement){
@@ -671,40 +650,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
    }
 
-   startWizardAgain(){
-     Swal.fire({
-         title: this.translate.instant("diagnosis.wizardquestionlaunch"),
-         icon: 'warning',
-         showCancelButton: true,
-         confirmButtonColor: '#0CC27E',
-         cancelButtonColor: '#f9423a',
-         confirmButtonText: this.translate.instant("generics.Yes"),
-         cancelButtonText: this.translate.instant("generics.No"),
-         showLoaderOnConfirm: true,
-         allowOutsideClick: false,
-         reverseButtons:true
-     }).then((result) => {
-       if (result.value) {
-
-         if(this.showintrowizard){
-           this.goToStep('0.0', true, '0.0')
-         }else{
-           this.goToStep('1.0', true, '1.0')
-         }
-       }
-     });
-
-   }
-
-   goToStep(index, save, maxStep){
-     var info = {step: index, save: save, maxStep: maxStep}
-     this.eventsService.broadcast('infoStep', info);
-   }
-
-   goToReports(){
-     this.eventsService.broadcast('setStepWizard', 'reports');
-   }
-
    checkStatusServices(){
      for(var i = 0; i < this.patients.length; i++){
        this.checkServices(this.patients[i].sub, this.patients[i].patientName);
@@ -787,7 +732,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
      for(var i = 0; i < this.patients.length && !found; i++){
        if(this.patients[i].sub==patientId){
          this.authService.setCurrentPatient(this.patients[i]);
-         this.router.navigate(['/clinical/diagnosis2']);
+         this.router.navigate(['/clinical/diagnosis']);
          this.deleteTask(index);
        }
      }
