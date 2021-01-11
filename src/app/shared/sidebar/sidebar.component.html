@@ -13,7 +13,7 @@
         <a class="nav-toggle d-none d-lg-none d-xl-block" id="sidebarToggle" href="javascript:;">
             <i #toggleIcon appSidebarToggle class="ft-toggle-right toggle-icon" data-toggle="expanded"></i>
         </a>
-        <a class="black nav-close d-block d-lg-block d-xl-none" id="sidebarClose" href="javascript:;">
+        <a class="black nav-close d-block d-lg-none" id="sidebarClose" href="javascript:;">
             <i class="ft-x"></i>
         </a>
     </div>
@@ -131,7 +131,7 @@
               <a class="btn-no-style" title="{{(maxStep>='5.0' ) ? ('diagnosis.Genetics'|translate) : 'no permitido'}}" [disabled]="(maxStep<'5.0')" (click)="goToStep('2.0', false, null)">2. {{'topnavbar.Genetics' | translate }}</a>
           </li>
           <li [ngClass]="(actualStep !='3.0' && actualStep !='3.1' && actualStep !='3.2')?'cursor-pointer btn-header':'inactiveLink active'">
-              <a class="btn-no-style" title="{{(maxStep>='5.0' ) ? 'Analizar' : 'no permitido'}}" [disabled]="(maxStep<'5.0')" (click)="goToStep('3.0', false, null)">3. {{'topnavbar.Analyze' | translate }}</a>
+              <a class="btn-no-style" title="{{(maxStep>='5.0' ) ? 'Analizar' : 'no permitido'}}" [disabled]="(maxStep<'5.0')" (click)="goToStep('3.0', false, null)">3. {{'analysissection.title' | translate }}</a>
           </li>
           <li [ngClass]="(actualStep !='5.0')?'cursor-pointer btn-header':'inactiveLink active'">
               <a class="btn-no-style" title="{{(maxStep>='5.0' ) ? 'Diagnoses' : 'no permitido'}}" [disabled]="(maxStep<'5.0')" (click)="goToStep('5.0', false, null)">4. {{'topnavbar.Diagnoses' | translate }}</a>

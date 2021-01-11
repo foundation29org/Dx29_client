@@ -203,7 +203,6 @@
     <div *ngIf="loading" class="center-elements mt-3 mb-3">
       <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
     </div>
-
       <form #f="ngForm">
         <div *ngIf="!loading">
           <div class="mt-2">
@@ -252,7 +251,7 @@
           <div *ngIf="!isMine && permissions.askFirst" class="col-md-12">
             {{'permissions.normal request with form' | translate }}
           </div>
-          <div *ngIf="!isMine && !permissions.askFirst && !permissions.shareWithAll" class="col-md-12">
+          <div *ngIf="!isMine && !permissions.askFirst && !permissions.shareWithAll">
             {{'permissions.Make full request' | translate }}
           </div>
 

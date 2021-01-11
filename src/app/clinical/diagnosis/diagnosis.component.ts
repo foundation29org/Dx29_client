@@ -135,6 +135,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     };
 
     modalReference: NgbModalRef;
+    _openedModalRefs: any = [];
     filename: string = '';
     filesVcf: any = [];
     infoGenesAndConditions: any = [];
@@ -349,6 +350,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     launchedPhen2genes: boolean = false;
     viewSummarySymptoms: string = 'Simple';
     isNew: boolean = false;
+    actualWidth: string = 'xs';
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -520,6 +522,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
     ngOnInit() {
+      this.getWidth();
       $("#wizardpanel").scroll(function() {
          if($("#wizardpanel").scrollTop() > 80){
           $("#nav-buttons-wizard").css("box-shadow","0 0 6px -6px rgba(0, 0, 0, 0.01), 0 12px 15px 6px rgba(0, 0, 0, 0.06)");
@@ -549,9 +552,24 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
     @HostListener('window:resize')
     onResize() {
+        this.getWidth()
         // call our matchHeight function here
         this.redrawNewSize=true;
         this.drawCharts();
+    }
+
+    getWidth(){
+      var tempWidth= window.innerWidth;
+      this.actualWidth = 'xs'
+      if(tempWidth<768){
+        this.actualWidth = 'xs'
+      }else if(tempWidth>=768 && tempWidth<992){
+        this.actualWidth = 'sm'
+      }else if(tempWidth>=992 && tempWidth<1200){
+        this.actualWidth = 'md'
+      }else{
+        this.actualWidth = 'lg'
+      }
     }
 
     ageFromDateOfBirthday(dateOfBirth: any){
@@ -1452,6 +1470,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             windowClass: 'ModalClass-sm'
       };
       this.modalReference = this.modalService.open(contentInfoSymptom, ngbModalOptions);
+      this._openedModalRefs.push(this.modalReference);
     }
 
     showMoreInfoSymptomPopupGroup(index1, index2, contentInfoSymptom){
@@ -4460,6 +4479,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       };
       this.actualTemporalSymptomsIndex = 0;
       this.modalReference = this.modalService.open(contentSymptomsNcr, ngbModalOptions);
+      this._openedModalRefs.push(this.modalReference);
     }
 
     addSymptomTinder(index){
@@ -4525,20 +4545,32 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           cancelButtonColor: '#f9423a',
           confirmButtonText: this.translate.instant("generics.Accept"),
           cancelButtonText: this.translate.instant("generics.Cancel"),
-          showLoaderOnConfirm: true,
+          showLoaderOnConfirm: false,
           allowOutsideClick: false,
           reverseButtons:true
       }).then((result) => {
         if (result.value) {
-          if(this.modalReference!=undefined){
-            this.modalReference.close();
-          }
+          this.closeAll()
         }
       });
 
     }
 
+    closeAll(){
+
+      for(var i = 0; i < this._openedModalRefs.length; i++) {
+        if(this._openedModalRefs[i]!=undefined){
+          this._openedModalRefs[i].close();
+        }
+      }
+      this._openedModalRefs = [];
+      if(this.modalReference!=undefined){
+        this.modalReference.close();
+      }
+    }
+
     saveSymptomsNcr(){
+      this.closeAll()
       for(var i = 0; i < this.temporalSymptoms.length; i++) {
         if(this.temporalSymptoms[i].checked){
           var symptomExtractor = {id: this.temporalSymptoms[i].id,name: this.temporalSymptoms[i].name, new: true};
@@ -5069,7 +5101,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
        this.uploadfile(random_name);
      }
 
-     this.makeCopyForSupport(file, this.fileUploadInfo, fileNameNcr, random_name);
+     //this.makeCopyForSupport(file, this.fileUploadInfo, fileNameNcr, random_name);
      //var actualDate = Date.now();
      //this.infoNcrToSave = {ncrVersion:environment.ncrVersion, originalText: '', result: {}, rejectedSymptoms: [], date: actualDate, docUrl: ''};
      this.fileUploadInfo = undefined;

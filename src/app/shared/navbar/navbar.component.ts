@@ -230,6 +230,11 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.myUserId= this.authService.getIdUser()
     }
 
+    initVars2(){
+        this.email = '';
+        this.loadPatients();
+      }
+
     shareApp(shareTo){
       this.initVars();
       if(this.authService.getCurrentPatient()==null){
@@ -260,6 +265,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       if(this.authService.getCurrentPatient()!=null){
         this.selectedPatient = this.authService.getCurrentPatient();
         this.isMine = false;
+
         for (var i = 0; i < this.patients.length; i++) {
           if(this.selectedPatient.sub==this.patients[i].sub){
             if(this.patients[i].permissions!=undefined){
@@ -270,7 +276,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
               this.permissions.shareWithAll = false;
             }
           }
-
           if(this.patients[i].sub == this.selectedPatient.sub){
             this.isMine = this.patients[i].ismine;
           }
@@ -414,11 +419,11 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
             .subscribe( (res : any) => {
               if(params.role == 'User'){
                 if(res.message == 'Email sent'){
-                  this.initVars();
+                  this.initVars2();
                   //this.modalReference.close();
                   Swal.fire('Done', this.translate.instant("dashboardpatient.The invitation has been sent successfully"), "success");
                 }else if(res.message == 'Data sharing has been requested'){
-                  this.initVars();
+                  this.initVars2();
                   Swal.fire('Done', this.translate.instant("permissions.Request completed"), "success");
                 }else if(res.message == 'There is already an account with that email'){
                   Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("dashboardpatient.There is already an account with that email"), "warning");
@@ -433,8 +438,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
                 }else{
                   Swal.fire('Done', res.message, "success");
                 }
-                this.initVars();
-               // this.modalReference.close();
+                this.initVars2();
+                //this.modalReference.close();
               }
               this.loadDataFromSharingAccounts();
 
@@ -474,7 +479,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
         .subscribe( (res : any) => {
           if(params.role == 'User'){
             if(res.message == 'Email sent'){
-              this.initVars();
+              this.initVars2();
               //this.modalReference.close();
               Swal.fire('Done', this.translate.instant("dashboardpatient.The invitation has been sent successfully"), "success");
             }else if(res.message == 'There is already an account with that email'){
@@ -484,8 +489,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           }else{
             Swal.fire('Done', res.message, "success");
-            this.initVars();
-           // this.modalReference.close();
+            this.initVars2();
+            //this.modalReference.close();
           }
           this.loadDataFromSharingAccounts();
 
