@@ -18,7 +18,7 @@ export class ConfigService {
         variant: "Light", // options:  Dark, Light & Transparent
         dir: "ltr", //Options: ltr, rtl
         customizer: {
-          hidden: false //options: true, false
+          hidden: true //options: true, false
         },
         sidebar: {
           collapsed: false, //options: true, false

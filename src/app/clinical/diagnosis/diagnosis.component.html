@@ -450,7 +450,7 @@
                   </p>
                 </div>
                 <div  class="col-md-12 row">
-                  <div *ngFor="let onefile of docsNcr; let i = index" class="pb-2 col-xl-4 col-lg-6 col-md-12">
+                  <div *ngFor="let onefile of docsNcr; let i = index" class="pb-2 col-lg-6 col-md-12">
                         <div class="card box border">
                             <div class="card-header pb-0 row">
                               <span class="col-3">
@@ -540,7 +540,7 @@
                   </p>
                 </div>
                 <div  class="col-md-12 row">
-                  <div *ngFor="let onefile of otherDocs; let i = index" class="pb-2 col-xl-4 col-lg-6 col-md-12">
+                  <div *ngFor="let onefile of otherDocs; let i = index" class="pb-2 col-lg-6 col-md-12">
                         <div class="card box border">
                             <div class="card-header pb-0 row">
                               <span class="col-3">
@@ -938,9 +938,11 @@
                           <h4 class="col-md-12" [ngClass]="(j > '0' )?'pt-2 border-top-custom pb-2':''"><span class="text-bold-400">{{group.nameGroup}}</span></h4>
                           <ul *ngFor="let hpo of group.symptoms ; let i = index" class="col-lg-12 mb-1" [ngClass]="(i == (group.symptoms.length-1) )?'pb-2':''">
                             <li class="row symptoms-item">
-                              <span style="font-size:1rem;flex-grow: 1; line-height: 1.3em;" class="mt-1 mb-1 text-muted col-lg-7 col-xl-8"><i class="fas fa-notes-medical grey"></i> {{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
-                              <span class="col-lg-5 col-xl-4 text-muted">
-                                 {{hpo.id}}
+                              <span style="font-size:1rem;flex-grow: 1; line-height: 1.3em;" class="mt-1 mb-1 text-muted col-7 col-xl-8"><i class="fas fa-notes-medical grey"></i> {{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
+                              <span class="col-5 col-xl-4 text-muted">
+                                <a class="float-right primary mr-1 mb-0" data-original-title="" title="{{'generics.More information' | translate }}" (click)="showMoreInfoSymptomPopupGroup(j,i, contentInfoSymptom)">
+                                  {{hpo.id}}
+                                </a>
                               </span>
                             </li>
                           </ul>
@@ -964,79 +966,81 @@
                 </div>
               </div>
             </div>
-            <div class="mt-2 col-lg-12 col-xl-6">
-              <div class="card border" *ngIf="!loadingPotentialDiagnostics">
-                <div class="card-header">
-                  <h4 class="card-title d-inline">
-                    {{'summarySection.Candidate diagnosis' | translate }}
-                  </h4>
-                </div>
-                <div class="card-content" *ngIf="relatedConditions.length>0">
-                  <div class="card-body" *ngIf="potentialDiagnostics.length>0">
-                    <div class="row pb-3" *ngFor="let disease of potentialDiagnostics; let i = index" >
-                      <div class="col-12">
-                        <span class="text-muted"> {{disease.name.label}}</span> <!--style="font-size: large;"-->
-                      </div>
-                      <!--<div class="col-2">
-                        <span class="text-muted">{{disease.h29}}</span>
-                      </div>-->
-                      <div class="col-12 text-muted" *ngIf="disease.genes.length>0">
-                        Gene<spam *ngIf="disease.genes.length>1">s</spam>:
-                        <span *ngFor="let gen of disease.genes; let k = index">
-                          <a *ngIf="infoGenesAndConditionsExomizer.length>0" class="primary" href="javascript:void(0)" title="Click to see more information." (click)="setIndexAndshowPanelGenes(contentPanelGenes, gen.gen)"> {{gen.gen}}</a>
-                          <a *ngIf="infoGenesAndConditionsExomizer.length==0" class="primary" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" title="Click to see more information."> {{gen.gen}}</a>
-                          <span *ngIf="k<disease.genes.length-1">,</span>
-                        </span>
-                      </div>
-                      <div class="col-12">
-                        <ngb-progressbar type="primary" value="{{disease.h29}}" [striped]="false" [animated]="true" [max]="100"></ngb-progressbar>
+            <div class="col-lg-12 col-xl-6">
+              <div class="mt-2">
+                <div class="col-lg-12 card border" *ngIf="!loadingPotentialDiagnostics">
+                  <div class="card-header">
+                    <h4 class="card-title d-inline">
+                      {{'summarySection.Candidate diagnosis' | translate }}
+                    </h4>
+                  </div>
+                  <div class="card-content" *ngIf="relatedConditions.length>0">
+                    <div class="card-body" *ngIf="potentialDiagnostics.length>0">
+                      <div class="row pb-3" *ngFor="let disease of potentialDiagnostics; let i = index" >
+                        <div class="col-12">
+                          <span class="text-muted"> {{disease.name.label}}</span> <!--style="font-size: large;"-->
+                        </div>
+                        <!--<div class="col-2">
+                          <span class="text-muted">{{disease.h29}}</span>
+                        </div>-->
+                        <div class="col-12 text-muted" *ngIf="disease.genes.length>0">
+                          Gene<spam *ngIf="disease.genes.length>1">s</spam>:
+                          <span *ngFor="let gen of disease.genes; let k = index">
+                            <a *ngIf="infoGenesAndConditionsExomizer.length>0" class="primary" href="javascript:void(0)" title="Click to see more information." (click)="setIndexAndshowPanelGenes(contentPanelGenes, gen.gen)"> {{gen.gen}}</a>
+                            <a *ngIf="infoGenesAndConditionsExomizer.length==0" class="primary" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" title="Click to see more information."> {{gen.gen}}</a>
+                            <span *ngIf="k<disease.genes.length-1">,</span>
+                          </span>
+                        </div>
+                        <div class="col-12">
+                          <ngb-progressbar type="primary" value="{{disease.h29}}" [striped]="false" [animated]="true" [max]="100"></ngb-progressbar>
+                        </div>
                       </div>
                     </div>
+                    <div class="card-body" *ngIf="potentialDiagnostics.length==0">
+                      {{'summarySection.no candidate' | translate }}
+                    </div>
                   </div>
-                  <div class="card-body" *ngIf="potentialDiagnostics.length==0">
-                    {{'summarySection.no candidate' | translate }}
+                  <div class="card-content" *ngIf="relatedConditions.length==0">
+                    <div class="card-body">
+                      {{'summarySection.no candidate' | translate }}
+                    </div>
+                  </div>
+                  <div class="card-footer center-elements pb-0">
+                    <span><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('5.0', true);">{{'generics.Edit' | translate }}</a></span>
                   </div>
                 </div>
-                <div class="card-content" *ngIf="relatedConditions.length==0">
-                  <div class="card-body">
-                    {{'summarySection.no candidate' | translate }}
+                <div class="col-lg-12 card border" *ngIf="loadingPotentialDiagnostics">
+                  <div class="card-body center-elements">
+                    <i class="fa fa-spinner fa-spin fa-2x fa-fw pink"></i>
                   </div>
-                </div>
-                <div class="card-footer center-elements pb-0">
-                  <span><a class="btn btn-outline-primary" href="javascript:void(0)" (click)="goToStep('5.0', true);">{{'generics.Edit' | translate }}</a></span>
                 </div>
               </div>
-              <div class="card border" *ngIf="loadingPotentialDiagnostics">
-                <div class="card-body center-elements">
-                  <i class="fa fa-spinner fa-spin fa-2x fa-fw pink"></i>
-                </div>
-              </div>
-            </div>
-            <div class="mt-2 col-lg-12 col-xl-12">
-              <div class="card border">
-                <div class="card-header">
-                  <h4 class="card-title d-inline">
-                    {{'diagnosis.Notes and Conclusion' | translate }}
-                  </h4>
-                </div>
-                <div class="card-content">
-                  <div class="card-body">
-                    <form class="form" #fWeight="ngForm">
-                      <div class="form-body">
-                        <div class="row">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <textarea name="notes" class="form-control" style="width:100%;height:30vh;max-height: 30vh;" [(ngModel)]="diagnosisInfo.notes" name="notes"></textarea>
+              <div class="mt-2">
+                <div class="col-lg-12 card border">
+                  <div class="card-header">
+                    <h4 class="card-title d-inline">
+                      {{'diagnosis.Notes and Conclusion' | translate }}
+                    </h4>
+                  </div>
+                  <div class="card-content">
+                    <div class="card-body">
+                      <form class="form" #fWeight="ngForm">
+                        <div class="form-body">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                <textarea name="notes" class="form-control" style="width:100%;height:30vh;max-height: 30vh;" [(ngModel)]="diagnosisInfo.notes" name="notes"></textarea>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
 
-                    </form>
+                      </form>
+                    </div>
                   </div>
-                </div>
-                <div class="card-footer center-elements pb-0">
-                  <button type="button" class="btn btn-outline-primary" (click)="saveNotes(true)">{{'diagnosis.Save notes' | translate }}</button>
+                  <div class="card-footer center-elements pb-0">
+                    <button type="button" class="btn btn-outline-primary" (click)="saveNotes(true)">{{'diagnosis.Save notes' | translate }}</button>
+                  </div>
                 </div>
               </div>
             </div>

@@ -246,9 +246,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy{
 
         this.alertSourceCasesShared = new LocalDataSource(this.listOfSharedCases);
         this.alertsettingsCasesShared = {
-          //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right'},<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-info primary"></i> <i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-archive primary"></i>
-          //actions: { columnTitle: '', add: false, edit: false , delete: true, position:'right', custom: [{ name: 'editShared', title: '<span class="primary mr-2">'+this.translate.instant("dashboardpatient.Rename")+'</span>'}, { name: 'moreInfoShared', title: '<span class="info mr-2">'+this.translate.instant("generics.More information")+'</span>'}]},
-          actions: { columnTitle: this.translate.instant("generics.Options"), add: false, edit: false , delete: true, position:'right', custom: [{ name: 'moreInfoShared', title: '<i title='+this.translate.instant("generics.More information")+' class="fa fa-info fa-1_5x primary mr-2"></i>'},{ name: 'editShared', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-2"></i>'}, { name: 'share', title: '<i title='+this.translate.instant("generics.Share")+' class="fas fa-share fa-1_5x primary mr-2"></i>'}]},
+          actions: {
+            columnTitle: this.translate.instant("generics.Options"),
+            add: false,
+            edit: false ,
+            delete: true,
+            position:'right',
+            custom: [
+              { name: 'moreInfoShared', title: '<i title='+this.translate.instant("generics.More information")+' class="fa fa-info fa-1_5x primary mr-2"></i>'},
+              { name: 'editShared', title: '<i title='+this.translate.instant("dashboardpatient.Rename")+' class="fa fa-pencil fa-1_5x primary mr-2"></i>'},
+              { name: 'share', title: '<i title='+this.translate.instant("generics.Share")+' class="fas fa-share fa-1_5x primary mr-2"></i>'}
+            ]},
           delete: {
             confirmDelete: true,
             deleteButtonContent: '<i title='+this.translate.instant("generics.Delete")+' class="fa fa-trash fa-1_5x danger"></i>'

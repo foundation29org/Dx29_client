@@ -792,7 +792,7 @@
     "Selectsymptomstitle": "Select the symptoms to analyze",
     "Selectsymptomssubtitle": "To obtain the best differential diagnosis suggestions, select the most important symptoms.",
     "needsymtoms": "Symptoms are needed to proceed.",
-    "analyze the data": "Do you want to analyze the data?"
+    "analyze the data": "Do you want to run the analysis?"
   },
   "diagnosesSection":{
     "title": "Diseases suggestions",
