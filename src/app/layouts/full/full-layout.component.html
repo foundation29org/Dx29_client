@@ -12,7 +12,7 @@
 <div
   #appSidebar
   appSidebar
-  class="app-sidebar d-lg-none"
+  class="app-sidebar"
   (toggleHideSidebar)="toggleHideSidebar($event)"
   [ngClass]="{ 'hide-sidebar': hideSidebar }"
   data-active-color="white"
@@ -23,10 +23,11 @@
   <div class="sidebar-background" #sidebarBgImage></div>
 </div>
   <app-navbar (toggleHideSidebar)="toggleHideSidebar($event)"></app-navbar>
-  <div class="main-panel" [ngClass]="(isClinicalPage && role=='Clinical') && ((maxStep < '5.0') ||  (maxStep>='5.0' && (actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2')))?'main-panel-custom':''">
-        <div class="main-content" class="pl-0 " [ngClass]="(isClinicalPage && role=='Clinical') && ((maxStep < '5.0') ||  (maxStep>='5.0' && (actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2')))?'show-scroll':'mb-2'">
-            <div [ngClass]="((maxStep < '5.0') && (isClinicalPage) && (role=='Clinical') )?'':'content-wrapper'">
-                <div [ngClass]="((maxStep < '5.0') && (isClinicalPage) && (role=='Clinical') )?'':'container-fluid'">
+  <div class="main-panel">
+        <div class="main-content" class="pl-0 mb-2">
+          <div [ngClass]="(isClinicalPage && role=='Clinical')?'showmenu':''">
+            <div clas="content-wrapper">
+                <div class="container-fluid">
                     <ngb-alert type="warning" class="mt-4" [dismissible]="false" *ngIf="isIeOrEdge">
                       <div class="mt-3">
                         <h4>{{'others.browsers not supported' | translate }}</h4>
@@ -36,8 +37,8 @@
                     <router-outlet></router-outlet>
                 </div>
             </div>
+          <div>
         </div>
-        <app-footerwizard *ngIf="(isClinicalPage && role=='Clinical') && ((maxStep < '5.0') ||  (maxStep>='5.0' && (actualStep == '3.0' || actualStep == '3.1' || actualStep == '3.2')))"></app-footerwizard>
         <!--<div *ngIf="!isApp">
           <app-footer *ngIf="role != 'Clinical' && role != 'Lab' && role!='Admin'"></app-footer>
           <app-footer2 *ngIf="role == 'Clinical' || role == 'Lab' || role=='Admin'"></app-footer2>

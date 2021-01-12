@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, ElementRef, OnDestroy, Input  } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef, OnDestroy, Input, HostListener  } from '@angular/core';
 import { NgbTooltip, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from '@angular/forms';
 import { environment } from 'environments/environment';
@@ -16,6 +16,8 @@ import { ExomiserService } from 'app/shared/services/exomiser.service';
 import {ExomiserHttpService} from 'app/shared/services/exomiserHttp.service';
 import { Apif29SrvControlErrors } from 'app/shared/services/api-f29srv-errors';
 import Swal from 'sweetalert2';
+import { EventsService} from 'app/shared/services/events.service';
+import { Injectable, Injector } from '@angular/core';
 import { sha512 } from "js-sha512";
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -23,25 +25,27 @@ import 'rxjs/add/operator/toPromise';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
 import { HighlightSearch} from 'app/shared/services/search-filter-highlight.service';
 import { TextTransform } from 'app/shared/services/transform-text.service';
+import { Data } from 'app/shared/services/data.service';
 //para la parte de genes
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { NgxHotjarService } from 'ngx-hotjar';
+import * as d3 from 'd3';
+import {symbol, symbolTriangle} from "d3-shape";
+import * as venn from 'venn.js'
+
+import * as faker from 'faker';
+import { fromEvent } from 'rxjs';
+import { brush } from 'd3';
+import { FlexibleConnectedPositionStrategy } from '@angular/cdk/overlay';
 import { BlobStorageService, IBlobAccessToken } from 'app/shared/services/blob-storage.service';
 import { BlobStoragePedService } from 'app/shared/services/blob-storage-ped.service';
 import { SearchFilterPipe} from 'app/shared/services/search-filter.service';
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import * as Highcharts from 'highcharts';
-import Tree from 'highcharts/modules/treemap';
-Tree(Highcharts);
-import  Heatmap from 'highcharts/modules/heatmap';
-Heatmap(Highcharts);
-import  Exporting from 'highcharts/modules/exporting';
-// Initialize exporting module.
-Exporting(Highcharts);
 
 import { Subscription } from 'rxjs/Subscription';
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
 import { Apif29NcrService } from 'app/shared/services/api-f29ncr.service';
+import{GoogleAnalyticsService} from 'app/shared/services/google-analytics.service';
 import { Subject } from 'rxjs/Rx';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
@@ -66,10 +70,9 @@ let phenotypesinfo = [];
     ]
 })
 
+@Injectable()
 export class DiagnosisComponent implements OnInit, OnDestroy  {
     //Variable Declaration
-    @ViewChild("containermap", { read: ElementRef }) container: ElementRef;
-    @ViewChild('f') phenotypeExtractorForm: NgForm;
     @Input() variantEffectsFilterRequired: boolean=true;
 
     private msgDataSavedOk: string;
@@ -86,7 +89,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     tittleNotesAndConclusion: string = '';
     placeholderSearchForSymptoms: string = '';
     patients: any = [];
-    selectedPatient: any = {};
 
     phenotype: any = {};
     phenotypeCopy: any = {};
@@ -95,6 +97,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     relatedConditions: any = [];
     relatedConditionsCopy: any = [];
     gettingRelatedConditions: boolean = false;
+    topRelatedConditions: any = [];
+    potentialDiagnostics: any = [];
     medicalText: string = '';
     resultTextNcr: string = '';
     resultTextNcrCopy: string = '';
@@ -131,6 +135,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     };
 
     modalReference: NgbModalRef;
+    _openedModalRefs: any = [];
     filename: string = '';
     filesVcf: any = [];
     infoGenesAndConditions: any = [];
@@ -147,11 +152,9 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     uploaded: boolean = false;
 
     filesOnBlob: any = [];
-    actualPosGen: number = 0;
     actualPosDisease: number = 0;
 
     nextPosDisease: number = 0;
-    nextPosGen: number = 0;
 
     globalPosDisease: number = 1;
     actualDisease: any = {};
@@ -167,11 +170,11 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     geneName: string = '';
     hasGen: boolean = false;
     t: any;
+
     launchingPhen2Genes: boolean = false;
     filePhen2GenesOnBlob: string = '';
     urlFileHtmlExomiserBlob: string = '';
     loadingFileHtmlExomiserBlob: boolean = false;
-    loadingSymptomsOfDisease: boolean = false;
     respuestagenes : any;
     loadingInfoGenes: boolean = false;
     comtadorGenes: number = 0;
@@ -213,20 +216,26 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     infoNcrToSave: any = {};
     fileUploadInfo: any;
     listPatientFiles: any= [];
-    contentDownloadFiles: any;
     isNewNcrFile: boolean = false;
     listOfDiseases: any= [];
-    parserObject: any = {parserStrategy:'Auto', callingParser: false, file: undefined}
+
+    parserObject: any = {parserStrategy:'Auto', callingParser: false, file: undefined};
+    langToExtract: string = '';
+    resultSegmentation: any = {};
+    substepExtract: string = "0";
+    showPanelExtractor: boolean = false;
+    expanded: boolean = true;
+
     savingDiagnosis: boolean = false;
     posicionTrozo: number = 0;
     cantidadTrozos: number = 0;
+    selectedHpoIndex: number = -1;
+    ncrResultView: boolean = false;
+
     programs: any= [];
     actualProgram: any= [];
     dateGeneticProgram1:Date;
     myEmail: string = '';
-    listOfphenotypesinfo: any = [];
-    listOfphenotypesinfoOld: any = [];
-    listOfFilteredSymptoms: any = [];
     selectedSymptomIndex: number = -1;
     selectedInfoSymptomIndex: number = -1;
     numDeprecated: number = -1;
@@ -245,9 +254,108 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     moreInfoElement={};
     geneElementName="";
     loadingTable:boolean=false;
-    constructor(public http: HttpClient, public authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
-      private modalService: NgbModal ,public blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, public apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, public apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
-      protected $hotjar: NgxHotjarService, private textTransform: TextTransform) {
+    actualStep: string = "0.0";
+    maxStep: string = "0.0";
+    loadedStep: boolean = false;
+    showingWizard: boolean = true;
+
+    posactual: number = 0;
+    steps: number = 0;
+    numberOfSymptomsPerPage: number = 18;
+    listOfSymptomsTemp: any = [];
+    hasChangesSuggestion: boolean = false;
+    viewSuggestion: number = 0;
+    loadingSymptomsOfDisease: boolean = false;
+    loadingSuggestions: boolean = false;
+    listOfSymptomGroups: any = [];
+    viewSymptoms: number = 0;
+    selectedPatient: any = {};
+    age: any = {};
+    symptomsExomiser: any = [];
+    selectedDisease: number = -1;
+
+    //graph
+    fullListSymptoms: any = [];
+    exampleParent:String=this.translate.instant("patdiagdashboard.ExampleParent");
+    exampleSuccesorOfParent:String=this.translate.instant("patdiagdashboard.ExampleSuccesorOfParent");
+    omimSymptoms: any = [];
+    orphaSymptoms: any = [];
+    listGenericSymptoms: any=[];
+    loadingSymptomsDataForGraph: boolean = false;
+    @ViewChild('chartVenn') private chartContainerVenn: ElementRef;
+
+
+    @Input() private chartDataVenn: Array<any>=[];
+    //chartSize_MeOmim: number = 0;
+    //chartSize_MeOrpha: number = 0;
+    //chartSize_OmimOrpha: number = 0;
+    //chartSize_All: number = 0;
+    chartSize_MeGeneric:number =0;
+    listSymptomsMe:any=[];
+    listSymptomsGeneric:any=[];
+    listSymptomsMeGeneric:any=[];
+
+    // booleano que indica cuando se puede mostrar el histograma(cuando los datos esten cargados)
+    loadingGraphSymptomFreq:boolean=false;
+
+
+    private margin: any = { top: 60, bottom: 0, left: 35, right: 20};
+    private marginFreq: any = { top: 60, bottom: 10, left: 10, right: 40};
+    private chartVenn: any;
+
+
+    private widthVenn: number;
+    private heightVenn: number;
+    private yZoom:any;
+    private gBrush:any;
+    private handle:any;
+    private brush:any;
+    private previousSelection:any;
+    private xAxisSymptomsFreq: any;
+    private yAxisSymptomsFreq: any;
+    private maxWidth: any=0;
+    private redrawNewSize:boolean=true;
+    loadingquality: boolean = false;
+    listOfphenotypesinfo: any = [];
+    listOfphenotypesinfoOld: any = [];
+    listOfFilteredSymptoms: any = [];
+    symptomsPermissions:any = {shareWithCommunity:false};
+    actualDiseaseDesc: any = {};
+    indexExpandedElementGenes: number = -1;
+    expandedElement: any = null;
+    actualRelatedDisease: any = {};
+    isgen: boolean = true;
+    treeOrphaPredecessors: any = {};
+    eventsService: any = null;
+    showIntroWizard: boolean = true;
+    notAnalyzeGeneticInfo: boolean = false;
+    loadingDocuments: boolean = false;
+    otherDocs: any = [];
+    docsNcr: any = [];
+    selectedOrderFilesNcr: string = 'lastModified';
+    selectedOrderFilesOther: string = 'lastModified';
+    maps_to_orpha: any = {};
+    orphanet_names: any = {};
+    hp_frequencies:any = {};
+    isLoadingStep: boolean = true;
+    actualTemporalSymptomsIndex:number = 0;
+    viewOptionNcr:number = 0;
+    indexListRelatedConditions: number = 10;
+    loadingPotentialDiagnostics: boolean = false;
+    placement = "bottom-right";
+    numberOfSymptomsExo:number =0;
+    exostring: string = "3' UTR exon variant";
+    tempVcfBlobName: string = '';
+    nodescriptionSymptom:String=this.translate.instant("symptomssection.No description");
+    launchedPhen2genes: boolean = false;
+    viewSummarySymptoms: string = 'Simple';
+    isNew: boolean = false;
+    actualWidth: string = 'xs';
+
+    constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
+    private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
+    protected $hotjar: NgxHotjarService, private textTransform: TextTransform, private inj: Injector, private dataservice: Data, public googleAnalyticsService: GoogleAnalyticsService) {
+      this.eventsService = this.inj.get(EventsService);
       this.loadingTable=false;
       //this.columnsToDisplay=[this.translate.instant('diagnosis.Ranked genes'),this.translate.instant('phenotype.Related conditions')]
       //Columnas para el header
@@ -351,6 +459,28 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
          }));
 
 
+         this.subscription.add( this.http.get('assets/jsons/maps_to_orpha.json')
+         .subscribe( (res : any) => {
+           this.maps_to_orpha = res;
+          }, (err) => {
+            console.log(err);
+          }));
+
+          this.subscription.add( this.http.get('assets/jsons/orphanet_names_'+this.lang+'.json')
+         .subscribe( (res : any) => {
+           this.orphanet_names = res;
+          }, (err) => {
+            console.log(err);
+          }));
+
+          this.subscription.add( this.http.get('assets/jsons/hp_frequencies.json')
+          .subscribe( (res : any) => {
+            this.hp_frequencies = res;
+          }, (err) => {
+            console.log(err);
+          }));
+
+
         $.getScript("./assets/js/docs/jszip-utils.js").done(function(script, textStatus) {
           //console.log("finished loading and running jszip-utils.js. with a status of" + textStatus);
         });
@@ -379,6 +509,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
      if (this.subscriptionLoadSymptoms) {
           this.subscriptionLoadSymptoms.unsubscribe();
       }
+      this.eventsService.listeners.setStepWizard=[];
+      this.eventsService.listeners.infoStep=[];
     }
 
     initVarsPrograms(){
@@ -390,28 +522,824 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
     ngOnInit() {
-      console.log("ng on init")
+      this.getWidth();
+      $("#wizardpanel").scroll(function() {
+         if($("#wizardpanel").scrollTop() > 80){
+          $("#nav-buttons-wizard").css("box-shadow","0 0 6px -6px rgba(0, 0, 0, 0.01), 0 12px 15px 6px rgba(0, 0, 0, 0.06)");
+        }else if($("#wizardpanel").scrollTop() <= 80){
+          $("#nav-buttons-wizard").css("box-shadow","none");
+         }
+       });
+
       this.exomiserHttpService.cancelPendingRequests();
       this.lang = this.authService.getLang();
       if(this.authService.getCurrentPatient()==null){
         this.router.navigate(['clinical/dashboard/home']);
       }else{
         this.selectedPatient = this.authService.getCurrentPatient();
+        this.eventsService.broadcast('selectedPatient', this.selectedPatient);
+        var dateRequest2=new Date(this.selectedPatient.birthDate);
+        if(this.selectedPatient.birthDate == null){
+          this.age = null;
+        }else{
+          this.ageFromDateOfBirthday(dateRequest2);
+        }
         this.loadAllData();
+
+      }
+
+    }
+
+    @HostListener('window:resize')
+    onResize() {
+        this.getWidth()
+        // call our matchHeight function here
+        this.redrawNewSize=true;
+        this.drawCharts();
+    }
+
+    getWidth(){
+      var tempWidth= window.innerWidth;
+      this.actualWidth = 'xs'
+      if(tempWidth<768){
+        this.actualWidth = 'xs'
+      }else if(tempWidth>=768 && tempWidth<992){
+        this.actualWidth = 'sm'
+      }else if(tempWidth>=992 && tempWidth<1200){
+        this.actualWidth = 'md'
+      }else{
+        this.actualWidth = 'lg'
       }
     }
 
-    loadAllData(){
-      this.getAzureBlobSasToken();
-      this.loadMyEmail();
-      this.loadTranslations();
-      this.initVariables();
-      this.initVarsPrograms();
-      this.loadSymptoms();
-      this.getDiagnosisInfo();
-      this.checkServices(); //esto habría que ponerlo en el topnavbar tb
+    ageFromDateOfBirthday(dateOfBirth: any){
+      const today = new Date();
+      const birthDate = new Date(dateOfBirth);
+      var months;
+      months = (today.getFullYear() - birthDate.getFullYear()) * 12;
+      months -= birthDate.getMonth();
+      months += today.getMonth();
+      var res = months <= 0 ? 0 : months;
+      var m=res % 12;
+      var age =0;
+      if(res>0){
+        age= Math.abs(Math.round(res/12));
+      }
+      this.age = {years:age, months:m }
     }
 
+    getActualStep(patientId:string){
+      this.subscription.add( this.http.get(environment.api+'/api/case/stepclinic/'+patientId)
+          .subscribe( (res : any) => {
+            this.isLoadingStep = false;
+            if(!this.showIntroWizard && res.stepClinic=='0.0'){
+              this.setActualStep('1.0');
+              this.setMaxStep('1.0');
+            }else{
+              if(res.stepClinic=='5.0'){
+                this.setActualStepDB('6.0');
+                this.setActualStep('6.0');
+                this.setMaxStep('6.0');
+              }else{
+                this.setActualStep(res.stepClinic);
+                this.setMaxStep(res.stepClinic);
+              }
+
+            }
+
+            this.loadedStep = true;
+
+            if(this.selectedPatient.showSwalIntro && this.selectedPatient.isShared){
+              if(this.selectedPatient.showSwalIntro){
+                document.getElementById("openModalIntro2").click();
+              }
+            }else{
+              //si ya había comenzado el wizard y no lo ha terminado, preguntar si quiere continuar donde lo dejó o empezar de nuevo
+              if((this.actualStep>"0.0" && this.actualStep<"5.0" && this.showIntroWizard) || (this.actualStep>"1.0" && this.actualStep<"5.0" && !this.showIntroWizard)){
+                Swal.fire({
+                    title: this.translate.instant("patnodiagdashboard.swalContinue.msgtitle1"),
+                    text:  this.translate.instant("patnodiagdashboard.swalContinue.msg1"),
+                    showCancelButton: true,
+                    confirmButtonColor: '#009DA0',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: this.translate.instant("patnodiagdashboard.swalContinue.btn1"),
+                    cancelButtonText: this.translate.instant("patnodiagdashboard.swalContinue.btn2"),
+                    showLoaderOnConfirm: true,
+                    allowOutsideClick: false,
+                    reverseButtons:true
+                }).then((result) => {
+                  if (result.value) {
+                    this.goToStep(this.actualStep, false);
+                  }else{
+                    if(this.showIntroWizard){
+                      this.goToStep('0.0', true);
+                    }else{
+                      this.goToStep('1.0', true);
+                    }
+
+                  }
+                });
+              }else if(this.actualStep=="0.0"){
+                if(this.showIntroWizard){
+                  this.goToStep('0.0', false);
+                }else{
+                  this.goToStep('1.0', false);
+                }
+              }else if(this.actualStep>="5.0"){
+                this.goToStep(this.actualStep, false);
+              }
+            }
+
+
+            this.showingWizard = false;
+           }, (err) => {
+             console.log(err);
+             this.loadedStep= true;
+             this.toastr.error('', this.translate.instant("generics.error try again"));
+           }));
+
+
+    }
+
+    setActualStepDB(actualStep:string){
+      console.log(actualStep)
+      console.log(this.maxStep);
+      var object = {actualStep:actualStep}
+      if(actualStep>=this.maxStep && this.maxStep<"5.0"){
+        if(actualStep=='5.0'){
+          //actualStep = '6.0';
+          object = {actualStep:actualStep}
+        }
+        if(actualStep=='6.0'){
+          this.maxStep = '6.0';
+          this.setMaxStep('6.0');
+        }else{
+          this.setMaxStep(actualStep);
+        }
+
+        this.subscription.add( this.http.put(environment.api+'/api/case/stepclinic/'+this.authService.getCurrentPatient().sub, object)
+            .subscribe( (res : any) => {
+             }, (err) => {
+               console.log(err);
+               this.toastr.error('', this.translate.instant("generics.error try again"));
+             }));
+      }
+
+    }
+
+    setActualStep(actualStep:string){
+      this.actualStep = actualStep;
+      this.dataservice.steps = {actualStep: this.actualStep, maxStep: this.maxStep};
+      this.eventsService.broadcast('maxStep', this.maxStep);
+      this.eventsService.broadcast('actualStep', this.actualStep);
+    }
+
+    setMaxStep(maxStep:string){
+      this.maxStep = maxStep;
+      this.dataservice.steps = {actualStep: this.actualStep, maxStep: this.maxStep};
+      this.eventsService.broadcast('maxStep', this.maxStep);
+      this.eventsService.broadcast('actualStep', this.actualStep);
+    }
+
+    goPrevStep(){
+      if((this.actualStep == '1.0' || this.actualStep == '1') && this.showIntroWizard){
+        this.setActualStep('0.0');
+      }else if(this.actualStep > '5.0'){
+        this.setActualStep('5.0');
+      }else if(this.actualStep > '3.0'){
+        this.symptomsExomiser = this.phenotype.data;
+        this.getNumberOfSymptomsExo();
+        if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
+          Swal.fire(this.translate.instant("analysissection.stillanalyzing"), this.translate.instant("analysissection.may10minutesexov2"), "warning");
+
+          /*Swal.fire({
+              title: this.translate.instant("analysissection.analyzingdata"),
+              text:  this.translate.instant("analysissection.stopanalysis?"),
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#0CC27E',
+              cancelButtonColor: '#f9423a',
+              confirmButtonText: this.translate.instant("generics.Accept"),
+              cancelButtonText: this.translate.instant("generics.Cancel"),
+              showLoaderOnConfirm: true,
+              allowOutsideClick: false,
+              reverseButtons:true
+          }).then((result) => {
+            if (result.value) {
+              this.cancelSubscription();
+              this.setActualStep('3.0');
+              this.setActualStepDB('3.0');
+              if(this.modalReference!=undefined){
+                this.modalReference.close();
+              }
+            }
+          });*/
+
+        }else if(this.launchingPhen2Genes || this.calculatingH29Score || this.gettingRelatedConditions){
+          Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "warning");
+        }else{
+          if(!this.loadingGeno && !this.calculatingH29Score && !this.gettingRelatedConditions && !this.uploadingGenotype && !this.launchingPhen2Genes && !this.uploadingGenotype){
+              //Swal.fire(this.translate.instant("analysissection.analysisover"), '', "warning");
+              this.setActualStep('3.0');
+          }else{
+            this.setActualStep('3.0');
+          }
+
+        }
+      }else if(this.actualStep == '3.0' || this.actualStep == '3'){
+        this.setActualStep('2.0');
+      }else if(this.actualStep > '1.0'){
+        this.setActualStep('1.0');
+      }
+    }
+
+    askAnalyze(){
+      if(this.maxStep<'5.0'){
+        this.goNextStep();
+      }else{
+        Swal.fire({
+            title: this.translate.instant("analysissection.analyze the data"),
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#0CC27E',
+            cancelButtonColor: '#f9423a',
+            confirmButtonText: this.translate.instant("generics.Yes"),
+            cancelButtonText: this.translate.instant("generics.No"),
+            showLoaderOnConfirm: true,
+            allowOutsideClick: false,
+            reverseButtons:true
+        }).then((result) => {
+          if (result.value) {
+            this.goNextStep();
+          }else{
+            this.goToStep('5.0', true)
+          }
+        });
+      }
+
+    }
+
+    goNextStep(){
+      if(this.actualStep >= '5.0'){
+        this.goToStep('6.0', true)
+      }else if(this.actualStep >= '3.3'){
+        this.goToStep('5.0', true)
+      }else if(this.actualStep == '3.2'){
+        if(this.launchingPhen2Genes || this.calculatingH29Score || this.gettingRelatedConditions){
+          Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "warning");
+        }else{
+          this.goToStep('5.0', true)
+        }
+      }else if(this.actualStep == '3.1'){
+        if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
+          Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "warning");
+        }else{
+          this.goToStep('5.0', true)
+        }
+      }else if(this.actualStep == '3.0' || this.actualStep == '3'){
+        var haveSymptoms = false;
+        for(var i=0;i<this.symptomsExomiser.length;i++){
+          if(this.symptomsExomiser[i].checked){
+            haveSymptoms = true;
+            break;
+          }
+        }
+        if(!haveSymptoms){
+          Swal.fire({ title: this.translate.instant("analysissection.nosymptoms"), text:  this.translate.instant("analysissection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"warning" })
+        }else{
+          if(this.filesVcf.length>0 && !this.notAnalyzeGeneticInfo){
+            this.goToStep('3.1', true)
+          }else{
+            this.goToStep('3.2', true)
+          }
+
+        }
+      }else if(this.actualStep == '2.0' || this.actualStep == '2'){
+        if(this.filesVcf.length>0){
+          this.goToStep('3.0', true);
+        }else{
+          Swal.fire({
+              title: this.translate.instant("geneticsection.nogeneticinfo"),
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#0CC27E',
+              cancelButtonColor: '#f9423a',
+              confirmButtonText: this.translate.instant("generics.Yes"),
+              cancelButtonText: this.translate.instant("generics.No, cancel"),
+              showLoaderOnConfirm: true,
+              allowOutsideClick: false,
+              reverseButtons:true
+          }).then((result) => {
+            if (result.value) {
+              this.goToStep('3.0', true);
+            }
+          });
+
+        }
+      }else if(this.actualStep == '1.0' || this.actualStep == '1'){
+        if((this.phenotype.data.length == 0) || (this.numDeprecated==this.phenotype.data.length && this.numDeprecated>0)){
+          Swal.fire({ title: this.translate.instant("symptomssection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"warning" })
+        }else{
+          this.goToStep('2.0', true)
+        }
+
+      }else if(this.actualStep == '0.0'){
+        this.goToStep('1.0', true)
+      }
+    }
+
+    goToStepGenotics(){
+      if((this.phenotype.data.length == 0) || (this.numDeprecated==this.phenotype.data.length && this.numDeprecated>0)){
+        Swal.fire({ title: this.translate.instant("symptomssection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"warning" })
+      }else{
+        this.goToStep('2.0', true);
+      }
+
+    }
+
+    goToStepDiagnoses(){
+      this.goToStep('3.0', false);
+    }
+
+    goToStep(indexStep, save){
+      this.selectedDisease = -1;
+      if(indexStep=='0.0'){
+        document.getElementById("openModalIntro").click();
+      }
+      this.setActualStep(indexStep);
+      if(this.actualStep == '3.2'){
+        this.lauchPhen2Genes();
+        document.getElementById("openModalPhen2genes").click();
+      }else if(this.actualStep == '3.1'){
+        if(save){
+          this.callExomizerSameVcf();
+        }
+        document.getElementById("openModalExomiser").click();
+      }else if(this.actualStep == '3.0'){
+        this.notAnalyzeGeneticInfo=false;
+        this.symptomsExomiser = this.phenotype.data;
+        this.getNumberOfSymptomsExo();
+        if(this.uploadingGenotype){
+          this.goToStep('3.1', save);
+        }
+      }else if(this.actualStep == '5.0'){
+        if(this.modalReference!=undefined){
+          this.modalReference.close();
+        }
+      }else if(this.actualStep == '6.0'){
+        //this.loadFilesContainer(false);
+      }
+      window.scrollTo(0, 0)
+      if(save){
+        this.setActualStepDB(indexStep);
+      }
+      /*if(this.actualStep== '4.0'){
+        this.setActualStepDB('5.0');
+      }*/
+    }
+
+    showPanelIntro(contentIntro){
+      if(this.modalReference!=undefined){
+        this.modalReference.close();
+      }
+      let ngbModalOptions: NgbModalOptions = {
+            backdrop : 'static',
+            keyboard : false,
+            windowClass: 'ModalClass-sm'
+      };
+      this.modalReference = this.modalService.open(contentIntro, ngbModalOptions);
+    }
+
+    loadAllData(){
+
+      this.loadShowIntroWizard();
+      this.getAzureBlobSasToken();
+
+
+      this.eventsService.on('infoStep', function(info) {
+        if(info.maxStep!=null){
+          this.setMaxStep('0.0');
+        }
+        this.goToStep(info.step, info.save);
+      }.bind(this));
+
+      this.eventsService.on('setStepWizard', function(info) {
+        if(info=='next'){
+          this.goNextStep();
+        }else if(info=='prev'){
+          this.goPrevStep();
+        }else if(info=='reports'){
+          this.setActualStep('4.0');
+          //this.actualStep = '4.0';
+          this.loadFilesContainer(true);
+        }else if(info=='cancelAnalysis'){
+          this.cancelAnalysis();
+        }
+      }.bind(this));
+    }
+
+    cancelAnalysis(){
+      if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
+        Swal.fire(this.translate.instant("analysissection.stillanalyzing"), this.translate.instant("analysissection.may10minutesexov2"), "warning");
+        /*  Swal.fire({
+            title: this.translate.instant("analysissection.analyzingdata"),
+            text:  this.translate.instant("analysissection.stopanalysis?"),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#0CC27E',
+            cancelButtonColor: '#f9423a',
+            confirmButtonText: this.translate.instant("generics.Accept"),
+            cancelButtonText: this.translate.instant("generics.Cancel"),
+            showLoaderOnConfirm: true,
+            allowOutsideClick: false,
+            reverseButtons:true
+        }).then((result) => {
+          if (result.value) {
+            this.cancelSubscription();
+            this.setActualStep('5.0');
+            this.loadingGeno =false;
+            this.calculatingH29Score=false;
+            this.gettingRelatedConditions=false;
+            this.uploadingGenotype=false;
+            //this.setActualStepDB('5.0');
+            if(this.modalReference!=undefined){
+              this.modalReference.close();
+            }
+          }
+        });*/
+
+      }else if(this.launchingPhen2Genes || this.calculatingH29Score || this.gettingRelatedConditions){
+        Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "warning");
+      }else{
+        this.setActualStep('5.0');
+      }
+    }
+
+    getAzureBlobSasToken(){
+      this.accessToken.containerName = this.authService.getCurrentPatient().sub.substr(1);
+      this.accessToken.patientId = this.authService.getCurrentPatient().sub;
+      this.subscription.add( this.apiDx29ServerService.getAzureBlobSasToken(this.accessToken.containerName)
+      .subscribe( (res : any) => {
+        //console.log(res);
+        this.accessToken.sasToken = '?'+res;
+        this.blob.init(this.accessToken);
+        this.blobped.init(this.accessToken);
+        this.loadMyEmail();
+        this.loadTranslations();
+        this.initVariables();
+        this.initVarsPrograms();
+        this.loadSymptoms();
+        this.getDiagnosisInfo();
+        this.loadBlobFiles();
+      }, (err) => {
+        console.log(err);
+      }));
+    }
+
+    loadBlobFiles(){
+      this.subscription.add( this.blob.change.subscribe(uploaded => {
+         this.uploaded = uploaded;
+         this.uploadingGenotype = false;
+       }));
+
+       this.subscription.add(this.blob.changeFilesBlob.subscribe(filesOnBlob => {
+         if(filesOnBlob.length>0){
+           filesOnBlob.sort(this.sortService.DateSort("lastModified"));
+         }
+         var mindate = 0;
+         for (var i = 0; i < filesOnBlob.length; i++) {
+           if(((filesOnBlob[i].name).indexOf('.vcf')!=-1)&&((filesOnBlob[i].name).indexOf('vcf/')!=-1)){
+             var d = new Date(filesOnBlob[i].lastModified);
+             //this.filename = filesOnBlob[i].name;
+             if(mindate<d.getTime()){
+               this.filename = filesOnBlob[i].name;
+               mindate = d.getTime();
+             }
+           }
+         }
+
+         if(this.uploaded){
+           if(document.getElementById("idShowPanelWorkbench")==null && document.getElementById("settingExomiser")==null){
+             //this.callExomizerSameVcf();
+           }else if(document.getElementById("settingExomiser")!=null){
+             this.blob.loadFilesOnNewBlobExomizerSetting(this.accessToken.containerName);
+           }
+         }else{
+           this.blob.loadFilesOnNewBlobExomizerSetting(this.accessToken.containerName);
+         }
+
+        }));
+
+       //si tiene VCF
+       this.subscription.add( this.blob.changeFilesExomizerBlobVcf.subscribe(vcfFilesOnBlob => {
+         this.loadingGeno = false;
+          if(vcfFilesOnBlob.length>0){
+           vcfFilesOnBlob.sort(this.sortService.DateSort("lastModified"));
+           for(var i=0;i<vcfFilesOnBlob.length;i++){
+             vcfFilesOnBlob[i].nameForShow=""
+           }
+           for(var i=0;i<vcfFilesOnBlob.length;i++){
+             if(vcfFilesOnBlob[i].name.indexOf('/')){
+               var sectionsVcfBlob = vcfFilesOnBlob[i].name.split('/');
+               vcfFilesOnBlob[i].nameForShow=sectionsVcfBlob[sectionsVcfBlob.length-1]
+             }
+             else{
+               vcfFilesOnBlob[i].nameForShow=vcfFilesOnBlob[i].name;
+             }
+           }
+           this.filesVcf = vcfFilesOnBlob;
+           this.filename = vcfFilesOnBlob[0].name;
+           this.hasVcf = true;
+           if(document.getElementById("idShowPanelWorkbench")!=null && document.getElementById("settingExomiser")==null){
+             //document.getElementById("idShowPanelWorkbench").click();
+           }
+          }else{
+            //console.log('no tiene!');
+          }
+        }));
+
+        this.subscription.add( this.blob.changeFilesOnlyVcf.subscribe(vcfFilesOnBlob => {
+          this.loadingGeno = false;
+           if(vcfFilesOnBlob.length>0){
+             vcfFilesOnBlob.sort(this.sortService.DateSort("lastModified"));
+             for(var i=0;i<vcfFilesOnBlob.length;i++){
+               vcfFilesOnBlob[i].nameForShow=""
+             }
+             for(var i=0;i<vcfFilesOnBlob.length;i++){
+               if(vcfFilesOnBlob[i].name.indexOf('/')){
+                 var sectionsVcfBlob = vcfFilesOnBlob[i].name.split('/');
+                 vcfFilesOnBlob[i].nameForShow=sectionsVcfBlob[sectionsVcfBlob.length-1]
+               }
+               else{
+                 vcfFilesOnBlob[i].nameForShow=vcfFilesOnBlob[i].name;
+               }
+             }
+             this.filesVcf = vcfFilesOnBlob;
+             this.filename = vcfFilesOnBlob[0].name;
+             this.hasVcf = true;
+           }else{
+             console.log('no tiene!');
+           }
+         }));
+
+        //SI TIENE JSON DE EXOMIZER
+       this.subscription.add( this.blob.changeFilesExomizerBlob.subscribe(filesOnBlob => {
+         this.loadingGeno = false;
+          this.filesOnBlob = filesOnBlob;
+          //console.log(this.filesOnBlob);
+          this.filesOnBlob.sort(this.sortService.DateSort("lastModified"));
+          if(this.filesOnBlob.length>0){
+            if(this.newVcf){
+              this.loadFromBlob();
+              //this.newVcf = false;
+            }else{
+              this.loadFromBlob();
+              //document.getElementById("idShowPanelWorkbench").click();
+            }
+          }else{
+            this.uploadingGenotype = false;
+          }
+          this.loading = false;
+        }));
+
+        //SI TIENE ped file
+        this.subscription.add( this.blobped.change.subscribe(uploaded => {
+           this.uploadingPed = !uploaded;
+           this.blobped.loadFilesPedOnBlob(this.accessToken.containerName);
+         }));
+
+        this.subscription.add( this.blobped.changeFilesPedBlob.subscribe(filesPedOnBlob => {
+           if(filesPedOnBlob.length>0){
+             filesPedOnBlob.sort(this.sortService.DateSort("lastModified"));
+             for(var i=0;i<filesPedOnBlob.length;i++){
+               filesPedOnBlob[i].nameForShow=""
+             }
+             for(var i=0;i<filesPedOnBlob.length;i++){
+               if(filesPedOnBlob[i].name.indexOf('/')){
+                 var sectionsPedBlob = filesPedOnBlob[i].name.split('/');
+                 filesPedOnBlob[i].nameForShow=sectionsPedBlob[sectionsPedBlob.length-1]
+               }
+               else{
+                 filesPedOnBlob[i].nameForShow=filesPedOnBlob[i].name;
+               }
+             }
+             this.pedNameForShow=filesPedOnBlob[0].nameForShow
+             this.settingExomizer.PedBlobName = filesPedOnBlob[0].name;
+           }else{
+            console.log('no tiene!');
+           }
+         }));
+
+        this.subscription.add( this.blob.changeNcrFilesPatientBlob.subscribe(filesNcr => {
+           if(filesNcr.length>0){
+             this.checkPrograms();
+           }else{
+            console.log('no tiene ncr!');
+           }
+         }));
+
+
+        this.subscription.add( this.blob.changeFilesPatientBlob.subscribe(async filesPatientBlob => {
+          this.docsNcr = [];
+          this.otherDocs = [];
+           if(filesPatientBlob.length>0){
+             filesPatientBlob.sort(this.sortService.DateSort("lastModified"));
+             var listPatientFiles = [];
+             for(var i = 0; i < filesPatientBlob.length; i++) {
+               var indexFileExecution1 = filesPatientBlob[i].name.split("-");
+               var indexFileExecution2 =[];
+               if((i+1)<filesPatientBlob.length){
+                 indexFileExecution2 = filesPatientBlob[i+1].name.split("-");
+               }
+               var extension1 = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.lastIndexOf('.'));
+               var extension2 = null;
+               var ncrresultfiles = false;
+               if(filesPatientBlob[(i + 1)]==undefined){
+                 if(indexFileExecution2[0]!=undefined) indexFileExecution2[0] = null;
+                 else indexFileExecution2.push(null)
+               }else{
+                 extension2 = filesPatientBlob[i+1].name.substr(filesPatientBlob[i+1].name.lastIndexOf('.'));
+                 if(filesPatientBlob[i].ncrresult || filesPatientBlob[i+1].ncrresult){
+                   ncrresultfiles=true;
+                 }
+               }
+               /*if((indexFileExecution1[0] == indexFileExecution2[0]) && ncrresultfiles){
+                 if(extension1 == '.json'){
+                   var name = filesPatientBlob[i+1].name.substr(filesPatientBlob[i+1].name.indexOf('-')+1)
+                   filesPatientBlob[i+1].simplename = name;
+                   listPatientFiles.push({origenFile:filesPatientBlob[i+1], ncrResults:filesPatientBlob[i]})
+                 }else{
+                   var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
+                   filesPatientBlob[i].simplename = name;
+                   listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i+1]})
+                 }
+                 i=i+1;
+               }else{
+                 if(extension1 == '.json'){
+                   var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
+                   filesPatientBlob[i].simplename = name;
+                   //listPatientFiles.push({origenFile:undefined, ncrResults:filesPatientBlob[i]})
+                   listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i]})
+                 }else{
+                   var name = filesPatientBlob[i+1].name.substr(filesPatientBlob[i+1].name.indexOf('-')+1)
+                   filesPatientBlob[i+1].simplename = name;
+                   //listPatientFiles.push({origenFile:undefined, ncrResults:filesPatientBlob[i]})
+                   listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i]})
+                 }
+                 //i=i+1;
+               }*/
+
+               if((indexFileExecution1[0] == indexFileExecution2[0]) && ncrresultfiles){
+                 if(extension1 == '.json'){
+                   var name = filesPatientBlob[i+1].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
+                   filesPatientBlob[i].simplename = name;
+                   listPatientFiles.push({origenFile:filesPatientBlob[i+1], ncrResults:filesPatientBlob[i]})
+                 }else{
+                   var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
+                   filesPatientBlob[i].simplename = name;
+                   listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i+1]})
+                 }
+                 i=i+1;
+               }else{
+                 if(extension1 == '.json'){
+                   var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
+                   filesPatientBlob[i].simplename = name;
+                   //listPatientFiles.push({origenFile:undefined, ncrResults:filesPatientBlob[i]})
+                   listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i]})
+                 }else{
+                   var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
+                   filesPatientBlob[i].simplename = name;
+                   //listPatientFiles.push({origenFile:undefined, ncrResults:filesPatientBlob[i]})
+                   listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i]})
+                 }
+                 //i=i+1;
+               }
+
+             }
+             for(var i=0;i<listPatientFiles.length;i++){
+               listPatientFiles[i].origenFile.nameForShow="";
+             }
+             for(var i=0;i<listPatientFiles.length;i++){
+               if(listPatientFiles[i].origenFile.simplename!=undefined){
+                 if(listPatientFiles[i].origenFile.simplename.indexOf('/')!=-1){
+                   var sectionslistPatientFiles = listPatientFiles[i].origenFile.simplename.split('/');
+                   listPatientFiles[i].origenFile.nameForShow=sectionslistPatientFiles[sectionslistPatientFiles.length-1]
+                 }
+                 else{
+                   listPatientFiles[i].origenFile.nameForShow=listPatientFiles[i].origenFile.simplename;
+                 }
+               }
+             }
+             this.listPatientFiles = listPatientFiles;
+             for(var i=0;i<this.listPatientFiles.length;i++){
+               this.listPatientFiles[i].origenFile.contentLength = this.formatBytes(this.listPatientFiles[i].origenFile.contentLength);
+               if((this.listPatientFiles[i].ncrResults.name).indexOf('ncrresult.json')!=-1){
+                 await this.getResumeNcr(this.listPatientFiles[i].ncrResults.name, i)
+
+               }else{
+                 var extension = this.listPatientFiles[i].origenFile.nameForShow.substr(this.listPatientFiles[i].origenFile.nameForShow.lastIndexOf('.'));
+                 this.listPatientFiles[i].origenFile.extension=extension;
+                 if(extension=='.vcf'|| extension=='.vcf.gz')
+                 this.otherDocs.push(this.listPatientFiles[i]);
+               }
+             }
+             this.docsNcr.sort(this.sortService.DateSortFiles("lastModified"));
+             this.otherDocs.sort(this.sortService.DateSortFiles("lastModified"));
+
+            // this.urlFileHtmlExomiserBlob = this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+filesPatientBlob[0].name+this.accessToken.sasToken;
+           }else{
+            console.log('no tiene!');
+            this.listPatientFiles = [];
+           }
+           this.loadingDocuments = false;
+           Swal.close();
+         }));
+
+
+
+       this.subscription.add( this.blob.changeFilesHtmlExomiserBlob.subscribe(filesHtmlExomiserBlob => {
+          if(filesHtmlExomiserBlob.length>0){
+            this.loadingFileHtmlExomiserBlob = false;
+            filesHtmlExomiserBlob.sort(this.sortService.DateSort("lastModified"));
+            this.urlFileHtmlExomiserBlob = this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+filesHtmlExomiserBlob[0].name+this.accessToken.sasToken;
+          }else{
+            this.loadingFileHtmlExomiserBlob = false;
+           console.log('no tiene!');
+          }
+        }));
+
+        //console.log(this.accessToken);
+        this.blob.createContainerIfNotExists(this.accessToken, 'ncr');
+        this.blob.createContainerIfNotExists(this.accessToken, '');
+        this.blob.loadFilesOnBlobExomizer(this.accessToken.containerName,null);
+        this.getLastPhen2GenesResults();
+
+
+
+    }
+
+    formatBytes(bytes, decimals = 2) {
+        if (bytes === 0) return '0 Bytes';
+
+        const k = 1024;
+        const dm = decimals < 0 ? 0 : decimals;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+
+    async getResumeNcr(name, index){
+      //this.listPatientFiles[i].origenFile.name
+      this.subscription.add( this.http.get(this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+name+this.accessToken.sasToken)
+       .subscribe( (res : any) => {
+         var listSymptoms = [];
+         var numSymptMatch = 0;
+         var resumeText = '';
+         if(res.originalText!=undefined){
+           resumeText = res.originalText.slice(0, 200);
+         }
+          var infoNcr = res.result;
+          if(infoNcr!=undefined){
+            if(infoNcr.length>0){
+             for(var i = 0; i < infoNcr.length; i++) {
+
+               for(var j = 0; j < infoNcr[i].phens.length; j++) {
+                 var foundkio =false;
+                 for(var kio = 0; kio < listSymptoms.length && !foundkio; kio++) {
+                   if(listSymptoms[kio]==infoNcr[i].phens[j].id){
+                     foundkio=true;
+                   }
+                 }
+                 if(!foundkio){
+                   listSymptoms.push(infoNcr[i].phens[j].id);
+                 }
+               }
+             }
+
+             for(var i = 0; i < this.phenotype.data.length; i++) {
+               var found = false;
+               for(var j = 0; j < listSymptoms.length && !found; j++) {
+                 if(this.phenotype.data[i].id==listSymptoms[j] && this.phenotype.data[i].checked){
+                   numSymptMatch++;
+                   found=true;
+                 }
+               }
+             }
+           }
+          }
+        var extension = this.listPatientFiles[index].origenFile.name.substr(this.listPatientFiles[index].origenFile.name.lastIndexOf('.'));
+        this.listPatientFiles[index].ncrResults.extension = extension;
+        this.listPatientFiles[index].ncrResults.numberSymptoms= listSymptoms.length;
+        this.listPatientFiles[index].ncrResults.numSymptMatch= numSymptMatch;
+        this.listPatientFiles[index].ncrResults.resumeText = resumeText;
+        this.docsNcr.push(this.listPatientFiles[index]);
+       }, (err) => {
+         console.log(err);
+       }));
+
+    }
 
     onchangeparamgraph(){
       var namescore = "Dx29";
@@ -437,7 +1365,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       this.relatedConditions = rows;
 
       this.calculatingH29Score = false;
-      this.renderMap(this.relatedConditions.slice(0, 10), this.paramgraph);
+      this.renderMap();
     }
 
     checkServices(){
@@ -461,7 +1389,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         console.log(err);
       }));
       this.launchingPhen2Genes = false;
-
     }
 
     checkExomiser(){
@@ -469,7 +1396,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       // Llamar al servicio
       this.subscription.add( this.exomiserService.checkExomiserStatus(patientId)
         .subscribe( async (res2 : any) => {
-          console.log(res2);
           if(res2.message){
             if(res2.message=="nothing pending"){
               this.getExomizer(patientId);
@@ -481,6 +1407,9 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             }
             else if(res2.message=="something pending"){
               this.uploadingGenotype = true;
+              if(this.actualStep=='3.0'){
+                this.goToStep('3.1', false);
+              }
               await this.delay(5000);
               this.checkExomiser();
             }
@@ -499,18 +1428,27 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     selected($e) {
       $e.preventDefault();
       //this.selectedItems.push($e.item);
-      this.addSymptom($e.item, 'manual');
-      //this.phenotype.data.push($e.item);
+
+      var symptom = $e.item;
+      var foundElement = this.searchService.search(this.phenotype.data,'id', symptom.id);
+      if(!foundElement){
+        this.phenotype.data.push({id: symptom.id,name: symptom.name, new: true, checked: true, percentile:-1, inputType: 'manual', importance: '1', polarity: '0', synonyms: symptom.synonyms});
+        this.numberOfSymptoms++;
+        this.saveSymptomsToDb();
+        //this.toastr.success(this.translate.instant("generics.Name")+': '+symptom.name, this.translate.instant("phenotype.Symptom added"));
+      }else{
+        //this.toastr.warning(this.translate.instant("generics.Name")+': '+symptom.name, this.translate.instant("phenotype.You already had the symptom"));
+      }
       this.modelTemp = '';
       //this.inputEl.nativeElement.value = '';
     }
 
-    selected2($e) {
-      $e.preventDefault();
-      this.selectedItems.push($e.item);
+    selected2(i) {
+      this.addSymptom(this.listOfFilteredSymptoms[i], 'manual');
+      this.hasSymptomsToSave();
       //this.addSymptom($e.item, 'manual');
-      //this.phenotype.data.push($e.item);
       this.modelTemp = '';
+      this.listOfFilteredSymptoms = [];
       //this.inputEl.nativeElement.value = '';
     }
 
@@ -524,9 +1462,26 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       if( this.modelTemp.trim().length > 3){
         var tempModelTimp = this.modelTemp.trim();
         this.listOfFilteredSymptoms = this.searchFilterPipe.transformDiseases(this.listOfphenotypesinfo, 'name', tempModelTimp);
+        this.listOfFilteredSymptoms = this.clearSavedSymptoms(this.listOfFilteredSymptoms);
       }else{
         this.listOfFilteredSymptoms = [];
       }
+    }
+
+    clearSavedSymptoms(filterSymptoms){
+      var result = [];
+      for(var i = 0; i < filterSymptoms.length; i++){
+        var found = false;
+        for(var j = 0; j < this.phenotype.data.length && !found ; j++){
+          if(filterSymptoms[i].id==this.phenotype.data[j].id) {
+            found = true;
+          }
+        }
+        if(!found){
+          result.push(filterSymptoms[i]);
+        }
+      }
+      return result;
     }
 
     showMoreInfoSymptom(symptomIndex){
@@ -535,6 +1490,25 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }else{
         this.selectedInfoSymptomIndex = symptomIndex;
       }
+    }
+
+    showMoreInfoSymptomPopup(symptomIndex, contentInfoSymptom){
+      this.selectedInfoSymptomIndex = symptomIndex;
+      let ngbModalOptions: NgbModalOptions = {
+            keyboard : true,
+            windowClass: 'ModalClass-sm'
+      };
+      this.modalReference = this.modalService.open(contentInfoSymptom, ngbModalOptions);
+      this._openedModalRefs.push(this.modalReference);
+    }
+
+    showMoreInfoSymptomPopupGroup(index1, index2, contentInfoSymptom){
+      var indexElement = this.searchService.searchIndex(this.phenotype.data,'id', this.listOfSymptomGroups[index1].symptoms[index2].id);
+      this.showMoreInfoSymptomPopup(indexElement, contentInfoSymptom);
+    }
+
+    goPrevSymptom(){
+      this.actualTemporalSymptomsIndex--;
     }
 
     deleteItem(item) {
@@ -630,54 +1604,9 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
     }
 
-  SetActive(event, panelId: string) {
-      var hElement: HTMLElement = this.elRef.nativeElement;
-      //now you can simply get your elements with their class name
-      var allAnchors = hElement.getElementsByClassName('list-group-item');
-      //do something with selected elements
-      [].forEach.call(allAnchors, function (item: HTMLElement) {
-        item.setAttribute('class', 'list-group-item d-inline-block');
-      });
-      //set active class for selected item
-      event.currentTarget.setAttribute('class', 'list-group-item bg-blue-grey bg-lighten-5 border-bottom-primary border-bottom-2 d-inline-block');
-
-      if (panelId === 'panelSymptoms') {
-        this.activeTittleMenu = "Symptoms";
-        this.msgActiveTittleMenu = this.tittleSymptoms;
-      }else if (panelId === 'panelGenes') {
-        this.activeTittleMenu = "Genes";
-        this.msgActiveTittleMenu = this.tittleGenes;
-        this.checkServices();
-      }else if (panelId === 'PanelWorkbench') {
-        this.activeTittleMenu = "Workbench";
-        this.msgActiveTittleMenu = this.tittleWorkbench;
-      }
-
-
-
-      $('.content-overlay').removeClass('show');
-      $('.chat-app-sidebar-toggle').removeClass('ft-x').addClass('ft-align-justify');
-      $('.chat-sidebar').removeClass('d-block d-sm-block').addClass('d-none d-sm-none');
-
-    }
-
-    toggleMenu(){
-      if($('.chat-app-sidebar-toggle').hasClass('ft-align-justify')){
-        $('.chat-app-sidebar-toggle').removeClass('ft-align-justify').addClass('ft-x');
-        $('.chat-sidebar').removeClass('d-none d-sm-none').addClass('d-block d-sm-block');
-        $('.content-overlay').addClass('show');
-      }else{
-        $('.content-overlay').removeClass('show');
-        $('.chat-app-sidebar-toggle').removeClass('ft-x').addClass('ft-align-justify');
-        $('.chat-sidebar').removeClass('d-block d-sm-block').addClass('d-none d-sm-none');
-      }
-    }
-
-
     loadSymptoms(){
 
       //cargar los datos del usuario
-      console.log("load symptoms");
       this.loadingSymptoms = true;
       this.numDeprecated = 0;
       var para= this.authService.getCurrentPatient();
@@ -700,15 +1629,15 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             });
 
             //this.idPhenotype = res.phenotype._id;
-            console.log(hposStrins.length);
             //get symtoms
             var lang = this.authService.getLang();
-            console.log(this.listOfphenotypesinfo.length);
             if(this.listOfphenotypesinfo.length==0){
               this.testCallGetInfoSymptomsJSON(hposStrins);
             }else{
               this.callGetInfoSymptomsJSON(hposStrins);
             }
+
+            this.callGetGroupsSymptoms(hposStrins);
 
 
             for (var j = 0; j < this.phenotype.data.length; j++) {
@@ -717,12 +1646,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             }
             this.phenotypeCopy = JSON.parse(JSON.stringify(res.phenotype));
 
-            if((this.activeTittleMenu == 'Symptoms') && !(this.isDeletingPhenotype)){
-              this.goToGenesStep();
-            }
             if(this.isDeletingPhenotype){this.isDeletingPhenotype=false;}
             this.numberOfSymptoms = this.phenotype.data.length;
-            //this.getRelatedConditions();
           }else{
             //no tiene fenotipo
             this.phenotype = res.phenotype;
@@ -737,7 +1662,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
     testCallGetInfoSymptomsJSON(hposStrins){
-      this.subscriptionLoadSymptoms = Observable.interval(1000 * 60 * 5 ).subscribe(() => {
+      this.subscriptionLoadSymptoms = Observable.interval(1000).subscribe(() => {
         this.numDeprecated = 0;
         if(this.listOfphenotypesinfo.length>0){
           this.subscriptionLoadSymptoms.unsubscribe();
@@ -750,10 +1675,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       this.subscription.add(this.apif29BioService.getInfoSymptomsJSON(hposStrins,this.listOfphenotypesinfo)
       //this.subscription.add(this.apif29BioService.getInfoOfSymptoms(lang,hposStrins)
       .subscribe( (res2 : any) => {
-        console.log(res2);
-
         var tamano= Object.keys(res2).length;
-        console.log(tamano)
         if(tamano>0){
           var hposStrinsOld =[];
           for(var i in res2) {
@@ -828,58 +1750,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
      }));
     }
 
-    loadPercentilesInfoGenesAndConditions(httpParams, state, posGen, posDisease){
-      if(state== 'next'){
-        this.loadingPercentile = true;
-      }
-
-      if(this.infoGenesAndConditions[posGen].data[posDisease].symptoms!=undefined){
-        this.infoGenesAndConditions[posGen].data[posDisease].symptoms.sort(this.sortService.GetSortOrder("name"));
-      }
-      console.log(state);
-      if(state!= 'next'){
-        this.actualDisease = this.infoGenesAndConditions[posGen].data[posDisease];
-        this.cambiarOrdenSintomas();
-        if(posGen==0 && posDisease==0){
-          console.log('cargar primero next');
-          this.loadNextDisease(posGen, posDisease);
-        }else{
-          console.log('cargar siguiente 0 ');
-          this.loadNextDisease(posGen, posDisease);
-        }
-
-      }else{
-        this.loadingPercentile = false;
-        if(posGen==0 && posDisease==0){
-          console.log('cargar primero next 1');
-        }else{
-          console.log('cargar siguiente 1');
-          this.nextDisease = this.infoGenesAndConditions[posGen].data[posDisease];
-          if(this.numToLoad>0){
-            if(this.infoGenesAndConditions[posGen] != undefined){
-              if(posDisease<(this.infoGenesAndConditions[posGen].data.length)-1){
-                posDisease++;
-              }else if(posDisease==(this.infoGenesAndConditions[posGen].data.length)-1){
-                this.nextPosDisease = 0;
-                posGen++;
-              }
-            }
-
-            if(this.infoGenesAndConditions[posGen] != undefined){
-              if(this.infoGenesAndConditions[posGen].data.length == 0){
-                posDisease = 0;
-                posGen++;
-              }else{
-                this.numToLoad--;
-              }
-            }
-            this.loadNextDisease(posGen, posDisease);
-
-          }
-        }
-      }
-    }
-
     showPanelDiagnosis(contentRelatedConditions){
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
@@ -898,6 +1768,11 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     changeView2(){
       $('#panelSelectFromList').show();
       $('#panelPhenotypeList').hide();
+    }
+
+    getRelatedConditionsview(isgen){
+      this.isgen=isgen
+      this.getRelatedConditions();
     }
 
     getRelatedConditions(){
@@ -919,14 +1794,11 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         infoToExtractGenes = this.infoGenesAndConditionsPhen2Genes;
         priorizeGenes=false;
       }
-      console.log(infoToExtractGenes)
-      if((infoToExtractGenes!= [])&&(priorizeGenes==true)&&(this.infoGenesAndConditionsExomizer.length>0)){
+      if((infoToExtractGenes!= [])&&(priorizeGenes==true && this.isgen)&&(this.infoGenesAndConditionsExomizer.length>0)){
         this.getRelatedConditionsExomiser(infoToExtractGenes);
       }
       else{
-        // Añadir lo de los genes
         this.getRelatedConditionsPhen2Genes(infoToExtractGenes);
-
       }
     }
 
@@ -962,7 +1834,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
       this.subscription.add( this.apif29BioService.getDiseaseOfGenes(listGenes_names)
       .subscribe( (resDiseases : any) => {
-        console.log(resDiseases);
         for(var i=0;i<listGenes_names.length;i++){
           var idGen = listGenes_names[i];
           if((resDiseases[idGen] !=undefined)&&(resDiseases[idGen] !=null)){
@@ -1015,7 +1886,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         }
         this.subscription.add( this.apiDx29ServerService.getRelatedConditions(jsonHpos)
         .subscribe( (res : any) => {
-          console.log(res);
           this.relatedConditions = res;
           if(infoToExtractGenes!= []){
             this.loadingInfoGenes = true;
@@ -1075,7 +1945,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
               }
             }
             this.relatedConditions = temp2;
-            console.log(temp2);
 
             //quedarse con 100 this.listOfDiseases
             this.listOfDiseases = [];
@@ -1087,7 +1956,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             //get genes
             this.subscription.add(this.apif29BioService.getGenesOfDiseases(this.listOfDiseases)
             .subscribe( (res1 : any) => {
-              console.log(res1)
               var genRelationValuesListAccepted=["RO:0003303", "RO:0004012", "RO:0004013", "RO:0004014"]
               var infoGenesDiscard_null= new Object();
               infoGenesDiscard_null={};
@@ -1103,6 +1971,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                       var obttemp = (res1[idDesease]).genes;
                       var genIncluded=false;
                         for(var gen in obttemp) {
+                          foundeleme = false;
                           // Filter by "is_defined_by" (all that not have ONLY orphanet source)
                           var definedByOnlyOrphanet=false;
                           if(obttemp[gen].is_defined_by.indexOf('#orphanet')>-1){
@@ -1147,7 +2016,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                               encposiel = true;
                             }
                           }
-                          if(!encposiel){
+                          if(!encposiel && foundeleme){
                             this.relatedConditions[i].genes.push({gen:obttemp[gen].label});
                           }
                         }
@@ -1272,7 +2141,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
       this.subscription.add( this.apif29BioService.getDiseaseOfGenes(listGenes_names)
       .subscribe( (resDiseases : any) => {
-        console.log(resDiseases);
         for(var i=0;i<listGenes_names.length;i++){
           var idGen = listGenes_names[i];
           if((resDiseases[idGen] !=undefined)&&(resDiseases[idGen] !=null)){
@@ -1312,8 +2180,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           this.uploadProgress = this.blob
           .uploadToBlobStorage(this.accessToken, file, fileNameRelatedConditionsDiscard, 'relatedConditions');
         }
-
-        console.log(infoToExtractGenes)
         //Get list of diseases with Monarch (la de ahora).
         this.relatedConditions = [];
         var jsonPhenotype = { hpos: this.phenotype.data };
@@ -1325,7 +2191,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         }
         this.subscription.add( this.apiDx29ServerService.getRelatedConditions(jsonHpos)
         .subscribe( (res : any) => {
-        console.log(res);
         this.relatedConditions = res;
 
         //Merge and keep unique diseases.
@@ -1368,7 +2233,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           //get genes
           this.subscription.add(this.apif29BioService.getGenesOfDiseases(this.listOfDiseases)
           .subscribe( (res1 : any) => {
-            console.log(res1)
             var genRelationValuesListAccepted=["RO:0003303", "RO:0004012", "RO:0004013", "RO:0004014"]
             var infoGenesDiscard_null= new Object();
             infoGenesDiscard_null={};
@@ -1482,14 +2346,19 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             .uploadToBlobStorage(this.accessToken, fileRelatedConditionsParams, fileNameRelatedConditions, 'relatedConditions');
 
             var copyrelatedConditions2 = [];
-            console.log(this.relatedConditions);
-            for(var i = 0; i < this.relatedConditions.length; i++) {
-              if(this.relatedConditions[i].iscondition){
+            if(this.infoGenesAndConditionsExomizer.length==0 && (this.infoGenesAndConditionsPhen2Genes.length==0 && this.launchedPhen2genes)){
+              for(var i = 0; i < this.relatedConditions.length; i++) {
                 copyrelatedConditions2.push(this.relatedConditions[i]);
               }
+            }else{
+              for(var i = 0; i < this.relatedConditions.length; i++) {
+                if(this.relatedConditions[i].iscondition){
+                  copyrelatedConditions2.push(this.relatedConditions[i]);
+                }
+              }
             }
+
             this.relatedConditions = copyrelatedConditions2;
-            console.log(this.relatedConditions);
             this.loadingInfoGenes = false;
             //this.calcularScoreHealth29();
             this.getSymptomsApi();
@@ -1536,11 +2405,12 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           //console.log(info);
           if(info!=undefined){
             var listOfSymptoms = info.phenotypes
+            this.relatedConditions[i].xrefs = info.xrefs;
             if(Object.keys(listOfSymptoms).length>0){
               for(var indexSymptom in listOfSymptoms) {
                 var comment = "";
                 var def = "";
-                if(listOfSymptoms[indexSymptom].desc!="None"){
+                if(listOfSymptoms[indexSymptom].desc!="None" && listOfSymptoms[indexSymptom].desc!=null){
                   def = listOfSymptoms[indexSymptom].desc;
                 }
                 if(listOfSymptoms[indexSymptom].comment!=""){
@@ -1581,7 +2451,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         if(diseaseWithoutScore.length>0){
           //calculateScore
 
-          this.phenotype.data
           var arraySymptomsIds=[];
 
           for(var lo = 0; lo < this.phenotype.data.length; lo++) {
@@ -1633,22 +2502,19 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             }, (err) => {
               console.log(err);
               var hposStrins ='';
-              	arraySymptomsIds.forEach(function(element) {
+                arraySymptomsIds.forEach(function(element) {
                   if(hposStrins==''){
                     hposStrins='?id='+element;
                   }else{
                     hposStrins+='&id='+element;
                   }
 
-              		//hposStrins+= '&id=';
-              	});
+                  //hposStrins+= '&id=';
+                });
               var limit = diseaseWithoutScore.length
               this.subscription.add(this.apif29BioService.getOWLSim3Match(hposStrins, limit)
               .subscribe( (res : any) => {
-                console.log(res);
-                console.log(diseaseWithoutScore);
                 for(var i = 0; i < diseaseWithoutScore.length; i++) {
-                  console.log('i=: '+i);
                   if(diseaseWithoutScore[i].positionOnResults>=0){
                     diseaseWithoutScore[i].score = res.matches[diseaseWithoutScore[i].positionOnResults].percentageScore//.score
                   }
@@ -1704,11 +2570,12 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           //console.log(info);
           if(info!=undefined){
             var listOfSymptoms = info.phenotypes
+            this.relatedConditions[i].xrefs = info.xrefs;
             if(Object.keys(listOfSymptoms).length>0){
               for(var indexSymptom in listOfSymptoms) {
                 var comment = "";
                 var def = "";
-                if(listOfSymptoms[indexSymptom].desc!="None"){
+                if(listOfSymptoms[indexSymptom].desc!="None" && listOfSymptoms[indexSymptom].desc!=null){
                   def = listOfSymptoms[indexSymptom].desc;
                 }
                 if(listOfSymptoms[indexSymptom].comment!=""){
@@ -1728,10 +2595,13 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           }
         }
         if(this.relatedConditions.length>0){
-          this.renderMap(this.relatedConditions.slice(0, 10), 'h29');
+          this.indexListRelatedConditions = 10;
+          this.renderMap();
           if(this.selectedItemsFilter.length > 0){
             this.applyFilters();
           }
+        }else{
+          this.loadingPotentialDiagnostics = false;
         }
       }, (err) => {
         console.log(err);
@@ -1770,18 +2640,26 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
       this.relatedConditions = rows;
 
+      var listOfDiseases = [];
+      for(var i = 0; i < this.relatedConditions.length; i++) {
+        if(this.relatedConditions[i]!=undefined){
+          listOfDiseases.push(this.relatedConditions[i].name.id);
+        }
+      }
       //deleteDuplicatedConditions
       this.subscription.add(this.apif29BioService.getInfoOfDiseases(this.listOfDiseases)
       .subscribe( (res1 : any) => {
         var copyrelatedConditionsIni = [];
         for(var i = 0; i < this.relatedConditions.length; i++) {
           var valtemp = this.relatedConditions[i].name.id;
-          this.relatedConditions[i].name.id = res1[valtemp].id;
-          var foundElement = this.searchService.search2Levels(copyrelatedConditionsIni,'name','id', this.relatedConditions[i].name.id);
-          if(!foundElement){
-            copyrelatedConditionsIni.push(this.relatedConditions[i]);
-          }else{
-            console.log('Found: '+ this.relatedConditions[i].name.id);
+          if(res1[valtemp]!=undefined){
+            this.relatedConditions[i].name.id = res1[valtemp].id;
+            var foundElement = this.searchService.search2Levels(copyrelatedConditionsIni,'name','id', this.relatedConditions[i].name.id);
+            if(!foundElement){
+              copyrelatedConditionsIni.push(this.relatedConditions[i]);
+            }else{
+              //console.log('Found: '+ this.relatedConditions[i].name.id);
+            }
           }
         }
 
@@ -1802,10 +2680,16 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }
       this.relatedConditions = copyrelatedConditions;
       this.calculatingH29Score = false;
-
-      this.renderMap(this.relatedConditions.slice(0, 10), 'h29');
-      console.log(this.relatedConditions);
-      this.saveNotes();
+      if(this.actualStep<'5.0'){
+        if(this.maxStep<'5.0'){
+          this.goToStep('5.0', true);
+        }else{
+          this.goToStep('5.0', false);
+        }
+      }
+      this.indexListRelatedConditions = 10;
+      this.renderMap();
+      this.saveNotes(false);
       this.applyFilters();
       this.onchangeparamgraph();
     }
@@ -1813,11 +2697,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
     checkChange(){
       this.checksChanged = true;
-      //this.getRelatedConditions();
-    }
-
-    deleteText(){
-      this.medicalText = '';
     }
 
     lastIndexOfRegex (info, regex){
@@ -1826,176 +2705,49 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
 
-    onSubmitToExtractor(){
+    onSubmitToExtractor(contentExtractorSteps){
       this.loadingHpoExtractor = true;
-      //traducir a ingles
-        //comprobar el idioma
-        var testLangText = this.medicalText.substr(0,4000)
-        this.subscription.add( this.apiDx29ServerService.getDetectLanguage(testLangText)
-        .subscribe( (res : any) => {
-          if(res[0].language == 'en'){
-            this.callNCR();
-          }else{
-            if(this.medicalText.length>4999){
-              var copyMedicalText = this.medicalText;
-              this.medicalText = '';
-              this.longitudtext = copyMedicalText.length;
-              this.actualPostition = 0;
-              var countDeleteCharacters = 0;
-              var actualMedicalText = '';
-              var trozos = [];
-              while(this.actualPostition<this.longitudtext){
-                actualMedicalText = copyMedicalText.substr(this.actualPostition,4999);
-                //console.log(actualMedicalText);
-                var lastCharacter = actualMedicalText.length;
-                //var lastPoint= this.lastIndexOfRegex(actualMedicalText, /[a-zA-Z_\-. ]/);
-                //var lastPoint2= this.lastIndexOfRegex(actualMedicalText, /[a-zA-Z_, ]/);
-                var re = new RegExp("[.]"+" ",'g');
-                var lastPoint = actualMedicalText.lastIndexOf(actualMedicalText.match(re).pop());
-                var r2e = new RegExp("[,]"+" ",'g');
-                var lastPoint2 = actualMedicalText.lastIndexOf(actualMedicalText.match(re).pop());
-                //console.log(lastPoint);
-                //console.log(lastPoint2);
-                if( lastPoint > 0 || lastPoint2 >0){
-                  lastPoint2++;
-                  if(lastPoint >0){
-                    lastPoint++;
-                    lastCharacter = lastPoint;
-                  }else{
-                    lastCharacter = lastPoint2;
-                  }
-                }else{
-                   lastCharacter = actualMedicalText.lastIndexOf(" ");
-                }
-                countDeleteCharacters = actualMedicalText.length-lastCharacter;
-                //console.log(lastCharacter);
-
-                actualMedicalText = actualMedicalText.substr(0, lastCharacter)
-                trozos.push(actualMedicalText);
-                this.actualPostition = (this.actualPostition+4999)-countDeleteCharacters;
-                //console.log('eliminados: '+countDeleteCharacters);
-                //console.log(actualMedicalText);
-                //console.log(this.actualPostition);
-              }
-
-              //console.log(trozos);
-              this.cantidadTrozos = trozos.length;
-              this.posicionTrozo = 0;
-              this.test(trozos, 0);
-
-              /*this.getSomethingFromAnAPI(trozos).subscribe(response => {
-
-                console.log(response);
-                console.log(posicionTrozo);
-                posicionTrozo++;
-                this.medicalText = this.medicalText.concat(" ");
-                var outString = (response[0].translations[0].text).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
-                this.medicalText = this.medicalText.concat(outString);
-                if(posicionTrozo==cantidadTrozos){
-                  //console.log('ha terminado');
-                  //console.log(this.medicalText);
-                  setTimeout(function () {
-                      this.callNCR();
-                  }.bind(this), 1000);
-
-                }
-              }, error => {
-                this.loadingHpoExtractor = false;
-                Swal.fire('', this.translate.instant("generics.error try again"), "error");
-                console.error(error);
-              });*/
-            }else{
-              this.subscription.add( this.apiDx29ServerService.getTranslationDictionary(testLangText)
-              .subscribe( (res : any) => {
-                Swal.close();
-                //console.log(res);
-                this.medicalText = res[0].translations[0].text;
-                this.callNCR();
-
-               }, (err) => {
-                 console.log(err);
-                 Swal.close();
-                 if(err.status==429){
-                   Swal.fire({
-                       title: this.translate.instant("generics.Please wait"),
-                       html: "<p>"+this.translate.instant("diagnosis.Msgwait")+"</p><i class='fa fa-spinner fa-spin fa-3x fa-fw pink'></i>",
-                       showCancelButton: false,
-                       showConfirmButton: false,
-                       allowOutsideClick: false
-                   }).then((result) => {
-
-                   });
-                   setTimeout(()=>{
-                     this.onSubmitToExtractor();
-                   }, 25000);
-                 }else{
-                   this.loadingHpoExtractor = false;
-                   this.toastr.error('', this.translate.instant("generics.error try again"));
-                 }
-               }));
-            }
-          }
-
-        }, (err) => {
-          console.log(err);
-          this.loadingHpoExtractor = false;
-          this.toastr.error('', this.translate.instant("generics.error try again"));
-        }));
-    }
-
-    public async test(trozos, index){
-      var error = false;
-      for(var i = this.posicionTrozo; i < trozos.length && !error; i++) {
-        var result = await this.apiDx29ServerService.getTranslationDictionary(trozos[i])
-        .toPromise()
-        .then(response => {
-          Swal.close();
-          console.log(response);
-          this.posicionTrozo++;
-          this.medicalText = this.medicalText.concat(" ");
-          var outString = (response[0].translations[0].text).replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
-          this.medicalText = this.medicalText.concat(outString);
-          if(this.posicionTrozo==this.cantidadTrozos){
-            //console.log('ha terminado');
-            //console.log(this.medicalText);
-            setTimeout(function () {
-                this.callNCR();
-            }.bind(this), 1000);
-
-          }
-        })
-        .catch(error => {
-          Swal.close();
-          console.log(error);
-          if(error.status==429){
-            Swal.fire({
-                title: this.translate.instant("generics.Please wait"),
-                html: "<p>"+this.translate.instant("diagnosis.Msgwait")+"</p><i class='fa fa-spinner fa-spin fa-3x fa-fw pink'></i>",
-                showCancelButton: false,
-                showConfirmButton: false,
-                allowOutsideClick: false
-            }).then((result) => {
-
-            });
-            error = true;
-            setTimeout(()=>{
-              this.test(trozos, this.posicionTrozo);
-            }, 25000);
-          }
-
-        });
-
-
+      let ngbModalOptions: NgbModalOptions = {
+            backdrop : 'static',
+            keyboard : false,
+            windowClass: 'ModalClass-sm'// xl, lg, sm
+      };
+      this.modalReference = this.modalService.open(contentExtractorSteps, ngbModalOptions);
+      /*this.documentIntoSentences = false;
+      this.translatingDocument = false;
+      this.extractingSymptoms =false;*/
+      this.substepExtract = '1';
+      var lang = this.authService.getLang();
+      if(this.langToExtract!=''){
+        lang = this.langToExtract;
       }
+      var jsontestLangText = { "text": this.medicalText };
+      this.subscription.add(this.apif29BioService.getSegmentation(lang,jsontestLangText)
+      .subscribe( (res : any) => {
+        this.resultSegmentation = res;
+        this.prepareCallNCR();
+
+     }, (err) => {
+       console.log(err);
+       //tratar el error
+       this.goToStep('2.0', true);
+     }));
     }
 
-
-    public getSomethingFromAnAPI(trozos: any[]): any {
-        return Observable.from(trozos).pipe(
-          concatMap(trozo =>
-            <Observable<any>> this.apiDx29ServerService.getTranslationDictionary(trozo) )
-
-        );
+    prepareCallNCR(){
+      if(this.langToExtract!='en'){
+        this.substepExtract = '2';
+        this.subscription.add(this.apif29BioService.getTranslationDictionary('en',this.resultSegmentation)
+        .subscribe( (res : any) => {
+          this.resultSegmentation = res;
+          this.callNCR();
+       }, (err) => {
+         console.log(err);
+         this.goToStep('2.0', true);
+       }));
+      }else{
+        this.callNCR();
+      }
     }
 
     continueToGenes(){
@@ -2010,12 +2762,21 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
             keyboard : false,
-            windowClass: 'ModalClass-xl'
+            windowClass: 'ModalClass-lg'// xl, lg, sm
       };
       this.modalReference = this.modalService.open(contentAddTextSymptoms, ngbModalOptions);
     }
 
     showPanelFeedback(contentFeedback){
+      this.modalReference = this.modalService.open(contentFeedback);
+    }
+
+    showPanelCalculationsDetails(contentFeedback){
+      this.tempVcfBlobName = this.settingExomizer.VcfBlobName.substr(this.settingExomizer.VcfBlobName.lastIndexOf('/'));
+      this.tempVcfBlobName = this.tempVcfBlobName.split(("/"))[1];
+      if(!this.isgen || this.tempVcfBlobName == undefined){
+        this.tempVcfBlobName = ''
+      }
       this.modalReference = this.modalService.open(contentFeedback);
     }
 
@@ -2051,6 +2812,19 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }
     }
 
+    deleteSymptom(symptom, index2, disease){
+      var index = -1;
+      var found = false;
+      for(var i=0;i<this.phenotype.data.length;i++)
+        {
+          if(symptom.id==this.phenotype.data[i].id){
+            index= i;
+            found = true;
+            this.confirmDeletePhenotype2(index, index2, disease);
+          }
+        }
+    }
+
     hasSymptomsToSave(){
       if(this.phenotype.data.length>0){
         this.saveSymptomsToDb();
@@ -2061,7 +2835,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
     saveSymptomsToDb() {
-      console.log("save symptoms to Db");
       this.loadingGeno = false;
       if(this.authGuard.testtoken()){
         this.sending = true;
@@ -2086,6 +2859,9 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             this.sending = false;
             //this.toastr.success('', this.msgDataSavedOk);
             this.loadSymptoms();
+            if(!this.isNew){
+              this.loadFilesContainer(true);
+            }
 
            }, (err) => {
              console.log(err);
@@ -2102,6 +2878,9 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             //this.toastr.success('', this.msgDataSavedOk);
             this.sending = false;
             this.loadSymptoms();
+            if(!this.isNew){
+              this.loadFilesContainer(true);
+            }
 
            }, (err) => {
              console.log(err.error);
@@ -2117,7 +2896,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
     onSubmit() {
-      console.log("On submit")
       if(this.authGuard.testtoken()){
         this.sending = true;
         //remove the new property
@@ -2179,21 +2957,26 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }
     }
 
+    confirmDeletePhenotypeGroup(index1, index2){
+      var indexElement = this.searchService.searchIndex(this.phenotype.data,'id', this.listOfSymptomGroups[index1].symptoms[index2].id);
+      this.confirmDeletePhenotype(indexElement);
+    }
+
     confirmDeletePhenotype(index){
       Swal.fire({
-          title: this.translate.instant("generics.Are you sure?"),
+          title: this.translate.instant("generics.Are you sure delete")+" "+this.phenotype.data[index].name+" ?",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#0CC27E',
           cancelButtonColor: '#f9423a',
-          confirmButtonText: this.translate.instant("generics.Delete"),
-          cancelButtonText: this.translate.instant("generics.No, cancel"),
+          confirmButtonText: this.translate.instant("generics.Accept"),
+          cancelButtonText: this.translate.instant("generics.Cancel"),
           showLoaderOnConfirm: true,
-          allowOutsideClick: false
+          allowOutsideClick: false,
+          reverseButtons:true
       }).then((result) => {
         if (result.value) {
           this.phenotype.data.splice(index, 1);
-          console.log("phenotype delete OK");
           this.isDeletingPhenotype=true;
           this.saveSymptomsToDb();
         }
@@ -2201,301 +2984,48 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
     }
 
+    confirmDeletePhenotype2(index, index2, disease){
+      Swal.fire({
+          title: this.translate.instant("generics.Are you sure delete")+" "+this.phenotype.data[index].name+" ?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#0CC27E',
+          cancelButtonColor: '#f9423a',
+          confirmButtonText: this.translate.instant("generics.Accept"),
+          cancelButtonText: this.translate.instant("generics.Cancel"),
+          showLoaderOnConfirm: true,
+          allowOutsideClick: false,
+          reverseButtons:true
+      }).then((result) => {
+        if (result.value) {
+          this.phenotype.data.splice(index, 1);
+          this.isDeletingPhenotype=true;
+          this.saveSymptomsToDb();
+          this.selectedDisease = -1;
+          this.showMoreInfoDisease(index2, disease);
+        }
+      });
+
+    }
+
     deleteAllSymtoms(){
       Swal.fire({
-          title: this.translate.instant("generics.Are you sure?"),
+          title: this.translate.instant("generics.Are you sure delete"),
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#0CC27E',
           cancelButtonColor: '#f9423a',
           confirmButtonText: this.translate.instant("phenotype.Delete all symptoms"),
-          cancelButtonText: this.translate.instant("generics.No, cancel"),
+          cancelButtonText: this.translate.instant("generics.No"),
           showLoaderOnConfirm: true,
-          allowOutsideClick: false
+          allowOutsideClick: false,
+          reverseButtons:true
       }).then((result) => {
         if (result.value) {
           this.phenotype.data = [];
           this.onSubmit();
-          //this.getRelatedConditions();
         }
       });
-    }
-
-    goToGenesStep(){
-      //comprobar genes
-      if(document.getElementById("idShowPanelGenes")!=null){
-        document.getElementById("idShowPanelGenes").click();
-      }
-      //this.loadGenes();
-    }
-
-
-    loadGenes(){
-      this.getAzureBlobSasToken();
-      this.blob.loadFilesOnBlobExomizer(this.accessToken.containerName,null);
-    }
-
-    getAzureBlobSasToken(){
-      this.accessToken.containerName = this.authService.getCurrentPatient().sub.substr(1);
-      this.accessToken.patientId = this.authService.getCurrentPatient().sub;
-      this.subscription.add( this.apiDx29ServerService.getAzureBlobSasToken(this.accessToken.containerName)
-      .subscribe( (res : any) => {
-        //console.log(res);
-        this.accessToken.sasToken = '?'+res;
-        this.blob.init(this.accessToken);
-        this.blobped.init(this.accessToken);
-        this.loadBlobFiles();
-        /*
-        this.initVariables();
-        this.loadSymptoms();
-        this.getDiagnosisInfo();
-        */
-      }, (err) => {
-        console.log(err);
-      }));
-    }
-
-    loadBlobFiles(){
-      this.subscription.add( this.blob.change.subscribe(uploaded => {
-         this.uploaded = uploaded;
-         console.log("subscription blob")
-         this.uploadingGenotype = false;
-       }));
-
-       this.subscription.add(this.blob.changeFilesBlob.subscribe(filesOnBlob => {
-         if(filesOnBlob.length>0){
-           filesOnBlob.sort(this.sortService.DateSort("lastModified"));
-         }
-         var mindate = 0;
-         for (var i = 0; i < filesOnBlob.length; i++) {
-           if(((filesOnBlob[i].name).indexOf('.vcf')!=-1)&&((filesOnBlob[i].name).indexOf('vcf/')!=-1)){
-             var d = new Date(filesOnBlob[i].lastModified);
-             //this.filename = filesOnBlob[i].name;
-             if(mindate<d.getTime()){
-               this.filename = filesOnBlob[i].name;
-               mindate = d.getTime();
-             }
-           }
-         }
-
-         if(this.uploaded){
-           if(document.getElementById("idShowPanelWorkbench")==null && document.getElementById("settingExomiser")==null){
-             //this.callExomizerSameVcf();
-           }else if(document.getElementById("settingExomiser")!=null){
-             this.blob.loadFilesOnNewBlobExomizerSetting(this.accessToken.containerName);
-           }
-         }else{
-           this.blob.loadFilesOnNewBlobExomizerSetting(this.accessToken.containerName);
-         }
-
-        }));
-
-       //si tiene VCF
-       this.subscription.add( this.blob.changeFilesExomizerBlobVcf.subscribe(vcfFilesOnBlob => {
-         this.loadingGeno = false;
-          if(vcfFilesOnBlob.length>0){
-           vcfFilesOnBlob.sort(this.sortService.DateSort("lastModified"));
-           for(var i=0;i<vcfFilesOnBlob.length;i++){
-             vcfFilesOnBlob[i].nameForShow=""
-           }
-           for(var i=0;i<vcfFilesOnBlob.length;i++){
-             if(vcfFilesOnBlob[i].name.indexOf('/')){
-               var sectionsVcfBlob = vcfFilesOnBlob[i].name.split('/');
-               vcfFilesOnBlob[i].nameForShow=sectionsVcfBlob[sectionsVcfBlob.length-1]
-             }
-             else{
-               vcfFilesOnBlob[i].nameForShow=vcfFilesOnBlob[i].name;
-             }
-           }
-           this.filesVcf = vcfFilesOnBlob;
-           this.filename = vcfFilesOnBlob[0].name;
-           this.hasVcf = true;
-           if(document.getElementById("idShowPanelWorkbench")!=null && document.getElementById("settingExomiser")==null){
-             //document.getElementById("idShowPanelWorkbench").click();
-           }
-          }else{
-            console.log('no tiene!');
-          }
-        }));
-
-        this.subscription.add( this.blob.changeFilesOnlyVcf.subscribe(vcfFilesOnBlob => {
-          this.loadingGeno = false;
-           if(vcfFilesOnBlob.length>0){
-             vcfFilesOnBlob.sort(this.sortService.DateSort("lastModified"));
-             for(var i=0;i<vcfFilesOnBlob.length;i++){
-               vcfFilesOnBlob[i].nameForShow=""
-             }
-             for(var i=0;i<vcfFilesOnBlob.length;i++){
-               if(vcfFilesOnBlob[i].name.indexOf('/')){
-                 var sectionsVcfBlob = vcfFilesOnBlob[i].name.split('/');
-                 vcfFilesOnBlob[i].nameForShow=sectionsVcfBlob[sectionsVcfBlob.length-1]
-               }
-               else{
-                 vcfFilesOnBlob[i].nameForShow=vcfFilesOnBlob[i].name;
-               }
-             }
-             this.filesVcf = vcfFilesOnBlob;
-             this.filename = vcfFilesOnBlob[0].name;
-             this.hasVcf = true;
-           }else{
-             console.log('no tiene!');
-           }
-         }));
-
-        //SI TIENE JSON DE EXOMIZER
-       this.subscription.add( this.blob.changeFilesExomizerBlob.subscribe(filesOnBlob => {
-         console.log(filesOnBlob);
-         this.loadingGeno = false;
-          this.filesOnBlob = filesOnBlob;
-          //console.log(this.filesOnBlob);
-          this.filesOnBlob.sort(this.sortService.DateSort("lastModified"));
-          if(this.filesOnBlob.length>0){
-            if(this.newVcf){
-              this.loadFromBlob();
-              //this.newVcf = false;
-            }else{
-              this.loadFromBlob();
-              //document.getElementById("idShowPanelWorkbench").click();
-            }
-          }else{
-            console.log('change blob exomiser no tiene!');
-            this.uploadingGenotype = false;
-          }
-          this.loading = false;
-        }));
-
-        //SI TIENE ped file
-        this.subscription.add( this.blobped.change.subscribe(uploaded => {
-           this.uploadingPed = !uploaded;
-           this.blobped.loadFilesPedOnBlob(this.accessToken.containerName);
-         }));
-
-        this.subscription.add( this.blobped.changeFilesPedBlob.subscribe(filesPedOnBlob => {
-           if(filesPedOnBlob.length>0){
-             filesPedOnBlob.sort(this.sortService.DateSort("lastModified"));
-             for(var i=0;i<filesPedOnBlob.length;i++){
-               filesPedOnBlob[i].nameForShow=""
-             }
-             for(var i=0;i<filesPedOnBlob.length;i++){
-               if(filesPedOnBlob[i].name.indexOf('/')){
-                 var sectionsPedBlob = filesPedOnBlob[i].name.split('/');
-                 filesPedOnBlob[i].nameForShow=sectionsPedBlob[sectionsPedBlob.length-1]
-               }
-               else{
-                 filesPedOnBlob[i].nameForShow=filesPedOnBlob[i].name;
-               }
-             }
-             this.pedNameForShow=filesPedOnBlob[0].nameForShow
-             this.settingExomizer.PedBlobName = filesPedOnBlob[0].name;
-           }else{
-            console.log('no tiene!');
-           }
-         }));
-
-
-        this.subscription.add( this.blob.changeNcrFilesPatientBlob.subscribe(filesNcr => {
-           if(filesNcr.length>0){
-             this.checkPrograms();
-           }else{
-            console.log('no tiene ncr!');
-           }
-         }));
-
-
-        this.subscription.add( this.blob.changeFilesPatientBlob.subscribe(filesPatientBlob => {
-           if(filesPatientBlob.length>0){
-             filesPatientBlob.sort(this.sortService.DateSort("lastModified"));
-             var listPatientFiles = [];
-             for(var i = 0; i < filesPatientBlob.length; i++) {
-               var indexFileExecution1 = filesPatientBlob[i].name.split("-");
-               var indexFileExecution2 =[];
-               if((i+1)<filesPatientBlob.length){
-                 indexFileExecution2 = filesPatientBlob[i+1].name.split("-");
-               }
-               var extension1 = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.lastIndexOf('.'));
-               var extension2 = null;
-               var ncrresultfiles = false;
-               if(filesPatientBlob[(i + 1)]==undefined){
-                 if(indexFileExecution2[0]!=undefined) indexFileExecution2[0] = null;
-                 else indexFileExecution2.push(null)
-               }else{
-                 extension2 = filesPatientBlob[i+1].name.substr(filesPatientBlob[i+1].name.lastIndexOf('.'));
-                 if(filesPatientBlob[i].ncrresult || filesPatientBlob[i+1].ncrresult){
-                   ncrresultfiles=true;
-                 }
-               }
-               if((indexFileExecution1[0] == indexFileExecution2[0]) && ncrresultfiles){
-                 if(extension1 == '.json'){
-                   var name = filesPatientBlob[i+1].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
-                   filesPatientBlob[i].simplename = name;
-                   listPatientFiles.push({origenFile:filesPatientBlob[i+1], ncrResults:filesPatientBlob[i]})
-                 }else{
-                   var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
-                   filesPatientBlob[i].simplename = name;
-                   listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i+1]})
-                 }
-                 i=i+1;
-               }else{
-                 if(extension1 == '.json'){
-                   var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
-                   filesPatientBlob[i].simplename = name;
-                   //listPatientFiles.push({origenFile:undefined, ncrResults:filesPatientBlob[i]})
-                   listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i]})
-                 }else{
-                   var name = filesPatientBlob[i].name.substr(filesPatientBlob[i].name.indexOf('-')+1)
-                   filesPatientBlob[i].simplename = name;
-                   //listPatientFiles.push({origenFile:undefined, ncrResults:filesPatientBlob[i]})
-                   listPatientFiles.push({origenFile:filesPatientBlob[i], ncrResults:filesPatientBlob[i]})
-                 }
-                 //i=i+1;
-               }
-             }
-             for(var i=0;i<listPatientFiles.length;i++){
-               listPatientFiles[i].origenFile.nameForShow=""
-             }
-             for(var i=0;i<listPatientFiles.length;i++){
-               if(listPatientFiles[i].origenFile.simplename!=undefined){
-                 if(listPatientFiles[i].origenFile.simplename.indexOf('/')!=-1){
-                   var sectionslistPatientFiles = listPatientFiles[i].origenFile.simplename.split('/');
-                   listPatientFiles[i].origenFile.nameForShow=sectionslistPatientFiles[sectionslistPatientFiles.length-1]
-                 }
-                 else{
-                   listPatientFiles[i].origenFile.nameForShow=listPatientFiles[i].origenFile.simplename;
-                 }
-               }
-             }
-             this.listPatientFiles = listPatientFiles;
-            // this.urlFileHtmlExomiserBlob = this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+filesPatientBlob[0].name+this.accessToken.sasToken;
-           }else{
-            console.log('no tiene!');
-            this.listPatientFiles = [];
-           }
-           Swal.close();
-           let ngbModalOptions: NgbModalOptions = {
-                 windowClass: 'ModalClass-lg',
-                 centered: true
-           };
-           this.modalReference = this.modalService.open(this.contentDownloadFiles, ngbModalOptions);
-         }));
-
-
-
-       this.subscription.add( this.blob.changeFilesHtmlExomiserBlob.subscribe(filesHtmlExomiserBlob => {
-          if(filesHtmlExomiserBlob.length>0){
-            this.loadingFileHtmlExomiserBlob = false;
-            filesHtmlExomiserBlob.sort(this.sortService.DateSort("lastModified"));
-            this.urlFileHtmlExomiserBlob = this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+filesHtmlExomiserBlob[0].name+this.accessToken.sasToken;
-          }else{
-            this.loadingFileHtmlExomiserBlob = false;
-           console.log('no tiene!');
-          }
-        }));
-
-        //console.log(this.accessToken);
-        this.blob.createContainerIfNotExists(this.accessToken, 'ncr');
-        this.blob.createContainerIfNotExists(this.accessToken, '');
-        this.blob.loadFilesOnBlobExomizer(this.accessToken.containerName,null);
-        this.getLastPhen2GenesResults();
     }
 
     selectScoreColor(element){
@@ -2794,26 +3324,27 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           }
           this.loadingTable=false;
 
-
+          if(this.actualStep == '3.1'){
+            this.getRelatedConditionsview(true);
+            //this.getRelatedConditions();
+          }
           if(document.getElementById("idShowPanelWorkbench")!=null){
-            document.getElementById("idShowPanelWorkbench").click();
+            //document.getElementById("idShowPanelWorkbench").click();
             this.checkServices();
             this.checkPrograms();
           }else{
-            document.getElementById("buttonChangeTab").click();
+            //document.getElementById("buttonChangeTab").click();
           }
           this.uploadingGenotype = false;
 
 
           if(this.newVcf){
-            this.startDiagnosis();
+            //this.startDiagnosis();
             this.newVcf = false;
           }else{
             if(this.diagnosisInfo.infoGenesAndConditionsExomizer.length == 0){
-              //this.getRelatedConditions();
             }
             this.numberOfSymptoms = this.phenotype.data.length;
-            this.actualPosGen = 0;
             this.actualPosDisease = 0;
             this.globalPosDisease = 1;
             this.actualDisease = {};
@@ -2829,15 +3360,22 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
     callExomizerSameVcf(){
+      this.gettingRelatedConditions = true;
       // Check if there are any symptoms
       // If not: swal and not launch exomiser
-      if(this.phenotype.data.length==0){
-        Swal.fire({ title: this.translate.instant("diagnosis.titleNotCanLaunchExomiser"), html: this.translate.instant("diagnosis.msgNotCanLaunchExomiser"),icon:"info" })
+      var tempSymptomsExo = [];
+      for(var i=0;i<this.symptomsExomiser.length;i++){
+        if(this.symptomsExomiser[i].checked){
+          tempSymptomsExo.push(this.symptomsExomiser[i]);
+        }
+      }
+      if(tempSymptomsExo.length==0){
+        Swal.fire({ title: this.translate.instant("analysissection.nosymptoms"), text:  this.translate.instant("analysissection.needsymtoms"), confirmButtonText: this.translate.instant("generics.Accept"),icon:"warning" })
       }
       // If yes: launch exomiser
       else{
         this.uploadingGenotype = true;
-        this.getExomiserSettings();
+        this.getExomiserSettings(tempSymptomsExo);
         if(this.settingExomizer.VariantEffectFilters!=undefined){
           if(this.settingExomizer.VariantEffectFilters.remove!=undefined){
             if(this.settingExomizer.VariantEffectFilters.remove.length==0){
@@ -2845,12 +3383,15 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             }
           }
         }
+        this.settingExomizer.genomeAssembly='hg38';
         this.subscription.add(this.exomiserService.analyzeExomiser(this.settingExomizer)
         .subscribe( (res : any) => {
           this.subscription.add( this.apiDx29ServerService.setPendingJobs(this.accessToken.patientId,this.exomiserService.getActualToken())
           .subscribe( (res : any) => {
             //this.getExomizer(this.accessToken.patientId);
             this.checkExomiser()
+            var exoservice = {patientId: this.accessToken.patientId, token: this.exomiserService.getActualToken(), patientName: this.selectedPatient.patientName}
+            this.eventsService.broadcast('exoservice', exoservice);
             //alert("Create pending job with token:"+this.exomiserService.getActualToken)
 
           }, (err) => {
@@ -2867,7 +3408,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
     getExomizer(patientId){
-      console.log("getExomizer")
       this.subscription.add(this.exomiserService.getExomiserResults()
       .subscribe( (res2 : any) => {
         if(this.uploadingGenotype){
@@ -2937,7 +3477,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             //this.filename=filename;
             this.blob.loadFilesVCF(this.accessToken.containerName);
           }else{
-            Swal.fire('The VCF file must have .vcf extension or .vcf.gz', '', "error");
+            Swal.fire(this.translate.instant("diagnosis.The VCF file must have"), '', "error");
           }
 
 
@@ -2949,68 +3489,27 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
     startDiagnosis(){
       //this.subscription.unsubscribe();
-      this.actualPosGen = 0;
       this.actualPosDisease = 0;
       this.globalPosDisease = 1;
       this.actualDisease = {};
       this.unknownSymptoms = [];
       this.symptomsLoaded = [];
       this.numberOfSymptoms = this.phenotype.data.length;
-      this.getSymptomsOfDisease('Forward', 'actual');
+      this.getSymptomsOfDisease();
       document.getElementById("openModalButton").click();
     }
 
-    editDiagnosis(){
-      this.infoGenesAndConditions = this.infoGenesAndConditionsExomizer;
+    editDiagnosis(contentRelatedConditions){
+      this.infoGenesAndConditions = this.relatedConditions;
 
-      this.sizeOfDiseases = 0;
-      for (var i = 0; i < this.infoGenesAndConditions.length; i++) {
-        if(this.infoGenesAndConditions[i].data.length>0){
-          for (var j = 0; j < this.infoGenesAndConditions[i].data.length; j++) {
-            this.sizeOfDiseases++;
-          }
-        }
-      }
-      this.actualPosGen = 0;
+      this.sizeOfDiseases = this.relatedConditions.length;
       this.actualPosDisease = 0;
       this.globalPosDisease = 1;
       this.actualDisease = {};
       this.unknownSymptoms = [];
       this.symptomsLoaded = [];
-      document.getElementById("buttonChangeTab").click();
-      while(this.infoGenesAndConditions[this.actualPosGen].data.length==0){
-        //console.log('no info for:' + this.infoGenesAndConditions[this.actualPosGen].name);
-        this.actualPosGen++;
-      }
-      //console.log(this.infoGenesAndConditions[this.actualPosGen].data[this.actualPosDisease]);
-      if (typeof this.infoGenesAndConditions[this.actualPosGen].data[this.actualPosDisease].symptoms == 'undefined') {
-        this.getSymptomsOfDisease('Forward', 'actual');
-      }else{
-        this.actualDisease = this.infoGenesAndConditions[this.actualPosGen].data[this.actualPosDisease];
-      }
+      this.getSymptomsOfDisease();
       document.getElementById("openModalButton").click();
-    }
-
-    selectOldVcf(contentSelectVcf){
-      if(this.filesVcf){
-        if(this.filesVcf.length>1){
-          let ngbModalOptions: NgbModalOptions = {
-            windowClass: 'ModalClass-lg'
-          };
-          this.modalReference = this.modalService.open(contentSelectVcf, ngbModalOptions);
-        }else{
-          this.launchExomizerOldVcf();
-        }
-      }else{
-        this.launchExomizerOldVcf();
-      }
-    }
-
-    launchExomizerOldVcf(){
-      this.relatedConditions = [];
-      this.infoGenesAndConditionsExomizer = [];
-      this.saveNotes();
-      this.callExomizerSameVcf();
     }
 
     cancelExomiser(place){
@@ -3023,20 +3522,19 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           confirmButtonText: this.translate.instant("generics.Yes"),
           cancelButtonText: this.translate.instant("generics.No"),
           showLoaderOnConfirm: true,
-          allowOutsideClick: false
+          allowOutsideClick: false,
+          reverseButtons:true
       }).then((result) => {
         if (result.value) {
-          console.log("Cancel exomiser")
           this.uploadingGenotype = false;
           if(place=='wizard'){
-            console.log(this.filename);
             this.filename = '';
           }
           this.cancelSubscription();
 
           //preguntar si quiere eliminar el file
           Swal.fire({
-              title: 'Do you want to delete the VCF file?',
+              title: this.translate.instant("diagnosis.Do you want to delete the VCF file"),
               icon: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#0CC27E',
@@ -3044,11 +3542,11 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
               confirmButtonText: this.translate.instant("generics.Yes"),
               cancelButtonText: this.translate.instant("generics.No"),
               showLoaderOnConfirm: true,
-              allowOutsideClick: false
+              allowOutsideClick: false,
+              reverseButtons:true
           }).then((result) => {
             if (result.value) {
               if(place=='workbench'){
-                console.log(this.filename);
                 this.filename = '';
               }
               this.blob.deleteBlob(this.accessToken.containerName , this.filename);
@@ -3076,240 +3574,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       this.loadFromBlob();
     }
 
-    getSymptomsOfDisease(direction, state){
-      var posGen = this.actualPosGen;
-      var posDisease = this.actualPosDisease;
-      if(state== 'next'){
-        posGen = this.nextPosGen;
-        posDisease = this.nextPosDisease;
-      }
-
-      //this.loadingSymptomsOfDisease = true;
-      while(this.infoGenesAndConditions[posGen].data.length==0){
-        //console.log('no info for:' + this.infoGenesAndConditions[this.actualPosGen].name);
-        posGen++;
-      }
-
-      var temporalDisease = this.infoGenesAndConditions[posGen].data[posDisease];
-      if(state != 'next'){
-        this.actualDisease = this.infoGenesAndConditions[posGen].data[posDisease];
-      }else{
-        this.nextDisease = this.infoGenesAndConditions[posGen].data[posDisease];
-      }
-
-      var idOriginOmim = '';
-      var idOriginOrpha = '';
-      idOriginOmim = temporalDisease.idOMIM;
-      idOriginOrpha = temporalDisease.idOrphanet;
-      var hpolist =[];
-      var lang = this.authService.getLang();
-      if(idOriginOmim!=null && idOriginOrpha!= null){
-        this.subscription.add(this.apif29BioService.getSymptomsOfDisease(lang,[idOriginOmim],0)
-        .subscribe( (res0 : any) => {
-          var info0;
-          for(var kinit in res0) {
-            info0= res0[kinit]
-          }
-          var listOfSymptoms0;
-          if(info0!=undefined){
-            listOfSymptoms0 = info0.phenotypes
-            if(Object.keys(listOfSymptoms0).length>0){
-              for(var k0 in listOfSymptoms0) {
-                 hpolist.push(k0);
-               }
-             }
-          }
-
-          if(idOriginOrpha!=null){
-            this.subscription.add(this.apif29BioService.getSymptomsOfDisease(lang,[idOriginOrpha],0)
-            .subscribe( (res1 : any) => {
-              //this.loadingSymptomsOfDisease = false;
-              var info1;
-              for(var kinit in res1) {
-                info1= res1[kinit]
-              }
-              if(info1!=undefined){
-                var listOfSymptoms1 = info1.phenotypes
-                if(listOfSymptoms1>0){
-                  for(var k1 in listOfSymptoms1) {
-                    var foundid = false;
-                    for(var k0 in listOfSymptoms0) {
-                      if(k1==k0){
-                        foundid=true;
-                        break;
-                      }
-                    }
-                    if(!foundid){
-                      hpolist.push(k1);
-                    }
-                   }
-                  this.getInforHpos(direction, state, posGen, posDisease, hpolist);
-                }else{
-
-                  if(listOfSymptoms0!=undefined){
-                    if(Object.keys(listOfSymptoms0).length>0){
-                      this.getInforHpos(direction, state, posGen, posDisease, hpolist);
-                    }else{
-                      if(state != 'next'){
-                        if(direction=='Forward'){
-                          this.getNextDisease();
-                        }else{
-                          this.getPreviousDiseasepo();
-                        }
-                      }else{
-                        this.loadNextDisease(this.nextPosGen, this.nextPosDisease);
-                      }
-
-                    }
-                  }else{
-                    if(state != 'next'){
-                      if(direction=='Forward'){
-                        this.getNextDisease();
-                      }else{
-                        this.getPreviousDiseasepo();
-                      }
-                    }else{
-                      this.loadNextDisease(this.nextPosGen, this.nextPosDisease);
-                    }
-                  }
-                }
-              }else{
-                if(listOfSymptoms0!=undefined){
-                  if(Object.keys(listOfSymptoms0).length>0){
-                    this.getInforHpos(direction, state, posGen, posDisease, hpolist);
-                  }else{
-                    if(state != 'next'){
-                      if(direction=='Forward'){
-                        this.getNextDisease();
-                      }else{
-                        this.getPreviousDiseasepo();
-                      }
-                    }else{
-                      this.loadNextDisease(this.nextPosGen, this.nextPosDisease);
-                    }
-
-                  }
-                }else{
-                  if(state != 'next'){
-                    if(direction=='Forward'){
-                      this.getNextDisease();
-                    }else{
-                      this.getPreviousDiseasepo();
-                    }
-                  }else{
-                    this.loadNextDisease(this.nextPosGen, this.nextPosDisease);
-                  }
-                }
-
-              }
-
-            }, (err) => {
-              console.log(err);
-              //tratar el error
-              this.reportError();
-              this.closeAndShowMsg();
-            }));
-          }else{
-            this.getInforHpos(direction, state, posGen, posDisease, hpolist);
-          }
-         }, (err) => {
-           console.log(err);
-           //tratar el error
-           this.reportError();
-           this.closeAndShowMsg();
-         }));
-      }else if(idOriginOmim!=null){
-        this.subscription.add(this.apif29BioService.getSymptomsOfDisease(lang,[idOriginOmim],0)
-        .subscribe( (res2 : any) => {
-          var info2;
-          for(var kinit in res2) {
-            info2= res2[kinit]
-          }
-          if(info2!=undefined){
-            var listOfSymptoms2 = info2.phenotypes
-            if(Object.keys(listOfSymptoms2).length>0){
-              for(var k2 in listOfSymptoms2) {
-                 hpolist.push(k2);
-               }
-                this.getInforHpos(direction, state, posGen, posDisease, hpolist);
-             }else{
-               if(state != 'next'){
-                 if(direction=='Forward'){
-                   this.getNextDisease();
-                 }else{
-                   this.getPreviousDiseasepo();
-                 }
-               }else{
-                 this.loadNextDisease(this.nextPosGen, this.nextPosDisease);
-               }
-             }
-          }else{
-            if(state != 'next'){
-              if(direction=='Forward'){
-                this.getNextDisease();
-              }else{
-                this.getPreviousDiseasepo();
-              }
-            }else{
-              this.loadNextDisease(this.nextPosGen, this.nextPosDisease);
-            }
-          }
-
-           //this.loadingSymptomsOfDisease = false;
-         }, (err) => {
-           console.log(err);
-           //tratar el error
-           this.reportError();
-           this.closeAndShowMsg();
-         }));
-      }else if(idOriginOrpha!= null){
-        this.subscription.add(this.apif29BioService.getSymptomsOfDisease(lang,[idOriginOrpha],0)
-          .subscribe( (res3 : any) => {
-            var info3;
-            for(var kinit in res3) {
-              info3= res3[kinit]
-            }
-            if(info3!=undefined){
-              var listOfSymptoms3 = info3.phenotypes
-              if(Object.keys(listOfSymptoms3).length>0){
-                for(var k3 in listOfSymptoms3) {
-                   hpolist.push(k3);
-                 }
-                  this.getInforHpos(direction, state, posGen, posDisease, hpolist);
-               }else{
-                 if(state != 'next'){
-                   if(direction=='Forward'){
-                     this.getNextDisease();
-                   }else{
-                     this.getPreviousDiseasepo();
-                   }
-                 }else{
-                   this.loadNextDisease(this.nextPosGen, this.nextPosDisease);
-                 }
-               }
-            }else{
-              if(state != 'next'){
-                if(direction=='Forward'){
-                  this.getNextDisease();
-                }else{
-                  this.getPreviousDiseasepo();
-                }
-              }else{
-                this.loadNextDisease(this.nextPosGen, this.nextPosDisease);
-              }
-            }
-
-             //this.loadingSymptomsOfDisease = false;
-          }, (err) => {
-            console.log(err);
-            //tratar el error
-            this.reportError();
-            this.closeAndShowMsg();
-          }));
-
-      }
-    }
-
     closeAndShowMsg(){
       if(this.modalReference!=undefined){
         this.modalReference.close();
@@ -3317,299 +3581,93 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
        this.toastr.error('', this.translate.instant("generics.error try again"));
     }
 
-    getInforHpos(direction, state, posGen, posDisease, hpolist){
-      this.infoGenesAndConditions[posGen].data[posDisease].symptoms = [];
-
-      var hposStrins3 = [];
-      for(var i = 0; i < hpolist.length; i++) {
-          hposStrins3.push(hpolist[i]);
-      }
-      //content
-      this.getInforHposParts(direction, state, posGen, posDisease, hposStrins3);
-
-
-    }
-
-    getInforHposParts(direction, state, posGen, posDisease, httpParams2){
-      var lang = this.authService.getLang();
-      this.subscription.add(this.apif29BioService.getInfoOfSymptoms(lang,httpParams2)
-      .subscribe( (res : any) => {
-        var tamano= Object.keys(res).length;
-        if(tamano>0){
-          for(var k in res) {
-            var oneSymptom = {id:  res[k].id, name: res[k].name, def: res[k].desc, comment: res[k].comment, synonyms: res[k].synonyms}
-            var foundElement = this.searchService.search(this.phenotype.data,'id', oneSymptom.id);
-            if(!foundElement){
-              if(this.symptomsLoaded.indexOf(oneSymptom.id)==-1){
-                this.symptomsLoaded.push(oneSymptom.id);
-                this.infoGenesAndConditions[posGen].data[posDisease].symptoms.push({id: oneSymptom.id,name: oneSymptom.name, new: true, checked: 'false', percentile:-1, def: oneSymptom.def, comment: oneSymptom.comment, synonyms: oneSymptom.synonyms});
-              }
-            }
-          }
-        }
-
-
-        if(this.infoGenesAndConditions[posGen].data[posDisease].symptoms.length>0){
-          var hposStrins =[];
-            this.infoGenesAndConditions[posGen].data[posDisease].symptoms.forEach(function(element) {
-            hposStrins.push(element.id);
-          });
-
-          //this.idPhenotype = res.phenotype._id;
-          let httpParams = new HttpParams();
-          if(hposStrins.length>50){
-            //trocear, porque si no la url es muy larga y falla
-            var contador = Math.ceil(hposStrins.length / 50);
-
-            var posHposStrins = 0;
-            for(var i = 0; i < contador; i++) {
-              httpParams = new HttpParams();
-              for(var j = 0; i*contador < hposStrins.length && j<49 ; j++) {
-                if(hposStrins[posHposStrins]!=undefined){
-                  httpParams = httpParams.append('symtomCodes', hposStrins[posHposStrins]);
-                }
-                posHposStrins++;
-              }
-              this.loadPercentilesInfoGenesAndConditions(httpParams, state, posGen, posDisease);
-            }
-
-          }else{
-            hposStrins.forEach(id => {
-               httpParams = httpParams.append('symtomCodes', id);
-             });
-             this.loadPercentilesInfoGenesAndConditions(httpParams, state, posGen, posDisease);
-          }
-        }else{
-          if(state== 'next'){
-            this.loadNextDisease(posGen, posDisease);
-          }else{
-            if(direction=='Forward'){
-              this.getNextDisease();
-            }else{
-              this.getPreviousDiseasepo();
-            }
-          }
-        }
-
-       }, (err) => {
-         console.log(err);
-         //tratar el error
-         //this.reportError();
-       }));
-    }
-
     goTo(url){
       document.getElementById(url).scrollIntoView(true);
     }
 
+    getSymptomsOfDisease(){
+      for(var i = 0; i < this.infoGenesAndConditions.length; i++)
+        {
+          if(this.infoGenesAndConditions[i].symptoms.length>0)
+            {
+              for(var j = 0; j < this.infoGenesAndConditions[i].symptoms.length; j++)
+                {
+                  var enc = false;
+                  for (var k = 0; k < this.phenotype.data.length; k++) {
+                      if(this.phenotype.data[k].id == this.infoGenesAndConditions[i].symptoms[j].id){
+                        this.infoGenesAndConditions[i].symptoms[j].checked = true;
+                        enc = true;
+                      }
+                  }
+                  if(!enc){
+                    this.infoGenesAndConditions[i].symptoms[j].checked = false;
+                  }
+
+                }
+                this.infoGenesAndConditions[i].symptoms.sort(this.sortService.GetSortOrderInverse("checked"));
+            }
+        }
+
+      if(this.infoGenesAndConditions[this.actualPosDisease].symptoms==0) {
+        this.getNextDisease();
+      }else{
+        this.actualDisease = this.infoGenesAndConditions[this.actualPosDisease];
+      }
+
+    }
+
     getNextDisease(){
-      console.log('entra getActualDisease');
-      if(this.infoGenesAndConditions[this.actualPosGen]){
-        if(this.actualPosDisease<(this.infoGenesAndConditions[this.actualPosGen].data.length)-1){
-          this.actualPosDisease++;
-        }else if(this.actualPosDisease==(this.infoGenesAndConditions[this.actualPosGen].data.length)-1){
-          this.actualPosDisease = 0;
-          this.actualPosGen++;
-        }
-        if(this.infoGenesAndConditions[this.actualPosGen].data.length == 0){
-          this.actualPosDisease = 0;
-          this.actualPosGen++;
-          this.getNextDisease();
-        }else{
-          this.globalPosDisease++;
-          if(this.globalPosDisease<this.sizeOfDiseases){
-            if (typeof this.infoGenesAndConditions[this.actualPosGen].data[this.actualPosDisease].symptoms == 'undefined') {
-              this.getSymptomsOfDisease('Forward', 'actual');
-              if(this.numToLoad==0){
-                if(this.infoGenesAndConditions[this.nextPosGen] != undefined){
-                  if(this.nextPosDisease<(this.infoGenesAndConditions[this.nextPosGen].data.length)-1){
-                    this.nextPosDisease++;
-                  }else if(this.nextPosDisease==(this.infoGenesAndConditions[this.nextPosGen].data.length)-1){
-                    this.nextPosDisease = 0;
-                    this.nextPosGen++;
-                  }
-                }
-
-                if(this.infoGenesAndConditions[this.nextPosGen] != undefined){
-                  if(this.infoGenesAndConditions[this.nextPosGen].data.length == 0){
-                    this.nextPosDisease = 0;
-                    this.nextPosGen++;
-                  }else{
-                    this.numToLoad++;
-                  }
-                }
-                this.loadNextDisease(this.nextPosGen, this.nextPosDisease);
-              }
-            }else{
-              this.numToLoad++;
-              this.actualDisease = this.infoGenesAndConditions[this.actualPosGen].data[this.actualPosDisease];
-              this.cambiarOrdenSintomas();
-              if(this.infoGenesAndConditions[this.actualPosGen].data[this.actualPosDisease].symptoms==0){
-                this.getNextDisease();
-              }else{
-                this.loadNextDisease(this.actualPosGen, this.actualPosDisease);
-              }
-            }
-          }
-
-        }
-      }
-
-
       this.goTo('idHeader');
+      if(this.actualPosDisease<(this.infoGenesAndConditions.length)-1){
+        this.actualPosDisease++;
+      }
+      this.actualDisease = this.infoGenesAndConditions[this.actualPosDisease];
+      if (this.actualDisease.symptoms>0){
+        this.actualDisease.symptoms.sort(this.sortService.GetSortOrder("name"));
+        this.actualDisease.symptoms.sort(this.sortService.GetSortOrderInverse("checked"));
+      }
+
+      if (this.actualDisease.symptoms==0 && this.actualPosDisease<(this.infoGenesAndConditions.length)-1) {
+        this.getNextDisease();
+      }
     }
 
-    loadNextDisease(pos1, pos2){
-      if(pos1==undefined){
-        this.nextPosGen = this.actualPosGen;
-        this.nextPosDisease = this.actualPosDisease;
-      }else{
-        this.nextPosGen = pos1;
-        this.nextPosDisease = pos2;
-      }
-      //this.actualPosGen = pos1;
-      //this.actualPosDisease = pos2;
-      if(this.infoGenesAndConditions[this.nextPosGen] != undefined){
-        if(this.nextPosDisease<(this.infoGenesAndConditions[this.nextPosGen].data.length)-1){
-          this.nextPosDisease++;
-        }else if(this.nextPosDisease==(this.infoGenesAndConditions[this.nextPosGen].data.length)-1){
-          this.nextPosDisease = 0;
-          this.nextPosGen++;
-        }
-      }
-
-      if(this.infoGenesAndConditions[this.nextPosGen] != undefined){
-        if(this.infoGenesAndConditions[this.nextPosGen].data.length == 0){
-          this.nextPosDisease = 0;
-          this.nextPosGen++;
-          this.loadNextDisease(this.nextPosGen, this.nextPosDisease);
-        }else{
-        //  this.globalPosDisease++;
-          if(this.globalPosDisease<this.sizeOfDiseases){
-            if (typeof this.infoGenesAndConditions[this.nextPosGen].data[this.nextPosDisease].symptoms == 'undefined') {
-              this.getSymptomsOfDisease('Forward', 'next');
-            }else{
-              //this.actualDisease = this.infoGenesAndConditions[nextPosGen].data[nextPosDisease];
-              if(this.infoGenesAndConditions[this.nextPosGen].data[this.nextPosDisease].symptoms==0){
-                this.loadNextDisease(this.nextPosGen, this.nextPosDisease);
-              }
-            }
-          }else{
-            console.log('el fin');
-          }
-
-        }
-      }
-
-
-    }
-
-    getPreviousDiseasepo(){
-      if(this.actualPosDisease!=0){
+    getPreviousDisease(){
+      this.goTo('idHeader');
+      if(this.actualPosDisease>0){
         this.actualPosDisease--;
-      }else if(this.actualPosDisease==0 && this.actualPosGen !=0){
-        this.actualPosGen--;
-        this.actualPosDisease = this.infoGenesAndConditions[this.actualPosGen].data.length-1;
       }
-      if(this.actualPosGen !=0 || (this.actualPosGen ==0 && this.actualPosDisease!=0) || (this.actualPosGen ==0 && this.actualPosDisease==0 && this.infoGenesAndConditions[this.actualPosGen].data.length != 0)){
-        if(this.infoGenesAndConditions[this.actualPosGen].data.length == 0){
-          if(this.actualPosGen>0){
-            this.actualPosGen--;
-            if(this.infoGenesAndConditions[this.actualPosGen].data.length>0){
-              this.actualPosDisease = this.infoGenesAndConditions[this.actualPosGen].data.length-1;
-            }else{
-              this.actualPosDisease = 0;
-            }
-
-            this.getPreviousDiseasepo();
-          }
-
-        }else{
-          if(this.globalPosDisease>0){
-            this.globalPosDisease--;
-            if (typeof this.infoGenesAndConditions[this.actualPosGen].data[this.actualPosDisease].symptoms == 'undefined') {
-              this.getSymptomsOfDisease('back', 'actual');
-            }else{
-              this.actualDisease = this.infoGenesAndConditions[this.actualPosGen].data[this.actualPosDisease];
-              this.cambiarOrdenSintomas();
-              if(this.infoGenesAndConditions[this.actualPosGen].data[this.actualPosDisease].symptoms==0){
-                this.getPreviousDiseasepo();
-              }
-            }
-          }
-
-        }
+      this.actualDisease = this.infoGenesAndConditions[this.actualPosDisease];
+      if (this.actualDisease.symptoms>0){
+        this.actualDisease.symptoms.sort(this.sortService.GetSortOrder("name"));
+        this.actualDisease.symptoms.sort(this.sortService.GetSortOrderInverse("checked"));
       }
-      this.goTo('idHeader');
-    }
-
-    getPreviousDisease(PosGen,PosDisease){
-      this.goTo('idHeader');
-      var copyActualactualPosGen= 0;
-      var copyActualPosDisease = 0;
-      if(PosGen== undefined || PosGen == undefined){
-        copyActualactualPosGen = this.actualPosGen;
-        copyActualPosDisease = this.actualPosDisease;
-      }else{
-        copyActualactualPosGen = PosGen;
-        copyActualPosDisease = PosDisease;
+      if (this.actualDisease.symptoms==0 && this.actualPosDisease>0) {
+        this.getPreviousDisease();
       }
-      if(copyActualPosDisease!=0){
-        copyActualPosDisease--;
-      }else if(copyActualPosDisease==0 && copyActualactualPosGen !=0){
-        copyActualactualPosGen--;
-        copyActualPosDisease = this.infoGenesAndConditions[copyActualactualPosGen].data.length-1;
-      }
-      this.actualPosGen= copyActualactualPosGen;
-      this.actualPosDisease = copyActualPosDisease;
-
-      this.globalPosDisease--;
-      if(copyActualactualPosGen !=0 || (copyActualactualPosGen ==0 && copyActualPosDisease!=0) || (copyActualactualPosGen ==0 && copyActualPosDisease==0 && this.infoGenesAndConditions[copyActualactualPosGen].data.length != 0)){
-        if(this.infoGenesAndConditions[copyActualactualPosGen].data.length == 0){
-          copyActualactualPosGen--;
-          if(this.infoGenesAndConditions[copyActualactualPosGen].data.length>0){
-            copyActualPosDisease = this.infoGenesAndConditions[copyActualactualPosGen].data.length-1;
-          }else{
-            copyActualPosDisease = 0;
-          }
-
-          this.getPreviousDisease(copyActualactualPosGen, copyActualPosDisease);
-        }else{
-          if (typeof this.infoGenesAndConditions[copyActualactualPosGen].data[copyActualPosDisease].symptoms == 'undefined') {
-            //this.getSymptomsOfDisease('back', 'actual');
-            this.getPreviousDisease(copyActualactualPosGen, copyActualPosDisease);
-          }else{
-            this.nextDisease = this.infoGenesAndConditions[PosGen].data[PosDisease];
-            this.previousDisease = this.infoGenesAndConditions[copyActualactualPosGen].data[copyActualPosDisease];
-            this.cambiarOrdenSintomas();
-            if(this.infoGenesAndConditions[copyActualactualPosGen].data[copyActualPosDisease].symptoms==0){
-              this.getPreviousDisease(copyActualactualPosGen, copyActualPosDisease);
-            }
-          }
-        }
-      }
-
-
-      this.goTo('idHeader');
     }
 
     changeSymptomTrue(index){
-      this.actualDisease.symptoms[index].checked = 'true';
+      this.actualDisease.symptoms[index].checked = true;
       this.numberOfSymptoms++;
+      this.actualDisease.symptoms.sort(this.sortService.GetSortOrder("name"));
+      this.actualDisease.symptoms.sort(this.sortService.GetSortOrderInverse("checked"));
     }
 
     changeSymptomFalse(index){
-      this.actualDisease.symptoms[index].checked = 'false';
+      this.actualDisease.symptoms[index].checked = false;
       this.numberOfSymptoms--;
+      this.actualDisease.symptoms.sort(this.sortService.GetSortOrder("name"));
+      this.actualDisease.symptoms.sort(this.sortService.GetSortOrderInverse("checked"));
     }
 
     changeSymptomUnknownToFalse(index){
-      this.actualDisease.symptoms[index].checked = 'false';
+      this.actualDisease.symptoms[index].checked =false;
 
     }
 
     changeSymptomUnknown(index){
-      if(this.actualDisease.symptoms[index].checked == 'true'){
+      if(this.actualDisease.symptoms[index].checked == true){
         this.numberOfSymptoms--;
       }
       this.actualDisease.symptoms[index].checked = 'unknown';
@@ -3617,22 +3675,21 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
     finishDiagnosis(){
       var haschanged = false;
-      for (var i = 0; i < this.infoGenesAndConditions.length; i++) {
-        for (var j = 0; j < this.infoGenesAndConditions[i].data.length; j++) {
-          if (typeof this.infoGenesAndConditions[i].data[j].symptoms != 'undefined') {
-            for (var k = 0; k < this.infoGenesAndConditions[i].data[j].symptoms.length; k++) {
-              if(this.infoGenesAndConditions[i].data[j].symptoms[k].checked == 'true'){
-                var foundElement = this.searchService.search(this.phenotype.data,'id', this.infoGenesAndConditions[i].data[j].symptoms[k].id);
+        for (var j = 0; j < this.infoGenesAndConditions.length; j++) {
+          if (typeof this.infoGenesAndConditions[j].symptoms != 'undefined') {
+            for (var k = 0; k < this.infoGenesAndConditions[j].symptoms.length; k++) {
+              if(this.infoGenesAndConditions[j].symptoms[k].checked == true){
+                var foundElement = this.searchService.search(this.phenotype.data,'id', this.infoGenesAndConditions[j].symptoms[k].id);
                 if(!foundElement){
                   this.phenotype.data.push(
-                    {id: this.infoGenesAndConditions[i].data[j].symptoms[k].id,
-                      name: this.infoGenesAndConditions[i].data[j].symptoms[k].name,
+                    {id: this.infoGenesAndConditions[j].symptoms[k].id,
+                      name: this.infoGenesAndConditions[j].symptoms[k].name,
                       new: true,
                       checked: true,
-                      percentile: this.infoGenesAndConditions[i].data[j].symptoms[k].percentile,
-                      def: this.infoGenesAndConditions[i].data[j].symptoms[k].def,
-                      comment: this.infoGenesAndConditions[i].data[j].symptoms[k].comment,
-                      synonyms: this.infoGenesAndConditions[i].data[j].symptoms[k].synonyms,
+                      percentile: this.infoGenesAndConditions[j].symptoms[k].percentile,
+                      def: this.infoGenesAndConditions[j].symptoms[k].def,
+                      comment: this.infoGenesAndConditions[j].symptoms[k].comment,
+                      synonyms: this.infoGenesAndConditions[j].symptoms[k].synonyms,
                       inputType: 'proposed',
                       importance: '1',
                       polarity: '0'
@@ -3640,27 +3697,27 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
                       haschanged =true;
                 }
-              }else if(this.infoGenesAndConditions[i].data[j].symptoms[k].checked == 'unknown'){
+              }else if(this.infoGenesAndConditions[j].symptoms[k].checked == 'unknown'){
                 this.unknownSymptoms.push(
-                  {id: this.infoGenesAndConditions[i].data[j].symptoms[k].id,
-                    name: this.infoGenesAndConditions[i].data[j].symptoms[k].name,
+                  {id: this.infoGenesAndConditions[j].symptoms[k].id,
+                    name: this.infoGenesAndConditions[j].symptoms[k].name,
                     new: true,
                     checked: true,
-                    percentile: this.infoGenesAndConditions[i].data[j].symptoms[k].percentile,
-                    def: this.infoGenesAndConditions[i].data[j].symptoms[k].def,
-                    comment: this.infoGenesAndConditions[i].data[j].symptoms[k].comment,
-                    synonyms: this.infoGenesAndConditions[i].data[j].symptoms[k].synonyms,
+                    percentile: this.infoGenesAndConditions[j].symptoms[k].percentile,
+                    def: this.infoGenesAndConditions[j].symptoms[k].def,
+                    comment: this.infoGenesAndConditions[j].symptoms[k].comment,
+                    synonyms: this.infoGenesAndConditions[j].symptoms[k].synonyms,
                     inputType: 'proposed',
                     importance: '1',
                     polarity: '0'
                   });
 
                     haschanged =true;
-              }else if(this.infoGenesAndConditions[i].data[j].symptoms[k].checked == 'false'){
-                var foundElement = this.searchService.search(this.phenotype.data,'id', this.infoGenesAndConditions[i].data[j].symptoms[k].id);
+              }else if(this.infoGenesAndConditions[j].symptoms[k].checked == false){
+                var foundElement = this.searchService.search(this.phenotype.data,'id', this.infoGenesAndConditions[j].symptoms[k].id);
                 if(foundElement){
                   for(var m = 0; m < this.phenotype.data.length; m++) {
-                    if(this.phenotype.data[m].id==this.infoGenesAndConditions[i].data[j].symptoms[k].id){
+                    if(this.phenotype.data[m].id==this.infoGenesAndConditions[j].symptoms[k].id){
                       this.phenotype.data[m].checked=false;
                       haschanged =true;
                     }
@@ -3671,7 +3728,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             }
           }
         }
-      }
       if(this.modalReference!=undefined){
         this.modalReference.close();
       }
@@ -3680,6 +3736,11 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
          this.checksChanged = true;
        }
        if(haschanged || this.relatedConditions != []){
+         if(this.infoGenesAndConditions == this.infoGenesAndConditionsPhen2Genes){
+           this.getRelatedConditionsview(false);
+         }else{
+           this.getRelatedConditionsview(true);
+         }
          //this.getRelatedConditions();
        }
 
@@ -3702,21 +3763,16 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }
       this.unknownSymptoms = datadetcopy;
       this.phenotype.data.sort(this.sortService.GetSortOrder("name"));
-      //this.getRelatedConditions();
-    }
-
-    switchOriginEvent(event){
-      this.switchOrigin = event;
-      this.startDiagnosis();
     }
 
     resetSavedSymptoms(){
       this.phenotype = JSON.parse(JSON.stringify(this.phenotypeCopy));
       this.geneName = '';
-    //  this.getRelatedConditions();
     }
 
     addSymptomsManual(contentAddSymptomsManual){
+      this.listOfFilteredSymptoms = [];
+      this.modelTemp = '';
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
             keyboard : false,
@@ -3726,10 +3782,10 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
     getDiagnosisInfo(){
-      console.log("get diagnosis info")
+      this.loadingPotentialDiagnostics = true;
       this.accessToken.containerName = this.authService.getCurrentPatient().sub.substr(1);
       this.accessToken.patientId = this.authService.getCurrentPatient().sub;
-      this.blob.createContainerIfNotExists(this.accessToken, 'ncr');
+
       this.loadingDiagnosisInfo = true;
       var para= this.authService.getCurrentPatient();
       //cargar el fenotipo del usuario
@@ -3782,6 +3838,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             _id: null
           };
 
+          this.loadingPotentialDiagnostics = false;
+
         }else{
           this.diagnosisInfo = res.diagnosis
           this.infoGenesAndConditionsExomizer = this.diagnosisInfo.infoGenesAndConditionsExomizer;
@@ -3792,20 +3850,22 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           this.selectedItemsFilter = this.diagnosisInfo.selectedItemsFilter;
           if(this.relatedConditions.length>0){
             this.getSymptomsApi2();
+          }else{
+            this.loadingPotentialDiagnostics = false;
           }
         }
-
+        this.checkServices(); //esto habría que ponerlo en el topnavbar tb
        }, (err) => {
          console.log(err);
        }));
     }
 
-    saveNotes(){
-      console.log("save Notes")
+    saveNotes(showMsg){
       if(this.authGuard.testtoken() && !this.savingDiagnosis){
         this.savingDiagnosis = true;
         for(var i = 0; i < this.relatedConditions.length; i++) {
           delete this.relatedConditions[i].symptoms;
+          delete this.relatedConditions[i].xrefs;
           //delete this.relatedConditions[i].genes;
         }
         if(this.modalReference!=undefined){
@@ -3823,7 +3883,9 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             this.diagnosisInfo = res.diagnosis;
             this.savingDiagnosis = false;
             this.getSymptomsApi2();
-            //this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
+            if(showMsg){
+              this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
+            }
 
            }, (err) => {
              console.log(err);
@@ -3836,7 +3898,9 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             this.diagnosisInfo = res.diagnosis;
             this.savingDiagnosis = false;
             this.getSymptomsApi2();
-            //this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
+            if(showMsg){
+              this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
+            }
            }, (err) => {
              console.log(err.error);
              this.toastr.error('', this.translate.instant("generics.error try again"));
@@ -3847,7 +3911,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
     saveNotes2(){
-      console.log("save filters")
       if(this.authGuard.testtoken() && !this.savingDiagnosis){
         this.savingDiagnosis = true;
         var obtToSave = [];
@@ -3881,20 +3944,32 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
               this.temporalSymptoms[z].similarity = symptom.similarity;
             }
             this.temporalSymptoms[z].positions.push(symptom.positions[0]);
+            //this.temporalSymptoms[z].text.push(symptom.text)
             enc = true;
           }
         }
       }
     }
 
-    changeStateSymptom(index){
-      this.temporalSymptoms[index].checked = !(this.temporalSymptoms[index].checked);
+    changeStateSymptom(index, state){
+      this.temporalSymptoms[index].checked = !state;
     }
 
     callNCR(){
-    this.temporalSymptoms = [];
-      var jsonMedicalText = {"data": this.medicalText };
-      this.subscription.add(this.apif29NcrService.getNoSegmentation(jsonMedicalText)
+      this.temporalSymptoms = [];
+      var temporal = [];
+      if(this.resultSegmentation.segments){
+        for(var i = 0; i < this.resultSegmentation.segments.length; i++) {
+          if(this.langToExtract!='en'){
+            temporal.push({text:this.resultSegmentation.segments[i].target, source:this.resultSegmentation.segments[i].source});
+          }else{
+            temporal.push({text:this.resultSegmentation.segments[i].source});
+          }
+
+        }
+      }
+      this.substepExtract = '3';
+      this.subscription.add(this.apif29NcrService.getAnnotate_batch(temporal)
       .subscribe( (res : any) => {
         var docUrl= '';
         if(this.fileUploadInfo!=undefined){
@@ -3906,68 +3981,50 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         }
         var actualDate = Date.now();
         this.infoNcrToSave = {ncrVersion:environment.ncrVersion, originalText: this.medicalText, result: res, rejectedSymptoms: [], date: actualDate, docUrl: docUrl};
-        var infoNcr = res.result;
+        var infoNcr = res;
         if(res.message == 'Replica closed connection before replying' || res == null){
+          Swal.close();
           Swal.fire(this.translate.instant("generics.Warning"), 'Replica closed connection before replying', "error");
         }else if(res.message == 'Too many requests for service ncr-gpu (overloaded)'){
+          Swal.close();
           Swal.fire(this.translate.instant("generics.Warning"), 'Too many requests for service ncr-gpu (overloaded)', "error");
         }else{
           if(infoNcr.length>0){
-            infoNcr.sort(this.sortService.GetSortOrderNumberInverse("characters"));
             for(var i = 0; i < infoNcr.length; i++) {
-              var positions = [];
-              infoNcr[i].characters[0] = parseInt(infoNcr[i].characters[0])
-              infoNcr[i].characters[1] = parseInt(infoNcr[i].characters[1])
-              positions.push(infoNcr[i].characters);
-              var symptomExtractor = {id: infoNcr[i].id,name: infoNcr[i].concept, new: true, similarity: parseFloat(infoNcr[i].probability), positions: positions};
-              this.addTemporalSymptom(symptomExtractor, 'ncr');
+              if(infoNcr[i].phens.length>0){
+                infoNcr[i].phens.sort(this.sortService.GetSortOrderNumberInverse("characters"));
+              }
+
+              for(var j = 0; j < infoNcr[i].phens.length; j++) {
+                var positions = [];
+                infoNcr[i].phens[j].characters[0] = parseInt(infoNcr[i].phens[j].characters[0])
+                infoNcr[i].phens[j].characters[1] = parseInt(infoNcr[i].phens[j].characters[1])
+                positions.push(infoNcr[i].phens[j].characters);
+                var text = [];
+                if(infoNcr[i].source){
+                  text = [{positions: positions[0], text: infoNcr[i].text, source: infoNcr[i].source}];
+                }else{
+                  text = [{positions: positions[0], text: infoNcr[i].text}];
+                }
+
+                var symptomExtractor = {id: infoNcr[i].phens[j].id,name: infoNcr[i].phens[j].concept, new: true, similarity: parseFloat(infoNcr[i].phens[j].probability), positions: positions, text: text};
+                this.addTemporalSymptom(symptomExtractor, 'ncr');
+              }
+
               //this.addSymptom(symptomExtractor, 'auto')
             }
             this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
             //this.phenotype.data.sort(this.sortService.GetSortOrder("name"));
             //this.hasSymptomsToSave();
-            var resulttest = '';
             this.resultTextNcr = this.medicalText;
             this.resultTextNcrCopy = this.medicalText;
             this.copyResultTextNcr = this.medicalText;
-            var nextposition = 0;
-            //var tempores = infoNcr;
-
-            for(var j = 0; j < infoNcr.length; j++) {
-              var newTrozo = '';
-              var pos1 = infoNcr[j].characters[0];
-              var pos2 = infoNcr[j].characters[1];
-              if(nextposition == 0 && pos1>0){
-                newTrozo = this.resultTextNcr.substring(nextposition, (pos1-1));
-                resulttest = resulttest.concat(newTrozo);
-                nextposition = parseInt(pos2)+1;
-              }else if(nextposition<pos1 && pos1>0){
-                newTrozo = this.resultTextNcr.substring(nextposition, (pos1-1));
-                resulttest = resulttest.concat(newTrozo);
-                nextposition = parseInt(pos2)+1;
-              }else if (infoNcr[j-1]!=undefined){
-                if(nextposition != 0 && j>0 && ((parseInt(infoNcr[j-1].characters[1])+1) == parseInt(infoNcr[j].characters[0]))){
-                  nextposition = nextposition+ (pos2-pos1);
-                  newTrozo = this.resultTextNcr.substring(pos1, pos2);
-                }
-              }
-
-              newTrozo = this.resultTextNcr.substring(pos1, pos2);
-              var info = (infoNcr[j].concept).toString()+' --> ' +(infoNcr[j].id).toString();
-              newTrozo = ' <a href="https://monarchinitiative.org/phenotype/'+infoNcr[j].id+'" target="_blank" title="'+info.toString()+'">'+newTrozo+'</a> '
-              resulttest = resulttest.concat(newTrozo);
-
-              if(j==(infoNcr.length-1) && nextposition < this.resultTextNcr.length){
-                newTrozo = this.resultTextNcr.substring(nextposition, (this.resultTextNcr.length));
-                resulttest = resulttest.concat(newTrozo);
-              }
-            }
-            this.resultTextNcr = resulttest;
-            this.resultTextNcrCopy = resulttest;
             this.sortBySimilarity();
 
             this.medicalText ='';
             this.isNewNcrFile = true;
+            //var actualDate = Date.now();
+            //this.infoNcrToSave = {ncrVersion:environment.ncrVersion, originalText: '', result: {}, rejectedSymptoms: [], date: actualDate, docUrl: ''};
 
             //getInfo symptoms
             var hposStrins =[];
@@ -3975,20 +4032,34 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
               hposStrins.push(element.id);
             });
             this.callGetInfoTempSymptomsJSON(hposStrins);
-            //var actualDate = Date.now();
-            //this.infoNcrToSave = {ncrVersion:environment.ncrVersion, originalText: '', result: {}, rejectedSymptoms: [], date: actualDate, docUrl: ''};
-            document.getElementById("openModalSymptomsNcrButton").click();
-            this.changeTriggerHotjar('ncrresults_');
+           Swal.close();
+           this.substepExtract = '4';
+            /*document.getElementById("openModalSymptomsNcrButton").click();
+            this.changeTriggerHotjar('ncrresults_');*/
+            if(this.temporalSymptoms.length==0){
+              this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
+              if(this.modalReference!=undefined){
+                this.modalReference.close();
+              }
+            }else{
+              document.getElementById("openModalSymptomsNcrButton2").click();
+            }
+
           }else{
+            this.substepExtract = '4';
             this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
+            if(this.modalReference!=undefined){
+              this.modalReference.close();
+            }
           }
+
           this.loadingHpoExtractor = false;
         }
 
-       }, (err) => {
-         Swal.fire(this.translate.instant("generics.Warning"), err.error.message, "error");
-         this.loadingHpoExtractor = false;
-       }));
+     }, (err) => {
+       console.log(err);
+       Swal.close();
+     }));
     }
 
     callGetInfoTempSymptomsJSON(hposStrins){
@@ -3996,10 +4067,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       this.subscription.add(this.apif29BioService.getInfoSymptomsJSON(hposStrins,this.listOfphenotypesinfo)
       //this.subscription.add(this.apif29BioService.getInfoOfSymptoms(lang,hposStrins)
       .subscribe( (res2 : any) => {
-        console.log(res2);
 
         var tamano= Object.keys(res2).length;
-        console.log(tamano)
         if(tamano>0){
           var hposStrinsOld =[];
           for(var i in res2) {
@@ -4073,106 +4142,183 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
      }));
     }
 
-   onFileChangePDF(event)  {
-     if (event.target.files && event.target.files[0]) {
-       var reader = new FileReader();
-       reader.readAsDataURL(event.target.files[0]); // read file as data url
-       reader.onload = (event2:any) => { // called once readAsDataURL is completed
-         var the_url = event2.target.result
+    onFileChangePDF(event, contentExtractorSteps)  {
+      if (event.target.files && event.target.files[0]) {
+        var reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]); // read file as data url
+        reader.onload = (event2:any) => { // called once readAsDataURL is completed
+          var the_url = event2.target.result
 
-         var extension = (event.target.files[0]).name.substr((event.target.files[0]).name.lastIndexOf('.'));
-         if(event.target.files[0].type=='application/vnd.openxmlformats-officedocument.wordprocessingml.document' || extension == '.docx'){
-           this.loadFile(the_url,function(err,content){
-               if (err) { console.log(err);};
-               var doc = new Docxgen(content);
-               var text = doc.getFullText();
-               this.medicalText = text;
-               //this.callNCR();
-           }.bind(this))
-           this.fileUploadInfo = event.target.files[0];
-         }else if(event.target.files[0].type=='application/pdf' || extension == '.pdf' || extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif'){
-           this.parserObject.file = event.target.files[0]
-           if(extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif'){
-             this.parserObject.parserStrategy = 'OcrOnly';
-           }else{
-             this.parserObject.parserStrategy = 'Auto';
-           }
-           this.callParser();
+          var extension = (event.target.files[0]).name.substr((event.target.files[0]).name.lastIndexOf('.'));
+          extension= extension.toLowerCase();
+          this.langToExtract = '';
+          if(event.target.files[0].type=='application/vnd.openxmlformats-officedocument.wordprocessingml.document' || extension == '.docx'){
+            this.loadFile(the_url,function(err,content){
+                if (err) { console.log(err);};
+                var doc = new Docxgen(content);
+                var text = doc.getFullText();
+                this.detectLanguage(text, 'otherdocs', contentExtractorSteps);
+                this.medicalText = text;
+                this.showPanelExtractor = true;
+                this.expanded = true;
+            }.bind(this))
+            this.fileUploadInfo = event.target.files[0];
+          }else if(event.target.files[0].type=='application/pdf' || extension == '.pdf' || extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif'){
+            this.parserObject.file = event.target.files[0]
+            if(extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif'){
+              this.parserObject.parserStrategy = 'OcrOnly';
+            }else{
+              this.parserObject.parserStrategy = 'Auto';
+            }
 
-        }else{
-          Swal.fire('The uploaded file must have a .pdf, .docx extension, or image files', '', "error");
+            this.callParser(contentExtractorSteps);
+
+         }else{
+           Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "error");
+         }
+
         }
 
-       }
+      }
+    }
 
-     }
-   }
+    callParser(contentExtractorSteps){
+      Swal.fire({
+          title: this.translate.instant("generics.Please wait"),
+          html: '<i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>',
+          showCancelButton: false,
+          showConfirmButton: false,
+          allowOutsideClick: false
+      }).then((result) => {
 
-   callParser(){
-     Swal.fire({
-         title: this.translate.instant("generics.Please wait"),
-         html: '<i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>',
-         showCancelButton: false,
-         showConfirmButton: false,
-         allowOutsideClick: false
-     }).then((result) => {
+      });
 
-     });
+      this.parserObject.callingParser = true;
+      var full_text = '';
+      var self = this;
+      var oReq = new XMLHttpRequest();
+      var lang = this.authService.getLang();
+      if(this.langToExtract!=''){
+        lang = this.langToExtract;
+      }
 
-     this.parserObject.callingParser = true;
-     var full_text = '';
-     var self = this;
-     var oReq = new XMLHttpRequest();
-     var lang = this.authService.getLang();
-     oReq.open("PUT", environment.f29api+'/api/Document/Parse?Timeout=5000&language='+lang+'&Strategy='+this.parserObject.parserStrategy, true);
+      oReq.open("PUT", environment.f29api+'/api/Document/Parse?Timeout=5000&language='+lang+'&Strategy='+this.parserObject.parserStrategy, true);
 
-     var self = this;
-     oReq.onload = function (oEvent) {
-       Swal.close();
-       self.parserObject.callingParser = false;
-       // Uploaded.
-       let file = oEvent.target;
-       var target:any = {};
-       target = file;
-       //target--> status, strategy, content
-       if(target.response.content == undefined){
-         self.medicalText = '';
-       }else{
-         self.medicalText = target.response.content
-         self.medicalText = self.medicalText.split("\n").join(" ");
-       }
+      var self = this;
+      oReq.onload = function (oEvent) {
+        Swal.close();
+        self.langToExtract = '';
+        self.parserObject.callingParser = false;
+        // Uploaded.
+        let file = oEvent.target;
+        var target:any = {};
+        target = file;
+        //target--> status, strategy, content
+        if(target.response.content == undefined){
+          self.medicalText = '';
+        }else{
+          self.medicalText = target.response.content
+          self.medicalText = self.medicalText.split("\n").join(" ");
+        }
 
-       if(target.response.status=='RequireOcr'){
-         self.parserObject.parserStrategy = 'OcrOnly';
-         Swal.fire({
-             title: self.translate.instant("parser.OcrOnlyTitle"),
-             text:  self.translate.instant("parser.OcrOnlyText"),
-             icon: 'warning',
-             showCancelButton: true,
-             confirmButtonColor: '#0CC27E',
-             cancelButtonColor: '#f9423a',
-             confirmButtonText: self.translate.instant("generics.Yes"),
-             cancelButtonText: self.translate.instant("generics.No"),
-             showLoaderOnConfirm: true,
-             allowOutsideClick: false
-         }).then((result) => {
-           if (result.value) {
-             self.callParser();
-           }
-         });
+        self.showPanelExtractor = true;
+        self.expanded = true;
 
-       }else{
-         self.parserObject.parserStrategy = 'Auto'
-       }
-     };
-     oReq.send(this.parserObject.file);
-     const rt = "json";
-     oReq.responseType = rt;
-     this.fileUploadInfo = this.parserObject.file;
-   }
+        if(target.response.status=='RequireOcr'){
+          self.parserObject.parserStrategy = 'OcrOnly';
+          Swal.fire({
+              title: self.translate.instant("parser.OcrOnlyTitle"),
+              text:  self.translate.instant("parser.OcrOnlyText"),
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#0CC27E',
+              cancelButtonColor: '#f9423a',
+              confirmButtonText: self.translate.instant("generics.Yes"),
+              cancelButtonText: self.translate.instant("generics.No"),
+              showLoaderOnConfirm: true,
+              allowOutsideClick: false,
+              reverseButtons:true
+          }).then((result) => {
+            if (result.value) {
+              self.callParser(contentExtractorSteps);
+            }else{
+              var testLangText = self.medicalText.substr(0,4000)
+              self.detectLanguage(testLangText, 'parser', contentExtractorSteps);
+            }
+          });
+
+        }else{
+          self.parserObject.parserStrategy = 'Auto'
+          var testLangText = self.medicalText.substr(0,4000)
+          self.detectLanguage(testLangText, 'parser', contentExtractorSteps);
+        }
+      };
+      oReq.send(this.parserObject.file);
+      const rt = "json";
+      oReq.responseType = rt;
+      this.fileUploadInfo = this.parserObject.file;
+    }
 
     loadFile(url,callback){
         JSZipUtils.getBinaryContent(url,callback);
+    }
+
+    deleteText(){
+      this.medicalText = '';
+    }
+
+    detectLanguage(testLangText, method, contentExtractorSteps){
+      this.subscription.add( this.apiDx29ServerService.getDetectLanguage(testLangText)
+      .subscribe( (res : any) => {
+        if(res[0].language != this.authService.getLang() && this.parserObject.parserStrategy != 'Auto'){
+
+
+          Swal.fire({
+              title: this.translate.instant("patdiagdashboard.We have detected that the document is in another language"),
+              text:  this.translate.instant("patdiagdashboard.Analyzed as")+'" "'+this.authService.getLang()+'", "'+this.translate.instant("patdiagdashboard.detected as")+'" "'+res[0].language+'". "'+this.translate.instant("patdiagdashboard.do you want us to do it"),
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#0CC27E',
+              cancelButtonColor: '#f9423a',
+              confirmButtonText: this.translate.instant("generics.Yes"),
+              cancelButtonText: this.translate.instant("generics.No"),
+              showLoaderOnConfirm: true,
+              allowOutsideClick: false,
+              reverseButtons:true
+          }).then((result) => {
+            if (result.value) {
+              this.langToExtract = res[0].language
+              if(method == 'parser'){
+                this.callParser(contentExtractorSteps);
+              }
+            }else{
+              this.langToExtract = res[0].language
+              if(this.medicalText!=''){
+                this.onSubmitToExtractor(contentExtractorSteps);
+              }else{
+                Swal.fire(this.translate.instant("patdiagdashboard.No text has been detected in the file"), '', "error");
+              }
+            }
+          });
+
+        }else{
+          if(res[0].language != this.authService.getLang()){
+            this.langToExtract = res[0].language
+          }else{
+            this.langToExtract = this.authService.getLang()
+          }
+          if(this.medicalText!=''){
+            this.onSubmitToExtractor(contentExtractorSteps);
+          }else{
+            Swal.fire(this.translate.instant("patdiagdashboard.No text has been detected in the file"), '', "error");
+          }
+
+        }
+      }, (err) => {
+        console.log(err);
+        this.loadingHpoExtractor = false;
+        this.toastr.error('', this.translate.instant("generics.error try again"));
+      }));
     }
 
     cambiarOrdenSintomas(){
@@ -4184,11 +4330,11 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
     }
 
-    getExomiserSettings(){
+    getExomiserSettings(tempSymptomsExo){
 
       var listSymptoms = [];
-      for(var i = 0; i < this.phenotype.data.length; i++) {
-        listSymptoms.push(this.phenotype.data[i].id);
+      for(var i = 0; i < tempSymptomsExo.length; i++) {
+        listSymptoms.push(tempSymptomsExo[i].id);
       }
 
       this.settingExomizer.VcfBlobName = this.filename;
@@ -4200,8 +4346,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
     changeSettingsExomiser(contentSettingsExomiser){
-      this.getExomiserSettings();
-      this.blobped.createContainerIfNotExists(this.accessToken);
+      this.getExomiserSettings(this.phenotype.data);
 
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
@@ -4229,18 +4374,18 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       filename = filename + extension;
       if((extension!='.ped')||(event.target.files[0].size > 12048)){
         if(((extension!='.ped'))&&(event.target.files[0].size > 12048)){
-          Swal.fire('The ped file must have .ped extension and the file is too big!', '', "error");
+          Swal.fire(this.translate.instant("diagnosis.The ped file must have and is big"), '', "error");
         }else{
           if(extension!='.ped'){
-            Swal.fire('The ped file must have .ped extension.', '', "error");
+            Swal.fire(this.translate.instant("diagnosis.The ped file must"), '', "error");
           }
           else if(event.target.files[0].size > 12048){
-            Swal.fire('The file is too big!', '', "error");
+            Swal.fire(this.translate.instant("diagnosis.The file is too big"), '', "error");
           }
         }
       }else{
         if(event.target.files[0].size > 12048){
-          Swal.fire('The file is too big!', '', "error");
+          Swal.fire(this.translate.instant("diagnosis.The file is too big"), '', "error");
         }
         else{
           this.uploadingPed = true;
@@ -4264,7 +4409,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }
 
       this.variantEffectFiltersState = false;
-      this.saveNotes();
+      this.saveNotes(false);
       if(this.modalReference!=undefined){
         this.modalReference.close();
       }
@@ -4285,6 +4430,26 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
     deleteVcfFile(file,i){
+      Swal.fire({
+          title: this.translate.instant("generics.Are you sure delete it"),
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#0CC27E',
+          cancelButtonColor: '#f9423a',
+          confirmButtonText: this.translate.instant("generics.Accept"),
+          cancelButtonText: this.translate.instant("generics.Cancel"),
+          showLoaderOnConfirm: true,
+          allowOutsideClick: false,
+          reverseButtons:true
+      }).then((result) => {
+        if (result.value) {
+          this.confirmDeleteVcfFile(file,i);
+        }
+      });
+    }
+
+
+    confirmDeleteVcfFile(file,i){
 
       if(file==this.filename){
         if(this.filesVcf.length>1){
@@ -4302,8 +4467,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         }
       }
       this.filesVcf.splice(i, 1);
-      this.blob.deleteBlob(this.accessToken.containerName , file);
-      this.blob.loadFilesVCF(this.accessToken.containerName);
+      this.blob.deleteBlobAndLoadVCF(this.accessToken.containerName , file);
     }
 
     clearValuesFrequencySources(){
@@ -4331,17 +4495,37 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       this.variantEffectsFilterRequired=true;
 
     }
-    showPanelSymptomsNcr(contentSymptomsNcr){
+
+    showPanelSymptomsNcr(contentSymptomsNcr, isNew){
+      this.isNew = isNew;
       if(this.modalReference!=undefined){
         this.modalReference.close();
       }
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
             keyboard : false,
-            windowClass: 'ModalClass-xl'
+            windowClass: 'ModalClass-sm'// xl, lg, sm
       };
+      this.actualTemporalSymptomsIndex = 0;
       this.modalReference = this.modalService.open(contentSymptomsNcr, ngbModalOptions);
+      this._openedModalRefs.push(this.modalReference);
     }
+
+    addSymptomTinder(index){
+      this.temporalSymptoms[index].checked=true;
+      this.actualTemporalSymptomsIndex++;
+    }
+
+    rejectSymptomTinder(index){
+      this.temporalSymptoms[index].checked=false;
+      this.actualTemporalSymptomsIndex++;
+    }
+
+    startAgainTinder(){
+      this.actualTemporalSymptomsIndex = 0;
+      this.selectedInfoSymptomIndex = -1;
+    }
+
 
     markText(text, pos1, pos2){
       this.searchTerm = text.substring(pos1, pos2);
@@ -4365,7 +4549,57 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }, 100);
     }
 
+    showPieceOfText(symptomIndex, hpoIndex){
+      if(this.selectedSymptomIndex == symptomIndex && this.selectedHpoIndex == hpoIndex){
+        this.selectedSymptomIndex = -1;
+        this.selectedHpoIndex = -1;
+      }else{
+        this.selectedSymptomIndex = symptomIndex;
+        this.selectedHpoIndex = hpoIndex;
+      }
+
+    }
+
+    showCompleteNcrResultView(){
+      this.ncrResultView = !this.ncrResultView ;
+    }
+
+    confirmCloseSymptomsNcr(){
+      Swal.fire({
+          title: this.translate.instant("symptomssection.want to close this window"),
+          text:  this.translate.instant("symptomssection.You will miss the changes"),
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#0CC27E',
+          cancelButtonColor: '#f9423a',
+          confirmButtonText: this.translate.instant("generics.Accept"),
+          cancelButtonText: this.translate.instant("generics.Cancel"),
+          showLoaderOnConfirm: false,
+          allowOutsideClick: false,
+          reverseButtons:true
+      }).then((result) => {
+        if (result.value) {
+          this.closeAll()
+        }
+      });
+
+    }
+
+    closeAll(){
+
+      for(var i = 0; i < this._openedModalRefs.length; i++) {
+        if(this._openedModalRefs[i]!=undefined){
+          this._openedModalRefs[i].close();
+        }
+      }
+      this._openedModalRefs = [];
+      if(this.modalReference!=undefined){
+        this.modalReference.close();
+      }
+    }
+
     saveSymptomsNcr(){
+      this.closeAll()
       for(var i = 0; i < this.temporalSymptoms.length; i++) {
         if(this.temporalSymptoms[i].checked){
           var symptomExtractor = {id: this.temporalSymptoms[i].id,name: this.temporalSymptoms[i].name, new: true};
@@ -4386,7 +4620,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         }
 
       }
-      if(this.isNewNcrFile){
+      if(this.isNewNcrFile && this.isNew){
         this.saveResultsNcr();
       }
       this.saveSymptomsToDb();
@@ -4421,7 +4655,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             confirmButtonText: this.translate.instant("diagnosis.Notify me when active"),
             cancelButtonText: this.translate.instant("generics.No, cancel"),
             showLoaderOnConfirm: true,
-            allowOutsideClick: false
+            allowOutsideClick: false,
+            reverseButtons:true
         }).then((result) => {
           if (result.value) {
             //enviar email a cada usuario cuando este disponible el servicio, para ello tenemos que guardar los ids...
@@ -4482,6 +4717,17 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
       //síntomas
       this.listOfSymptoms = [];
+      /*for(var i = 0; i < row.matches.length; i++) {
+        var enc= false;
+        for(var j = 0; j < this.phenotype.data.length && !enc; j++) {
+          //if(this.phenotype.data[j].id == row.matches[i].a.id){
+          if(this.phenotype.data[j].id == row.matches[i].reference.id){
+            enc=true;
+            this.listOfSymptoms.push({id: this.phenotype.data[j].id, name: this.phenotype.data[j].name, def: this.phenotype.data[j].desc, comment: this.phenotype.data[j].comment, checked: true});
+          }
+        }
+      }*/
+
       this.getSymptomsOneDisease(row.name.id, contentSeeSymptomsOfDisease);
     }
 
@@ -4501,7 +4747,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
              if(!foundElement2){
                var comment = "";
                var def = "";
-               if(listOfSymptoms[k].desc!="None"){
+               if(listOfSymptoms[k].desc!="None" && listOfSymptoms[k].desc!=null){
                  def = listOfSymptoms[k].desc;
                }
                if(listOfSymptoms[k].comment!=""){
@@ -4537,7 +4783,10 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           this.modalReference.close();
 
         }
-        this.modalReference = this.modalService.open(contentSeeSymptomsOfDisease, ngbModalOptions);
+        if(contentSeeSymptomsOfDisease!=null){
+          this.modalReference = this.modalService.open(contentSeeSymptomsOfDisease, ngbModalOptions);
+        }
+
         this.loadingSymptomsOfDisease = false;
 
        }, (err) => {
@@ -4620,6 +4869,10 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         }
     }
 
+    onActivate2(disease, contentSeeSymptomsOfDisease) {
+        this.changeSymptomsOfDisease(disease, contentSeeSymptomsOfDisease);
+    }
+
     setFitersDiseases(contentFilterDiseases){
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
@@ -4648,7 +4901,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         this.selectedItemsFilterWithIndex = {"id":this.tempSymptom,"index":(this.selectedItemsFilter.length-1)};
         this.tempSymptom = {};
       }else{
-        this.toastr.error('', 'The symptom is already added');
+        this.toastr.error('', this.translate.instant("phenotype.The symptom is already added"));
       }
     }
 
@@ -4691,9 +4944,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
     applyFilters(){
-      console.log(this.selectedItemsFilter)
-      console.log(this.relatedConditionsCopy)
-      console.log(this.relatedConditions)
       if(this.selectedItemsFilter.length == 0){
         this.removeFilters();
       }else{
@@ -4750,7 +5000,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           tempRelatedConditions = [];
         }
         this.relatedConditions = JSON.parse(JSON.stringify(tempRelatedConditions));
-        this.renderMap(this.relatedConditions.slice(0, 10), this.paramgraph);
+        this.renderMap();
         if(this.modalReference!=undefined){
           this.modalReference.close();
         }
@@ -4768,7 +5018,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }
       this.relatedConditionsCopy = [];
       this.selectedItemsFilter = [];
-      this.renderMap(this.relatedConditions.slice(0, 10), this.paramgraph);
+      this.renderMap();
       if(this.modalReference!=undefined){
         this.modalReference.close();
       }
@@ -4776,83 +5026,53 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       this.saveNotes2();
     }
 
-    renderMap(data, param){
-      if(document.getElementById("idShowPanelWorkbench")!=null){
-        document.getElementById("idShowPanelWorkbench").click();
-        this.checkPrograms();
+    renderMap(){
+      this.potentialDiagnostics = [];
+      this.checkPrograms();
+      this.loadingPotentialDiagnostics = true;
+      this.getOrphaNamesAndCheckPotentialDiagnostics();
+      //this.topRelatedConditions = data;
+    }
+
+    async getOrphaNamesAndCheckPotentialDiagnostics(){
+      if(this.orphanet_names.disorders==undefined){
+        await this.delay(1000);
+        this.getOrphaNamesAndCheckPotentialDiagnostics();
       }else{
-        document.getElementById("buttonChangeTab").click();
-      }
-
-      var tempParam = 'Dx29';
-
-    /*  if(param == 'matches'){
-        tempParam = 'C1';
-      }else */if(param == 'scoregenes'){
-        tempParam = 'C2';
-      }else if(param == 'score'){
-        tempParam = 'C1';
-      }
-
-      var tempdata = [];
-      for(var i = 0; i < data.length; i++) {
-        var tempColor= this.getColor(data[i].h29);
-        var tempValue= data[i].h29;
-        /*if(param == 'matches'){
-          tempValue= data[i].matches.length;
-        }else */if(param == 'scoregenes'){
-          tempValue= data[i].scoregenes;
-        }else if(param == 'score'){
-          tempValue= data[i].score;
-        }
-        tempdata.push({name: data[i].name.label, value: tempValue, color: tempColor});
-      }
-
-      if(this.container==undefined){
-        (async () => {
-            // Do something before delay
-            console.log('before delay')
-
-            await this.delay(1000);
-
-            // Do something after
-            console.log('after delay')
-            Highcharts.chart(this.container.nativeElement, {
-              series: [{
-                  type: 'treemap',
-                  layoutAlgorithm: 'squarified',
-                  data: tempdata
-              }],
-              title: {
-                  text: tempParam+' score'
-              },
-              legend: {
-                  enabled: false
-              }
-            })
-        })();
-      }else{
-        if(this.container!=undefined){
-          Highcharts.chart(this.container.nativeElement, {
-            series: [{
-                type: 'treemap',
-                layoutAlgorithm: 'squarified',
-                data: tempdata
-            }],
-            title: {
-                text: tempParam+' score'
-            },
-            legend: {
-                enabled: false
+        for(var i = 0; i < this.relatedConditions.length; i++)
+          {
+            //get orpha name
+            var found = false;
+            var orphaId = this.maps_to_orpha.map[this.relatedConditions[i].name.id]
+            if(orphaId!=undefined){
+              var firstOrphaId = orphaId[0];
+              this.relatedConditions[i].name.label = this.orphanet_names.disorders[firstOrphaId].name;
+              found =true;
             }
-          })
-        }
+            if(this.relatedConditions[i].xrefs!=undefined){
+              for(var j = 0; j < this.relatedConditions[i].xrefs.length && !found; j++){
+                var orphaId = this.maps_to_orpha.map[this.relatedConditions[i].xrefs[j]]
+                if(orphaId!=undefined){
+                  var firstOrphaId = orphaId[0];
+                  this.relatedConditions[i].name.label = this.orphanet_names.disorders[firstOrphaId].name;
+                  found =true;
+                }
+              }
+            }
 
+
+
+            this.relatedConditions[i].name.label = this.textTransform.transform(this.relatedConditions[i].name.label);
+
+            //get potentialDiagnostics
+            if(this.relatedConditions[i].checked){
+              this.potentialDiagnostics.push(this.relatedConditions[i]);
+            }
+
+          }
+        this.topRelatedConditions = this.relatedConditions.slice(0, this.indexListRelatedConditions)
+        this.loadingPotentialDiagnostics = false;
       }
-      for(var i = 0; i < this.relatedConditions.length; i++)
-        {
-          this.relatedConditions[i].name.label = this.textTransform.transform(this.relatedConditions[i].name.label);
-        }
 
     }
 
@@ -4910,7 +5130,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
        this.uploadfile(random_name);
      }
 
-     this.makeCopyForSupport(file, this.fileUploadInfo, fileNameNcr, random_name);
+     //this.makeCopyForSupport(file, this.fileUploadInfo, fileNameNcr, random_name);
      //var actualDate = Date.now();
      //this.infoNcrToSave = {ncrVersion:environment.ncrVersion, originalText: '', result: {}, rejectedSymptoms: [], date: actualDate, docUrl: ''};
      this.fileUploadInfo = undefined;
@@ -4941,18 +5161,20 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
     }
 
-    loadFilesContainer(contentDownloadFiles){
-      this.contentDownloadFiles = contentDownloadFiles;
+    loadFilesContainer(showloading){
+      this.loadingDocuments = true;
       this.blob.loadFilesPatientBlob(this.accessToken.containerName);
-      Swal.fire({
-          title: this.translate.instant("generics.Please wait"),
-          html: '<i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>',
-          showCancelButton: false,
-          showConfirmButton: false,
-          allowOutsideClick: false
-      }).then((result) => {
+      if(showloading){
+        Swal.fire({
+            title: this.translate.instant("generics.Please wait"),
+            html: '<i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>',
+            showCancelButton: false,
+            showConfirmButton: false,
+            allowOutsideClick: false
+        }).then((result) => {
 
-      });
+        });
+      }
     }
 
     openNcrResult(name){
@@ -4991,9 +5213,14 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
                  for(var k = 0; k < res.rejectedSymptoms.length; k++) {
                    if(this.temporalSymptoms[j].id == res.rejectedSymptoms[k].id){
-                     this.changeStateSymptom(j);
+                     this.changeStateSymptom(j, true);
                    }
                   }
+                  for(var jio = 0; jio < this.phenotype.data.length; jio++) {
+                    if(this.temporalSymptoms[j].id == this.phenotype.data[jio].id){
+                      this.temporalSymptoms[j].checked = true;
+                    }
+                   }
                }
 
                //this.phenotype.data.sort(this.sortService.GetSortOrder("name"));
@@ -5041,8 +5268,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
                this.medicalText ='';
                this.isNewNcrFile = false;
-               document.getElementById("openModalSymptomsNcrButton2").click();
-               this.changeTriggerHotjar('ncrresults_');
+               document.getElementById("openModalShowPanelSymptomsNcr2").click();
+               //this.changeTriggerHotjar('ncrresults_');
              }else{
                //is new versión
                if(infoNcr.length>0){
@@ -5069,6 +5296,14 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
                   //this.addSymptom(symptomExtractor, 'auto')
                 }
+                for(var j = 0; j < this.temporalSymptoms.length; j++) {
+                  for(var jio = 0; jio < this.phenotype.data.length; jio++) {
+                    if(this.temporalSymptoms[j].id == this.phenotype.data[jio].id){
+                      this.temporalSymptoms[j].checked = true;
+                    }
+                   }
+                }
+
                 this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
                 //this.phenotype.data.sort(this.sortService.GetSortOrder("name"));
                 //this.hasSymptomsToSave();
@@ -5110,8 +5345,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                  console.log(err);
                }));
                Swal.close();
-                document.getElementById("openModalSymptomsNcrButton2").click();
-                this.changeTriggerHotjar('ncrresults_');
+                document.getElementById("openModalShowPanelSymptomsNcr2").click();
+                //this.changeTriggerHotjar('ncrresults_');
               }else{
                 this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
               }
@@ -5158,7 +5393,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           confirmButtonText: this.translate.instant("generics.Yes"),
           cancelButtonText: this.translate.instant("generics.No, cancel"),
           showLoaderOnConfirm: true,
-          allowOutsideClick: false
+          allowOutsideClick: false,
+          reverseButtons:true
       }).then((result) => {
         if (result.value) {
           var para= this.authService.getCurrentPatient();
@@ -5219,10 +5455,9 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
     discardSettingsExomiser(){
-      console.log("Discard settings exomiser")
 
       this.getDiagnosisInfo();
-      this.getExomiserSettings();
+      this.getExomiserSettings(this.phenotype.data);
       this.blob.loadFilesOnBlobExomizer(this.accessToken.containerName,null);
       //this.settingExomizer=this.settingExomizerCopy;
       //this.settingExomizer = this.diagnosisInfo.settingExomizer;
@@ -5233,6 +5468,9 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
     manageErrorsExomiser(type,err){
+      if(this.actualStep== '3.1'){
+        this.goToStep('2.0', true);
+      }
       this.subscription.add(this.apif29SrvControlErrors.getDescriptionErrorAndNotify(type,err,this.authService.getLang(),this.exomiserService.getActualToken())
       .subscribe( (res : any) => {
         if(this.exomiserService.getActualToken()!=undefined){
@@ -5331,7 +5569,11 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         addLangToTrigger = 'es';
       }
       trigger = trigger+addLangToTrigger;
-      this.$hotjar.trigger(trigger);
+      var elemento = document.getElementById('_hj_feedback_container');
+      if(elemento){
+        this.$hotjar.trigger(trigger);
+      }
+
     }
 
     loadMoreInfoGenesPanel(contentMoreInfoGenes,element,geneName){
@@ -5343,6 +5585,325 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       this.moreInfoElement=element;
       this.geneElementName=geneName;
       this.modalReference = this.modalService.open(contentMoreInfoGenes,ngbModalOptions);
+    }
+
+    showPanelSuggestions(contentSuggestions){
+      let ngbModalOptions: NgbModalOptions = {
+            windowClass: 'ModalClass-xl'
+      };
+      this.modalReference = this.modalService.open(contentSuggestions, ngbModalOptions);
+      this.loadDataPanelSuggestions();
+    }
+
+    loadDataPanelSuggestions(){
+      this.posactual = 0;
+      this.loadingSuggestions = true;
+      var jsonHpos = [];
+      for(var index in this.phenotype.data){
+        if(this.phenotype.data[index].checked){
+          jsonHpos.push(this.phenotype.data[index].id);
+        }
+      }
+        this.subscription.add( this.http.post(environment.api+'/api/phenotype/conditions/100', jsonHpos)
+        .subscribe( (res : any) => {
+          //console.log(res);
+          this.relatedConditions = res["diseases"];
+          //load symptoms of all deseases
+
+
+          var listOfDiseases = [];
+          for(var i = 0; i < this.relatedConditions.length; i++) {
+            if(this.relatedConditions[i]!=undefined){
+              listOfDiseases.push(this.relatedConditions[i].name.id);
+            }
+          }
+
+          //get symtoms
+          var lang = this.authService.getLang();
+          this.subscription.add(this.apif29BioService.getSymptomsOfDisease(lang,listOfDiseases,0)
+          .subscribe( (res2 : any) => {
+            for(var i = 0; i < this.relatedConditions.length; i++) {
+              var idDesease = this.relatedConditions[i].name.id
+              this.relatedConditions[i].symptoms = [];
+
+              var info = res2[idDesease];
+              //console.log(info);
+              if(info!=undefined){
+                var listOfSymptoms = info.phenotypes
+                if(Object.keys(listOfSymptoms).length>0){
+                  for(var indexSymptom in listOfSymptoms) {
+                    var comment = "";
+                    var def = "";
+                    if(listOfSymptoms[indexSymptom].desc!="None" && listOfSymptoms[indexSymptom].desc!=null){
+                      def = listOfSymptoms[indexSymptom].desc;
+                    }
+                    if(listOfSymptoms[indexSymptom].comment!=""){
+                      comment = listOfSymptoms[indexSymptom].comment;
+                    }/*else{
+                      comment = "None"
+                    }*/
+                    this.relatedConditions[i].symptoms.push({id:indexSymptom, name: listOfSymptoms[indexSymptom].name, def: def, comment: comment, synonyms: listOfSymptoms[indexSymptom].synonyms});
+                   }
+                  if(this.relatedConditions[i].symptoms.length>0){
+                    //añadir los matches si no están el los sintomas de la condición
+                    if(this.relatedConditions[i].matches!=0){
+                      for(var k = 0; k < this.relatedConditions[i].matches.length; k++) {
+                        var found= false;
+                        for(var lo = 0; lo < this.relatedConditions[i].symptoms.length && !found; lo++) {
+                          if(this.relatedConditions[i].symptoms[lo].id == this.relatedConditions[i].matches[k].id){
+                            found = true;
+                          }
+                        }
+                        if(!found){
+                          this.relatedConditions[i].symptoms.push({id:this.relatedConditions[i].matches[k].reference.id, name: this.relatedConditions[i].matches[k].reference.label});
+                        }
+                      }
+                    }
+
+                    this.relatedConditions[i].symptoms.sort(this.sortService.GetSortOrder("name"));
+                  }
+
+                }
+              }
+            }
+            this.getListAllSymptoms();
+            this.loadingSuggestions = false;
+
+          }, (err) => {
+            console.log(err);
+            //tratar el error
+            this.reportError();
+            this.loadingSuggestions = false;
+          }));
+
+        }, (err) => {
+          console.log(err);
+          //tratar el error
+          this.reportError();
+          this.toastr.error('', this.translate.instant("generics.error try again"));
+          this.loadingSuggestions = false;
+        }));
+    }
+
+    saveSymptomsOfDiseaseSuggested(){
+      this.hasChangesSuggestion = false;
+      //console.log(this.listOfSymptomsTemp);
+      for (var k = 0; k < this.listOfSymptomsTemp.length; k++) {
+        if(this.listOfSymptomsTemp[k].checked){
+          var foundElement = this.searchService.search(this.phenotype.data,'id', this.listOfSymptomsTemp[k].id);
+          //console.log(foundElement);
+          if(!foundElement){
+            this.phenotype.data.push(
+              {id: this.listOfSymptomsTemp[k].id,
+                name: this.listOfSymptomsTemp[k].name,
+                new: true,
+                checked: true,
+                percentile: this.listOfSymptomsTemp[k].percentile,
+                def: this.listOfSymptomsTemp[k].def,
+                synonyms: this.listOfSymptomsTemp[k].synonyms,
+                comment: this.listOfSymptomsTemp[k].comment,
+                inputType: 'proposedDiseases',
+                importance: '1',
+                polarity: '0'
+              });
+            this.checksChanged =true;
+          }
+        }else{
+          var foundElement = this.searchService.search(this.phenotype.data,'id', this.listOfSymptomsTemp[k].id);
+          if(foundElement){
+            var finished = false;
+            //console.log(this.phenotype.data);
+            for (var i = 0; i < this.phenotype.data.length && !finished; i++) {
+              if(this.phenotype.data[i]!=undefined){
+
+                if(this.phenotype.data[i].id == this.listOfSymptomsTemp[k].id){
+                  this.phenotype.data[i].checked = false;
+                  finished = true;
+                  this.checksChanged =true;
+                }
+              }
+            }
+          }
+        }
+      }
+      //console.log(this.phenotype.data);
+      this.saveSymptomsToDb();
+    }
+
+    getListAllSymptoms(){
+      this.listOfSymptomsTemp = [];
+      for (var i = 0; i <  this.relatedConditions.length; i++) {
+        for (var j = 0; j <  this.relatedConditions[i].symptoms.length; j++) {
+          var enc = false;
+          for (var k = 0; k <  this.phenotype.data.length && !enc; k++) {
+            if(this.relatedConditions[i].symptoms[j].id == this.phenotype.data[k].id){
+              enc = true
+            }
+          }
+          if(!enc){
+            var foundElement = this.searchService.search(this.listOfSymptomsTemp,'id', this.relatedConditions[i].symptoms[j].id);
+            if(!foundElement){
+              this.listOfSymptomsTemp.push({id:this.relatedConditions[i].symptoms[j].id, name: this.relatedConditions[i].symptoms[j].name, def: this.relatedConditions[i].symptoms[j].def, comment: this.relatedConditions[i].symptoms[j].comment, synonyms: this.relatedConditions[i].symptoms[j].synonyms, checked: undefined});
+            }
+          }
+        }
+      }
+      this.steps = this.listOfSymptomsTemp.length/this.numberOfSymptomsPerPage;
+      this.steps = Math.ceil(this.steps);
+
+      if(document.getElementById('initpos')!=null){
+        document.getElementById('initpos').scrollIntoView(true);
+      }
+
+      this.getSymptomsStep();
+    }
+
+    getSymptomsStep(){
+      this.listOfSymptoms = [];
+      for (var i = 0; i <  this.numberOfSymptomsPerPage; i++) {
+        var index = i+(this.posactual*this.numberOfSymptomsPerPage)
+        if(this.listOfSymptomsTemp[index]!=undefined){
+          this.listOfSymptoms.push(this.listOfSymptomsTemp[index]);
+        }
+      }
+    }
+
+    callGetGroupsSymptoms(hposStrins){
+      var lang = this.authService.getLang();
+      this.listOfSymptomGroups = [];
+      this.subscription.add(this.apif29BioService.getGroupsSymptoms(lang, hposStrins)
+      //this.subscription.add(this.apif29BioService.getInfoOfSymptoms(lang,hposStrins)
+      .subscribe( (res2 : any) => {
+        for (var ini = 0; ini < this.phenotype.data.length; ini++) {
+          this.phenotype.data[ini].groups = [];
+        }
+        var tamano= Object.keys(res2).length;
+        if(tamano>0){
+          for(var i in res2) {
+                var items = res2[i].items;
+                for (var ji = 0; ji < res2[i].items.length; ji++){
+                  for(var k in res2[i].items[ji]) {
+                    for (var j = 0; j < this.phenotype.data.length; j++) {
+                      if(k==this.phenotype.data[j].id){
+                        var foundElement0 = this.searchService.search(this.phenotype.data[j].groups,'idGroup', i);
+                        if(!foundElement0){
+                          this.phenotype.data[j].groups.push({idGroup: i, nameGroup: res2[i].name});
+                        }
+                        var foundElement = this.searchService.search(this.listOfSymptomGroups,'idGroup', i);
+                        if(!foundElement){
+                          this.listOfSymptomGroups.push({idGroup: i, nameGroup: res2[i].name, symptoms:[this.phenotype.data[j]]});
+                        }else{
+                          for (var ini3 = 0; ini3 < this.listOfSymptomGroups.length; ini3++) {
+                            if(this.listOfSymptomGroups[ini3].idGroup==i){
+                              this.listOfSymptomGroups[ini3].symptoms.push(this.phenotype.data[j]);
+                            }
+
+                          }
+                        }
+                      }
+
+                    }
+                  }
+                }
+
+              }
+
+        }
+        //mirar los que no tienen grupo
+        for (var ini2 = 0; ini2 < this.phenotype.data.length; ini2++) {
+          if(this.phenotype.data[ini2].groups.length==0){
+            this.phenotype.data[ini2].groups.push({idGroup: 'Others', nameGroup: 'Others'});
+            var foundElement = this.searchService.search(this.listOfSymptomGroups,'idGroup', 'Other');
+            if(!foundElement){
+              this.listOfSymptomGroups.push({idGroup: 'Others', nameGroup: 'Others', symptoms:[this.phenotype.data[ini2]]});
+            }else{
+              for (var ini3 = 0; ini3 < this.listOfSymptomGroups.length; ini3++) {
+                if(this.listOfSymptomGroups[ini3].idGroup==i){
+                  this.listOfSymptomGroups[ini3].symptoms.push(this.phenotype.data[ini2]);
+                }
+
+              }
+            }
+          }
+        }
+     }, (err) => {
+       console.log(err);
+     }));
+    }
+
+    changeSuggestedViewSymptoms(value){
+      this.viewSymptoms = value;
+      //console.log(this.viewSymptoms);
+      var result = ''
+      if(this.viewSymptoms==0){
+        result= 'Simple';
+      }else{
+        result= 'Advanced';
+      }
+      this.googleAnalyticsService.eventEmitter("View symptoms - page symptoms: "+result, "general", "2");
+    }
+
+    changeViewSummarySymptoms(value){
+      this.viewSummarySymptoms = value;
+      this.googleAnalyticsService.eventEmitter("View symptoms - summary: "+value, "general", "1");
+    }
+
+    changeSuggestedViewSuggestions(){
+      if(this.viewSuggestion == 1){
+        this.viewSuggestion = 0;
+      }else{
+        this.viewSuggestion = 1;
+      }
+      //console.log(this.viewSuggestion);
+    }
+
+    sharePatient(){
+      document.getElementById("buttonShareTo").click();
+    }
+
+    createNewPatient(){
+      this.goToStep('5.0', true);
+      this.router.navigate(['clinical/dashboard/home']);
+    }
+
+    logIndex(index){
+      this.indexExpandedElementGenes = index;
+      this.expandedElement = this.infoGenesAndConditionsExomizer[index];
+    }
+
+    setIndexAndshowPanelGenes(contentPanelGenes, gene){
+      var index = -1;
+      for(var i = 0; i < this.infoGenesAndConditionsExomizer.length; i++) {
+        if(this.infoGenesAndConditionsExomizer[i].name==gene){
+          index=i;
+          break;
+        }
+      }
+      this.expandedElement = this.infoGenesAndConditionsExomizer[index];
+      this.showPanelGenes(contentPanelGenes);
+    }
+
+    setIndexAndshowPanelGenes2(contentPanelGenes, gene){
+      var index = -1;
+      for(var i = 0; i < this.infoGenesAndConditionsPhen2Genes.length; i++) {
+        if(this.infoGenesAndConditionsPhen2Genes[i].name==gene){
+          index=i;
+          break;
+        }
+      }
+      this.expandedElement = this.infoGenesAndConditionsPhen2Genes[index];
+      this.showPanelGenes(contentPanelGenes);
+    }
+
+    showPanelGenes(contentPanelGenes){
+      var size= 'ModalClass-lg';
+      if(this.infoGenesAndConditionsExomizer.length==0 && this.infoGenesAndConditionsPhen2Genes.length>0){
+        size = 'ModalClass-sm';
+      }
+      let ngbModalOptions: NgbModalOptions = {
+            windowClass: size
+      };
+      this.modalReference = this.modalService.open(contentPanelGenes, ngbModalOptions);
     }
 
     lauchPhen2Genes(){
@@ -5358,8 +5919,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
      this.subscription.add( this.apiDx29ServerService.lauchPhene2Gene(patientId, jsonfile)
      .subscribe( (res : any) => {
-       console.log(res);
-       this.processPhenToGenesInfo(res.fileName, res.data);
+       this.processPhenToGenesInfo(res.fileName, res.data, res.message);
      }, (err) => {
        console.log(err);
      }));
@@ -5370,7 +5930,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
      this.subscription.add( this.apiDx29ServerService.getLastPhen2GenesResults(patientId)
      .subscribe( (res : any) => {
        if(res.data!=null){
-         this.processPhenToGenesInfo(res.fileName, res.data);
+         this.processPhenToGenesInfo(res.fileName, res.data, res.message);
        }else{
          this.filePhen2GenesOnBlob = '';
          this.launchingPhen2Genes = false;
@@ -5380,7 +5940,10 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
      }));
     }
 
-    processPhenToGenesInfo(fileName, data){
+    processPhenToGenesInfo(fileName, data, message){
+      if(message=='found'){
+        this.launchedPhen2genes=true;
+      }
       this.filePhen2GenesOnBlob = fileName;
       this.infoGenesAndConditions = [];
       this.infoGenesAndConditionsPhen2Genes = [];
@@ -5400,8 +5963,10 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
            });
          }
 
-         this.infoGenesAndConditions.push({"name": keyGen, "data": dataForGene, "score": data[keyGen].score});
-         this.infoGenesAndConditionsPhen2Genes.push({"name": keyGen, "data": dataForGene, "score": data[keyGen].score});
+        var colorScoredx29=this.selectScoreColor(data[keyGen].score.toFixed(2));
+
+         this.infoGenesAndConditions.push({"name": keyGen, "data": dataForGene, "score": data[keyGen].score.toFixed(2), colorScoredx29:colorScoredx29});
+         this.infoGenesAndConditionsPhen2Genes.push({"name": keyGen, "data": dataForGene, "score": data[keyGen].score.toFixed(2), colorScoredx29:colorScoredx29});
        });
 
 
@@ -5413,13 +5978,16 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         }
       }
       this.launchingPhen2Genes = false;
+      if(this.actualStep == '3.2'){
+        this.getRelatedConditionsview(false);
+        //this.getRelatedConditions();
+      }
     }
 
     exploreMoreSymptomsPhen2Genes(){
       this.infoGenesAndConditions = this.infoGenesAndConditionsPhen2Genes;
       this.startDiagnosis();
       this.numberOfSymptoms = this.phenotype.data.length;
-      this.actualPosGen = 0;
       this.actualPosDisease = 0;
       this.globalPosDisease = 1;
       this.actualDisease = {};
@@ -5428,8 +5996,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
     continueAndCallPhen2Genes(){
-
-      console.log("continueAndCallPhen2Genes")
 
       this.gettingRelatedConditions=false;
       this.loadingDiagnosisInfo=false;
@@ -5451,4 +6017,1180 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       var url = '/clinical/'+page;
       this.router.navigate([url]);
     }
+
+    toggleMenu(){
+      if($('.chat-app-sidebar-toggle').hasClass('ft-align-justify')){
+        $('.chat-app-sidebar-toggle').removeClass('ft-align-justify').addClass('ft-x');
+        $('.chat-sidebar').removeClass('d-none d-sm-none').addClass('d-block d-sm-block');
+        $('.content-overlay').addClass('show');
+      }else{
+        $('.content-overlay').removeClass('show');
+        $('.chat-app-sidebar-toggle').removeClass('ft-x').addClass('ft-align-justify');
+        $('.chat-sidebar').removeClass('d-block d-sm-block').addClass('d-none d-sm-none');
+      }
+    }
+
+    funShowOptionsSymptoms(contentOptionsSymptoms){
+      let ngbModalOptions: NgbModalOptions = {
+            backdrop : 'static',
+            keyboard : false,
+            windowClass: 'ModalClass-sm' // xl, lg, sm
+      };
+      this.modalReference = this.modalService.open(contentOptionsSymptoms, ngbModalOptions);
+    }
+
+    changeExomiserStateSymptom(index){
+      this.symptomsExomiser[index].checked = !this.symptomsExomiser[index].checked;
+    }
+
+    showMoreInfoDisease(diseaseIndex, disease){
+      if(this.selectedDisease == diseaseIndex ){
+        this.selectedDisease = -1;
+      }else{
+        this.selectedDisease = diseaseIndex;
+      }
+      if(this.selectedDisease != -1){
+        this.loadSymptomsOfDiseaseForGraph(disease);
+      }
+
+    }
+
+    loadSymptomsOfDiseaseForGraph(disease){
+      this.loadingGraphSymptomFreq=true;
+      this.fullListSymptoms = [];
+      this.omimSymptoms = [];
+      this.orphaSymptoms = [];
+      this.actualDiseaseDesc = {};
+
+      this.loadingSymptomsDataForGraph = true;
+      var xrefs = disease.name.id;
+      var listXRefs = [disease.name.id];
+      //get symtoms
+      var lang = this.authService.getLang();
+      this.subscription.add(this.apif29BioService.getSymptomsOfDisease(lang,listXRefs,0)
+      .subscribe( (res : any) => {
+          var idDesease = listXRefs[0];
+          var info = res[idDesease];
+          this.parseOtherInfoSymptomsOfDisease(info);
+          //console.log(info);
+          if(info!=undefined){
+            this.actualDiseaseDesc = {desc: info.desc, comment: info.comment};
+            var listOfSymptoms = info.phenotypes
+            if(Object.keys(listOfSymptoms).length>0){
+              for(var indexSymptom in listOfSymptoms) {
+                var comment = "";
+                var def = "";
+                if(listOfSymptoms[indexSymptom].desc!="None" && listOfSymptoms[indexSymptom].desc!=null){
+                  def = listOfSymptoms[indexSymptom].desc;
+                }
+                if(listOfSymptoms[indexSymptom].comment!=""){
+                  comment = listOfSymptoms[indexSymptom].comment;
+                }
+                var onlyOrpha = false;
+                var frec = null;
+                for(var i = 0; i < listOfSymptoms[indexSymptom].source.length; i++) {
+                  if(listOfSymptoms[indexSymptom].source[i].indexOf( 'ORPHA' ) != -1){
+                    this.orphaSymptoms.push({id:indexSymptom, name: listOfSymptoms[indexSymptom].name, def: def, comment: comment, synonyms: listOfSymptoms[indexSymptom].synonyms, frequency: listOfSymptoms[indexSymptom].frequency});
+                    if(listOfSymptoms[indexSymptom].source.length<=1){
+                      onlyOrpha=true;
+                    }else{
+                      frec =  listOfSymptoms[indexSymptom].frequency;
+                    }
+                  }
+                }
+                if(!onlyOrpha && listOfSymptoms[indexSymptom].source.length>0){
+                  this.omimSymptoms.push({id:indexSymptom, name: listOfSymptoms[indexSymptom].name, def: def, comment: comment, synonyms: listOfSymptoms[indexSymptom].synonyms, frequency: frec});
+                }
+               }
+
+            }
+            var listOfOtherDiseasesSymptoms = info.children
+            if(Object.keys(listOfOtherDiseasesSymptoms).length>0){
+              for(var diseasesSymptoms in listOfOtherDiseasesSymptoms) {
+                if(listOfOtherDiseasesSymptoms[diseasesSymptoms].phenotypes!=undefined){
+                  var listOfOtherSymptoms = listOfOtherDiseasesSymptoms[diseasesSymptoms].phenotypes
+                  for(var k in listOfOtherSymptoms) {
+                     //console.log(k, listOfOtherSymptoms[k]);
+                     var foundElement = this.searchService.search(this.phenotype.data,'id', k);
+                     var foundElement2 = this.searchService.search(this.omimSymptoms,'id', k);
+                     var foundElement3 = this.searchService.search(this.orphaSymptoms,'id', k);
+                     if(!foundElement2 || !foundElement3){
+                       var comment = "";
+                       var def = "";
+                       var frequency = null;
+                       if(listOfOtherSymptoms[k].desc!="None" && listOfOtherSymptoms[k].desc!=null){
+                         def = listOfOtherSymptoms[k].desc;
+                       }
+                       if(listOfOtherSymptoms[k].comment!=""){
+                         comment = listOfOtherSymptoms[k].comment;
+                       }else{
+                         comment = "None"
+                       }
+                       if(listOfOtherSymptoms[k].frequency!=undefined){
+                         frequency = listOfOtherSymptoms[k].frequency;
+                       }
+                       if(!foundElement2){
+                         if(foundElement){
+                           this.omimSymptoms.push({id:k, name: listOfOtherSymptoms[k].name, def: def, comment: comment, synonyms: listOfOtherSymptoms[k].synonyms, checked: true, frequency: frequency});
+                         }else{
+                           this.omimSymptoms.push({id:k, name: listOfOtherSymptoms[k].name, def: def, comment: comment, synonyms: listOfOtherSymptoms[k].synonyms, checked: false, frequency: frequency});
+                         }
+                       }
+                       if(!foundElement3){
+                         if(foundElement){
+                           this.orphaSymptoms.push({id:k, name: listOfOtherSymptoms[k].name, def: def, comment: comment, synonyms: listOfOtherSymptoms[k].synonyms, checked: true, frequency: frequency});
+                         }else{
+                           this.orphaSymptoms.push({id:k, name: listOfOtherSymptoms[k].name, def: def, comment: comment, synonyms: listOfOtherSymptoms[k].synonyms, checked: false, frequency: frequency});
+                         }
+                       }
+
+                     }
+                  }
+                }
+              }
+            }
+
+            this.omimSymptoms.sort(this.sortService.GetSortOrder("name"));
+            this.orphaSymptoms.sort(this.sortService.GetSortOrder("name"));
+            //asign frequency of orpha to omim symptoms
+            for(var i=0;i<this.omimSymptoms.length;i++)
+              {
+                for(var j=0;j<this.orphaSymptoms.length;j++){
+                  if(this.omimSymptoms[i].id==this.orphaSymptoms[j].id){
+                    this.omimSymptoms[i].frequency = this.orphaSymptoms[j].frequency;
+                  }
+                }
+
+              }
+              /*for(var i=0;i<this.phenotype.data.length;i++)
+              {
+                for(var j=0;j<this.orphaSymptoms.length;j++){
+                  if(this.phenotype.data[i].id==this.orphaSymptoms[j].id){
+                    this.phenotype.data[i].frequency = this.orphaSymptoms[j].frequency;
+                  }
+                }
+
+              }*/
+            this.checkOPatientSymptoms();
+            this.checkOmimSymptoms();
+            this.checkOrphaSymptoms();
+            console.log(this.orphaSymptoms)
+            // Llamada para coger los hijos de los sintomas
+            // List IDs
+            var symptomsOfDiseaseIds =[];
+            this.fullListSymptoms.forEach(function(element) {
+              symptomsOfDiseaseIds.push(element.id);
+            });
+            this.getSuccessors(symptomsOfDiseaseIds);
+
+            this.calculateAll(symptomsOfDiseaseIds);
+          }
+      }, (err) => {
+        console.log(err);
+        this.toastr.error('', this.translate.instant("dashboardpatient.error try again"));
+        this.loadingSymptomsOfDisease = false;
+        this.loadingGraphSymptomFreq=false;
+      }));
+
+    }
+    async getSuccessors(symptomsOfDiseaseIds){
+      return new Promise(async function (resolve, reject) {
+        var result = { status: 200, data: [], message: "Calcule Conditions score OK" }
+        //obtengo los hijos de la lista completa
+        this.subscription.add(this.apif29BioService.getSuccessorsOfSymptomsDepth(symptomsOfDiseaseIds)
+        .subscribe( async (res1 : any) => {
+            await this.getPredecessorsOrpha(); //padres de orpha
+            await this.setFrequencies(res1);//magia
+            await this.getfrequencies()//pintar
+        }, (err) => {
+          console.log(err);
+        }));
+        return resolve(result);
+      }.bind(this))
+    }
+
+    parseOtherInfoSymptomsOfDisease(info){
+      var clinical_course = [];
+      if(Object.keys(info.clinical_course).length>0){
+        for(var hpo in info.clinical_course) {
+          clinical_course.push({hpo:hpo, info: info.clinical_course[hpo]});
+        }
+      }
+      var clinical_modifier = [];
+      if(Object.keys(info.clinical_modifier).length>0){
+        for(var hpo in info.clinical_modifier) {
+          clinical_modifier.push({hpo:hpo, info: info.clinical_modifier[hpo]});
+        }
+      }
+      var xrefs = this.cleanOrphas(info.xrefs)
+      this.actualRelatedDisease = {clinical_course: clinical_course, clinical_modifier: clinical_modifier, xrefs: xrefs, name: info.name};
+    }
+
+    cleanOrphas(xrefs){
+      var res = [];
+      var count = 0;
+      for (var i = 0; i < xrefs.length; i++){
+        if(xrefs[i].indexOf('ORPHA')!=-1 || xrefs[i].indexOf('OMIM')!=-1){
+          if(xrefs[i].indexOf('ORPHA')!=-1){
+            count++;
+          }
+          if(count<2){
+            var value = xrefs[i].split(':');
+            if(xrefs[i].indexOf('ORPHA')!=-1){
+              res.push({name: 'Orphanet', id: value[1]});
+            }else if(xrefs[i].indexOf('OMIM')!=-1){
+              res.push({name: 'OMIM', id: value[1]});
+            }
+
+          }
+        }
+
+      }
+      return res;
+    }
+
+    async getPredecessorsOrpha(){
+      return new Promise(async function (resolve, reject) {
+        var result = { status: 200, data: [], message: "Calcule Conditions score OK" }
+        var symptomsOfDiseaseIds =[];
+        this.orphaSymptoms.forEach(function(element) {
+          symptomsOfDiseaseIds.push(element.id);
+        });
+
+        this.subscription.add(this.apif29BioService.​getPredecessorsOfSymptomsDepth(symptomsOfDiseaseIds)
+        .subscribe( async (res1 : any) => {
+          // Para cada res tengo que pedir info de la frequencia y guardar
+          this.treeOrphaPredecessors=res1;
+          await this.setPredecessorsOrpha()
+          return resolve(result);
+        }, (err) => {
+          console.log(err);
+          return resolve(result);
+        }));
+
+      }.bind(this))
+    }
+
+
+    async setPredecessorsOrpha(){
+      var tamanotreeOrpha= Object.keys(this.treeOrphaPredecessors).length;
+      if(tamanotreeOrpha>0){
+        for (var ipos = 0; ipos < this.orphaSymptoms.length; ipos++){
+          var result = [];
+          var ojjToSearch = this.treeOrphaPredecessors[this.orphaSymptoms[ipos].id];
+          var tamano= Object.keys(ojjToSearch).length;
+          if(tamano>0){
+            this.orphaSymptoms[ipos].tree = [];
+            this.getTree(ipos, ojjToSearch, this.orphaSymptoms[ipos].frequency)
+          }
+        }
+      }
+    }
+
+    getTree(index, ojjToSearch, frequency){
+      var tamano= Object.keys(ojjToSearch).length;
+      if(tamano>0){
+        for(var j in ojjToSearch){
+          var foundElement = this.searchService.search(this.orphaSymptoms[index].tree,'id', j);
+          if(!foundElement){
+            this.orphaSymptoms[index].tree.push({id:j,frequency:frequency});
+          }
+          var tamano2= Object.keys(ojjToSearch[j]).length;
+          if(tamano2>0){
+            this.getTree(index, ojjToSearch[j],frequency);
+          }
+        }
+      }
+
+    }
+
+    async setFrequencies(list){
+      // Recorrer todos los trees, y los ids duplicados me quedo con la freq mayor = padres de orpha.
+      var parents = [];
+      for (var ipos = 0; ipos < this.orphaSymptoms.length; ipos++){
+        for(var jpos = 0; jpos < this.orphaSymptoms[ipos].tree.length; jpos++){
+          var foundInParents = false
+          for (var kpos=0;kpos<parents.length;kpos++){
+            if(parents[kpos].id == this.orphaSymptoms[ipos].tree[jpos].id){
+              if(this.hp_frequencies[parents[kpos].frequency]!=undefined){
+                var parentFrequency = this.hp_frequencies[parents[kpos].frequency].present;
+                if(this.hp_frequencies[this.orphaSymptoms[ipos].tree[jpos].frequency]!=undefined){
+                  var orphaFrequency = this.hp_frequencies[this.orphaSymptoms[ipos].tree[jpos].frequency].present;
+                  if(orphaFrequency > parentFrequency){
+                    parents[kpos].frequency = this.orphaSymptoms[ipos].tree[jpos].frequency;
+                  }
+                  foundInParents = true;
+                }
+              }
+
+
+            }
+          }
+          if(foundInParents == false){
+            parents.push(this.orphaSymptoms[ipos].tree[jpos])
+          }
+        }
+      }
+
+      for (var i = 0; i < this.fullListSymptoms.length; i++){
+        if(this.fullListSymptoms[i].frequency==null){
+          var actualList = list[this.fullListSymptoms[i].id];
+          var actualList2 ={}
+          actualList2[this.fullListSymptoms[i].id]=actualList
+
+          var found_in_symptom = false;
+          // Comparando cada sintoma con orpha y los padres
+          found_in_symptom = await this.completeFrequencies(i, this.fullListSymptoms[i].id, parents);
+
+          /*if ((found_in_symptom == false) && (this.fullListSymptoms[i].succesors != undefined)) {
+            // Comparando los hijos del sintoma con orpha y los padres
+            for (var j=0; j<this.fullListSymptoms[i].succesors.length; j++) {
+              this.completeFrequencies(i, this.fullListSymptoms[i].succesors[j], parents);
+            }
+          }*/
+        }
+      }
+
+    }
+
+    async completeFrequencies(index, id, parents){
+      var foundSymptom = false;
+      // Si el id está en la lista de Orpha o en los padres de la lista de orpha
+      for (var ipos = 0; ipos < this.orphaSymptoms.length && !foundSymptom; ipos++){
+
+        // Si el id está en la lista de Orpha
+        if(id==this.orphaSymptoms[ipos].id){
+          this.setFrequencyToSymptom(index,ipos,null,parents)
+          foundSymptom=true;
+        }
+        // Si no busco en los padres de orpha
+        else {
+          for (var jpos = 0; jpos < this.orphaSymptoms[ipos].tree.length && !foundSymptom; jpos++){
+            // Si está en los padres de la lista de orpha
+            if(id==this.orphaSymptoms[ipos].tree[jpos].id){
+              this.setFrequencyToSymptom(index,ipos,jpos,parents)
+              foundSymptom=true;
+            }
+          }
+        }
+      }
+
+      return foundSymptom;
+    }
+
+    async setFrequencyToSymptom(index,ipos,jpos,parents){
+      if(this.fullListSymptoms[index].frequency == null){
+        if(jpos == null) {
+          this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
+          this.orphaSymptoms[ipos].frequency = null;
+        }
+        else {
+          this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].tree[jpos].frequency;
+          this.orphaSymptoms[ipos].tree[jpos].frequency = null;
+        }
+      }else if(this.fullListSymptoms[index].frequency!=null){
+        //REVISAR ESTO PORQUE ES PELIGROSO, SI CAMBIAN LOS HPOS DE PRIORIDAD PUEDE DEJAR DE FUNCIONAR
+        if(jpos == null) {
+          if(this.fullListSymptoms[index].frequency>this.orphaSymptoms[ipos].frequency){
+            this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].frequency;
+            this.orphaSymptoms[ipos].frequency = null;
+          }
+        }
+        else {
+          if(this.fullListSymptoms[index].frequency>this.orphaSymptoms[ipos].tree[jpos].frequency){
+            this.fullListSymptoms[index].frequency = this.orphaSymptoms[ipos].tree[jpos].frequency;
+            this.orphaSymptoms[ipos].tree[jpos].frequency = null;
+          }
+        }
+      }
+
+    }
+
+    async getfrequencies() {
+      //getInfo symptoms
+      var hposStrins =[];
+      this.fullListSymptoms.forEach(function(element) {
+        if(element.frequency!=null){
+          hposStrins.push(element.frequency);
+        }
+
+      });
+      var lang = this.authService.getLang();
+      await this.apif29BioService.getInfoOfSymptoms(lang,hposStrins)
+      .subscribe( (res : any) => {
+        var tamano= Object.keys(res).length;
+        if(tamano>0){
+          for(var i in res) {
+            for (var j = 0; j < this.fullListSymptoms.length; j++) {
+              if(res[i].id==this.fullListSymptoms[j].frequency){
+                if(this.fullListSymptoms[j].frequencyInfo==undefined){
+                  this.fullListSymptoms[j].frequencyInfo = {name:res[i].name, desc:res[i].desc};
+                  this.fullListSymptoms[j].frequencyId= res[i].id
+                }
+              }
+              this.fullListSymptoms[j].myCase = false;
+              if((this.fullListSymptoms[j].patient) || (!this.fullListSymptoms[j].patient && this.fullListSymptoms[j].patientbutsuccessor)){
+                this.fullListSymptoms[j].myCase = true;
+              }
+              this.fullListSymptoms[j].referenceCase = false;
+              if((!this.fullListSymptoms[j].patient) || (this.fullListSymptoms[j].patient && (this.fullListSymptoms[j].orphanet || this.fullListSymptoms[j].omim)) || (this.fullListSymptoms[j].patient && !this.fullListSymptoms[j].orphanet && !this.fullListSymptoms[j].omim && this.fullListSymptoms[j].notpatientbutsuccessor)){
+                this.fullListSymptoms[j].referenceCase = true;
+              }
+            }
+          }
+          //this.fullListSymptoms.sort(this.sortService.GetSortOrder("frequencyId"));
+          for (var ki = 0; ki < this.fullListSymptoms.length; ki++) {
+            if(this.fullListSymptoms[ki].frequency==undefined){
+              this.fullListSymptoms[ki].frequencyId= "HP:0040289";
+            }
+          }
+          this.fullListSymptoms.sort(this.sortService.GetSortTwoElements("frequency", "name"));
+          this.fullListSymptoms.sort(this.sortService.GetSortSymptoms());
+          this.fullListSymptoms.sort(this.sortService.GetSortSymptoms2());
+        }
+
+     }, (err) => {
+       console.log(err);
+     });
+    }
+
+    calculateAll(symptomsOfDiseaseIds){
+      this.listGenericSymptoms = [];
+      // Get predecessors
+      this.subscription.add(this.apif29BioService.getSuccessorsOfSymptoms(symptomsOfDiseaseIds)
+      .subscribe( (res1 : any) => {
+        var successorsAllSymptoms=res1;
+        // Añadir los succesors a la lista de symptoms
+        Object.keys(successorsAllSymptoms).forEach(key => {
+          Object.keys(successorsAllSymptoms[key]).forEach(keyValue=>{
+            for(var i=0;i<this.fullListSymptoms.length;i++){
+              if(this.fullListSymptoms[i].id==key){
+                if(this.fullListSymptoms[i].id==key){
+                  if(this.fullListSymptoms[i].succesors==undefined){
+                    this.fullListSymptoms[i].succesors = [keyValue]
+                  }
+                  else{
+                    this.fullListSymptoms[i].succesors.push(keyValue)
+                  }
+                }
+              }
+            }
+          });
+        });
+
+        //console.log(this.fullListSymptoms)
+        // Separar los sintomas genericos a  this.listGenericSymptoms
+        var symptonmPhen=false;
+        for(var i=0;i<this.fullListSymptoms.length;i++){
+          symptonmPhen=false;
+          for (var j=0;j<this.phenotype.data.length;j++){
+            if(this.phenotype.data[j].id==this.fullListSymptoms[i].id){
+              symptonmPhen=true;
+            }
+          }
+          if(symptonmPhen==false){
+            this.listGenericSymptoms.push(this.fullListSymptoms[i])
+          }
+          else{
+            for(var j=0;j<this.omimSymptoms.length;j++){
+              if(this.fullListSymptoms[i].id==this.omimSymptoms[j].id){
+                this.listGenericSymptoms.push(this.fullListSymptoms[i])
+              }
+            }
+            for(var j=0;j<this.orphaSymptoms.length;j++){
+              if(this.fullListSymptoms[i].id==this.orphaSymptoms[j].id){
+                this.listGenericSymptoms.push(this.fullListSymptoms[i])
+              }
+            }
+          }
+        }
+        // Eliminar los repetidos
+        this.listGenericSymptoms= this.listGenericSymptoms.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
+        this.fullListSymptoms=this.compareListAndUpdateChecksForPredecessors(this.fullListSymptoms,this.phenotype.data,this.listGenericSymptoms)
+
+        //console.log(this.listGenericSymptoms)
+        // Asi ya tenemos por un lado los genericos y por otro los de phenotype
+
+        this.listSymptomsMe=[];
+        this.listSymptomsGeneric=[];
+        this.listSymptomsMeGeneric=[];
+
+        // Calculo la información del los diagramas
+        this.calculeChartSymptomsInfo(); //(listas de cada caso)
+        var listSymptomsMeWithoutSuccessors=[]
+
+        // Diagrama de Venn
+        // De mis sintomas tengo que quitar los que son succesors para el data
+        // Es decir, solo quedarme con los de phenotype.data
+        for(var i=0;i<this.phenotype.data.length;i++){
+          listSymptomsMeWithoutSuccessors.push(this.phenotype.data[i].name)
+        }
+
+        // Lista de datos de entrada para la representacion del diagrama de Venn
+        this.chartDataVenn = [];
+        this.chartDataVenn = [
+          {sets: ['My case'], size: this.listSymptomsMe.length,label: this.translate.instant("patdiagdashboard.panel3MyCase"),data:listSymptomsMeWithoutSuccessors},
+          {sets: ['Reference case'], size: this.listSymptomsGeneric.length, label:this.translate.instant("patdiagdashboard.panel3ReferenceCase"),data:this.listSymptomsGeneric},
+          {sets: ['My case','Reference case'], size: this.listSymptomsMeGeneric.length,data:this.listSymptomsMeGeneric}
+        ];
+
+        this.drawCharts();
+        this.loadingGraphSymptomFreq= false;
+
+      }, (err) => {
+        console.log(err);
+        this.loadingGraphSymptomFreq=false;
+        this.toastr.error('', this.translate.instant("dashboardpatient.error try again"));
+      }));
+    }
+
+    checkOmimSymptoms(){
+      for(var i = 0; i < this.omimSymptoms.length; i++) {
+        var foundElement = this.searchService.search(this.fullListSymptoms,'id', this.omimSymptoms[i].id);
+        if(foundElement){
+          for(var j = 0; j < this.fullListSymptoms.length; j++) {
+            if(this.fullListSymptoms[j].id==this.omimSymptoms[i].id){
+              this.fullListSymptoms[j].omim= true;
+            }
+          }
+        }else{
+          this.fullListSymptoms.push({id:this.omimSymptoms[i].id, name: this.omimSymptoms[i].name, def: this.omimSymptoms[i].def, comment: this.omimSymptoms[i].comment, synonyms: this.omimSymptoms[i].synonyms, group: 'none', omim: true, orphanet: false, patient: false, frequency: this.omimSymptoms[i].frequency});
+        }
+      }
+    }
+
+    checkOrphaSymptoms(){
+      for(var i = 0; i < this.orphaSymptoms.length; i++) {
+        var foundElement = this.searchService.search(this.fullListSymptoms,'id', this.orphaSymptoms[i].id);
+        if(foundElement){
+          for(var j = 0; j < this.fullListSymptoms.length; j++) {
+            if(this.fullListSymptoms[j].id==this.orphaSymptoms[i].id){
+              this.fullListSymptoms[j].orphanet= true;
+            }
+          }
+        }else{
+          //this.fullListSymptoms.push({id:this.orphaSymptoms[i].id, name: this.orphaSymptoms[i].name, def: this.orphaSymptoms[i].def, comment: this.orphaSymptoms[i].comment, synonyms: this.orphaSymptoms[i].synonyms, group: 'none', omim: false, orphanet: true, patient: false});
+        }
+      }
+    }
+
+    checkOPatientSymptoms(){
+      this.fullListSymptoms = [];
+      for(var i = 0; i < this.phenotype.data.length; i++) {
+        var foundElement = this.searchService.search(this.fullListSymptoms,'id', this.phenotype.data[i].id);
+        if(foundElement){
+          for(var j = 0; j < this.fullListSymptoms.length; j++) {
+            if(this.fullListSymptoms[j].id==this.phenotype.data[i].id){
+              this.fullListSymptoms[j].patient= true;
+            }
+          }
+        }else{
+          var frequency = null;
+          if(this.phenotype.data[i].frequency!=undefined){
+            if(this.phenotype.data[i].frequency!=null){
+              //frequency = this.phenotype.data[i].frequency
+            }
+          }
+          this.fullListSymptoms.push({id:this.phenotype.data[i].id, name: this.phenotype.data[i].name, def: this.phenotype.data[i].def, comment: this.phenotype.data[i].comment, synonyms: this.phenotype.data[i].synonyms, group: 'none', omim: false, orphanet: false, patient: true, frequency: frequency});
+        }
+      }
+    }
+
+    calculeChartSymptomsInfo(){
+      this.chartSize_MeGeneric=0;
+      this.listSymptomsMe=[];
+      this.listSymptomsGeneric=[];
+      this.listSymptomsMeGeneric=[];
+
+      // Calcule Me
+      for(var i=0;i<this.phenotype.data.length;i++){
+        this.listSymptomsMe.push(this.phenotype.data[i].name)
+      }
+      // Calcule Generic
+      for(var i=0;i<this.listGenericSymptoms.length;i++){
+        this.listSymptomsGeneric.push(this.listGenericSymptoms[i].name)
+      }
+      // Calcule size Me-Generic
+      for(var i=0;i<this.phenotype.data.length;i++){
+        for(var j=0;j<this.listGenericSymptoms.length;j++){
+          if(this.phenotype.data[i].id==this.listGenericSymptoms[j].id){
+            this.listSymptomsMeGeneric.push(this.phenotype.data[i].name)
+            this.chartSize_MeGeneric=this.chartSize_MeGeneric+1;
+          }
+        }
+      }
+
+      var resultListSuccesors=this.compareListAndUpdateChecksForPredecessors(this.fullListSymptoms,this.phenotype.data,this.listGenericSymptoms)
+      for(var i=0;i<resultListSuccesors.length;i++){
+        if(resultListSuccesors[i].patientbutsuccessor==true){
+          this.listSymptomsMeGeneric.push(resultListSuccesors[i].name)
+          this.listSymptomsMe.push(resultListSuccesors[i].name)
+        }
+        if(resultListSuccesors[i].notpatientbutsuccessor==true){
+          this.listSymptomsMeGeneric.push(resultListSuccesors[i].name)
+        }
+      }
+      this.listSymptomsGeneric= this.listSymptomsGeneric.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
+      this.listSymptomsMeGeneric= this.listSymptomsMeGeneric.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
+      this.listSymptomsMe= this.listSymptomsMe.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
+
+    }
+
+    compareListAndUpdateChecksForPredecessors(totalList,p1,p2){
+      // this.fullListSymptoms[j].notpatientbutsuccessor= true;
+      // p1:pheno
+      // p2:generic
+
+      for(var i=0;i<totalList.length;i++){
+        // Comparo con p1:
+        // tengo que separar los que son de la lista de p1, para comparar el resto con la lista de p1
+        if(p1.includes(totalList[i])==false){
+          for(var j=0;j<p1.length;j++){
+            // miro si el de la total es padre de alguno de p1: si en la lista de sucesores del total esta incluido p1
+            if(totalList[i].succesors!=undefined){
+              if(totalList[i].succesors.includes(p1[j].id)){
+                totalList[i].patientbutsuccessor= true;
+              }
+            }
+          }
+        }
+      }
+      for(var i=0;i<totalList.length;i++){
+        // Comparo con p2:
+        // tengo que separar los que son de la lista de p2, para comparar el resto con la lista de p2
+        if(p2.includes(totalList[i])==false){
+          // Recorro entonces p2 y comparo los de la lista p2 con los que tengo
+          for(var j=0;j<p2.length;j++){
+            if(totalList[i].succesors!=undefined){
+              // miro si el de la total es padre de alguno de p2: si en la lista de sucesores del total esta incluido p2
+              if(totalList[i].succesors.includes(p2[j].id)){
+                totalList[i].notpatientbutsuccessor= true;
+              }
+            }
+          }
+        }
+      }
+      return totalList;
+    }
+
+
+    drawCharts(){
+      // Dibujo los gráficos
+      // Elimino todo lo que hubiese (limpio la pantalla)
+      d3.selectAll("svg").remove();
+      d3.selectAll(".venntooltip").remove();
+      d3.selectAll(".text").remove();
+
+      var venn=document.getElementById('chartVenn')
+      if(venn!=null){
+        venn.insertAdjacentHTML('beforeend', '<svg id ="venn" viewBox="0 0 500 340" [style.margin-left.px]= "-(((venn.offsetWidth)/2)+(margin.left/2))"></svg>');
+
+        this.createChartVenn();
+
+        //this.redrawNewSize=true
+
+        // Check if the lists have info- if not svg size to 0
+
+        if(this.chartDataVenn.length==0){
+          var graphVennSvg=document.getElementById('venn')
+          graphVennSvg.style.height = "0px";
+          graphVennSvg.style.width = "0px";
+        }
+      }
+
+
+    }
+
+    createChartVenn(){
+      // --- First graph --------------------------------------------------------------------------
+      // 1. create Venn diagram
+
+      let elementVenn = this.chartContainerVenn.nativeElement;
+
+      this.widthVenn = elementVenn.offsetWidth - this.margin.left - this.margin.right;
+      this.heightVenn = elementVenn.offsetHeight - this.margin.top - this.margin.bottom;
+
+      if(this.listSymptomsMeGeneric.length==0){
+        //this.widthVenn = elementVenn.offsetWidth - 4*this.margin.left - 4*this.margin.right;
+        //this.heightVenn = elementVenn.offsetHeight - 4*this.margin.top - 4*this.margin.bottom;
+        document.getElementById('venn').remove()
+        var vennSvg=document.getElementById('chartVenn')
+        vennSvg.insertAdjacentHTML('beforeend', '<svg id ="venn" viewBox="0 0 500 380" [style.margin-left.px]= "-(({{venn.offsetWidth}})/2)+({{margin.left}}/2))"></svg>');
+      }
+
+      //this.chartDataVenn.sort(function(a:any,b:any) { return b.size - a.size; })
+      //console.log(this.chartDataVenn)
+      this.chartVenn = venn.VennDiagram()
+      let svg1 = d3.select("#venn")
+        .datum(this.chartDataVenn)
+        .call(this.chartVenn)
+        .attr('width', this.widthVenn)
+        .attr('height', this.heightVenn);
+
+
+      svg1.selectAll("g").sort(function(a:any,b:any) { return b.size - a.size; })
+      svg1.selectAll("svg").attr("class","venn2");
+
+      // 2. Add style to venn diagram
+      //var colors2 = d3.scaleLinear().domain([0, this.chartDataVenn.length]).range(<any[]>['red', 'blue']);
+      /*svg1.selectAll('.venn-circle path').transition()
+        .style('fill', (d, i) => colors2(i));*/
+      if(this.listSymptomsMe.length>0){
+        if(this.listSymptomsGeneric.length>0){
+          svg1.selectAll(".venn-circle path")
+          .style("fill-opacity", .4)
+          .style("stroke-width", 1)
+          .style("stroke-opacity", 1)
+          .style("stroke", "fff")
+        }
+        else{
+          svg1.selectAll(".venn-circle path")
+          .style("fill-opacity", .4)
+          .style("stroke-width", 1)
+          .style("stroke-opacity", 1)
+          .style("stroke", "fff")
+          .style("fill","#1f77b4")
+        }
+      }
+      else{
+        svg1.selectAll(".venn-circle path")
+          .style("fill-opacity", .4)
+          .style("stroke-width", 1)
+          .style("stroke-opacity", 1)
+          .style("stroke", "fff")
+          .style("fill","#ff7f0e")
+      }
+      svg1.selectAll(".venn-circle text")
+        .style("font-size","14px")
+        .style("fill","black")
+        .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+
+      // 3. Add a tooltip
+      var tooltip = d3.select("#chartVenn").append("div")
+        .attr("class", "venntooltip")
+        .attr("data-html", "true");
+
+
+      var graphOnClick=[];
+      for(var i=0;i<this.chartDataVenn.length;i++){
+        graphOnClick.push(false)
+      }
+      var chartData=this.chartDataVenn;
+      var lastD=undefined;
+      var listVennSelected=[];
+      var lang=this.authService.getLang();
+      // 4. add listeners to all the groups to display tooltip on mouseover
+      svg1.selectAll("g").on("click", function(d:any, i) {
+        for(var i=0;i<chartData.length;i++){
+          if(d==chartData[i]){
+            lastD=d;
+            graphOnClick[i]=!graphOnClick[i]
+            //console.log(graphOnClick[i])
+            if(graphOnClick[i]==true){
+              // sort all the areas relative to the current item
+              venn.sortAreas(svg1, d);
+              tooltip.transition().duration(400)
+              .style("fill-opacity", 0)
+              .style("stroke-width", 1)
+              .style("stroke-opacity", 1)
+              .style("stroke", "fff")
+              .style("border","none");
+              tooltip.html("");
+
+              // Display a tooltip
+              tooltip.transition().duration(400)
+              .style("fill-opacity", .8)
+              .style("stroke-width", 2)
+              .style("stroke-opacity", 1)
+              .style("display", "block")
+              .style("position", "absolute")
+              .style("background-color","white")
+              .style("color","black")
+              .style("border","1px solid black")
+              .style("z-index","9999");;
+
+              // tooltim html content
+              var symptomsAreaList="";
+              for(var j=0;j<d.data.length;j++){
+                symptomsAreaList=symptomsAreaList+'<li style="float: left;width: 40%; margin-left:3%">'+d.data[j]+'</li>';
+              }
+              var nameArea="";
+              if(d.label!=undefined){
+                nameArea=d.label
+              }
+              else{
+                nameArea="common symptoms"
+              }
+
+              if(lang=='es'){
+                if(d.data.length==1){
+                  tooltip.html('<div><button type="button" class="close" aria-label="Close" style="padding-right:3%"> <span aria-hidden="true">&times;</span></button></div><div> En el área <b>'+ nameArea +"</b> hay "+d.data.length + " síntoma: <br> <ul>"+symptomsAreaList+"</ul></div>");
+                }
+                else{
+                  tooltip.html('<div><button type="button" class="close" aria-label="Close" style="padding-right:3%"> <span aria-hidden="true">&times;</span></button></div><div> En el área <b>'+ nameArea +"</b> hay "+d.data.length + " síntomas: <br> <ul>"+symptomsAreaList+"</ul></div>");
+                }
+              }
+              else{
+                if(d.data.length==1){
+                  tooltip.html('<div><button type="button" class="close" aria-label="Close" style="padding-right:3%"> <span aria-hidden="true">&times;</span></button></div><div>In <b>'+ nameArea +" area</b> there is "+d.data.length + " symptom: <br> <ul>"+symptomsAreaList+"</ul></div>");
+                }
+                else{
+                  tooltip.html('<div><button type="button" class="close" aria-label="Close" style="padding-right:3%"> <span aria-hidden="true">&times;</span></button></div><div>In <b>'+ nameArea +" area</b> there are "+d.data.length + " symptoms: <br> <ul>"+symptomsAreaList+"</ul></div>");
+                }
+              }
+              tooltip
+              .style("padding-top","2%")
+              .style("padding-left","3%")
+              .style("padding-bottom","2%")
+              // highlight the current path
+              var selection = d3.select(this).transition("tooltip").duration(400);
+              //console.log(selection)
+              //console.log(this)
+              listVennSelected.push({d:d,element:this,label:d.label})
+              if(d.label!=undefined){
+                selection.select("path")
+                  .style("stroke-width", 3)
+                  .style("fill-opacity", .7)
+                  .style("stroke-opacity", 1)
+                  .style("color","white");
+
+                selection.select("text")
+                  .style("fill","white");
+                }
+              else{
+                selection.select("path")
+                  .style("stroke-width", 3)
+                  .style("fill-opacity", .5)
+                  .style("stroke-opacity", 1)
+                  .style("color","white");
+
+                selection.select("text")
+                  .style("font-size","14px")
+                  .style("fill","white")
+                  .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+              }
+              tooltip.select("button").on("click",function(){
+                //console.log(chartData)
+                for(var i=0;i<chartData.length;i++){
+                  if(lastD==chartData[i]){
+                    //console.log(graphOnClick)
+                    //console.log("click")
+                    svg1.selectAll("g").sort(function(a:any,b:any) { return b.size - a.size; })
+                    svg1.selectAll(".venn-intersection path")
+                      .style("fill-opacity", 0)
+                    svg1.selectAll(".venn-circle path")
+                      .style("fill-opacity", .4)
+                      .style("stroke-width", 1)
+                      .style("stroke-opacity", 1)
+                      .style("stroke", "fff");
+                    svg1.selectAll(".venn-circle text")
+                      .style("font-size","14px")
+                      .style("fill","black")
+                      .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+                    tooltip.transition().duration(400)
+                      .style("background-color","transparent")
+                      .style("fill-opacity", 0)
+                      .style("stroke-width", 1)
+                      .style("stroke-opacity", 1)
+                      .style("stroke", "fff")
+                      .style("border","none")
+
+                    tooltip.html("");
+                    graphOnClick[i]=false;
+                    listVennSelected=[];
+                    /*console.log(graphOnClick[i])
+                    console.log(i)
+                    console.log(graphOnClick)*/
+                  }
+                }
+              })
+
+            }
+            else{
+              svg1.selectAll(".venn-intersection path")
+              .style("fill-opacity", 0)
+              /*svg1.selectAll('.venn-circle path').transition()
+              .style('fill', (d, i) => colors2(i));*/
+              svg1.selectAll(".venn-circle path")
+                .style("fill-opacity", .4)
+                .style("stroke-width", 1)
+                .style("stroke-opacity", 1)
+                .style("stroke", "fff");
+              svg1.selectAll(".venn-circle text")
+                .style("font-size","14px")
+                .style("fill","black")
+                .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+              tooltip.transition().duration(400)
+                .style("fill-opacity", 0)
+                .style("stroke-width", 1)
+                .style("stroke-opacity", 1)
+                .style("stroke", "fff")
+                .style("border","none")
+                .style("background-color","transparent")
+              tooltip.html("");
+              listVennSelected=[];
+            }
+          }
+          else{
+            //console.log(listVennSelected)
+            graphOnClick[i]=false;
+
+            if(listVennSelected.length>0){
+              //console.log(listVennSelected.length)
+              for(var j=0;j<listVennSelected.length;j++){
+                if(listVennSelected[j].d==chartData[i]){
+                  //console.log(j)
+                  var selection2 = d3.select(listVennSelected[j].element).transition("tooltip").duration(400);
+                  //console.log(selection2)
+                  if(listVennSelected[j].label!=undefined){
+                    //console.log(selection)
+                    selection2.select("path")
+                      .style("fill-opacity", .4)
+                      .style("stroke-width", 1)
+                      .style("stroke-opacity", 1)
+                      .style("stroke", "fff");
+
+                    selection2.select("text")
+                      .style("font-size","14px")
+                      .style("fill","black")
+                      .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+                  }
+                  else{
+                    selection2.select("path")
+                      .style("fill-opacity", 0)
+
+                    selection2.select("text")
+                      .style("fill","black");
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+      svg1.selectAll("g").on("mouseover", function(d:any, i) {
+        var selection = d3.select(this).transition("tooltip").duration(400);
+        for(var i=0;i<graphOnClick.length;i++){
+          if(graphOnClick[i]==false){
+            if(d.label!=undefined){
+              //console.log(selection)
+              selection.select("path")
+                  .style("stroke-width", 3)
+                  .style("fill-opacity", .7)
+                  .style("stroke-opacity", 1)
+                  .style("color","white");
+
+              selection.select("text")
+                .style("font-size","14px")
+                .style("fill","white")
+                .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+            }
+            else{
+              selection.select("path")
+              .style("stroke-width", 3)
+              .style("fill-opacity", .5)
+              .style("stroke-opacity", 1)
+              .style("color","white");
+
+              selection.select("text")
+                .style("font-size","14px")
+                .style("fill","white")
+                .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+            }
+          }
+        }
+      });
+      svg1.selectAll("g").on("mouseout", function(d:any, i) {
+        //console.log(graphOnClick)
+        svg1.selectAll("g").sort(function(a:any,b:any) { return b.size - a.size; })
+        var selection = d3.select(this).transition("tooltip").duration(400);
+        for(var i=0;i<chartData.length;i++){
+          if(d==chartData[i]){
+            if(graphOnClick[i]==false){
+              /*svg1.selectAll('.venn-circle path').transition()
+              .style('fill', (d, i) => colors2(i));*/
+              if(d.label!=undefined){
+                selection.select("path")
+                  .style("fill-opacity", .4)
+                  .style("stroke-width", 1)
+                  .style("stroke-opacity", 1)
+                  .style("stroke", "fff")
+                selection.select("text")
+                  .style("font-size","14px")
+                  .style("fill","black")
+                  .style("font-family",'"Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+              }
+              else{
+                selection.select("path")
+                .style("fill-opacity", 0)
+              }
+            }
+          }
+        }
+        var anySelected=false;
+        for(var i=0;i<graphOnClick.length;i++){
+          if(graphOnClick[i]==true){
+            anySelected=true;
+          }
+        }
+        if(anySelected==false){
+          tooltip.transition().duration(400)
+            .style("fill-opacity", 0)
+            .style("stroke-width", 1)
+            .style("stroke-opacity", 1)
+            .style("stroke", "fff")
+            .style("border","none");
+          tooltip.html("");
+        }
+      });
+    }
+
+    loadShowIntroWizard(){
+      this.subscription.add( this.http.get(environment.api+'/api/users/showintrowizard/'+this.authService.getIdUser())
+        .subscribe( (res : any) => {
+          this.showIntroWizard = res.showIntroWizard
+          this.eventsService.broadcast('showIntroWizard', this.showIntroWizard);
+          this.getActualStep(this.authService.getCurrentPatient().sub);
+
+        }, (err) => {
+          console.log(err);
+        }));
+    }
+
+    setShowIntroWizard(showIntroWizard2:boolean){
+      var object = {showIntroWizard:showIntroWizard2}
+      this.subscription.add( this.http.put(environment.api+'/api/users/showintrowizard/'+this.authService.getIdUser(), object)
+      .subscribe( (res : any) => {
+        this.showIntroWizard = showIntroWizard2;
+        this.eventsService.broadcast('showIntroWizard', this.showIntroWizard);
+       }, (err) => {
+         console.log(err);
+       }));
+
+    }
+
+    showOptions($event){
+      if($event.checked){
+        this.setShowIntroWizard(false);
+      }else{
+        this.setShowIntroWizard(true);
+      }
+    }
+
+    setNotAnalyzeGeneticInfo(){
+      this.notAnalyzeGeneticInfo = !this.notAnalyzeGeneticInfo;
+      if(this.notAnalyzeGeneticInfo){
+        this.filename = '';
+      }
+    }
+
+    setNotAnalyzeGeneticInfo2(){
+      this.notAnalyzeGeneticInfo = false;
+    }
+
+    orderFilesNcr(field){
+      this.selectedOrderFilesNcr = field;
+      if(field=='lastModified'){
+        this.docsNcr.sort(this.sortService.DateSortFiles("lastModified"));
+      }else if(field=='extension'){
+        this.docsNcr.sort(this.sortService.GetSortFilesNcrType("extension"));
+      }else{
+        this.docsNcr.sort(this.sortService.GetSortFilesNcrName(field, this.lang));
+      }
+    }
+
+    orderFilesOthers(field){
+      this.selectedOrderFilesOther = field;
+      if(field=='lastModified'){
+        this.otherDocs.sort(this.sortService.DateSortFiles("lastModified"));
+      }else{
+        this.otherDocs.sort(this.sortService.GetSortOtherFiles(field));
+      }
+    }
+
+    setStateDisease(index,info, $event){
+      this.topRelatedConditions[index].checked = $event.checked;
+      var indexElement = this.searchService.searchIndexLevel2(this.relatedConditions,'name','id', this.topRelatedConditions[index].name.id);
+      this.relatedConditions[indexElement].checked= this.topRelatedConditions[index].checked;
+      this.saveRelatedConditions();
+    }
+
+    saveRelatedConditions(){
+      if(this.authGuard.testtoken() && !this.savingDiagnosis){
+        this.savingDiagnosis = true;
+        var obtToSave = [];
+        for(var i = 0; i < this.relatedConditions.length; i++) {
+          delete this.relatedConditions[i].symptoms;
+          delete this.relatedConditions[i].xrefs;
+          //delete this.relatedConditions[i].genes;
+        }
+
+        this.subscription.add( this.http.put(environment.api+'/api/diagnosis/relatedconditions/'+this.diagnosisInfo._id, this.relatedConditions)
+        .subscribe( (res : any) => {
+          this.diagnosisInfo.relatedConditions = res.relatedConditions;//relatedConditions
+          //this.diagnosisInfo = res.diagnosis;
+          this.savingDiagnosis = false;
+          this.getSymptomsApi2();
+
+          //this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
+         }, (err) => {
+           console.log(err.error);
+           this.toastr.error('', this.translate.instant("generics.error try again"));
+           this.savingDiagnosis = false;
+         }));
+      }
+    }
+
+    changeViewOptionNcr(){
+      var value = ''
+      if(this.viewOptionNcr == 1){
+        this.viewOptionNcr = 0;
+        value = 'cards';
+      }else{
+        this.viewOptionNcr = 1;
+        value = 'list';
+      }
+      this.googleAnalyticsService.eventEmitter("View ncr: "+value, "general", "1");
+    }
+
+    loat10More(){
+      this.indexListRelatedConditions=this.indexListRelatedConditions+10;
+      this.renderMap();
+    }
+
+    getNumberOfSymptomsExo(){
+      this.numberOfSymptomsExo = 0;
+      for(var i=0;i<this.symptomsExomiser.length;i++){
+        if(this.symptomsExomiser[i].checked){
+          this.numberOfSymptomsExo++;
+        }
+      }
+    }
+
+    getTotalReports(){
+      var sum =  this.docsNcr.length+ this.otherDocs.length;
+      return sum;
+    }
+
+    setShowSwal(showWizard){
+      if(showWizard){
+        this.showIntroWizard = true
+        this.goToStep('1.0', false);
+        this.setMaxStep('1.0');
+      }
+      this.setShowSwalIntro()
+
+    }
+
+    setShowSwalIntro(){
+      var patientId = this.selectedPatient.sub;
+      var objectData = { email: this.myEmail};
+      this.subscription.add( this.http.post(environment.api+'/api/updateshowSwalIntro/'+patientId, objectData)
+      .subscribe( (res : any) => {
+        console.log(res);
+       }, (err) => {
+         console.log(err);
+       }));
+    }
+
 }

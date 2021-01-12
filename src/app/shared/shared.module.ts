@@ -11,7 +11,6 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 
 //COMPONENTS
 import { FooterComponent } from "./footer/footer.component";
-import { FooterWizardComponent } from "./footer-wizard/footer-wizard.component";
 import { Footer2Component } from "./footer2/footer2.component";
 import { FooterLandComponent } from "./footer-land/footer-land.component";
 import { NavbarComponent } from "./navbar/navbar.component";
@@ -35,7 +34,6 @@ import { SidebarToggleDirective } from './directives/sidebartoggle.directive';
     exports: [
         CommonModule,
         FooterComponent,
-        FooterWizardComponent,
         Footer2Component,
         FooterLandComponent,
         NavbarComponent,
@@ -61,7 +59,6 @@ import { SidebarToggleDirective } from './directives/sidebartoggle.directive';
     ],
     declarations: [
         FooterComponent,
-        FooterWizardComponent,
         Footer2Component,
         FooterLandComponent,
         NavbarComponent,
