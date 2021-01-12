@@ -914,12 +914,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
       this.loadShowIntroWizard();
       this.getAzureBlobSasToken();
-      this.loadMyEmail();
-      this.loadTranslations();
-      this.initVariables();
-      this.initVarsPrograms();
-      this.loadSymptoms();
-      this.getDiagnosisInfo();
+
 
       this.eventsService.on('infoStep', function(info) {
         if(info.maxStep!=null){
@@ -989,6 +984,12 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         this.accessToken.sasToken = '?'+res;
         this.blob.init(this.accessToken);
         this.blobped.init(this.accessToken);
+        this.loadMyEmail();
+        this.loadTranslations();
+        this.initVariables();
+        this.initVarsPrograms();
+        this.loadSymptoms();
+        this.getDiagnosisInfo();
         this.loadBlobFiles();
       }, (err) => {
         console.log(err);
