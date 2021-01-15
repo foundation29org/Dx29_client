@@ -152,8 +152,22 @@
                 </div>
                 </div>
               </div>
-              <div class="">
-                <div class="form-group">
+
+              <div class="row ">
+                <div class="col-lg-6 form-group">
+                <label>{{'registration.Please select a code' | translate }}</label>
+                <div>
+                  <select required class="form-control" id="countryselectedPhoneCode" name="countryselectedPhoneCode" [(ngModel)]="seleccionado" ngModel #countryselectedPhoneCode="ngModel" (change)="codePhoneChange($event, countryselectedPhoneCode.value)">
+                    <option [ngValue]="null" disabled selected>--{{'registration.Please select a code' | translate }}--</option>
+                    <option *ngFor="let phoneCode of phoneCodes; let i=index" [ngValue]="phoneCode">
+                      <label style="color:blue !important">{{phoneCode.countryCode}}</label>/
+                      <label>{{phoneCode.countryPhoneCode}}</label>
+                    </option>
+                  </select>
+                  <small class="form-text text-muted danger" *ngIf="!countryselectedPhoneCode.valid && (countryselectedPhoneCode.dirty || countryselectedPhoneCode.touched)">{{'generics.required' | translate }}</small>
+                </div>
+                </div>
+                <div class="col-lg-6 form-group">
                 <label>{{'personalinfo.Phone' | translate }}</label>
                 <div>
                   <input class="form-control" type="text" id="phone" name="phone" ngModel required #phone="ngModel" name="phone" (keypress)="keyPress($event)" minlength=9 maxlength=14>
