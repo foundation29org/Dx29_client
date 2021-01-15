@@ -5,6 +5,7 @@ import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { SortService} from 'app/shared/services/sort.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
@@ -28,10 +29,13 @@ export class GtpPageComponent implements OnInit, OnDestroy{
     isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
     modalReference: NgbModalRef;
     lang: string = 'en';
+    phoneCodes:any=[];
+    phoneCodeSelected:String="";
+    seleccionado: string = null;
     private subscription: Subscription = new Subscription();
 
-    constructor(private router: Router, private http: HttpClient, public translate: TranslateService, private modalService: NgbModal, private route: ActivatedRoute, public toastr: ToastrService, private eventsService: EventsService) {
-
+    constructor(private router: Router, private http: HttpClient, public translate: TranslateService, private modalService: NgbModal, private route: ActivatedRoute, public toastr: ToastrService, private eventsService: EventsService, private sortService: SortService) {
+      this.loadPhoneCodes();
     }
 
     ngOnInit(){
@@ -44,6 +48,29 @@ export class GtpPageComponent implements OnInit, OnDestroy{
 
     ngOnDestroy() {
       this.subscription.unsubscribe();
+    }
+
+    loadPhoneCodes(){
+    //cargar la lista mundial de ciudades
+    this.subscription.add( this.http.get('assets/jsons/phone_codes.json')
+    .subscribe( (res : any) => {
+      for (var i=0;i<res.length;i++){
+        var phoneCodeList=res[i].phone_code.split(/["]/g)
+        var phoneCode="+"+phoneCodeList[1]
+        var countryNameCode="";
+        var countryNameCodeList=[];
+        countryNameCodeList=res[i].name.split(/["]/g)
+        countryNameCode=countryNameCodeList[1]
+        this.phoneCodes.push({countryCode:countryNameCode,countryPhoneCode:phoneCode})
+      }
+      this.phoneCodes.sort(this.sortService.GetSortOrder("countryCode"));
+
+    }));
+
+  }
+
+  codePhoneChange(event, value){
+      this.phoneCodeSelected=value.countryCode+ ' '+ value.countryPhoneCode;
     }
 
     submitInvalidForm() {
@@ -69,7 +96,9 @@ export class GtpPageComponent implements OnInit, OnDestroy{
         this.sending = true;
         //this.gtpRegisterForm.value.email = (this.gtpRegisterForm.value.email).toLowerCase();
         //this.gtpRegisterForm.value.lang=this.translate.store.currentLang;
-        console.log(this.gtpRegisterForm.value);
+        this.gtpRegisterForm.value.phone = this.phoneCodeSelected+ ' ' + this.gtpRegisterForm.value.phone;
+        delete this.gtpRegisterForm.value.countryselectedPhoneCode;
+
         var params:any = {}
         params.form= this.gtpRegisterForm.value;
         params.programName = "Genetic Program 1";
