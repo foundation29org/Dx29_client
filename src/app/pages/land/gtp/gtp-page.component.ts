@@ -124,7 +124,7 @@ export class GtpPageComponent implements OnInit, OnDestroy{
       let ngbModalOptions: NgbModalOptions = {
             backdrop : 'static',
             keyboard : false,
-            windowClass: 'ModalClass-xl',
+            windowClass: 'ModalClass-sm',// xl, lg, sm
             centered: true
       };
       this.modalReference = this.modalService.open(content, ngbModalOptions);
