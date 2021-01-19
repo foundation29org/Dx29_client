@@ -30,6 +30,7 @@
             <li>{{'gtp.section2Content1' | translate}}</li>
             <li>{{'gtp.section2Content2' | translate}}</li>
             <li>{{'gtp.section2Content3' | translate}}</li>
+            <li>{{'gtp.section2Content4' | translate}}</li>
         </ul>
     </div>
 
@@ -74,6 +75,24 @@
           <div class="form-body row">
             <div class="col-md-6">
               <h5 class="text-bold-400">{{'gtp.formSubTitle1' | translate}}</h5>
+              <div class="">
+                <div class="form-group">
+                <label>{{'generics.Name' | translate }}</label>
+                <div>
+                  <input class="form-control" type="text" id="patientName" name="patientName" ngModel required #patientName="ngModel" name="patientName">
+                  <small class="form-text text-muted danger" *ngIf="!patientName.valid && (patientName.dirty || patientName.touched)">{{'generics.required' | translate }}</small>
+                </div>
+                </div>
+              </div>
+              <div class="">
+                <div class="form-group">
+                <label>{{'personalinfo.Last Name' | translate }}</label>
+                <div>
+                  <input class="form-control" type="text" id="patientlastName" name="patientlastName" ngModel required #patientlastName="ngModel" name="patientlastName">
+                  <small class="form-text text-muted danger" *ngIf="!patientlastName.valid && (patientlastName.dirty || patientlastName.touched)">{{'generics.required' | translate }}</small>
+                </div>
+                </div>
+              </div>
               <div class="">
                 <div class="form-group">
                 <label>{{'personalinfo.Birth Date' | translate }}</label>

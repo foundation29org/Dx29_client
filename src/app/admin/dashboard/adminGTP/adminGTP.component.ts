@@ -317,6 +317,18 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
             },
             editable:false
           },
+          patientName:{
+            title: this.translate.instant("diagnosis.Case name"),
+            placeholder: this.translate.instant("diagnosis.Case name"),
+            type: "html",
+            editable:false
+          },
+          patientlastName:{
+            title: this.translate.instant("personalinfo.Last Name"),
+            placeholder: this.translate.instant("personalinfo.Last Name"),
+            type: "html",
+            editable:false
+          },
           birthDate:{
             title: this.translate.instant("personalinfo.Birth Date"),
             placeholder: this.translate.instant("personalinfo.Birth Date"),
