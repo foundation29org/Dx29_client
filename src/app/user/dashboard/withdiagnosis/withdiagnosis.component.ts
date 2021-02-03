@@ -3670,90 +3670,93 @@ export class WithdiagnosisComponent implements OnInit, OnDestroy, AfterViewInit{
   }
 
   drawCharts(){
-    let elementSymptomsFreq = this.chartContainerSymptomsFreq.nativeElement;
-    this.widthSymptomsFreq_saved=elementSymptomsFreq.offsetWidth;
-    this.windowSizeforWidthSymptomsFreq_size=window.innerWidth;
-    //console.log(this.widthSymptomsFreq_saved)
-    /*if(this.redrawNewSize==true){
-      console.log("redraw true")
+    if(this.chartContainerSymptomsFreq!=undefined){
       let elementSymptomsFreq = this.chartContainerSymptomsFreq.nativeElement;
       this.widthSymptomsFreq_saved=elementSymptomsFreq.offsetWidth;
       this.windowSizeforWidthSymptomsFreq_size=window.innerWidth;
-      console.log(this.widthSymptomsFreq_saved)
-    }
-    else{
-      if(window.innerWidth!=this.windowSizeforWidthSymptomsFreq_size){
-        // resize
-        if(window.innerWidth>this.windowSizeforWidthSymptomsFreq_size){
-          this.widthSymptomsFreq_saved=(window.innerWidth/2)-this.margin.left-this.margin.right-20;
-        }
-        else if(window.innerWidth<this.windowSizeforWidthSymptomsFreq_size/2){
-          this.widthSymptomsFreq_saved=(window.innerWidth)-3*this.margin.left-2.5*this.margin.right-10;
-        }
+      //console.log(this.widthSymptomsFreq_saved)
+      /*if(this.redrawNewSize==true){
+        console.log("redraw true")
+        let elementSymptomsFreq = this.chartContainerSymptomsFreq.nativeElement;
+        this.widthSymptomsFreq_saved=elementSymptomsFreq.offsetWidth;
         this.windowSizeforWidthSymptomsFreq_size=window.innerWidth;
-
-
+        console.log(this.widthSymptomsFreq_saved)
       }
-    }*/
-    // Dibujo los gráficos
-    // Elimino todo lo que hubiese (limpio la pantalla)
-    d3.selectAll("svg").remove();
-    d3.selectAll(".venntooltip").remove();
-    d3.selectAll(".text").remove();
-
-    var venn=document.getElementById('chartVenn')
-    venn.insertAdjacentHTML('beforeend', '<svg id ="venn" viewBox="0 0 580 340" [style.margin-left.px]= "-(((venn.offsetWidth)/2)+(margin.left/2))"></svg>');
-
-    var graph=document.getElementById('chartBars')
-    graph.insertAdjacentHTML('beforeend', '<svg id="graphBars"></svg>');
-
-    var graphSymptomsFreq=document.getElementById('chartSymptomsFreq')
-    graphSymptomsFreq.insertAdjacentHTML('beforeend', '<svg class="center-elements" id="graphSymptomsFreq"></svg>');
-
-    var vennReal=document.getElementById('chartVennReal')
-    vennReal.insertAdjacentHTML('beforeend', '<svg id ="vennReal" viewBox="0 0 580 340" [style.margin-left.px]= "-(((venn.offsetWidth)/2)+(margin.left/2))"></svg>');
-    var graphReal=document.getElementById('chartBarsReal')
-    graphReal.insertAdjacentHTML('beforeend', '<svg id="graphBarsReal"></svg>');
+      else{
+        if(window.innerWidth!=this.windowSizeforWidthSymptomsFreq_size){
+          // resize
+          if(window.innerWidth>this.windowSizeforWidthSymptomsFreq_size){
+            this.widthSymptomsFreq_saved=(window.innerWidth/2)-this.margin.left-this.margin.right-20;
+          }
+          else if(window.innerWidth<this.windowSizeforWidthSymptomsFreq_size/2){
+            this.widthSymptomsFreq_saved=(window.innerWidth)-3*this.margin.left-2.5*this.margin.right-10;
+          }
+          this.windowSizeforWidthSymptomsFreq_size=window.innerWidth;
 
 
-    this.createChartBars();
-    if (this.chartDataBars) {
-      this.updateChartBars();
+        }
+      }*/
+      // Dibujo los gráficos
+      // Elimino todo lo que hubiese (limpio la pantalla)
+      d3.selectAll("svg").remove();
+      d3.selectAll(".venntooltip").remove();
+      d3.selectAll(".text").remove();
+
+      var venn=document.getElementById('chartVenn')
+      venn.insertAdjacentHTML('beforeend', '<svg id ="venn" viewBox="0 0 580 340" [style.margin-left.px]= "-(((venn.offsetWidth)/2)+(margin.left/2))"></svg>');
+
+      var graph=document.getElementById('chartBars')
+      graph.insertAdjacentHTML('beforeend', '<svg id="graphBars"></svg>');
+
+      var graphSymptomsFreq=document.getElementById('chartSymptomsFreq')
+      graphSymptomsFreq.insertAdjacentHTML('beforeend', '<svg class="center-elements" id="graphSymptomsFreq"></svg>');
+
+      var vennReal=document.getElementById('chartVennReal')
+      vennReal.insertAdjacentHTML('beforeend', '<svg id ="vennReal" viewBox="0 0 580 340" [style.margin-left.px]= "-(((venn.offsetWidth)/2)+(margin.left/2))"></svg>');
+      var graphReal=document.getElementById('chartBarsReal')
+      graphReal.insertAdjacentHTML('beforeend', '<svg id="graphBarsReal"></svg>');
+
+
+      this.createChartBars();
+      if (this.chartDataBars) {
+        this.updateChartBars();
+      }
+      this.createChartVenn();
+
+      this.createChartFrequency();
+      if (this.chartDataSymptomsFreq) {
+        this.updateChartFrequency();
+      }
+      this.createChartBarsReal();
+      if(this.createChartBarsReal){
+        this.updateChartBarsReal();
+      }
+      this.createChartVennReal();
+      //this.redrawNewSize=true
+
+      // Check if the lists have info- if not svg size to 0
+      // Real charts
+      if(this.chartDataSymptomsFreq.length==0 && this.chartDataBarsReal.length==0 && this.chartDataVennReal.length==0){
+        var graphFrequencySvg=document.getElementById('graphSymptomsFreq')
+        graphFrequencySvg.style.height = "0px";
+        graphFrequencySvg.style.width = "0px";
+        var graphBarsRealSvg=document.getElementById('graphBarsReal')
+        graphBarsRealSvg.style.height = "0px";
+        graphBarsRealSvg.style.width = "0px";
+        var graphVennRealSvg=document.getElementById('vennReal')
+        graphVennRealSvg.style.height = "0px";
+        graphVennRealSvg.style.width = "0px";
+      }
+      if(this.chartDataBars.length==0 && this.chartDataVenn.length==0){
+        var graphBarsSvg=document.getElementById('graphBars')
+        graphBarsSvg.style.height = "0px";
+        graphBarsSvg.style.width = "0px";
+        var graphVennSvg=document.getElementById('venn')
+        graphVennSvg.style.height = "0px";
+        graphVennSvg.style.width = "0px";
+      }
     }
-    this.createChartVenn();
 
-    this.createChartFrequency();
-    if (this.chartDataSymptomsFreq) {
-      this.updateChartFrequency();
-    }
-    this.createChartBarsReal();
-    if(this.createChartBarsReal){
-      this.updateChartBarsReal();
-    }
-    this.createChartVennReal();
-    //this.redrawNewSize=true
-
-    // Check if the lists have info- if not svg size to 0
-    // Real charts
-    if(this.chartDataSymptomsFreq.length==0 && this.chartDataBarsReal.length==0 && this.chartDataVennReal.length==0){
-      var graphFrequencySvg=document.getElementById('graphSymptomsFreq')
-      graphFrequencySvg.style.height = "0px";
-      graphFrequencySvg.style.width = "0px";
-      var graphBarsRealSvg=document.getElementById('graphBarsReal')
-      graphBarsRealSvg.style.height = "0px";
-      graphBarsRealSvg.style.width = "0px";
-      var graphVennRealSvg=document.getElementById('vennReal')
-      graphVennRealSvg.style.height = "0px";
-      graphVennRealSvg.style.width = "0px";
-    }
-    if(this.chartDataBars.length==0 && this.chartDataVenn.length==0){
-      var graphBarsSvg=document.getElementById('graphBars')
-      graphBarsSvg.style.height = "0px";
-      graphBarsSvg.style.width = "0px";
-      var graphVennSvg=document.getElementById('venn')
-      graphVennSvg.style.height = "0px";
-      graphVennSvg.style.width = "0px";
-    }
 
   }
 
