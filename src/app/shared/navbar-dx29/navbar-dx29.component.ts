@@ -34,6 +34,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
     isEdHubPage: boolean = false;
     isAttributionsPage: boolean = false;
     isGTPPage: boolean = false;
+    isDonaPage: boolean = false;
     role: string = 'Clinical';
     subrole: string = 'null';
     private subscription: Subscription = new Subscription();
@@ -122,6 +123,11 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
             this.isAttributionsPage = false;
             this.isGTPPage = true;
             this.isUndiagnosedPatientPage = false;
+            if(tempUrl.indexOf('/juntoshaciaeldiagnostico/donar')!=-1){
+              this.isDonaPage = true;
+            }else{
+              this.isDonaPage = false;
+            }
           }else{
             this.isHomePage = false;
             this.isClinicianPage = false;
@@ -206,6 +212,11 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
         this.isAttributionsPage = false;
         this.isGTPPage = true;
         this.isUndiagnosedPatientPage = false;
+        if((this.router.url).indexOf('/juntoshaciaeldiagnostico/donar')!=-1){
+          this.isDonaPage = true;
+        }else{
+          this.isDonaPage = false;
+        }
       }else{
         this.isHomePage = false;
         this.isClinicianPage = false;

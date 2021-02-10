@@ -2,8 +2,8 @@
   <div class="container col-md-12 ptbl">
     <div class="col-md-12 mt-2">
       <div class="row">
-        <div [ngClass]="(isGTPPage==false)?'col-md-5 center-xs pts pbxl start-sm':'col-md-12 center-xs pts pbxl start-sm'">
-          <nav [ngClass]="(isGTPPage==false)?'vertical-horizontal-align center-elements':'pt-4 pb-4 center-elements'" >
+        <div [ngClass]="(isGTPPage==false || isDonaPage ==true)?'col-md-5 center-xs pts pbxl start-sm':'col-md-12 center-xs pts pbxl start-sm'">
+          <nav [ngClass]="(isGTPPage==false || isDonaPage ==true)?'vertical-horizontal-align center-elements':'pt-4 pb-4 center-elements'" >
             <a href="https://www.foundation29.org" target="_blank"><img class="" src='assets/img/logo-foundation-twentynine-footer.png' /></a>
             <p class="ptm mb-0 mt-1">&copy;  {{currentDate | date: 'yyyy'}} {{'generics.Foundation 29' | translate }}</p>
             <a class="danger" mailto="info@foundation29.org" href="mailto:info@foundation29.org">info@foundation29.org</a>
@@ -13,7 +13,7 @@
           <div class="redes-line"></div>
         </div>
         <a id="contact"></a>
-        <div class="col-md-5 center-xs start-sm" *ngIf="!isGTPPage">
+        <div class="col-md-5 center-xs start-sm" *ngIf="!isGTPPage || isDonaPage">
           <div class="card-block mt-4">
             <h3>{{'homedx.Contact us' | translate }}</h3>
             <form class="form" (ngSubmit)="sendMsg()" #f="ngForm">

@@ -2,3 +2,13 @@
   padding-left: 10px;
   margin: 0.5em;
 }
+
+@media (max-width: 767px) {
+  .column {
+    width: 100%;
+  }
+
+  .vertical-horizontal-align{
+    position: relative !important;
+  }
+}
