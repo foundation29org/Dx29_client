@@ -26,6 +26,7 @@ export class FooterLandComponent implements OnDestroy{
     role: string = 'User';
     subrole: string = 'NoDiagnosis';
     isGTPPage: boolean = false;
+    isDonaPage: boolean = false;
 
     private subscription: Subscription = new Subscription();
 
@@ -36,6 +37,11 @@ export class FooterLandComponent implements OnDestroy{
           var tempUrl = (event.url).toString();
           if(tempUrl.indexOf('/juntoshaciaeldiagnostico')!=-1){
             this.isGTPPage = true;
+            if(tempUrl.indexOf('/juntoshaciaeldiagnostico/donar')!=-1){
+              this.isDonaPage = true;
+            }else{
+              this.isDonaPage = false;
+            }
           }else{
             this.isGTPPage = false;
           }

@@ -53,6 +53,11 @@
         <div class="navbar-container pl-0">
             <div  id="navbarSupportedContent">
                 <ul class="navbar-nav m-r-0">
+                  <li class="nav-item mr-2" *ngIf="isGTPPage && !isDonaPage">
+                      <button class="btn btn-danger mr-1 btn-raised mb-0 btn-navbar" routerLink="/juntoshaciaeldiagnostico/donar">
+                        <span>{{'homedx.Donate' | translate }}</span>
+                      </button>
+                  </li>
                     <li class="nav-item mr-2" *ngIf="!isGTPPage">
                         <a class="btn btn-danger mr-1 btn-raised mb-0 btn-navbar" [routerLink]="['/register', { role: role, subrole: subrole }]">
                           <span>{{'login.Create User' | translate }}</span>

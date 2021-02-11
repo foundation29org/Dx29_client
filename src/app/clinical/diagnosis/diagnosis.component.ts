@@ -339,7 +339,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     hp_frequencies:any = {};
     isLoadingStep: boolean = true;
     actualTemporalSymptomsIndex:number = 0;
-    viewOptionNcr:number = 0;
+    viewOptionNcr:number = 1;
     indexListRelatedConditions: number = 10;
     loadingPotentialDiagnostics: boolean = false;
     placement = "bottom-right";
