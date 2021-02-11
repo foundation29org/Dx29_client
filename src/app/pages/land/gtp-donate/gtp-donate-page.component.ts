@@ -49,9 +49,4 @@ export class GtpDonatePageComponent implements OnInit, OnDestroy{
       this.subscription.unsubscribe();
     }
 
-    goTo(url){
-      document.getElementById(url).scrollIntoView(true);
-    }
-
-
 }
