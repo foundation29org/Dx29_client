@@ -1871,7 +1871,8 @@
       "msg3": ", normalmente en un formato VCF",
       "msg4": "Aquí puedes cargar los dos tipos de documento o solo uno de ellos:",
       "msg5": "Datos genéticos completos u otros informes",
-      "msg6": "Sube aquí el archivo VCF, o tu informe en formato pdf o docx",
+      "msg6": "Sube aquí el archivo VCF, o tu informe en formato .pdf o .docx. El formato aceptado del VCF es .vcf o .vcf.gz.",
+      "The file must have": "El archivo debe tener la extensión .vcf, .vcf.gz, .pdf o .docx",
       "msg7": "Subir archivo",
       "btn1": "Siguiente"
     },

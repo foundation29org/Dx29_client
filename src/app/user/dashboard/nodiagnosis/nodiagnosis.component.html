@@ -889,7 +889,7 @@
                 </div>
                 <div class="center-elements card-text mt-2">
                   <label class="btn btn-outline-danger" style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
-                      {{'patnodiagdashboard.step3-2.msg7' | translate }} <input type="file" (change)="onFileChangeVCF($event, contentPreparingFile)" style="display: none;">
+                      {{'patnodiagdashboard.step3-2.msg7' | translate }} <input type="file" (change)="onFileChangeVCF($event)" accept=".vcf, .vcf.gz, .pdf, .docx" style="display: none;">
                   </label>
                 </div>
                 <p *ngIf="preparingFile">
