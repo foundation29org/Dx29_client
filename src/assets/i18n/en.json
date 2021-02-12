@@ -1870,7 +1870,8 @@
       "msg3": ", usually in a VCF format.",
       "msg4": "Here you can load both types of document or just one of them:",
       "msg5": "Complete genetic data or other reports.",
-      "msg6": "Upload here the VCF file, or your report in pdf or docx format",
+      "msg6": "Upload here the VCF file, or your report in .pdf or .docx format. The accepted format of the VCF is .vcf or .vcf.gz. ",
+      "The file must have": "The file must have .vcf, .vcf.gz, .pdf or .docx extension",
       "msg7": "Upload file",
       "btn1": "Next"
     },

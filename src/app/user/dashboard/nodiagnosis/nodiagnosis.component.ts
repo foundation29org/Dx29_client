@@ -1559,13 +1559,7 @@ export class NodiagnosisComponent implements OnInit, OnDestroy{
 
    }
 
-  onFileChangeVCF(event, contentPreparingFile)  {
-    let ngbModalOptions: NgbModalOptions = {
-          backdrop : 'static',
-          keyboard : false,
-          windowClass: 'ModalClass-xl'
-    };
-    this.modalReference = this.modalService.open(contentPreparingFile, ngbModalOptions);
+  onFileChangeVCF(event)  {
     this.preparingFile = true;
     if (event.target.files && event.target.files[0]) {
 
@@ -1582,19 +1576,24 @@ export class NodiagnosisComponent implements OnInit, OnDestroy{
           extension = (filename).substr(pos);
         }
         filename = filename.split(extension)[0];
-        if(extension =='.vcf' || extension =='.vcf.gz'){
-          //Swal.fire('The VCF file must have .vcf extension.', '', "error");
-          filename = filename + extension;
+        if(extension=='.vcf' || extension=='.vcf.gz' || extension=='.pdf' || extension=='.docx'){
+          if(extension =='.vcf' || extension =='.vcf.gz'){
+            //Swal.fire('The VCF file must have .vcf extension.', '', "error");
+            filename = filename + extension;
+          }else{
+            filename = 'genofilepatient-'+filename + extension;
+          }
+          this.filename = '';
+          this.diagnosisInfo.hasVcf = this.hasVcf;
+          this.saveNotes();
+          //this.filename = event.target.files[0].name;
+          this.uploadingGenotype = true;
+          this.uploadProgress = this.blob
+            .uploadToBlobStorage(this.accessToken, event.target.files[0], filename, 'patientGenoFiles');
         }else{
-          filename = 'genofilepatient-'+filename + extension;
+          Swal.fire(this.translate.instant("patnodiagdashboard.step3-2.The file must have"), '', "error");
         }
-        this.filename = '';
-        this.diagnosisInfo.hasVcf = this.hasVcf;
-        this.saveNotes();
-        //this.filename = event.target.files[0].name;
-        this.uploadingGenotype = true;
-        this.uploadProgress = this.blob
-          .uploadToBlobStorage(this.accessToken, event.target.files[0], filename, 'patientGenoFiles');
+
 
 
       }
