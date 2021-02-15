@@ -211,12 +211,14 @@
 }
 
 @media (max-width: 640px){
-    .hero h1 { font-size: 1.5em !important;; }
+    .hero h1 { font-size: 1.5em !important; }
+    .hero h3 { font-size: 1.25em !important; }
 }
 
 
 @media (max-width: 350px){
-    .hero h1 { font-size: 1em !important;; }
+    .hero h1 { font-size: 1.25em !important; }
+    .hero h3 { font-size: 1em !important; }
 }
 
 .input-group{
@@ -324,6 +326,28 @@
   .btn-lg{
     padding: 0.375rem 0.75rem !important;
     font-size: 1rem !important;
+  }
+
+  .blockquote h6{
+    margin-left: 25px !important;
+  }
+
+  .custom-quote{
+    margin-left: 130px !important;
+  }
+
+  .title-click{
+    margin-left: 15px !important;
+  }
+
+  .container-fluid{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+
+  .container{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
   }
 }
 
