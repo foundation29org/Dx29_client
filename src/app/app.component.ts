@@ -363,8 +363,9 @@ export class AppComponent implements OnInit, OnDestroy{
              var titulo= this.translate.instant(this.tituloEvent);
              this.titleService.setTitle(titulo);
              if(event.title =='homedx.Donate'){
-               //this.meta.updateTag({name: 'keywords', content: 'Web Devlopment, Software Development'});
-               this.meta.updateTag({name: 'description', content: this.translate.instant("donate.descriptionSeo")});
+               //this.meta.updateTag({name: 'keywords', content: 'DONA a Juntos hacia el diagnóstico'});
+               //this.meta.updateTag({name: 'description', content: this.translate.instant("donate.descriptionSeo")});
+               this.meta.updateTag({name: 'description', content: this.translate.instant("DONA a Juntos hacia el diagnóstico")});
              }else{
                //this.meta.updateTag({name: 'keywords', content: 'Web Devlopment, Software Development'});
                this.meta.updateTag({name: 'description', content: "AI for you to achieve fast rare disease diagnosis"});
