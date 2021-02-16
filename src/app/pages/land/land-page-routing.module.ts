@@ -68,7 +68,7 @@ const routes: Routes = [
         path: 'juntoshaciaeldiagnostico/donar',
         component: GtpDonatePageComponent,
         data: {
-          title: 'menu.Genetic testing program'
+          title: 'homedx.Donate'
         }
       },
       {
