@@ -12,7 +12,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap'
 import { Subscription } from 'rxjs/Subscription';
 import { Router, NavigationEnd, ActivatedRoute, NavigationStart, NavigationCancel } from '@angular/router';
-import { Title } from '@angular/platform-browser';
+import { Title, Meta  } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { LangService } from 'app/shared/services/lang.service';
 import Swal from 'sweetalert2';
@@ -57,7 +57,7 @@ export class AppComponent implements OnInit, OnDestroy{
   actualScenarioHotjar:any = {lang: '', scenario: ''};
   tituloEvent: string = '';
     //Set toastr container ref configuration for toastr positioning on screen
-    constructor(private http: HttpClient, public toastr: ToastrService, private authGuard: AuthGuard, private authService: AuthService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title, public translate: TranslateService, angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics, private langService:LangService, private eventsService: EventsService, protected $hotjar: NgxHotjarService, private tokenService: TokenService) {
+    constructor(private http: HttpClient, public toastr: ToastrService, private authGuard: AuthGuard, private authService: AuthService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title, public translate: TranslateService, angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics, private langService:LangService, private eventsService: EventsService, protected $hotjar: NgxHotjarService, private tokenService: TokenService, private meta: Meta) {
 
         if(sessionStorage.getItem('lang')){
           //this.launchHotjarTrigger(sessionStorage.getItem('lang'));
@@ -257,6 +257,13 @@ export class AppComponent implements OnInit, OnDestroy{
 
      ngOnInit(){
 
+       this.meta.addTags([
+      	  {name: 'keywords', content: 'dx29, rare disease, diagnosis, genetic, physicians, Artificial intelligence, AI, Big data, genomics, Machine learning, ML'},
+      	  {name: 'description', content: 'AI for you to achieve fast rare disease diagnosis'},
+          {name: 'title', content: 'Dx29: Designed for physicians. Committed to patients.'},
+          {name: 'robots', content: 'index, follow'}
+       ]);
+
        //evento que escucha si ha habido un error de conexión
        this.eventsService.on('http-error', function(error) {
              var msg1 = 'No internet connection';
@@ -355,6 +362,14 @@ export class AppComponent implements OnInit, OnDestroy{
              this.tituloEvent = event['title'];
              var titulo= this.translate.instant(this.tituloEvent);
              this.titleService.setTitle(titulo);
+             if(event.title =='homedx.Donate'){
+               //this.meta.updateTag({name: 'keywords', content: 'Web Devlopment, Software Development'});
+               this.meta.updateTag({name: 'description', content: this.translate.instant("donate.descriptionSeo")});
+             }else{
+               //this.meta.updateTag({name: 'keywords', content: 'Web Devlopment, Software Development'});
+               this.meta.updateTag({name: 'description', content: "AI for you to achieve fast rare disease diagnosis"});
+             }
+
          })();
 
         this.secondsInactive=0;
