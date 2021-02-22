@@ -17,7 +17,7 @@ const routes: Routes = [
         component: UserProfilePageComponent,
         data: {
           title: 'menu.User Profile',
-          expectedRole: ['Clinical', 'Lab', 'User', 'SuperAdmin', 'Admin']
+          expectedRole: ['Clinical', 'User', 'SuperAdmin', 'Admin']
         },
         canActivate: [AuthGuard, RoleGuard]
       }

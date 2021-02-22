@@ -108,7 +108,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         if(this.authService.getRole() == 'SuperAdmin'){
           //cargar menú del Admin
           this.menuItems = ROUTESSUPERADMIN.filter(menuItem => menuItem);
-        }else if(this.authService.getRole() == 'Clinical' || this.authService.getRole() == 'Lab'){
+        }else if(this.authService.getRole() == 'Clinical'){
           //cargar menú del Clinical
           this.menuItems = ROUTESCLINICAL.filter(menuItem => menuItem);
         }
@@ -138,7 +138,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     if(this.authService.getRole() == 'SuperAdmin'){
       //cargar menú del Admin
       this.menuItems = ROUTESSUPERADMIN.filter(menuItem => menuItem);
-    }else if(this.authService.getRole() == 'Clinical' || this.authService.getRole() == 'Lab'){
+    }else if(this.authService.getRole() == 'Clinical'){
       //cargar menú del Clinical
       this.menuItems = ROUTESCLINICAL.filter(menuItem => menuItem);
     }

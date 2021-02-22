@@ -16,8 +16,6 @@ import { DataProcessingAgreementComponent } from "../data-processing-agreement/d
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs/Subscription';
 
-let labsinfo = [];
-
 @Component({
     selector: 'app-register-page',
     templateUrl: './register-page.component.html',
@@ -38,41 +36,6 @@ export class RegisterPageComponent implements OnDestroy{
     isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
     role: string = 'Clinical';
     subrole: string = 'null';
-    loadingLabs: boolean = false;
-    labs: Array<any> = [];
-    selectedItems:any = [];
-    @ViewChild('input') inputEl;
-    foundlab: boolean = false;
-    searchinglab: boolean = false;
-
-    modelTemp: any;
-    formatter1 = (x: { name: string }) => x.name;
-
-    // Flag search
-    searchLab = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      map(term => {
-
-        if(term === ''){
-          this.foundlab = false;
-          this.searchinglab = false;
-          return [];
-        }else{
-
-          var resultSearch = labsinfo.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 100)
-          if(resultSearch.length==0){
-            this.foundlab = false;
-          }else{
-            this.foundlab = true;
-          }
-          this.searchinglab = false;
-          return resultSearch
-        }
-      }
-    )
-
-    );
 
     emailpar1: string = null;
     emailpar2: string = null;
@@ -100,10 +63,6 @@ export class RegisterPageComponent implements OnDestroy{
 
     ngOnDestroy() {
       this.subscription.unsubscribe();
-    }
-
-    onSearchChange(){
-      this.searchinglab = true;
     }
 
     // Open content Privacy Policy
@@ -155,13 +114,9 @@ export class RegisterPageComponent implements OnDestroy{
 
         var params = this.registerForm.value;
         params.permissions = {};
-        if(params.role=='Lab'){
-          params.permissions.labs = this.selectedItems;
-        }
-        if(params.role=='Clinical' || params.role=='Lab'){
+        if(params.role=='Clinical'){
           params.subrole= null
         }
-        console.log(params);
         this.subscription.add( this.http.post(environment.api+'/api/signup',params)
           .subscribe( (res : any) => {
             if(res.message == 'Account created'){
@@ -176,13 +131,11 @@ export class RegisterPageComponent implements OnDestroy{
               Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("registration.email already exists"), "error");
             }
             this.registerForm.reset();
-            this.selectedItems = [];
             this.sending = false;
            }, (err) => {
              console.log(err);
              Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
              this.registerForm.reset();
-             this.selectedItems = [];
              this.sending = false;
            }));
       }
@@ -195,54 +148,7 @@ export class RegisterPageComponent implements OnDestroy{
     }
 
     roleChange(role){
-      this.loadingLabs = false;
-      if(role=='Lab'){
-        this.loadLabs();
-      }
       this.subrole = "null";
     }
 
-    loadLabs(){
-      this.loadingLabs = true;
-
-      this.subscription.add( this.http.get(environment.api+'/api/lab/')
-      .subscribe( (res : any) => {
-        labsinfo = res;
-        this.loadingLabs = false;
-       }, (err) => {
-         console.log(err);
-         this.loadingLabs = false;
-       }));
-    }
-
-    addLab(labname){
-      this.loadingLabs = true;
-
-      this.subscription.add( this.http.post(environment.api+'/api/lab/'+labname, '')
-      .subscribe( (res : any) => {
-        console.log(res);
-        if(res.lab){
-          this.selectedItems.push({name:res.lab.name, _id: res.lab._id});
-
-          this.modelTemp = '';
-          this.loadLabs();
-        }
-        this.loadingLabs = false;
-       }, (err) => {
-         console.log(err);
-         this.loadingLabs = false;
-       }));
-    }
-
-    selected($e) {
-      $e.preventDefault();
-      this.selectedItems.push($e.item);
-      this.modelTemp = '';
-      this.inputEl.nativeElement.value = '';
-    }
-
-    deleteItem(item) {
-      this.selectedItems.splice(this.selectedItems.indexOf(item), 1);
-      //this.inputEl.nativeElement.focus();
-    }
 }

@@ -24,7 +24,7 @@ export const Full_ROUTES: Routes = [
     path: 'clinical',
     loadChildren: () => import('../../clinical/clinical.module').then(m => m.ClinicalModule),
     canActivate: [RoleGuard],
-    data: { expectedRole: ['Clinical', 'Lab'] }
+    data: { expectedRole: ['Clinical'] }
   },
   {
     path: 'pages',

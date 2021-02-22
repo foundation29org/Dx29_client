@@ -63,7 +63,6 @@
                                             </span>
                                             <select id="role" name="role" class="form-control" ngModel [(ngModel)]="role" (change)="roleChange(role)">
                                   		        <option value="Clinical" selected>{{'registration.Im a clinician' | translate }}</option>
-                                              <option value="Lab">{{'registration.Im belong to a lab' | translate }}</option>
                                               <option value="User">{{'registration.Im a patient' | translate }}</option>
                                   		      </select>
                                         </div>
@@ -80,25 +79,6 @@
                                               <option value="UncertainDiagnosis">{{'registration.uncertaindiagnosis' | translate }}</option>
                                   		      </select>
                                         </div>
-                                      </div>
-                                      <div *ngIf="!loadingLabs && role=='Lab'">
-                                        <ng-template #rt let-r="result" let-t="term">
-                    											{{ r.name}}
-                    										</ng-template>
-                    										<div class="form-group">
-                    										<input #input class="input" type="text" name="modelTemp" class="form-control mb-3" [(ngModel)]="modelTemp" [ngbTypeahead]="searchLab" [resultTemplate]="rt" [inputFormatter]="formatter1" placeholder="{{'registration.SearchLabPlaceholder' | translate }}" (selectItem)="selected($event)" (input)="onSearchChange()"/>
-                    										</div>
-                                        <span class="btn btn-primary btn-sm selected" style="margin-right: 0.5em;" *ngFor="let item of selectedItems">
-                    											<span style="color: black !important;">
-                    										    {{item.name}}
-                    										    <span class="close-selected" (click)="deleteItem(item)">&nbsp;x</span>
-                    											</span>
-                    									  </span>
-                                        <span *ngIf="!foundlab && modelTemp && !searchinglab">
-                                          <span class="btn btn-danger btn-sm selected" style="margin-right: 0.5em;" *ngIf="modelTemp.length>0">
-                                            <span style="color: white !important;" (click)="addLab(modelTemp)">{{'registration.msgnewlab' | translate }}: {{modelTemp}}</span>
-                                          </span>
-                                        </span>
                                       </div>
                                       <p *ngIf="!openedTerms" class="font-small-2">
                                         {{'registration.IMPORTANT NOTE' | translate }}
