@@ -1,7 +1,7 @@
 <!-- Navbar (Header) Starts -->
 <nav class="navbar navbar-expand-lg navbar-light bg-faded damemarger custom-navbar">
     <div class="container-fluid">
-      <div> <!--*ngIf="role != 'Clinical' && role != 'Lab'"-->
+      <div>
           <button *ngIf="!isGTPPage" type="button" class="mt-2 d-lg-none navbar-toggle float-left" data-toggle="collapse" (click)="toggleSidebar()">
               <span class="sr-only">{{'navbar.Toggle navigation' | translate }}</span>
               <span class="icon-bar"></span>

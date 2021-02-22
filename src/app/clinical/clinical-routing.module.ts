@@ -16,7 +16,7 @@ const routes: Routes = [
     component: DiagnosisComponent,
     data: {
       title: 'clinicalinfo.Diagnosis',
-      expectedRole: ['Clinical', 'Lab']
+      expectedRole: ['Clinical']
     },
     canActivate: [AuthGuard, RoleGuard]
   },

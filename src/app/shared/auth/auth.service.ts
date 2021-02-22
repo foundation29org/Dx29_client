@@ -43,7 +43,7 @@ export class AuthService {
       if(tokenPayload.role == 'SuperAdmin'){
         // is role superadmin
         this.setRedirectUrl('/superadmin/dashboard-superadmin')
-      }else if(tokenPayload.role == 'Clinical' || tokenPayload.role == 'Lab'){
+      }else if(tokenPayload.role == 'Clinical'){
         // is role Clinical
         this.setRedirectUrl('/clinical/dashboard/home')
       }else if(tokenPayload.role == 'Admin'){
@@ -88,7 +88,7 @@ export class AuthService {
     if(tokenPayload.role == 'SuperAdmin'){
       // is role superadmin
       this.setRedirectUrl('/superadmin/dashboard-superadmin')
-    }else if(tokenPayload.role == 'Clinical' || tokenPayload.role == 'Lab'){
+    }else if(tokenPayload.role == 'Clinical'){
       // is role clinic
       this.setRedirectUrl('/clinical/dashboard/home')
     }else if(tokenPayload.role == 'Admin'){

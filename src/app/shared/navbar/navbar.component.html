@@ -5,9 +5,9 @@
   </div>
 </ngb-alert>-->
 <!-- Navbar (Header) Starts -->
-<nav class="navbar navbar-expand-lg navbar-light bg-faded damemarger custom-navbar" [ngClass]="((role == 'Clinical' || role == 'Lab') && isClinicalPage)?'menuClinic-sm':'p-2'" >
+<nav class="navbar navbar-expand-lg navbar-light bg-faded damemarger custom-navbar" [ngClass]="((role == 'Clinical') && isClinicalPage)?'menuClinic-sm':'p-2'" >
     <div class="container-fluid">
-      <div> <!--*ngIf="role != 'Clinical' && role != 'Lab'"-->
+      <div>
           <button type="button" class="mt-2 d-lg-none navbar-toggle float-left" data-toggle="collapse" (click)="toggleSidebar()" *ngIf="!isHomePage">
               <span class="sr-only">{{'navbar.Toggle navigation' | translate }}</span>
               <span class="icon-bar"></span>
@@ -19,7 +19,7 @@
             <!--<img *ngIf="!isHomePage" style="cursor:pointer;" class="logo-img" src='assets/img/logo-Dx29.png' [routerLink]="redirectUrl" />-->
           </span>
       </div>
-      <div class="" *ngIf="(role == 'Clinical' || role == 'Lab') && !isClinicalPage && !isHomePage">
+      <div class="" *ngIf="(role == 'Clinical') && !isClinicalPage && !isHomePage">
         <div class="navbar-collapse" id="navbarSupportedContent">
 
             <ul class="navbar-nav m-r-0">
@@ -31,30 +31,6 @@
             </ul>
           </div>
       </div>
-      <!--<div class="" *ngIf="(role == 'Clinical' || role == 'Lab') && isClinicalPage">
-        <div class="navbar-collapse" id="navbarSupportedContent">
-
-            <ul class="navbar-nav m-r-0">
-              <img class="avatar float-left" src="assets/img/avatar/png/sm/{{selectedPatient.avatar}}.png" />
-              <li class="nav-item" style="line-height: 1rem;">
-                <span class="d-block font-weight-bold mb-1">
-                  <span> {{selectedPatient.patientName}}</span>
-                </span>
-                <span class="text-muted">
-                  <span>{{'topnavbar.age' | translate }}: </span>
-                  <span *ngIf="age!=null">
-                    <span *ngIf="age.years>0">{{age.years}} {{'topnavbar.year' | translate }}<span *ngIf="age.years>1">s</span> <span *ngIf="age.months>0">, </span></span>
-                    <span *ngIf="age.months>0">{{age.months}} <span *ngIf="age.months<=1">{{'topnavbar.month' | translate }}</span><span *ngIf="age.months>1">{{'topnavbar.months' | translate }}</span></span>
-                    <span *ngIf="age.months==0 && age.years==0">0 {{'topnavbar.months' | translate }}</span>
-                  </span>
-                  <span *ngIf="age==null">
-                    -
-                  </span>
-                </span>
-              </li>
-              </ul>
-          </div>
-      </div>-->
         <div class="d-none d-lg-block" *ngIf="role == 'User'">
           <div class="navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav m-r-0">
@@ -91,12 +67,12 @@
             <div  id="navbarSupportedContent">
                 <ul class="navbar-nav m-r-0">
                   <li class="nav-item mr-3">
-                      <a href="javascript:;" class="nav-link" id="buttonShareTo" (click)="shareApp(shareTo)" *ngIf="role=='User' || role == 'Clinical' || role == 'Lab'" title="{{'topnavbar.Share' | translate }}">
+                      <a href="javascript:;" class="nav-link" id="buttonShareTo" (click)="shareApp(shareTo)" *ngIf="role=='User' || role == 'Clinical'" title="{{'topnavbar.Share' | translate }}">
                           <i class="icon-share font-medium-3 blue-grey darken-4"></i>
                           <p class="d-none">Share</p>
                       </a>
                   </li>
-                  <li class="nav-item mr-2" ngbDropdown display="dynamic" [placement]="placement" *ngIf="(role == 'Clinical' || role == 'Lab')">
+                  <li class="nav-item mr-2" ngbDropdown display="dynamic" [placement]="placement" *ngIf="(role == 'Clinical')">
                         <a class="nav-link position-relative" id="dropdownBasic2" ngbDropdownToggle title="{{'topnavbar.Notifications' | translate }}">
                             <i class="ft-bell font-medium-3 blue-grey darken-4"></i>
                             <span *ngIf="tasks.length>0" class="notification badge badge-pill badge-danger">{{tasks.length}}</span>

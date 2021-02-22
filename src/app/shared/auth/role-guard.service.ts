@@ -17,7 +17,7 @@ export class RoleGuard implements CanActivate {
       if(this.authService.getRole() == 'SuperAdmin'){
         // is role superadmin
         this.authService.setRedirectUrl('/superadmin/dashboard-superadmin')
-      }else if(this.authService.getRole() == 'Clinical' || this.authService.getRole() == 'Lab'){
+      }else if(this.authService.getRole() == 'Clinical'){
         // is role Clinical
         this.authService.setRedirectUrl('/clinical/dashboard/home')
       }else if(this.authService.getRole() == 'Admin'){

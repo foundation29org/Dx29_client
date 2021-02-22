@@ -14,7 +14,7 @@ const routes: Routes = [
         component: HomeComponent,
         data: {
           title: 'menu.Dashboard',
-          expectedRole: ['Clinical', 'Lab']
+          expectedRole: ['Clinical']
         },
         canActivate: [AuthGuard, RoleGuard]
       },
