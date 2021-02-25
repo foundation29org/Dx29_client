@@ -2213,11 +2213,16 @@ export class WithdiagnosisComponent implements OnInit, OnDestroy, AfterViewInit{
     // this.fullListSymptoms[j].notpatientbutsuccessor= true;
     // p1:pheno
     // p2:generic
-
     for(var i=0;i<totalList.length;i++){
-      // Comparo con p1:
+      // Comparo los de la disease con p1 (patient)
       // tengo que separar los que son de la lista de p1, para comparar el resto con la lista de p1
-      if(p1.includes(totalList[i])==false){
+      var foundInP1=false;
+      for(var k= 0; k< p1.length;k++){
+        if(p1[k].id==totalList[i].id){
+          foundInP1 = true;
+        }
+      }
+      if(foundInP1==false){
         for(var j=0;j<p1.length;j++){
           // miro si el de la total es padre de alguno de p1: si en la lista de sucesores del total esta incluido p1
           if(totalList[i].succesors!=undefined){
@@ -2229,9 +2234,15 @@ export class WithdiagnosisComponent implements OnInit, OnDestroy, AfterViewInit{
       }
     }
     for(var i=0;i<totalList.length;i++){
-      // Comparo con p2:
+      // Comparo patient con p2(Disease):
       // tengo que separar los que son de la lista de p2, para comparar el resto con la lista de p2
-      if(p2.includes(totalList[i])==false){
+      var foundInP2 = false;
+      for(var k= 0; k< p2.length;k++){
+        if(p2[k].id==totalList[i].id){
+          foundInP2 = true;
+        }
+      }
+      if(foundInP2==false){
         // Recorro entonces p2 y comparo los de la lista p2 con los que tengo
         for(var j=0;j<p2.length;j++){
           if(totalList[i].succesors!=undefined){
@@ -2400,7 +2411,7 @@ export class WithdiagnosisComponent implements OnInit, OnDestroy, AfterViewInit{
               }
               // Eliminar los repetidos
               this.listGenericSymptoms= this.listGenericSymptoms.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
-              this.fullListSymptoms=this.compareListAndUpdateChecksForPredecessors(this.fullListSymptoms,this.phenotype.data,this.listGenericSymptoms)
+              //this.fullListSymptoms=this.compareListAndUpdateChecksForPredecessors(this.fullListSymptoms,this.phenotype.data,this.listGenericSymptoms)
 
               //console.log(this.listGenericSymptoms)
               // Asi ya tenemos por un lado los genericos y por otro los de phenotype
