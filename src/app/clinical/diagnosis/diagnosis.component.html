@@ -2252,7 +2252,7 @@
                     <span id="remarked" [ngStyle]="{'background-color': elementInfo.variantEffect.color[0],'color':elementInfo.variantEffect.color[1]}">
                       <span *ngIf="elementInfo.variantEffect.value == 'Missense variant'">{{'geneTable.missense variant' | translate }}</span>
                       <span *ngIf="elementInfo.variantEffect.value ==  exostring">{{'geneTable.utr intron variant' | translate }}</span>
-                      <span *ngIf="elementInfo.variantEffect.value!= 'Missense variant' && elementInfo.variantEffect.value!= exostring" class="text-lowercase">{{'geneTable.missense variant' | translate }}</span>
+                      <span *ngIf="elementInfo.variantEffect.value!= 'Missense variant' && elementInfo.variantEffect.value!= exostring" class="text-lowercase">{{elementInfo.variantEffect.value }}</span>
                     </span>
                   </div>
                 </div>
