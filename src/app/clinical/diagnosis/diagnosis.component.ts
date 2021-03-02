@@ -3272,7 +3272,9 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                 for(var w=0; w<res[i].geneScores[j].contributingVariants.length;w++){
                   if(res[i].geneScores[j].contributingVariants[w].whiteListed){
                     whiteListed = this.otherInfoWhiteListed(res[i].geneScores[j].contributingVariants[w].whiteListed)
-                    scoreSummary=res[i].geneScores[j].combinedScore.toFixed(2);
+                    if(res[i].geneScores[j].combinedScore.toFixed(2)>scoreSummary){
+                      scoreSummary=res[i].geneScores[j].combinedScore.toFixed(2);
+                    }
                     var clinVarInfoTotal= this.clinVarInfo(res[i].geneScores[j].contributingVariants[w].pathogenicityData.clinVarData.primaryInterpretation)
                     clinVarDataTotal=({data:res[i].geneScores[j].contributingVariants[w].pathogenicityData.clinVarData,name: clinVarInfoTotal.name,colorPrimary:clinVarInfoTotal.color})
                   }
