@@ -579,12 +579,12 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       months = (today.getFullYear() - birthDate.getFullYear()) * 12;
       months -= birthDate.getMonth();
       months += today.getMonth();
+      var age =0;
+      if(months>0){
+        age = Math.floor(months/12)
+      }
       var res = months <= 0 ? 0 : months;
       var m=res % 12;
-      var age =0;
-      if(res>0){
-        age= Math.abs(Math.round(res/12));
-      }
       this.age = {years:age, months:m }
     }
 
