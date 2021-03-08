@@ -5031,6 +5031,20 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       return a;
   }
 
+  arrayUniqueGenes(array) {
+      var a = array.concat();
+      for(var i=0; i<a.length; ++i) {
+          for(var j=i+1; j<a.length; ++j) {
+            if(a[i].gen == a[j].gen){
+              a.splice(j--, 1);
+            }
+
+          }
+      }
+
+      return a;
+  }
+
     deleteRepeatedDiseases(listOfDiseases){
       var res = [];
       console.log(listOfDiseases);
@@ -5039,6 +5053,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         for(var j = 0; j < res.length && !enc; j++){
           if(listOfDiseases[i].name.label==res[j].name.label){
             console.log('REPETIDO')
+            console.log(i)
             var infoToExtractGenes = [];
             var priorizeGenes=false;
             // Cojo lo de Exomiser
@@ -5052,6 +5067,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             }
             if((infoToExtractGenes!= [])&&(priorizeGenes==true && this.isgen)&&(this.infoGenesAndConditionsExomizer.length>0)){
               //nothing
+              res[j].genes = this.arrayUniqueGenes(res[j].genes);
             }else{
               var array1 = res[j].genes;
               var array2 = listOfDiseases[i].genes;
