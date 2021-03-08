@@ -2422,22 +2422,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
                }
               if(this.relatedConditions[i].symptoms.length>0){
-                //añadir los matches si no están el los sintomas de la condición
-                /*if(this.relatedConditions[i].matches!=0){
-                  for(var k = 0; k < this.relatedConditions[i].matches.length; k++) {
-                    var found= false;
-                    for(var lo = 0; lo < this.relatedConditions[i].symptoms.length && !found; lo++) {
-                      if(this.relatedConditions[i].symptoms[lo].id == this.relatedConditions[i].matches[k].id){
-                        found = true;
-                      }
-                    }
-                    if(!found){
-                      //no meter matches
-                      //this.relatedConditions[i].symptoms.push({id:this.relatedConditions[i].matches[k].reference.id, name: this.relatedConditions[i].matches[k].reference.label});
-                    }
-                  }
-                }*/
-
                 this.relatedConditions[i].symptoms.sort(this.sortService.GetSortOrder("name"));
               }
 
@@ -2501,40 +2485,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
               this.calcularScoreHealth29();
             }, (err) => {
               console.log(err);
-              var hposStrins ='';
-                arraySymptomsIds.forEach(function(element) {
-                  if(hposStrins==''){
-                    hposStrins='?id='+element;
-                  }else{
-                    hposStrins+='&id='+element;
-                  }
-
-                  //hposStrins+= '&id=';
-                });
-              var limit = diseaseWithoutScore.length
-              this.subscription.add(this.apif29BioService.getOWLSim3Match(hposStrins, limit)
-              .subscribe( (res : any) => {
-                for(var i = 0; i < diseaseWithoutScore.length; i++) {
-                  if(diseaseWithoutScore[i].positionOnResults>=0){
-                    diseaseWithoutScore[i].score = res.matches[diseaseWithoutScore[i].positionOnResults].percentageScore//.score
-                  }
-                }
-                for(var i = 0; i < this.relatedConditions.length; i++) {
-                  var encdise = false;
-                  for(var j = 0; j < diseaseWithoutScore.length && !encdise; j++) {
-                    if(diseaseWithoutScore[j].positionOnResults>=0){
-                      if(diseaseWithoutScore[j].id== this.relatedConditions[i].name.id){
-                        this.relatedConditions[i].score = diseaseWithoutScore[j].score;
-                        encdise = true;
-                      }
-                    }
-
-                  }
-                }
-                this.calcularScoreHealth29();
-              }, (err) => {
-                console.log(err);
-              }));
+              this.calcularScoreHealth29();
             }));
           }else{
             this.calcularScoreHealth29();
@@ -4719,16 +4670,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
       //síntomas
       this.listOfSymptoms = [];
-      /*for(var i = 0; i < row.matches.length; i++) {
-        var enc= false;
-        for(var j = 0; j < this.phenotype.data.length && !enc; j++) {
-          //if(this.phenotype.data[j].id == row.matches[i].a.id){
-          if(this.phenotype.data[j].id == row.matches[i].reference.id){
-            enc=true;
-            this.listOfSymptoms.push({id: this.phenotype.data[j].id, name: this.phenotype.data[j].name, def: this.phenotype.data[j].desc, comment: this.phenotype.data[j].comment, checked: true});
-          }
-        }
-      }*/
 
       this.getSymptomsOneDisease(row.name.id, contentSeeSymptomsOfDisease);
     }
@@ -5061,21 +5002,54 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                 }
               }
             }
-
-
-
             this.relatedConditions[i].name.label = this.textTransform.transform(this.relatedConditions[i].name.label);
 
             //get potentialDiagnostics
             if(this.relatedConditions[i].checked){
               this.potentialDiagnostics.push(this.relatedConditions[i]);
             }
-
           }
-        this.topRelatedConditions = this.relatedConditions.slice(0, this.indexListRelatedConditions)
+          //delete repeated diseases by name
+          var uniqueDiseases = this.deleteRepeatedDiseases(this.relatedConditions);
+
+        this.topRelatedConditions = uniqueDiseases.slice(0, this.indexListRelatedConditions)
         this.loadingPotentialDiagnostics = false;
       }
 
+    }
+
+
+  arrayUnique(array) {
+      var a = array.concat();
+      for(var i=0; i<a.length; ++i) {
+          for(var j=i+1; j<a.length; ++j) {
+              if(a[i] === a[j])
+                  a.splice(j--, 1);
+          }
+      }
+
+      return a;
+  }
+
+    deleteRepeatedDiseases(listOfDiseases){
+      var res = [];
+      for(var i = 0; i < listOfDiseases.length; i++){
+        var enc = false;
+        for(var j = 0; j < res.length && !enc; j++){
+          if(listOfDiseases[i].name.label==res[j].name.label){
+            var array1 = res[j].genes;
+            var array2 = listOfDiseases[i].genes;
+            // Merges both arrays and gets unique items
+            var array3 = array1.concat(array2)
+            res[j].genes = this.arrayUnique(array3);
+            enc=true;
+          }
+        }
+        if(!enc){
+          res.push(listOfDiseases[i]);
+        }
+      }
+      return res;
     }
 
     getColor(item){
