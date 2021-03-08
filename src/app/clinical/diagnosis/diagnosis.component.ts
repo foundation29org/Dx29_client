@@ -5033,6 +5033,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
     deleteRepeatedDiseases(listOfDiseases){
       var res = [];
+      console.log(listOfDiseases);
       for(var i = 0; i < listOfDiseases.length; i++){
         var enc = false;
         for(var j = 0; j < res.length && !enc; j++){
