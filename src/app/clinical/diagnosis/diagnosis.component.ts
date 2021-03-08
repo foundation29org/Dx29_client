@@ -5037,11 +5037,28 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         var enc = false;
         for(var j = 0; j < res.length && !enc; j++){
           if(listOfDiseases[i].name.label==res[j].name.label){
-            var array1 = res[j].genes;
-            var array2 = listOfDiseases[i].genes;
-            // Merges both arrays and gets unique items
-            var array3 = array1.concat(array2)
-            res[j].genes = this.arrayUnique(array3);
+            console.log('REPETIDO')
+            var infoToExtractGenes = [];
+            var priorizeGenes=false;
+            // Cojo lo de Exomiser
+            if(this.infoGenesAndConditionsExomizer.length>0){
+              infoToExtractGenes = this.infoGenesAndConditionsExomizer;
+              priorizeGenes=true;
+            // Cojo lo de phene2gene
+            }else if(this.infoGenesAndConditionsPhen2Genes.length>0){
+              infoToExtractGenes = this.infoGenesAndConditionsPhen2Genes;
+              priorizeGenes=false;
+            }
+            if((infoToExtractGenes!= [])&&(priorizeGenes==true && this.isgen)&&(this.infoGenesAndConditionsExomizer.length>0)){
+              //nothing
+            }else{
+              var array1 = res[j].genes;
+              var array2 = listOfDiseases[i].genes;
+              // Merges both arrays and gets unique items
+              var array3 = array1.concat(array2)
+              res[j].genes = this.arrayUnique(array3);
+            }
+
             enc=true;
           }
         }
