@@ -4431,18 +4431,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       this.settingExomizer.VariantEffectFilters.remove = [];
     }
 
-    isGenomeChangedEvent(state){
-      if(state && !this.variantEffectFiltersState){
-        this.settingExomizer.VariantEffectFilters={remove:[]}
-        this.variantEffectsFilterRequired=false;
-      }
-      else if(!state && !this.variantEffectFiltersState){
-        //this.settingExomizer.VariantEffectFilters={"remove": ["UPSTREAM_GENE_VARIANT", "INTERGENIC_VARIANT", "REGULATORY_REGION_VARIANT", "CODING_TRANSCRIPT_INTRON_VARIANT", "NON_CODING_TRANSCRIPT_INTRON_VARIANT", "SYNONYMOUS_VARIANT", "DOWNSTREAM_GENE_VARIANT", "SPLICE_REGION_VARIANT"]}
-        this.variantEffectsFilterRequired=true;
-
-      }
-    }
-
     variantEffectFiltersChanged(){
       this.variantEffectFiltersState = true;
       this.variantEffectsFilterRequired=true;
