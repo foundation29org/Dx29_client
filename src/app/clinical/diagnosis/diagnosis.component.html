@@ -1126,9 +1126,8 @@
                 <div class="card-body">
                     <p class="mb-0">{{'symptomssection.Found in' | translate }}:</p>
                     <span *ngFor="let text of hpo.text ; let j = index">
-                      <!--<span *ngIf="j==0" class="font-small-2 mb-0">{{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</span>-->
-                      <span *ngIf="(text.source && j== 0) && langToExtract==lang" class="mb-0">"{{text.source}}"</span>
-                      <span *ngIf="!text.source && j== 0 || langToExtract!=lang" class="mb-0">"{{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}"</span>
+                      <span *ngIf="(text.source && j== 0) && (langToExtract==lang || langToExtract=='')" class="mb-0">"{{text.source}}"</span>
+                      <span *ngIf="!text.source && j== 0 || (langToExtract!=lang && langToExtract!='')" class="mb-0">"{{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}"</span>
                     </span>
                 </div>
                 <div class="card-footer center-elements bt-n">
@@ -1183,9 +1182,8 @@
                       <span class="align-middle d-block">
                         <span class="mr-1 font-medium-1">{{'symptomssection.Found in' | translate }}: </span>
                         <span *ngFor="let text of hpo.text ; let j = index">
-                          <!--<span *ngIf="j==0" class="font-small-2 mb-0">{{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</span>-->
-                          <span *ngIf="(text.source && j== 0) && langToExtract==lang" class="font-medium-1 mb-0">{{text.source}}</span>
-                          <span *ngIf="!text.source && j== 0 || langToExtract!=lang" class="font-medium-1 mb-0">{{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}</span>
+                          <span *ngIf="(text.source && j== 0) && (langToExtract==lang || langToExtract=='')" class="mb-0">"{{text.source}}"</span>
+                          <span *ngIf="!text.source && j== 0 || (langToExtract!=lang && langToExtract!='')" class="mb-0">"{{text.text | slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text | slice:(text.positions[0]):(text.positions[1])}}</b>  {{text.text | slice:(text.positions[1]+1):(text.positions[1]+40)}}"</span>
                         </span>
                       </span>
                     </span>
