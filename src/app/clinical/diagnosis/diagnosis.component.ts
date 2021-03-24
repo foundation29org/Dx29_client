@@ -3363,32 +3363,30 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     getExomizer(patientId){
       this.subscription.add(this.exomiserService.getExomiserResults()
       .subscribe( (res2 : any) => {
-        if(this.uploadingGenotype){
-          if(res2.files.length>0){
-            if(this.activeTittleMenu == 'Genes'){
-              this.filename = '';
-            }
-            this.newVcf = true;
-            var files =res2.path.split("/")
-            this.accessToken.containerName = files[0];
-            var path=files[1]+"/"+files[2];
-            this.accessToken.patientId = this.authService.getCurrentPatient().sub;
-            this.blob.loadFilesOnBlobExomizer(this.accessToken.containerName,path);
-            //alert("Go to delete Pending Job")
-            this.subscription.add( this.apiDx29ServerService.deletePendingJob(this.accessToken.patientId,this.exomiserService.getActualToken(),"exomiser")
-            .subscribe( (res : any) => {
-              this.uploadingGenotype = false;
-              //this.loadFromBlob();
-            }, (err) => {
-              this.toastr.error('', this.translate.instant("generics.error try again"));
-              console.log(err);
-            }));
-
-          }
-          else{
+        if(res2.files.length>0){
+          if(this.activeTittleMenu == 'Genes'){
             this.filename = '';
-            this.uploadingGenotype = false;
           }
+          this.newVcf = true;
+          var files =res2.path.split("/")
+          this.accessToken.containerName = files[0];
+          var path=files[1]+"/"+files[2];
+          this.accessToken.patientId = this.authService.getCurrentPatient().sub;
+          this.blob.loadFilesOnBlobExomizer(this.accessToken.containerName,path);
+          //alert("Go to delete Pending Job")
+          this.subscription.add( this.apiDx29ServerService.deletePendingJob(this.accessToken.patientId,this.exomiserService.getActualToken(),"exomiser")
+          .subscribe( (res : any) => {
+            this.uploadingGenotype = false;
+            //this.loadFromBlob();
+          }, (err) => {
+            this.toastr.error('', this.translate.instant("generics.error try again"));
+            console.log(err);
+          }));
+
+        }
+        else{
+          this.filename = '';
+          this.uploadingGenotype = false;
         }
 
         this.loading = false;
