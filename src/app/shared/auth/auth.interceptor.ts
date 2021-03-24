@@ -61,10 +61,6 @@ export class AuthInterceptor implements HttpInterceptor {
           isExternalReq = true;
           authReq = req.clone({ responseType: 'text' });
         }
-        /*if(req.url.indexOf('https://api.cognitive.microsofttranslator.com')!==-1){
-          isExternalReq = true;
-          authReq = req.clone({ headers: req.headers.set('Ocp-Apim-Subscription-Key',  '7174b790ef59409280f77dd94c34a9d2' ) });
-        }*/
 
         //use exomizer service
         if(req.url.indexOf('https://genomicservices.azurewebsites.net/api/exomize')!==-1){
@@ -75,7 +71,7 @@ export class AuthInterceptor implements HttpInterceptor {
           authReq = req.clone({ headers});//'Content-Type',  'application/json'
           //authReq = authReq.clone({ headers: req.headers.set('Content-Type',  'application/json' )});
         }
-        
+
         if(req.url.indexOf('https://api.monarchinitiative.org/api/')!==-1){
           isExternalReq = true;
         }
