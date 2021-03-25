@@ -5261,9 +5261,11 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                this.resultTextNcr = resulttest;
                this.resultTextNcrCopy = resulttest;
                this.sortBySimilarity();
-
+               var testLangText = this.medicalText.substr(0,4000)
+               this.detectLanguage2(testLangText);
                this.medicalText ='';
                this.isNewNcrFile = false;
+
                document.getElementById("openModalShowPanelSymptomsNcr2").click();
                //this.changeTriggerHotjar('ncrresults_');
              }else{
@@ -5307,7 +5309,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                 this.resultTextNcrCopy = this.medicalText;
                 this.copyResultTextNcr = this.medicalText;
                 this.sortBySimilarity();
-
+                var testLangText = this.medicalText.substr(0,4000)
+                this.detectLanguage2(testLangText);
                 this.medicalText ='';
                 //var actualDate = Date.now();
                 //this.infoNcrToSave = {ncrVersion:environment.ncrVersion, originalText: '', result: {}, rejectedSymptoms: [], date: actualDate, docUrl: ''};
@@ -7199,6 +7202,15 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
        }, (err) => {
          console.log(err);
        }));
+    }
+
+    detectLanguage2(testLangText){
+      this.subscription.add( this.apiDx29ServerService.getDetectLanguage(testLangText)
+      .subscribe( (res : any) => {
+        this.langToExtract=res[0].language;
+      }, (err) => {
+        console.log(err);
+      }));
     }
 
 }

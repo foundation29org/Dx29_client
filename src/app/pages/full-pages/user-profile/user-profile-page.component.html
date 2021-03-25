@@ -65,6 +65,7 @@
 															<select id="lang" name="lang" class="form-control"  [(ngModel)]="user.lang" #langselected (ngModelChange)="onChangeLang($event, langselected.value)">
 																<option *ngFor="let lang of langs" [ngValue]="lang.code"> {{lang.name}}</option>
 															</select>
+															<p *ngIf="user.lang != userCopy.lang" class="text-danger">{{'profile.Save the changes' | translate }}</p>
 														</div>
 													</div>
 												</div>
@@ -90,7 +91,6 @@
 													</div>
 												</div>
 											</div>
-											<p *ngIf="user.lang != userCopy.lang" class="text-danger">{{'profile.Save the changes' | translate }}</p>
 											<div class="form-actions center" *ngIf="!sending">
 												<div *ngIf="f.valid;then formValid else formError"></div>
 												<ng-template #formValid><button class="btn btn-raised btn-raised btn-primary mr-1" type="submit"><i class="fa fa-check-square-o"></i> {{'generics.Save' | translate }}</button></ng-template>
