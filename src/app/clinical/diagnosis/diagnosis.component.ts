@@ -1383,8 +1383,17 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             var actualToken=res.exomiser[res.exomiser.length-1]
             this.exomiserService.setActualToken(actualToken)
             this.checkExomiser();
+          }else{
+            if(this.actualStep=='3.1' || this.actualStep=='3.2'){
+              this.goNextStep();
+            }
+          }
+        }else{
+          if(this.actualStep=='3.1' || this.actualStep=='3.2'){
+            this.goNextStep();
           }
         }
+
       }, (err) => {
         console.log(err);
       }));
@@ -3363,6 +3372,16 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     getExomizer(patientId){
       this.subscription.add(this.exomiserService.getExomiserResults()
       .subscribe( (res2 : any) => {
+
+        this.subscription.add( this.apiDx29ServerService.deletePendingJob(this.accessToken.patientId,this.exomiserService.getActualToken(),"exomiser")
+        .subscribe( (res : any) => {
+          this.uploadingGenotype = false;
+          //this.loadFromBlob();
+        }, (err) => {
+          this.toastr.error('', this.translate.instant("generics.error try again"));
+          console.log(err);
+        }));
+
         if(res2.files.length>0){
           if(this.activeTittleMenu == 'Genes'){
             this.filename = '';
@@ -3374,15 +3393,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           this.accessToken.patientId = this.authService.getCurrentPatient().sub;
           this.blob.loadFilesOnBlobExomizer(this.accessToken.containerName,path);
           //alert("Go to delete Pending Job")
-          this.subscription.add( this.apiDx29ServerService.deletePendingJob(this.accessToken.patientId,this.exomiserService.getActualToken(),"exomiser")
-          .subscribe( (res : any) => {
-            this.uploadingGenotype = false;
-            //this.loadFromBlob();
-          }, (err) => {
-            this.toastr.error('', this.translate.instant("generics.error try again"));
-            console.log(err);
-          }));
-
         }
         else{
           this.filename = '';
