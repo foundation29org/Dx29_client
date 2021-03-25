@@ -14,6 +14,7 @@ import { TermsConditionsPageComponent } from "./terms-conditions/terms-condition
 import { DataProcessingAgreementComponent } from "./data-processing-agreement/data-processing-agreement.component";
 import { PrivacyPolicyPageComponent } from "./privacy-policy/privacy-policy.component";
 import { PermissionsPageComponent } from "./permissions/permissions-page.component";
+import {PasswordValidator} from "app/shared/directives/password-validator.directive"; //imported to modules
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
@@ -39,7 +40,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         TermsConditionsPageComponent,
         DataProcessingAgreementComponent,
         PrivacyPolicyPageComponent,
-        PermissionsPageComponent
+        PermissionsPageComponent,
+        PasswordValidator
     ],
     entryComponents:[TermsConditionsPageComponent, DataProcessingAgreementComponent]
 })

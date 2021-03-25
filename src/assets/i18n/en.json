@@ -95,7 +95,9 @@
     "Password changed": "Password changed successfully",
     "invalidLink": "The link is invalid. If you have clicked more than once to recover the password, click on the last email received.",
     "expiredLink": "The link has expired after more than 15 minutes since you requested it. Re-request a password change.",
-    "Rerequest a password": "Re-request a password change"
+    "Rerequest a password": "Re-request a password change",
+    "Password must have": "Password must have lowercase and uppercase letters, numbers, and special characters",
+    "Password is required": "Password is required"
   },
   "dashboard":{
     "Percentage of registered users by province": "Percentage of registered users by province",
@@ -139,7 +141,7 @@
     "error try again": "An error has occurred, please try again",
     "Submit": "Submit",
     "entervalidemail": "Please enter a valid email!",
-    "Passwordlength": "Password length must be between 8 and 24 !",
+    "Passwordlength": "Password length must be between 8 and 24",
     "required": "This field is required",
     "Passwordnomatch": "Password does not match",
     "fieldsRequired": "Fields marked with * are required",
