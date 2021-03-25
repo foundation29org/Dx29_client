@@ -32,7 +32,8 @@ export class ApiDx29ServerService {
     }
 
     getPendingJobs(patientId){
-      return this.http.get(environment.api+'/api/patients/pendingJobs/'+patientId)
+      var date = Date.now();
+      return this.http.get(environment.api+'/api/patients/pendingJobs/'+patientId+'&'+date)
       .map( (res : any) => {
         return res;
        }, (err) => {

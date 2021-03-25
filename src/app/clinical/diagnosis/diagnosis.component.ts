@@ -1383,8 +1383,17 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             var actualToken=res.exomiser[res.exomiser.length-1]
             this.exomiserService.setActualToken(actualToken)
             this.checkExomiser();
+          }else{
+            if(this.actualStep=='3.1' || this.actualStep=='3.2'){
+              this.goNextStep();
+            }
+          }
+        }else{
+          if(this.actualStep=='3.1' || this.actualStep=='3.2'){
+            this.goNextStep();
           }
         }
+
       }, (err) => {
         console.log(err);
       }));
@@ -3363,6 +3372,16 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     getExomizer(patientId){
       this.subscription.add(this.exomiserService.getExomiserResults()
       .subscribe( (res2 : any) => {
+
+        this.subscription.add( this.apiDx29ServerService.deletePendingJob(this.accessToken.patientId,this.exomiserService.getActualToken(),"exomiser")
+        .subscribe( (res : any) => {
+          this.uploadingGenotype = false;
+          //this.loadFromBlob();
+        }, (err) => {
+          this.toastr.error('', this.translate.instant("generics.error try again"));
+          console.log(err);
+        }));
+
         if(res2.files.length>0){
           if(this.activeTittleMenu == 'Genes'){
             this.filename = '';
@@ -3374,15 +3393,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           this.accessToken.patientId = this.authService.getCurrentPatient().sub;
           this.blob.loadFilesOnBlobExomizer(this.accessToken.containerName,path);
           //alert("Go to delete Pending Job")
-          this.subscription.add( this.apiDx29ServerService.deletePendingJob(this.accessToken.patientId,this.exomiserService.getActualToken(),"exomiser")
-          .subscribe( (res : any) => {
-            this.uploadingGenotype = false;
-            //this.loadFromBlob();
-          }, (err) => {
-            this.toastr.error('', this.translate.instant("generics.error try again"));
-            console.log(err);
-          }));
-
         }
         else{
           this.filename = '';
@@ -4429,18 +4439,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       this.settingExomizer.VariantEffectFilters.remove = [];
     }
 
-    isGenomeChangedEvent(state){
-      if(state && !this.variantEffectFiltersState){
-        this.settingExomizer.VariantEffectFilters={remove:[]}
-        this.variantEffectsFilterRequired=false;
-      }
-      else if(!state && !this.variantEffectFiltersState){
-        //this.settingExomizer.VariantEffectFilters={"remove": ["UPSTREAM_GENE_VARIANT", "INTERGENIC_VARIANT", "REGULATORY_REGION_VARIANT", "CODING_TRANSCRIPT_INTRON_VARIANT", "NON_CODING_TRANSCRIPT_INTRON_VARIANT", "SYNONYMOUS_VARIANT", "DOWNSTREAM_GENE_VARIANT", "SPLICE_REGION_VARIANT"]}
-        this.variantEffectsFilterRequired=true;
-
-      }
-    }
-
     variantEffectFiltersChanged(){
       this.variantEffectFiltersState = true;
       this.variantEffectsFilterRequired=true;
@@ -5273,9 +5271,11 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                this.resultTextNcr = resulttest;
                this.resultTextNcrCopy = resulttest;
                this.sortBySimilarity();
-
+               var testLangText = this.medicalText.substr(0,4000)
+               this.detectLanguage2(testLangText);
                this.medicalText ='';
                this.isNewNcrFile = false;
+
                document.getElementById("openModalShowPanelSymptomsNcr2").click();
                //this.changeTriggerHotjar('ncrresults_');
              }else{
@@ -5319,7 +5319,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                 this.resultTextNcrCopy = this.medicalText;
                 this.copyResultTextNcr = this.medicalText;
                 this.sortBySimilarity();
-
+                var testLangText = this.medicalText.substr(0,4000)
+                this.detectLanguage2(testLangText);
                 this.medicalText ='';
                 //var actualDate = Date.now();
                 //this.infoNcrToSave = {ncrVersion:environment.ncrVersion, originalText: '', result: {}, rejectedSymptoms: [], date: actualDate, docUrl: ''};
@@ -7211,6 +7212,15 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
        }, (err) => {
          console.log(err);
        }));
+    }
+
+    detectLanguage2(testLangText){
+      this.subscription.add( this.apiDx29ServerService.getDetectLanguage(testLangText)
+      .subscribe( (res : any) => {
+        this.langToExtract=res[0].language;
+      }, (err) => {
+        console.log(err);
+      }));
     }
 
 }

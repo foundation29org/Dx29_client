@@ -42,10 +42,19 @@
                                             <span class="input-group-text">
                                                 <i class="ft-lock"></i>
                                             </span>
-                                            <input type="password" class="form-control" name="password" id="password" placeholder="{{'generics.Password' | translate }}" ngModel required #password="ngModel" minlength="8" maxlength="24">
+                                            <input type="password" class="form-control" name="password" id="password" placeholder="{{'generics.Password' | translate }}" ngModel required #password="ngModel" minlength="8" maxlength="24" validatePassword="password">
                                         </div>
-
-                                        <small class="form-text text-muted danger" *ngIf="!password.valid && (password.dirty || password.touched)">{{'generics.Passwordlength' | translate }}</small>
+                                        <small *ngIf="password.invalid && (password.dirty || password.touched)" class="form-text text-muted danger">
+                                          <div *ngIf="password.errors.invalidPassword">
+                                            {{'recoverpass.Password must have' | translate }} {{'(!@#$%^&*(),.?\":{}|<>)'}}
+                                          </div>
+                                          <div *ngIf="password.errors.required">
+                                            {{'recoverpass.Password is required' | translate }}
+                                          </div>
+                                          <div *ngIf="(password.errors.minlength || password.errors.maxlength) && !password.errors.required">
+                                            {{'generics.Passwordlength' | translate }}
+                                          </div>
+                                        </small>
                                       </div>
                                       <div class="form-group">
                                         <div class="input-group mb-3">

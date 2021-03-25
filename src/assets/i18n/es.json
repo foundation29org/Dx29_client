@@ -95,7 +95,9 @@
     "Password changed": "Contraseña cambiada con éxito",
     "invalidLink": "El enlace es inválido. Si has hecho clic más de una vez a recuperar la contraseña, haga clic en el último email recibido.",
     "expiredLink": "El enlace ha caducado al pasar más de 15 minutos desde que lo solicitó. Vuelva a solicitar un cambio de contraseña.",
-    "Rerequest a password": "Vuelva a solicitar un cambio de contraseña"
+    "Rerequest a password": "Vuelva a solicitar un cambio de contraseña",
+    "Password must have": "La contraseña debe tener letras minúsculas y mayúsculas, números y caracteres especiales",
+    "Password is required": "La contraseña es obligatoria"
   },
   "dashboard":{
     "Percentage of registered users by province": "Porcentaje de usuarios registrados por provincia",
@@ -138,7 +140,7 @@
     "error try again": "Se ha producido un error, intente de nuevo",
     "Submit": "Enviar",
     "entervalidemail": "¡Por favor introduzca una dirección de correo electrónico válida!",
-    "Passwordlength": "La longitud de la contraseña debe estar entre 8 y 24!",
+    "Passwordlength": "La longitud de la contraseña debe estar entre 8 y 24",
     "required": "Este campo es requerido",
     "Passwordnomatch": "La contraseña no coincide",
     "fieldsRequired": "Los campos marcados con * son obligatorios",
