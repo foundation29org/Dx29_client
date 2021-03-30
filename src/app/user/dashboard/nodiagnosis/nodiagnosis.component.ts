@@ -1580,6 +1580,7 @@ export class NodiagnosisComponent implements OnInit, OnDestroy{
           if(extension =='.vcf' || extension =='.vcf.gz'){
             //Swal.fire('The VCF file must have .vcf extension.', '', "error");
             filename = filename + extension;
+            this.hasVcf = true;
           }else{
             filename = 'genofilepatient-'+filename + extension;
           }

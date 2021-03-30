@@ -991,7 +991,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         this.initVarsPrograms();
         this.loadSymptoms();
         this.getDiagnosisInfo();
-        this.loadBlobFiles();
       }, (err) => {
         console.log(err);
       }));
@@ -1016,6 +1015,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                this.filename = filesOnBlob[i].name;
                mindate = d.getTime();
              }
+             this.hasVcf = true;
+             this.updateHasVcf();
            }
          }
 
@@ -1078,6 +1079,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
              this.filesVcf = vcfFilesOnBlob;
              this.filename = vcfFilesOnBlob[0].name;
              this.hasVcf = true;
+             this.updateHasVcf();
            }else{
              console.log('no tiene!');
            }
@@ -3753,6 +3755,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       //cargar el fenotipo del usuario
       this.subscription.add( this.http.get(environment.api+'/api/diagnosis/'+para.sub)
       .subscribe( (res : any) => {
+        this.loadBlobFiles();
         this.loadingDiagnosisInfo = false;
         if(res.message){
           this.diagnosisInfo = {
@@ -3866,6 +3869,43 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
            }, (err) => {
              console.log(err.error);
              this.toastr.error('', this.translate.instant("generics.error try again"));
+             this.savingDiagnosis = false;
+           }));
+        }
+      }
+    }
+
+    updateHasVcf(){
+      if(this.authGuard.testtoken() && !this.savingDiagnosis){
+        this.savingDiagnosis = true;
+        if(this.diagnosisInfo._id==null){
+          for(var i = 0; i < this.relatedConditions.length; i++) {
+            delete this.relatedConditions[i].symptoms;
+            delete this.relatedConditions[i].xrefs;
+          }
+          this.diagnosisInfo.infoGenesAndConditionsExomizer = this.infoGenesAndConditionsExomizer;
+          this.diagnosisInfo.infoGenesAndConditionsPhen2Genes = this.infoGenesAndConditionsPhen2Genes;
+          this.diagnosisInfo.settingExomizer = this.settingExomizer;
+          this.diagnosisInfo.relatedConditions = this.relatedConditions;
+          this.diagnosisInfo.hasVcf = this.hasVcf;
+          this.diagnosisInfo.selectedItemsFilter = this.selectedItemsFilter;
+          this.subscription.add( this.http.post(environment.api+'/api/diagnosis/'+this.authService.getCurrentPatient().sub, this.diagnosisInfo)
+          .subscribe( (res : any) => {
+            this.diagnosisInfo = res.diagnosis;
+            this.savingDiagnosis = false;
+            this.getSymptomsApi2();
+           }, (err) => {
+             console.log(err);
+             this.toastr.error('', this.translate.instant("generics.error try again"));
+             this.savingDiagnosis = false;
+           }));
+        }else{
+          this.subscription.add( this.http.put(environment.api+'/api/diagnosis/hasvcf/'+this.diagnosisInfo._id, this.hasVcf)
+          .subscribe( (res : any) => {
+            console.log(res);
+            this.savingDiagnosis = false;
+           }, (err) => {
+             console.log(err.error);
              this.savingDiagnosis = false;
            }));
         }
