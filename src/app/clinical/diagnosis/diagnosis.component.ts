@@ -146,6 +146,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     switchOrigin: string = 'BOTH';
     //BLOBS
     uploadingGenotype: boolean = false;
+    isSomethingPending: boolean = false;
     uploadingPed: boolean = false;
     uploadProgress: Observable<number>;
     uploadProgressPed: Observable<number>;
@@ -1385,14 +1386,17 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           if(res2.message){
             if(res2.message=="nothing pending"){
               this.getExomizer(patientId);
+              this.isSomethingPending = false;
             }
             else if (res2.message=="Error"){
               console.log("MEssage == error")
               // /api/Exomiser/StatusDescription(res2)
+              this.isSomethingPending = false;
               this.manageErrorsExomiser("type 2",res2.res);
             }
             else if(res2.message=="something pending"){
               this.uploadingGenotype = true;
+              this.isSomethingPending = true;
               if(this.actualStep=='3.0'){
                 this.goToStep('3.1', false);
               }
