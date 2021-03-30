@@ -147,6 +147,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     switchOrigin: string = 'BOTH';
     //BLOBS
     uploadingGenotype: boolean = false;
+    isSomethingPending: boolean = false;
     uploadingPed: boolean = false;
     uploadProgress: Observable<number>;
     uploadProgressPed: Observable<number>;
@@ -269,6 +270,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     loadingSymptomsOfDisease: boolean = false;
     loadingSuggestions: boolean = false;
     listOfSymptomGroups: any = [];
+    loadingServices: boolean = false;
+    uploadingVCF: boolean = false;
     viewSymptoms: number = 0;
     selectedPatient: any = {};
     age: any = {};
@@ -942,33 +945,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     cancelAnalysis(){
       if(this.loadingGeno || this.calculatingH29Score || this.gettingRelatedConditions || this.uploadingGenotype){
         Swal.fire(this.translate.instant("analysissection.stillanalyzing"), this.translate.instant("analysissection.may10minutesexov2"), "warning");
-        /*  Swal.fire({
-            title: this.translate.instant("analysissection.analyzingdata"),
-            text:  this.translate.instant("analysissection.stopanalysis?"),
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#0CC27E',
-            cancelButtonColor: '#f9423a',
-            confirmButtonText: this.translate.instant("generics.Accept"),
-            cancelButtonText: this.translate.instant("generics.Cancel"),
-            showLoaderOnConfirm: true,
-            allowOutsideClick: false,
-            reverseButtons:true
-        }).then((result) => {
-          if (result.value) {
-            this.cancelSubscription();
-            this.setActualStep('5.0');
-            this.loadingGeno =false;
-            this.calculatingH29Score=false;
-            this.gettingRelatedConditions=false;
-            this.uploadingGenotype=false;
-            //this.setActualStepDB('5.0');
-            if(this.modalReference!=undefined){
-              this.modalReference.close();
-            }
-          }
-        });*/
-
       }else if(this.launchingPhen2Genes || this.calculatingH29Score || this.gettingRelatedConditions){
         Swal.fire(this.translate.instant("analysissection.stillanalyzing"), '', "warning");
       }else{
@@ -1000,6 +976,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       this.subscription.add( this.blob.change.subscribe(uploaded => {
          this.uploaded = uploaded;
          this.uploadingGenotype = false;
+         this.uploadingVCF = false;
        }));
 
        this.subscription.add(this.blob.changeFilesBlob.subscribe(filesOnBlob => {
@@ -1022,7 +999,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
          if(this.uploaded){
            if(document.getElementById("idShowPanelWorkbench")==null && document.getElementById("settingExomiser")==null){
-             //this.callExomizerSameVcf();
            }else if(document.getElementById("settingExomiser")!=null){
              this.blob.loadFilesOnNewBlobExomizerSetting(this.accessToken.containerName);
            }
@@ -1374,7 +1350,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     checkServices(){
       // Find if the patient has pending works
       var patientId = this.authService.getCurrentPatient().sub;
-      this.$hotjar.tagRecording(['clinician', this.authService.getIdUser(), patientId]);
       this.subscription.add( this.apiDx29ServerService.getPendingJobs(patientId)
       .subscribe( (res : any) => {
         if(res.exomiser!=undefined){
@@ -1390,15 +1365,18 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             if(this.actualStep=='3.1' || this.actualStep=='3.2'){
               this.goNextStep();
             }
+            this.loadingServices = false;
           }
         }else{
           if(this.actualStep=='3.1' || this.actualStep=='3.2'){
             this.goNextStep();
           }
+          this.loadingServices = false;
         }
 
       }, (err) => {
         console.log(err);
+        this.loadingServices = false;
       }));
       this.launchingPhen2Genes = false;
     }
@@ -1411,14 +1389,17 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           if(res2.message){
             if(res2.message=="nothing pending"){
               this.getExomizer(patientId);
+              this.isSomethingPending = false;
             }
             else if (res2.message=="Error"){
               console.log("MEssage == error")
               // /api/Exomiser/StatusDescription(res2)
+              this.isSomethingPending = false;
               this.manageErrorsExomiser("type 2",res2.res);
             }
             else if(res2.message=="something pending"){
               this.uploadingGenotype = true;
+              this.isSomethingPending = true;
               if(this.actualStep=='3.0'){
                 this.goToStep('3.1', false);
               }
@@ -1426,9 +1407,11 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
               this.checkExomiser();
             }
           }
+          this.loadingServices = false;
          }, (err) => {
            console.log(err);
            this.manageErrorsExomiser("type1",err);
+           this.loadingServices = false;
          }));
     }
 
@@ -1581,6 +1564,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
      this.filePhen2GenesOnBlob = '';
      this.urlFileHtmlExomiserBlob = '';
      this.loadingFileHtmlExomiserBlob = false;
+     this.loadingServices = true;
      this.infoGenesAndConditions = [];
      this.infoGenesAndConditionsExomizer = [];
      this.infoGenesAndConditionsPhen2Genes = [];
@@ -1762,32 +1746,15 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
      }));
     }
 
-    showPanelDiagnosis(contentRelatedConditions){
-      let ngbModalOptions: NgbModalOptions = {
-            backdrop : 'static',
-            keyboard : false,
-            windowClass: 'ModalClass-xl',
-            centered: true
-      };
-      this.modalReference = this.modalService.open(contentRelatedConditions, ngbModalOptions);
-
-    }
-
-    changeView1(){
-      $('#panelSelectFromList').hide();
-      $('#panelPhenotypeList').show();
-    }
-    changeView2(){
-      $('#panelSelectFromList').show();
-      $('#panelPhenotypeList').hide();
-    }
-
     getRelatedConditionsview(isgen){
       this.isgen=isgen
       this.getRelatedConditions();
     }
 
     getRelatedConditions(){
+      if(this.modalReference!=undefined){
+        this.modalReference.close();
+      }
       this.gettingRelatedConditions = true;
 
       this.showErrorMsg = false;
@@ -3289,7 +3256,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           }
           this.loadingTable=false;
 
-          if(this.actualStep == '3.1'){
+          if(this.actualStep == '3.1' || this.gettingRelatedConditions){
             this.getRelatedConditionsview(true);
             //this.getRelatedConditions();
           }
@@ -3304,7 +3271,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
 
           if(this.newVcf){
-            //this.startDiagnosis();
             this.newVcf = false;
           }else{
             if(this.diagnosisInfo.infoGenesAndConditionsExomizer.length == 0){
@@ -3431,6 +3397,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           if(extension=='.vcf' || extension=='.vcf.gz'){
             this.filename = '';
             this.uploadingGenotype = true;
+            this.uploadingVCF = true;
             if(step = 'step1'){
               this.uploadProgress = this.blob
                 .uploadToBlobStorage(this.accessToken, event.target.files[0], filename, 'vcfonly');
@@ -3449,31 +3416,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         reader.readAsArrayBuffer(event.target.files[0]);
 
       }
-    }
-
-    startDiagnosis(){
-      //this.subscription.unsubscribe();
-      this.actualPosDisease = 0;
-      this.globalPosDisease = 1;
-      this.actualDisease = {};
-      this.unknownSymptoms = [];
-      this.symptomsLoaded = [];
-      this.numberOfSymptoms = this.phenotype.data.length;
-      this.getSymptomsOfDisease();
-      document.getElementById("openModalButton").click();
-    }
-
-    editDiagnosis(contentRelatedConditions){
-      this.infoGenesAndConditions = this.relatedConditions;
-
-      this.sizeOfDiseases = this.relatedConditions.length;
-      this.actualPosDisease = 0;
-      this.globalPosDisease = 1;
-      this.actualDisease = {};
-      this.unknownSymptoms = [];
-      this.symptomsLoaded = [];
-      this.getSymptomsOfDisease();
-      document.getElementById("openModalButton").click();
     }
 
     cancelExomiser(place){
@@ -3635,79 +3577,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         this.numberOfSymptoms--;
       }
       this.actualDisease.symptoms[index].checked = 'unknown';
-    }
-
-    finishDiagnosis(){
-      var haschanged = false;
-        for (var j = 0; j < this.infoGenesAndConditions.length; j++) {
-          if (typeof this.infoGenesAndConditions[j].symptoms != 'undefined') {
-            for (var k = 0; k < this.infoGenesAndConditions[j].symptoms.length; k++) {
-              if(this.infoGenesAndConditions[j].symptoms[k].checked == true){
-                var foundElement = this.searchService.search(this.phenotype.data,'id', this.infoGenesAndConditions[j].symptoms[k].id);
-                if(!foundElement){
-                  this.phenotype.data.push(
-                    {id: this.infoGenesAndConditions[j].symptoms[k].id,
-                      name: this.infoGenesAndConditions[j].symptoms[k].name,
-                      new: true,
-                      checked: true,
-                      percentile: this.infoGenesAndConditions[j].symptoms[k].percentile,
-                      def: this.infoGenesAndConditions[j].symptoms[k].def,
-                      comment: this.infoGenesAndConditions[j].symptoms[k].comment,
-                      synonyms: this.infoGenesAndConditions[j].symptoms[k].synonyms,
-                      inputType: 'proposed',
-                      importance: '1',
-                      polarity: '0'
-                    });
-
-                      haschanged =true;
-                }
-              }else if(this.infoGenesAndConditions[j].symptoms[k].checked == 'unknown'){
-                this.unknownSymptoms.push(
-                  {id: this.infoGenesAndConditions[j].symptoms[k].id,
-                    name: this.infoGenesAndConditions[j].symptoms[k].name,
-                    new: true,
-                    checked: true,
-                    percentile: this.infoGenesAndConditions[j].symptoms[k].percentile,
-                    def: this.infoGenesAndConditions[j].symptoms[k].def,
-                    comment: this.infoGenesAndConditions[j].symptoms[k].comment,
-                    synonyms: this.infoGenesAndConditions[j].symptoms[k].synonyms,
-                    inputType: 'proposed',
-                    importance: '1',
-                    polarity: '0'
-                  });
-
-                    haschanged =true;
-              }else if(this.infoGenesAndConditions[j].symptoms[k].checked == false){
-                var foundElement = this.searchService.search(this.phenotype.data,'id', this.infoGenesAndConditions[j].symptoms[k].id);
-                if(foundElement){
-                  for(var m = 0; m < this.phenotype.data.length; m++) {
-                    if(this.phenotype.data[m].id==this.infoGenesAndConditions[j].symptoms[k].id){
-                      this.phenotype.data[m].checked=false;
-                      haschanged =true;
-                    }
-                  }
-
-                }
-              }
-            }
-          }
-        }
-      if(this.modalReference!=undefined){
-        this.modalReference.close();
-      }
-       this.phenotype.data.sort(this.sortService.GetSortOrder("name"));
-       if(haschanged){
-         this.checksChanged = true;
-       }
-       if(haschanged || this.relatedConditions != []){
-         if(this.infoGenesAndConditions == this.infoGenesAndConditionsPhen2Genes){
-           this.getRelatedConditionsview(false);
-         }else{
-           this.getRelatedConditionsview(true);
-         }
-         //this.getRelatedConditions();
-       }
-
     }
 
     addSymptomToPhenotype(symptom, index){
@@ -6034,17 +5903,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }
     }
 
-    exploreMoreSymptomsPhen2Genes(){
-      this.infoGenesAndConditions = this.infoGenesAndConditionsPhen2Genes;
-      this.startDiagnosis();
-      this.numberOfSymptoms = this.phenotype.data.length;
-      this.actualPosDisease = 0;
-      this.globalPosDisease = 1;
-      this.actualDisease = {};
-      this.unknownSymptoms = [];
-      this.symptomsLoaded = [];
-    }
-
     continueAndCallPhen2Genes(){
 
       this.gettingRelatedConditions=false;
@@ -7140,7 +6998,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     }
 
     setNotAnalyzeGeneticInfo(){
-      this.notAnalyzeGeneticInfo = !this.notAnalyzeGeneticInfo;
+      //this.notAnalyzeGeneticInfo = !this.notAnalyzeGeneticInfo;
+      this.notAnalyzeGeneticInfo = true;
       if(this.notAnalyzeGeneticInfo){
         this.filename = '';
       }
