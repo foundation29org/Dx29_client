@@ -11,6 +11,7 @@ import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { SortService} from 'app/shared/services/sort.service';
 import { SearchService } from 'app/shared/services/search.service';
 import { PatientService } from 'app/shared/services/patient.service';
+import { DateService } from 'app/shared/services/date.service';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import { ExomiserService } from 'app/shared/services/exomiser.service';
 import {ExomiserHttpService} from 'app/shared/services/exomiserHttp.service';
@@ -354,7 +355,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
-    protected $hotjar: NgxHotjarService, private textTransform: TextTransform, private inj: Injector, private dataservice: Data, public googleAnalyticsService: GoogleAnalyticsService) {
+    protected $hotjar: NgxHotjarService, private textTransform: TextTransform, private inj: Injector, private dataservice: Data, public googleAnalyticsService: GoogleAnalyticsService, private dateService: DateService) {
       this.eventsService = this.inj.get(EventsService);
       this.loadingTable=false;
       //this.columnsToDisplay=[this.translate.instant('diagnosis.Ranked genes'),this.translate.instant('phenotype.Related conditions')]
@@ -7221,6 +7222,29 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }, (err) => {
         console.log(err);
       }));
+    }
+
+    downloadToTxt(file){
+      //{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.origenFile.name}}{{accessToken.sasToken}}
+      var url = this.accessToken.blobAccountUrl+ this.accessToken.containerName + '/' + file.origenFile.name + this.accessToken.sasToken;
+      this.subscription.add( this.http.get(url)
+       .subscribe( (res : any) => {
+         var originalText = res.originalText;
+         var dateNow = new Date();
+         var stringDateNow = this.dateService.transformDate(dateNow);
+         var nameFile   = "SymptomsExtracted_Dx29_"+stringDateNow+".txt";
+         this.download(originalText, nameFile,'text/plain')
+        }, (err) => {
+          console.log(err);
+        }));
+    }
+
+    download(content, fileName, contentType) {
+        var a = document.createElement("a");
+        var file = new Blob([content], {type: contentType});
+        a.href = URL.createObjectURL(file);
+        a.download = fileName;
+        a.click();
     }
 
 }

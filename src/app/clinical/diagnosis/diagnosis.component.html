@@ -501,7 +501,10 @@
                               </div>
                             </div>
                             <div class="card-footer">
-                              <span *ngIf="onefile.origenFile != undefined"><a class="float-left btn btn-outline-primary mb-0" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.origenFile.name}}{{accessToken.sasToken}}" target="_blank" download>{{'reportsSection.Download' | translate }} <i class="fa fa-download"></i></a></span>
+                              <span *ngIf="onefile.origenFile != undefined">
+                                <a *ngIf="onefile.ncrResults.extension=='.json'" class="float-left btn btn-outline-primary mb-0"  href="javascript:void(0)" (click)="downloadToTxt(onefile)">{{'reportsSection.Download' | translate }} <i class="fa fa-download"></i></a>
+                                <a *ngIf="onefile.ncrResults.extension!='.json'" class="float-left btn btn-outline-primary mb-0" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.origenFile.name}}{{accessToken.sasToken}}" target="_blank" download>{{'reportsSection.Download' | translate }} <i class="fa fa-download"></i></a>
+                              </span>
                               <span *ngIf="onefile.ncrResults.ncrresult"><a class="float-right btn btn-outline-primary mb-0" href="javascript:void(0)" (click)="openNcrResult(onefile.ncrResults.name);">{{'reportsSection.View result' | translate }} <i class="fa fa-eye"></i></a><a *ngIf="onefile.origenFile == undefined" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.ncrResults.name}}{{accessToken.sasToken}}" target="_blank" download><i class="fa fa-download"></i></a></span>
                             </div>
                         </div>
