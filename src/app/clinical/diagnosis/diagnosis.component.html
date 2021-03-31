@@ -814,12 +814,14 @@
                                                     </span>
                     															</td>
                                                   <td style="text-align:center" *ngIf="symptom.frequency==undefined">
-                                                    <span> {{'diagnosis.unknown frequency' | translate }} </span>
+                                                    <span *ngIf="!symptom.patient || symptom.notpatientbutsuccessor || symptom.orphanet || symptom.omim"> {{'diagnosis.unknown frequency' | translate }} </span>
+                                                    <span *ngIf="symptom.patient && !symptom.orphanet && !symptom.omim && !symptom.notpatientbutsuccessor"> - </span>
                     															</td>
                                                   <td style="text-align:center" *ngIf="symptom.frequency!=undefined">
                     																<span *ngIf="symptom.frequencyInfo!=undefined"  title="{{symptom.frequencyInfo.desc}}"> {{symptom.frequencyInfo.name}}</span>
                                                     <span *ngIf="symptom.frequencyInfo==undefined"> {{symptom.frequency}} </span>
-                                                    <span *ngIf="symptom.frequency==null">{{'diagnosis.unknown frequency' | translate }} </span>
+                                                    <span *ngIf="symptom.frequency==null && symptom.patient"> - </span>
+                                                    <span *ngIf="symptom.frequency==null && !symptom.patient">{{'diagnosis.unknown frequency' | translate }} </span>
                     															</td>
                     															<td style="text-align:center">
                     																<span *ngIf="symptom.patient"><i class="fa fa-check success"></i></span>
