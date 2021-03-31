@@ -1721,6 +1721,21 @@
                   <h4 *ngIf="uploadingGenotype">{{'generics.Upload Progress' | translate }}: {{uploadProgress | async}}%</h4>
                 </div>
               </div>
+              <div class="form-group col-md-12 row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                        <label id="gender">{{'generics.Reference Genome' | translate }}</label>
+                        <mat-radio-group class="example-radio-group d-block" [(ngModel)]="settingExomizer.genomeAssembly" name="genomeAssembly">
+                          <mat-radio-button class="example-radio-button" value="hg38">
+                          HG38
+                          </mat-radio-button>
+                          <mat-radio-button class="example-radio-button ml-2" value="hg19">
+                          HG19
+                          </mat-radio-button>
+                        </mat-radio-group>
+                  </div>
+                </div>
+              </div>
             </div>
             <h4 class="form-section col-md-12">Inheritance and pedigrees <i [ngClass]="(showInheritanceAndPedigrees==true)?'ft-chevron-up info':'ft-chevron-down info'" (click)="showInheritanceAndPedigrees=!showInheritanceAndPedigrees"></i></h4>
             <div class="col-md-12 row" *ngIf="showInheritanceAndPedigrees">
