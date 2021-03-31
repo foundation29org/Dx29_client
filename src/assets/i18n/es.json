@@ -229,7 +229,8 @@
     "Fill in the required data": "Complete los datos obligatorios",
     "Calculate":"Calcular",
     "There is no patient data to export": "No hay datos de pacientes para exportar.",
-    "OPTIONAL": "Opcional"
+    "OPTIONAL": "Opcional",
+    "Reference Genome": "Genoma de referencia"
   },
   "lang":{
     "Question deleted successfully": "Pregunta eliminada con éxito",
