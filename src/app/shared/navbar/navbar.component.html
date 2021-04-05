@@ -99,6 +99,9 @@
                                           </span>
                                         </span>
                                     </span>
+                                    <a *ngIf="task.status=='Failed' || task.status=='Succeeded'" class="float-right close-task" data-original-title="" title="{{'generics.Close' | translate }}" (click)="deleteTask(j)">
+                                      <i class="ft-x"></i>
+                                    </a>
                                 </a>
                                 <a *ngIf="tasks.length>0" class="noti-footer primary text-center d-block border-top border-top-blue-grey border-top-lighten-4 text-bold-400 py-1" (click)="clearNotifications();">{{'topnavbar.Clear notifications' | translate }}</a>
                                 <span *ngIf="tasks.length==0" class="noti-footer text-center text-muted d-block border-top border-top-blue-grey border-top-lighten-4 text-bold-400 py-1" (click)="isCollapsed = !isCollapsed">{{'topnavbar.There are no notifications to show' | translate }}</span>

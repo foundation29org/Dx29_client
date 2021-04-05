@@ -472,7 +472,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       params.account.sub = patientparams.sub;
 
       params.internalmessage = this.listOfSharingAccounts[i].internalmessage;
-
+      params.ownerID = this.authService.getIdUser()
       this.subscription.add( this.http.post(environment.api+'/api/resendshareorinvite',params)
         .subscribe( (res : any) => {
           if(params.role == 'User'){
