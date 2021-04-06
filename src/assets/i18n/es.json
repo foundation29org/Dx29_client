@@ -801,6 +801,7 @@
     "title": "Sugerencias de enfermedades",
     "subtitle": "Esta lista contiene diagnósticos candidatos y los genes potencialmente causativos. Puedes consultar detalles y visualizar la similitud del paciente con cada uno.",
     "no_analyzed": "No has analizado los datos.",
+    "no information found": "Sorry, no information found.",
     "Results": "Resultados",
     "SelectCandidate": "Selecciona los diagnósticos candidatos.",
     "Clinic view": "Vista clínica",
