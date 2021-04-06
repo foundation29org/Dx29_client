@@ -802,6 +802,7 @@
     "title": "Diseases suggestions",
     "subtitle": "This list contains diseases to consider in a differential diagnosis and their related genes. You can see further details and the similarity of the patient with each disease.",
     "no_analyzed": "You haven’t analyzed the data.",
+    "no information found": "Sorry, no information found.",
     "Results": "Results",
     "SelectCandidate": "Select the candidate diagnosis.",
     "Clinic view": "Clinic view",

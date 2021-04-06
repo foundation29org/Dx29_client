@@ -686,7 +686,8 @@
                     <span class="float-right">
                       <button type="button" class="btn btn-outline-primary mr-1" (click)="goToStepDiagnoses();">{{'diagnosesSection.gotoanalysis' | translate }}</button>
                     </span>
-                    <b>{{'diagnosesSection.no_analyzed' | translate }}</b>
+                    <b *ngIf="resulExoEmpty!='empty'">{{'diagnosesSection.no_analyzed' | translate }}</b>
+                    <b *ngIf="resulExoEmpty=='empty'">{{'diagnosesSection.no information found' | translate }}</b>
                   </h4>
                   <h4 class="card-title" *ngIf="infoGenesAndConditionsExomizer.length==0 && (infoGenesAndConditionsPhen2Genes.length==0 && launchedPhen2genes) && topRelatedConditions.length>0">
                     <b class="d-block">{{'diagnosesSection.Results' | translate }}</b>
