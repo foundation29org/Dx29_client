@@ -34,9 +34,9 @@ export class PermissionsPageComponent implements OnDestroy{
             Swal.fire('', 'The user to whom you give permission, no longer exists.', "success");
           }else{
             if(res.message == 'Accepted'){
-              Swal.fire('', this.translate.instant("generics.Accept"), "success");
+              Swal.fire('', this.translate.instant("adminGTP.Accepted"), "success");
             }else{
-              Swal.fire('', this.translate.instant("generics.Reject"), "warning");
+              Swal.fire('', this.translate.instant("adminGTP.Rejected"), "warning");
             }
           }
 
