@@ -354,6 +354,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     viewSummarySymptoms: string = 'Simple';
     isNew: boolean = false;
     actualWidth: string = 'xs';
+    resulExoEmpty: string = 'null';
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
@@ -3174,10 +3175,15 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       this.moreInfoElement={};
       this.geneElementName="";
       this.loadingTable=true
-
+      this.resulExoEmpty = 'null'
       this.loadHtmlExo();
       this.subscription.add( this.http.get(this.accessToken.blobAccountUrl+this.accessToken.containerName+'/'+this.filesOnBlob[0].name+this.accessToken.sasToken)
         .subscribe( (res : any) => {
+          if(res.length==0){
+            this.resulExoEmpty = 'empty'
+          }else{
+            this.resulExoEmpty = 'hasinfo'
+          }
           this.infoGenesAndConditions = [];
           this.infoGenesAndConditionsExomizer = [];
           this.sizeOfDiseases = 0;
@@ -3312,6 +3318,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           }
         }
         //this.settingExomizer.genomeAssembly='hg38';
+        this.settingExomizer.IsGenome=false;
         this.subscription.add(this.exomiserService.analyzeExomiser(this.settingExomizer)
         .subscribe( (res : any) => {
           this.subscription.add( this.apiDx29ServerService.setPendingJobs(this.accessToken.patientId,this.exomiserService.getActualToken())
