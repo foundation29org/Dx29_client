@@ -630,8 +630,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
    acceptReject(index, type){
      var actualLang = this.authService.getLang()
-     var paramssend = { patient: this.listOfSharingAccounts[index].patientid, email: this.listOfSharingAccounts[index].email, state: type, lang: actualLang };
-
+     var paramssend = { patient: this.listOfSharingAccounts[index].patientid, email: this.listOfSharingAccounts[index].email, state: type, emailorigen: null, patientEmail: this.myEmail, lang: actualLang , invitedby: this.listOfSharingAccounts[index].invitedby};
      this.subscription.add( this.http.post(environment.api+'/api/updatepermissions',paramssend)
      .subscribe( (res : any) => {
        if(res.message == 'Patient not found'){

@@ -24,7 +24,7 @@ export class PermissionsPageComponent implements OnDestroy{
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, public translate: TranslateService) {
       var param = this.router.parseUrl(this.router.url).queryParams;
       if(param.patient && param.email){
-        var paramssend = { patient: param.patient, email: param.email, state: param.state, emailorigen: param.emailorigen, patientEmail: param.patientEmail, lang: param.lang };
+        var paramssend = { patient: param.patient, email: param.email, state: param.state, emailorigen: param.emailorigen, patientEmail: param.patientEmail, lang: param.lang, invitedby: null };
 
         this.subscription.add( this.http.post(environment.api+'/api/updatepermissions',paramssend)
         .subscribe( (res : any) => {
