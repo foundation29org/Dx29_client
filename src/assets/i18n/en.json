@@ -803,6 +803,16 @@
     "subtitle": "This list contains diseases to consider in a differential diagnosis and their related genes. You can see further details and the similarity of the patient with each disease.",
     "no_analyzed": "You haven’t analyzed the data.",
     "no information found": "Sorry, no information found.",
+    "detailsNoInfo": "Check the quality and maximum frequency parameters. We automatically remove the list of variants from this list:",
+    "VariantEffectFilters":{
+      "UPSTREAM_GENE_VARIANT": "Upstream gene variant",
+      "INTERGENIC_VARIANT": "Intergenic variant",
+      "REGULATORY_REGION_VARIANT": "Regulatory region variant",
+      "CODING_TRANSCRIPT_INTRON_VARIANT": "Coding transcript intron variant",
+      "NON_CODING_TRANSCRIPT_INTRON_VARIANT": "Non coding transcript intron variant",
+      "SYNONYMOUS_VARIANT": "Synonymous variant",
+      "DOWNSTREAM_GENE_VARIANT": "Downstream gene variant"
+    },
     "Results": "Results",
     "SelectCandidate": "Select the candidate diagnosis.",
     "Clinic view": "Clinic view",
@@ -926,7 +936,7 @@
   },
   "sharesection":{
     "Sharing menu": "Sharing menu",
-    "Invite": "Invite another physician to see this case",
+    "Invite": "Invite to use Dx29 ",
     "What can it be done": "What can it be done with the case?",
     "Write a message for the receptor": "Write a message for the receptor.",
     "Role": "Role"

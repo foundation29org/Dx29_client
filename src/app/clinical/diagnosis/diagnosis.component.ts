@@ -11,6 +11,7 @@ import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { SortService} from 'app/shared/services/sort.service';
 import { SearchService } from 'app/shared/services/search.service';
 import { PatientService } from 'app/shared/services/patient.service';
+import { DateService } from 'app/shared/services/date.service';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import { ExomiserService } from 'app/shared/services/exomiser.service';
 import {ExomiserHttpService} from 'app/shared/services/exomiserHttp.service';
@@ -355,10 +356,11 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
     isNew: boolean = false;
     actualWidth: string = 'xs';
     resulExoEmpty: string = 'null';
+    sendingToDev: boolean = false;
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private elRef: ElementRef, private router: Router, private patientService: PatientService, private sortService: SortService,private searchService: SearchService,
     private modalService: NgbModal ,private blob: BlobStorageService, private blobped: BlobStoragePedService, public searchFilterPipe: SearchFilterPipe, private highlightSearch: HighlightSearch, private apiDx29ServerService: ApiDx29ServerService, public exomiserService:ExomiserService,public exomiserHttpService:ExomiserHttpService,private apif29SrvControlErrors:Apif29SrvControlErrors, private apif29BioService:Apif29BioService, private apif29NcrService:Apif29NcrService,
-    protected $hotjar: NgxHotjarService, private textTransform: TextTransform, private inj: Injector, private dataservice: Data, public googleAnalyticsService: GoogleAnalyticsService) {
+    protected $hotjar: NgxHotjarService, private textTransform: TextTransform, private inj: Injector, private dataservice: Data, public googleAnalyticsService: GoogleAnalyticsService, private dateService: DateService) {
       this.eventsService = this.inj.get(EventsService);
       this.loadingTable=false;
       //this.columnsToDisplay=[this.translate.instant('diagnosis.Ranked genes'),this.translate.instant('phenotype.Related conditions')]
@@ -404,7 +406,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         },
         "FrequencySources": ["THOUSAND_GENOMES", "TOPMED", "UK10K", "ESP_AFRICAN_AMERICAN", "ESP_EUROPEAN_AMERICAN", "ESP_ALL", "EXAC_AFRICAN_INC_AFRICAN_AMERICAN", "EXAC_AMERICAN", "EXAC_SOUTH_ASIAN", "EXAC_EAST_ASIAN", "EXAC_FINNISH", "EXAC_NON_FINNISH_EUROPEAN", "EXAC_OTHER", "GNOMAD_E_AFR", "GNOMAD_E_AMR", "GNOMAD_E_EAS", "GNOMAD_E_FIN", "GNOMAD_E_NFE",
         "GNOMAD_E_OTH", "GNOMAD_E_SAS", "GNOMAD_G_AFR", "GNOMAD_G_AMR", "GNOMAD_G_EAS", "GNOMAD_G_FIN", "GNOMAD_G_NFE", "GNOMAD_G_OTH", "GNOMAD_G_SAS"],
-        "VariantEffectFilters": {"remove": ["UPSTREAM_GENE_VARIANT", "INTERGENIC_VARIANT", "REGULATORY_REGION_VARIANT", "CODING_TRANSCRIPT_INTRON_VARIANT", "NON_CODING_TRANSCRIPT_INTRON_VARIANT", "SYNONYMOUS_VARIANT", "DOWNSTREAM_GENE_VARIANT", "SPLICE_REGION_VARIANT"]},
+        "VariantEffectFilters": {"remove": ["UPSTREAM_GENE_VARIANT", "INTERGENIC_VARIANT", "REGULATORY_REGION_VARIANT", "CODING_TRANSCRIPT_INTRON_VARIANT", "NON_CODING_TRANSCRIPT_INTRON_VARIANT", "SYNONYMOUS_VARIANT", "DOWNSTREAM_GENE_VARIANT"]},
         "genomeAssembly": 'hg38'
       };
 
@@ -967,7 +969,6 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         this.initVarsPrograms();
         this.loadSymptoms();
         this.getDiagnosisInfo();
-        this.loadBlobFiles();
       }, (err) => {
         console.log(err);
       }));
@@ -993,6 +994,8 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                this.filename = filesOnBlob[i].name;
                mindate = d.getTime();
              }
+             this.hasVcf = true;
+             this.updateHasVcf();
            }
          }
 
@@ -1054,6 +1057,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
              this.filesVcf = vcfFilesOnBlob;
              this.filename = vcfFilesOnBlob[0].name;
              this.hasVcf = true;
+             this.updateHasVcf();
            }else{
              console.log('no tiene!');
            }
@@ -3181,6 +3185,12 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         .subscribe( (res : any) => {
           if(res.length==0){
             this.resulExoEmpty = 'empty'
+            var url = this.accessToken.containerName+'/'+this.filesOnBlob[0].name
+            var patientInfo = this.authService.getCurrentPatient();
+            var dateNow = new Date();
+            var stringDateNow = this.dateService.transformDate(dateNow);
+            var params = {subject:'Exomiser empty results', data:{date: stringDateNow, url:url, email: this.myEmail, patientInfo: {patientName:patientInfo.patientName}}}
+            this.sendEmailToDev(params);
           }else{
             this.resulExoEmpty = 'hasinfo'
           }
@@ -3319,6 +3329,10 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         }
         //this.settingExomizer.genomeAssembly='hg38';
         this.settingExomizer.IsGenome=false;
+        var indexSearch = this.settingExomizer.VariantEffectFilters.remove.indexOf('SPLICE_REGION_VARIANT');
+        if(indexSearch!=-1){
+          this.settingExomizer.VariantEffectFilters.remove.splice(indexSearch, 1);
+        }
         this.subscription.add(this.exomiserService.analyzeExomiser(this.settingExomizer)
         .subscribe( (res : any) => {
           this.subscription.add( this.apiDx29ServerService.setPendingJobs(this.accessToken.patientId,this.exomiserService.getActualToken())
@@ -3628,6 +3642,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       //cargar el fenotipo del usuario
       this.subscription.add( this.http.get(environment.api+'/api/diagnosis/'+para.sub)
       .subscribe( (res : any) => {
+        this.loadBlobFiles();
         this.loadingDiagnosisInfo = false;
         if(res.message){
           this.diagnosisInfo = {
@@ -3669,7 +3684,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
               },
               "FrequencySources": ["THOUSAND_GENOMES", "TOPMED", "UK10K", "ESP_AFRICAN_AMERICAN", "ESP_EUROPEAN_AMERICAN", "ESP_ALL", "EXAC_AFRICAN_INC_AFRICAN_AMERICAN", "EXAC_AMERICAN", "EXAC_SOUTH_ASIAN", "EXAC_EAST_ASIAN", "EXAC_FINNISH", "EXAC_NON_FINNISH_EUROPEAN", "EXAC_OTHER", "GNOMAD_E_AFR", "GNOMAD_E_AMR", "GNOMAD_E_EAS", "GNOMAD_E_FIN", "GNOMAD_E_NFE",
               "GNOMAD_E_OTH", "GNOMAD_E_SAS", "GNOMAD_G_AFR", "GNOMAD_G_AMR", "GNOMAD_G_EAS", "GNOMAD_G_FIN", "GNOMAD_G_NFE", "GNOMAD_G_OTH", "GNOMAD_G_SAS"],
-              "VariantEffectFilters": {"remove": ["UPSTREAM_GENE_VARIANT", "INTERGENIC_VARIANT", "REGULATORY_REGION_VARIANT", "CODING_TRANSCRIPT_INTRON_VARIANT", "NON_CODING_TRANSCRIPT_INTRON_VARIANT", "SYNONYMOUS_VARIANT", "DOWNSTREAM_GENE_VARIANT", "SPLICE_REGION_VARIANT"]},
+              "VariantEffectFilters": {"remove": ["UPSTREAM_GENE_VARIANT", "INTERGENIC_VARIANT", "REGULATORY_REGION_VARIANT", "CODING_TRANSCRIPT_INTRON_VARIANT", "NON_CODING_TRANSCRIPT_INTRON_VARIANT", "SYNONYMOUS_VARIANT", "DOWNSTREAM_GENE_VARIANT"]},
               "genomeAssembly": 'hg38'
             },
             _id: null
@@ -3741,6 +3756,42 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
            }, (err) => {
              console.log(err.error);
              this.toastr.error('', this.translate.instant("generics.error try again"));
+             this.savingDiagnosis = false;
+           }));
+        }
+      }
+    }
+
+    updateHasVcf(){
+      if(this.authGuard.testtoken() && !this.savingDiagnosis){
+        this.savingDiagnosis = true;
+        if(this.diagnosisInfo._id==null){
+          for(var i = 0; i < this.relatedConditions.length; i++) {
+            delete this.relatedConditions[i].symptoms;
+            delete this.relatedConditions[i].xrefs;
+          }
+          this.diagnosisInfo.infoGenesAndConditionsExomizer = this.infoGenesAndConditionsExomizer;
+          this.diagnosisInfo.infoGenesAndConditionsPhen2Genes = this.infoGenesAndConditionsPhen2Genes;
+          this.diagnosisInfo.settingExomizer = this.settingExomizer;
+          this.diagnosisInfo.relatedConditions = this.relatedConditions;
+          this.diagnosisInfo.hasVcf = this.hasVcf;
+          this.diagnosisInfo.selectedItemsFilter = this.selectedItemsFilter;
+          this.subscription.add( this.http.post(environment.api+'/api/diagnosis/'+this.authService.getCurrentPatient().sub, this.diagnosisInfo)
+          .subscribe( (res : any) => {
+            this.diagnosisInfo = res.diagnosis;
+            this.savingDiagnosis = false;
+            this.getSymptomsApi2();
+           }, (err) => {
+             console.log(err);
+             this.toastr.error('', this.translate.instant("generics.error try again"));
+             this.savingDiagnosis = false;
+           }));
+        }else{
+          this.subscription.add( this.http.put(environment.api+'/api/diagnosis/hasvcf/'+this.diagnosisInfo._id, this.hasVcf)
+          .subscribe( (res : any) => {
+            this.savingDiagnosis = false;
+           }, (err) => {
+             console.log(err.error);
              this.savingDiagnosis = false;
            }));
         }
@@ -7087,6 +7138,43 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
       }, (err) => {
         console.log(err);
       }));
+    }
+
+    downloadToTxt(file){
+      //{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.origenFile.name}}{{accessToken.sasToken}}
+      var url = this.accessToken.blobAccountUrl+ this.accessToken.containerName + '/' + file.origenFile.name + this.accessToken.sasToken;
+      this.subscription.add( this.http.get(url)
+       .subscribe( (res : any) => {
+         var originalText = res.originalText;
+         var dateNow = new Date();
+         var stringDateNow = this.dateService.transformDate(dateNow);
+         var nameFile   = "SymptomsExtracted_Dx29_"+stringDateNow+".txt";
+         this.download(originalText, nameFile,'text/plain')
+        }, (err) => {
+          console.log(err);
+        }));
+    }
+
+    download(content, fileName, contentType) {
+        var a = document.createElement("a");
+        var file = new Blob([content], {type: contentType});
+        a.href = URL.createObjectURL(file);
+        a.download = fileName;
+        a.click();
+    }
+
+    sendEmailToDev(params){
+      if(!this.sendingToDev){
+        this.sendingToDev = true;
+        this.subscription.add( this.http.post(environment.api+'/api/feedbackdev', params)
+        .subscribe( (res : any) => {
+          this.sendingToDev = false;
+         }, (err) => {
+           console.log(err);
+           this.sendingToDev = false;
+         }));
+      }
+
     }
 
 }

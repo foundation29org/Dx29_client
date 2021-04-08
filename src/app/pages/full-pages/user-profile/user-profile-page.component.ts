@@ -346,9 +346,9 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
             var a = document.createElement('a');
             var dateNow = new Date();
             var stringDateNow = this.dateService.transformDate(dateNow);
-      			a.download    = "dataHealth29_"+stringDateNow+".json";
+      			a.download    = "dataDx29_"+stringDateNow+".json";
       			a.href        = url;
-      			a.textContent = "dataHealth29_"+stringDateNow+".json";
+      			a.textContent = "dataDx29_"+stringDateNow+".json";
 
       			document.getElementById('content').appendChild(a);
             this.loading = false;

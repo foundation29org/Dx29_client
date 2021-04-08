@@ -24,7 +24,7 @@ export class PermissionsPageComponent implements OnDestroy{
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, public translate: TranslateService) {
       var param = this.router.parseUrl(this.router.url).queryParams;
       if(param.patient && param.email){
-        var paramssend = { patient: param.patient, email: param.email, state: param.state, emailorigen: param.emailorigen, patientEmail: param.patientEmail, lang: param.lang };
+        var paramssend = { patient: param.patient, email: param.email, state: param.state, emailorigen: param.emailorigen, patientEmail: param.patientEmail, lang: param.lang, invitedby: null };
 
         this.subscription.add( this.http.post(environment.api+'/api/updatepermissions',paramssend)
         .subscribe( (res : any) => {
@@ -34,9 +34,9 @@ export class PermissionsPageComponent implements OnDestroy{
             Swal.fire('', 'The user to whom you give permission, no longer exists.', "success");
           }else{
             if(res.message == 'Accepted'){
-              Swal.fire('', this.translate.instant("generics.Accept"), "success");
+              Swal.fire('', this.translate.instant("adminGTP.Accepted"), "success");
             }else{
-              Swal.fire('', this.translate.instant("generics.Reject"), "warning");
+              Swal.fire('', this.translate.instant("adminGTP.Rejected"), "warning");
             }
           }
 

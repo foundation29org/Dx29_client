@@ -802,6 +802,16 @@
     "subtitle": "Esta lista contiene diagnósticos candidatos y los genes potencialmente causativos. Puedes consultar detalles y visualizar la similitud del paciente con cada uno.",
     "no_analyzed": "No has analizado los datos.",
     "no information found": "Sorry, no information found.",
+    "detailsNoInfo": "Revisa los parametros de calidad y de máxima frecuencia. Automáticamente eliminamos la lista de variantes de esta lista:",
+    "VariantEffectFilters":{
+      "UPSTREAM_GENE_VARIANT": "Upstream gene variant",
+      "INTERGENIC_VARIANT": "Intergenic variant",
+      "REGULATORY_REGION_VARIANT": "Regulatory region variant",
+      "CODING_TRANSCRIPT_INTRON_VARIANT": "Coding transcript intron variant",
+      "NON_CODING_TRANSCRIPT_INTRON_VARIANT": "Non coding transcript intron variant",
+      "SYNONYMOUS_VARIANT": "Synonymous variant",
+      "DOWNSTREAM_GENE_VARIANT": "Downstream gene variant"
+    },
     "Results": "Resultados",
     "SelectCandidate": "Selecciona los diagnósticos candidatos.",
     "Clinic view": "Vista clínica",
@@ -925,7 +935,7 @@
   },
   "sharesection":{
     "Sharing menu": "Menú de compartición",
-    "Invite": "Invitar a otro médico al caso",
+    "Invite": "Invitar a usar Dx29",
     "What can it be done": "¿Qué se puede hacer con el caso?",
     "Write a message for the receptor": "Escribe un mensaje para darle contexto al receptor.",
     "Role": "Rol"

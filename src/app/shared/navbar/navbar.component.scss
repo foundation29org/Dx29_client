@@ -2,6 +2,12 @@
   width: 60px;
 }
 
+.close-task{
+  position: absolute;
+  top: 0px;
+  right: 4px;
+}
+
 ::ng-deep .swal2-modal .swal2-cancel{
   background-color: #6c757d !important;
 }
