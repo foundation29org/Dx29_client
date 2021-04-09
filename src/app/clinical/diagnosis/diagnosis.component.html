@@ -690,33 +690,36 @@
                       <h4><b>{{'diagnosesSection.no_analyzed' | translate }}</b></h4>
                     </span>
                     <span *ngIf="resulExoEmpty=='empty'">
-                      <h4><b>{{'diagnosesSection.no information found' | translate }}</b></h4>
+                      <h4><b>{{'diagnosesSection.no information title' | translate }}</b></h4>
+                      <p class="col-12 col-sm-10 pl-0">{{'diagnosesSection.no information found' | translate }}</p>
+                      <p>{{'diagnosesSection.detailsNoInfo3' | translate }}</p>
                       <span>
-                        {{'diagnosesSection.detailsNoInfo' | translate }}
+                        {{'diagnosesSection.detailsNoInfo1' | translate }}
                         <ul>
-                          <li class="row symptoms-item">
+                          <li>
                             {{'diagnosesSection.VariantEffectFilters.UPSTREAM_GENE_VARIANT' | translate }}
                           </li>
-                          <li class="row symptoms-item">
+                          <li>
                             {{'diagnosesSection.VariantEffectFilters.INTERGENIC_VARIANT' | translate }}
                           </li>
-                          <li class="row symptoms-item">
+                          <li>
                             {{'diagnosesSection.VariantEffectFilters.REGULATORY_REGION_VARIANT' | translate }}
                           </li>
-                          <li class="row symptoms-item">
+                          <li>
                             {{'diagnosesSection.VariantEffectFilters.CODING_TRANSCRIPT_INTRON_VARIANT' | translate }}
                           </li>
-                          <li class="row symptoms-item">
+                          <li>
                             {{'diagnosesSection.VariantEffectFilters.NON_CODING_TRANSCRIPT_INTRON_VARIANT' | translate }}
                           </li>
-                          <li class="row symptoms-item">
+                          <li>
                             {{'diagnosesSection.VariantEffectFilters.SYNONYMOUS_VARIANT' | translate }}
                           </li>
-                          <li class="row symptoms-item">
+                          <li>
                             {{'diagnosesSection.VariantEffectFilters.DOWNSTREAM_GENE_VARIANT' | translate }}
                           </li>
                         </ul>
                       </span>
+                      <p [innerHTML]="'diagnosesSection.detailsNoInfo2' | translate"></p>
                     </span>
                   </span>
                   <h4 class="card-title" *ngIf="infoGenesAndConditionsExomizer.length==0 && (infoGenesAndConditionsPhen2Genes.length==0 && launchedPhen2genes) && topRelatedConditions.length>0">
