@@ -1220,7 +1220,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
                }else{
                  var extension = this.listPatientFiles[i].origenFile.nameForShow.substr(this.listPatientFiles[i].origenFile.nameForShow.lastIndexOf('.'));
                  this.listPatientFiles[i].origenFile.extension=extension;
-                 //if(extension=='.vcf'|| extension=='.vcf.gz')
+                 if(extension=='.vcf'|| extension=='.vcf.gz' || extension=='.pdf'|| extension=='.docx')
                  this.otherDocs.push(this.listPatientFiles[i]);
                }
              }
