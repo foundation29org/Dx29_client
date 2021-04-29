@@ -758,7 +758,7 @@
                                     <a *ngIf="infoGenesAndConditionsExomizer.length==0" class="primary" href="javascript:void(0)" title="Click to see more information." (click)="setIndexAndshowPanelGenes2(contentPanelGenes, gen.gen)"> {{gen.gen}}</a>
                                   </span>
                                   <span *ngIf="!isgen">
-                                    <a class="primary" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" title="{{gen.gen}}"> {{gen.gen}}</a>
+                                    <span title="{{gen.gen}}"> {{gen.gen}}</span>
                                   </span>
                                   <!--<a *ngIf="infoGenesAndConditionsExomizer.length==0" class="primary" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" title="Click to see more information."> {{gen.gen}}</a>-->
                                   <span *ngIf="k<disease.genes.length-1">,</span>
@@ -1058,7 +1058,7 @@
                               <a *ngIf="infoGenesAndConditionsExomizer.length==0" class="primary" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" title="Click to see more information."> {{gen.gen}}</a>
                             </span>
                             <span *ngIf="!isgen">
-                              <a class="primary" href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={{gen.gen}}#diseases" target="_blank" title="{{gen.gen}}"> {{gen.gen}}</a>
+                              <span title="{{gen.gen}}"> {{gen.gen}}</span>
                             </span>
                             <span *ngIf="k<disease.genes.length-1">,</span>
                           </span>
