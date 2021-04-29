@@ -1594,6 +1594,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
        infoGenesAndConditionsPhen2Genes: [],
        relatedConditions: [],
        hasVcf: false,
+       isgen: this.isgen,
        selectedItemsFilter: [],
        _id: null
      };
@@ -3656,6 +3657,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
             infoGenesAndConditionsPhen2Genes: [],
             relatedConditions: [],
             hasVcf: false,
+            isgen: this.isgen,
             selectedItemsFilter: [],
             settingExomizer: {
               "IsGenome": false,
@@ -3701,6 +3703,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
           this.relatedConditions = this.diagnosisInfo.relatedConditions;
           this.settingExomizer = this.diagnosisInfo.settingExomizer;
           this.selectedItemsFilter = this.diagnosisInfo.selectedItemsFilter;
+          this.isgen= this.diagnosisInfo.isgen;
           if(this.relatedConditions.length>0){
             this.getSymptomsApi2();
           }else{
@@ -3729,6 +3732,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         this.diagnosisInfo.settingExomizer = this.settingExomizer;
         this.diagnosisInfo.relatedConditions = this.relatedConditions;
         this.diagnosisInfo.hasVcf = this.hasVcf;
+        this.diagnosisInfo.isgen = this.isgen;
         this.diagnosisInfo.selectedItemsFilter = this.selectedItemsFilter;
         if(this.diagnosisInfo._id==null){
           this.subscription.add( this.http.post(environment.api+'/api/diagnosis/'+this.authService.getCurrentPatient().sub, this.diagnosisInfo)
