@@ -1779,6 +1779,7 @@ export class DiagnosisComponent implements OnInit, OnDestroy  {
         this.getRelatedConditionsExomiser(infoToExtractGenes);
       }
       else{
+        infoToExtractGenes = this.infoGenesAndConditionsPhen2Genes;
         this.getRelatedConditionsPhen2Genes(infoToExtractGenes);
       }
     }
