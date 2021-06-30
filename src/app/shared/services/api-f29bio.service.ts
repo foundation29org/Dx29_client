@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from 'environments/environment';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { Observable } from 'rxjs/Observable';
@@ -68,6 +68,16 @@ export class Apif29BioService {
 
     getInfoOfDiseases(listOfDiseases){
         return this.http.post(environment.f29bio+'/api/BioEntity/diseases/en', listOfDiseases)
+        .map( (res : any) => {
+            return res;
+        }, (err) => {
+            console.log(err);
+            return err;
+        })
+    }
+
+    getInfoOfDiseasesLang(listOfDiseases, lang){
+        return this.http.post(environment.f29bio+'/api/BioEntity/diseases/'+lang, listOfDiseases)
         .map( (res : any) => {
             return res;
         }, (err) => {
@@ -158,7 +168,8 @@ export class Apif29BioService {
 
     getTranslationDictionary(lang,segments){
       var body = {lang:lang, segments: segments}
-        return this.http.post(environment.api+'/api/Translation/document/translate', body)
+      let headers = new HttpHeaders().set('Authorization', 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxOTdmN2YyNmJhOTE3YmI5ZmYwNWYyNWQ2YmQzYTk3NzJhZjk2ZjJjMDk4YmUwYzY2YWVhYjQyYzVmZmJjZmQ4IiwiaWF0IjoxNjI0ODc2MjY4LCJleHAiOjE2NTY0MTIyNjgsInJvbGUiOiJDbGluaWNhbCIsImdyb3VwIjoiTm9uZSJ9.7v2Jvw4Q2mkIrF2uRDbt6bAt8eDwgfl9idnVPo_cfv4'); // create header object
+        return this.http.post(environment.api+'/api/Translation/document/translate', body,{ headers: headers })
         .map( (res : any) => {
             return res;
         }, (err) => {

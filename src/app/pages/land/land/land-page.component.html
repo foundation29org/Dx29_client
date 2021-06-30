@@ -1,207 +1,249 @@
-<section id="login">
-    <div class="container-fluid m-0" style="background-color: #fff;">
-      <div class="container module ptbxl" style="margin: auto;">
-      <div class="m-4 p-2"></div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="section">
-                    <h1 class="pt-0">{{'home.header.title' | translate}}</h1>
-                    <p>{{'home.header.body1' | translate}}</p>
-                        <p class="font-weight-bold">{{'home.header.footer' | translate}}</p>
+<section id="login" class="mt-4" style="min-height: 80vh;">
+    <div class="container-fluid" style="background-color: #f7f7f7;">
+        <div style="margin: auto;" style="margin: auto;min-height: 80vh;background-color: #f7f7f7;">
+            <div class="row p-2">
+                <div class="col-md-12">
+                    <div class="section">
+                        <h1 class="pt-0">Te proponemos enfermedades leyendo un texto</h1>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6 text-center">
-                <img class="img-fluid" src="assets/img/home/Mesa de trabajo 75_Dx29.png" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-              <button type="button" class="btn btn-danger btn-lg btn-raised pb-2" [routerLink]="['/juntoshaciaeldiagnostico']"><span>{{'home.gtp.link.text1' | translate}}</span> <p class="mt-2 mb-0"><ins>{{'home.gtp.link.text2' | translate}}</ins></p></button>
-            </div>
-        </div>
-
-
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <div class="section2">
-            <div class="text-center mt-4 p-4">
-                <img class="img-fluid" src="assets/img/home/Mesa de trabajo 76_Dx29.png" />
-            </div>
-            <h3>{{'home.section1.title1' | translate}}</h3>
-            <p>{{'home.section1.text1' | translate}}</p>
-            <div class="text-center mb-2 pb-2">
-                <button type="button" class="btn btn-link" [routerLink]="['/clinician', { role: 'Clinical'}]">{{'home.section1.link' | translate}}</button>
-            </div>
-            <div class="text-center mb-4 p-2">
-              <a class="btn btn-danger mr-1 btn-lg btn-raised mb-0 btn-navbar" href="https://app.dx29.ai/Identity/Account/Register">{{'home.section1.button1' | translate}}</a>
-                <!--<button type="button" class="btn btn-danger btn-lg btn-raised pb-2" [routerLink]="['/register', { role: 'Clinical'}]">{{'home.section1.button1' | translate}}</button>-->
-            </div>
-        </div>
-
-            </div>
-            <div class="col-md-4">
-                <div class="section2">
-            <div class="text-center mt-4 p-4">
-                <img class="img-fluid" src="assets/img/home/Mesa de trabajo 85_Dx29.png" />
-            </div>
-            <h3>{{'home.section1.title2' | translate}}</h3>
-            <p>{{'home.section1.text2' | translate}}</p>
-            <div class="text-center mb-2 pb-2">
-                <button type="button" class="btn btn-link" [routerLink]="['/undiagnosedpatient', { role: 'User', subrole: 'NoDiagnosis' }]">{{'home.section1.link' | translate}}</button>
-            </div>
-            <div class="text-center mb-4 p-2">
-              <a class="btn btn-danger mr-1 btn-lg btn-raised mb-0 btn-navbar" href="https://app.dx29.ai/Identity/Account/Register">{{'home.section1.button2' | translate}}</a>
-                <!--<button type="button" class="btn btn-danger btn-lg btn-raised pb-2" [routerLink]="['/register', { role: 'User', subrole: 'NoDiagnosis' }]">{{'home.section1.button2' | translate}}</button>-->
-            </div>
-        </div>
-
-            </div>
-            <div class="col-md-4">
-                <div class="section2">
-            <div class="text-center mt-4 p-4">
-                <img class="img-fluid" src="assets/img/home/Mesa de trabajo 78_Dx29.png" />
-            </div>
-            <h3>{{'home.section1.title3' | translate}}</h3>
-            <p>{{'home.section1.text3' | translate}}</p>
-            <div class="text-center mb-2 pb-2">
-                <button type="button" class="btn btn-link" [routerLink]="['/diagnosedpatient', { role: 'User', subrole: 'HaveDiagnosis' }]">{{'home.section1.link' | translate}}</button>
-            </div>
-            <div class="text-center mb-4 p-2">
-              <a class="btn btn-danger mr-1 btn-lg btn-raised mb-0 btn-navbar" href="https://app.dx29.ai/Identity/Account/Register">{{'home.section1.button3' | translate}}</a>
-                <!--<button type="button" class="btn btn-danger btn-lg btn-raised pb-2" [routerLink]="['/register', { role: 'User', subrole: 'HaveDiagnosis' }]">{{'home.section1.button3' | translate}}</button>-->
-            </div>
-        </div>
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-10 offset-md-1">
-                <div class="section2 text-center">
-                    <p>{{'home.section1.text41' | translate}}<br />{{'home.section1.text42' | translate}}</p>
+            <div class="row p-2" style="background-color: #f7f7f7;">
+                <div *ngIf="substepExtract=='0'" class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="btn btn-primary btn-raised" style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
+                                <em class="fa fa-file"></em> {{'symptomssection.searchdoc' | translate }} <input type="file" (change)="onFileChangePDF($event);" style="display: none;">
+                            </label>
+                            <textarea class="form-control"
+                            style="height:30vh;"
+                            [(ngModel)]="medicalText" name="medicalText"
+                            placeholder="{{'land.placeholder' | translate }}"></textarea>
+                            <a class="primary" href="https://docs.microsoft.com/es-es/azure/cognitive-services/translator/language-support" target="_blank" title="language support">Pulsa aqui para ver de que idiomas podemos extraer síntomas <i class="ft-external-link"></i></a>
+                        </div>
+                    </div>
+                    <div class="row text-center mt-2">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-lg btn-secondary btn-raised" [attr.title]="(medicalText.length<5) ? 'Escribe o pega un texto (o selecciona un documento)' : 'Extraer'" [ngClass]="(medicalText.length<5)?'not-allowed':'btn-primary'" [disabled]="medicalText.length<5" (click)="startExtractor();">Extraer <em class="ml-2 fas fa-play"></em></button>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="substepExtract!='0'" class="col-md-6" [ngClass]="(temporalSymptoms.length==0)?'bg-grey':''">
+                    <div *ngIf="temporalSymptoms.length==0" class="section w-100 pt-1 pl-2 mb-2">
+                        <span class="d-block pt-2 center-elements white font-medium-3">Aquí se mostrarán los síntomas encontrados.</span>
+                        <span *ngIf="substepExtract!='0' && substepExtract!='4'" class="d-block pt-2 center-elements">
+                            <em class="fa fa-spinner fa-spin fa-3x fa-fw pink"></em>
+                            <span class="d-block overlay-text col-md-12 white font-medium-3 mt-2">Calculando...</span>
+                            <span class="d-block white font-medium-3 mt-1 pb-2">Este proceso puede tardar entre 1 y 2 minutos. Por favor, espere.</span>
+                        </span>
+                    </div>
+                    <div *ngIf="temporalSymptoms.length>0" class="bg-white border">
+                        <table class="col-md-12 table table-striped mb-0">
+                            <thead>
+                                <tr>
+                                  <th id="headerTable">Se han encontrado {{temporalSymptoms.length}} síntomas.
+                                    <em class="fa fa-download grey float-right" title="Download symptoms" (click)="downloadSymptoms()" style="cursor: pointer;"></em>
+                                    <em class="fas fa-copy grey float-right mr-2" title="Copy symptoms" (click)="copySymptoms()" style="cursor: pointer;"></em>
+                                    <em class="fa fa-refresh grey float-right mr-2" title="Restart symptoms" (click)="restartInitVars()" style="cursor: pointer;"></em>
+                                  </th>
+                                </tr>
+                              </thead>
+                              <caption class="ml-2 text-muted d-block">
+                                  Marque/ Desmarque los síntomas del paciente. Cuando termine, pulse en el bóton 'Ver enfermedades propuestas'.
+                                  <span class="d-block">Si quiere volver a empezar, pulse aquí: <em class="fa fa-refresh primary ml-1" title="Recalculate diseases" (click)="restartInitVars()" style="cursor: pointer;"></em></span>
+                                </caption>
+                          </table>
+                    </div>
+                    <table *ngIf="temporalSymptoms.length>0" class="table table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white">
+                        <tbody>
+                          <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
+                            <td>
+                              <span>
+                                <button (click)="changeStateSymptom(i)" [ngClass]="(hpo.checked==true)?'btn btn-success btn-sm mr-1 mb-0 btn-fab':'btn btn-secondary btn-sm mr-1 mb-0 btn-fab'" [disabled]=hpo.checked href="javascript:void(0)">
+                                    <em class="fa fa-check"></em>
+                                </button>
+                                <button (click)="changeStateSymptom(i)" [ngClass]="(hpo.checked==false)?'btn btn-danger btn-sm mr-1 mb-0 btn-fab':'btn btn-secondary btn-sm mr-1 mb-0 btn-fab'" [disabled]=!hpo.checked href="javascript:void(0)">
+                                    <em class="fa fa-times"></em>
+                                </button>
+                                <span style="cursor: pointer;" class="float-right ml-1 mt-1" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);" title="{{'generics.More information' | translate }} ({{hpo.id}})">
+                                    {{hpo.id}} <em style="font-size: 1.3em;" class="ml-2 fa fa-info primary"></em>
+                                </span>
+                                <span class="ml-2">
+                                  <strong class="align-middle font-medium-3">{{hpo.name}} </strong>
+                                  <span class="align-middle d-block mt-1">
+                                    <span *ngIf="hpo.def!=null" class="mr-1" title="{{hpo.def}}">{{ (hpo.def.length>100)? (hpo.def | slice:0:100)+'...':(hpo.def) }}</span>
+                                    <span *ngIf="hpo.def==null && hpo.comment!=null" class="mr-1" title="{{hpo.comment}}">{{ (hpo.comment.length>100)? (hpo.comment | slice:0:100)+'...':(hpo.comment) }}</span>
+                                  </span>
+                                </span>
+                              </span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+                <div *ngIf="substepExtract!='0'" class="col-md-6">
+                    <div *ngIf="loadingCalculate" class="col-md-12 center-elements mt-4">
+                        <div class="card-body center-elements section">
+                            <em class="fa fa-spinner fa-spin fa-3x fa-fw pink"></em>
+                            <p class="d-block overlay-text col-md-12 font-medium-3 mt-2">Calculando...</p>
+                            <p class="d-block font-medium-3 mt-1">Este proceso puede tardar entre 1 y 2 minutos. Por favor, espere.</p>
+                          </div>
+                    </div>
+                    <div *ngIf="!loadingCalculate && topRelatedConditions.length==0" class="col-md-12 center-elements mt-4">
+                        <button type="button" class="btn btn-secondary btn-lg btn-raised pb-2" (click)="calculate();" [disabled]="temporalSymptoms.length==0" [attr.title]="(temporalSymptoms.length==0) ? 'Debe seleccionar síntomas para poder ver las enfermedades propuestas' : 'Ver enfermedades propuestas'" [ngClass]="(temporalSymptoms.length==0)?'not-allowed':'btn-primary'"><span>Ver enfermedades propuestas</span></button>
+                    </div>
+                    <div *ngIf="!loadingCalculate" class="section row pb-4 maintxt">
+                        <span *ngIf="topRelatedConditions.length>0">
+                            <table class="col-md-12 table table-striped mb-0 bg-white border">
+                                <thead>
+                                    <tr>
+                                        <th id="headerTable">Diseases
+                                        <em class="fa fa-download grey float-right" title="Download resultados" (click)="downloadResults()" style="cursor: pointer;"></em>
+                                        <em class="fas fa-share-alt grey float-right mr-2" title="Enviar resultados" (click)="sendEmail()" style="cursor: pointer;"></em>
+                                        <em class="fa fa-refresh grey float-right mr-2" title="Recalculate diseases" (click)="calculate()" style="cursor: pointer;"></em>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <caption class="ml-2 text-muted d-block">
+                                        <span>Estas son las enfermedades propuestas en base a los síntomas que tiene marcados.</span>
+                                        <span class="d-block">Puede marcar/desmarcar y volver a recalcular pulsando aquí: <em class="fa fa-refresh primary ml-1" title="Recalculate diseases" (click)="calculate()" style="cursor: pointer;"></em></span>
+                                    </caption>
+                                </table>
+                            <table class="table table-striped mb-0 bg-white">
+                                <tbody>
+                                  <tr *ngFor="let disease of topRelatedConditions ; let i = index" class="d-flex">
+                                    <td class="col-md-11">
+                                        <i class="fas fa-laptop-medical primary mr-1"></i>
+                                        <span class="font-weight-bolder" style="font-size: 1.25rem !important;">{{disease.name}}</span>
+                                        <span *ngIf="disease.desc!=null" class="text-muted d-block" style="font-size: 0.925rem;">{{ (disease.desc.length>140)? (disease.desc | slice:0:140)+'...':(disease.desc) }}</span>
+                                        <span *ngIf="disease.desc==null" class="text-muted d-block" style="font-size: 0.925rem;">No tenemos descripción para esta enfermedad.</span>
+                                    </td>
+                                    <td class="col-md-1">
+                                        <span *ngIf="disease.XRefs!=undefined" class="float-right">
+                                            <span *ngFor="let xref of disease.XRefs ; let i = index">
+                                              <a *ngIf="xref.name=='Orphanet'" class="primary" href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert={{xref.id}}&lng={{lang}}" target="_blank" title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
+                                              <a *ngIf="xref.name=='OMIM'" class="primary" href="https://omim.org/entry/{{xref.id}}" target="_blank" title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
+                                              <span *ngIf="i<(disease.XRefs.length-1)">, </span>
+                                            </span>
+                                        </span>
+                                        <span style="cursor: pointer;" class="float-right mr-2" (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);" title="{{'generics.More information' | translate }} ({{disease.Id}})">
+                                            <em style="font-size: 1.3em;" class="fa fa-info primary"></em>
+                                        </span>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            <div *ngIf="temporalDiseases.length>5 && indexListRelatedConditions<temporalDiseases.length" class="center-elements mt-2">
+                                <a href="javascript:;" class="primary font-medium-3" (click)="loat10More()">
+                                    <span>{{'diagnosesSection.Load more' | translate }}</span>
+                                </a>
+                              </div>
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-10 offset-md-1 mt-4">
-                <div class="section2 text-center mt-4 p-4">
-                    <h3>{{'home.section3.title' | translate}}</h3>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <div class="col-md-8 offset-md-2">
-                    <div class="center-xs embed-responsive embed-responsive-16by9">
-                        <iframe style="width: 99%;" class="embed-responsive-item" src="https://www.youtube-nocookie.com/embed/Bydr3lAVzsI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div *ngIf="topRelatedConditions.length>0" class="row mt-4 pb-4 text-center pt-4" style="background-color: #fff;">
+                <div class="col-md-12">
+                    <div class="section2">
+                        <h3>¿Y ahora que?</h3>
+                        <p>Esti solo ha sido un aperitivo. Regístrate para acceder a la funcionalidad completa, es gratis!</p>
+                        <div class="mb-4 p-2">
+                            <a class="btn btn-lg btn-danger mr-1 btn-raised mb-0 btn-navbar"
+                                href="https://app.dx29.ai/Identity/Account/Register">{{'login.Create User' |
+                                translate}}</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-10 offset-md-1">
-                <div class="section2 text-center p-4">
-                    <p>{{'home.section3.text' | translate}}</p>
-                </div>
-            </div>
-        </div>
-
-        <hr />
-
-        <div class="row">
-            <div class="col-md-7 offset-md-4">
-                <div class="section2 pb-4 pt-4">
-                    <h3 class="m-0">{{'home.donate.title1' | translate}}</h3>
-                    <h3 class="m-0">{{'home.donate.title2' | translate}}</h3>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3 offset-md-1 mb-4">
-                <div class="text-center">
-                    <img class="img-fluid" src="assets/img/home/Mesa de trabajo 92_Dx29.png" />
-                </div>
-            </div>
-            <div class="col-md-7">
-                <div class="donate">
-                    <p>{{'home.donate.text' | translate}}</p>
-                    <a class="btn btn-danger btn-lg btn-raised" href="https://www.foundation29.org/donate/" target="_blank">{{'home.donate.strong' | translate}}</a>
-                </div>
-            </div>
-        </div>
-
-        <p>&nbsp;</p>
-        <hr />
-
-        <div class="row">
-            <div class="col-md-10 offset-md-1 m-4">
-                <div class="section text-center">
-                    <h2>{{'home.attributions.title' | translate}}</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-4">
-            <div class="p-4 text-center">
-                <a href="https://www.globalrarediseasecommission.com/" target="_blank"><img class="img-fluid logo" src="assets/img/home/att-1.jpg" /></a>
-            </div>
-        </div>
-
-            <div class="col-md-4">
-            <div class="p-4 text-center">
-                <a href="https://www.utoronto.ca/" target="_blank"><img class="img-fluid logo" src="assets/img/home/att-2.png" /></a>
-            </div>
-        </div>
-
-            <div class="col-md-4">
-            <div class="p-4 text-center">
-                <a href="http://www.sickkids.ca/" target="_blank"><img class="img-fluid logo" src="assets/img/home/att-3.png" /></a>
-            </div>
-        </div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-            <div class="p-4 text-center">
-                <a href="https://hpo.jax.org/app/" target="_blank"><img class="img-fluid logo" src="assets/img/home/att-4.png" /></a>
-            </div>
-        </div>
-
-            <div class="col-md-4">
-            <div class="p-4 text-center">
-                <a href="http://monarchinitiative.org/" target="_blank"><img class="img-fluid logo" src="assets/img/home/att-5.jpg" /></a>
-            </div>
-        </div>
-
-            <div class="col-md-4">
-            <div class="p-4 text-center">
-                <a href="http://wglab.org/" target="_blank"><img class="img-fluid logo" src="assets/img/home/att-6.png" /></a>
-            </div>
-        </div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-            <div class="p-4 text-center">
-                <a href="https://www.microsoft.com/es-es" target="_blank"><img class="img-fluid logo" src="assets/img/home/att-7.jpg" /></a>
-            </div>
-        </div>
-
-            <div class="col-md-4">
-            <div class="p-4 text-center">
-                <a href="https://www.ilitia.com/" target="_blank"><img class="img-fluid logo" src="assets/img/home/att-8.png" /></a>
-            </div>
-        </div>
-
-            <div class="col-md-4">
-            <div class="p-4 text-center">
-                <a href="https://www.plainconcepts.com/" target="_blank"><img class="img-fluid logo" src="assets/img/home/att-9.png" /></a>
-            </div>
-        </div>
-
-        </div>
-      </div>
     </div>
 </section>
+<ng-template #contentInfoSymptomNcr let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header" id="idHeader">
+      <div class="content-header text-left">
+        <h4>{{temporalSymptoms[selectedInfoSymptomIndex].name }}</h4>
+      </div>
+      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+      <div class="content-wrapper p-2">
+        <div class="row col-md-12" class="p-2">
+          <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].def!=null || temporalSymptoms[selectedInfoSymptomIndex].comment!=''">
+            <h5><strong>{{'generics.Description' | translate }}</strong></h5>
+            <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].def!=null">{{temporalSymptoms[selectedInfoSymptomIndex].def}} </span>
+            <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].comment!=''">{{temporalSymptoms[selectedInfoSymptomIndex].comment}}</span>
+          </span>
+          <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].def==null && temporalSymptoms[selectedInfoSymptomIndex].comment==''">
+            <h5><strong>{{'generics.Description' | translate }}</strong></h5>
+            <span> {{'symptomssection.No description' | translate }} </span>
+          </span>
+        </div>
+  
+        <div *ngIf="temporalSymptoms[selectedInfoSymptomIndex].synonyms!=undefined" class="p-2">
+          <h5><strong>{{'generics.Synonyms' | translate }}</strong></h5>
+          <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].synonyms.length>0">
+            <p *ngFor="let synonym of temporalSymptoms[selectedInfoSymptomIndex].synonyms ; let j = index" [ngClass]="(j==temporalSymptoms[selectedInfoSymptomIndex].synonyms.length-1)?'mb-0':''">
+              <span>{{j+1}}. </span> <span *ngIf="synonym.label">{{synonym.label}}</span> <span *ngIf="!synonym.label">{{synonym}}</span>
+            </p>
+          </span>
+          <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].synonyms.length==0">
+            {{'symptomssection.No synonyms' | translate }}
+          </span>
+        </div>
+        <div class="p-2">
+          <span class="mt-2">{{'generics.More Info' | translate }} <a  href="https://hpo.jax.org/app/browse/term/{{temporalSymptoms[selectedInfoSymptomIndex].id}}" target="_blank" title=" {{temporalSymptoms[selectedInfoSymptomIndex].name}} ({{temporalSymptoms[selectedInfoSymptomIndex].id}}):"> <i class="ft-external-link"></i></a></span>
+        </div>
+  
+    </div>
+  </ng-template>
+
+  <ng-template #contentInfoDisease let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header" id="idHeader">
+      <div class="content-header text-left">
+        <h4 class="text-bold-400 mb-0">{{ topRelatedConditions[selectedInfoDiseaseIndex].name }}</h4>
+        <span class="content-sub-header text-muted">{{ topRelatedConditions[selectedInfoDiseaseIndex].Id }}</span>
+      </div>
+      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+      <div class="content-wrapper p-2">
+        <p *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].desc!=null">{{ topRelatedConditions[selectedInfoDiseaseIndex].desc }}</p>
+        <h5 class="text-bold-300 mb-0">Symptom by symptom comparison</h5>
+        <p class="text-muted">Table showing patient symptoms and the symptoms present in the reference case.</p>
+        <table class="table table-striped mb-0 text-center">
+            <thead>
+                <tr class="d-flex">
+                  <th class="col-md-8" id="Name symptom">Symptom</th>
+                  <th class="col-md-1" id="Frequent">Frequent</th>
+                  <th class="col-md-1" id="Patient">Patient</th>
+                  <th class="col-md-1" id="Disease">Disease</th>
+                  <th class="col-md-1" id="Info">Info</th>
+                </tr>
+              </thead>
+            <tbody>
+              <tr *ngFor="let symptom of topRelatedConditions[selectedInfoDiseaseIndex].Symptoms ; let i = index" class="d-flex">
+                <td class="col-md-8">
+                    {{symptom.Id}}
+                </td>
+                <td class="col-md-1">
+                    {{symptom.Frequency.Id}}
+                </td>
+                <td class="col-md-1">
+                    <i *ngIf="symptom.HasPatient" class="fa fa-check success"></i>
+                    <i *ngIf="!symptom.HasPatient" class="fa fa-times danger"></i>
+                </td>
+                <td class="col-md-1">
+                    <i *ngIf="symptom.HasDisease" class="fa fa-check success"></i>
+                    <i *ngIf="!symptom.HasDisease" class="fa fa-times danger"></i>
+                </td>
+                <td class="col-md-1">
+                    {{symptom.Id}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        {{topRelatedConditions[selectedInfoDiseaseIndex]|json }}
+    </div>
+  </ng-template>

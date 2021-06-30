@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from 'environments/environment';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { Observable } from 'rxjs/Observable';
@@ -77,7 +77,8 @@ export class ApiDx29ServerService {
 
     getDetectLanguage(text){
       var jsonText = [{ "text": text }];
-        return this.http.post(environment.api+'/api/getDetectLanguage', jsonText)
+      let headers = new HttpHeaders().set('Authorization', 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxOTdmN2YyNmJhOTE3YmI5ZmYwNWYyNWQ2YmQzYTk3NzJhZjk2ZjJjMDk4YmUwYzY2YWVhYjQyYzVmZmJjZmQ4IiwiaWF0IjoxNjI0ODc2MjY4LCJleHAiOjE2NTY0MTIyNjgsInJvbGUiOiJDbGluaWNhbCIsImdyb3VwIjoiTm9uZSJ9.7v2Jvw4Q2mkIrF2uRDbt6bAt8eDwgfl9idnVPo_cfv4'); // create header object
+        return this.http.post(environment.api+'/api/getDetectLanguage', jsonText, { headers: headers })
         .map( (res : any) => {
             return res;
         }, (err) => {
@@ -123,6 +124,16 @@ export class ApiDx29ServerService {
         }, (err) => {
             console.log(err);
             return err;
+        })
+    }
+
+    calculate(info) {
+      return this.http.post(environment.api + '/api/gateway/Diagnosis/calculate', info)
+        .map((res: any) => {
+          return res;
+        }, (err) => {
+          console.log(err);
+          return err;
         })
     }
 
