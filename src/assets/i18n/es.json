@@ -2173,5 +2173,8 @@
   "patient":{
     "newPatient": "Crear paciente",
     "updatePatient": "Actualizar datos"
+  },
+  "land":{
+    "placeholder": "Escribe o pega un texto (o selecciona un documento), después haga clic en 'Extraer' para mostrarle los síntomas."
   }
 }

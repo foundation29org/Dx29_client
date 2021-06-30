@@ -2172,5 +2172,8 @@
   "patient":{
     "newPatient": "Create patient",
     "updatePatient": "Update patient"
+  },
+  "land":{
+    "placeholder": "Type or paste a text (or select a document), then click 'Extract' to show you the symptoms."
   }
 }

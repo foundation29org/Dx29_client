@@ -173,3 +173,33 @@ body {
 img.logo {
     height: 80px;
 }
+
+.not-allowed{
+    cursor: not-allowed;
+}
+
+/*.my-custom-scrollbar {
+    position: relative;
+    max-height: 400px;
+    overflow: auto;
+}
+.table-wrapper-scroll-y {
+    display: block;
+}*/
+
+::placeholder {
+    font-size: 22px;
+}
+body {
+    --table-width: 100%; /* Or any value, this will change dinamically */
+  }
+  tbody {
+    display:block;
+    max-height:400px;
+    overflow-y:auto;
+  }
+  thead, tbody tr {
+    display:table;
+    width: 100%;
+    table-layout:fixed;
+  }
