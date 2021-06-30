@@ -652,6 +652,7 @@ export class LandPageComponent implements OnDestroy {
         var infoSymptoms = this.getPlainInfoSymptoms();
         if(infoSymptoms!=""){
             this.clipboard.copy(this.getPlainInfoSymptoms());
+            Swal.fire('Síntomas copiados en el portapapeles', '', "success");
         }else{
             //this.toastr.error('', 'Debe de seleccionar al menos un síntoma. para poder copiar los síntomas.');
             Swal.fire('Para poder copiar los síntomas, tiene que seleccionar al menos uno.', '', "warning");
