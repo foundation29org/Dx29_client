@@ -243,4 +243,30 @@ export class SortService {
     }
   }
 
+  GetSortFrequencies() {
+    var prop1 = "Frequency";
+    var prop2_1= "HasDisease";
+    var prop2_2= "HasPatient";
+    var prop3 = "Name";
+      return function(a, b) {
+          if ((a[prop1].Id) == (b[prop1].Id)) {
+            if ((a[prop2_1] && a[prop2_2]) && (b[prop2_1] && b[prop2_2])) {
+              if ((a[prop3]).toLowerCase()  > (b[prop3]).toLowerCase() ) {
+                  return 1;
+              } else if ((a[prop3]).toLowerCase()  < (b[prop3]).toLowerCase() ) {
+                  return -1;
+              }else{
+                return 0;
+              }
+
+            }else{
+              return 0;
+            }
+          }else{
+            return 0;
+          }
+
+      }
+  }
+
 }

@@ -14,6 +14,7 @@ import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.servic
 import { SortService } from 'app/shared/services/sort.service';
 import { SearchService } from 'app/shared/services/search.service';
 import { Clipboard } from "@angular/cdk/clipboard"
+import { Console } from 'console';
 
 declare var JSZipUtils: any;
 declare var Docxgen: any;
@@ -52,19 +53,19 @@ export class LandPageComponent implements OnDestroy {
 
     constructor(private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform) {
         this.lang = sessionStorage.getItem('lang');
-        this.subscription.add( this.http.get('assets/jsons/maps_to_orpha.json')
-         .subscribe( (res : any) => {
-           this.maps_to_orpha = res;
-          }, (err) => {
-            console.log(err);
-          }));
+        this.subscription.add(this.http.get('assets/jsons/maps_to_orpha.json')
+            .subscribe((res: any) => {
+                this.maps_to_orpha = res;
+            }, (err) => {
+                console.log(err);
+            }));
 
-          this.subscription.add( this.http.get('assets/jsons/orphanet_names_'+this.lang+'.json')
-         .subscribe( (res : any) => {
-           this.orphanet_names = res;
-          }, (err) => {
-            console.log(err);
-          }));
+        this.subscription.add(this.http.get('assets/jsons/orphanet_names_' + this.lang + '.json')
+            .subscribe((res: any) => {
+                this.orphanet_names = res;
+            }, (err) => {
+                console.log(err);
+            }));
 
         $.getScript("./assets/js/docs/jszip-utils.js").done(function (script, textStatus) {
             //console.log("finished loading and running jszip-utils.js. with a status of" + textStatus);
@@ -254,9 +255,9 @@ export class LandPageComponent implements OnDestroy {
             }));
     }
 
-    
-    startExtractor(){
-        var testLangText = this.medicalText.substr(0,4000)
+
+    startExtractor() {
+        var testLangText = this.medicalText.substr(0, 4000)
         this.subscription.add(this.apiDx29ServerService.getDetectLanguage(testLangText)
             .subscribe((res: any) => {
                 this.langToExtract = res[0].language;
@@ -266,7 +267,7 @@ export class LandPageComponent implements OnDestroy {
                 this.loadingHpoExtractor = false;
                 this.toastr.error('', this.translate.instant("generics.error try again"));
             }));
-        
+
     }
 
     onSubmitToExtractor() {
@@ -361,9 +362,9 @@ export class LandPageComponent implements OnDestroy {
                         this.temporalSymptoms.forEach(function (element) {
                             hposStrins.push(element.id);
                         });
-                        
+
                         Swal.close();
-                        
+
                         /*document.getElementById("openModalSymptomsNcrButton").click();
                         this.changeTriggerHotjar('ncrresults_');*/
                         if (hposStrins.length == 0) {
@@ -470,27 +471,27 @@ export class LandPageComponent implements OnDestroy {
                 info.symptoms.push(this.temporalSymptoms[index].id);
             }
         }
-        if(info.symptoms.length>0){
+        if (info.symptoms.length > 0) {
             this.subscription.add(this.apiDx29ServerService.calculate(info)
-            .subscribe((res: any) => {
-                console.log(res);
-                if(res==null){
-                    this.calculate()
-                }else{
-                    this.temporalDiseases = res;
-                    var listOfDiseases = [];
-                    res.forEach(function (element) {
-                        listOfDiseases.push(element.Id);
-                    });
-                    this.getInfoDiseases(listOfDiseases);
-                }
-            }));
-        }else{
+                .subscribe((res: any) => {
+                    console.log(res);
+                    if (res == null) {
+                        this.calculate()
+                    } else {
+                        this.temporalDiseases = res;
+                        var listOfDiseases = [];
+                        res.forEach(function (element) {
+                            listOfDiseases.push(element.Id);
+                        });
+                        this.getInfoDiseases(listOfDiseases);
+                    }
+                }));
+        } else {
             Swal.fire('Debe de seleccionar al menos un síntoma.', '', "error");
             //this.toastr.error('', 'Debe de seleccionar al menos un síntoma.');
             this.loadingCalculate = false;
         }
-        
+
     }
 
     getInfoDiseases(listOfDiseases) {
@@ -503,9 +504,9 @@ export class LandPageComponent implements OnDestroy {
                     if (res1[valtemp] != undefined) {
                         this.temporalDiseases[i].name = res1[valtemp].name;
                         this.temporalDiseases[i].Id = res1[valtemp].id;
-                        if(res1[valtemp].desc!=""){
+                        if (res1[valtemp].desc != "") {
                             this.temporalDiseases[i].desc = res1[valtemp].desc;
-                        }else if(res1[valtemp].comment!=""){
+                        } else if (res1[valtemp].comment != "") {
                             this.temporalDiseases[i].desc = res1[valtemp].comment;
                         }
                         this.temporalDiseases[i].XRefs = res1[valtemp].xrefs;
@@ -518,129 +519,128 @@ export class LandPageComponent implements OnDestroy {
             }));
     }
 
-    async getOrphaNamesAndCheckPotentialDiagnostics(){
-        if(this.orphanet_names.disorders==undefined){
-          await this.delay(1000);
-          this.getOrphaNamesAndCheckPotentialDiagnostics();
-        }else{
-          for(var i = 0; i < this.temporalDiseases.length; i++)
-            {
-              //get orpha name
-              var found = false;
-              var actualDisease = this.temporalDiseases[i];
-              var orphaId = this.maps_to_orpha.map[actualDisease.Id]
-              if(orphaId!=undefined){
-                var firstOrphaId = orphaId[0];
-                actualDisease.name = this.orphanet_names.disorders[firstOrphaId].name;
-                found =true;
-              }
-              if(actualDisease.XRefs!=undefined){
-                for(var j = 0; j < actualDisease.XRefs.length && !found; j++){
-                  var orphaId = this.maps_to_orpha.map[actualDisease.XRefs[j]]
-                  if(orphaId!=undefined){
+    async getOrphaNamesAndCheckPotentialDiagnostics() {
+        if (this.orphanet_names.disorders == undefined) {
+            await this.delay(1000);
+            this.getOrphaNamesAndCheckPotentialDiagnostics();
+        } else {
+            for (var i = 0; i < this.temporalDiseases.length; i++) {
+                //get orpha name
+                var found = false;
+                var actualDisease = this.temporalDiseases[i];
+                var orphaId = this.maps_to_orpha.map[actualDisease.Id]
+                if (orphaId != undefined) {
                     var firstOrphaId = orphaId[0];
                     actualDisease.name = this.orphanet_names.disorders[firstOrphaId].name;
-                    found =true;
-                  }
+                    found = true;
                 }
-                var xrefs = this.cleanOrphas(actualDisease.XRefs)
-                this.temporalDiseases[i].XRefs = xrefs;
-              }
-              this.temporalDiseases[i].name = this.textTransform.transform(actualDisease.name);
+                if (actualDisease.XRefs != undefined) {
+                    for (var j = 0; j < actualDisease.XRefs.length && !found; j++) {
+                        var orphaId = this.maps_to_orpha.map[actualDisease.XRefs[j]]
+                        if (orphaId != undefined) {
+                            var firstOrphaId = orphaId[0];
+                            actualDisease.name = this.orphanet_names.disorders[firstOrphaId].name;
+                            found = true;
+                        }
+                    }
+                    var xrefs = this.cleanOrphas(actualDisease.XRefs)
+                    this.temporalDiseases[i].XRefs = xrefs;
+                }
+                this.temporalDiseases[i].name = this.textTransform.transform(actualDisease.name);
             }
             //delete repeated diseases by name
             this.temporalDiseases = this.deleteRepeatedDiseases(this.temporalDiseases);
         }
         this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
         this.loadingCalculate = false;
-      }
-
-      delay(ms: number) {
-        return new Promise( resolve => setTimeout(resolve, ms) );
     }
 
-    deleteRepeatedDiseases(listOfDiseases){
+    delay(ms: number) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    deleteRepeatedDiseases(listOfDiseases) {
         var res = [];
         console.log(listOfDiseases);
-        for(var i = 0; i < listOfDiseases.length; i++){
-          var enc = false;
-          for(var j = 0; j < res.length && !enc; j++){
-            if(listOfDiseases[i].name==res[j].name){
-              enc=true;
-              if(res[j].XRefs.length==0 && listOfDiseases[i].XRefs.length>0){
-                res[j].XRefs = listOfDiseases[i].XRefs;
-              }
+        for (var i = 0; i < listOfDiseases.length; i++) {
+            var enc = false;
+            for (var j = 0; j < res.length && !enc; j++) {
+                if (listOfDiseases[i].name == res[j].name) {
+                    enc = true;
+                    if (res[j].XRefs.length == 0 && listOfDiseases[i].XRefs.length > 0) {
+                        res[j].XRefs = listOfDiseases[i].XRefs;
+                    }
+                }
             }
-          }
-          if(!enc){
-            res.push(listOfDiseases[i]);
-          }
+            if (!enc) {
+                res.push(listOfDiseases[i]);
+            }
         }
         return res;
-      }
+    }
 
-    cleanOrphas(xrefs){
+    cleanOrphas(xrefs) {
         var res = [];
         var count = 0;
-        for (var i = 0; i < xrefs.length; i++){
-          if(xrefs[i].indexOf('ORPHA')!=-1 || xrefs[i].indexOf('OMIM')!=-1){
-            if(xrefs[i].indexOf('ORPHA')!=-1){
-              count++;
+        for (var i = 0; i < xrefs.length; i++) {
+            if (xrefs[i].indexOf('ORPHA') != -1 || xrefs[i].indexOf('OMIM') != -1) {
+                if (xrefs[i].indexOf('ORPHA') != -1) {
+                    count++;
+                }
+                if (count < 1) {
+                    var value = xrefs[i].split(':');
+                    if (xrefs[i].indexOf('ORPHA') != -1) {
+                        res.push({ name: 'Orphanet', id: value[1] });
+                    } else if (xrefs[i].indexOf('OMIM') != -1) {
+                        res.push({ name: 'OMIM', id: value[1] });
+                    }
+
+                }
             }
-            if(count<1){
-              var value = xrefs[i].split(':');
-              if(xrefs[i].indexOf('ORPHA')!=-1){
-                res.push({name: 'Orphanet', id: value[1]});
-              }else if(xrefs[i].indexOf('OMIM')!=-1){
-                res.push({name: 'OMIM', id: value[1]});
-              }
-  
-            }
-          }
-  
+
         }
         return res;
-      }
+    }
 
-    
 
-    loat10More(){
-        this.indexListRelatedConditions=this.indexListRelatedConditions+5;
+
+    loat10More() {
+        this.indexListRelatedConditions = this.indexListRelatedConditions + 5;
         this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
     }
 
-    restartAllVars(){
+    restartAllVars() {
         this.indexListRelatedConditions = 5;
-        this.temporalSymptoms= [];
+        this.temporalSymptoms = [];
         this.topRelatedConditions = [];
         this.temporalDiseases = [];
     }
 
-    restartInitVars(){
+    restartInitVars() {
         this.medicalText = '';
         this.substepExtract = '0';
         this.restartAllVars();
     }
 
-    getPlainInfoSymptoms(){
+    getPlainInfoSymptoms() {
         var resCopy = "";
         for (let i = 0; i < this.temporalSymptoms.length; i++) {
-            if(this.temporalSymptoms[i].checked){
-                resCopy = resCopy + this.temporalSymptoms[i].name + " (" + this.temporalSymptoms[i].id+ ")";
-                if(i+1<this.temporalSymptoms.length){
-                    resCopy = resCopy +  ", ";
+            if (this.temporalSymptoms[i].checked) {
+                resCopy = resCopy + this.temporalSymptoms[i].name + " (" + this.temporalSymptoms[i].id + ")";
+                if (i + 1 < this.temporalSymptoms.length) {
+                    resCopy = resCopy + ", ";
                 }
             }
         }
         return resCopy;
     }
 
-    getPlainInfoSymptoms2(){
+    getPlainInfoSymptoms2() {
         var resCopy = "";
         for (let i = 0; i < this.temporalSymptoms.length; i++) {
-            if(this.temporalSymptoms[i].checked){
-                resCopy = resCopy + this.temporalSymptoms[i].id+ " - " + this.temporalSymptoms[i].name;
-                if(i+1<this.temporalSymptoms.length){
+            if (this.temporalSymptoms[i].checked) {
+                resCopy = resCopy + this.temporalSymptoms[i].id + " - " + this.temporalSymptoms[i].name;
+                if (i + 1 < this.temporalSymptoms.length) {
                     resCopy = resCopy + "\n";
                 }
             }
@@ -648,32 +648,32 @@ export class LandPageComponent implements OnDestroy {
         return resCopy;
     }
 
-    copySymptoms(){
+    copySymptoms() {
         var infoSymptoms = this.getPlainInfoSymptoms();
-        if(infoSymptoms!=""){
+        if (infoSymptoms != "") {
             this.clipboard.copy(this.getPlainInfoSymptoms());
             Swal.fire('Síntomas copiados en el portapapeles', '', "success");
-        }else{
+        } else {
             //this.toastr.error('', 'Debe de seleccionar al menos un síntoma. para poder copiar los síntomas.');
             Swal.fire('Para poder copiar los síntomas, tiene que seleccionar al menos uno.', '', "warning");
         }
     }
 
-    downloadSymptoms(){
+    downloadSymptoms() {
         var infoSymptoms = this.getPlainInfoSymptoms2();
-        if(infoSymptoms!=""){
+        if (infoSymptoms != "") {
             let link = document.createElement('a');
             var actualDate = Date.now();
-            link.download = 'Dx29_Symptoms_'+actualDate+'.txt';
+            link.download = 'Dx29_Symptoms_' + actualDate + '.txt';
 
-            let blob = new Blob([infoSymptoms], {type: 'text/plain'});
+            let blob = new Blob([infoSymptoms], { type: 'text/plain' });
 
             link.href = URL.createObjectURL(blob);
 
             link.click();
 
             URL.revokeObjectURL(link.href);
-        }else{
+        } else {
             //this.toastr.error('', 'Debe de seleccionar al menos un síntoma. para poder descargar los síntomas.');
             Swal.fire('Para poder descargar los síntomas, tiene que seleccionar al menos uno.', '', "warning");
         }
@@ -681,45 +681,200 @@ export class LandPageComponent implements OnDestroy {
 
     showMoreInfoDiseasePopup(diseaseIndex, contentInfoDisease) {
         this.selectedInfoDiseaseIndex = diseaseIndex;
-        let ngbModalOptions: NgbModalOptions = {
-            keyboard: true,
-            windowClass: 'ModalClass-xl'
-        };
-        this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms.sort(this.sortService.GetSortTwoElements("frequency", "name"));
         
-        this.modalReference = this.modalService.open(contentInfoDisease, ngbModalOptions);
+        console.log(this.topRelatedConditions[this.selectedInfoDiseaseIndex]);
+        this.getfrequencies(diseaseIndex);
+        this.callGetInfoDiseaseSymptomsJSON(contentInfoDisease);
+        
         //this._openedModalRefs.push(this.modalReference);
     }
 
-    downloadResults(){
+    callGetInfoDiseaseSymptomsJSON(contentInfoDisease) {
+        //getInfo symptoms
+        var hposStrins = [];
+        this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms.forEach(function (element) {
+            hposStrins.push(element.Id);
+        });
+        var lang = this.lang;
+        this.subscription.add(this.apif29BioService.getInfoOfSymptoms(lang, hposStrins)
+            .subscribe((res: any) => {
+
+                var tamano = Object.keys(res).length;
+                if (tamano > 0) {
+                    for (var i in res) {
+                        for (var j = 0; j < this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms.length; j++) {
+                            if (res[i].id == this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].Id) {
+                                console.log('entra');
+                                this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].Name = res[i].name;
+                                if (res[i].desc != "") {
+                                    this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].Desc = res[i].desc;
+                                } else if (res[i].comment != "") {
+                                    this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].Desc = res[i].comment;
+                                }
+                                this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].synonyms = res[i].synonyms;
+                                if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].importance == undefined) {
+                                    this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].importance = 1;
+                                }
+                                if(this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].Relationship=='Successor'){
+                                    // Search realted Symptom
+                                    var enc = false;
+                                    for (var z = 0; z < this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms.length && !enc; z++) {
+                                        if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[z].Id == this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].RelatedId) {
+                                            console.log('encontrado');
+                                            
+                                            var Name = this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[z].Name;
+                                            console.log(Name);
+                                            this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].RelatedName = Name;
+                                            enc =true;
+                                        }
+                                    }
+                                    
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+                let ngbModalOptions: NgbModalOptions = {
+                    keyboard: true,
+                    windowClass: 'ModalClass-xl'
+                };
+                this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms.sort(this.sortService.GetSortFrequencies());
+                this.modalReference = this.modalService.open(contentInfoDisease, ngbModalOptions);
+
+            }, (err) => {
+                console.log(err);
+            }));
+    }
+
+    async getfrequencies(index) {
+        //getInfo symptoms
+        var symptoms = this.topRelatedConditions[index].Symptoms;
+        var hposStrins =[];
+        symptoms.forEach(function(element) {
+          if(element.Frequency!=null){
+            hposStrins.push(element.Frequency.Id);
+          }
+  
+        });
+        var lang = this.lang;
+        await this.apif29BioService.getInfoOfSymptoms(lang,hposStrins)
+        .subscribe( (res : any) => {
+          var tamano= Object.keys(res).length;
+          if(tamano>0){
+            for(var i in res) {
+              for (var j = 0; j < this.topRelatedConditions[index].Symptoms.length; j++) {
+                if(res[i].id==this.topRelatedConditions[index].Symptoms[j].Frequency.Id){
+                  if(this.topRelatedConditions[index].Symptoms[j].Frequency.Name==''){
+                    this.topRelatedConditions[index].Symptoms[j].Frequency.Name = res[i].name;
+                    this.topRelatedConditions[index].Symptoms[j].Frequency.Desc = res[i].desc;
+                  }
+                }
+              }
+            }
+            //this.fullListSymptoms.sort(this.sortService.GetSortOrder("frequencyId"));
+            for (var ki = 0; ki < this.topRelatedConditions[index].Symptoms.length; ki++) {
+              if(this.topRelatedConditions[index].Symptoms[ki].Frequency.Id=='HP:9999999'){
+                this.topRelatedConditions[index].Symptoms[ki].Frequency.Name= "Unknown";
+              }
+            }
+            this.topRelatedConditions[index].Symptoms.sort(this.sortService.GetSortFrequencies());
+          }
+  
+       }, (err) => {
+         console.log(err);
+       });
+      }
+
+    downloadResults() {
         var infoDiseases = this.getPlainInfoDiseases();
         let link = document.createElement('a');
         var actualDate = Date.now();
-        link.download = 'Dx29_Results_'+actualDate+'.txt';
+        link.download = 'Dx29_Results_' + actualDate + '.txt';
 
-        let blob = new Blob([infoDiseases], {type: 'text/plain'});
+        let blob = new Blob([infoDiseases], { type: 'text/plain' });
 
         link.href = URL.createObjectURL(blob);
 
         link.click();
 
         URL.revokeObjectURL(link.href);
-        
+
     }
 
-    getPlainInfoDiseases(){
+    getPlainInfoDiseases() {
         var resCopy = "";
         for (let i = 0; i < this.topRelatedConditions.length; i++) {
-            resCopy = resCopy + this.topRelatedConditions[i].name + " (" + this.topRelatedConditions[i].Id+ ")";
-            if(i+1<this.topRelatedConditions.length){
+            resCopy = resCopy + this.topRelatedConditions[i].name + " (" + this.topRelatedConditions[i].Id + ")";
+            if (i + 1 < this.topRelatedConditions.length) {
                 resCopy = resCopy + "\n";
             }
         }
         return resCopy;
     }
 
-    sendEmail(){
-        
+    getPlainInfoSymptomsEmail() {
+        var resCopy = "";
+        for (let i = 0; i < this.temporalSymptoms.length; i++) {
+            if (this.temporalSymptoms[i].checked) {
+                resCopy = resCopy + this.temporalSymptoms[i].id + " - " + this.temporalSymptoms[i].name;
+                if (i + 1 < this.temporalSymptoms.length) {
+                    resCopy = resCopy + " <br> ";
+                }
+            }
+        }
+        return resCopy;
+    }
+
+    getPlainInfoDiseasesEmail() {
+        var resCopy = "";
+        for (let i = 0; i < this.topRelatedConditions.length; i++) {
+            resCopy = resCopy + this.topRelatedConditions[i].name + " (" + this.topRelatedConditions[i].Id + ")";
+            if (i + 1 < this.topRelatedConditions.length) {
+                resCopy = resCopy + " <br> ";
+            }
+        }
+        return resCopy;
+    }
+
+    sendEmail() {
+        var infoSymptoms = this.getPlainInfoSymptomsEmail();
+        var infoDiseases = this.getPlainInfoDiseasesEmail();
+
+        Swal.fire({
+            title: 'Enter email address',
+            input: 'email',
+            confirmButtonText: 'Continuar',
+            cancelButtonText: this.translate.instant("generics.Cancel"),
+            showCancelButton: true
+        }).then(function (email) {
+            if (email.value) {
+
+                Swal.fire({
+                    input: 'textarea',
+                    inputLabel: 'Message (Optional)',
+                    inputPlaceholder: 'Type your message here...',
+                    confirmButtonText: 'Enviar',
+                    cancelButtonText: this.translate.instant("generics.Cancel"),
+                    showCancelButton: true
+                }).then(function (message) {
+                    var info = {email: email.value, msg: message.value, symptoms: infoSymptoms, diseases: infoDiseases};
+                    this.subscription.add(this.apiDx29ServerService.sendCustomsEmail(info)
+                        .subscribe((res: any) => {
+                            Swal.fire({
+                                icon: 'success',
+                                html: 'Email enviado a: ' + email.value
+                              })
+                        }));
+                }.bind(this))
+            } else {
+
+            }
+
+
+        }.bind(this))
+
+
     }
 
 }

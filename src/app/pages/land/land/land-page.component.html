@@ -119,13 +119,6 @@
                                         <span *ngIf="disease.desc==null" class="text-muted d-block" style="font-size: 0.925rem;">No tenemos descripción para esta enfermedad.</span>
                                     </td>
                                     <td class="col-md-1">
-                                        <span *ngIf="disease.XRefs!=undefined" class="float-right">
-                                            <span *ngFor="let xref of disease.XRefs ; let i = index">
-                                              <a *ngIf="xref.name=='Orphanet'" class="primary" href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert={{xref.id}}&lng={{lang}}" target="_blank" title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
-                                              <a *ngIf="xref.name=='OMIM'" class="primary" href="https://omim.org/entry/{{xref.id}}" target="_blank" title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
-                                              <span *ngIf="i<(disease.XRefs.length-1)">, </span>
-                                            </span>
-                                        </span>
                                         <span style="cursor: pointer;" class="float-right mr-2" (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);" title="{{'generics.More information' | translate }} ({{disease.Id}})">
                                             <em style="font-size: 1.3em;" class="fa fa-info primary"></em>
                                         </span>
@@ -161,7 +154,7 @@
 <ng-template #contentInfoSymptomNcr let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header" id="idHeader">
       <div class="content-header text-left">
-        <h4>{{temporalSymptoms[selectedInfoSymptomIndex].name }}</h4>
+        <h4>{{temporalSymptoms[selectedInfoSymptomIndex].name }} - {{temporalSymptoms[selectedInfoSymptomIndex].id }}</h4>
       </div>
       <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
         <span aria-hidden="true">&times;</span>
@@ -201,7 +194,15 @@
   <ng-template #contentInfoDisease let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header" id="idHeader">
       <div class="content-header text-left">
-        <h4 class="text-bold-400 mb-0">{{ topRelatedConditions[selectedInfoDiseaseIndex].name }}</h4>
+        <h4 class="text-bold-400 mb-0">{{ topRelatedConditions[selectedInfoDiseaseIndex].name }} 
+          <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].XRefs!=undefined" class="ml-1">
+            <span *ngFor="let xref of topRelatedConditions[selectedInfoDiseaseIndex].XRefs ; let i = index">
+              <a *ngIf="xref.name=='Orphanet'" class="primary" href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert={{xref.id}}&lng={{lang}}" target="_blank" title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
+              <a *ngIf="xref.name=='OMIM'" class="primary" href="https://omim.org/entry/{{xref.id}}" target="_blank" title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
+              <span *ngIf="i<(topRelatedConditions[selectedInfoDiseaseIndex].XRefs.length-1)">, </span>
+            </span>
+        </span>
+        </h4>
         <span class="content-sub-header text-muted">{{ topRelatedConditions[selectedInfoDiseaseIndex].Id }}</span>
       </div>
       <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
@@ -215,35 +216,92 @@
         <table class="table table-striped mb-0 text-center">
             <thead>
                 <tr class="d-flex">
-                  <th class="col-md-8" id="Name symptom">Symptom</th>
-                  <th class="col-md-1" id="Frequent">Frequent</th>
-                  <th class="col-md-1" id="Patient">Patient</th>
-                  <th class="col-md-1" id="Disease">Disease</th>
-                  <th class="col-md-1" id="Info">Info</th>
+                  <th class="col-md-4 text-left" id="Name symptom">Symptom</th>
+                  <th class="col-md-2" id="Frequent">Frequent</th>
+                  <th class="col-md-2" id="Patient">Patient</th>
+                  <th class="col-md-2" id="Disease">Disease</th>
+                  <th class="col-md-2" id="Info">Info</th>
                 </tr>
               </thead>
             <tbody>
               <tr *ngFor="let symptom of topRelatedConditions[selectedInfoDiseaseIndex].Symptoms ; let i = index" class="d-flex">
-                <td class="col-md-8">
-                    {{symptom.Id}}
+                <td class="col-md-4 text-left">
+                    {{symptom.Name}} 
+                    <span style="cursor: pointer;" class="ml-1 mt-1" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease);" title="{{'generics.More information' | translate }} ({{symptom.Id}})">
+                      {{symptom.id}} <em style="font-size: 1.3em;" class="ml-2 fa fa-info primary"></em>
+                  </span>
                 </td>
-                <td class="col-md-1">
-                    {{symptom.Frequency.Id}}
+                <td class="col-md-2">
+                    <span title="{{symptom.Frequency.Desc}}"></span>{{symptom.Frequency.Name}}
                 </td>
-                <td class="col-md-1">
+                <td class="col-md-2">
                     <i *ngIf="symptom.HasPatient" class="fa fa-check success"></i>
                     <i *ngIf="!symptom.HasPatient" class="fa fa-times danger"></i>
                 </td>
-                <td class="col-md-1">
+                <td class="col-md-2">
                     <i *ngIf="symptom.HasDisease" class="fa fa-check success"></i>
                     <i *ngIf="!symptom.HasDisease" class="fa fa-times danger"></i>
                 </td>
-                <td class="col-md-1">
-                    {{symptom.Id}}
+                <td class="col-md-2">
+                  <span *ngIf="symptom.HasPatient && symptom.HasDisease">
+                    <span *ngIf="symptom.Relationship == 'Equal'">
+                      <i class="fas fa-info-circle info" title="Symptom observed in the patient and the disease."></i>
+                    </span>
+                    <span *ngIf="symptom.Relationship == 'Successor'">
+                      <i class="fas fa-info-circle info" title="Symptom deduced in the patient because they also present {{symptom.RelatedName}}"></i>{{symptom.RelatedName}}
+                    </span>
+                    <span *ngIf="symptom.Relationship == 'Predecessor'">
+                      <i class="fas fa-info-circle info" title="Symptom observed in patient and disease."></i>
+                    </span>
+                  </span>
+                  <span *ngIf="symptom.HasPatient && !symptom.HasDisease">
+                    <i class="fas fa-info-circle info" title="Symptom observed in the patient."></i>
+                  </span>
+                  <span *ngIf="!symptom.HasPatient && symptom.HasDisease">
+                    <i class="fas fa-info-circle info" title="Symptom observed in the disease."></i>
+                  </span>
                 </td>
               </tr>
             </tbody>
           </table>
-        {{topRelatedConditions[selectedInfoDiseaseIndex]|json }}
+    </div>
+  </ng-template>
+
+  <ng-template #contentInfoSymptomDisease let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header" id="idHeader">
+      <div class="content-header text-left">
+        <h4>{{topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].Name }} - {{topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].Id }}</h4>
+      </div>
+      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+      <div class="content-wrapper p-2">
+        <div class="row col-md-12" class="p-2">
+          <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].Desc!=null">
+            <h5><strong>{{'generics.Description' | translate }}</strong></h5>
+            <span>{{topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].Desc}} </span>
+          </span>
+          <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].Desc==''">
+            <h5><strong>{{'generics.Description' | translate }}</strong></h5>
+            <span> {{'symptomssection.No description' | translate }} </span>
+          </span>
+        </div>
+  
+        <div *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms.length" class="p-2">
+          <h5><strong>{{'generics.Synonyms' | translate }}</strong></h5>
+          <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms.length>0">
+            <p *ngFor="let synonym of topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms ; let j = index" [ngClass]="(j==topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms.length-1)?'mb-0':''">
+              <span>{{j+1}}. </span> <span>{{synonym.label}}</span>
+            </p>
+          </span>
+          <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms.length==0">
+            {{'symptomssection.No synonyms' | translate }}
+          </span>
+        </div>
+        <div class="p-2">
+          <span class="mt-2">{{'generics.More Info' | translate }} <a  href="https://hpo.jax.org/app/browse/term/{{topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].Id}}" target="_blank" title=" {{topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].name}} ({{topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].Id}}):"> <i class="ft-external-link"></i></a></span>
+        </div>
+  
     </div>
   </ng-template>
