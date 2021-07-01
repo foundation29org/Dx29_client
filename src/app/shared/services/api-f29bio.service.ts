@@ -168,8 +168,7 @@ export class Apif29BioService {
 
     getTranslationDictionary(lang,segments){
       var body = {lang:lang, segments: segments}
-      let headers = new HttpHeaders().set('Authorization', environment.Bearer); // create header object
-        return this.http.post(environment.api+'/api/Translation/document/translate', body,{ headers: headers })
+        return this.http.post(environment.api+'/api/Translation/document/translate', body)
         .map( (res : any) => {
             return res;
         }, (err) => {

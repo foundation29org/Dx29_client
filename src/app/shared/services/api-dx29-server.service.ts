@@ -77,8 +77,7 @@ export class ApiDx29ServerService {
 
     getDetectLanguage(text){
       var jsonText = [{ "text": text }];
-      let headers = new HttpHeaders().set('Authorization', environment.Bearer); // create header object
-        return this.http.post(environment.api+'/api/getDetectLanguage', jsonText, { headers: headers })
+        return this.http.post(environment.api+'/api/getDetectLanguage', jsonText)
         .map( (res : any) => {
             return res;
         }, (err) => {

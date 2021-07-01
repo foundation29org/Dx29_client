@@ -10,11 +10,10 @@ import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, me
 @Injectable()
 export class Apif29NcrService {
 
-    constructor(private authService: AuthService, private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
     getAnnotate_batch(segments){
-        let headers = new HttpHeaders().set('Authorization', environment.Bearer); // create header object
-        return this.http.post(environment.api+'/api/annotate_batch', segments, { headers: headers })
+        return this.http.post(environment.api+'/api/annotate_batch', segments)
         .map( (res : any) => {
             return res;
         }, (err) => {
