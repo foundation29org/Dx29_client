@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Subscription } from 'rxjs/Subscription';
 import Swal from 'sweetalert2';
@@ -14,10 +14,15 @@ import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.servic
 import { SortService } from 'app/shared/services/sort.service';
 import { SearchService } from 'app/shared/services/search.service';
 import { Clipboard } from "@angular/cdk/clipboard"
-import { Console } from 'console';
+
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/toPromise';
+import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
 
 declare var JSZipUtils: any;
 declare var Docxgen: any;
+let phenotypesinfo = [];
 
 @Component({
     selector: 'app-land-page',
@@ -50,9 +55,31 @@ export class LandPageComponent implements OnDestroy {
     orphanet_names: any = {};
     lang: string = 'en';
     selectedInfoDiseaseIndex: number = -1;
+    totalDiseasesLeft: number = -1;
+    @ViewChild('input') inputEl;
+
+    modelTemp: any;
+    formatter1 = (x: { name: string }) => x.name;
+
+    // Flag search
+    searchSymptom = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => term === '' ? []
+        : ((phenotypesinfo.filter(v => v.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").indexOf(term.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim()) > -1).slice(0, 100))).concat((phenotypesinfo.filter(v => v.id.toLowerCase().indexOf(term.toLowerCase().trim()) > -1).slice(0, 100)))
+      )
+    );
 
     constructor(private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform) {
         this.lang = sessionStorage.getItem('lang');
+
+        this.subscription.add( this.http.get('assets/jsons/phenotypes_'+this.lang+'.json')
+       .subscribe( (res : any) => {
+         phenotypesinfo = res;
+        }, (err) => {
+          console.log(err);
+        }));
+
         this.subscription.add(this.http.get('assets/jsons/maps_to_orpha.json')
             .subscribe((res: any) => {
                 this.maps_to_orpha = res;
@@ -79,6 +106,21 @@ export class LandPageComponent implements OnDestroy {
     ngOnDestroy() {
         this.subscription.unsubscribe();
     }
+
+    selected($e) {
+        $e.preventDefault();
+        //this.selectedItems.push($e.item);
+  
+        var symptom = $e.item;
+        var foundElement = this.searchService.search(this.temporalSymptoms,'id', symptom.id);
+        if(!foundElement){
+          this.temporalSymptoms.push({id: symptom.id, name: symptom.name, new: true, checked: null, percentile:-1, inputType: 'manual', importance: '1', polarity: '0', synonyms: symptom.synonyms, def: symptom.desc});
+        }else{
+          //this.toastr.warning(this.translate.instant("generics.Name")+': '+symptom.name, this.translate.instant("phenotype.You already had the symptom"));
+        }
+        this.modelTemp = '';
+        //this.inputEl.nativeElement.value = '';
+      }
 
     onFileChangePDF(event) {
         if (event.target.files && event.target.files[0]) {
@@ -395,7 +437,7 @@ export class LandPageComponent implements OnDestroy {
     addTemporalSymptom(symptom, inputType) {
         var foundElement = this.searchService.search(this.temporalSymptoms, 'id', symptom.id);
         if (!foundElement) {
-            this.temporalSymptoms.push({ id: symptom.id, name: symptom.name, new: true, checked: true, percentile: -1, inputType: inputType, importance: '1', polarity: '0', similarity: symptom.similarity, positions: symptom.positions, text: symptom.text });
+            this.temporalSymptoms.push({ id: symptom.id, name: symptom.name, new: true, checked: null, percentile: -1, inputType: inputType, importance: '1', polarity: '0', similarity: symptom.similarity, positions: symptom.positions, text: symptom.text });
         } else {
             //buscar el sintoma, mirar si tiene mejor prababilidad, y meter la nueva aparicion en posiciones
             var enc = false;
@@ -444,15 +486,15 @@ export class LandPageComponent implements OnDestroy {
             }));
     }
 
-    changeStateSymptom(index) {
-        this.temporalSymptoms[index].checked = !(this.temporalSymptoms[index].checked);
+    changeStateSymptom(index, state) {
+        this.temporalSymptoms[index].checked = state;
     }
 
     showMoreInfoSymptomPopup(symptomIndex, contentInfoSymptomNcr) {
         this.selectedInfoSymptomIndex = symptomIndex;
         let ngbModalOptions: NgbModalOptions = {
             keyboard: true,
-            windowClass: 'ModalClass-sm'
+            windowClass: 'ModalClass-sm'// xl, lg, sm
         };
         this.modalReference = this.modalService.open(contentInfoSymptomNcr, ngbModalOptions);
         //this._openedModalRefs.push(this.modalReference);
@@ -461,6 +503,7 @@ export class LandPageComponent implements OnDestroy {
     calculate() {
         this.topRelatedConditions = [];
         this.temporalDiseases = [];
+        this.indexListRelatedConditions = 5;
         this.loadingCalculate = true;
         var info = {
             "symptoms": [],
@@ -551,6 +594,7 @@ export class LandPageComponent implements OnDestroy {
             //delete repeated diseases by name
             this.temporalDiseases = this.deleteRepeatedDiseases(this.temporalDiseases);
         }
+        this.totalDiseasesLeft = this.temporalDiseases.length-5;
         this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
         this.loadingCalculate = false;
     }
@@ -604,9 +648,10 @@ export class LandPageComponent implements OnDestroy {
 
 
 
-    loat10More() {
+    loat5More() {
         this.indexListRelatedConditions = this.indexListRelatedConditions + 5;
         this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
+        this.totalDiseasesLeft = this.temporalDiseases.length-this.topRelatedConditions.length;
     }
 
     restartAllVars() {
@@ -737,7 +782,7 @@ export class LandPageComponent implements OnDestroy {
                 }
                 let ngbModalOptions: NgbModalOptions = {
                     keyboard: true,
-                    windowClass: 'ModalClass-xl'
+                    windowClass: 'ModalClass-lg'// xl, lg, sm
                 };
                 this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms.sort(this.sortService.GetSortFrequencies());
                 this.modalReference = this.modalService.open(contentInfoDisease, ngbModalOptions);

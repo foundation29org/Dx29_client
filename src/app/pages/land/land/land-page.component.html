@@ -4,7 +4,7 @@
             <div class="row p-2">
                 <div class="col-md-12">
                     <div class="section">
-                        <h1 class="pt-0">Te proponemos enfermedades leyendo un texto</h1>
+                        <h2 class="pt-2">Te proponemos enfermedades leyendo un texto</h2>
                     </div>
                 </div>
             </div>
@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label class="btn btn-primary btn-raised" style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
-                                <em class="fa fa-file"></em> {{'symptomssection.searchdoc' | translate }} <input type="file" (change)="onFileChangePDF($event);" style="display: none;">
+                                <em class="fa fa-file"></em> Extraer síntoma a partir de un documento <input type="file" (change)="onFileChangePDF($event);" style="display: none;">
                             </label>
                             <textarea class="form-control"
                             style="height:30vh;"
@@ -41,7 +41,7 @@
                         <table class="col-md-12 table table-striped mb-0">
                             <thead>
                                 <tr>
-                                  <th id="headerTable">Se han encontrado {{temporalSymptoms.length}} síntomas.
+                                  <th id="headerTable">Selecciona lo sintomas que consideres correctos.
                                     <em class="fa fa-download grey float-right" title="Download symptoms" (click)="downloadSymptoms()" style="cursor: pointer;"></em>
                                     <em class="fas fa-copy grey float-right mr-2" title="Copy symptoms" (click)="copySymptoms()" style="cursor: pointer;"></em>
                                     <em class="fa fa-refresh grey float-right mr-2" title="Restart symptoms" (click)="restartInitVars()" style="cursor: pointer;"></em>
@@ -49,9 +49,14 @@
                                 </tr>
                               </thead>
                               <caption class="ml-2 text-muted d-block">
-                                  Marque/ Desmarque los síntomas del paciente. Cuando termine, pulse en el bóton 'Ver enfermedades propuestas'.
-                                  <span class="d-block">Si quiere volver a empezar, pulse aquí: <em class="fa fa-refresh primary ml-1" title="Restart symptoms" (click)="restartInitVars()" style="cursor: pointer;"></em></span>
-                                </caption>
+                                <ng-template #rt let-r="result" let-t="term">
+                                  <strong title="{{r.name}}">{{ r.name}}</strong>
+                                  <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc | slice:0:140)+'...':(r.desc) }}</span>
+                                </ng-template>
+                                <div>
+                                  <i class="fas fa-search mr-1"></i> <input #input class="input"  style="width: 95%;display: inline;" type="text" class="form-control" [(ngModel)]="modelTemp" [ngbTypeahead]="searchSymptom" [resultTemplate]="rt" [inputFormatter]="formatter1" placeholder="{{'symptomssection.manualinput' | translate }}" (selectItem)="selected($event)"/>
+                                </div>
+                              </caption>
                           </table>
                     </div>
                     <table *ngIf="temporalSymptoms.length>0" class="table table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white">
@@ -59,26 +64,33 @@
                           <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
                             <td>
                               <span>
-                                <button (click)="changeStateSymptom(i)" [ngClass]="(hpo.checked==true)?'btn btn-success btn-sm mr-1 mb-0 btn-fab':'btn btn-secondary btn-sm mr-1 mb-0 btn-fab'" [disabled]=hpo.checked href="javascript:void(0)">
+                                <span class="float-right ml-1">
+                                  <button (click)="changeStateSymptom(i, true)" [ngClass]="(hpo.checked==true)?'btn btn-success btn-sm mr-1 mb-0 btn-fab':'btn btn-secondary btn-sm mr-1 mb-0 btn-fab'"  href="javascript:void(0)">
                                     <em class="fa fa-check"></em>
-                                </button>
-                                <button (click)="changeStateSymptom(i)" [ngClass]="(hpo.checked==false)?'btn btn-danger btn-sm mr-1 mb-0 btn-fab':'btn btn-secondary btn-sm mr-1 mb-0 btn-fab'" [disabled]=!hpo.checked href="javascript:void(0)">
-                                    <em class="fa fa-times"></em>
-                                </button>
-                                <span style="cursor: pointer;" class="float-right ml-1 mt-1" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);" title="{{'generics.More information' | translate }} ({{hpo.id}})">
-                                    {{hpo.id}} <em style="font-size: 1.3em;" class="ml-2 fa fa-info primary"></em>
+                                  </button>
+                                  <button (click)="changeStateSymptom(i, false)" [ngClass]="(hpo.checked==false)?'btn btn-danger btn-sm mr-1 mb-0 btn-fab':'btn btn-secondary btn-sm mr-1 mb-0 btn-fab'"  href="javascript:void(0)">
+                                      <em class="fa fa-times"></em>
+                                  </button>
                                 </span>
-                                <span class="ml-2">
-                                  <strong class="align-middle font-medium-3">{{hpo.name}} </strong>
-                                  <span class="align-middle d-block mt-1">
-                                    <span *ngIf="hpo.def!=null" class="mr-1" title="{{hpo.def}}">{{ (hpo.def.length>100)? (hpo.def | slice:0:100)+'...':(hpo.def) }}</span>
-                                    <span *ngIf="hpo.def==null && hpo.comment!=null" class="mr-1" title="{{hpo.comment}}">{{ (hpo.comment.length>100)? (hpo.comment | slice:0:100)+'...':(hpo.comment) }}</span>
+                                <span>
+                                  <strong style="font-size: 1.25rem !important;">{{hpo.name}} </strong>
+                                  <span style="cursor: pointer;" class="ml-1" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);" title="{{'generics.More information' | translate }} ({{hpo.id}})">
+                                      {{hpo.id}} <em style="font-size: 1.3em;" class="ml-2 fa fa-info primary"></em>
+                                  </span>
+                                  <span class="d-block">
+                                    <span *ngIf="hpo.def!=null" style="font-size: 0.925rem;" class="mr-1 text-muted" title="{{hpo.def}}">{{ (hpo.def.length>100)? (hpo.def | slice:0:100)+'...':(hpo.def) }}</span>
+                                    <span *ngIf="hpo.def==null && hpo.comment!=null" style="font-size: 0.925rem;" class="mr-1 text-muted" title="{{hpo.comment}}">{{ (hpo.comment.length>100)? (hpo.comment | slice:0:100)+'...':(hpo.comment) }}</span>
                                   </span>
                                 </span>
                               </span>
                             </td>
                           </tr>
                         </tbody>
+                        <tfoot style="background: #bfbfbf;height: 30px;">
+                          <span class="mt-2 ml-2">
+                            Se han encontrado {{temporalSymptoms.length}} síntomas.
+                          </span>
+                        </tfoot>
                       </table>
                 </div>
                 <div *ngIf="substepExtract!='0'" class="col-md-6">
@@ -112,7 +124,7 @@
                             <table class="table table-striped mb-0 bg-white">
                                 <tbody>
                                   <tr *ngFor="let disease of topRelatedConditions ; let i = index" class="d-flex">
-                                    <td class="col-md-11">
+                                    <td class="col-md-11" id="{{disease.Id}}">
                                         <i class="fas fa-laptop-medical primary mr-1"></i>
                                         <span class="font-weight-bolder" style="font-size: 1.25rem !important;">{{disease.name}}</span>
                                         <span *ngIf="disease.desc!=null" class="text-muted d-block" style="font-size: 0.925rem;">{{ (disease.desc.length>140)? (disease.desc | slice:0:140)+'...':(disease.desc) }}</span>
@@ -127,8 +139,9 @@
                                 </tbody>
                               </table>
                             <div *ngIf="temporalDiseases.length>5 && indexListRelatedConditions<temporalDiseases.length" class="center-elements mt-2">
-                                <a href="javascript:;" class="primary font-medium-3" (click)="loat10More()">
-                                    <span>Mostrar más enfermedades</span>
+                                <a href="javascript:;" class="primary font-medium-3" (click)="loat5More()">
+                                    <span>Cargar 5 enfermedades más en la tabla</span>
+                                    <span class="d-block font-small-3">Quedan {{totalDiseasesLeft}} sin mostrar en la tabla</span>
                                 </a>
                               </div>
                         </span>
