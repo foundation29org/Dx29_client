@@ -55,9 +55,11 @@ export class LandPageComponent implements OnInit, OnDestroy {
     maps_to_orpha: any = {};
     orphanet_names: any = {};
     lang: string = 'en';
+    originalLang: string = 'en';
     selectedInfoDiseaseIndex: number = -1;
     totalDiseasesLeft: number = -1;
     numberOfSymtomsChecked: number = 0;
+    minSymptoms: number = 4;
     @ViewChild('input') inputEl;
 
     modelTemp: any;
@@ -75,7 +77,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     constructor(private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService) {
 
         this.lang = sessionStorage.getItem('lang');
-
+        this.originalLang = sessionStorage.getItem('lang');
         this.subscription.add(this.http.get('assets/jsons/maps_to_orpha.json')
             .subscribe((res: any) => {
                 this.maps_to_orpha = res;
@@ -115,6 +117,29 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.eventsService.on('changelang', function (lang) {
             this.lang = lang;
             this.loadFilesLang();
+            if( this.temporalSymptoms.length>0 && this.originalLang!=lang){
+                Swal.fire({
+                    title: this.translate.instant("land.Language has changed"),
+                    text: this.translate.instant("land.Do you want to start over"),
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#0CC27E',
+                    cancelButtonColor: '#f9423a',
+                    confirmButtonText: this.translate.instant("generics.Yes"),
+                    cancelButtonText: this.translate.instant("generics.No"),
+                    showLoaderOnConfirm: true,
+                    allowOutsideClick: false,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        this.originalLang = lang;
+                        this.restartInitVars();
+                    } else {
+                        
+                    }
+                });
+            }
+            
         }.bind(this));
     }
 
@@ -536,8 +561,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.indexListRelatedConditions = 5;
         this.loadingCalculate = true;
         var info = {
-            "symptoms": [],
-            "genes": []
+            "symptoms": []
         }
         for (var index in this.temporalSymptoms) {
             if (this.temporalSymptoms[index].checked) {
@@ -559,8 +583,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     }
                 }));
         } else {
-            Swal.fire('Debe de seleccionar al menos un síntoma.', '', "error");
-            //this.toastr.error('', 'Debe de seleccionar al menos un síntoma.');
+            Swal.fire(this.translate.instant("land.You need to select more symptoms"), '', "error");
             this.loadingCalculate = false;
         }
 
@@ -725,10 +748,10 @@ export class LandPageComponent implements OnInit, OnDestroy {
         var infoSymptoms = this.getPlainInfoSymptoms();
         if (infoSymptoms != "") {
             this.clipboard.copy(this.getPlainInfoSymptoms());
-            Swal.fire('Síntomas copiados en el portapapeles', '', "success");
+            Swal.fire(this.translate.instant("land.Symptoms copied to the clipboard"), '', "success");
         } else {
             //this.toastr.error('', 'Debe de seleccionar al menos un síntoma. para poder copiar los síntomas.');
-            Swal.fire('Para poder copiar los síntomas, tiene que seleccionar al menos uno.', '', "warning");
+            Swal.fire(this.translate.instant("land.To be able to copy the symptoms"), '', "warning");
         }
     }
 
@@ -748,7 +771,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
             URL.revokeObjectURL(link.href);
         } else {
             //this.toastr.error('', 'Debe de seleccionar al menos un síntoma. para poder descargar los síntomas.');
-            Swal.fire('Para poder descargar los síntomas, tiene que seleccionar al menos uno.', '', "warning");
+            Swal.fire(this.translate.instant("land.In order to download the symptoms"), '', "warning");
         }
     }
 
@@ -838,7 +861,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     //this.fullListSymptoms.sort(this.sortService.GetSortOrder("frequencyId"));
                     for (var ki = 0; ki < this.topRelatedConditions[index].Symptoms.length; ki++) {
                         if (this.topRelatedConditions[index].Symptoms[ki].Frequency.Id == 'HP:9999999') {
-                            this.topRelatedConditions[index].Symptoms[ki].Frequency.Name = "Unknown";
+                            this.topRelatedConditions[index].Symptoms[ki].Frequency.Name = this.translate.instant("land.Unknown");
                         }
                     }
                     this.topRelatedConditions[index].Symptoms.sort(this.sortService.GetSortTwoElementsLand("Frequency", "Name"));
@@ -907,9 +930,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
         var infoDiseases = this.getPlainInfoDiseasesEmail();
 
         Swal.fire({
-            title: 'Enter email address',
+            title: this.translate.instant("land.Enter email address"),
             input: 'email',
-            confirmButtonText: 'Continuar',
+            confirmButtonText: this.translate.instant("land.Next"),
             cancelButtonText: this.translate.instant("generics.Cancel"),
             showCancelButton: true
         }).then(function (email) {
@@ -917,9 +940,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
                 Swal.fire({
                     input: 'textarea',
-                    inputLabel: 'Message (Optional)',
-                    inputPlaceholder: 'Type your message here...',
-                    confirmButtonText: 'Enviar',
+                    inputLabel: this.translate.instant("land.Message"),
+                    inputPlaceholder: this.translate.instant("land.Type your message here"),
+                    confirmButtonText: this.translate.instant("land.Send"),
                     cancelButtonText: this.translate.instant("generics.Cancel"),
                     showCancelButton: true
                 }).then(function (message) {
@@ -928,7 +951,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                         .subscribe((res: any) => {
                             Swal.fire({
                                 icon: 'success',
-                                html: 'Email enviado a: ' + email.value
+                                html: this.translate.instant("land.Email sent to")+ ' ' + email.value
                             })
                         }));
                 }.bind(this))
@@ -938,8 +961,10 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
 
         }.bind(this))
+    }
 
-
+    getLiteral(literal){
+        return this.translate.instant(literal);
     }
 
 }
