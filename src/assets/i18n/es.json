@@ -2175,7 +2175,7 @@
     "updatePatient": "Actualizar datos"
   },
   "land":{
-    "title": "Te proponemos enfermedades leyendo un texto",
+    "title": "¿No encuentras diagnóstico? Vamos a intentar ayudarte",
     "Extract symptom from document": "Extraer síntoma a partir de un documento",
     "availableLangs": "Pulsa aqui para ver de que idiomas podemos extraer síntomas",
     "Extract": "Extraer",

@@ -50,6 +50,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     temporalDiseases: any = [];
     topRelatedConditions: any = [];
     indexListRelatedConditions: number = 5;
+    showNumerRelatedConditions: number = 5;
     langDetected: string = '';
     loadingCalculate: boolean = false;
     maps_to_orpha: any = {};
@@ -59,7 +60,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     selectedInfoDiseaseIndex: number = -1;
     totalDiseasesLeft: number = -1;
     numberOfSymtomsChecked: number = 0;
-    minSymptoms: number = 4;
+    minSymptoms: number = 5;
     @ViewChild('input') inputEl;
 
     modelTemp: any;
@@ -558,7 +559,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     calculate() {
         this.topRelatedConditions = [];
         this.temporalDiseases = [];
-        this.indexListRelatedConditions = 5;
+        this.indexListRelatedConditions = this.showNumerRelatedConditions;
         this.loadingCalculate = true;
         var info = {
             "symptoms": []
@@ -645,7 +646,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
             //delete repeated diseases by name
             this.temporalDiseases = this.deleteRepeatedDiseases(this.temporalDiseases);
         }
-        this.totalDiseasesLeft = this.temporalDiseases.length - 5;
+        this.totalDiseasesLeft = this.temporalDiseases.length - this.showNumerRelatedConditions;
         this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
         this.loadingCalculate = false;
     }
@@ -698,14 +699,14 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
 
 
-    loat5More() {
-        this.indexListRelatedConditions = this.indexListRelatedConditions + 5;
+    loadMore() {
+        this.indexListRelatedConditions = this.indexListRelatedConditions + this.showNumerRelatedConditions;
         this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
         this.totalDiseasesLeft = this.temporalDiseases.length - this.topRelatedConditions.length;
     }
 
     restartAllVars() {
-        this.indexListRelatedConditions = 5;
+        this.indexListRelatedConditions = this.showNumerRelatedConditions;
         this.temporalSymptoms = [];
         this.numberOfSymtomsChecked = 0;
         this.topRelatedConditions = [];
@@ -806,6 +807,12 @@ export class LandPageComponent implements OnInit, OnDestroy {
                                 if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].importance == undefined) {
                                     this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].importance = 1;
                                 }
+                            }
+                        }
+                    }
+                    for (var i in res) {
+                        for (var j = 0; j < this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms.length; j++) {
+                            if (res[i].id == this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].Id) {
                                 if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].Relationship == 'Successor') {
                                     // Search realted Symptom
                                     for (var z = 0; z < this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms.length; z++) {

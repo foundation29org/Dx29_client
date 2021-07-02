@@ -2174,7 +2174,7 @@
     "updatePatient": "Update patient"
   },
   "land":{
-    "title": "We suggest diseases by reading a text",
+    "title": "Can't find a diagnosis? We will try to help you",
     "Extract symptom from document": "Extract symptom from document",
     "availableLangs": "Click here to see which languages we can extract symptoms from",
     "Extract": "Extract",

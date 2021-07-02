@@ -1,6 +1,6 @@
 <section id="login" class="mt-4" style="min-height: 80vh;">
-  <div class="container-fluid" style="background-color: #f7f7f7;">
-    <div style="margin: auto;" style="margin: auto;min-height: 80vh;background-color: #f7f7f7;">
+  <div class="container-fluid">
+    <div style="margin: auto;" style="margin: auto;min-height: 80vh;">
       <div class="row p-2">
         <div class="col-md-12">
           <div class="section">
@@ -8,7 +8,7 @@
           </div>
         </div>
       </div>
-      <div class="row p-2" style="background-color: #f7f7f7;">
+      <div class="row p-2">
         <div *ngIf="substepExtract=='0'" class="col-md-6">
           <div class="row">
             <div class="col-md-12">
@@ -128,12 +128,12 @@
             </span>
           </span>
         </div>
-        <div *ngIf="substepExtract!='0'" class="col-md-6"
+        <div class="col-md-6"
           [ngClass]="(!loadingCalculate && topRelatedConditions.length==0)?'light-background rounded loadingPanel':''">
           <div *ngIf="!loadingCalculate && topRelatedConditions.length==0" class="section w-100 pt-1 pl-2 mb-2">
             <span class="d-block pt-2 center-elements font-medium-3">{{'land.Suggested diseases will be shown here' |
               translate }}</span>
-            <div class="col-md-12 center-elements mt-4">
+            <div class="col-md-12 center-elements mt-4" *ngIf="substepExtract!='0'">
               <button type="button" class="btn btn-secondary btn-lg btn-raised pb-2 font-medium-3"
                 (click)="calculate();" [disabled]="numberOfSymtomsChecked<minSymptoms"
                 [attr.title]="(numberOfSymtomsChecked<minSymptoms) ? getLiteral('land.You need to select more symptoms') : getLiteral('land.See suggested diseases')"
@@ -150,7 +150,7 @@
               </button>
             </div>
           </div>
-          <div *ngIf="loadingCalculate" class="col-md-12 center-elements light-background rounded">
+          <div *ngIf="loadingCalculate && substepExtract!='0'" class="col-md-12 center-elements light-background rounded">
             <div class="card-body center-elements section">
               <em class="fa fa-spinner fa-spin fa-3x fa-fw pink"></em>
               <p class="d-block overlay-text col-md-12 font-medium-3 mt-2">{{'land.Calculating' | translate }}...</p>
@@ -159,7 +159,7 @@
             </div>
           </div>
 
-          <div *ngIf="!loadingCalculate" class="section row pb-4 maintxt">
+          <div *ngIf="substepExtract!='0' && !loadingCalculate" class="section row pb-4 maintxt">
             <span *ngIf="topRelatedConditions.length>0">
               <table class="col-md-12 table table-striped mb-0 bg-white border">
                 <thead>
@@ -188,10 +188,11 @@
                       <i class="fas fa-laptop-medical primary mr-1"></i>
                       <span class="font-weight-bolder" style="font-size: 1.25rem !important;">{{disease.name}}</span>
                       <span *ngIf="disease.desc!=null" class="text-muted d-block" style="font-size: 0.925rem;">{{
-                        (disease.desc.length>140)? (disease.desc | slice:0:140)+'...':(disease.desc) }}</span>
+                        (disease.desc.length>160)? (disease.desc | slice:0:160)+'...':(disease.desc) }}</span>
                       <span *ngIf="disease.desc==null" class="text-muted d-block"
                         style="font-size: 0.925rem;">{{'land.We have no description for this disease' | translate
-                        }}</span>
+                        }}
+                      </span>
                     </td>
                     <td class="col-md-1">
                       <span style="cursor: pointer;" class="float-right mr-2"
@@ -203,9 +204,9 @@
                   </tr>
                 </tbody>
               </table>
-              <div *ngIf="temporalDiseases.length>5 && indexListRelatedConditions<temporalDiseases.length"
+              <div *ngIf="temporalDiseases.length>showNumerRelatedConditions && indexListRelatedConditions<temporalDiseases.length"
                 class="d-block p-1 center-elements" style="background: #bfbfbf;">
-                <a href="javascript:;" class="btn btn-primary btn-raised font-medium-3 mt-2" (click)="loat5More()">
+                <a href="javascript:;" class="btn btn-primary btn-raised font-medium-3 mt-2" (click)="loadMore()">
                   <i class="fas fa-arrow-up mr-2"></i>
                   <span>{{'land.Load more diseases' | translate }}</span>
                   <i class="fas fa-arrow-up ml-2"></i>
