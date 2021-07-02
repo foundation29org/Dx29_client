@@ -220,3 +220,13 @@ body {
   caption{
     min-height: 70px;
   }
+
+  .light-background{
+    background-color: #ddd !important;
+  }
+
+  .loadingPanel{
+    max-width: 48%;
+    margin-left: 0.375rem !important;
+    margin-right: 0.375rem !important;
+  }

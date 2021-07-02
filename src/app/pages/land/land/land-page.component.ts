@@ -1,6 +1,7 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Subscription } from 'rxjs/Subscription';
+import { EventsService } from 'app/shared/services/events.service';
 import Swal from 'sweetalert2';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -31,7 +32,7 @@ let phenotypesinfo = [];
     providers: [Apif29BioService, Apif29NcrService, ApiDx29ServerService],
 })
 
-export class LandPageComponent implements OnDestroy {
+export class LandPageComponent implements OnInit, OnDestroy {
 
     private subscription: Subscription = new Subscription();
     parserObject: any = { parserStrategy: 'Auto', callingParser: false, file: undefined };
@@ -56,6 +57,7 @@ export class LandPageComponent implements OnDestroy {
     lang: string = 'en';
     selectedInfoDiseaseIndex: number = -1;
     totalDiseasesLeft: number = -1;
+    numberOfSymtomsChecked: number = 0;
     @ViewChild('input') inputEl;
 
     modelTemp: any;
@@ -63,22 +65,16 @@ export class LandPageComponent implements OnDestroy {
 
     // Flag search
     searchSymptom = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      map(term => term === '' ? []
-        : ((phenotypesinfo.filter(v => v.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").indexOf(term.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim()) > -1).slice(0, 100))).concat((phenotypesinfo.filter(v => v.id.toLowerCase().indexOf(term.toLowerCase().trim()) > -1).slice(0, 100)))
-      )
-    );
+        text$.pipe(
+            debounceTime(200),
+            map(term => term === '' ? []
+                : ((phenotypesinfo.filter(v => v.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").indexOf(term.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim()) > -1).slice(0, 100))).concat((phenotypesinfo.filter(v => v.id.toLowerCase().indexOf(term.toLowerCase().trim()) > -1).slice(0, 100)))
+            )
+        );
 
-    constructor(private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform) {
+    constructor(private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService) {
+
         this.lang = sessionStorage.getItem('lang');
-
-        this.subscription.add( this.http.get('assets/jsons/phenotypes_'+this.lang+'.json')
-       .subscribe( (res : any) => {
-         phenotypesinfo = res;
-        }, (err) => {
-          console.log(err);
-        }));
 
         this.subscription.add(this.http.get('assets/jsons/maps_to_orpha.json')
             .subscribe((res: any) => {
@@ -87,12 +83,7 @@ export class LandPageComponent implements OnDestroy {
                 console.log(err);
             }));
 
-        this.subscription.add(this.http.get('assets/jsons/orphanet_names_' + this.lang + '.json')
-            .subscribe((res: any) => {
-                this.orphanet_names = res;
-            }, (err) => {
-                console.log(err);
-            }));
+        this.loadFilesLang();
 
         $.getScript("./assets/js/docs/jszip-utils.js").done(function (script, textStatus) {
             //console.log("finished loading and running jszip-utils.js. with a status of" + textStatus);
@@ -103,6 +94,30 @@ export class LandPageComponent implements OnDestroy {
         });
     }
 
+    loadFilesLang() {
+
+        this.subscription.add(this.http.get('assets/jsons/phenotypes_' + this.lang + '.json')
+            .subscribe((res: any) => {
+                phenotypesinfo = res;
+            }, (err) => {
+                console.log(err);
+            }));
+
+        this.subscription.add(this.http.get('assets/jsons/orphanet_names_' + this.lang + '.json')
+            .subscribe((res: any) => {
+                this.orphanet_names = res;
+            }, (err) => {
+                console.log(err);
+            }));
+    }
+
+    ngOnInit() {
+        this.eventsService.on('changelang', function (lang) {
+            this.lang = lang;
+            this.loadFilesLang();
+        }.bind(this));
+    }
+
     ngOnDestroy() {
         this.subscription.unsubscribe();
     }
@@ -110,17 +125,19 @@ export class LandPageComponent implements OnDestroy {
     selected($e) {
         $e.preventDefault();
         //this.selectedItems.push($e.item);
-  
+
         var symptom = $e.item;
-        var foundElement = this.searchService.search(this.temporalSymptoms,'id', symptom.id);
-        if(!foundElement){
-          this.temporalSymptoms.push({id: symptom.id, name: symptom.name, new: true, checked: null, percentile:-1, inputType: 'manual', importance: '1', polarity: '0', synonyms: symptom.synonyms, def: symptom.desc});
-        }else{
-          //this.toastr.warning(this.translate.instant("generics.Name")+': '+symptom.name, this.translate.instant("phenotype.You already had the symptom"));
+        var foundElement = this.searchService.search(this.temporalSymptoms, 'id', symptom.id);
+        if (!foundElement) {
+            this.temporalSymptoms.push({ id: symptom.id, name: symptom.name, new: true, checked: true, percentile: -1, inputType: 'manual', importance: '1', polarity: '0', synonyms: symptom.synonyms, def: symptom.desc });
+            this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
+            this.numberOfSymtomsChecked++;
+        } else {
+            //this.toastr.warning(this.translate.instant("generics.Name")+': '+symptom.name, this.translate.instant("phenotype.You already had the symptom"));
         }
         this.modelTemp = '';
         //this.inputEl.nativeElement.value = '';
-      }
+    }
 
     onFileChangePDF(event) {
         if (event.target.files && event.target.files[0]) {
@@ -347,6 +364,7 @@ export class LandPageComponent implements OnDestroy {
     }
 
     callNCR() {
+        this.numberOfSymtomsChecked = 0;
         this.temporalSymptoms = [];
         var temporal = [];
         if (this.resultSegmentation.segments) {
@@ -393,9 +411,8 @@ export class LandPageComponent implements OnDestroy {
                             }
 
                         }
-                        this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
                         this.resultTextNcr = this.medicalText;
-                        this.sortBySimilarity();
+                        //this.sortBySimilarity();
 
                         this.medicalText = '';
 
@@ -416,7 +433,6 @@ export class LandPageComponent implements OnDestroy {
                             this.substepExtract = '0';
                         } else {
                             this.callGetInfoTempSymptomsJSON(hposStrins);
-                            this.substepExtract = '4';
                         }
 
                     } else {
@@ -438,6 +454,7 @@ export class LandPageComponent implements OnDestroy {
         var foundElement = this.searchService.search(this.temporalSymptoms, 'id', symptom.id);
         if (!foundElement) {
             this.temporalSymptoms.push({ id: symptom.id, name: symptom.name, new: true, checked: null, percentile: -1, inputType: inputType, importance: '1', polarity: '0', similarity: symptom.similarity, positions: symptom.positions, text: symptom.text });
+            this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
         } else {
             //buscar el sintoma, mirar si tiene mejor prababilidad, y meter la nueva aparicion en posiciones
             var enc = false;
@@ -479,15 +496,28 @@ export class LandPageComponent implements OnDestroy {
                             }
                         }
                     }
+                    this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
                 }
+                this.substepExtract = '4';
 
             }, (err) => {
                 console.log(err);
+                this.substepExtract = '4';
             }));
     }
 
     changeStateSymptom(index, state) {
         this.temporalSymptoms[index].checked = state;
+        this.getNumberOfSymptomsChecked();
+    }
+
+    getNumberOfSymptomsChecked() {
+        this.numberOfSymtomsChecked = 0;
+        for (var i = 0; i < this.temporalSymptoms.length; i++) {
+            if (this.temporalSymptoms[i].checked) {
+                this.numberOfSymtomsChecked++;
+            }
+        }
     }
 
     showMoreInfoSymptomPopup(symptomIndex, contentInfoSymptomNcr) {
@@ -517,7 +547,6 @@ export class LandPageComponent implements OnDestroy {
         if (info.symptoms.length > 0) {
             this.subscription.add(this.apiDx29ServerService.calculate(info)
                 .subscribe((res: any) => {
-                    console.log(res);
                     if (res == null) {
                         this.calculate()
                     } else {
@@ -541,7 +570,6 @@ export class LandPageComponent implements OnDestroy {
         var lang = this.lang;
         this.subscription.add(this.apif29BioService.getInfoOfDiseasesLang(listOfDiseases, lang)
             .subscribe((res1: any) => {
-                console.log(res1);
                 for (var i = 0; i < this.temporalDiseases.length; i++) {
                     var valtemp = this.temporalDiseases[i].Id;
                     if (res1[valtemp] != undefined) {
@@ -594,7 +622,7 @@ export class LandPageComponent implements OnDestroy {
             //delete repeated diseases by name
             this.temporalDiseases = this.deleteRepeatedDiseases(this.temporalDiseases);
         }
-        this.totalDiseasesLeft = this.temporalDiseases.length-5;
+        this.totalDiseasesLeft = this.temporalDiseases.length - 5;
         this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
         this.loadingCalculate = false;
     }
@@ -605,7 +633,6 @@ export class LandPageComponent implements OnDestroy {
 
     deleteRepeatedDiseases(listOfDiseases) {
         var res = [];
-        console.log(listOfDiseases);
         for (var i = 0; i < listOfDiseases.length; i++) {
             var enc = false;
             for (var j = 0; j < res.length && !enc; j++) {
@@ -651,12 +678,13 @@ export class LandPageComponent implements OnDestroy {
     loat5More() {
         this.indexListRelatedConditions = this.indexListRelatedConditions + 5;
         this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
-        this.totalDiseasesLeft = this.temporalDiseases.length-this.topRelatedConditions.length;
+        this.totalDiseasesLeft = this.temporalDiseases.length - this.topRelatedConditions.length;
     }
 
     restartAllVars() {
         this.indexListRelatedConditions = 5;
         this.temporalSymptoms = [];
+        this.numberOfSymtomsChecked = 0;
         this.topRelatedConditions = [];
         this.temporalDiseases = [];
     }
@@ -726,12 +754,8 @@ export class LandPageComponent implements OnDestroy {
 
     showMoreInfoDiseasePopup(diseaseIndex, contentInfoDisease) {
         this.selectedInfoDiseaseIndex = diseaseIndex;
-        
-        console.log(this.topRelatedConditions[this.selectedInfoDiseaseIndex]);
-        this.getfrequencies(diseaseIndex);
+        this.getfrequencies(this.selectedInfoDiseaseIndex);
         this.callGetInfoDiseaseSymptomsJSON(contentInfoDisease);
-        
-        //this._openedModalRefs.push(this.modalReference);
     }
 
     callGetInfoDiseaseSymptomsJSON(contentInfoDisease) {
@@ -749,7 +773,6 @@ export class LandPageComponent implements OnDestroy {
                     for (var i in res) {
                         for (var j = 0; j < this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms.length; j++) {
                             if (res[i].id == this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].Id) {
-                                console.log('entra');
                                 this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].Name = res[i].name;
                                 if (res[i].desc != "") {
                                     this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].Desc = res[i].desc;
@@ -760,31 +783,26 @@ export class LandPageComponent implements OnDestroy {
                                 if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].importance == undefined) {
                                     this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].importance = 1;
                                 }
-                                if(this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].Relationship=='Successor'){
+                                if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].Relationship == 'Successor') {
                                     // Search realted Symptom
-                                    var enc = false;
-                                    for (var z = 0; z < this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms.length && !enc; z++) {
+                                    for (var z = 0; z < this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms.length; z++) {
                                         if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[z].Id == this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].RelatedId) {
-                                            console.log('encontrado');
-                                            
                                             var Name = this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[z].Name;
-                                            console.log(Name);
                                             this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].RelatedName = Name;
-                                            enc =true;
                                         }
                                     }
-                                    
+
                                 }
-                                
+
                             }
                         }
                     }
                 }
+
                 let ngbModalOptions: NgbModalOptions = {
                     keyboard: true,
                     windowClass: 'ModalClass-lg'// xl, lg, sm
                 };
-                this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms.sort(this.sortService.GetSortFrequencies());
                 this.modalReference = this.modalService.open(contentInfoDisease, ngbModalOptions);
 
             }, (err) => {
@@ -795,41 +813,43 @@ export class LandPageComponent implements OnDestroy {
     async getfrequencies(index) {
         //getInfo symptoms
         var symptoms = this.topRelatedConditions[index].Symptoms;
-        var hposStrins =[];
-        symptoms.forEach(function(element) {
-          if(element.Frequency!=null){
-            hposStrins.push(element.Frequency.Id);
-          }
-  
+        var hposStrins = [];
+        symptoms.forEach(function (element) {
+            if (element.Frequency != null) {
+                hposStrins.push(element.Frequency.Id);
+            }
+
         });
         var lang = this.lang;
-        await this.apif29BioService.getInfoOfSymptoms(lang,hposStrins)
-        .subscribe( (res : any) => {
-          var tamano= Object.keys(res).length;
-          if(tamano>0){
-            for(var i in res) {
-              for (var j = 0; j < this.topRelatedConditions[index].Symptoms.length; j++) {
-                if(res[i].id==this.topRelatedConditions[index].Symptoms[j].Frequency.Id){
-                  if(this.topRelatedConditions[index].Symptoms[j].Frequency.Name==''){
-                    this.topRelatedConditions[index].Symptoms[j].Frequency.Name = res[i].name;
-                    this.topRelatedConditions[index].Symptoms[j].Frequency.Desc = res[i].desc;
-                  }
+        await this.apif29BioService.getInfoOfSymptoms(lang, hposStrins)
+            .subscribe((res: any) => {
+                var tamano = Object.keys(res).length;
+                if (tamano > 0) {
+                    for (var i in res) {
+                        for (var j = 0; j < this.topRelatedConditions[index].Symptoms.length; j++) {
+                            if (res[i].id == this.topRelatedConditions[index].Symptoms[j].Frequency.Id) {
+                                if (this.topRelatedConditions[index].Symptoms[j].Frequency.Name == '') {
+                                    this.topRelatedConditions[index].Symptoms[j].Frequency.Name = res[i].name;
+                                    this.topRelatedConditions[index].Symptoms[j].Frequency.Desc = res[i].desc;
+                                }
+                            }
+                        }
+                    }
+                    //this.fullListSymptoms.sort(this.sortService.GetSortOrder("frequencyId"));
+                    for (var ki = 0; ki < this.topRelatedConditions[index].Symptoms.length; ki++) {
+                        if (this.topRelatedConditions[index].Symptoms[ki].Frequency.Id == 'HP:9999999') {
+                            this.topRelatedConditions[index].Symptoms[ki].Frequency.Name = "Unknown";
+                        }
+                    }
+                    this.topRelatedConditions[index].Symptoms.sort(this.sortService.GetSortTwoElementsLand("Frequency", "Name"));
+                    this.topRelatedConditions[index].Symptoms.sort(this.sortService.GetSortSymptomsLand());
+                    this.topRelatedConditions[index].Symptoms.sort(this.sortService.GetSortSymptoms2Land());
                 }
-              }
-            }
-            //this.fullListSymptoms.sort(this.sortService.GetSortOrder("frequencyId"));
-            for (var ki = 0; ki < this.topRelatedConditions[index].Symptoms.length; ki++) {
-              if(this.topRelatedConditions[index].Symptoms[ki].Frequency.Id=='HP:9999999'){
-                this.topRelatedConditions[index].Symptoms[ki].Frequency.Name= "Unknown";
-              }
-            }
-            this.topRelatedConditions[index].Symptoms.sort(this.sortService.GetSortFrequencies());
-          }
-  
-       }, (err) => {
-         console.log(err);
-       });
-      }
+
+            }, (err) => {
+                console.log(err);
+            });
+    }
 
     downloadResults() {
         var infoDiseases = this.getPlainInfoDiseases();
@@ -903,13 +923,13 @@ export class LandPageComponent implements OnDestroy {
                     cancelButtonText: this.translate.instant("generics.Cancel"),
                     showCancelButton: true
                 }).then(function (message) {
-                    var info = {email: email.value, msg: message.value, symptoms: infoSymptoms, diseases: infoDiseases};
+                    var info = { email: email.value, msg: message.value, symptoms: infoSymptoms, diseases: infoDiseases };
                     this.subscription.add(this.apiDx29ServerService.sendCustomsEmail(info)
                         .subscribe((res: any) => {
                             Swal.fire({
                                 icon: 'success',
                                 html: 'Email enviado a: ' + email.value
-                              })
+                            })
                         }));
                 }.bind(this))
             } else {
