@@ -114,9 +114,9 @@
                 </tr>
               </tbody>
             </table>
-            <span class="col-md-12 p-2" style="background: #bfbfbf;">
+            <span class="col-md-12 p-2 border-top">
               <span class="font-medium-3">
-                <span class="white font-medium-3">
+                <span class="font-medium-3">
                   {{'land.You have selected' | translate }} {{numberOfSymtomsChecked}} {{'land.symptom' | translate
                   }}<span *ngIf="numberOfSymtomsChecked!=1">s</span> {{'land.out of' | translate }}
                   {{temporalSymptoms.length}}
@@ -208,7 +208,7 @@
               </table>
               <div
                 *ngIf="temporalDiseases.length>showNumerRelatedConditions && indexListRelatedConditions<temporalDiseases.length"
-                class="d-block p-1 center-elements" style="background: #bfbfbf;">
+                class="d-block p-1 center-elements border-top">
                 <a href="javascript:;" class="btn btn-primary btn-raised font-medium-3 mt-2" (click)="loadMore()">
                   <i class="fas fa-arrow-up mr-2"></i>
                   <span>{{'land.Load more diseases' | translate }}</span>
