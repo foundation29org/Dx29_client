@@ -222,11 +222,41 @@ body {
   }
 
   .light-background{
-    background-color: #ddd !important;
+    background-color: #ffffff !important;
+    min-height: 400px;
   }
 
-  .loadingPanel{
+  /*.loadingPanel{
     max-width: 48%;
     margin-left: 0.375rem !important;
     margin-right: 0.375rem !important;
+  }*/
+
+  .custom-mr-2{
+    margin-right: 0.75rem !important;
   }
+
+  .diffHeight{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  @media ( max-width: 767px ){
+    .loadingPanel{
+        max-width: 100%;
+        margin-left: 0rem !important;
+        margin-right: 0rem !important;
+        margin-top: 2em;
+    }
+
+    .custom-mr-2{
+        margin-right: -15px !important;
+        margin-left: -15px;
+      }
+      .custom-p{
+        padding-right: 0px;
+        padding-left: 0px;
+      }
+  }
+  

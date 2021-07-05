@@ -14,6 +14,7 @@ import { Apif29NcrService } from 'app/shared/services/api-f29ncr.service';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import { SortService } from 'app/shared/services/sort.service';
 import { SearchService } from 'app/shared/services/search.service';
+import { HighlightSearch } from 'app/shared/services/search-filter-highlight.service';
 import { Clipboard } from "@angular/cdk/clipboard"
 
 import { Observable } from 'rxjs/Observable';
@@ -39,6 +40,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
     showPanelExtractor: boolean = false;
     expanded: boolean = true;
     medicalText: string = '';
+    resultTextNcrCopy: string = '';
+    ncrResultView: boolean = false;
+    searchTerm: string = '';
     loadingHpoExtractor: boolean = false;
     substepExtract: string = "0";
     langToExtract: string = '';
@@ -75,7 +79,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
             )
         );
 
-    constructor(private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService) {
+    constructor(private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch) {
 
         this.lang = sessionStorage.getItem('lang');
         this.originalLang = sessionStorage.getItem('lang');
@@ -118,7 +122,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.eventsService.on('changelang', function (lang) {
             this.lang = lang;
             this.loadFilesLang();
-            if( this.temporalSymptoms.length>0 && this.originalLang!=lang){
+            if (this.temporalSymptoms.length > 0 && this.originalLang != lang) {
                 Swal.fire({
                     title: this.translate.instant("land.Language has changed"),
                     text: this.translate.instant("land.Do you want to start over"),
@@ -136,11 +140,11 @@ export class LandPageComponent implements OnInit, OnDestroy {
                         this.originalLang = lang;
                         this.restartInitVars();
                     } else {
-                        
+
                     }
                 });
             }
-            
+
         }.bind(this));
     }
 
@@ -438,6 +442,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
                         }
                         this.resultTextNcr = this.medicalText;
+                        this.resultTextNcrCopy = this.medicalText;
                         //this.sortBySimilarity();
 
                         this.medicalText = '';
@@ -958,7 +963,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                         .subscribe((res: any) => {
                             Swal.fire({
                                 icon: 'success',
-                                html: this.translate.instant("land.Email sent to")+ ' ' + email.value
+                                html: this.translate.instant("land.Email sent to") + ' ' + email.value
                             })
                         }));
                 }.bind(this))
@@ -970,8 +975,45 @@ export class LandPageComponent implements OnInit, OnDestroy {
         }.bind(this))
     }
 
-    getLiteral(literal){
+    getLiteral(literal) {
         return this.translate.instant(literal);
+    }
+
+    showCompleteNcrResultView(symptom) {
+        this.ncrResultView = !this.ncrResultView;
+        if(symptom!=null){
+            this.markAllText(symptom)
+        }
+    }
+
+    markText(text, pos1, pos2) {
+        this.ncrResultView = true;
+        this.searchTerm = text.substring(pos1, pos2);
+        this.resultTextNcrCopy = this.highlightSearch.transform(this.resultTextNcr, this.searchTerm);
+        setTimeout(() => {
+            var el = document.getElementsByClassName("actualPosition")[0];
+            el.scrollIntoView(true);
+        }, 100);
+        //document.getElementById('initpos').scrollIntoView(true);
+    }
+
+    markAllText(symptom) {
+        var text = symptom.text[0].text;
+        var hpo = symptom;
+        var words = [];
+        for (var j = 0; j < hpo.positions.length; j++) {
+            var value = text.substring(hpo.positions[j][0], hpo.positions[j][1]);
+            words.push({ args: value })
+        }
+        this.resultTextNcrCopy = this.highlightSearch.transformAll(this.resultTextNcr, words);
+        setTimeout(() => {
+            var el = document.getElementsByClassName("actualPosition")[0];
+            if(el!=undefined){
+                el.scrollIntoView(true);
+            }
+        }, 100);
+
+        //document.getElementById('actualPosition').scrollIntoView(true);
     }
 
 }
