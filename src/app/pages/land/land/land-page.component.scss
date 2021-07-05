@@ -242,6 +242,10 @@ body {
     align-items: flex-start;
   }
 
+  .table-striped > tbody > tr:nth-child(2n) > td, .table-striped > tbody > tr:nth-child(2n) > th {
+    background-color: #e3e3e3;
+ }
+
   @media ( max-width: 767px ){
     .loadingPanel{
         max-width: 100%;
