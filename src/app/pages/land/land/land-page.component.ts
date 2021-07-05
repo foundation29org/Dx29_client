@@ -53,8 +53,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
     modalReference: NgbModalRef;
     temporalDiseases: any = [];
     topRelatedConditions: any = [];
-    indexListRelatedConditions: number = 5;
-    showNumerRelatedConditions: number = 5;
+    indexListRelatedConditions: number = 8;
+    showNumerRelatedConditions: number = 8;
     langDetected: string = '';
     loadingCalculate: boolean = false;
     maps_to_orpha: any = {};
@@ -552,6 +552,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     }
 
     showMoreInfoSymptomPopup(symptomIndex, contentInfoSymptomNcr) {
+        this.ncrResultView = false;
         this.selectedInfoSymptomIndex = symptomIndex;
         let ngbModalOptions: NgbModalOptions = {
             keyboard: true,
@@ -998,6 +999,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     }
 
     markAllText(symptom) {
+        this.resultTextNcrCopy = this.medicalText;
         var text = symptom.text[0].text;
         var hpo = symptom;
         var words = [];

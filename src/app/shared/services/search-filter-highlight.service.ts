@@ -17,7 +17,9 @@ export class HighlightSearch implements PipeTransform {
         if (!args) {return value;}
 
         for(var i = 0; i < args.length; i++) {
-          value = this.transform(value, args[i].args)
+            var invalid = /[°"§%()\[\]{}=\\?´`'#<>|,;.:+_-]+/g;
+            var temp2 = args[i].args.replace(invalid, "");
+          value = this.transform(value, temp2)
         }
         return value;
     }

@@ -189,12 +189,12 @@
                     <td class="col-md-11" id="{{disease.Id}}">
                       <i class="fas fa-laptop-medical primary mr-1"></i>
                       <span class="font-weight-bolder" style="font-size: 1.25rem !important;">{{disease.name}}</span>
-                      <span *ngIf="disease.desc!=null" class="text-muted d-block" style="font-size: 0.925rem;">{{
+                      <!--<span *ngIf="disease.desc!=null" class="text-muted d-block" style="font-size: 0.925rem;">{{
                         (disease.desc.length>160)? (disease.desc | slice:0:160)+'...':(disease.desc) }}</span>
                       <span *ngIf="disease.desc==null" class="text-muted d-block"
                         style="font-size: 0.925rem;">{{'land.We have no description for this disease' | translate
                         }}
-                      </span>
+                      </span>-->
                     </td>
                     <td class="col-md-1">
                       <span style="cursor: pointer;" class="float-right mr-2"
@@ -358,8 +358,9 @@
           <tr *ngFor="let symptom of topRelatedConditions[selectedInfoDiseaseIndex].Symptoms ; let i = index"
             class="d-flex">
             <td class="col-md-5 text-left">
-              {{symptom.Name}}
-              <span style="cursor: pointer;" class="ml-1 mt-1"
+              <span *ngIf="symptom.Name">{{symptom.Name}}</span>
+              <span *ngIf="!symptom.Name">{{phenotype.Deprecated}} *</span>
+              <span *ngIf="symptom.Name" style="cursor: pointer;" class="ml-1 mt-1"
                 (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease);"
                 title="{{'generics.More information' | translate }} ({{symptom.Id}})">
                 {{symptom.id}} <em style="font-size: 1.3em;" class="ml-2 fa fa-info primary"></em>
@@ -426,8 +427,8 @@
         <span> {{'symptomssection.No description' | translate }} </span>
       </span>
     </div>
-
-    <div *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms.length"
+    <div *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms">
+      <div *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms.length"
       class="p-2">
       <h5><strong>{{'generics.Synonyms' | translate }}</strong></h5>
       <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms.length>0">
@@ -441,6 +442,13 @@
         {{'symptomssection.No synonyms' | translate }}
       </span>
     </div>
+    </div>
+    <div *ngIf="!topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms">
+      <span>
+        {{'symptomssection.No synonyms' | translate }}
+      </span>
+      </div>
+    
   </div>
   <div class="modal-footer">
     <span>{{'land.See more information about the symptom' | translate }} <a
