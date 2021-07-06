@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Subscription } from 'rxjs/Subscription';
 import { EventsService } from 'app/shared/services/events.service';
@@ -66,6 +66,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     numberOfSymtomsChecked: number = 0;
     minSymptoms: number = 5;
     @ViewChild('input') inputEl;
+    showButtonScroll: boolean = false;
 
     modelTemp: any;
     formatter1 = (x: { name: string }) => x.name;
@@ -350,6 +351,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.subscription.add(this.apiDx29ServerService.getDetectLanguage(testLangText)
             .subscribe((res: any) => {
                 this.langToExtract = res[0].language;
+                this.langDetected = this.langToExtract;
                 this.onSubmitToExtractor();
             }, (err) => {
                 console.log(err);
@@ -555,7 +557,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.ncrResultView = false;
         this.selectedInfoSymptomIndex = symptomIndex;
         let ngbModalOptions: NgbModalOptions = {
-            keyboard: true,
+            keyboard: false,
             windowClass: 'ModalClass-sm'// xl, lg, sm
         };
         this.modalReference = this.modalService.open(contentInfoSymptomNcr, ngbModalOptions);
@@ -784,7 +786,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
     showMoreInfoDiseasePopup(diseaseIndex, contentInfoDisease) {
         this.selectedInfoDiseaseIndex = diseaseIndex;
-        this.getfrequencies(this.selectedInfoDiseaseIndex);
+        
         this.callGetInfoDiseaseSymptomsJSON(contentInfoDisease);
     }
 
@@ -839,6 +841,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     keyboard: true,
                     windowClass: 'ModalClass-lg'// xl, lg, sm
                 };
+                this.getfrequencies(this.selectedInfoDiseaseIndex);
                 this.modalReference = this.modalService.open(contentInfoDisease, ngbModalOptions);
 
             }, (err) => {
@@ -873,8 +876,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     }
                     //this.fullListSymptoms.sort(this.sortService.GetSortOrder("frequencyId"));
                     for (var ki = 0; ki < this.topRelatedConditions[index].Symptoms.length; ki++) {
-                        if (this.topRelatedConditions[index].Symptoms[ki].Frequency.Id == 'HP:9999999') {
+                        if (this.topRelatedConditions[index].Symptoms[ki].Frequency.Id == 'HP:9999999' || this.topRelatedConditions[index].Symptoms[ki].Frequency.Name == '') {
                             this.topRelatedConditions[index].Symptoms[ki].Frequency.Name = this.translate.instant("land.Unknown");
+                            this.topRelatedConditions[index].Symptoms[ki].Frequency.Id = 'HP:9999999';
                         }
                     }
                     this.topRelatedConditions[index].Symptoms.sort(this.sortService.GetSortTwoElementsLand("Frequency", "Name"));
@@ -1001,21 +1005,80 @@ export class LandPageComponent implements OnInit, OnDestroy {
     markAllText(symptom) {
         this.resultTextNcrCopy = this.medicalText;
         var text = symptom.text[0].text;
-        var hpo = symptom;
-        var words = [];
-        for (var j = 0; j < hpo.positions.length; j++) {
-            var value = text.substring(hpo.positions[j][0], hpo.positions[j][1]);
-            words.push({ args: value })
+        if(this.langToExtract!='en' || this.langDetected!='en'){
+            text = symptom.text[0].source;
+            this.resultTextNcrCopy = this.highlightSearch.transform(this.resultTextNcr, text);
+        }else{
+            var hpo = symptom;
+            var words = [];
+            for (var j = 0; j < hpo.positions.length; j++) {
+                var value = text.substring(hpo.positions[j][0], hpo.positions[j][1]);
+                words.push({ args: value })
+            }
+            this.resultTextNcrCopy = this.highlightSearch.transformAll(this.resultTextNcr, words);
+            
         }
-        this.resultTextNcrCopy = this.highlightSearch.transformAll(this.resultTextNcr, words);
+
         setTimeout(() => {
             var el = document.getElementsByClassName("actualPosition")[0];
             if(el!=undefined){
                 el.scrollIntoView(true);
+                var height = document.getElementById('idBody').offsetHeight;
+                var docHeight = $(document).height();
+                if(height>docHeight){
+                    this.showButtonScroll = true;
+                    this.myFunction();
+                }else{
+                    this.showButtonScroll = false;
+                }
             }
+            
+            
         }, 100);
 
-        //document.getElementById('actualPosition').scrollIntoView(true);
+        
+    }
+
+    closeModal(){
+        document.getElementsByClassName("ModalClass-sm")[0].removeEventListener("scroll", this.myFunction); 
+        if(this.modalReference!=undefined){
+            this.modalReference.close();
+          }
+    }
+
+    myFunction(){
+        console.log("certrando");
+        document.getElementsByClassName("ModalClass-sm")[0]
+            .addEventListener('scroll', function() {
+                var height = document.getElementById('idBody').offsetHeight;
+                var docHeight = $(document).height();
+                var sizeele = $(".ModalClass-sm").scrollTop();
+                if(height>docHeight){
+                    if(sizeele <= (docHeight/2)){
+                        this.showButtonScroll = false;
+                    }else{
+                        this.showButtonScroll = true;
+                    }
+                }else{
+                    this.showButtonScroll = false;
+                }                
+            }.bind(this));
+    }
+
+    goToTop(){
+        setTimeout(() => {
+            var el = document.getElementsByClassName("modal-header")[0];
+            el.scrollIntoView(true);
+        }, 100);
+    }
+    
+
+    showInfoSponsored(contentInfoSponsored){
+            let ngbModalOptions: NgbModalOptions = {
+                keyboard: true,
+                windowClass: 'ModalClass-lg'// xl, lg, sm
+            };
+            this.modalReference = this.modalService.open(contentInfoSponsored, ngbModalOptions);        
     }
 
 }

@@ -88,13 +88,16 @@ footer{
 }
 
 .textExtractedNcr > a > b{
-  background-color: yellow;
+  background-color: #009DA0;
 }
 .textExtractedNcr >  b{
-  background-color: yellow;
+  background-color: #009DA0;
 }
 mark{
-  background-color: yellow;
+  text-decoration: underline;
+  -webkit-text-decoration-color: #0CC27E; /* Safari */  
+  text-decoration-color: #0CC27E;
+  background-color: #0CC27E;
 }
 
 .cdk-global-overlay-wrapper, .cdk-overlay-container {

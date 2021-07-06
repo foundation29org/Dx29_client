@@ -195,7 +195,8 @@ body {
   }
   tbody {
     display:block;
-    max-height:400px;
+    max-height:300px;
+    min-height:300px;
     overflow-y:auto;
   }
   thead, tbody tr {
@@ -223,7 +224,7 @@ body {
 
   .light-background{
     background-color: #ffffff !important;
-    min-height: 400px;
+    min-height: 300px;
   }
 
   /*.loadingPanel{
@@ -246,7 +247,35 @@ body {
     background-color: #e3e3e3;
  }
 
-  @media ( max-width: 767px ){
+ .animate-bottom {
+    position: fixed;
+    left: 73%;
+    bottom: 3.5%;
+    animation: animatebottom 0.4s;
+  }
+  
+  @keyframes animatebottom {
+    from {
+      bottom: -300px;
+      opacity: 0;
+    }
+  
+    to {
+      bottom: 0;
+      opacity: 1;
+    }
+  }
+
+  @media ( max-width: 899px ){
+    .animate-bottom {
+        position: fixed;
+        left: 40%;
+        bottom: 3.5%;
+        animation: animatebottom 0.4s;
+      }
+  }
+
+  @media ( max-width: 1199px ){
     .loadingPanel{
         max-width: 100%;
         margin-left: 0rem !important;
