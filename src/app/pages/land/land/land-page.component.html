@@ -365,7 +365,7 @@
       topRelatedConditions[selectedInfoDiseaseIndex].desc }}</p>
 
     <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Id == 'MONDO:0009688'">
-      <button (click)="showInfoSponsored(contentInfoSponsored);" title="MYASTHENIA GRAVIS" class="btn btn-primary btn-raised font-weight: 600;">{{'land.Sponsor' | translate}} Miastenia Gravis (MG)</button>
+      <button (click)="showInfoSponsored(contentInfoSponsored);" title="MYASTHENIA GRAVIS" class="btn btn-danger btn-raised font-weight: 600;">{{'land.Sponsor' | translate}} Miastenia Gravis (MG)</button>
     </span>
     <div *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms.length>0">
       <h5 class="text-bold-300 mb-0">{{'land.Symptom by symptom comparison' | translate }}</h5>
