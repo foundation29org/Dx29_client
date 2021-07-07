@@ -67,6 +67,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
     minSymptoms: number = 5;
     @ViewChild('input') inputEl;
     showButtonScroll: boolean = false;
+    failAnnotate_batch: boolean = false;
+    failSegmentation: boolean = false;
 
     modelTemp: any;
     formatter1 = (x: { name: string }) => x.name;
@@ -195,7 +197,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     if (extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif') {
                         this.parserObject.parserStrategy = 'OcrOnly';
                     } else {
-                        this.parserObject.parserStrategy = 'Auto';
+                        this.parserObject.parserStrategy = 'OcrOnly';//Auto
                     }
 
                     this.callParser();
@@ -363,12 +365,16 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
     onSubmitToExtractor() {
         this.restartAllVars();
+        this.failSegmentation = false;
         this.loadingHpoExtractor = true;
         this.substepExtract = '1';
         var lang = this.lang;
         if (this.langToExtract != '') {
             lang = this.langToExtract;
         }
+
+        var invalid = /[°"§%()\[\]{}=\\?´`'#<>|,;.’–—:+_-]+/g;
+        this.medicalText = this.medicalText.replace(invalid, " ");
         var jsontestLangText = { "text": this.medicalText };
         this.subscription.add(this.apif29BioService.getSegmentation(lang, jsontestLangText)
             .subscribe((res: any) => {
@@ -377,6 +383,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
             }, (err) => {
                 console.log(err);
+                this.failSegmentation = true;
+                this.callNoSegmentation();
             }));
     }
 
@@ -398,6 +406,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     callNCR() {
         this.numberOfSymtomsChecked = 0;
         this.temporalSymptoms = [];
+        this.failAnnotate_batch = false;
         var temporal = [];
         if (this.resultSegmentation.segments) {
             for (let i = 0; i < this.resultSegmentation.segments.length; i++) {
@@ -479,6 +488,67 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
             }, (err) => {
                 console.log(err);
+                this.failAnnotate_batch = true;
+                //fail getAnnotate_batch
+                this.callNoSegmentation();
+                Swal.close();
+            }));
+    }
+
+    callNoSegmentation() {
+        this.subscription.add(this.apif29NcrService.getNoSegmentation(this.medicalText)
+            .subscribe((res: any) => {
+                var infoNcr = res.result;
+                if (infoNcr != undefined) {
+                    if (infoNcr.length > 0) {
+                        for (var i = 0; i < infoNcr.length; i++) {
+                            var positions = [];
+                            infoNcr[i].characters[0] = parseInt(infoNcr[i].characters[0])
+                            infoNcr[i].characters[1] = parseInt(infoNcr[i].characters[1])
+                            positions.push(infoNcr[i].characters);
+                            var text = [];
+                            text = [{ positions: positions[0], text: infoNcr[i].concept }];
+                            var symptomExtractor = { id: infoNcr[i].id, name: infoNcr[i].concept, new: true, similarity: parseFloat(infoNcr[i].probability), positions: positions, text: text };
+                            this.addTemporalSymptom(symptomExtractor, 'ncrOld');
+                        }
+                        this.resultTextNcr = this.medicalText;
+                        this.resultTextNcrCopy = this.medicalText;
+                        //this.sortBySimilarity();
+
+                        this.medicalText = '';
+
+                        //getInfo symptoms
+                        var hposStrins = [];
+                        this.temporalSymptoms.forEach(function (element) {
+                            hposStrins.push(element.id);
+                        });
+
+                        Swal.close();
+
+                        /*document.getElementById("openModalSymptomsNcrButton").click();
+                        this.changeTriggerHotjar('ncrresults_');*/
+                        if (hposStrins.length == 0) {
+                            Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
+                            //this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
+                            this.medicalText = '';
+                            this.substepExtract = '0';
+                        } else {
+                            this.callGetInfoTempSymptomsJSON(hposStrins);
+                        }
+                    } else {
+                        this.substepExtract = '4';
+                        Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
+                        //this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
+                    }
+                } else {
+                    this.substepExtract = '4';
+                    Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
+                    //this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
+                }
+
+            }, (err) => {
+                console.log(err);
+                //fail getNoSegmentation
                 Swal.close();
             }));
     }
@@ -786,7 +856,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
     showMoreInfoDiseasePopup(diseaseIndex, contentInfoDisease) {
         this.selectedInfoDiseaseIndex = diseaseIndex;
-        
+
         this.callGetInfoDiseaseSymptomsJSON(contentInfoDisease);
     }
 
@@ -986,29 +1056,33 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
     showCompleteNcrResultView(symptom) {
         this.ncrResultView = !this.ncrResultView;
-        if(symptom!=null){
+        if (symptom != null) {
             this.markAllText(symptom)
+        }
+    }
+
+    showCompleteNcrOldResultView(symptom) {
+        this.ncrResultView = !this.ncrResultView;
+        if (symptom != null) {
+            this.markText(this.resultTextNcr, symptom.positions[0][0], symptom.positions[0][1]);
         }
     }
 
     markText(text, pos1, pos2) {
         this.ncrResultView = true;
         this.searchTerm = text.substring(pos1, pos2);
+        console.log(this.searchTerm);
         this.resultTextNcrCopy = this.highlightSearch.transform(this.resultTextNcr, this.searchTerm);
-        setTimeout(() => {
-            var el = document.getElementsByClassName("actualPosition")[0];
-            el.scrollIntoView(true);
-        }, 100);
-        //document.getElementById('initpos').scrollIntoView(true);
+        this.showScrollButton();
     }
 
     markAllText(symptom) {
         this.resultTextNcrCopy = this.medicalText;
         var text = symptom.text[0].text;
-        if(this.langToExtract!='en' || this.langDetected!='en'){
+        if (this.langToExtract != 'en' || this.langDetected != 'en') {
             text = symptom.text[0].source;
             this.resultTextNcrCopy = this.highlightSearch.transform(this.resultTextNcr, text);
-        }else{
+        } else {
             var hpo = symptom;
             var words = [];
             for (var j = 0; j < hpo.positions.length; j++) {
@@ -1016,69 +1090,70 @@ export class LandPageComponent implements OnInit, OnDestroy {
                 words.push({ args: value })
             }
             this.resultTextNcrCopy = this.highlightSearch.transformAll(this.resultTextNcr, words);
-            
-        }
 
+        }
+        this.showScrollButton();
+    }
+
+    showScrollButton() {
         setTimeout(() => {
             var el = document.getElementsByClassName("actualPosition")[0];
-            if(el!=undefined){
+            if (el != undefined) {
                 el.scrollIntoView(true);
                 var height = document.getElementById('idBody').offsetHeight;
                 var docHeight = $(document).height();
-                if(height>docHeight){
+                if (height > docHeight) {
                     this.showButtonScroll = true;
                     this.myFunction();
-                }else{
+                } else {
                     this.showButtonScroll = false;
                 }
             }
-            
-            
+
+
         }, 100);
-
-        
     }
 
-    closeModal(){
-        document.getElementsByClassName("ModalClass-sm")[0].removeEventListener("scroll", this.myFunction); 
-        if(this.modalReference!=undefined){
+    closeModal() {
+        document.getElementsByClassName("ModalClass-sm")[0].removeEventListener("scroll", this.myFunction);
+        if (this.modalReference != undefined) {
             this.modalReference.close();
-          }
+        }
     }
 
-    myFunction(){
+    myFunction() {
         console.log("certrando");
         document.getElementsByClassName("ModalClass-sm")[0]
-            .addEventListener('scroll', function() {
+            .addEventListener('scroll', function () {
                 var height = document.getElementById('idBody').offsetHeight;
                 var docHeight = $(document).height();
                 var sizeele = $(".ModalClass-sm").scrollTop();
-                if(height>docHeight){
-                    if(sizeele <= (docHeight/2)){
+                if (height > docHeight) {
+                    if (sizeele <= (docHeight / 2)) {
                         this.showButtonScroll = false;
-                    }else{
+                    } else {
                         this.showButtonScroll = true;
                     }
-                }else{
+                } else {
                     this.showButtonScroll = false;
-                }                
+                }
             }.bind(this));
     }
 
-    goToTop(){
+    goToTop() {
         setTimeout(() => {
             var el = document.getElementsByClassName("modal-header")[0];
             el.scrollIntoView(true);
         }, 100);
     }
-    
 
-    showInfoSponsored(contentInfoSponsored){
-            let ngbModalOptions: NgbModalOptions = {
-                keyboard: true,
-                windowClass: 'ModalClass-lg'// xl, lg, sm
-            };
-            this.modalReference = this.modalService.open(contentInfoSponsored, ngbModalOptions);        
+
+    showInfoSponsored(contentInfoSponsored) {
+        let ngbModalOptions: NgbModalOptions = {
+            keyboard: true,
+            windowClass: 'ModalClass-lg'// xl, lg, sm
+        };
+        this.modalReference = this.modalService.open(contentInfoSponsored, ngbModalOptions);
     }
 
 }

@@ -23,7 +23,8 @@ export class Apif29NcrService {
     }
 
     getNoSegmentation(medicalText){
-        return this.http.post(environment.ncrService, medicalText)
+        var callJson= {"data":medicalText};
+        return this.http.post(environment.ncrService, callJson)
         .map( (res : any) => {
             return res;
         }, (err) => {

@@ -1,4 +1,4 @@
-<section id="login" class="mt-4">
+<section id="login" class="mt-2">
   <div class="container-fluid">
     <div style="margin: auto;" style="margin: auto;">
       <div class="row p-2">
@@ -221,7 +221,8 @@
           </div>
         </div>
       </div>
-      <div *ngIf="topRelatedConditions.length>0" class="border-top row mt-4 text-center pt-4" style="background-color: #fff;">
+      <div *ngIf="topRelatedConditions.length>0" class="border-top row mt-4 text-center pt-4"
+        style="background-color: #fff;">
         <div class="col-md-12">
           <div class="section2">
             <h3>{{'land.What now' | translate }}</h3>
@@ -290,17 +291,34 @@
               slice:(text.positions[0]):(text.positions[1])}}</b> {{text.text |
             slice:(text.positions[1]+1):(text.positions[1]+40)}}"</span>
         </span>
-        <div class="mt-2" *ngIf="temporalSymptoms[selectedInfoSymptomIndex].inputType=='ncr'">
+        <div class="mt-2">
           <button *ngIf="!ncrResultView" type="button" class="btn btn-primary btn-raised mb-0"
             (click)="showCompleteNcrResultView(temporalSymptoms[selectedInfoSymptomIndex])">{{'patdiagdashboard.Show
             full text' | translate }}</button>
           <button *ngIf="ncrResultView" type="button" class="btn btn-primary btn-raised mb-0"
             (click)="showCompleteNcrResultView(null)">{{'patdiagdashboard.Hide full text' | translate }}</button>
         </div>
-        <div *ngIf="ncrResultView && temporalSymptoms[selectedInfoSymptomIndex].inputType=='ncr'">
-          <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll"> 
-            <button type="button" class="btn btn-primary btn-raised mb-0"
-            (click)="goToTop()">Go top</button>
+        <div *ngIf="ncrResultView">
+          <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
+            <button type="button" class="btn btn-primary btn-raised mb-0" (click)="goToTop()">Go top</button>
+          </span>
+          <div class="mt-2 text-center">
+            <a id="initpos"></a>
+            <div style="text-align: justify;" class="textExtractedNcr" [innerHTML]=resultTextNcrCopy></div>
+          </div>
+        </div>
+      </span>
+      <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].inputType=='ncrOld'">
+        <div class="mt-2">
+          <button *ngIf="!ncrResultView" type="button" class="btn btn-primary btn-raised mb-0"
+            (click)="showCompleteNcrOldResultView(temporalSymptoms[selectedInfoSymptomIndex])">{{'patdiagdashboard.Show
+            full text' | translate }}</button>
+          <button *ngIf="ncrResultView" type="button" class="btn btn-primary btn-raised mb-0"
+            (click)="showCompleteNcrOldResultView(null)">{{'patdiagdashboard.Hide full text' | translate }}</button>
+        </div>
+        <div *ngIf="ncrResultView">
+          <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
+            <button type="button" class="btn btn-primary btn-raised mb-0" (click)="goToTop()">Go top</button>
           </span>
           <div class="mt-2 text-center">
             <a id="initpos"></a>
@@ -346,8 +364,9 @@
     <p *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].desc!=null">{{
       topRelatedConditions[selectedInfoDiseaseIndex].desc }}</p>
 
-    <p *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Id == 'MONDO:0009688'"><strong>{{'land.Sponsor' | translate }} <a (click)="showInfoSponsored(contentInfoSponsored);"
-      title="MYASTHENIA GRAVIS">{{'land.click here' | translate }}</a></strong></p>
+    <p *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Id == 'MONDO:0009688'"><strong>{{'land.Sponsor' | translate
+        }} <a (click)="showInfoSponsored(contentInfoSponsored);" title="MYASTHENIA GRAVIS">{{'land.click here' |
+          translate }}</a></strong></p>
     <div *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms.length>0">
       <h5 class="text-bold-300 mb-0">{{'land.Symptom by symptom comparison' | translate }}</h5>
       <p class="text-muted">{{'land.Table showing' | translate }}</p>
@@ -366,12 +385,15 @@
             class="d-flex">
             <td class="col-md-5 text-left">
               <span *ngIf="symptom.Name">{{symptom.Name}}</span>
-              <span *ngIf="!symptom.Name">{{'phenotype.Deprecated' | translate}} *</span>
               <span *ngIf="symptom.Name" style="cursor: pointer;" class="ml-1 mt-1"
                 (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease);"
                 title="{{'generics.More information' | translate }} ({{symptom.Id}})">
                 {{symptom.id}} <em style="font-size: 1.3em;" class="ml-2 fa fa-info primary"></em>
               </span>
+              <span *ngIf="!symptom.Name">
+                {{symptom.Id}} ({{'phenotype.Deprecated' | translate}}) <a
+                  href="https://hpo.jax.org/app/browse/term/{{symptom.Id}}" target="_blank" title="{{symptom.Id}}">
+                  <i class="ft-external-link"></i></a></span>
             </td>
             <td class="col-md-2">
               <span title="{{symptom.Frequency.Desc}}"></span>{{symptom.Frequency.Name}}
@@ -436,26 +458,27 @@
     </div>
     <div *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms">
       <div *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms.length"
-      class="p-2">
-      <h5><strong>{{'generics.Synonyms' | translate }}</strong></h5>
-      <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms.length>0">
-        <p *ngFor="let synonym of topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms ; let j = index"
-          [ngClass]="(j==topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms.length-1)?'mb-0':''">
-          <span>{{j+1}}. </span> <span>{{synonym.label}}</span>
-        </p>
-      </span>
-      <span
-        *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms.length==0">
-        {{'symptomssection.No synonyms' | translate }}
-      </span>
-    </div>
+        class="p-2">
+        <h5><strong>{{'generics.Synonyms' | translate }}</strong></h5>
+        <span
+          *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms.length>0">
+          <p *ngFor="let synonym of topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms ; let j = index"
+            [ngClass]="(j==topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms.length-1)?'mb-0':''">
+            <span>{{j+1}}. </span> <span>{{synonym.label}}</span>
+          </p>
+        </span>
+        <span
+          *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms.length==0">
+          {{'symptomssection.No synonyms' | translate }}
+        </span>
+      </div>
     </div>
     <div *ngIf="!topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms">
       <span>
         {{'symptomssection.No synonyms' | translate }}
       </span>
-      </div>
-    
+    </div>
+
   </div>
   <div class="modal-footer">
     <span>{{'land.See more information about the symptom' | translate }} <a
@@ -477,39 +500,78 @@
   </div>
   <div class="modal-body content-wrapper p-2">
     <p>
-      La miastenia gravis es una enfermedad neuromuscular autoinmune (el cuerpo se ataca a sí mismo) cuya principal característica es la <strong>fatiga y la debilidad muscular</strong> de quien la padece. Es difícil pensar inicialmente en una miastenia ya que se caracteriza por una pérdida de fuerzas, pero se recuperan de forma rápida si se descansa, y reaparece al reiniciar un ejercicio.
+      La miastenia gravis es una enfermedad neuromuscular autoinmune (el cuerpo se ataca a sí mismo) cuya principal
+      característica es la <strong>fatiga y la debilidad muscular</strong> de quien la padece. Es difícil pensar
+      inicialmente en una miastenia ya que se caracteriza por una pérdida de fuerzas, pero se recuperan de forma rápida
+      si se descansa, y reaparece al reiniciar un ejercicio.
     </p>
     <p>
-      La miastenia es considerada una enfermedad rara, ya que solo afecta a una de cada 5.000 personas (unas <strong>10.000 en toda España</strong>), lo que no significa que sea importante. Pese a ser poco frecuente, suele aparecer, sobre todo, en las mujeres entre los 15 y los 35 años o bien a partir de los 60 años. En este último tramo de edad es donde se encuentran más de la mitad de los nuevos pacientes, un dato a tener en cuenta teniendo en cuenta el incremento constante de la esperanza de vida de la población.
+      La miastenia es considerada una enfermedad rara, ya que solo afecta a una de cada 5.000 personas (unas
+      <strong>10.000 en toda España</strong>), lo que no significa que sea importante. Pese a ser poco frecuente, suele
+      aparecer, sobre todo, en las mujeres entre los 15 y los 35 años o bien a partir de los 60 años. En este último
+      tramo de edad es donde se encuentran más de la mitad de los nuevos pacientes, un dato a tener en cuenta teniendo
+      en cuenta el incremento constante de la esperanza de vida de la población.
     </p>
     <p>
-      El origen de la miastenia gravis lo encontramos en un defecto que se produce en el sistema nervioso al transmitir los impulsos desde los nervios a los músculos. Se trata de un <strong>problema en la conexión</strong> entre las células nerviosas con los músculos asociados, es lo que se denomina la unión neuromuscular.
+      El origen de la miastenia gravis lo encontramos en un defecto que se produce en el sistema nervioso al transmitir
+      los impulsos desde los nervios a los músculos. Se trata de un <strong>problema en la conexión</strong> entre las
+      células nerviosas con los músculos asociados, es lo que se denomina la unión neuromuscular.
     </p>
     <p>
-      Este proceso ocurre a partir de la acetilcolina, <strong>una sustancia neurotrasmisora</strong> que secretan las terminaciones nerviosas, que se une a unos receptores que hay en la membrana post-sináptica de la placa motora. En las personas con miastenia, los anticuerpos bloquean, alteran o destruyen esos receptores, por lo que la neurotransmisión no se completa y los músculos no llegan a contraerse. 
+      Este proceso ocurre a partir de la acetilcolina, <strong>una sustancia neurotrasmisora</strong> que secretan las
+      terminaciones nerviosas, que se une a unos receptores que hay en la membrana post-sináptica de la placa motora. En
+      las personas con miastenia, los anticuerpos bloquean, alteran o destruyen esos receptores, por lo que la
+      neurotransmisión no se completa y los músculos no llegan a contraerse.
     </p>
     <h5 class="mt-4">Diagnostico temprano</h5>
     <p>
-      Los principales <strong>signos y síntomas de la miastenia gravis</strong> son la caída de uno o los dos párpados; visión nublada al tener debilidad en los músculos oculares; dificultad para deglutir alimentos, para hablar y respirar por debilidad de los músculos implicados; flojera en manos, brazos, dedos, piernas y cuello; dificultad para realizar gestos faciales (sonreir, cambiar de expresión); y dificultad para subir escaleras, entre otros. 
+      Los principales <strong>signos y síntomas de la miastenia gravis</strong> son la caída de uno o los dos párpados;
+      visión nublada al tener debilidad en los músculos oculares; dificultad para deglutir alimentos, para hablar y
+      respirar por debilidad de los músculos implicados; flojera en manos, brazos, dedos, piernas y cuello; dificultad
+      para realizar gestos faciales (sonreir, cambiar de expresión); y dificultad para subir escaleras, entre otros.
     </p>
     <p>
-      Es importante un diagnostico certero y temprano ya que hablamos de una enfermedad rara pero tratable. Para diagnosticarla se suelen emplear <strong>diferentes pruebas</strong> como un test farmacológico a base de la inyección de un anticolinesterásico, un estudio electrofiosiológico, o un test de estimulación repetitiva, una electromiografía de fibra aislada o un estudio de los anticuerpos específicos que interactúan en el desarrollo de esta patología: los AcRACh y los anti MuSK.
+      Es importante un diagnostico certero y temprano ya que hablamos de una enfermedad rara pero tratable. Para
+      diagnosticarla se suelen emplear <strong>diferentes pruebas</strong> como un test farmacológico a base de la
+      inyección de un anticolinesterásico, un estudio electrofiosiológico, o un test de estimulación repetitiva, una
+      electromiografía de fibra aislada o un estudio de los anticuerpos específicos que interactúan en el desarrollo de
+      esta patología: los AcRACh y los anti MuSK.
     </p>
     <p>
-      El problema del diagnóstico de la miastenia gravis es que <strong>puede confundirse con otras patologías</strong>, por eso también es clave llevar a cabo un diagnóstico diferencial que permita descartar otras patologías como la ELA, miopatías mitocondriales, síndromes miasténicos congénitos o simples estados de fatiga emocional, entre otros.
+      El problema del diagnóstico de la miastenia gravis es que <strong>puede confundirse con otras patologías</strong>,
+      por eso también es clave llevar a cabo un diagnóstico diferencial que permita descartar otras patologías como la
+      ELA, miopatías mitocondriales, síndromes miasténicos congénitos o simples estados de fatiga emocional, entre
+      otros.
     </p>
     <h5 class="mt-4">Asociación de Miastenia de España (AMES)</h5>
     <p>
-      La parte más reconfortante es saber que casi todos los pacientes pueden reanudar una vida normal con el tratamiento adecuado, pero por eso es importante tener un diagnóstico temprano. 
+      La parte más reconfortante es saber que casi todos los pacientes pueden reanudar una vida normal con el
+      tratamiento adecuado, pero por eso es importante tener un diagnóstico temprano.
     </p>
     <p>
-      Ese es uno de los caballos de batalla de la <strong>Asociación de Miastenia de España</strong> (<a href="https://miastenia.ong/" target="_blank" title="AMES">AMES <i class="ft-external-link"></i></a>), una entidad creada en 2009 con la misión de dar respuesta a las necesidades de las personas afectadas y sus familiares, ofreciendo ayuda e información para convivir con la enfermedad.
+      Ese es uno de los caballos de batalla de la <strong>Asociación de Miastenia de España</strong> (<a
+        href="https://miastenia.ong/" target="_blank" title="AMES">AMES <i class="ft-external-link"></i></a>), una
+      entidad creada en 2009 con la misión de dar respuesta a las necesidades de las personas afectadas y sus
+      familiares, ofreciendo ayuda e información para convivir con la enfermedad.
     </p>
     <p>
-      En ese contexto, AMES ha puesto en marcha un proyecto de colaboración con el Colegio Luis Siret de Almería para es sensibilizar y acercar la realidad de esta enfermedad a los niños/as y al resto de la comunidad educativa. Dentro del proyecto ofrecen <strong>charlas y talleres de manualidades temáticos</strong> con la colaboración de distintos miembros de la comunidad educativa.
+      En ese contexto, AMES ha puesto en marcha un proyecto de colaboración con el Colegio Luis Siret de Almería para es
+      sensibilizar y acercar la realidad de esta enfermedad a los niños/as y al resto de la comunidad educativa. Dentro
+      del proyecto ofrecen <strong>charlas y talleres de manualidades temáticos</strong> con la colaboración de
+      distintos miembros de la comunidad educativa.
     </p>
     <p>
-      Además, ha publicado un cuento sobre esta enfermedad, enfocado a acercar la enfermedad a los niños: <a href="https://cocoypipamiastenia.wordpress.com/" target="_blank" title="La historia de Coco y Pipa">La historia de Coco y Pipa <i class="ft-external-link"></i></a> que se ha convertido, también, en un blog en el que van publicando todas las iniciativas que desarrollan con este colegio.
+      Además, ha publicado un cuento sobre esta enfermedad, enfocado a acercar la enfermedad a los niños: <a
+        href="https://cocoypipamiastenia.wordpress.com/" target="_blank" title="La historia de Coco y Pipa">La historia
+        de Coco y Pipa <i class="ft-external-link"></i></a> que se ha convertido, también, en un blog en el que van
+      publicando todas las iniciativas que desarrollan con este colegio.
+    </p>
+    <h5 class="mt-4">
+      Otras asociaciones
+    </h5>
+    <p>
+      <a href="https://www.facebook.com/groups/MyastheniaGravisFriends" target="_blank"
+        title="MyastheniaGravisFriends">Myasthenia Gravis Friends<i class="ft-external-link"></i></a>
     </p>
   </div>
 </ng-template>
