@@ -373,8 +373,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
             lang = this.langToExtract;
         }
 
-        var invalid = /[°"§%()\[\]{}=\\?´`'#<>|,;.’–—:+_-]+/g;
-        this.medicalText = this.medicalText.replace(invalid, " ");
+        /*var invalid = /[°"§%()\[\]{}=\\?´`'#<>|,;.’–—:+_-]+/g;
+        this.medicalText = this.medicalText.replace(invalid, " ");*/
         var jsontestLangText = { "text": this.medicalText };
         this.subscription.add(this.apif29BioService.getSegmentation(lang, jsontestLangText)
             .subscribe((res: any) => {

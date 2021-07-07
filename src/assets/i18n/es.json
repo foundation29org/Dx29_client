@@ -2175,7 +2175,7 @@
     "updatePatient": "Actualizar datos"
   },
   "land":{
-    "title": "¿No encuentras diagnóstico? Vamos a intentar ayudarte",
+    "title": "¿No encuentras diagnóstico? Vamos a ayudarte",
     "Extract symptom from document": "Extraer síntomas a partir de un informe",
     "availableLangs": "Pulsa aqui para ver de los idiomas disponibles",
     "Extract": "Extraer",
@@ -2234,7 +2234,7 @@
     "Type your message here": "Escriba su mensaje aquí...",
     "Send": "Enviar",
     "Email sent to": "Email enviado a",
-    "Sponsor": "Si quieres saber algo más de la enfermedad,",
-    "click here": "haga clic aquí"
+    "Sponsor": "Haz clic aquí para saber todo sobre",
+    "click here": "ESTÁ AQUÍ"
   }
 }

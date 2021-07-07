@@ -2174,7 +2174,7 @@
     "updatePatient": "Update patient"
   },
   "land":{
-    "title": "Can't find a diagnosis? Let us try to help you",
+    "title": "Can't find a diagnosis? We will help you",
     "Extract symptom from document": "Extract symptom from a medical record",
     "availableLangs": "Click here to see the available languages",
     "Extract": "Extract",
@@ -2233,7 +2233,7 @@
     "Type your message here": "Type your message here...",
     "Send": "Send",
     "Email sent to": "Email sent to",
-    "Sponsor": "If you want to know more about the disease,",
-    "click here": "click here"
+    "Sponsor": "Click here to learn all about",
+    "click here": "IS HERE"
   }
 }

@@ -13,7 +13,7 @@
               <label class="btn btn-primary btn-raised"
                 style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
                 <em class="fa fa-file mr-1"></em> {{'land.Extract symptom from document' | translate }} <input
-                  type="file" (change)="onFileChangePDF($event);" style="display: none;">
+                  type="file" (change)="onFileChangePDF($event);" style="display: none;" accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif">
               </label>
               <textarea class="form-control" style="height:30vh;" [(ngModel)]="medicalText" name="medicalText"
                 placeholder="{{'land.placeholder' | translate }}"></textarea>
@@ -364,9 +364,9 @@
     <p *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].desc!=null">{{
       topRelatedConditions[selectedInfoDiseaseIndex].desc }}</p>
 
-    <p *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Id == 'MONDO:0009688'"><strong>{{'land.Sponsor' | translate
-        }} <a (click)="showInfoSponsored(contentInfoSponsored);" title="MYASTHENIA GRAVIS">{{'land.click here' |
-          translate }}</a></strong></p>
+    <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Id == 'MONDO:0009688'">
+      <button (click)="showInfoSponsored(contentInfoSponsored);" title="MYASTHENIA GRAVIS" class="btn btn-primary btn-raised font-weight: 600;">{{'land.Sponsor' | translate}} Miastenia Gravis (MG)</button>
+    </span>
     <div *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms.length>0">
       <h5 class="text-bold-300 mb-0">{{'land.Symptom by symptom comparison' | translate }}</h5>
       <p class="text-muted">{{'land.Table showing' | translate }}</p>
@@ -571,7 +571,7 @@
     </h5>
     <p>
       <a href="https://www.facebook.com/groups/MyastheniaGravisFriends" target="_blank"
-        title="MyastheniaGravisFriends">Myasthenia Gravis Friends<i class="ft-external-link"></i></a>
+        title="MyastheniaGravisFriends">Myasthenia Gravis Friends <i class="ft-external-link"></i></a>
     </p>
   </div>
 </ng-template>
