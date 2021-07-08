@@ -647,7 +647,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                 info.symptoms.push(this.temporalSymptoms[index].id);
             }
         }
-        if (info.symptoms.length > 0) {
+        if (info.symptoms.length > 4) {
             this.subscription.add(this.apiDx29ServerService.calculate(info)
                 .subscribe((res: any) => {
                     if (res == null) {
