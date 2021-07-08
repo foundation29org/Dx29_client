@@ -14,42 +14,6 @@
           </span>
 
       </div>
-        <div class="d-none d-lg-block" *ngIf="!isGTPPage">
-          <div class="navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav m-r-0">
-                  <li class="nav-item mr-2">
-                      <a class="nav-link" [ngClass]="(!isClinicianPage)?'black':'black text-bold-500'" routerLink="/clinician">
-                        <span>{{'menu.Physicians' | translate }}</span>
-                      </a>
-                  </li>
-                  <li class="nav-item mr-2">
-                      <a class="nav-link" [ngClass]="(!isUndiagnosedPatientPage)?'black':'black text-bold-500'" routerLink="/undiagnosedpatient">
-                        <span>{{'menu.UndiagnosedPatients' | translate }}</span>
-                      </a>
-                  </li>
-                  <li class="nav-item mr-2">
-                      <a class="nav-link" [ngClass]="(!isPatientPage)?'black':'black text-bold-500'" routerLink="/diagnosedpatient">
-                        <span>{{'menu.DiagnosedPatients' | translate }}</span>
-                      </a>
-                  </li>
-                  <li class="nav-item mr-2">
-                      <a class="nav-link" [ngClass]="(!isEdHubPage)?'black':'black text-bold-500'" routerLink="/education">
-                        <span>{{'menu.Ed Hub' | translate }}</span>
-                      </a>
-                  </li>
-                  <li class="nav-item mr-2">
-                      <a class="nav-link" [ngClass]="(!isAttributionsPage)?'black':'black text-bold-500'" routerLink="/attributions">
-                        <span>{{'menu.Attributions' | translate }}</span>
-                      </a>
-                  </li>
-                  <li class="nav-item mr-2">
-                      <a class="nav-link" [ngClass]="(!isGTPPage)?'black':'black text-bold-500'" routerLink="/juntoshaciaeldiagnostico">
-                        <span>{{'menu.Genetic testing program' | translate }}</span>
-                      </a>
-                  </li>
-                </ul>
-            </div>
-        </div>
         <div class="navbar-container pl-0">
             <div  id="navbarSupportedContent">
                 <ul class="navbar-nav m-r-0">

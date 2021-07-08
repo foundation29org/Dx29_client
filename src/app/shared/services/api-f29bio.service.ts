@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from 'environments/environment';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { Observable } from 'rxjs/Observable';
@@ -68,6 +68,16 @@ export class Apif29BioService {
 
     getInfoOfDiseases(listOfDiseases){
         return this.http.post(environment.f29bio+'/api/BioEntity/diseases/en', listOfDiseases)
+        .map( (res : any) => {
+            return res;
+        }, (err) => {
+            console.log(err);
+            return err;
+        })
+    }
+
+    getInfoOfDiseasesLang(listOfDiseases, lang){
+        return this.http.post(environment.f29bio+'/api/BioEntity/diseases/'+lang, listOfDiseases)
         .map( (res : any) => {
             return res;
         }, (err) => {

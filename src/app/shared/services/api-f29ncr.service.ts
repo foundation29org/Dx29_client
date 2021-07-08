@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from 'environments/environment';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { Observable } from 'rxjs/Observable';
@@ -10,7 +10,7 @@ import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, me
 @Injectable()
 export class Apif29NcrService {
 
-    constructor(private authService: AuthService, private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
     getAnnotate_batch(segments){
         return this.http.post(environment.api+'/api/annotate_batch', segments)
@@ -23,7 +23,8 @@ export class Apif29NcrService {
     }
 
     getNoSegmentation(medicalText){
-        return this.http.post(environment.ncrService, medicalText)
+        var callJson= {"data":medicalText};
+        return this.http.post(environment.ncrService, callJson)
         .map( (res : any) => {
             return res;
         }, (err) => {
