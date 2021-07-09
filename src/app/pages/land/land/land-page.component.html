@@ -1,4 +1,4 @@
-<section id="login" class="mt-2">
+<section id="login" class="mt-2" style="min-height: 75vh !important;">
   <div class="container-fluid">
     <div style="margin: auto;" style="margin: auto;">
       <div class="row p-2">
@@ -48,7 +48,7 @@
           </div>
 
           <div *ngIf="temporalSymptoms.length>0" class="row bg-white mr-2 border rounded loadingPanel">
-            <table class="col-md-12 table table-striped mb-0">
+            <table class="col-md-12 table border-bottom mb-0">
               <thead>
                 <tr>
                   <th id="headerTable">{{'land.SelectSymptoms' | translate }}
@@ -72,25 +72,24 @@
                     type="text" class="form-control" [(ngModel)]="modelTemp" [ngbTypeahead]="searchSymptom"
                     [resultTemplate]="rt" [inputFormatter]="formatter1"
                     placeholder="{{'symptomssection.manualinput' | translate }}" (selectItem)="selected($event)" />
-                  <!--<label class="fa fa-file primary ml-2" title="Extraer síntoma a partir de un documento" style="cursor: pointer;"><input type="file" (change)="onFileChangePDF($event);" style="display: none;"></label>-->
                 </div>
               </caption>
             </table>
-            <table class="table table-striped mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white">
+            <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white">
               <tbody>
                 <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
                   <td>
                     <span>
                       <span class="float-right ml-1">
-                        <button (click)="changeStateSymptom(i, true)"
-                          [ngClass]="(hpo.checked==true)?'btn btn-success btn-sm mr-1 mb-0 btn-fab':'btn btn-secondary btn-sm mr-1 mb-0 btn-fab'"
+                        <button (click)="changeStateSymptom(i, true)" class="bt-xtrasm btn btn-sm mr-1 mb-0 btn-fab"
+                          [ngClass]="(hpo.checked==true)?'btn-success':'btn-secondary '"
                           href="javascript:void(0)" title="{{'phenotype.Click to check it' | translate }}">
-                          <em class="fa fa-check"></em>
+                          <em class="fa fa-check w-13"></em>
                         </button>
-                        <button (click)="changeStateSymptom(i, false)"
-                          [ngClass]="(hpo.checked==false)?'btn btn-danger btn-sm mr-1 mb-0 btn-fab':'btn btn-secondary btn-sm mr-1 mb-0 btn-fab'"
+                        <button (click)="changeStateSymptom(i, false)" class="bt-xtrasm btn btn-sm mr-1 mb-0 btn-fab"
+                          [ngClass]="(hpo.checked==false)?'btn-danger':'btn-secondary'"
                           href="javascript:void(0)" title="{{'phenotype.Click to uncheck it' | translate }}">
-                          <em class="fa fa-times"></em>
+                          <em class="fa fa-times w-13"></em>
                         </button>
                       </span>
                       <span>
@@ -98,23 +97,23 @@
                         <span style="cursor: pointer;" class="ml-1"
                           (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
                           title="{{'generics.More information' | translate }} ({{hpo.id}})">
-                          {{hpo.id}} <em style="font-size: 1.3em;" class="ml-2 fa fa-info primary"></em>
+                          <!--{{hpo.id}}--> <em style="font-size: 1.3em;" class="fa fa-info primary"></em>
                         </span>
-                        <span class="d-block">
+                        <!--<span class="d-block">
                           <span *ngIf="hpo.def!=null" style="font-size: 0.925rem;" class="mr-1 text-muted"
                             title="{{hpo.def}}">{{ (hpo.def.length>100)? (hpo.def | slice:0:100)+'...':(hpo.def)
                             }}</span>
                           <span *ngIf="hpo.def==null && hpo.comment!=null" style="font-size: 0.925rem;"
                             class="mr-1 text-muted" title="{{hpo.comment}}">{{ (hpo.comment.length>100)? (hpo.comment |
                             slice:0:100)+'...':(hpo.comment) }}</span>
-                        </span>
+                        </span>-->
                       </span>
                     </span>
                   </td>
                 </tr>
               </tbody>
             </table>
-            <span class="col-md-12 p-2 border-top" style="height: 100px;">
+            <span class="col-md-12 p-2 border-top" style="height: 100px;background-color: #e5e5e5;">
               <span class="font-medium-3">
                 <span class="font-medium-3">
                   {{'land.You have selected' | translate }} {{numberOfSymtomsChecked}} {{'land.symptom' | translate
@@ -163,7 +162,7 @@
 
           <div *ngIf="substepExtract!='0' && !loadingCalculate" class="section row maintxt">
             <span *ngIf="topRelatedConditions.length>0">
-              <table class="col-md-12 table table-striped mb-0 bg-white">
+              <table class="col-md-12 table border-bottom mb-0 bg-white">
                 <thead>
                   <tr>
                     <th id="headerTable">{{'land.Diseases' | translate }}
@@ -183,7 +182,7 @@
                       style="cursor: pointer;"></em></span>
                 </caption>
               </table>
-              <table class="table table-striped mb-0 bg-white">
+              <table class="table mb-0 bg-white">
                 <tbody>
                   <tr *ngFor="let disease of topRelatedConditions ; let i = index" class="d-flex">
                     <td class="col-md-11" id="{{disease.Id}}">
@@ -208,7 +207,7 @@
               </table>
               <div
                 *ngIf="temporalDiseases.length>showNumerRelatedConditions && indexListRelatedConditions<temporalDiseases.length"
-                class="d-block p-1 center-elements border-top">
+                class="d-block p-1 center-elements border-top" style="background-color: #e5e5e5;">
                 <a href="javascript:;" class="btn btn-primary btn-raised font-medium-3 mt-2" (click)="loadMore()">
                   <i class="fas fa-arrow-up mr-2"></i>
                   <span>{{'land.Load more diseases' | translate }}</span>
@@ -220,6 +219,12 @@
             </span>
           </div>
         </div>
+      </div>
+      <div class="row float-right mr-2">
+        <span>
+          Si quieres saber como funciona Dx29 y la precisión de sus resultados pulsa 
+          <a (click)="showInfoDx29(contentInfoDx29);" title="Dx29 y sus resultados"> aquí</a>
+        </span>
       </div>
       <div *ngIf="topRelatedConditions.length>0" class="border-top row mt-4 text-center pt-4"
         style="background-color: #fff;">
@@ -365,7 +370,7 @@
       topRelatedConditions[selectedInfoDiseaseIndex].desc }}</p>
 
     <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Id == 'MONDO:0009688'">
-      <button (click)="showInfoSponsored(contentInfoSponsored);" title="MYASTHENIA GRAVIS" class="btn btn-danger btn-raised font-weight: 600;">{{'land.Sponsor' | translate}} Miastenia Gravis (MG)</button>
+      <button (click)="showInfoSponsored(contentInfoSponsored);" title="MYASTHENIA GRAVIS" class="btn btn-danger btn-raised">{{'land.Sponsor' | translate}} Miastenia Gravis (MG)</button>
     </span>
     <div *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms.length>0">
       <h5 class="text-bold-300 mb-0">{{'land.Symptom by symptom comparison' | translate }}</h5>
@@ -573,5 +578,116 @@
       <a href="https://www.facebook.com/groups/MyastheniaGravisFriends" target="_blank"
         title="MyastheniaGravisFriends">Myasthenia Gravis Friends <i class="ft-external-link"></i></a>
     </p>
+  </div>
+</ng-template>
+<ng-template #contentInfoDx29 let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-header" id="idHeader">
+    <div class="content-header text-left">
+      <h4>Como funciona Dx29 y la precisión de sus resultados</h4>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body content-wrapper p-2">
+    <p>
+      Nuestro algoritmo de cálculo de condiciones utiliza <a href="https://monarchinitiative.org" target="_blank" title="Monarch Initiative">Monarch Initiative <i class="ft-external-link"></i></a>. 
+      Gracias a esto, somos capaces de analizar y procesar los síntomas que nos indiques y, en base a esta información, proponerte un listado de posibles diagnósticos.
+    </p> 
+    <p>
+      Para ganarnos tu confianza, lo hemos puesto a prueba generando distintos escenarios posibles.
+    </p>
+    <p>
+      Hemos realizado varias simulaciones del siguiente modo: 
+    </p>
+    <ol>
+      <li>Hemos creado un listado de pacientes. Para una lista de aproximadamente 12000 diseases, basándonos en la información fenotípica que nos proporciona tanto Orphanet como OMIM de las mismas, conseguimos dos tipos de pacientes: 
+        <ul>
+          <li>Los ideales, cuyo fenotipado estará formado únicamente por una selección de los síntomas conocidos de esa enfermedad </li>
+          <li>Los imprecisos. El fenotipado de estos, a diferencia de los anteriores, contendrá síntomas no tan exactos. En particular, para generar estos pacientes hemos impuesto que la probabilidad de los dos síntomas predecesores sea igual a la del síntoma exacto. [Nos hemos basado en la Distribución de Poisson con lambda igual a 2]. </li>
+        </ul>
+      </li>
+      <li>Hemos ejecutado nuestro algoritmo de cálculo de condiciones con el fenotipado de todos los anteriores. Con esto, obtenemos una lista ordenada de diagnósticos candidatos. El criterio de ranking o puntuación de este resultado viene dado por Monarch.</li>
+      <li>Finalmente, hemos comprobado cuál es la precisión y la fiabilidad de nuestro algoritmo, analizando si es capaz de encontrar o no la disease correcta y además en qué posición del ranking resultado aparece. </li>
+    </ol>
+    <p>
+      Los resultados de estas pruebas son los que aquí te mostramos: 
+    </p>
+    <p>
+      Con los pacientes ideales, esto es, si el fenotipado que nos facilitas es lo más preciso y exacto posible, tenemos una precisión y fiabilidad del 95.5% de acuerdo con la siguiente gráfica:
+    </p>
+<div class="mt-4 mb-4">
+  <apx-chart
+  [series]="lineChartIdealOptions.series"
+  [colors]="lineChartIdealOptions.colors"
+  [chart]="lineChartIdealOptions.chart"
+  [xaxis]="lineChartIdealOptions.xaxis"
+  [yaxis]="lineChartIdealOptions.yaxis"
+  [title]="lineChartIdealOptions.title"
+  [dataLabels]="lineChartIdealOptions.dataLabels"
+  [stroke]="lineChartIdealOptions.stroke"
+  [grid]="lineChartIdealOptions.grid"
+  [tooltip]="lineChartIdealOptions.tooltip"
+  [plotOptions]="lineChartIdealOptions.plotOptions"
+  [fill]="lineChartIdealOptions.fill"
+  [legend]="lineChartIdealOptions.legend"
+  [labels]="lineChartIdealOptions.labels"
+  [markers]="lineChartIdealOptions.markers"
+  [theme]="lineChartIdealOptions.theme"
+  [responsive]="lineChartIdealOptions.responsive"
+></apx-chart>
+</div>
+ <p>
+  En la gráfica puedes observar como se distribuye este porcentaje de aciertos en el ranking resultado que te ofrecemos. Así, en el top 10 de diseases resultado te garantizamos en este caso que acertamos con un 91.9%.
+ </p>
+ <div class="mt-4 mb-4">
+  <apx-chart
+  [series]="lineChartZoomIdealOptions.series"
+  [colors]="lineChartZoomIdealOptions.colors"
+  [chart]="lineChartZoomIdealOptions.chart"
+  [xaxis]="lineChartZoomIdealOptions.xaxis"
+  [yaxis]="lineChartZoomIdealOptions.yaxis"
+  [title]="lineChartZoomIdealOptions.title"
+  [dataLabels]="lineChartZoomIdealOptions.dataLabels"
+  [stroke]="lineChartZoomIdealOptions.stroke"
+  [grid]="lineChartZoomIdealOptions.grid"
+  [tooltip]="lineChartZoomIdealOptions.tooltip"
+  [plotOptions]="lineChartZoomIdealOptions.plotOptions"
+  [fill]="lineChartZoomIdealOptions.fill"
+  [legend]="lineChartZoomIdealOptions.legend"
+  [labels]="lineChartZoomIdealOptions.labels"
+  [markers]="lineChartZoomIdealOptions.markers"
+  [theme]="lineChartZoomIdealOptions.theme"
+  [responsive]="lineChartZoomIdealOptions.responsive"
+></apx-chart>
+</div>
+
+<p>
+  Por otro lado, con los pacientes imprecisos el porcentaje de acierto que te aseguramos es de un 80.9%. 
+</p>
+<div class="mt-4 mb-4">
+  <apx-chart
+  [series]="lineChartRuidoOptions.series"
+  [colors]="lineChartRuidoOptions.colors"
+  [chart]="lineChartRuidoOptions.chart"
+  [xaxis]="lineChartRuidoOptions.xaxis"
+  [yaxis]="lineChartRuidoOptions.yaxis"
+  [title]="lineChartRuidoOptions.title"
+  [dataLabels]="lineChartRuidoOptions.dataLabels"
+  [stroke]="lineChartRuidoOptions.stroke"
+  [grid]="lineChartRuidoOptions.grid"
+  [tooltip]="lineChartRuidoOptions.tooltip"
+  [plotOptions]="lineChartRuidoOptions.plotOptions"
+  [fill]="lineChartRuidoOptions.fill"
+  [legend]="lineChartRuidoOptions.legend"
+  [labels]="lineChartRuidoOptions.labels"
+  [markers]="lineChartRuidoOptions.markers"
+  [theme]="lineChartRuidoOptions.theme"
+  [responsive]="lineChartRuidoOptions.responsive"
+></apx-chart>
+</div>
+ <p>
+  Como puedes ver, nuestro algoritmo depende muy fuertemente de la calidad de la información fenotípica que nos facilites. Así, cuánto más preciso seas con los síntomas de entrada, mejores resultados podremos garantizarte.
+ </p>
   </div>
 </ng-template>

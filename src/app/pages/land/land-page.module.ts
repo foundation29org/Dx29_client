@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CustomFormsModule } from 'ngx-custom-validators';
 import { LandPageRoutingModule } from "./land-page-routing.module";
 import { TranslateModule } from '@ngx-translate/core';
+import { NgApexchartsModule } from "ng-apexcharts";
 
 import { LandPageComponent } from "./land/land-page.component";
 import { ClinicianPageComponent } from "./clinician/clinician-page.component";
@@ -31,7 +32,8 @@ import {MatRadioModule} from '@angular/material/radio';
         CustomFormsModule,
         NgbModule,
         MatCheckboxModule,
-        MatRadioModule
+        MatRadioModule,
+        NgApexchartsModule
     ],
     declarations: [
         LandPageComponent,

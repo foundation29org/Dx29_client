@@ -266,6 +266,19 @@ body {
     }
   }
 
+  .w-13{
+    width: 13px;
+  }
+
+  .bt-xtrasm{
+    padding: 0.25rem 0.3rem;
+    font-size: 0.575rem;
+  }
+  
+  ::ng-deep .apexcharts-menu-icon{
+      display: none;
+  }
+
   @media ( max-width: 899px ){
     .animate-bottom {
         position: fixed;
