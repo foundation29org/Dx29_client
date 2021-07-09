@@ -81,24 +81,24 @@
                   <td>
                     <span>
                       <span class="float-right ml-1">
-                        <button (click)="changeStateSymptom(i, true)" class="bt-xtrasm btn btn-sm mr-1 mb-0 btn-fab"
+                        <button (click)="changeStateSymptom(i, true)" class="btn btn-sm mr-1 mb-0 btn-fab round"
                           [ngClass]="(hpo.checked==true)?'btn-success':'btn-secondary '"
                           href="javascript:void(0)" title="{{'phenotype.Click to check it' | translate }}">
                           <em class="fa fa-check w-13"></em>
                         </button>
-                        <button (click)="changeStateSymptom(i, false)" class="bt-xtrasm btn btn-sm mr-1 mb-0 btn-fab"
+                        <button (click)="changeStateSymptom(i, false)" class="btn btn-sm mr-1 mb-0 btn-fab round"
                           [ngClass]="(hpo.checked==false)?'btn-danger':'btn-secondary'"
                           href="javascript:void(0)" title="{{'phenotype.Click to uncheck it' | translate }}">
                           <em class="fa fa-times w-13"></em>
                         </button>
                       </span>
                       <span>
-                        <strong style="font-size: 1.25rem !important;">{{hpo.name}} </strong>
-                        <span style="cursor: pointer;" class="ml-1"
-                          (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
-                          title="{{'generics.More information' | translate }} ({{hpo.id}})">
-                          <!--{{hpo.id}}--> <em style="font-size: 1.3em;" class="fa fa-info primary"></em>
-                        </span>
+                        <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);" class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round"
+                        title="{{'generics.More information' | translate }} ({{hpo.id}})">
+                          <em class="fa fa-info w-13"></em>
+                        </button>
+                        <span class="ml-1 custom-bold">{{hpo.name}}</span>
+                        
                         <!--<span class="d-block">
                           <span *ngIf="hpo.def!=null" style="font-size: 0.925rem;" class="mr-1 text-muted"
                             title="{{hpo.def}}">{{ (hpo.def.length>100)? (hpo.def | slice:0:100)+'...':(hpo.def)
@@ -185,22 +185,19 @@
               <table class="table mb-0 bg-white">
                 <tbody>
                   <tr *ngFor="let disease of topRelatedConditions ; let i = index" class="d-flex">
-                    <td class="col-md-11" id="{{disease.Id}}">
-                      <i class="fas fa-laptop-medical primary mr-1"></i>
-                      <span class="font-weight-bolder" style="font-size: 1.25rem !important;">{{disease.name}}</span>
+                    <td class="col-md-12" id="{{disease.Id}}">
+                      <button class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round"
+                      (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);"
+                      title="{{'generics.More information' | translate }} ({{disease.Id}})">
+                          <em class="fa fa-info w-13"></em>
+                        </button>
+                      <span class="custom-bold ml-1">{{disease.name}}</span>
                       <!--<span *ngIf="disease.desc!=null" class="text-muted d-block" style="font-size: 0.925rem;">{{
                         (disease.desc.length>160)? (disease.desc | slice:0:160)+'...':(disease.desc) }}</span>
                       <span *ngIf="disease.desc==null" class="text-muted d-block"
                         style="font-size: 0.925rem;">{{'land.We have no description for this disease' | translate
                         }}
                       </span>-->
-                    </td>
-                    <td class="col-md-1">
-                      <span style="cursor: pointer;" class="float-right mr-2"
-                        (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);"
-                        title="{{'generics.More information' | translate }} ({{disease.Id}})">
-                        <em style="font-size: 1.3em;" class="fa fa-info primary"></em>
-                      </span>
                     </td>
                   </tr>
                 </tbody>
@@ -222,8 +219,8 @@
       </div>
       <div class="row float-right mr-2">
         <span>
-          Si quieres saber como funciona Dx29 y la precisión de sus resultados pulsa 
-          <a (click)="showInfoDx29(contentInfoDx29);" title="Dx29 y sus resultados"> aquí</a>
+          {{'land.If you want to know how Dx29' | translate }}
+          <a (click)="showInfoDx29(contentInfoDx29);" title="Dx29 y sus resultados"> {{'land.here' | translate }}</a>
         </span>
       </div>
       <div *ngIf="topRelatedConditions.length>0" class="border-top row mt-4 text-center pt-4"
