@@ -794,7 +794,7 @@
     "Advanced options": "Opciones avanzadas",
     "Selectsymptomstitle": "Selecciona los síntomas a analizar",
     "Selectsymptomssubtitle": "Para obtener las mejores sugerencias de diagnóstico diferencial, selecciona los síntomas que más importancia tienen.",
-    "needsymtoms": "Se necesita un síntoma para poder continuar.",
+    "needsymtoms": "Se necesita un síntoma para poder continuar",
     "analyze the data": "¿Quieres ejecutar el análisis?"
   },
   "diagnosesSection":{
@@ -2182,7 +2182,7 @@
     "The symptoms found will be shown here": "Aquí se mostrarán los síntomas encontrados.",
     "Calculating": "Calculando",
     "pleaseWait": "Este proceso puede tardar entre 1 y 2 minutos.",
-    "SelectSymptoms": "Selecciona lo sintomas que consideres correctos.",
+    "SelectSymptoms": "Selecciona lo sintomas que consideres correctos",
     "placeholder": "Escribe síntomas, corta y pega texto o usa un infome. Después tienes que hacer clic en 'Extraer' para ver los síntomas.",
     "Download symptoms": "Descargar síntomas",
     "Copy symptoms": "Copiar síntomas",
@@ -2235,6 +2235,31 @@
     "Send": "Enviar",
     "Email sent to": "Email enviado a",
     "Sponsor": "Haz clic aquí para saber todo sobre",
-    "click here": "ESTÁ AQUÍ"
+    "click here": "ESTÁ AQUÍ",
+    "If you want to know how Dx29": "Si quieres saber como funciona Dx29 y la precisión de sus resultados pulsa",
+    "you have to select": "Bien hecho! Ahora tienes que seleccionar entre 5 y 10 de los síntomas más relevantes de la enfermedad.",
+    "Do not show this message again": "No volver a mostrar este mensaje",
+    "When you have selected them": "Cuando los haya seleccionado, pulsa el botón 'Ver enfermedades propuestas'.",
+    "InfoDx29":{
+      "title":"Cómo funciona Dx29 y la precisión de nuestros resultados",
+      "p1": "Nuestro algoritmo de cálculo de condiciones utiliza",
+      "p2": "Gracias a esto, somos capaces de analizar y procesar los síntomas que nos indiques y, en base a esta información, proponerte un listado de posibles diagnósticos.",
+      "p3": "Para ganarnos tu confianza, lo hemos puesto a prueba generando distintos escenarios posibles.",
+      "p4": "Hemos realizado varias simulaciones del siguiente modo: ",
+      "p5": "Hemos creado un listado de pacientes. Para una lista de aproximadamente 12000 diseases, basándonos en la información fenotípica que nos proporciona tanto Orphanet como OMIM de las mismas, conseguimos dos tipos de pacientes:",
+      "p6": "Los ideales, cuyo fenotipado estará formado únicamente por una selección de los síntomas conocidos de esa enfermedad",
+      "p7": "Los imprecisos. El fenotipado de estos, a diferencia de los anteriores, contendrá síntomas no tan exactos. En particular, para generar estos pacientes hemos impuesto que la probabilidad de los dos síntomas predecesores sea igual a la del síntoma exacto. [Nos hemos basado en la Distribución de Poisson con lambda igual a 2].",
+      "p8": "Hemos ejecutado nuestro algoritmo de cálculo de condiciones con el fenotipado de todos los anteriores. Con esto, obtenemos una lista ordenada de diagnósticos candidatos. El criterio de ranking o puntuación de este resultado viene dado por Monarch.",
+      "p9": "Finalmente, hemos comprobado cuál es la precisión y la fiabilidad de nuestro algoritmo, analizando si es capaz de encontrar o no la disease correcta y además en qué posición del ranking resultado aparece.",
+      "p10": "Los resultados de estas pruebas son los que aquí te mostramos:",
+      "p11": "Con los pacientes ideales, esto es, si el fenotipado que nos facilitas es lo más preciso y exacto posible, tenemos una precisión y fiabilidad del 95.5% de acuerdo con la siguiente gráfica:",
+      "p12": "En la gráfica puedes observar como se distribuye este porcentaje de aciertos en el ranking resultado que te ofrecemos. Así, en el top 10 de diseases resultado te garantizamos en este caso que acertamos con un 91.9%.",
+      "p13": "Por otro lado, con los pacientes imprecisos el porcentaje de acierto que te aseguramos es de un 80.9%.",
+      "p14": "Como puedes ver, nuestro algoritmo depende muy fuertemente de la calidad de la información fenotípica que nos facilites. Así, cuánto más preciso seas con los síntomas de entrada, mejores resultados podremos garantizarte.",
+      "Percentage of success of the disease": "Porcentaje de acierto de la enfermedad",
+      "Ideal patients": "Pacientes ideales",
+      "Position of the disease": "Posición de la enfermedad",
+      "Inaccurate patients": "Pacientes imprecisos"
+    }
   }
 }

@@ -795,7 +795,7 @@
     "Advanced options": "Advanced options",
     "Selectsymptomstitle": "Select the symptoms to analyze",
     "Selectsymptomssubtitle": "To obtain the best differential diagnosis suggestions, select the most important symptoms.",
-    "needsymtoms": "Symptoms are needed to proceed.",
+    "needsymtoms": "Symptoms are needed to proceed",
     "analyze the data": "Do you want to run the analysis?"
   },
   "diagnosesSection":{
@@ -2181,7 +2181,7 @@
     "The symptoms found will be shown here": "The symptoms found will be shown here",
     "Calculating": "Calculating",
     "pleaseWait": "This process may take 1 to 2 minutes. Please wait, please wait.",
-    "SelectSymptoms": "Select the symptoms that you think are correct.",
+    "SelectSymptoms": "Select the symptoms that you think are correct",
     "placeholder": "Type symptoms, cut and paste text or use a medical record. Click 'Extract' to see the symptoms.",
     "Download symptoms": "Download symptoms",
     "Copy symptoms": "Copy symptoms",
@@ -2234,6 +2234,31 @@
     "Send": "Send",
     "Email sent to": "Email sent to",
     "Sponsor": "Click here to learn all about",
-    "click here": "IS HERE"
+    "click here": "IS HERE",
+    "If you want to know how Dx29": "If you want to know how Dx29 works and the accuracy of its results click",
+    "you have to select": "Well done! Now you have to select between 5 and 10 of the most relevant symptoms of the disease.",
+    "Do not show this message again": "Do not show this message again",
+    "When you have selected them": "When you have selected them, click on the 'See suggested diseases' button.",
+    "InfoDx29":{
+      "title":"How Dx29 works and the accuracy of our results",
+      "p1": "Our condition calculation algorithm uses",
+      "p2": "Therefore, we are able to analyse and process the symptoms you indicate to us and, based on this information, propose a list of possible diagnoses.",
+      "p3": "To gain your trust, we have put it to the test by generating different possible scenarios.",
+      "p4": "We have carried out several simulations as follows:",
+      "p5": "We created a list of patients. For a list of approximately 12,000 diseases, based on the phenotypic information provided by both Orphanet and OMIM, we got two types of patients:",
+      "p6": "The ideal ones, whose phenotyping will consist only of a selection of the known symptoms of that disease.",
+      "p7": "The imprecise ones. The phenotyping of these, unlike the previous ones, will contain less accurate symptoms. In particular, to generate these patients we have imposed that the probability of the two predecessor symptoms is equal to that of the exact symptom. We have relied on the Poisson Distribution with lambda equal to 2].",
+      "p8": "We have run our condition calculation algorithm with phenotyping of all the above. With this, we obtained an ordered list of candidate diagnoses. The ranking criterion or score of this result is given by Monarch.",
+      "p9": "Finally, we have checked the accuracy and reliability of our algorithm, analysing whether or not it is able to find the correct disease and also in which position of the ranking result it appears.",
+      "p10": "The results of these tests are shown here:",
+      "p11": "With ideal patients, that is, if the phenotyping you provide us with is as accurate and precise as possible, we have an accuracy and reliability of 95.45808460939527% according to the following graph:",
+      "p12": "In the graph you can see how this percentage of hits is distributed in the result ranking that we offer you. Thus, in the top 10 of the diseases result we guarantee in this case that we were right with 91.9%.",
+      "p13": "On the other hand, with inaccurate patients the success rate we ensure is 80.9%.",
+      "p14": "As you can see, our algorithm depends very strongly on the quality of the phenotypic information you provide. So, the more accurate you are with the input symptoms, the better results we can guarantee you.",
+      "Percentage of success of the disease": "Percentage of success of the disease",
+      "Ideal patients": "Ideal patients",
+      "Position of the disease": "Position of the disease",
+      "Inaccurate patients": "Inaccurate patients"
+    }
   }
 }
