@@ -10,14 +10,14 @@
         <div *ngIf="substepExtract=='0'" class="offset-xl-1 col-xl-5 mrbox shadow rounded light-background">
           <div class="row pt-2">
             <div class="col-md-12">
-              <label class="btn btn-primary btn-raised"
+              <label class="btn btn-info btn-raised"
                 style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
                 <em class="fa fa-file mr-1"></em> {{'land.Extract symptom from document' | translate }} <input
                   type="file" (change)="onFileChangePDF($event);" style="display: none;" accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif">
               </label>
               <textarea class="form-control" style="height:30vh;" [(ngModel)]="medicalText" name="medicalText"
                 placeholder="{{'land.placeholder' | translate }}"></textarea>
-              <a class="primary"
+              <a class="info"
                 href="https://docs.microsoft.com/es-es/azure/cognitive-services/translator/language-support"
                 target="_blank" title="{{'land.availableLangs' | translate }}">{{'land.availableLangs' | translate }} <i
                   class="ft-external-link"></i></a>
@@ -25,7 +25,7 @@
             <div class="col-md-12 text-center mt-2">
               <button type="button" class="btn btn-lg btn-secondary btn-raised"
                 [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholder') : getLiteral('land.Extract')"
-                [ngClass]="(medicalText.length<5)?'not-allowed':'btn-primary'" [disabled]="medicalText.length<5"
+                [ngClass]="(medicalText.length<5)?'not-allowed':'btn-info'" [disabled]="medicalText.length<5"
                 (click)="startExtractor();">{{'land.Extract' | translate }} <em class="ml-2 fas fa-play"></em></button>
             </div>
           </div>
@@ -80,7 +80,7 @@
                     <span>
                       <span class="float-right ml-1">
                         <button (click)="changeStateSymptom(i, true)" class="btn btn-sm mr-1 mb-0 btn-fab round"
-                          [ngClass]="(hpo.checked==true)?'btn-success':'btn-secondary '"
+                          [ngClass]="(hpo.checked==true)?'btn-info':'btn-secondary '"
                           href="javascript:void(0)" title="{{'phenotype.Click to check it' | translate }}">
                           <em class="fa fa-check w-13"></em>
                         </button>
@@ -138,7 +138,7 @@
               <button type="button" class="btn btn-secondary btn-lg btn-raised pb-2 font-medium-3"
                 (click)="calculate();" [disabled]="numberOfSymtomsChecked<minSymptoms"
                 [attr.title]="(numberOfSymtomsChecked<minSymptoms) ? getLiteral('land.You need to select more symptoms') : getLiteral('land.See suggested diseases')"
-                [ngClass]="(numberOfSymtomsChecked<minSymptoms)?'not-allowed':'btn-primary'">
+                [ngClass]="(numberOfSymtomsChecked<minSymptoms)?'not-allowed':'btn-info'">
                 <span>{{'land.See suggested diseases' | translate }}</span>
                 <span *ngIf="numberOfSymtomsChecked<minSymptoms" class="d-block font-small-3">
                   {{'land.You have selected' | translate }} {{numberOfSymtomsChecked}} {{'land.symptom' | translate
@@ -175,7 +175,7 @@
                 </thead>
                 <caption class="ml-2 text-muted d-block">
                   <span>{{'land.DescDiseases' | translate }}</span>
-                  <span class="d-block">{{'land.InfoDescDiseases' | translate }}<em class="fa fa-refresh primary ml-1"
+                  <span class="d-block">{{'land.InfoDescDiseases' | translate }}<em class="fa fa-refresh info ml-1"
                       title="{{'Recalculate diseases' | translate }}" (click)="calculate()"
                       style="cursor: pointer;"></em></span>
                 </caption>
@@ -203,7 +203,7 @@
               <div
                 *ngIf="temporalDiseases.length>showNumerRelatedConditions && indexListRelatedConditions<temporalDiseases.length"
                 class="d-block p-1 center-elements border-top" style="background-color: #e5e5e5;">
-                <a href="javascript:;" class="btn btn-primary btn-raised font-medium-3 mt-1 mb-0" (click)="loadMore()">
+                <a href="javascript:;" class="btn btn-info btn-raised font-medium-3 mt-1 mb-0" (click)="loadMore()">
                   <i class="fas fa-arrow-up mr-2"></i>
                   <span>{{'land.Load more diseases' | translate }}</span>
                   <i class="fas fa-arrow-up ml-2"></i>
@@ -292,15 +292,15 @@
             slice:(text.positions[1]+1):(text.positions[1]+40)}}"</span>
         </span>
         <div class="mt-2">
-          <button *ngIf="!ncrResultView" type="button" class="btn btn-primary btn-raised mb-0"
+          <button *ngIf="!ncrResultView" type="button" class="btn btn-info btn-raised mb-0"
             (click)="showCompleteNcrResultView(temporalSymptoms[selectedInfoSymptomIndex])">{{'patdiagdashboard.Show
             full text' | translate }}</button>
-          <button *ngIf="ncrResultView" type="button" class="btn btn-primary btn-raised mb-0"
+          <button *ngIf="ncrResultView" type="button" class="btn btn-info btn-raised mb-0"
             (click)="showCompleteNcrResultView(null)">{{'patdiagdashboard.Hide full text' | translate }}</button>
         </div>
         <div *ngIf="ncrResultView">
           <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
-            <button type="button" class="btn btn-primary btn-raised mb-0" (click)="goToTop()">Go top</button>
+            <button type="button" class="btn btn-info btn-raised mb-0" (click)="goToTop()">Go top</button>
           </span>
           <div class="mt-2 text-center">
             <a id="initpos"></a>
@@ -310,15 +310,15 @@
       </span>
       <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].inputType=='ncrOld'">
         <div class="mt-2">
-          <button *ngIf="!ncrResultView" type="button" class="btn btn-primary btn-raised mb-0"
+          <button *ngIf="!ncrResultView" type="button" class="btn btn-info btn-raised mb-0"
             (click)="showCompleteNcrOldResultView(temporalSymptoms[selectedInfoSymptomIndex])">{{'patdiagdashboard.Show
             full text' | translate }}</button>
-          <button *ngIf="ncrResultView" type="button" class="btn btn-primary btn-raised mb-0"
+          <button *ngIf="ncrResultView" type="button" class="btn btn-info btn-raised mb-0"
             (click)="showCompleteNcrOldResultView(null)">{{'patdiagdashboard.Hide full text' | translate }}</button>
         </div>
         <div *ngIf="ncrResultView">
           <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
-            <button type="button" class="btn btn-primary btn-raised mb-0" (click)="goToTop()">Go top</button>
+            <button type="button" class="btn btn-info btn-raised mb-0" (click)="goToTop()">Go top</button>
           </span>
           <div class="mt-2 text-center">
             <a id="initpos"></a>
@@ -345,10 +345,10 @@
       <h4 class="text-bold-400 mb-0">{{ topRelatedConditions[selectedInfoDiseaseIndex].name }}
         <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].XRefs!=undefined" class="ml-1">
           <span *ngFor="let xref of topRelatedConditions[selectedInfoDiseaseIndex].XRefs ; let i = index">
-            <a *ngIf="xref.name=='Orphanet'" class="primary"
+            <a *ngIf="xref.name=='Orphanet'" class="info"
               href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert={{xref.id}}&lng={{lang}}" target="_blank"
               title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
-            <a *ngIf="xref.name=='OMIM'" class="primary" href="https://omim.org/entry/{{xref.id}}" target="_blank"
+            <a *ngIf="xref.name=='OMIM'" class="info" href="https://omim.org/entry/{{xref.id}}" target="_blank"
               title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
             <span *ngIf="i<(topRelatedConditions[selectedInfoDiseaseIndex].XRefs.length-1)">, </span>
           </span>
@@ -388,7 +388,7 @@
               <span *ngIf="symptom.Name" style="cursor: pointer;" class="ml-1 mt-1"
                 (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease);"
                 title="{{'generics.More information' | translate }} ({{symptom.Id}})">
-                {{symptom.id}} <em style="font-size: 1.3em;" class="ml-2 fa fa-info primary"></em>
+                {{symptom.id}} <em style="font-size: 1.3em;" class="ml-2 fa fa-info info"></em>
               </span>
               <span *ngIf="!symptom.Name">
                 {{symptom.Id}} ({{'phenotype.Deprecated' | translate}}) <a
