@@ -95,9 +95,10 @@ footer{
 }
 mark{
   text-decoration: underline;
-  -webkit-text-decoration-color: #0CC27E; /* Safari */  
-  text-decoration-color: #0CC27E;
-  background-color: #0CC27E;
+  -webkit-text-decoration-color: #1CBCD8; /* Safari */  
+  text-decoration-color: #1CBCD8;
+  background-color: #FFF;
+  text-decoration-thickness: 3px;
 }
 
 .cdk-global-overlay-wrapper, .cdk-overlay-container {
