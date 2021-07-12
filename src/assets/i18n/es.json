@@ -2236,6 +2236,9 @@
     "Email sent to": "Email enviado a",
     "Sponsor": "Haz clic aquí para saber todo sobre",
     "click here": "ESTÁ AQUÍ",
-    "If you want to know how Dx29": "Si quieres saber como funciona Dx29 y la precisión de sus resultados pulsa"
+    "If you want to know how Dx29": "Si quieres saber como funciona Dx29 y la precisión de sus resultados pulsa",
+    "you have to select": "Bien hecho! Ahora tienes que seleccionar entre 5 y 10 de los síntomas más relevantes de la enfermedad.",
+    "Do not show this message again": "No volver a mostrar este mensaje",
+    "When you have selected them": "Cuando los haya seleccionado, pulsa el botón 'Ver enfermedades propuestas'."
   }
 }

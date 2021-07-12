@@ -785,6 +785,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
                 }
                 this.substepExtract = '4';
+                this.showSwalSelectSymptoms();
 
             }, (err) => {
                 console.log(err);
@@ -792,6 +793,28 @@ export class LandPageComponent implements OnInit, OnDestroy {
             }));
     }
 
+    showSwalSelectSymptoms(){
+        var showSwalSelSymptoms = localStorage.getItem('showSwalSelSymptoms');
+        if(showSwalSelSymptoms != 'false'){
+            Swal.fire({
+                icon: 'warning',
+                html: '<p>'+this.translate.instant("land.you have to select")+'</p><p>'+this.translate.instant("land.When you have selected them")+'</p>',
+                input: 'checkbox',
+                inputPlaceholder: this.translate.instant("land.Do not show this message again")
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  if (result.value) {
+                    //Swal.fire({icon: 'success', text: 'You have a bike!'});
+                    localStorage.setItem('showSwalSelSymptoms', 'false');
+                  }
+                } else {
+                  console.log(`modal was dismissed by ${result.dismiss}`)
+                }
+              })
+        }
+        
+    }
+    
     changeStateSymptom(index, state) {
         this.temporalSymptoms[index].checked = state;
         this.getNumberOfSymptomsChecked();
@@ -1010,7 +1033,17 @@ export class LandPageComponent implements OnInit, OnDestroy {
         var infoSymptoms = this.getPlainInfoSymptoms();
         if (infoSymptoms != "") {
             this.clipboard.copy(this.getPlainInfoSymptoms());
-            Swal.fire(this.translate.instant("land.Symptoms copied to the clipboard"), '', "success");
+            Swal.fire({
+                icon: 'success',
+                html: this.translate.instant("land.Symptoms copied to the clipboard"),
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false
+            })
+            setTimeout(function () {
+                Swal.close();
+            }, 2000);
+            
         } else {
             //this.toastr.error('', 'Debe de seleccionar al menos un síntoma. para poder copiar los síntomas.');
             Swal.fire(this.translate.instant("land.To be able to copy the symptoms"), '', "warning");

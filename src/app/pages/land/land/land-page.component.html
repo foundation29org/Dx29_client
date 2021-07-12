@@ -1,14 +1,14 @@
 <section id="login" class="mt-2" style="min-height: 75vh !important;">
   <div class="container-fluid">
     <div style="margin: auto;" style="margin: auto;">
-      <div class="row p-2">
+      <div class="text-center p-2">
         <div class="section">
           <h2>{{'land.title' | translate }}</h2>
         </div>
       </div>
-      <div class="row p-2" [ngClass]="(topRelatedConditions.length>0)?'diffHeight':''">
-        <div *ngIf="substepExtract=='0'" class="col-xl-6">
-          <div class="row pt-2 custom-mr-2 light-background border rounded">
+      <div class="row" [ngClass]="(topRelatedConditions.length>0)?'diffHeight':''">
+        <div *ngIf="substepExtract=='0'" class="offset-xl-1 col-xl-5 mrbox shadow rounded light-background">
+          <div class="row pt-2">
             <div class="col-md-12">
               <label class="btn btn-primary btn-raised"
                 style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
@@ -31,9 +31,8 @@
           </div>
 
         </div>
-        <div *ngIf="substepExtract!='0'" class="col-xl-6" [ngClass]="(substepExtract!='0')?'custom-p':''">
-          <div *ngIf="temporalSymptoms.length==0" class="row pt-2 custom-mr-2 light-background border rounded">
-            <div class="mr-2 section w-100  mb-2 align-self-center">
+        <div *ngIf="substepExtract!='0'" class="offset-xl-1 col-xl-5 mrbox shadow rounded light-background" [ngClass]="(substepExtract!='4')?'d-flex':''">
+            <div *ngIf="temporalSymptoms.length==0" class="mr-2 section w-100  mb-2 align-self-center">
 
               <span class="d-block pt-2 center-elements font-medium-3">{{'land.The symptoms found will be shown here' |
                 translate }}</span>
@@ -45,18 +44,17 @@
               </span>
 
             </div>
-          </div>
 
-          <div *ngIf="temporalSymptoms.length>0" class="row bg-white mr-2 border rounded loadingPanel">
+          <div *ngIf="temporalSymptoms.length>0" class="row loadingPanel mt-0">
             <table class="col-md-12 table border-bottom mb-0">
               <thead>
                 <tr>
                   <th id="headerTable">{{'land.SelectSymptoms' | translate }}
-                    <em class="fa fa-download grey float-right mr-2" title="{{'land.Download symptoms' | translate }}"
+                    <em class="mt-1 fa fa-download grey float-right mr-2" title="{{'land.Download symptoms' | translate }}"
                       (click)="downloadSymptoms()" style="cursor: pointer;"></em>
-                    <em class="fas fa-copy grey float-right mr-2" title="{{'land.Copy symptoms' | translate }}"
+                    <em class="mt-1 fas fa-copy grey float-right mr-2" title="{{'land.Copy symptoms' | translate }}"
                       (click)="copySymptoms()" style="cursor: pointer;"></em>
-                    <em class="fa fa-refresh grey float-right mr-2" title="{{'land.Start over' | translate }}"
+                    <em class="mt-1 fa fa-refresh grey float-right mr-2" title="{{'land.Start over' | translate }}"
                       (click)="restartInitVars()" style="cursor: pointer;"></em>
                   </th>
                 </tr>
@@ -67,9 +65,9 @@
                   <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
                     slice:0:140)+'...':(r.desc) }}</span>
                 </ng-template>
-                <div>
-                  <i class="fas fa-search mr-2"></i> <input #input class="input" style="width: 94%;display: inline;"
-                    type="text" class="form-control" [(ngModel)]="modelTemp" [ngbTypeahead]="searchSymptom"
+                <div style="padding-top: 0.5rem !important;">
+                  <i class="fas fa-search ml-1 mr-2"></i> <input #input style="width: 91%;display: inline;"
+                    type="text" class="form-control ml-1" [(ngModel)]="modelTemp" [ngbTypeahead]="searchSymptom"
                     [resultTemplate]="rt" [inputFormatter]="formatter1"
                     placeholder="{{'symptomssection.manualinput' | translate }}" (selectItem)="selected($event)" />
                 </div>
@@ -113,14 +111,14 @@
                 </tr>
               </tbody>
             </table>
-            <span class="col-md-12 p-2 border-top" style="height: 100px;background-color: #e5e5e5;">
-              <span class="font-medium-3">
-                <span class="font-medium-3">
+            <span class="col-md-12 p-2 border-top" style="height: 83px;background-color: #e5e5e5;">
+              <span>
+                <span>
                   {{'land.You have selected' | translate }} {{numberOfSymtomsChecked}} {{'land.symptom' | translate
                   }}<span *ngIf="numberOfSymtomsChecked!=1">s</span> {{'land.out of' | translate }}
                   {{temporalSymptoms.length}}
                 </span>
-                <span *ngIf="numberOfSymtomsChecked<minSymptoms" class="danger d-block mt-1">
+                <span *ngIf="numberOfSymtomsChecked<minSymptoms" class="danger d-block">
                   {{'land.You must select at least' | translate }} {{minSymptoms}} {{'land.symptom' | translate }}s
                   {{'land.in order to continue' | translate }}
                 </span>
@@ -130,8 +128,8 @@
 
 
         </div>
-        <div class="col-xl-6 row light-background border rounded loadingPanel"
-          [ngClass]="(!loadingCalculate && topRelatedConditions.length==0)?'row':''">
+        <div class="col-xl-5 row light-background rounded loadingPanel ml-2 shadow"
+          [ngClass]="(!loadingCalculate && topRelatedConditions.length>0)?'row':'border'">
           <div *ngIf="!loadingCalculate && topRelatedConditions.length==0"
             class="section w-100 pt-1 pl-2 mb-2 align-self-center">
             <span class="d-block pt-2 center-elements font-medium-3">{{'land.Suggested diseases will be shown here' |
@@ -166,11 +164,11 @@
                 <thead>
                   <tr>
                     <th id="headerTable">{{'land.Diseases' | translate }}
-                      <em class="fa fa-download grey float-right mr-2" title="{{'land.Download results' | translate }}"
+                      <em class="mt-1 fa fa-download grey float-right mr-2" title="{{'land.Download results' | translate }}"
                         (click)="downloadResults()" style="cursor: pointer;"></em>
-                      <em class="fas fa-share-alt grey float-right mr-2" title="{{'land.Send results' | translate }}"
+                      <em class="mt-1 fas fa-share-alt grey float-right mr-2" title="{{'land.Send results' | translate }}"
                         (click)="sendEmail()" style="cursor: pointer;"></em>
-                      <em class="fa fa-refresh grey float-right mr-2" title="{{'Recalculate diseases' | translate }}"
+                      <em class="mt-1 fa fa-refresh grey float-right mr-2" title="{{'Recalculate diseases' | translate }}"
                         (click)="calculate()" style="cursor: pointer;"></em>
                     </th>
                   </tr>
@@ -205,19 +203,19 @@
               <div
                 *ngIf="temporalDiseases.length>showNumerRelatedConditions && indexListRelatedConditions<temporalDiseases.length"
                 class="d-block p-1 center-elements border-top" style="background-color: #e5e5e5;">
-                <a href="javascript:;" class="btn btn-primary btn-raised font-medium-3 mt-2" (click)="loadMore()">
+                <a href="javascript:;" class="btn btn-primary btn-raised font-medium-3 mt-1 mb-0" (click)="loadMore()">
                   <i class="fas fa-arrow-up mr-2"></i>
                   <span>{{'land.Load more diseases' | translate }}</span>
                   <i class="fas fa-arrow-up ml-2"></i>
-                  <span class="d-block font-small-3">{{'land.There are' | translate }} {{totalDiseasesLeft}}
-                    {{'land.remaining not shown in the table' | translate }}</span>
                 </a>
+                <span class="d-block font-small-3">{{'land.There are' | translate }} {{totalDiseasesLeft}}
+                  {{'land.remaining not shown in the table' | translate }}</span>
               </div>
             </span>
           </div>
         </div>
       </div>
-      <div class="row float-right mr-2">
+      <div class="text-center p-2">
         <span>
           {{'land.If you want to know how Dx29' | translate }}
           <a (click)="showInfoDx29(contentInfoDx29);" title="Dx29 y sus resultados"> {{'land.here' | translate }}</a>

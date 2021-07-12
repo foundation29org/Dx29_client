@@ -279,6 +279,14 @@ body {
       display: none;
   }
 
+  .shadow{
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
+  }
+
+  .mrbox{
+    margin-right: 0.75rem !important;
+  }
+
   @media ( max-width: 899px ){
     .animate-bottom {
         position: fixed;
@@ -303,6 +311,10 @@ body {
       .custom-p{
         padding-right: 0px;
         padding-left: 0px;
+      }
+
+      .mrbox{
+        margin-right: 0rem !important;
       }
   }
   
