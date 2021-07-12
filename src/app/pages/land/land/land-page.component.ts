@@ -151,6 +151,135 @@ export class LandPageComponent implements OnInit, OnDestroy {
         $.getScript("./assets/js/docs/docxtemplater.v2.1.5.js").done(function (script, textStatus) {
             //console.log("finished loading and running docxtemplater.js. with a status of" + textStatus);
         });
+        
+    }
+
+    initGraphs(){
+        var dataIdeal = [80.4,85.6,88,89.2,90.1,90.6,90.9,91.3,91.6,91.9,92.2,92.3,92.6,92.7,92.9,93,93.3,93.4,93.5,93.6,93.7,93.8,93.8,93.8,93.9,93.9,94,94.1,94.1,94.1,94.2,94.2,94.3,94.3,94.3,94.3,94.3,94.4,94.4,94.4,94.5,94.5,94.5,94.5,94.5,94.5,94.5,94.6,94.6,94.6,94.6,94.6,94.7,94.7,94.7,94.7,94.7,94.7,94.7,94.8,94.9,94.8,94.8,94.8,94.9,94.9,94.9,94.9,95,95,95,95,95,95.1,95.1,95.1,95.2,95.2,95.2,95.3,95.3,95.3,95.4,95.4,95.4,95.4,95.4,95.4,95.4,95.4,95.5];
+        
+        this.lineChartIdealOptions = {
+            chart: {
+              height: 350,
+              type: 'line',
+              zoom: {
+                enabled: false
+              }
+            },
+            colors: themeColors,
+            dataLabels: {
+              enabled: false
+            },
+            stroke: {
+              curve: 'smooth'
+            },
+            series: [{
+              name: this.translate.instant("land.InfoDx29.Percentage of success of the disease"),
+              data: dataIdeal,
+            }],
+            title: {
+              text: this.translate.instant("land.InfoDx29.Ideal patients"),
+              align: 'left'
+            },
+            grid: {
+              row: {
+                colors: ['#F5F5F5', 'transparent'], // takes an array which will be repeated on columns
+                opacity: 0.5
+              },
+            },
+            xaxis: {
+                tickAmount: 10,
+                title: {
+                    text: this.translate.instant("land.InfoDx29.Position of the disease"),
+                },
+            },
+            yaxis: {
+              tickAmount: 5,
+            }
+          }
+
+          var dataZoomIdeal = [80.4,85.6,88,89.2,90.1,90.6,90.9,91.3,91.6,91.9];
+        
+        this.lineChartZoomIdealOptions = {
+            chart: {
+              height: 350,
+              type: 'line',
+              zoom: {
+                enabled: false
+              }
+            },
+            colors: themeColors,
+            dataLabels: {
+              enabled: false
+            },
+            stroke: {
+              curve: 'smooth'
+            },
+            series: [{
+              name: this.translate.instant("land.InfoDx29.Percentage of success of the disease"),
+              data: dataZoomIdeal,
+            }],
+            title: {
+              text: this.translate.instant("land.InfoDx29.Ideal patients")+' (Top 10)',
+              align: 'left'
+            },
+            grid: {
+              row: {
+                colors: ['#F5F5F5', 'transparent'], // takes an array which will be repeated on columns
+                opacity: 0.5
+              },
+            },
+            xaxis: {
+                tickAmount: 1,
+                title: {
+                    text: this.translate.instant("land.InfoDx29.Position of the disease"),
+                },
+            },
+            yaxis: {
+              tickAmount: 5,
+            }
+          }
+
+
+        var dataRuido = [19.9,27.8,34.3,38.5,41.4,44,46.1,47.8,49.5,51.1,52.7,53.7,54.9,56,56.9,57.7,58.4,59,59.9,60.7,61.4,61.9,62.5,63.1,63.6,64.1,64.6,65,65.5,65.7,66.1,66.4,66.9,67.3,67.6,68.1,68.5,69,69.4,69.8,70.2,70.7,71,71.2,71.6,71.8,72.2,72.4,72.8,73,73.2,73.4,73.7,73.7,74.1,74.3,74.5,74.8,75,75.3,75.5,75.7,75.8,76,76.1,76.4,76.6,76.8,77,77.2,77.3,77.5,77.6,77.8,78,78.1,78.2,78.3,78.4,78.6,78.7,78.8,79,79.1,79.2,79.3,79.5,79.6,79.7,79.8,79.9,80.1,80.2,80.3,80.4,80.6,80.7,80.7,80.9,80.9];
+          this.lineChartRuidoOptions = {
+            chart: {
+              height: 350,
+              type: 'line',
+              zoom: {
+                enabled: false
+              }
+            },
+            colors: themeColors,
+            dataLabels: {
+              enabled: false
+            },
+            stroke: {
+              curve: 'smooth'
+            },
+            series: [{
+              name: this.translate.instant("land.InfoDx29.Percentage of success of the disease"),
+              data: dataRuido,
+            }],
+            title: {
+              text: this.translate.instant("land.InfoDx29.Inaccurate patients"),
+              align: 'left'
+            },
+            grid: {
+              row: {
+                colors: ['#F5F5F5', 'transparent'], // takes an array which will be repeated on columns
+                opacity: 0.5
+              },
+            },
+            xaxis: {
+                tickAmount: 10,
+                title: {
+                    text: this.translate.instant("land.InfoDx29.Position of the disease"),
+                },
+            },
+            yaxis: {
+              tickAmount: 5,
+            }
+          }
     }
 
     loadFilesLang() {
@@ -198,140 +327,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
             }
 
         }.bind(this));
-        /*var data = [80.4, 85.6, 88.0, 89.2, 90.1, 90.6, 90.9, 91.3, 91.6, 91.9, 92.2, 92.3, 92.6, 92.7, 92.9, 93.0, 93.3, 93.4, 93.5, 93.6, 93.7, 93.8, 93.8, 93.8, 93.9, 93.9, 94.0, 94.1, 94.1, 94.1, 94.2, 94.2, 94.3, 94.3, 94.3, 94.3, 94.3, 94.4, 94.4, 94.4, 94.5, 94.5, 94.5, 94.5, 94.5, 94.5, 94.5, 94.6, 94.6, 94.6, 94.6, 94.6, 94.7, 94.7, 94.7, 94.7, 94.7, 94.7, 94.7, 94.8, 94.86114715805861, 94.8, 94.8, 94.8, 94.9, 94.91305476252266, 94.91305476252266, 94.91305476252266, 94.96496236698671, 94.96496236698671, 95.01686997145076, 95.01686997145076, 95.01686997145076, 95.06877757591481, 95.09473137814683, 95.14663898261088, 95.19854658707493, 95.22450038930695, 95.22450038930695, 95.276407993771, 95.32831559823505, 95.32831559823505, 95.35426940046708, 95.3802232026991, 95.3802232026991, 95.3802232026991, 95.3802232026991, 95.3802232026991, 95.40617700493112, 95.43213080716315, 95.45808460939517];
-        var resdata = [];
         
-        for (let i = 0; i < data.length; i++) {
-            var rounded = Math.round(data[i] * 10) / 10
-            resdata.push(rounded);
-        }
-        console.log(resdata.toString());
-        */
-        var dataIdeal = [80.4,85.6,88,89.2,90.1,90.6,90.9,91.3,91.6,91.9,92.2,92.3,92.6,92.7,92.9,93,93.3,93.4,93.5,93.6,93.7,93.8,93.8,93.8,93.9,93.9,94,94.1,94.1,94.1,94.2,94.2,94.3,94.3,94.3,94.3,94.3,94.4,94.4,94.4,94.5,94.5,94.5,94.5,94.5,94.5,94.5,94.6,94.6,94.6,94.6,94.6,94.7,94.7,94.7,94.7,94.7,94.7,94.7,94.8,94.9,94.8,94.8,94.8,94.9,94.9,94.9,94.9,95,95,95,95,95,95.1,95.1,95.1,95.2,95.2,95.2,95.3,95.3,95.3,95.4,95.4,95.4,95.4,95.4,95.4,95.4,95.4,95.5];
         
-        this.lineChartIdealOptions = {
-            chart: {
-              height: 350,
-              type: 'line',
-              zoom: {
-                enabled: false
-              }
-            },
-            colors: themeColors,
-            dataLabels: {
-              enabled: false
-            },
-            stroke: {
-              curve: 'smooth'
-            },
-            series: [{
-              name: "Porcentaje de acierto de la enfermedad",
-              data: dataIdeal,
-            }],
-            title: {
-              text: 'Pacientes ideales',
-              align: 'left'
-            },
-            grid: {
-              row: {
-                colors: ['#F5F5F5', 'transparent'], // takes an array which will be repeated on columns
-                opacity: 0.5
-              },
-            },
-            xaxis: {
-                tickAmount: 10,
-                title: {
-                    text: 'Posición de la enfermedad',
-                },
-            },
-            yaxis: {
-              tickAmount: 5,
-            }
-          }
-
-          var dataZoomIdeal = [80.4,85.6,88,89.2,90.1,90.6,90.9,91.3,91.6,91.9];
-        
-        this.lineChartZoomIdealOptions = {
-            chart: {
-              height: 350,
-              type: 'line',
-              zoom: {
-                enabled: false
-              }
-            },
-            colors: themeColors,
-            dataLabels: {
-              enabled: false
-            },
-            stroke: {
-              curve: 'smooth'
-            },
-            series: [{
-              name: "Porcentaje de acierto de la enfermedad",
-              data: dataZoomIdeal,
-            }],
-            title: {
-              text: 'Pacientes ideales (Top 10)',
-              align: 'left'
-            },
-            grid: {
-              row: {
-                colors: ['#F5F5F5', 'transparent'], // takes an array which will be repeated on columns
-                opacity: 0.5
-              },
-            },
-            xaxis: {
-                tickAmount: 1,
-                title: {
-                    text: 'Posición de la enfermedad',
-                },
-            },
-            yaxis: {
-              tickAmount: 5,
-            }
-          }
-
-
-        var dataRuido = [19.9,27.8,34.3,38.5,41.4,44,46.1,47.8,49.5,51.1,52.7,53.7,54.9,56,56.9,57.7,58.4,59,59.9,60.7,61.4,61.9,62.5,63.1,63.6,64.1,64.6,65,65.5,65.7,66.1,66.4,66.9,67.3,67.6,68.1,68.5,69,69.4,69.8,70.2,70.7,71,71.2,71.6,71.8,72.2,72.4,72.8,73,73.2,73.4,73.7,73.7,74.1,74.3,74.5,74.8,75,75.3,75.5,75.7,75.8,76,76.1,76.4,76.6,76.8,77,77.2,77.3,77.5,77.6,77.8,78,78.1,78.2,78.3,78.4,78.6,78.7,78.8,79,79.1,79.2,79.3,79.5,79.6,79.7,79.8,79.9,80.1,80.2,80.3,80.4,80.6,80.7,80.7,80.9,80.9];
-          this.lineChartRuidoOptions = {
-            chart: {
-              height: 350,
-              type: 'line',
-              zoom: {
-                enabled: false
-              }
-            },
-            colors: themeColors,
-            dataLabels: {
-              enabled: false
-            },
-            stroke: {
-              curve: 'smooth'
-            },
-            series: [{
-              name: "Porcentaje de acierto de la enfermedad",
-              data: dataRuido,
-            }],
-            title: {
-              text: 'Pacientes imprecisos',
-              align: 'left'
-            },
-            grid: {
-              row: {
-                colors: ['#F5F5F5', 'transparent'], // takes an array which will be repeated on columns
-                opacity: 0.5
-              },
-            },
-            xaxis: {
-                tickAmount: 10,
-                title: {
-                    text: 'Posición de la enfermedad',
-                },
-            },
-            yaxis: {
-              tickAmount: 5,
-            }
-          }
     }
 
     ngOnDestroy() {
@@ -804,7 +801,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
               }).then((result) => {
                 if (result.isConfirmed) {
                   if (result.value) {
-                    //Swal.fire({icon: 'success', text: 'You have a bike!'});
                     localStorage.setItem('showSwalSelSymptoms', 'false');
                   }
                 } else {
@@ -1373,7 +1369,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     }
 
     showInfoDx29(contentInfoDx29) {
-        
+        this.initGraphs();
 
         let ngbModalOptions: NgbModalOptions = {
             keyboard: true,

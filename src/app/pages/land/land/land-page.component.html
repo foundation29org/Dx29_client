@@ -396,7 +396,8 @@
                   <i class="ft-external-link"></i></a></span>
             </td>
             <td class="col-md-2">
-              <span title="{{symptom.Frequency.Desc}}"></span>{{symptom.Frequency.Name}}
+              <span *ngIf="symptom.Frequency.Name!=''" title="{{symptom.Frequency.Desc}}">{{symptom.Frequency.Name}}</span>
+              <span *ngIf="symptom.Frequency.Name==''" title="{{'land.Unknown' | translate}}">{{'land.Unknown' | translate}}</span>
             </td>
             <td class="col-md-2">
               <i *ngIf="symptom.HasPatient" class="fa fa-check success"></i>
@@ -578,7 +579,7 @@
 <ng-template #contentInfoDx29 let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-header" id="idHeader">
     <div class="content-header text-left">
-      <h4>Como funciona Dx29 y la precisión de sus resultados</h4>
+      <h4>{{'land.InfoDx29.title' | translate }}</h4>
     </div>
     <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
       <span aria-hidden="true">&times;</span>
@@ -586,30 +587,30 @@
   </div>
   <div class="modal-body content-wrapper p-2">
     <p>
-      Nuestro algoritmo de cálculo de condiciones utiliza <a href="https://monarchinitiative.org" target="_blank" title="Monarch Initiative">Monarch Initiative <i class="ft-external-link"></i></a>. 
-      Gracias a esto, somos capaces de analizar y procesar los síntomas que nos indiques y, en base a esta información, proponerte un listado de posibles diagnósticos.
+      {{'land.InfoDx29.p1' | translate }} <a href="https://monarchinitiative.org" target="_blank" title="Monarch Initiative">Monarch Initiative <i class="ft-external-link"></i></a>. 
+      {{'land.InfoDx29.p2' | translate }}
     </p> 
     <p>
-      Para ganarnos tu confianza, lo hemos puesto a prueba generando distintos escenarios posibles.
+      {{'land.InfoDx29.p3' | translate }}
     </p>
     <p>
-      Hemos realizado varias simulaciones del siguiente modo: 
+      {{'land.InfoDx29.p4' | translate }}
     </p>
     <ol>
-      <li>Hemos creado un listado de pacientes. Para una lista de aproximadamente 12000 diseases, basándonos en la información fenotípica que nos proporciona tanto Orphanet como OMIM de las mismas, conseguimos dos tipos de pacientes: 
+      <li>{{'land.InfoDx29.p5' | translate }} 
         <ul>
-          <li>Los ideales, cuyo fenotipado estará formado únicamente por una selección de los síntomas conocidos de esa enfermedad </li>
-          <li>Los imprecisos. El fenotipado de estos, a diferencia de los anteriores, contendrá síntomas no tan exactos. En particular, para generar estos pacientes hemos impuesto que la probabilidad de los dos síntomas predecesores sea igual a la del síntoma exacto. [Nos hemos basado en la Distribución de Poisson con lambda igual a 2]. </li>
+          <li>{{'land.InfoDx29.p6' | translate }}</li>
+          <li>{{'land.InfoDx29.p7' | translate }}</li>
         </ul>
       </li>
-      <li>Hemos ejecutado nuestro algoritmo de cálculo de condiciones con el fenotipado de todos los anteriores. Con esto, obtenemos una lista ordenada de diagnósticos candidatos. El criterio de ranking o puntuación de este resultado viene dado por Monarch.</li>
-      <li>Finalmente, hemos comprobado cuál es la precisión y la fiabilidad de nuestro algoritmo, analizando si es capaz de encontrar o no la disease correcta y además en qué posición del ranking resultado aparece. </li>
+      <li>{{'land.InfoDx29.p8' | translate }}</li>
+      <li>{{'land.InfoDx29.p9' | translate }}</li>
     </ol>
     <p>
-      Los resultados de estas pruebas son los que aquí te mostramos: 
+      {{'land.InfoDx29.p10' | translate }} 
     </p>
     <p>
-      Con los pacientes ideales, esto es, si el fenotipado que nos facilitas es lo más preciso y exacto posible, tenemos una precisión y fiabilidad del 95.5% de acuerdo con la siguiente gráfica:
+      {{'land.InfoDx29.p11' | translate }}
     </p>
 <div class="mt-4 mb-4">
   <apx-chart
@@ -633,7 +634,7 @@
 ></apx-chart>
 </div>
  <p>
-  En la gráfica puedes observar como se distribuye este porcentaje de aciertos en el ranking resultado que te ofrecemos. Así, en el top 10 de diseases resultado te garantizamos en este caso que acertamos con un 91.9%.
+  {{'land.InfoDx29.p12' | translate }}
  </p>
  <div class="mt-4 mb-4">
   <apx-chart
@@ -658,7 +659,7 @@
 </div>
 
 <p>
-  Por otro lado, con los pacientes imprecisos el porcentaje de acierto que te aseguramos es de un 80.9%. 
+  {{'land.InfoDx29.p13' | translate }}
 </p>
 <div class="mt-4 mb-4">
   <apx-chart
@@ -682,7 +683,7 @@
 ></apx-chart>
 </div>
  <p>
-  Como puedes ver, nuestro algoritmo depende muy fuertemente de la calidad de la información fenotípica que nos facilites. Así, cuánto más preciso seas con los síntomas de entrada, mejores resultados podremos garantizarte.
+  {{'land.InfoDx29.p14' | translate }}
  </p>
   </div>
 </ng-template>
