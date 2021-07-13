@@ -581,12 +581,12 @@
           <p class="col-md-12" *ngIf="stateOfSuggestions.unmarkedSymptoms.length>0">
             <a type="button" class="primary d-block" (click)="showContentUnmarkedSymptoms(contentUnmarkedSymptoms);">{{'patnodiagdashboard.step2-7.btn1' | translate }}<span class="d-block font-small-2">{{stateOfSuggestions.unmarkedSymptoms.length}} {{'patnodiagdashboard.step2-7.btn2' | translate }}</span></a>
           </p>
-          <!--<hr width="100%" size="20" color="#868e96" class="mt-2">
+          <!--<hr width="100%" size="20" color="#b0b6bb" class="mt-2">
           <div class="col-md-12 d-block">
             <a *ngIf="posactual>0" class="float-left primary" (click)="previousDisease()">{{'patnodiagdashboard.step2-7.btn3' | translate }}</a>
             <a class="float-right primary " (click)="nextDisease()">{{'patnodiagdashboard.step2-7.btn4' | translate }}</a>
           </div>-->
-          <hr width="100%" size="20" color="#868e96" class="mt-2">
+          <hr width="100%" size="20" color="#b0b6bb" class="mt-2">
           <div class="col-md-12 mt-2 center-elements">
             <button type="button" class="btn btn-outline-danger btn-lg" (click)="goToStep('2.8');saveSymptomsToDb()">
               {{'patnodiagdashboard.step2-7.btn5' | translate }}

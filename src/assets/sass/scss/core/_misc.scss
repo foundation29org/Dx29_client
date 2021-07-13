@@ -11,7 +11,7 @@ ul.list-inline{
   &.list-inline-pipe{
     >li+li:before{
       content: ' | ';
-      color: #868e96;
+      color: #b0b6bb;
     }
   }
 }
