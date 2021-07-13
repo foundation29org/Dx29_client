@@ -384,12 +384,16 @@
           <tr *ngFor="let symptom of topRelatedConditions[selectedInfoDiseaseIndex].Symptoms ; let i = index"
             class="d-flex">
             <td class="col-md-5 text-left">
+              <button *ngIf="symptom.Name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease);" class="btn-outline-info btn btn-sm mr-2 mb-0 btn-fab round"
+                        title="{{'generics.More information' | translate }} ({{symptom.Id}})">
+                          <em class="fa fa-info w-13"></em>
+                        </button>
               <span *ngIf="symptom.Name">{{symptom.Name}}</span>
-              <span *ngIf="symptom.Name" style="cursor: pointer;" class="ml-1 mt-1"
+              <!--<span *ngIf="symptom.Name" style="cursor: pointer;" class="ml-1 mt-1"
                 (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease);"
                 title="{{'generics.More information' | translate }} ({{symptom.Id}})">
                 {{symptom.id}} <em style="font-size: 1.3em;" class="ml-2 fa fa-info info"></em>
-              </span>
+              </span>-->
               <span *ngIf="!symptom.Name">
                 {{symptom.Id}} ({{'phenotype.Deprecated' | translate}}) <a
                   href="https://hpo.jax.org/app/browse/term/{{symptom.Id}}" target="_blank" title="{{symptom.Id}}">
