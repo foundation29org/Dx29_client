@@ -6,19 +6,19 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-    color: #1CBCD8;
+    color: #33658A;
 }
 
 .btn-primary {
     color: #fff;
-    background-color: #1CBCD8;
-    border-color: #1CBCD8;
+    background-color: #33658A;
+    border-color: #33658A;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
-    background-color: #1CBCD8;
-    border-color: #1CBCD8;
+    background-color: #33658A;
+    border-color: #33658A;
 }
 
 /* Sticky footer styles
@@ -289,6 +289,15 @@ body {
 
   ::ng-deep  .swal2-styled.swal2-confirm:focus {
     box-shadow: 0 0 0 3px #1696ac;
+}
+
+.form-control:focus{
+  border-color: #33658A !important;
+  box-shadow: 0 0 0 0.2rem #33658A5E;
+}
+
+.btn-sm, .btn-group-sm > .btn {
+  padding: 0.28rem 0.5rem;
 }
 
   @media ( max-width: 899px ){

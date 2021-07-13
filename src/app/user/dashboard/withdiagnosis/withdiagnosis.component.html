@@ -814,7 +814,7 @@
 													<h6 class="mt-4"><strong>External Links</strong></h6>
 													<a href="https://monarchinitiative.org/phenotype/{{hpo.id}}" target="_blank" title=" {{hpo.name}} ({{hpo.id}}): {{hpo.def}} {{hpo.comment}}">MONDO ({{hpo.id}})</a>
 												</span>
-												<hr width="100%" size="20" color="#868e96" *ngIf="ncrResultView==true" class="mt-2">
+												<hr width="100%" size="20" color="#b0b6bb" *ngIf="ncrResultView==true" class="mt-2">
 												<span [ngClass]="(ncrResultView==true)?'col-md-4':'col-md-1'">
 													<h6>{{'patdiagdashboard.Score' | translate }}:</h6> {{hpo.similarity | number}}
 												</span>

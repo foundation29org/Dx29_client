@@ -88,15 +88,15 @@ footer{
 }
 
 .textExtractedNcr > a > b{
-  background-color: #009DA0;
+  background-color: #33658A;
 }
 .textExtractedNcr >  b{
-  background-color: #009DA0;
+  background-color: #33658A;
 }
 mark{
   text-decoration: underline;
-  -webkit-text-decoration-color: #1CBCD8; /* Safari */  
-  text-decoration-color: #1CBCD8;
+  -webkit-text-decoration-color: #33658A; /* Safari */  
+  text-decoration-color: #33658A;
   background-color: #FFF;
   text-decoration-thickness: 3px;
 }

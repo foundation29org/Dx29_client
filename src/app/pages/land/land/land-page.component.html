@@ -7,7 +7,7 @@
         </div>
       </div>
       <div class="row" [ngClass]="(topRelatedConditions.length>0)?'diffHeight':''">
-        <div *ngIf="substepExtract=='0'" class="offset-xl-1 col-xl-5 mrbox shadow rounded light-background">
+        <div *ngIf="substepExtract=='0'" class="offset-xl-1 col-xl-5 mrbox shadow rounded-lg light-background border">
           <div class="row pt-2">
             <div class="col-md-12">
               <label class="btn btn-info btn-raised"
@@ -31,13 +31,13 @@
           </div>
 
         </div>
-        <div *ngIf="substepExtract!='0'" class="offset-xl-1 col-xl-5 mrbox shadow rounded light-background" [ngClass]="(substepExtract!='4')?'d-flex':''">
+        <div *ngIf="substepExtract!='0'" class="offset-xl-1 col-xl-5 mrbox shadow rounded-lg light-background border" [ngClass]="(substepExtract!='4')?'d-flex':''">
             <div *ngIf="temporalSymptoms.length==0" class="mr-2 section w-100  mb-2 align-self-center">
 
               <span class="d-block pt-2 center-elements font-medium-3">{{'land.The symptoms found will be shown here' |
                 translate }}</span>
               <span *ngIf="substepExtract!='0' && substepExtract!='4'" class="d-block pt-2 center-elements">
-                <em class="fa fa-spinner fa-spin fa-3x fa-fw pink"></em>
+                <em class="fa fa-spinner fa-spin fa-3x fa-fw info"></em>
                 <span class="d-block overlay-text col-md-12 font-medium-3 mt-2">{{'land.Calculating' | translate
                   }}...</span>
                 <span class="d-block font-medium-3 mt-1 pb-2">{{'land.pleaseWait' | translate }}</span>
@@ -45,11 +45,11 @@
 
             </div>
 
-          <div *ngIf="temporalSymptoms.length>0" class="row loadingPanel mt-0">
-            <table class="col-md-12 table border-bottom mb-0">
+          <div *ngIf="temporalSymptoms.length>0" class="section row maintxt">
+            <table class="col-md-12 table mb-0 border-bottom">
               <thead>
                 <tr>
-                  <th id="headerTable">{{'land.SelectSymptoms' | translate }}
+                  <th id="headerTable" style="border-top-style: none;">{{'land.SelectSymptoms' | translate }}
                     <em class="mt-1 fa fa-download grey float-right mr-2" title="{{'land.Download symptoms' | translate }}"
                       (click)="downloadSymptoms()" style="cursor: pointer;"></em>
                     <em class="mt-1 fas fa-copy grey float-right mr-2" title="{{'land.Copy symptoms' | translate }}"
@@ -79,12 +79,12 @@
                   <td>
                     <span>
                       <span class="float-right ml-1">
-                        <button (click)="changeStateSymptom(i, true)" class="btn btn-sm mr-1 mb-0 btn-fab round"
+                        <button (click)="changeStateSymptom(i, true)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
                           [ngClass]="(hpo.checked==true)?'btn-info':'btn-secondary '"
                           href="javascript:void(0)" title="{{'phenotype.Click to check it' | translate }}">
                           <em class="fa fa-check w-13"></em>
                         </button>
-                        <button (click)="changeStateSymptom(i, false)" class="btn btn-sm mr-1 mb-0 btn-fab round"
+                        <button (click)="changeStateSymptom(i, false)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
                           [ngClass]="(hpo.checked==false)?'btn-danger':'btn-secondary'"
                           href="javascript:void(0)" title="{{'phenotype.Click to uncheck it' | translate }}">
                           <em class="fa fa-times w-13"></em>
@@ -111,7 +111,7 @@
                 </tr>
               </tbody>
             </table>
-            <span class="col-md-12 p-2 border-top" style="height: 83px;background-color: #e5e5e5;">
+            <span class="col-md-12 p-2 border-top" style="height: 83px;background-color: #f5f5f5;">
               <span>
                 <span>
                   {{'land.You have selected' | translate }} {{numberOfSymtomsChecked}} {{'land.symptom' | translate
@@ -128,8 +128,8 @@
 
 
         </div>
-        <div class="col-xl-5 row light-background rounded loadingPanel ml-2 shadow"
-          [ngClass]="(!loadingCalculate && topRelatedConditions.length>0)?'row':'border'">
+        <div class="col-xl-5 row light-background rounded-lg loadingPanel ml-2 shadow border"
+          [ngClass]="(!loadingCalculate && topRelatedConditions.length>0)?'row':''">
           <div *ngIf="!loadingCalculate && topRelatedConditions.length==0"
             class="section w-100 pt-1 pl-2 mb-2 align-self-center">
             <span class="d-block pt-2 center-elements font-medium-3">{{'land.Suggested diseases will be shown here' |
@@ -152,7 +152,7 @@
             </div>
           </div>
           <div *ngIf="loadingCalculate && substepExtract!='0'" class="col-md-12 align-self-center center-elements">
-            <em class="fa fa-spinner fa-spin fa-3x fa-fw pink"></em>
+            <em class="fa fa-spinner fa-spin fa-3x fa-fw info"></em>
             <p class="d-block overlay-text col-md-12 font-medium-3 mt-2">{{'land.Calculating' | translate }}...</p>
             <p class="d-block font-medium-3 mt-1">{{'land.pleaseWait' | translate }}
             </p>
@@ -160,10 +160,10 @@
 
           <div *ngIf="substepExtract!='0' && !loadingCalculate" class="section row maintxt">
             <span *ngIf="topRelatedConditions.length>0">
-              <table class="col-md-12 table border-bottom mb-0 bg-white">
+              <table class="col-md-12 table mb-0 bg-white border-bottom">
                 <thead>
                   <tr>
-                    <th id="headerTable">{{'land.Diseases' | translate }}
+                    <th id="headerTable" style="border-top-style: none;">{{'land.Diseases' | translate }}
                       <em class="mt-1 fa fa-download grey float-right mr-2" title="{{'land.Download results' | translate }}"
                         (click)="downloadResults()" style="cursor: pointer;"></em>
                       <em class="mt-1 fas fa-share-alt grey float-right mr-2" title="{{'land.Send results' | translate }}"
@@ -202,7 +202,7 @@
               </table>
               <div
                 *ngIf="temporalDiseases.length>showNumerRelatedConditions && indexListRelatedConditions<temporalDiseases.length"
-                class="d-block p-1 center-elements border-top" style="background-color: #e5e5e5;">
+                class="d-block p-1 center-elements border-top" style="background-color: #f5f5f5;">
                 <a href="javascript:;" class="btn btn-info btn-raised font-medium-3 mt-1 mb-0" (click)="loadMore()">
                   <i class="fas fa-arrow-up mr-2"></i>
                   <span>{{'land.Load more diseases' | translate }}</span>
@@ -215,7 +215,7 @@
           </div>
         </div>
       </div>
-      <div class="text-center p-2">
+      <div class="text-center p-2 mt-2">
         <span>
           {{'land.If you want to know how Dx29' | translate }}
           <a (click)="showInfoDx29(contentInfoDx29);" title="Dx29 y sus resultados"> {{'land.here' | translate }}</a>
@@ -370,7 +370,7 @@
     <div *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms.length>0">
       <h5 class="text-bold-300 mb-0">{{'land.Symptom by symptom comparison' | translate }}</h5>
       <p class="text-muted">{{'land.Table showing' | translate }}</p>
-      <table class="table table-striped mb-0 text-center">
+      <table class="table mb-0 text-center">
         <thead>
           <tr class="d-flex">
             <th class="col-md-5 text-left" id="Name symptom">{{'land.Symptom' | translate }}</th>
