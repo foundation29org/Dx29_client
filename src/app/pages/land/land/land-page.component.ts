@@ -571,8 +571,15 @@ export class LandPageComponent implements OnInit, OnDestroy {
     prepareCallNCR() {
         if (this.langToExtract != 'en') {
             this.substepExtract = '2';
+            if (this.resultSegmentation.segments) {
+                for (let i = 0; i < this.resultSegmentation.segments.length; i++) {
+                    this.resultSegmentation.segments[i].language_source = this.langToExtract;
+                }
+            }
+            this.resultSegmentation.language_source = this.langToExtract;
             this.subscription.add(this.apif29BioService.getTranslationDictionary('en', this.resultSegmentation)
                 .subscribe((res: any) => {
+                    res.language_source = this.langToExtract;
                     this.resultSegmentation = res;
                     this.callNCR();
                 }, (err) => {
