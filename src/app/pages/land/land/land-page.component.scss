@@ -296,6 +296,12 @@ body {
   box-shadow: 0 0 0 0.2rem #33658A5E;
 }
 
+:host /deep/ .dropdown-item.active, .dropdown-item:active {
+	color: #fff;
+	text-decoration: none;
+	background-color: #33658A !important;
+}
+
 .btn-sm, .btn-group-sm > .btn {
   padding: 0.28rem 0.5rem;
 }
