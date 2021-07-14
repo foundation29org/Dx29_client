@@ -1056,6 +1056,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
     downloadSymptoms() {
         var infoSymptoms = this.getPlainInfoSymptoms2();
         if (infoSymptoms != "") {
+
+            infoSymptoms = infoSymptoms + "\n\n" +"Dx29.ai";
             let link = document.createElement('a');
             var actualDate = Date.now();
             link.download = 'Dx29_Symptoms_' + actualDate + '.txt';
@@ -1181,12 +1183,18 @@ export class LandPageComponent implements OnInit, OnDestroy {
     }
 
     downloadResults() {
+        var resul = "";
+        var infoSymptoms = this.getPlainInfoSymptoms2();
+        if(infoSymptoms!=""){
+            resul = this.translate.instant("diagnosis.Symptoms")+ "\n" + infoSymptoms+ "\n" ;
+        }
         var infoDiseases = this.getPlainInfoDiseases();
+        resul = resul+ this.translate.instant("land.Diseases")+ "\n" +infoDiseases + "\n\n\n" +"Dx29.ai";
         let link = document.createElement('a');
         var actualDate = Date.now();
         link.download = 'Dx29_Results_' + actualDate + '.txt';
 
-        let blob = new Blob([infoDiseases], { type: 'text/plain' });
+        let blob = new Blob([resul], { type: 'text/plain' });
 
         link.href = URL.createObjectURL(blob);
 
