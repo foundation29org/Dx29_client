@@ -1252,7 +1252,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     cancelButtonText: this.translate.instant("generics.Cancel"),
                     showCancelButton: true
                 }).then(function (message) {
-                    var info = { email: email.value, msg: message.value, symptoms: infoSymptoms, diseases: infoDiseases };
+                    var info = { email: email.value, msg: message.value, symptoms: infoSymptoms, diseases: infoDiseases, lang: this.lang };
                     this.subscription.add(this.apiDx29ServerService.sendCustomsEmail(info)
                         .subscribe((res: any) => {
                             Swal.fire({
