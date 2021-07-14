@@ -398,7 +398,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     callParser() {
         Swal.fire({
             title: this.translate.instant("generics.Please wait"),
-            html: '<i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>',
+            html: '<i class="fa fa-spinner fa-spin fa-3x fa-fw info"></i>',
             showCancelButton: false,
             showConfirmButton: false,
             allowOutsideClick: false
