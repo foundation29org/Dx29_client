@@ -2237,9 +2237,9 @@
     "Sponsor": "Haz clic aquí para saber todo sobre",
     "click here": "ESTÁ AQUÍ",
     "If you want to know how Dx29": "Si quieres saber como funciona Dx29 y la precisión de sus resultados pulsa",
-    "you have to select": "Bien hecho! Ahora tienes que seleccionar entre 5 y 10 de los síntomas más relevantes de la enfermedad.",
+    "you have to select": "¡Estupendo! Ahora tiene que curar los síntomas. La curación de síntomas permite eliminar errores y ser precisos en el diagnóstico, es un paso muy importante para ayudar a tu paciente. Tienes que seleccionar entre 5 y 10 “síntomas guía”. Los síntomas guía son los que consideras que caracterizan a tu paciente y que tu ojo clínico te dice que son importantes.",
     "Do not show this message again": "No volver a mostrar este mensaje",
-    "When you have selected them": "Cuando los haya seleccionado, pulsa el botón 'Ver enfermedades propuestas'.",
+    "When you have selected them": "Cuando los hayas seleccionados tienes que hacer clic en el botón “Ver enfermedades propuestas”.",
     "InfoDx29":{
       "title":"Cómo funciona Dx29 y la precisión de nuestros resultados",
       "p1": "Nuestro algoritmo de cálculo de condiciones utiliza",
@@ -2260,6 +2260,12 @@
       "Ideal patients": "Pacientes ideales",
       "Position of the disease": "Posición de la enfermedad",
       "Inaccurate patients": "Pacientes imprecisos"
-    }
+    },
+    "Text": "Texto",
+    "Documents": "Documentos",
+    "Drag and drop file here": "Arrastre y suelte el archivo aquí",
+    "or": "o",
+    "Browse for file": "Busque el archivo",
+    "Accepted files": "Ficheros aceptados: pdf, docx, imágenes"
   }
 }

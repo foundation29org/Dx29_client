@@ -19,6 +19,7 @@ import { KnowMePageComponent } from "./know-me/know-me-page.component";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
+import {DndDirective} from "app/shared/directives/dnd.directive";
 
 @NgModule({
     exports: [
@@ -44,7 +45,8 @@ import {MatRadioModule} from '@angular/material/radio';
         AttributionsComponent,
         GtpPageComponent,
         GtpDonatePageComponent,
-        KnowMePageComponent
+        KnowMePageComponent,
+        DndDirective
     ]
 })
 export class LandPageModule { }
