@@ -113,21 +113,25 @@
 
 // Tabs/Navs/Pills
 .tab-content{
-    padding: 1rem;
+    padding: 0rem;
+    padding-top: 1em;
 }
 .nav-tabs{
     .nav-link{
         height: 100%;
         &.active{
             background-color: transparent;
-            border-bottom-color: white;
+            //border-bottom-color: white;
+            border-bottom: 2px solid #33658A !important;
+            border: 0px;
         }
     }
     .nav-item{
         &.show{
             .nav-link{
                 background-color: transparent;
-                border-bottom-color: white;
+                //border-bottom-color: white;
+                border-bottom: 2px solid #33658A !important;
             }
         }
     }

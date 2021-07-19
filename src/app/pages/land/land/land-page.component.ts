@@ -1393,4 +1393,39 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.modalReference = this.modalService.open(contentInfoDx29, ngbModalOptions);
     }
 
+    onFileDropped(event) {
+        var reader = new FileReader();
+            reader.readAsDataURL(event[0]); // read file as data url
+            reader.onload = (event2: any) => { // called once readAsDataURL is completed
+                var the_url = event2.target.result
+
+                var extension = (event[0]).name.substr((event[0]).name.lastIndexOf('.'));
+                extension = extension.toLowerCase();
+                this.langToExtract = '';
+                if (event[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || extension == '.docx') {
+                    this.loadFile(the_url, function (err, content) {
+                        if (err) { console.log(err); };
+                        var doc = new Docxgen(content);
+                        var text = doc.getFullText();
+                        this.detectLanguage(text, 'otherdocs');
+                        this.medicalText = text;
+                        this.showPanelExtractor = true;
+                        this.expanded = true;
+                    }.bind(this))
+                } else if (event[0].type == 'application/pdf' || extension == '.pdf' || extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif') {
+                    this.parserObject.file = event[0]
+                    if (extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif') {
+                        this.parserObject.parserStrategy = 'OcrOnly';
+                    } else {
+                        this.parserObject.parserStrategy = 'OcrOnly';//Auto
+                    }
+
+                    this.callParser();
+
+                } else {
+                    Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "error");
+                }
+
+            }
+      }
 }

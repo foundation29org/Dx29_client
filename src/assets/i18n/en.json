@@ -2191,7 +2191,7 @@
     "out of": "out of",
     "You must select at least": "You must select at least",
     "in order to continue": "in order to continue.",
-    "See suggested diseases": "See suggested diseases",
+    "See suggested diseases": "View suggested diseases",
     "You need to select more symptoms": "You need to select more symptoms",
     "Suggested diseases will be shown here": "Suggested diseases will be shown here.",
     "Diseases": "Diseases",
@@ -2236,9 +2236,9 @@
     "Sponsor": "Click here to learn all about",
     "click here": "IS HERE",
     "If you want to know how Dx29": "If you want to know how Dx29 works and the accuracy of its results click",
-    "you have to select": "Well done! Now you have to select between 5 and 10 of the most relevant symptoms of the disease.",
+    "you have to select": "Great! Now you have to cure the symptoms. Symptom curation allows you to eliminate errors and be accurate in your diagnosis, it is a very important step in helping your patient. You have to select between 5 and 10 “guiding symptoms”. The guiding symptoms are the ones that you consider characterize your patient and that your clinical eye tells you are important.",
     "Do not show this message again": "Do not show this message again",
-    "When you have selected them": "When you have selected them, click on the 'See suggested diseases' button.",
+    "When you have selected them": "When you have selected them you have to click on the “View suggested diseases” button.",
     "InfoDx29":{
       "title":"How Dx29 works and the accuracy of our results",
       "p1": "Our condition calculation algorithm uses",
@@ -2259,6 +2259,12 @@
       "Ideal patients": "Ideal patients",
       "Position of the disease": "Position of the disease",
       "Inaccurate patients": "Inaccurate patients"
-    }
+    },
+    "Text": "Text",
+    "Documents": "Documents",
+    "Drag and drop file here": "Drag and drop file here",
+    "or": "or",
+    "Browse for file": "Browse for file",
+    "Accepted files": "Accepted files: pdf, docx, images"
   }
 }
