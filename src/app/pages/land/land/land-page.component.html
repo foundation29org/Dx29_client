@@ -19,7 +19,7 @@
                       <textarea class="form-control" style="height:30vh;" [(ngModel)]="medicalText" name="medicalText"
                         placeholder="{{'land.placeholder' | translate }}"></textarea>
                       <a class="info"
-                        href="https://docs.microsoft.com/es-es/azure/cognitive-services/translator/language-support"
+                        href={{refLangs}}
                         target="_blank" title="{{'land.availableLangs' | translate }}">{{'land.availableLangs' | translate }} <i
                           class="ft-external-link"></i></a>
                     </div>

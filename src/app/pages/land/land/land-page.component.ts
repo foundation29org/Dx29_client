@@ -118,6 +118,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     lineChartIdealOptions : Partial<ChartOptions>;
     lineChartZoomIdealOptions : Partial<ChartOptions>;
     lineChartRuidoOptions : Partial<ChartOptions>;
+    refLangs: string ="https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support";
 
     modelTemp: any;
     formatter1 = (x: { name: string }) => x.name;
@@ -135,6 +136,11 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
         this.lang = sessionStorage.getItem('lang');
         this.originalLang = sessionStorage.getItem('lang');
+        if(this.lang=='es'){
+            this.refLangs ="https://docs.microsoft.com/es-es/azure/cognitive-services/translator/language-support";
+        }else{
+            this.refLangs ="https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support";
+        }
         this.subscription.add(this.http.get('assets/jsons/maps_to_orpha.json')
             .subscribe((res: any) => {
                 this.maps_to_orpha = res;
@@ -302,6 +308,12 @@ export class LandPageComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.eventsService.on('changelang', function (lang) {
             this.lang = lang;
+            if(this.lang=='es'){
+                this.refLangs ="https://docs.microsoft.com/es-es/azure/cognitive-services/translator/language-support";
+            }else{
+                this.refLangs ="https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support";
+            }
+            
             this.loadFilesLang();
             if (this.temporalSymptoms.length > 0 && this.originalLang != lang) {
                 Swal.fire({
