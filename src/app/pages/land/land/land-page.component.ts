@@ -1053,9 +1053,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
         var resCopy = "";
         for (let i = 0; i < this.temporalSymptoms.length; i++) {
             if (this.temporalSymptoms[i].checked) {
-                resCopy = resCopy + this.temporalSymptoms[i].name + " (" + this.temporalSymptoms[i].id + ")";
+                resCopy = resCopy + this.temporalSymptoms[i].id + " - " + this.temporalSymptoms[i].name;
                 if (i + 1 < this.temporalSymptoms.length) {
-                    resCopy = resCopy + ", ";
+                    resCopy = resCopy + "\n";
                 }
             }
         }

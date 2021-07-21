@@ -34,9 +34,9 @@
                 <ngb-tab>
                   <ng-template ngbTabTitle><strong><i class="fas fa-file"></i> {{'land.Documents' | translate }}</strong></ng-template>
                   <ng-template ngbTabContent>
-                    <div class="container mb-2" appDnd (fileDropped)="onFileDropped($event)">
+                    <div class="container" appDnd (fileDropped)="onFileDropped($event)">
                       <input type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);" accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
-                      <svg xmlns="http://www.w3.org/2000/svg" width="63" height="64" viewBox="0 0 63 64">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="63" height="63" viewBox="0 0 63 64">
                         <g fill="#3B454F" fill-rule="nonzero">
                           <path
                             d="M42.656 15.135a1.953 1.953 0 0 1-1.391-.578L31.5 4.795l-9.765 9.762a1.97 1.97 0 1 1-2.785-2.785L30.106.616a1.97 1.97 0 0 1 2.785 0l11.157 11.156a1.97 1.97 0 0 1-1.392 3.363z" />
@@ -50,8 +50,12 @@
                       <h3 class="mt-2">{{'land.Drag and drop file here' | translate }}</h3>
                       <h3>{{'land.or' | translate }}</h3>
                       <label class="btn btn-info btn-raised" style="text-transform: none;letter-spacing: 0px;cursor: pointer;" for="fileDropRef">{{'land.Browse for file' | translate }}</label>
-                      <span class="mt-2 d-block text-muted">{{'land.Accepted files' | translate }}</span>
+                      <span class="d-block text-muted">{{'land.Accepted files' | translate }}</span>
                     </div>
+                    <a class="info"
+                        href={{refLangs}}
+                        target="_blank" title="{{'land.availableLangs' | translate }}">{{'land.availableLangs' | translate }} <i
+                          class="ft-external-link"></i></a>
                     <!--<label class="btn btn-info btn-raised"
                         style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
                         <em class="fa fa-file mr-1"></em> {{'land.Extract symptom from document' | translate }} <input
