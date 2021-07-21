@@ -1587,4 +1587,30 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
             }
       }
+
+      registerToDx29V2(){
+        var info = {
+            "Symptoms": []
+        }
+        for (var index in this.temporalSymptoms) {
+            if (this.temporalSymptoms[index].checked) {
+                info.Symptoms.push(this.temporalSymptoms[index].id);
+            }
+        }
+        if (info.Symptoms.length > 0) {
+            console.log(info);
+            this.subscription.add(this.apiDx29ServerService.createblobOpenDx29(info)
+            .subscribe((res: any) => {
+                console.log(res);
+                if(res.message=='Done'){
+                    window.location.href="https://app.dx29.ai/Identity/Account/Register?open-data="+res.token;
+                }else{
+                    window.location.href="https://app.dx29.ai/Identity/Account/Register";
+                }
+            }));
+        }else{
+            window.location.href="https://app.dx29.ai/Identity/Account/Register";
+        }
+        
+      }
 }

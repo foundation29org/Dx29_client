@@ -2265,6 +2265,33 @@
     "Drag and drop file here": "Drag and drop file here",
     "or": "or",
     "Browse for file": "Browse for file",
-    "Accepted files": "Accepted files: pdf, docx, images"
+    "Accepted files": "Accepted files: pdf, docx, images",
+    "table":{
+      "t1": "Entering Text",
+      "d1": "Pasted, written, photograph or file",
+      "t2": "Symptoms Extraction",
+      "d2": "The tool recognizes text in all languages",
+      "t3": "Symptom Validation",
+      "d3": "Accept or reject extracted symptoms",
+      "t4": "Candidate Diseases",
+      "d4": "List of possible diseases with the validated symptoms",
+      "t5": "Download Results",
+      "d5": "List of validated symptoms and candidate diseases",
+      "t6": "Information About Diseases",
+      "d6": "Differential Diagnosis, disease description and more",
+      "t7": "Store Data",
+      "d7": "Symptoms, medical reports and genetic files",
+      "t8": "Multiple Cases",
+      "d8": "Manage more than one case if you are a Physician",
+      "t9": "Genetic Data",
+      "d9": "Store and analyse genetic data to aid diagnosis",
+      "t10": "Trio Analysis",
+      "d10": "Advanced genetic trio analysis functionality included",
+      "t11": "Case Sharing",
+      "d11": "Share your case with your doctor or professionals",
+      "t12": "Re-Analysis",
+      "d12": "Anytime with new case data or updated technology",
+      "button": "Register in Dx29"
+    }
   }
 }

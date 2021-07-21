@@ -2266,6 +2266,33 @@
     "Drag and drop file here": "Arrastre y suelte el archivo aquí",
     "or": "o",
     "Browse for file": "Busque el archivo",
-    "Accepted files": "Ficheros aceptados: pdf, docx, imágenes"
+    "Accepted files": "Ficheros aceptados: pdf, docx, imágenes",
+    "table":{
+      "t1": "Introducción de texto",
+      "d1": "Pegado, escrito, fotografía o archivo",
+      "t2": "Extracción de síntomas",
+      "d2": "La herramienta reconoce texto en todos los idiomas",
+      "t3": "Validación de síntomas",
+      "d3": "Acepta o rechaza los síntomas extraídos",
+      "t4": "Enfermedades candidatas",
+      "d4": "Lista de posibles enfermedades con lo síntomas validados",
+      "t5": "Descarga de resultados",
+      "d5": "Lista de síntomas validados y enfermedades candidatas",
+      "t6": "Información sobre enfermedades",
+      "d6": "Diagnóstico diferencial, descripción de la enfermedad y más",
+      "t7": "Guardado de datos",
+      "d7": "Síntomas, informes médicos y archivos genéticos",
+      "t8": "Casos multiples",
+      "d8": "Si eres médico puedes gestionar más de un caso",
+      "t9": "Datos genéticos",
+      "d9": "Guarda y analiza datos genéticos que ayudan al diagnóstico",
+      "t10": "Analisis de tríos",
+      "d10": "Funcionalidad avanzada de análisis de tríos incluida",
+      "t11": "Compartición de casos",
+      "d11": "Comparte tu caso con tu médico o con otros profesionales",
+      "t12": "Re-Análisis",
+      "d12": "Reanaliza tu caso según se actualice el caso o la tecnología",
+      "button": "Regístrate en Dx29"
+    }
   }
 }

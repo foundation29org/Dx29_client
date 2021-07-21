@@ -146,4 +146,14 @@ export class ApiDx29ServerService {
         })
     }
 
+    createblobOpenDx29(symptoms) {
+      return this.http.post(environment.api + '/api/blobOpenDx29', symptoms)
+        .map((res: any) => {
+          return res;
+        }, (err) => {
+          console.log(err);
+          return err;
+        })
+    }
+
 }
