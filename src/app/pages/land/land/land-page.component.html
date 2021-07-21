@@ -27,7 +27,7 @@
                       <button type="button" class="btn btn-lg btn-secondary btn-raised"
                         [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholder') : getLiteral('land.Extract')"
                         [ngClass]="(medicalText.length<5)?'not-allowed':'btn-info'" [disabled]="medicalText.length<5"
-                        (click)="startExtractor();">{{'land.Extract' | translate }} <em class="ml-2 fas fa-play"></em></button>
+                        (click)="startExtractor();"><em class="ml-1 mr-1 mt-1 mb-1 fas fa-play"></em></button>
                     </div>
                   </ng-template>
                 </ngb-tab>
