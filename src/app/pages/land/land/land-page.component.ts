@@ -1603,13 +1603,13 @@ export class LandPageComponent implements OnInit, OnDestroy {
             .subscribe((res: any) => {
                 console.log(res);
                 if(res.message=='Done'){
-                    window.location.href=environment.api+"/Identity/Account/Register?opendata="+res.token;
+                    window.location.href=environment.urlDxv2+"/Identity/Account/Register?opendata="+res.token;
                 }else{
-                    window.location.href=environment.api+"/Identity/Account/Register";
+                    window.location.href=environment.urlDxv2+"/Identity/Account/Register";
                 }
             }));
         }else{
-            window.location.href=environment.api+"/Identity/Account/Register";
+            window.location.href=environment.urlDxv2+"/Identity/Account/Register";
         }
         
       }
