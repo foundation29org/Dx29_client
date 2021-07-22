@@ -1603,7 +1603,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
             .subscribe((res: any) => {
                 console.log(res);
                 if(res.message=='Done'){
-                    window.location.href="https://app.dx29.ai/Identity/Account/Register?open-data="+res.token;
+                    window.location.href="https://app.dx29.ai/Identity/Account/Register?opendata="+res.token;
                 }else{
                     window.location.href="https://app.dx29.ai/Identity/Account/Register";
                 }
