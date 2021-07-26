@@ -772,7 +772,7 @@
     "analyzingdata": "Estamos analizando la información",
     "stopanalysis?": "¿Quieres parar el análisis?",
     "stillanalyzing": "Todavía estamos analizando, así que por favor tengan paciencia.",
-    "analysisover": "El analisis ha terminado, vaya a ver los resultados.",
+    "analysisover": "El análisis ha terminado, vaya a ver los resultados.",
     "may10minutesphen2genesshort": "Este proceso puede tomar unos segundos en función de los datos.",
     "may10minutesphen2geneslong": "Este proceso puede tomar unos segundos en función de los datos. Por favor, no cierres esta ventana.",
     "may10minutesexoshort": "Si has incluido información genética este proceso puede tardar hasta 10 minutos. Te avisaremos en las notificaciones que ha terminado.",
@@ -2282,11 +2282,11 @@
       "d6": "Diagnóstico diferencial, descripción de la enfermedad y más",
       "t7": "Guardado de datos",
       "d7": "Síntomas, informes médicos y archivos genéticos",
-      "t8": "Casos multiples",
+      "t8": "Casos múltiples",
       "d8": "Si eres médico puedes gestionar más de un caso",
       "t9": "Datos genéticos",
       "d9": "Guarda y analiza datos genéticos que ayudan al diagnóstico",
-      "t10": "Analisis de tríos",
+      "t10": "Análisis de tríos",
       "d10": "Funcionalidad avanzada de análisis de tríos incluida",
       "t11": "Compartición de casos",
       "d11": "Comparte tu caso con tu médico o con otros profesionales",
@@ -2295,9 +2295,11 @@
       "button": "Quiero superpoderes!"
     },
     "swal":{
-      "title": "Prepárate para el viaje",
-      "p1": "Nos hemos tomado la molestia de prepararte ya las maletas. Por lo tanto, tendrás en tu nuevo perfil los síntomas y enfermedades que has obtenido para que tu llegada sea lo más cómoda posible.",
-      "p2": "Regístrate y disfruta ya de toda la capacidad de Dx29"
+      "title": "Regístrate para utilizar la capacidad total de Dx29, ¡es gratis!",
+      "subtitle": "Prepárate para recibir tus nuevos poderes",
+      "p1": "Nos hemos tomado la molestia de prepararte para tu nuevo papel, por lo tanto, tendrás en tu nuevo perfil los síntomas y enfermedades que has obtenido para que tu despegue sea lo más cómodo posible.",
+      "p2": "Tus nuevos poderes incluyen:",
+      "button": "Descubre la fuerza del registro"
     }
   },
   "seo":{

@@ -889,7 +889,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
         if (info.symptoms.length > 4) {
             this.subscription.add(this.apiDx29ServerService.calculate(info)
                 .subscribe((res: any) => {
-                    console.log(res);
                     if (res == null) {
                         this.calculate()
                     } else {
@@ -916,7 +915,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     var valtemp = this.temporalDiseases[i].id;
                     if (res1[valtemp] != undefined) {
                         this.temporalDiseases[i].name = res1[valtemp].name;
-                        this.temporalDiseases[i].id = res1[valtemp].id;
+                        //this.temporalDiseases[i].id = res1[valtemp].id;
                         if (res1[valtemp].desc != "") {
                             this.temporalDiseases[i].desc = res1[valtemp].desc;
                         } else if (res1[valtemp].comment != "") {
@@ -971,21 +970,21 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     actualDisease.name = this.orphanet_names.disorders[firstOrphaId].name;
                     this.temporalDiseases[i].id = firstOrphaId;
                     found = true;
-                    if(actualDisease.XRefs!= undefined){
-                        var foundElement = this.searchService.search(actualDisease.XRefs,'id', firstOrphaId);
+                    if(actualDisease.xRefs!= undefined){
+                        var foundElement = this.searchService.search(actualDisease.xRefs,'id', firstOrphaId);
                         if(!foundElement){
-                            actualDisease.XRefs.push(firstOrphaId);
+                            actualDisease.xRefs.push(firstOrphaId);
                         }
                     }else{
-                        actualDisease.XRefs = [];
-                        actualDisease.XRefs.push(firstOrphaId);
+                        actualDisease.xRefs = [];
+                        actualDisease.xRefs.push(firstOrphaId);
                     }
                     
                     updated = true;
                 }
-                if (actualDisease.XRefs != undefined && !found) {
-                    for (var j = 0; j < actualDisease.XRefs.length && !found; j++) {
-                        var orphaId = this.maps_to_orpha.map[actualDisease.XRefs[j]]
+                if (actualDisease.xRefs != undefined && !found) {
+                    for (var j = 0; j < actualDisease.xRefs.length && !found; j++) {
+                        var orphaId = this.maps_to_orpha.map[actualDisease.xRefs[j]]
                         if (orphaId != undefined) {
                             var firstOrphaId = orphaId[0];
                             actualDisease.name = this.orphanet_names.disorders[firstOrphaId].name;
@@ -993,16 +992,16 @@ export class LandPageComponent implements OnInit, OnDestroy {
                             found = true;
                             updated = true;
                             if(!foundElement){
-                                actualDisease.XRefs.push(firstOrphaId);
+                                actualDisease.xRefs.push(firstOrphaId);
                             }
                         }
                     }
-                    if(actualDisease.XRefs.length==0){
-                        actualDisease.XRefs.push(actualDisease.id);
+                    if(actualDisease.xRefs.length==0){
+                        actualDisease.xRefs.push(actualDisease.id);
                     }
-                    actualDisease.XRefs.sort((one, two) => (one > two ? -1 : 1));
-                    var xrefs = this.cleanOrphas(actualDisease.XRefs)
-                    this.temporalDiseases[i].XRefs = xrefs;
+                    actualDisease.xRefs.sort((one, two) => (one > two ? -1 : 1));
+                    var xrefs = this.cleanOrphas(actualDisease.xRefs)
+                    this.temporalDiseases[i].xRefs = xrefs;
                 }
                 this.temporalDiseases[i].name = this.textTransform.transform(actualDisease.name);
                 if(found){
@@ -1032,8 +1031,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
             for (var j = 0; j < res.length && !enc; j++) {
                 if (listOfDiseases[i].name == res[j].name) {
                     enc = true;
-                    if (res[j].XRefs.length == 0 && listOfDiseases[i].XRefs.length > 0) {
-                        res[j].XRefs = listOfDiseases[i].XRefs;
+                    if (res[j].xRefs.length == 0 && listOfDiseases[i].xRefs.length > 0) {
+                        res[j].xRefs = listOfDiseases[i].xRefs;
                     }
                 }
             }
@@ -1290,7 +1289,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     for (var i in res) {
                         for (var j = 0; j < this.topRelatedConditions[index].symptoms.length; j++) {
                             if (res[i].id == this.topRelatedConditions[index].symptoms[j].frequency.id) {
-                                console.log(this.topRelatedConditions[index].symptoms[j].frequency.name);
                                 if (this.topRelatedConditions[index].symptoms[j].frequency.name == '' || this.topRelatedConditions[index].symptoms[j].frequency.name == null) {
                                     this.topRelatedConditions[index].symptoms[j].frequency.name = res[i].name;
                                     this.topRelatedConditions[index].symptoms[j].frequency.desc = res[i].desc;

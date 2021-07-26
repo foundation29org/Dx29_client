@@ -2294,9 +2294,11 @@
       "button": "I want super powers!"
     },
     "swal":{
-      "title": "Get ready for the trip",
-      "p1": "We have taken the trouble to pack your bags for you. Therefore, you will have in your new profile the symptoms and diseases that you have obtained so that your arrival is as comfortable as possible.",
-      "p2": "Register and enjoy the full capacity of Dx29 now"
+      "title": "Register to use the full capacity of Dx29, it's free!",
+      "subtitle": "Get ready to receive your new powers",
+      "p1": "We have taken the trouble to prepare you for your new role, therefore, you will have in your new profile the symptoms and diseases that you have obtained so that your take off is as comfortable as possible.",
+      "p2": "Your new powers include:",
+      "button": "Discover the strength of the registry"
     }
   },
   "seo":{

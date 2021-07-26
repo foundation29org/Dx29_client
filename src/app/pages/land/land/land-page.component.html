@@ -608,6 +608,11 @@
   <div class="modal-header" id="idHeader">
     <div class="content-header text-left">
       <h4 class="text-bold-400 mb-0">{{ topRelatedConditions[selectedInfoDiseaseIndex].name }}
+        <!--<span class="ml-1">
+          <a class="info"
+              href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert={{topRelatedConditions[selectedInfoDiseaseIndex].id}}&lng={{lang}}" target="_blank"
+              title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
+        </span>-->
         <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].xRefs!=undefined" class="ml-1">
           <span *ngFor="let xref of topRelatedConditions[selectedInfoDiseaseIndex].xRefs ; let i = index">
             <a *ngIf="xref.name=='Orphanet'" class="info"
@@ -615,7 +620,7 @@
               title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
             <a *ngIf="xref.name=='OMIM'" class="info" href="https://omim.org/entry/{{xref.id}}" target="_blank"
               title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
-            <span *ngIf="i<(topRelatedConditions[selectedInfoDiseaseIndex].xRefs.length-1)">, </span>
+            <span *ngIf="i<(topRelatedConditions[selectedInfoDiseaseIndex].xRefs.length-1)"> </span>
           </span>
         </span>
       </h4>
@@ -932,24 +937,34 @@
   </div>
 </ng-template>
 <ng-template #contentToDx29V2 let-c="close" let-d="dismiss" appendTo="body">
-  <div class="modal-header border-0" id="idHeader">
-    <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
   <div class="modal-body content-wrapper p-2 center-elements mb-3">
     <div class="p-2">
-      <h4 class="align-self-center"><strong>Register to use the full capacity of Dx29, it's free!</strong></h4>
+      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="align-self-center"><strong>{{'land.swal.title' | translate }}</strong></h4>
     </div>
     <div class="row col-md-12">
-      <div class="col-md-6">
+      <div class="col-md-5">
         <img class="col-md-12" src='assets/img/home/kid.jpg' />
       </div>
-      <div class="col-md-6 align-self-center">
-        <p>{{'land.swal.title' | translate }}</p>
-        <p>{{'land.swal.p1' | translate }}</p>
-        <p>{{'land.swal.p2' | translate }}</p>
-        <button class="btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2()">{{'land.table.button' | translate }}, it´s free!</button>
+      <div class="col-md-7 align-self-center">
+        <span class="text-left">
+          <p><strong>{{'land.swal.subtitle' | translate }}</strong></p>
+          <p>{{'land.swal.p1' | translate }}</p>
+          <p>{{'land.swal.p2' | translate }}</p>
+          <ul>
+            <li><strong>{{'land.table.t7' | translate }}:</strong> {{'land.table.d7' | translate }}</li>
+            <li><strong>{{'land.table.t8' | translate }}:</strong> {{'land.table.d8' | translate }}</li>
+            <li><strong>{{'land.table.t9' | translate }}:</strong> {{'land.table.d9' | translate }}</li>
+            <li><strong>{{'land.table.t10' | translate }}:</strong> {{'land.table.d10' | translate }}</li>
+            <li><strong>{{'land.table.t11' | translate }}:</strong> {{'land.table.d11' | translate }}</li>
+            <li><strong>{{'land.table.t12' | translate }}:</strong> {{'land.table.d12' | translate }}</li>
+          </ul>
+        </span>
+        
+        
+        <button class="btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2()">{{'land.swal.button' | translate }}</button>
       </div>
     </div>
   </div>
