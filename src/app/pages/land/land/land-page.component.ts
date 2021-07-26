@@ -119,6 +119,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     lineChartZoomIdealOptions : Partial<ChartOptions>;
     lineChartRuidoOptions : Partial<ChartOptions>;
     refLangs: string ="https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support";
+    lucky: boolean = false;
 
     modelTemp: any;
     formatter1 = (x: { name: string }) => x.name;
@@ -801,7 +802,12 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
                 }
                 this.substepExtract = '4';
-                this.showSwalSelectSymptoms();
+                if(this.lucky){
+                    this.checkSymptoms();
+                }else{
+                    this.showSwalSelectSymptoms();
+                }
+                
 
             }, (err) => {
                 console.log(err);
@@ -833,6 +839,18 @@ export class LandPageComponent implements OnInit, OnDestroy {
     changeStateSymptom(index, state) {
         this.temporalSymptoms[index].checked = state;
         this.getNumberOfSymptomsChecked();
+    }
+
+    checkSymptoms(){
+        for (var i = 0; i < this.temporalSymptoms.length; i++) {
+            this.temporalSymptoms[i].checked = true;
+            this.numberOfSymtomsChecked++;
+        }
+        this.calculate();
+    }
+
+    changeLucky(){
+        this.lucky=!this.lucky;
     }
 
     getNumberOfSymptomsChecked() {
@@ -871,13 +889,14 @@ export class LandPageComponent implements OnInit, OnDestroy {
         if (info.symptoms.length > 4) {
             this.subscription.add(this.apiDx29ServerService.calculate(info)
                 .subscribe((res: any) => {
+                    console.log(res);
                     if (res == null) {
                         this.calculate()
                     } else {
                         this.temporalDiseases = res;
                         var listOfDiseases = [];
                         res.forEach(function (element) {
-                            listOfDiseases.push(element.Id);
+                            listOfDiseases.push(element.id);
                         });
                         this.getInfoDiseases(listOfDiseases);
                     }
@@ -894,23 +913,46 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.subscription.add(this.apif29BioService.getInfoOfDiseasesLang(listOfDiseases, lang)
             .subscribe((res1: any) => {
                 for (var i = 0; i < this.temporalDiseases.length; i++) {
-                    var valtemp = this.temporalDiseases[i].Id;
+                    var valtemp = this.temporalDiseases[i].id;
                     if (res1[valtemp] != undefined) {
                         this.temporalDiseases[i].name = res1[valtemp].name;
-                        this.temporalDiseases[i].Id = res1[valtemp].id;
+                        this.temporalDiseases[i].id = res1[valtemp].id;
                         if (res1[valtemp].desc != "") {
                             this.temporalDiseases[i].desc = res1[valtemp].desc;
                         } else if (res1[valtemp].comment != "") {
                             this.temporalDiseases[i].desc = res1[valtemp].comment;
                         }
-                        this.temporalDiseases[i].XRefs = res1[valtemp].xrefs;
+                        this.temporalDiseases[i].xRefs = res1[valtemp].xrefs;
+                    }else{
+                        this.temporalDiseases[i].name = this.temporalDiseases[i].id;
                     }
                 }
-                this.getOrphaNamesAndCheckPotentialDiagnostics();
+                this.cleanDiseases();
+                this.totalDiseasesLeft = this.temporalDiseases.length - this.showNumerRelatedConditions;
+            this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
+            this.loadingCalculate = false;
+                //this.getOrphaNamesAndCheckPotentialDiagnostics();
             }, (err) => {
                 console.log(err);
                 this.loadingCalculate = false;
             }));
+    }
+    
+    cleanDiseases(){
+        for (var i = 0; i < this.temporalDiseases.length; i++) {
+            //get orpha name
+            var actualDisease = this.temporalDiseases[i];
+            var orphaId = this.maps_to_orpha.map[actualDisease.id]
+            if (actualDisease.xRefs != undefined) {
+                if(actualDisease.xRefs.length==0){
+                    actualDisease.xRefs.push(actualDisease.id);
+                }
+                actualDisease.xRefs.sort((one, two) => (one > two ? -1 : 1));
+                var xrefs = this.cleanOrphas(actualDisease.xRefs)
+                this.temporalDiseases[i].xRefs = xrefs;
+            }
+            this.temporalDiseases[i].name = this.textTransform.transform(actualDisease.name);
+        }
     }
 
     async getOrphaNamesAndCheckPotentialDiagnostics() {
@@ -923,11 +965,11 @@ export class LandPageComponent implements OnInit, OnDestroy {
                 //get orpha name
                 var found = false;
                 var actualDisease = this.temporalDiseases[i];
-                var orphaId = this.maps_to_orpha.map[actualDisease.Id]
+                var orphaId = this.maps_to_orpha.map[actualDisease.id]
                 if (orphaId != undefined) {
                     var firstOrphaId = orphaId[0];
                     actualDisease.name = this.orphanet_names.disorders[firstOrphaId].name;
-                    this.temporalDiseases[i].Id = firstOrphaId;
+                    this.temporalDiseases[i].id = firstOrphaId;
                     found = true;
                     if(actualDisease.XRefs!= undefined){
                         var foundElement = this.searchService.search(actualDisease.XRefs,'id', firstOrphaId);
@@ -947,7 +989,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                         if (orphaId != undefined) {
                             var firstOrphaId = orphaId[0];
                             actualDisease.name = this.orphanet_names.disorders[firstOrphaId].name;
-                            this.temporalDiseases[i].Id = firstOrphaId;
+                            this.temporalDiseases[i].id = firstOrphaId;
                             found = true;
                             updated = true;
                             if(!foundElement){
@@ -956,7 +998,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                         }
                     }
                     if(actualDisease.XRefs.length==0){
-                        actualDisease.XRefs.push(actualDisease.Id);
+                        actualDisease.XRefs.push(actualDisease.id);
                     }
                     actualDisease.XRefs.sort((one, two) => (one > two ? -1 : 1));
                     var xrefs = this.cleanOrphas(actualDisease.XRefs)
@@ -971,11 +1013,10 @@ export class LandPageComponent implements OnInit, OnDestroy {
             }
 
             //delete repeated diseases by name
-            this.temporalDiseases = this.deleteRepeatedDiseases(this.temporalDiseases);
+            //this.temporalDiseases = this.deleteRepeatedDiseases(this.temporalDiseases);
             this.totalDiseasesLeft = this.temporalDiseases.length - this.showNumerRelatedConditions;
             this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
             this.loadingCalculate = false;
-            
         }
         
     }
@@ -1130,7 +1171,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
             this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded = true;
             if(this.topRelatedConditions[this.selectedInfoDiseaseIndex].changed){
                 console.log('Ha cambiado');
-                this.getSymptomsOneDisease(this.topRelatedConditions[this.selectedInfoDiseaseIndex].Id, contentInfoDisease);
+                this.getSymptomsOneDisease(this.topRelatedConditions[this.selectedInfoDiseaseIndex].id, contentInfoDisease);
             }else{
                 this.callGetInfoDiseaseSymptomsJSON(contentInfoDisease);
             }
@@ -1148,12 +1189,12 @@ export class LandPageComponent implements OnInit, OnDestroy {
           var listOfSymptoms = info.phenotypes
           if(Object.keys(listOfSymptoms).length>0){
             for(var k in listOfSymptoms) {
-                var foundElement = this.searchService.search(this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms,'Id', k);
+                var foundElement = this.searchService.search(this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms,'id', k);
                 if(foundElement){
-                    for (var j = 0; j < this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms.length; j++) {
+                    for (var j = 0; j < this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms.length; j++) {
                         if(foundElement){
-                            var indexElement = this.searchService.searchIndex(this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms,'Id', k);
-                            this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[indexElement].Frequency.Id = listOfSymptoms[k].frequency;
+                            var indexElement = this.searchService.searchIndex(this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms,'id', k);
+                            this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[indexElement].frequency.id = listOfSymptoms[k].frequency;
                         }
                         
                     }
@@ -1175,8 +1216,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
     callGetInfoDiseaseSymptomsJSON(contentInfoDisease) {
         //getInfo symptoms
         var hposStrins = [];
-        this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms.forEach(function (element) {
-            hposStrins.push(element.Id);
+        this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms.forEach(function (element) {
+            hposStrins.push(element.id);
         });
         var lang = this.lang;
         this.subscription.add(this.apif29BioService.getInfoOfSymptoms(lang, hposStrins)
@@ -1185,30 +1226,30 @@ export class LandPageComponent implements OnInit, OnDestroy {
                 var tamano = Object.keys(res).length;
                 if (tamano > 0) {
                     for (var i in res) {
-                        for (var j = 0; j < this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms.length; j++) {
-                            if (res[i].id == this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].Id) {
-                                this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].Name = res[i].name;
+                        for (var j = 0; j < this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms.length; j++) {
+                            if (res[i].id == this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[j].id) {
+                                this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[j].name = res[i].name;
                                 if (res[i].desc != "") {
-                                    this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].Desc = res[i].desc;
+                                    this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[j].desc = res[i].desc;
                                 } else if (res[i].comment != "") {
-                                    this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].Desc = res[i].comment;
+                                    this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[j].desc = res[i].comment;
                                 }
-                                this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].synonyms = res[i].synonyms;
-                                if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].importance == undefined) {
-                                    this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].importance = 1;
+                                this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[j].synonyms = res[i].synonyms;
+                                if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[j].importance == undefined) {
+                                    this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[j].importance = 1;
                                 }
                             }
                         }
                     }
                     for (var i in res) {
-                        for (var j = 0; j < this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms.length; j++) {
-                            if (res[i].id == this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].Id) {
-                                if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].Relationship == 'Successor') {
+                        for (var j = 0; j < this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms.length; j++) {
+                            if (res[i].id == this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[j].id) {
+                                if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[j].relationship == 'Successor') {
                                     // Search realted Symptom
-                                    for (var z = 0; z < this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms.length; z++) {
-                                        if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[z].Id == this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].RelatedId) {
-                                            var Name = this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[z].Name;
-                                            this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].RelatedName = Name;
+                                    for (var z = 0; z < this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms.length; z++) {
+                                        if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[z].id == this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].RelatedId) {
+                                            var Name = this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[z].name;
+                                            this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[j].relatedName = name;
                                         }
                                     }
 
@@ -1233,11 +1274,11 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
     getfrequencies(index) {
         //getInfo symptoms
-        var symptoms = this.topRelatedConditions[index].Symptoms;
+        var symptoms = this.topRelatedConditions[index].symptoms;
         var hposStrins = [];
         symptoms.forEach(function (element) {
-            if (element.Frequency != null) {
-                hposStrins.push(element.Frequency.Id);
+            if (element.frequency != null) {
+                hposStrins.push(element.frequency.id);
             }
 
         });
@@ -1247,30 +1288,33 @@ export class LandPageComponent implements OnInit, OnDestroy {
                 var tamano = Object.keys(res).length;
                 if (tamano > 0) {
                     for (var i in res) {
-                        for (var j = 0; j < this.topRelatedConditions[index].Symptoms.length; j++) {
-                            if (res[i].id == this.topRelatedConditions[index].Symptoms[j].Frequency.Id) {
-                                if (this.topRelatedConditions[index].Symptoms[j].Frequency.Name == '') {
-                                    this.topRelatedConditions[index].Symptoms[j].Frequency.Name = res[i].name;
-                                    this.topRelatedConditions[index].Symptoms[j].Frequency.Desc = res[i].desc;
+                        for (var j = 0; j < this.topRelatedConditions[index].symptoms.length; j++) {
+                            if (res[i].id == this.topRelatedConditions[index].symptoms[j].frequency.id) {
+                                console.log(this.topRelatedConditions[index].symptoms[j].frequency.name);
+                                if (this.topRelatedConditions[index].symptoms[j].frequency.name == '' || this.topRelatedConditions[index].symptoms[j].frequency.name == null) {
+                                    this.topRelatedConditions[index].symptoms[j].frequency.name = res[i].name;
+                                    this.topRelatedConditions[index].symptoms[j].frequency.desc = res[i].desc;
                                 }
                             }
                         }
                     }
                     //this.fullListSymptoms.sort(this.sortService.GetSortOrder("frequencyId"));
-                    for (var ki = 0; ki < this.topRelatedConditions[index].Symptoms.length; ki++) {
-                        if (this.topRelatedConditions[index].Symptoms[ki].Frequency.Id == 'HP:9999999' || this.topRelatedConditions[index].Symptoms[ki].Frequency.Name == '') {
-                            this.topRelatedConditions[index].Symptoms[ki].Frequency.Name = this.translate.instant("land.Unknown");
-                            this.topRelatedConditions[index].Symptoms[ki].Frequency.Id = 'HP:9999999';
+                    for (var ki = 0; ki < this.topRelatedConditions[index].symptoms.length; ki++) {
+                        if (this.topRelatedConditions[index].symptoms[ki].frequency.id == 'HP:9999999' || this.topRelatedConditions[index].symptoms[ki].frequency.name == '' || this.topRelatedConditions[index].symptoms[ki].frequency.name == null) {
+                            this.topRelatedConditions[index].symptoms[ki].frequency.name = this.translate.instant("land.Unknown");
+                            this.topRelatedConditions[index].symptoms[ki].frequency.id = 'HP:9999999';
                         }
                     }
-
+                    this.topRelatedConditions[index].symptoms.sort(this.sortService.GetSortTwoElementsLand("frequency", "name"));
+                    this.topRelatedConditions[index].symptoms.sort(this.sortService.GetSortSymptomsLand());
+                    this.topRelatedConditions[index].symptoms.sort(this.sortService.GetSortSymptoms2Land());
                     // Llamada para coger los hijos de los sintomas
                     // List IDs
-                    var symptomsOfDiseaseIds =[];
-                    this.topRelatedConditions[index].Symptoms.forEach(function(element) {
-                    symptomsOfDiseaseIds.push(element.Id);
+                    /*var symptomsOfDiseaseIds =[];
+                    this.topRelatedConditions[index].symptoms.forEach(function(element) {
+                    symptomsOfDiseaseIds.push(element.id);
                     });
-                    this.getSuccessors(symptomsOfDiseaseIds, index);
+                    this.getSuccessors(symptomsOfDiseaseIds, index);*/
 
                     
                 }
@@ -1286,15 +1330,15 @@ export class LandPageComponent implements OnInit, OnDestroy {
           //obtengo los hijos de la lista completa
           this.subscription.add(this.apif29BioService.getSuccessorsOfSymptomsDepth(symptomsOfDiseaseIds)
           .subscribe( async (res1 : any) => {
-            for (var i = 0; i < this.topRelatedConditions[index].Symptoms.length; i++){
-                if(this.topRelatedConditions[index].Symptoms[i].Frequency.Id=='HP:9999999'){
+            for (var i = 0; i < this.topRelatedConditions[index].symptoms.length; i++){
+                if(this.topRelatedConditions[index].symptoms[i].frequency.id=='HP:9999999'){
                     this.searchFreqSuccesors(res1, index, i, 'HP:9999999')
                     
                 }
             }
-            this.topRelatedConditions[index].Symptoms.sort(this.sortService.GetSortTwoElementsLand("Frequency", "Name"));
-            this.topRelatedConditions[index].Symptoms.sort(this.sortService.GetSortSymptomsLand());
-            this.topRelatedConditions[index].Symptoms.sort(this.sortService.GetSortSymptoms2Land());
+            this.topRelatedConditions[index].symptoms.sort(this.sortService.GetSortTwoElementsLand("frequency", "name"));
+            this.topRelatedConditions[index].symptoms.sort(this.sortService.GetSortSymptomsLand());
+            this.topRelatedConditions[index].symptoms.sort(this.sortService.GetSortSymptoms2Land());
           }, (err) => {
             console.log(err);
           }));
@@ -1306,7 +1350,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
         var tamano= Object.keys(tree).length;
         if(tamano>0){
             for(var j in tree){
-                if(this.topRelatedConditions[index].Symptoms[indexSymp].Id==j){
+                if(this.topRelatedConditions[index].symptoms[indexSymp].id==j){
                     var tamano2= Object.keys(tree[j]).length;
                     if(tamano2>0){
                         this.searchFreqSuccesors2(tree[j], index, indexSymp, hpFreq);
@@ -1323,9 +1367,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
         if(tamano>0){
             var enc = false;
             for(var j in tree){
-                for (var i = 0; i < this.topRelatedConditions[index].Symptoms.length; i++){
-                    if(this.topRelatedConditions[index].Symptoms[i].Id==j && this.topRelatedConditions[index].Symptoms[i].Frequency.Id!='HP:9999999'){
-                        this.topRelatedConditions[index].Symptoms[indexSymp].Frequency = this.topRelatedConditions[index].Symptoms[i].Frequency;
+                for (var i = 0; i < this.topRelatedConditions[index].symptoms.length; i++){
+                    if(this.topRelatedConditions[index].symptoms[i].id==j && this.topRelatedConditions[index].symptoms[i].frequency.id!='HP:9999999'){
+                        this.topRelatedConditions[index].symptoms[indexSymp].frequency = this.topRelatedConditions[index].symptoms[i].frequency;
                         enc = true;
                         console.log('eNCONTRADO!');
                     }
@@ -1366,7 +1410,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     getPlainInfoDiseases() {
         var resCopy = "";
         for (let i = 0; i < this.topRelatedConditions.length; i++) {
-            resCopy = resCopy + this.topRelatedConditions[i].name + " (" + this.topRelatedConditions[i].Id + ")";
+            resCopy = resCopy + this.topRelatedConditions[i].name + " (" + this.topRelatedConditions[i].id + ")";
             if (i + 1 < this.topRelatedConditions.length) {
                 resCopy = resCopy + "\n";
             }
@@ -1390,7 +1434,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     getPlainInfoDiseasesEmail() {
         var resCopy = "";
         for (let i = 0; i < this.topRelatedConditions.length; i++) {
-            resCopy = resCopy + this.topRelatedConditions[i].name + " (" + this.topRelatedConditions[i].Id + ")";
+            resCopy = resCopy + this.topRelatedConditions[i].name + " (" + this.topRelatedConditions[i].id + ")";
             if (i + 1 < this.topRelatedConditions.length) {
                 resCopy = resCopy + " <br> ";
             }
@@ -1588,7 +1632,37 @@ export class LandPageComponent implements OnInit, OnDestroy {
             }
       }
 
+      registerToDx29Swal(contentToDx29V2) {
+        let ngbModalOptions: NgbModalOptions = {
+            keyboard: true,
+            windowClass: 'ModalClass-lg'// xl, lg, sm
+        };
+        this.modalReference = this.modalService.open(contentToDx29V2, ngbModalOptions);
+    }
+
+      /*registerToDx29Swal(){
+        Swal.fire({
+            html:
+            '<h4>'+this.translate.instant("land.table.button")+'</h4>'
+            +'<p>'+this.translate.instant("land.swal.p1")+'</p>'
+            +'<p>'+this.translate.instant("land.swal.p2")+'</p>'
+            +'<button class="btn btn-danger mr-1 btn-raised mb-0 btn-navbar" (click)="registerToDx29V2()">'+this.translate.instant("land.table.button")+'</button>',
+            showCancelButton: false,
+            confirmButtonColor: '#f9423a',
+            confirmButtonText: this.translate.instant("land.table.button"),
+            showLoaderOnConfirm: true,
+            allowOutsideClick: true,
+            reverseButtons: true
+        }).then((result) => {
+            Swal.close();
+            this.registerToDx29V2();
+        });
+      }*/
+
       registerToDx29V2(){
+        if (this.modalReference != undefined) {
+            this.modalReference.close();
+        }
         var info = {
             "Symptoms": []
         }
@@ -1613,4 +1687,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
         }
         
       }
+
+      goto(url){
+        document.getElementById(url).scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+      }      
 }

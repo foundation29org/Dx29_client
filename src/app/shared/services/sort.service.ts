@@ -263,10 +263,10 @@ export class SortService {
     }
 
     GetSortSymptomsLand() {
-        var prop1 = "Frequency";
-        var prop2_1 = "HasDisease";
-        var prop2_2 = "HasPatient";
-        var prop3 = "Name";
+        var prop1 = "frequency";
+        var prop2_1 = "hasDisease";
+        var prop2_2 = "hasPatient";
+        var prop3 = "name";
         return function (a, b) {
             if ((a[prop1].Id) > (b[prop1].Id)) {
                 return 1;
@@ -291,10 +291,10 @@ export class SortService {
     }
 
     GetSortSymptoms2Land() {
-        var prop1 = "Frequency";
-        var prop2_1 = "HasDisease";
-        var prop2_2 = "HasPatient";
-        var prop3 = "Name";
+        var prop1 = "frequency";
+        var prop2_1 = "hasDisease";
+        var prop2_2 = "hasPatient";
+        var prop3 = "name";
         return function (a, b) {
             if ((a[prop1].Id) == (b[prop1].Id)) {
                 if ((a[prop2_1] && a[prop2_2]) && (b[prop2_1] && b[prop2_2])) {

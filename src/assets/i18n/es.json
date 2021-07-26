@@ -2292,7 +2292,17 @@
       "d11": "Comparte tu caso con tu médico o con otros profesionales",
       "t12": "Re-Análisis",
       "d12": "Reanaliza tu caso según se actualice el caso o la tecnología",
-      "button": "Regístrate en Dx29"
+      "button": "Quiero superpoderes!"
+    },
+    "swal":{
+      "title": "Prepárate para el viaje",
+      "p1": "Nos hemos tomado la molestia de prepararte ya las maletas. Por lo tanto, tendrás en tu nuevo perfil los síntomas y enfermedades que has obtenido para que tu llegada sea lo más cómoda posible.",
+      "p2": "Regístrate y disfruta ya de toda la capacidad de Dx29"
     }
+  },
+  "seo":{
+    "keywords": "diagnóstico, diagnosticar, enfermedad rara, síndrome, enfermedad, pronóstico, síntomas, HPO, epilepsia, crisis epiléptica, status epiléctico, convulsiones, retraso en el desarrollo, temblores, palpitaciones, tónica-clónica, mioclónica, pediatría, genética, neurología, extracción de síntomas, enfermedad genética",
+    "description": "Extracción y curado de síntomas HPO desde texto y documentos. IA que ayuda al diagnóstico de enfermedades raras. Totalmente gratuita para médicos y pacientes.",
+    "title": "Dx29: Extrae síntomas y ayuda al diagnóstico"
   }
 }
