@@ -7,7 +7,8 @@
         </div>
       </div>
       <div class="row" [ngClass]="(topRelatedConditions.length>0)?'diffHeight':''">
-        <div *ngIf="substepExtract=='0'" class="mb-2 offset-xl-1 col-xl-5 mrbox shadow rounded-lg light-background border">
+        <div *ngIf="substepExtract=='0'"
+          class="mb-2 offset-xl-1 col-xl-5 mrbox shadow rounded-lg light-background border">
           <div class="row pt-2">
             <div class="col-md-12">
               <ngb-tabset>
@@ -18,7 +19,7 @@
                     <div>
                       <textarea class="form-control" style="height:30vh;" [(ngModel)]="medicalText" name="medicalText"
                         placeholder="{{'land.placeholder' | translate }}"></textarea>
-                        <!--<mat-checkbox
+                      <!--<mat-checkbox
                             class="example-margin mt-0" name="lucky" [(ngModel)]="lucky">
                           <label (click)="changeLucky()" style="cursor: pointer;">
                             <span>Voy a tener suerte</span>
@@ -30,7 +31,6 @@
                         [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholder') : getLiteral('land.Extract')"
                         [ngClass]="(medicalText.length<5)?'not-allowed':'btn-info'" [disabled]="medicalText.length<5"
                         (click)="startExtractor();"><em class="ml-1 mr-1 mt-1 mb-1 fas fa-play"></em></button>
-                        
                     </div>
                   </ng-template>
                 </ngb-tab>
@@ -48,7 +48,6 @@
                           d="M372 480H12c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h360c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12zm-218.9-96h77.7c8.8 0 16-7.2 16-16V224h93.9c7.1 0 10.7-8.6 5.7-13.6L203.3 66.8c-6.3-6.3-16.4-6.3-22.7 0l-143 143.6c-5 5-1.5 13.6 5.7 13.6h93.9v144c-.1 8.8 7.1 16 15.9 16m0 32c-26.5 0-48-21.5-48-48V256H43.3c-35.6 0-53.4-43.1-28.3-68.2L158 44.2c18.8-18.8 49.2-18.8 68 0l143.1 143.5c25.2 25.2 7.2 68.2-28.3 68.2h-61.9v112c0 26.5-21.5 48-48 48h-77.8v.1z"
                           class=""></path>
                       </svg>
-
                       <h3 class="mt-2">{{'land.Drag and drop file here' | translate }}</h3>
                       <h3>{{'land.or' | translate }}</h3>
                       <label class="btn btn-info btn-raised"
@@ -66,20 +65,17 @@
                 </ngb-tab>
               </ngb-tabset>
             </div>
-
           </div>
           <span style="position: absolute; top:102%">
-            {{'land.availableLangs' | translate }} 
-            <a class="info" href={{refLangs}} target="_blank"
-            title="{{'land.availableLangs' | translate }}"><i
-              class="ft-external-link"></i></a>
+            {{'land.availableLangs' | translate }}
+            <a class="info" href={{refLangs}} target="_blank" title="{{'land.availableLangs' | translate }}"><i
+                class="ft-external-link"></i></a>
           </span>
-          
         </div>
-        <div *ngIf="substepExtract!='0'" class="mb-2 offset-xl-1 col-xl-5 mrbox shadow rounded-lg light-background border"
+        <div *ngIf="substepExtract!='0'"
+          class="mb-2 offset-xl-1 col-xl-5 mrbox shadow rounded-lg light-background border"
           [ngClass]="(substepExtract!='4')?'d-flex':''">
           <div *ngIf="temporalSymptoms.length==0" class="mr-2 section w-100  mb-2 align-self-center">
-
             <span class="d-block pt-2 center-elements font-medium-3">{{'land.The symptoms found will be shown here' |
               translate }}</span>
             <span *ngIf="substepExtract!='0' && substepExtract!='4'" class="d-block pt-2 center-elements">
@@ -88,9 +84,7 @@
                 }}...</span>
               <span class="d-block font-medium-3 mt-1 pb-2">{{'land.pleaseWait' | translate }}</span>
             </span>
-
           </div>
-
           <div *ngIf="temporalSymptoms.length>0" class="section row maintxt">
             <table class="col-md-12 table mb-0 border-bottom">
               <thead>
@@ -144,15 +138,6 @@
                           <em class="fa fa-info w-13"></em>
                         </button>
                         <span class="ml-1 custom-bold">{{hpo.name}}</span>
-
-                        <!--<span class="d-block">
-                          <span *ngIf="hpo.def!=null" style="font-size: 0.925rem;" class="mr-1 text-muted"
-                            title="{{hpo.def}}">{{ (hpo.def.length>100)? (hpo.def | slice:0:100)+'...':(hpo.def)
-                            }}</span>
-                          <span *ngIf="hpo.def==null && hpo.comment!=null" style="font-size: 0.925rem;"
-                            class="mr-1 text-muted" title="{{hpo.comment}}">{{ (hpo.comment.length>100)? (hpo.comment |
-                            slice:0:100)+'...':(hpo.comment) }}</span>
-                        </span>-->
                       </span>
                     </span>
                   </td>
@@ -173,8 +158,6 @@
               </span>
             </span>
           </div>
-
-
         </div>
         <div class="mb-2 col-xl-5 row light-background rounded-lg loadingPanel ml-2 shadow border"
           [ngClass]="(!loadingCalculate && topRelatedConditions.length>0)?'row':''">
@@ -205,7 +188,6 @@
             <p class="d-block font-medium-3 mt-1">{{'land.pleaseWait' | translate }}
             </p>
           </div>
-
           <div *ngIf="substepExtract!='0' && !loadingCalculate" class="section row maintxt">
             <span *ngIf="topRelatedConditions.length>0">
               <table class="col-md-12 table mb-0 bg-white border-bottom">
@@ -241,16 +223,13 @@
                         <em class="fa fa-info w-13"></em>
                       </button>
                       <span class="custom-bold ml-1">{{disease.name}}</span>
-                      <!--<span *ngIf="disease.desc!=null" class="text-muted d-block" style="font-size: 0.925rem;">{{
-                        (disease.desc.length>160)? (disease.desc | slice:0:160)+'...':(disease.desc) }}</span>
-                      <span *ngIf="disease.desc==null" class="text-muted d-block"
-                        style="font-size: 0.925rem;">{{'land.We have no description for this disease' | translate
-                        }}
-                      </span>-->
                     </td>
                   </tr>
-                  <tr *ngIf="temporalDiseases.length>showNumerRelatedConditions && indexListRelatedConditions<temporalDiseases.length" class="col-md-12 text-center">
-                    <a href="javascript:;" class="border-top center-elements pt-2 mb-0" (click)="loadMore()" style="display: block;">
+                  <tr
+                    *ngIf="temporalDiseases.length>showNumerRelatedConditions && indexListRelatedConditions<temporalDiseases.length"
+                    class="col-md-12 text-center">
+                    <a href="javascript:;" class="border-top center-elements pt-2 mb-0" (click)="loadMore()"
+                      style="display: block;">
                       <span>{{'land.Load more diseases' | translate }}</span>
                     </a>
                     <span class="d-block font-small-3 pb-2">{{'land.There are' | translate }} {{totalDiseasesLeft}}
@@ -258,9 +237,9 @@
                   </tr>
                 </tbody>
               </table>
-              <div
-                class="d-block p-2 center-elements border-top" style="background-color: #f5f5f5;">
-                <a href="javascript:;" class="d-block btn btn-info btn-lg btn-raised font-medium-3 mb-0" (click)="registerToDx29Swal(contentToDx29V2)">
+              <div class="d-block p-2 center-elements border-top" style="background-color: #f5f5f5;">
+                <a href="javascript:;" class="d-block btn btn-info btn-lg btn-raised font-medium-3 mb-0"
+                  (click)="registerToDx29Swal(contentToDx29V2)">
                   <span>{{'land.table.button' | translate }}</span>
                 </a>
               </div>
@@ -281,7 +260,6 @@
             </div>
           </div>
         </div>
-        
       </div>
       <a id="initpos"></a>
       <div *ngIf="topRelatedConditions.length>0" class="border-top border-bottom row mt-3 text-center pt-4"
@@ -494,11 +472,8 @@
             </tbody>
           </table>
           <button class="btn btn-info mr-1 btn-raised mb-0 btn-navbar float-right"
-                    (click)="registerToDx29Swal(contentToDx29V2)">{{'land.table.button' | translate }}</button>
-          
-                    
+            (click)="registerToDx29Swal(contentToDx29V2)">{{'land.table.button' | translate }}</button>
         </div>
-        
       </div>
     </div>
   </div>
@@ -592,8 +567,6 @@
         </div>
       </span>
     </div>
-
-
   </div>
   <div class="modal-footer">
     <span>{{'land.See more information about the symptom' | translate }} <a
@@ -608,11 +581,6 @@
   <div class="modal-header" id="idHeader">
     <div class="content-header text-left">
       <h4 class="text-bold-400 mb-0">{{ topRelatedConditions[selectedInfoDiseaseIndex].name }}
-        <!--<span class="ml-1">
-          <a class="info"
-              href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert={{topRelatedConditions[selectedInfoDiseaseIndex].id}}&lng={{lang}}" target="_blank"
-              title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
-        </span>-->
         <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].xRefs!=undefined" class="ml-1">
           <span *ngFor="let xref of topRelatedConditions[selectedInfoDiseaseIndex].xRefs ; let i = index">
             <a *ngIf="xref.name=='Orphanet'" class="info"
@@ -661,11 +629,6 @@
                 <em class="fa fa-info w-13"></em>
               </button>
               <span *ngIf="symptom.name">{{symptom.name}}</span>
-              <!--<span *ngIf="symptom.Name" style="cursor: pointer;" class="ml-1 mt-1"
-                (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease);"
-                title="{{'generics.More information' | translate }} ({{symptom.id}})">
-                {{symptom.id}} <em style="font-size: 1.3em;" class="ml-2 fa fa-info info"></em>
-              </span>-->
               <span *ngIf="!symptom.name">
                 {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                   href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
@@ -962,9 +925,10 @@
             <li><strong>{{'land.table.t12' | translate }}:</strong> {{'land.table.d12' | translate }}</li>
           </ul>
         </span>
-        
-        
-        <button class="btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2()">{{'land.swal.button' | translate }}</button>
+
+
+        <button class="btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2()">{{'land.swal.button' |
+          translate }}</button>
       </div>
     </div>
   </div>

@@ -21,26 +21,9 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
-import {
-    ApexAxisChartSeries,
-    ApexChart,
-    ApexXAxis,
-    ApexYAxis,
-    ApexGrid,
-    ApexDataLabels,
-    ApexStroke,
-    ApexTitleSubtitle,
-    ApexTooltip,
-    ApexLegend,
-    ApexPlotOptions,
-    ApexFill,
-    ApexMarkers,
-    ApexTheme,
-    ApexNonAxisChartSeries,
-    ApexResponsive
-  } from "ng-apexcharts";
+import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexYAxis, ApexGrid, ApexDataLabels, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexLegend, ApexPlotOptions, ApexFill, ApexMarkers, ApexTheme, ApexNonAxisChartSeries, ApexResponsive } from "ng-apexcharts";
 
-  export type ChartOptions = {
+export type ChartOptions = {
     series: ApexAxisChartSeries | ApexNonAxisChartSeries;
     colors: string[],
     chart: ApexChart;
@@ -58,14 +41,14 @@ import {
     markers?: ApexMarkers,
     theme: ApexTheme,
     responsive: ApexResponsive[]
-  };
+};
 
-  var $primary = "#975AFF",
-  $success = "#40C057",
-  $info = "#2F8BE6",
-  $warning = "#F77E17",
-  $danger = "#F55252",
-  $label_color_light = "#E6EAEE";
+var $primary = "#975AFF",
+    $success = "#40C057",
+    $info = "#2F8BE6",
+    $warning = "#F77E17",
+    $danger = "#F55252",
+    $label_color_light = "#E6EAEE";
 var themeColors = [$primary, $warning, $success, $danger, $info];
 
 declare var JSZipUtils: any;
@@ -103,8 +86,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
     showNumerRelatedConditions: number = 8;
     langDetected: string = '';
     loadingCalculate: boolean = false;
-    maps_to_orpha: any = {};
-    orphanet_names: any = {};
     lang: string = 'en';
     originalLang: string = 'en';
     selectedInfoDiseaseIndex: number = -1;
@@ -115,10 +96,10 @@ export class LandPageComponent implements OnInit, OnDestroy {
     showButtonScroll: boolean = false;
     failAnnotate_batch: boolean = false;
     failSegmentation: boolean = false;
-    lineChartIdealOptions : Partial<ChartOptions>;
-    lineChartZoomIdealOptions : Partial<ChartOptions>;
-    lineChartRuidoOptions : Partial<ChartOptions>;
-    refLangs: string ="https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support";
+    lineChartIdealOptions: Partial<ChartOptions>;
+    lineChartZoomIdealOptions: Partial<ChartOptions>;
+    lineChartRuidoOptions: Partial<ChartOptions>;
+    refLangs: string = "https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support";
     lucky: boolean = false;
 
     modelTemp: any;
@@ -137,17 +118,11 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
         this.lang = sessionStorage.getItem('lang');
         this.originalLang = sessionStorage.getItem('lang');
-        if(this.lang=='es'){
-            this.refLangs ="https://docs.microsoft.com/es-es/azure/cognitive-services/translator/language-support";
-        }else{
-            this.refLangs ="https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support";
+        if (this.lang == 'es') {
+            this.refLangs = "https://docs.microsoft.com/es-es/azure/cognitive-services/translator/language-support";
+        } else {
+            this.refLangs = "https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support";
         }
-        this.subscription.add(this.http.get('assets/jsons/maps_to_orpha.json')
-            .subscribe((res: any) => {
-                this.maps_to_orpha = res;
-            }, (err) => {
-                console.log(err);
-            }));
 
         this.loadFilesLang();
 
@@ -158,40 +133,40 @@ export class LandPageComponent implements OnInit, OnDestroy {
         $.getScript("./assets/js/docs/docxtemplater.v2.1.5.js").done(function (script, textStatus) {
             //console.log("finished loading and running docxtemplater.js. with a status of" + textStatus);
         });
-        
+
     }
 
-    initGraphs(){
-        var dataIdeal = [80.4,85.6,88,89.2,90.1,90.6,90.9,91.3,91.6,91.9,92.2,92.3,92.6,92.7,92.9,93,93.3,93.4,93.5,93.6,93.7,93.8,93.8,93.8,93.9,93.9,94,94.1,94.1,94.1,94.2,94.2,94.3,94.3,94.3,94.3,94.3,94.4,94.4,94.4,94.5,94.5,94.5,94.5,94.5,94.5,94.5,94.6,94.6,94.6,94.6,94.6,94.7,94.7,94.7,94.7,94.7,94.7,94.7,94.8,94.9,94.8,94.8,94.8,94.9,94.9,94.9,94.9,95,95,95,95,95,95.1,95.1,95.1,95.2,95.2,95.2,95.3,95.3,95.3,95.4,95.4,95.4,95.4,95.4,95.4,95.4,95.4,95.5];
-        
+    initGraphs() {
+        var dataIdeal = [80.4, 85.6, 88, 89.2, 90.1, 90.6, 90.9, 91.3, 91.6, 91.9, 92.2, 92.3, 92.6, 92.7, 92.9, 93, 93.3, 93.4, 93.5, 93.6, 93.7, 93.8, 93.8, 93.8, 93.9, 93.9, 94, 94.1, 94.1, 94.1, 94.2, 94.2, 94.3, 94.3, 94.3, 94.3, 94.3, 94.4, 94.4, 94.4, 94.5, 94.5, 94.5, 94.5, 94.5, 94.5, 94.5, 94.6, 94.6, 94.6, 94.6, 94.6, 94.7, 94.7, 94.7, 94.7, 94.7, 94.7, 94.7, 94.8, 94.9, 94.8, 94.8, 94.8, 94.9, 94.9, 94.9, 94.9, 95, 95, 95, 95, 95, 95.1, 95.1, 95.1, 95.2, 95.2, 95.2, 95.3, 95.3, 95.3, 95.4, 95.4, 95.4, 95.4, 95.4, 95.4, 95.4, 95.4, 95.5];
+
         this.lineChartIdealOptions = {
             chart: {
-              height: 350,
-              type: 'line',
-              zoom: {
-                enabled: false
-              }
+                height: 350,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                }
             },
             colors: themeColors,
             dataLabels: {
-              enabled: false
+                enabled: false
             },
             stroke: {
-              curve: 'smooth'
+                curve: 'smooth'
             },
             series: [{
-              name: this.translate.instant("land.InfoDx29.Percentage of success of the disease"),
-              data: dataIdeal,
+                name: this.translate.instant("land.InfoDx29.Percentage of success of the disease"),
+                data: dataIdeal,
             }],
             title: {
-              text: this.translate.instant("land.InfoDx29.Ideal patients"),
-              align: 'left'
+                text: this.translate.instant("land.InfoDx29.Ideal patients"),
+                align: 'left'
             },
             grid: {
-              row: {
-                colors: ['#F5F5F5', 'transparent'], // takes an array which will be repeated on columns
-                opacity: 0.5
-              },
+                row: {
+                    colors: ['#F5F5F5', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
             },
             xaxis: {
                 tickAmount: 10,
@@ -200,40 +175,40 @@ export class LandPageComponent implements OnInit, OnDestroy {
                 },
             },
             yaxis: {
-              tickAmount: 5,
+                tickAmount: 5,
             }
-          }
+        }
 
-          var dataZoomIdeal = [80.4,85.6,88,89.2,90.1,90.6,90.9,91.3,91.6,91.9];
-        
+        var dataZoomIdeal = [80.4, 85.6, 88, 89.2, 90.1, 90.6, 90.9, 91.3, 91.6, 91.9];
+
         this.lineChartZoomIdealOptions = {
             chart: {
-              height: 350,
-              type: 'line',
-              zoom: {
-                enabled: false
-              }
+                height: 350,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                }
             },
             colors: themeColors,
             dataLabels: {
-              enabled: false
+                enabled: false
             },
             stroke: {
-              curve: 'smooth'
+                curve: 'smooth'
             },
             series: [{
-              name: this.translate.instant("land.InfoDx29.Percentage of success of the disease"),
-              data: dataZoomIdeal,
+                name: this.translate.instant("land.InfoDx29.Percentage of success of the disease"),
+                data: dataZoomIdeal,
             }],
             title: {
-              text: this.translate.instant("land.InfoDx29.Ideal patients")+' (Top 10)',
-              align: 'left'
+                text: this.translate.instant("land.InfoDx29.Ideal patients") + ' (Top 10)',
+                align: 'left'
             },
             grid: {
-              row: {
-                colors: ['#F5F5F5', 'transparent'], // takes an array which will be repeated on columns
-                opacity: 0.5
-              },
+                row: {
+                    colors: ['#F5F5F5', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
             },
             xaxis: {
                 tickAmount: 1,
@@ -242,40 +217,40 @@ export class LandPageComponent implements OnInit, OnDestroy {
                 },
             },
             yaxis: {
-              tickAmount: 5,
+                tickAmount: 5,
             }
-          }
+        }
 
 
-        var dataRuido = [19.9,27.8,34.3,38.5,41.4,44,46.1,47.8,49.5,51.1,52.7,53.7,54.9,56,56.9,57.7,58.4,59,59.9,60.7,61.4,61.9,62.5,63.1,63.6,64.1,64.6,65,65.5,65.7,66.1,66.4,66.9,67.3,67.6,68.1,68.5,69,69.4,69.8,70.2,70.7,71,71.2,71.6,71.8,72.2,72.4,72.8,73,73.2,73.4,73.7,73.7,74.1,74.3,74.5,74.8,75,75.3,75.5,75.7,75.8,76,76.1,76.4,76.6,76.8,77,77.2,77.3,77.5,77.6,77.8,78,78.1,78.2,78.3,78.4,78.6,78.7,78.8,79,79.1,79.2,79.3,79.5,79.6,79.7,79.8,79.9,80.1,80.2,80.3,80.4,80.6,80.7,80.7,80.9,80.9];
-          this.lineChartRuidoOptions = {
+        var dataRuido = [19.9, 27.8, 34.3, 38.5, 41.4, 44, 46.1, 47.8, 49.5, 51.1, 52.7, 53.7, 54.9, 56, 56.9, 57.7, 58.4, 59, 59.9, 60.7, 61.4, 61.9, 62.5, 63.1, 63.6, 64.1, 64.6, 65, 65.5, 65.7, 66.1, 66.4, 66.9, 67.3, 67.6, 68.1, 68.5, 69, 69.4, 69.8, 70.2, 70.7, 71, 71.2, 71.6, 71.8, 72.2, 72.4, 72.8, 73, 73.2, 73.4, 73.7, 73.7, 74.1, 74.3, 74.5, 74.8, 75, 75.3, 75.5, 75.7, 75.8, 76, 76.1, 76.4, 76.6, 76.8, 77, 77.2, 77.3, 77.5, 77.6, 77.8, 78, 78.1, 78.2, 78.3, 78.4, 78.6, 78.7, 78.8, 79, 79.1, 79.2, 79.3, 79.5, 79.6, 79.7, 79.8, 79.9, 80.1, 80.2, 80.3, 80.4, 80.6, 80.7, 80.7, 80.9, 80.9];
+        this.lineChartRuidoOptions = {
             chart: {
-              height: 350,
-              type: 'line',
-              zoom: {
-                enabled: false
-              }
+                height: 350,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                }
             },
             colors: themeColors,
             dataLabels: {
-              enabled: false
+                enabled: false
             },
             stroke: {
-              curve: 'smooth'
+                curve: 'smooth'
             },
             series: [{
-              name: this.translate.instant("land.InfoDx29.Percentage of success of the disease"),
-              data: dataRuido,
+                name: this.translate.instant("land.InfoDx29.Percentage of success of the disease"),
+                data: dataRuido,
             }],
             title: {
-              text: this.translate.instant("land.InfoDx29.Inaccurate patients"),
-              align: 'left'
+                text: this.translate.instant("land.InfoDx29.Inaccurate patients"),
+                align: 'left'
             },
             grid: {
-              row: {
-                colors: ['#F5F5F5', 'transparent'], // takes an array which will be repeated on columns
-                opacity: 0.5
-              },
+                row: {
+                    colors: ['#F5F5F5', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
             },
             xaxis: {
                 tickAmount: 10,
@@ -284,9 +259,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
                 },
             },
             yaxis: {
-              tickAmount: 5,
+                tickAmount: 5,
             }
-          }
+        }
     }
 
     loadFilesLang() {
@@ -297,24 +272,17 @@ export class LandPageComponent implements OnInit, OnDestroy {
             }, (err) => {
                 console.log(err);
             }));
-
-        this.subscription.add(this.http.get('assets/jsons/orphanet_names_' + this.lang + '.json')
-            .subscribe((res: any) => {
-                this.orphanet_names = res;
-            }, (err) => {
-                console.log(err);
-            }));
     }
 
     ngOnInit() {
         this.eventsService.on('changelang', function (lang) {
             this.lang = lang;
-            if(this.lang=='es'){
-                this.refLangs ="https://docs.microsoft.com/es-es/azure/cognitive-services/translator/language-support";
-            }else{
-                this.refLangs ="https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support";
+            if (this.lang == 'es') {
+                this.refLangs = "https://docs.microsoft.com/es-es/azure/cognitive-services/translator/language-support";
+            } else {
+                this.refLangs = "https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support";
             }
-            
+
             this.loadFilesLang();
             if (this.temporalSymptoms.length > 0 && this.originalLang != lang) {
                 Swal.fire({
@@ -340,8 +308,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
             }
 
         }.bind(this));
-        
-        
+
+
     }
 
     ngOnDestroy() {
@@ -350,7 +318,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
     selected($e) {
         $e.preventDefault();
-        //this.selectedItems.push($e.item);
 
         var symptom = $e.item;
         var foundElement = this.searchService.search(this.temporalSymptoms, 'id', symptom.id);
@@ -362,7 +329,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
             //this.toastr.warning(this.translate.instant("generics.Name")+': '+symptom.name, this.translate.instant("phenotype.You already had the symptom"));
         }
         this.modelTemp = '';
-        //this.inputEl.nativeElement.value = '';
     }
 
     onFileChangePDF(event) {
@@ -420,7 +386,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
         });
 
         this.parserObject.callingParser = true;
-        var full_text = '';
         var self = this;
         var oReq = new XMLHttpRequest();
         var lang = this.lang;
@@ -665,12 +630,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
                         });
 
                         Swal.close();
-
-                        /*document.getElementById("openModalSymptomsNcrButton").click();
-                        this.changeTriggerHotjar('ncrresults_');*/
                         if (hposStrins.length == 0) {
                             Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
-                            //this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
                             this.medicalText = '';
                             this.substepExtract = '0';
                         } else {
@@ -680,7 +641,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     } else {
                         this.substepExtract = '4';
                         Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
-                        //this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
                     }
 
                     this.loadingHpoExtractor = false;
@@ -724,12 +684,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
                         });
 
                         Swal.close();
-
-                        /*document.getElementById("openModalSymptomsNcrButton").click();
-                        this.changeTriggerHotjar('ncrresults_');*/
                         if (hposStrins.length == 0) {
                             Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
-                            //this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
                             this.medicalText = '';
                             this.substepExtract = '0';
                         } else {
@@ -738,12 +694,10 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     } else {
                         this.substepExtract = '4';
                         Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
-                        //this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
                     }
                 } else {
                     this.substepExtract = '4';
                     Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
-                    //this.toastr.warning('', this.translate.instant("phenotype.No symptoms found"));
                 }
 
             }, (err) => {
@@ -767,7 +721,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
                         this.temporalSymptoms[z].similarity = symptom.similarity;
                     }
                     this.temporalSymptoms[z].positions.push(symptom.positions[0]);
-                    //this.temporalSymptoms[z].text.push(symptom.text)
                     enc = true;
                 }
             }
@@ -802,12 +755,12 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
                 }
                 this.substepExtract = '4';
-                if(this.lucky){
+                if (this.lucky) {
                     this.checkSymptoms();
-                }else{
+                } else {
                     this.showSwalSelectSymptoms();
                 }
-                
+
 
             }, (err) => {
                 console.log(err);
@@ -815,33 +768,33 @@ export class LandPageComponent implements OnInit, OnDestroy {
             }));
     }
 
-    showSwalSelectSymptoms(){
+    showSwalSelectSymptoms() {
         var showSwalSelSymptoms = localStorage.getItem('showSwalSelSymptoms');
-        if(showSwalSelSymptoms != 'false'){
+        if (showSwalSelSymptoms != 'false') {
             Swal.fire({
                 icon: 'warning',
-                html: '<p>'+this.translate.instant("land.you have to select")+'</p><p>'+this.translate.instant("land.When you have selected them")+'</p>',
+                html: '<p>' + this.translate.instant("land.you have to select") + '</p><p>' + this.translate.instant("land.When you have selected them") + '</p>',
                 input: 'checkbox',
                 inputPlaceholder: this.translate.instant("land.Do not show this message again")
-              }).then((result) => {
+            }).then((result) => {
                 if (result.isConfirmed) {
-                  if (result.value) {
-                    localStorage.setItem('showSwalSelSymptoms', 'false');
-                  }
+                    if (result.value) {
+                        localStorage.setItem('showSwalSelSymptoms', 'false');
+                    }
                 } else {
-                  console.log(`modal was dismissed by ${result.dismiss}`)
+                    console.log(`modal was dismissed by ${result.dismiss}`)
                 }
-              })
+            })
         }
-        
+
     }
-    
+
     changeStateSymptom(index, state) {
         this.temporalSymptoms[index].checked = state;
         this.getNumberOfSymptomsChecked();
     }
 
-    checkSymptoms(){
+    checkSymptoms() {
         for (var i = 0; i < this.temporalSymptoms.length; i++) {
             this.temporalSymptoms[i].checked = true;
             this.numberOfSymtomsChecked++;
@@ -849,8 +802,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.calculate();
     }
 
-    changeLucky(){
-        this.lucky=!this.lucky;
+    changeLucky() {
+        this.lucky = !this.lucky;
     }
 
     getNumberOfSymptomsChecked() {
@@ -870,7 +823,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
             windowClass: 'ModalClass-sm'// xl, lg, sm
         };
         this.modalReference = this.modalService.open(contentInfoSymptomNcr, ngbModalOptions);
-        //this._openedModalRefs.push(this.modalReference);
     }
 
     calculate() {
@@ -922,28 +874,25 @@ export class LandPageComponent implements OnInit, OnDestroy {
                             this.temporalDiseases[i].desc = res1[valtemp].comment;
                         }
                         this.temporalDiseases[i].xRefs = res1[valtemp].xrefs;
-                    }else{
+                    } else {
                         this.temporalDiseases[i].name = this.temporalDiseases[i].id;
                     }
                 }
                 this.cleanDiseases();
                 this.totalDiseasesLeft = this.temporalDiseases.length - this.showNumerRelatedConditions;
-            this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
-            this.loadingCalculate = false;
-                //this.getOrphaNamesAndCheckPotentialDiagnostics();
+                this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
+                this.loadingCalculate = false;
             }, (err) => {
                 console.log(err);
                 this.loadingCalculate = false;
             }));
     }
-    
-    cleanDiseases(){
+
+    cleanDiseases() {
         for (var i = 0; i < this.temporalDiseases.length; i++) {
-            //get orpha name
             var actualDisease = this.temporalDiseases[i];
-            var orphaId = this.maps_to_orpha.map[actualDisease.id]
             if (actualDisease.xRefs != undefined) {
-                if(actualDisease.xRefs.length==0){
+                if (actualDisease.xRefs.length == 0) {
                     actualDisease.xRefs.push(actualDisease.id);
                 }
                 actualDisease.xRefs.sort((one, two) => (one > two ? -1 : 1));
@@ -952,95 +901,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
             }
             this.temporalDiseases[i].name = this.textTransform.transform(actualDisease.name);
         }
-    }
-
-    async getOrphaNamesAndCheckPotentialDiagnostics() {
-        if (this.orphanet_names.disorders == undefined) {
-            await this.delay(1000);
-            this.getOrphaNamesAndCheckPotentialDiagnostics();
-        } else {
-            var updated = false;
-            for (var i = 0; i < this.temporalDiseases.length; i++) {
-                //get orpha name
-                var found = false;
-                var actualDisease = this.temporalDiseases[i];
-                var orphaId = this.maps_to_orpha.map[actualDisease.id]
-                if (orphaId != undefined) {
-                    var firstOrphaId = orphaId[0];
-                    actualDisease.name = this.orphanet_names.disorders[firstOrphaId].name;
-                    this.temporalDiseases[i].id = firstOrphaId;
-                    found = true;
-                    if(actualDisease.xRefs!= undefined){
-                        var foundElement = this.searchService.search(actualDisease.xRefs,'id', firstOrphaId);
-                        if(!foundElement){
-                            actualDisease.xRefs.push(firstOrphaId);
-                        }
-                    }else{
-                        actualDisease.xRefs = [];
-                        actualDisease.xRefs.push(firstOrphaId);
-                    }
-                    
-                    updated = true;
-                }
-                if (actualDisease.xRefs != undefined && !found) {
-                    for (var j = 0; j < actualDisease.xRefs.length && !found; j++) {
-                        var orphaId = this.maps_to_orpha.map[actualDisease.xRefs[j]]
-                        if (orphaId != undefined) {
-                            var firstOrphaId = orphaId[0];
-                            actualDisease.name = this.orphanet_names.disorders[firstOrphaId].name;
-                            this.temporalDiseases[i].id = firstOrphaId;
-                            found = true;
-                            updated = true;
-                            if(!foundElement){
-                                actualDisease.xRefs.push(firstOrphaId);
-                            }
-                        }
-                    }
-                    if(actualDisease.xRefs.length==0){
-                        actualDisease.xRefs.push(actualDisease.id);
-                    }
-                    actualDisease.xRefs.sort((one, two) => (one > two ? -1 : 1));
-                    var xrefs = this.cleanOrphas(actualDisease.xRefs)
-                    this.temporalDiseases[i].xRefs = xrefs;
-                }
-                this.temporalDiseases[i].name = this.textTransform.transform(actualDisease.name);
-                if(found){
-                    this.temporalDiseases[i].changed = true;
-                }else{
-                    this.temporalDiseases[i].changed = false;
-                }
-            }
-
-            //delete repeated diseases by name
-            //this.temporalDiseases = this.deleteRepeatedDiseases(this.temporalDiseases);
-            this.totalDiseasesLeft = this.temporalDiseases.length - this.showNumerRelatedConditions;
-            this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
-            this.loadingCalculate = false;
-        }
-        
-    }
-
-    delay(ms: number) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    deleteRepeatedDiseases(listOfDiseases) {
-        var res = [];
-        for (var i = 0; i < listOfDiseases.length; i++) {
-            var enc = false;
-            for (var j = 0; j < res.length && !enc; j++) {
-                if (listOfDiseases[i].name == res[j].name) {
-                    enc = true;
-                    if (res[j].xRefs.length == 0 && listOfDiseases[i].xRefs.length > 0) {
-                        res[j].xRefs = listOfDiseases[i].xRefs;
-                    }
-                }
-            }
-            if (!enc) {
-                res.push(listOfDiseases[i]);
-            }
-        }
-        return res;
     }
 
     cleanOrphas(xrefs) {
@@ -1059,10 +919,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
                         res.push({ name: 'OMIM', id: value[1] });
                     }
                     count++;
-
                 }
             }
-
         }
         return res;
     }
@@ -1129,9 +987,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
             setTimeout(function () {
                 Swal.close();
             }, 2000);
-            
+
         } else {
-            //this.toastr.error('', 'Debe de seleccionar al menos un síntoma. para poder copiar los síntomas.');
             Swal.fire(this.translate.instant("land.To be able to copy the symptoms"), '', "warning");
         }
     }
@@ -1139,78 +996,66 @@ export class LandPageComponent implements OnInit, OnDestroy {
     downloadSymptoms() {
         var infoSymptoms = this.getPlainInfoSymptoms2();
         if (infoSymptoms != "") {
-
-            infoSymptoms = infoSymptoms + "\n\n" +"Dx29.ai";
+            infoSymptoms = infoSymptoms + "\n\n" + "Dx29.ai";
             let link = document.createElement('a');
             var actualDate = Date.now();
             link.download = 'Dx29_Symptoms_' + actualDate + '.txt';
-
             let blob = new Blob([infoSymptoms], { type: 'text/plain' });
-
             link.href = URL.createObjectURL(blob);
-
             link.click();
-
             URL.revokeObjectURL(link.href);
         } else {
-            //this.toastr.error('', 'Debe de seleccionar al menos un síntoma. para poder descargar los síntomas.');
             Swal.fire(this.translate.instant("land.In order to download the symptoms"), '', "warning");
         }
     }
 
     showMoreInfoDiseasePopup(diseaseIndex, contentInfoDisease) {
         this.selectedInfoDiseaseIndex = diseaseIndex;
-        if(this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded){
+        if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded) {
             let ngbModalOptions: NgbModalOptions = {
                 keyboard: true,
                 windowClass: 'ModalClass-lg'// xl, lg, sm
             };
             this.modalReference = this.modalService.open(contentInfoDisease, ngbModalOptions);
-        }else{
+        } else {
             this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded = true;
-            if(this.topRelatedConditions[this.selectedInfoDiseaseIndex].changed){
+            if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].changed) {
                 console.log('Ha cambiado');
                 this.getSymptomsOneDisease(this.topRelatedConditions[this.selectedInfoDiseaseIndex].id, contentInfoDisease);
-            }else{
+            } else {
                 this.callGetInfoDiseaseSymptomsJSON(contentInfoDisease);
             }
         }
-        
-        
     }
 
-    getSymptomsOneDisease(id, contentInfoDisease){
+    getSymptomsOneDisease(id, contentInfoDisease) {
         //get symtoms
         var lang = this.lang;
-        this.subscription.add(this.apif29BioService.getSymptomsOfDisease(lang,[id],0)
-        .subscribe( (res : any) => {
-          var info = res[id];
-          var listOfSymptoms = info.phenotypes
-          if(Object.keys(listOfSymptoms).length>0){
-            for(var k in listOfSymptoms) {
-                var foundElement = this.searchService.search(this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms,'id', k);
-                if(foundElement){
-                    for (var j = 0; j < this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms.length; j++) {
-                        if(foundElement){
-                            var indexElement = this.searchService.searchIndex(this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms,'id', k);
-                            this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[indexElement].frequency.id = listOfSymptoms[k].frequency;
+        this.subscription.add(this.apif29BioService.getSymptomsOfDisease(lang, [id], 0)
+            .subscribe((res: any) => {
+                var info = res[id];
+                var listOfSymptoms = info.phenotypes
+                if (Object.keys(listOfSymptoms).length > 0) {
+                    for (var k in listOfSymptoms) {
+                        var foundElement = this.searchService.search(this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms, 'id', k);
+                        if (foundElement) {
+                            for (var j = 0; j < this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms.length; j++) {
+                                if (foundElement) {
+                                    var indexElement = this.searchService.searchIndex(this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms, 'id', k);
+                                    this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[indexElement].frequency.id = listOfSymptoms[k].frequency;
+                                }
+                            }
                         }
-                        
                     }
-                    
                 }
-                
-            }
-  
-          }
-          this.callGetInfoDiseaseSymptomsJSON(contentInfoDisease);
-  
-         }, (err) => {
-           console.log(err);
-           this.toastr.error('', this.translate.instant("dashboardpatient.error try again"));
-         }));
-  
-      }
+                this.callGetInfoDiseaseSymptomsJSON(contentInfoDisease);
+
+            }, (err) => {
+                console.log(err);
+                this.toastr.error('', this.translate.instant("dashboardpatient.error try again"));
+            }));
+
+    }
 
     callGetInfoDiseaseSymptomsJSON(contentInfoDisease) {
         //getInfo symptoms
@@ -1221,7 +1066,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
         var lang = this.lang;
         this.subscription.add(this.apif29BioService.getInfoOfSymptoms(lang, hposStrins)
             .subscribe((res: any) => {
-
                 var tamano = Object.keys(res).length;
                 if (tamano > 0) {
                     for (var i in res) {
@@ -1251,9 +1095,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                                             this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[j].relatedName = name;
                                         }
                                     }
-
                                 }
-
                             }
                         }
                     }
@@ -1279,7 +1121,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
             if (element.frequency != null) {
                 hposStrins.push(element.frequency.id);
             }
-
         });
         var lang = this.lang;
         this.apif29BioService.getInfoOfSymptoms(lang, hposStrins)
@@ -1296,7 +1137,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
                             }
                         }
                     }
-                    //this.fullListSymptoms.sort(this.sortService.GetSortOrder("frequencyId"));
                     for (var ki = 0; ki < this.topRelatedConditions[index].symptoms.length; ki++) {
                         if (this.topRelatedConditions[index].symptoms[ki].frequency.id == 'HP:9999999' || this.topRelatedConditions[index].symptoms[ki].frequency.name == '' || this.topRelatedConditions[index].symptoms[ki].frequency.name == null) {
                             this.topRelatedConditions[index].symptoms[ki].frequency.name = this.translate.instant("land.Unknown");
@@ -1306,15 +1146,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     this.topRelatedConditions[index].symptoms.sort(this.sortService.GetSortTwoElementsLand("frequency", "name"));
                     this.topRelatedConditions[index].symptoms.sort(this.sortService.GetSortSymptomsLand());
                     this.topRelatedConditions[index].symptoms.sort(this.sortService.GetSortSymptoms2Land());
-                    // Llamada para coger los hijos de los sintomas
-                    // List IDs
-                    /*var symptomsOfDiseaseIds =[];
-                    this.topRelatedConditions[index].symptoms.forEach(function(element) {
-                    symptomsOfDiseaseIds.push(element.id);
-                    });
-                    this.getSuccessors(symptomsOfDiseaseIds, index);*/
-
-                    
                 }
 
             }, (err) => {
@@ -1322,87 +1153,22 @@ export class LandPageComponent implements OnInit, OnDestroy {
             });
     }
 
-    async getSuccessors(symptomsOfDiseaseIds, index){
-        return new Promise(async function (resolve, reject) {
-          var result = { status: 200, data: [], message: "Calcule Conditions score OK" }
-          //obtengo los hijos de la lista completa
-          this.subscription.add(this.apif29BioService.getSuccessorsOfSymptomsDepth(symptomsOfDiseaseIds)
-          .subscribe( async (res1 : any) => {
-            for (var i = 0; i < this.topRelatedConditions[index].symptoms.length; i++){
-                if(this.topRelatedConditions[index].symptoms[i].frequency.id=='HP:9999999'){
-                    this.searchFreqSuccesors(res1, index, i, 'HP:9999999')
-                    
-                }
-            }
-            this.topRelatedConditions[index].symptoms.sort(this.sortService.GetSortTwoElementsLand("frequency", "name"));
-            this.topRelatedConditions[index].symptoms.sort(this.sortService.GetSortSymptomsLand());
-            this.topRelatedConditions[index].symptoms.sort(this.sortService.GetSortSymptoms2Land());
-          }, (err) => {
-            console.log(err);
-          }));
-          return resolve(result);
-        }.bind(this))
-      }
-
-    searchFreqSuccesors(tree, index, indexSymp, hpFreq){ 
-        var tamano= Object.keys(tree).length;
-        if(tamano>0){
-            for(var j in tree){
-                if(this.topRelatedConditions[index].symptoms[indexSymp].id==j){
-                    var tamano2= Object.keys(tree[j]).length;
-                    if(tamano2>0){
-                        this.searchFreqSuccesors2(tree[j], index, indexSymp, hpFreq);
-                    }
-                }
-                
-            }
-            
-        }
-    }
-
-    searchFreqSuccesors2(tree, index, indexSymp, hpFreq){
-        var tamano= Object.keys(tree).length;
-        if(tamano>0){
-            var enc = false;
-            for(var j in tree){
-                for (var i = 0; i < this.topRelatedConditions[index].symptoms.length; i++){
-                    if(this.topRelatedConditions[index].symptoms[i].id==j && this.topRelatedConditions[index].symptoms[i].frequency.id!='HP:9999999'){
-                        this.topRelatedConditions[index].symptoms[indexSymp].frequency = this.topRelatedConditions[index].symptoms[i].frequency;
-                        enc = true;
-                        console.log('eNCONTRADO!');
-                    }
-                }
-                if(!enc){
-                    var tamano2= Object.keys(tree[j]).length;
-                    if(tamano2>0){
-                        this.searchFreqSuccesors2(tree[j], index, indexSymp, hpFreq);
-                    }
-                }
-                
-            }
-        }
-    }
-
     downloadResults() {
         var resul = "";
         var infoSymptoms = this.getPlainInfoSymptoms2();
-        if(infoSymptoms!=""){
-            resul = this.translate.instant("diagnosis.Symptoms")+ "\n" + infoSymptoms+ "\n" ;
+        if (infoSymptoms != "") {
+            resul = this.translate.instant("diagnosis.Symptoms") + "\n" + infoSymptoms + "\n";
         }
         var infoDiseases = this.getPlainInfoDiseases();
-        resul = resul+ this.translate.instant("land.Diseases")+ "\n" +infoDiseases + "\n\n\n" +"Dx29.ai";
+        resul = resul + this.translate.instant("land.Diseases") + "\n" + infoDiseases + "\n\n\n" + "Dx29.ai";
         let link = document.createElement('a');
         var actualDate = Date.now();
         link.download = 'Dx29_Results_' + actualDate + '.txt';
 
         let blob = new Blob([resul], { type: 'text/plain' });
-
         link.href = URL.createObjectURL(blob);
-
         link.click();
-
         URL.revokeObjectURL(link.href);
-
     }
 
     getPlainInfoDiseases() {
@@ -1452,7 +1218,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
             showCancelButton: true
         }).then(function (email) {
             if (email.value) {
-
                 Swal.fire({
                     input: 'textarea',
                     inputLabel: this.translate.instant("land.Message"),
@@ -1471,10 +1236,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                         }));
                 }.bind(this))
             } else {
-
             }
-
-
         }.bind(this))
     }
 
@@ -1518,7 +1280,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
                 words.push({ args: value })
             }
             this.resultTextNcrCopy = this.highlightSearch.transformAll(this.resultTextNcr, words);
-
         }
         this.showScrollButton();
     }
@@ -1537,8 +1298,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     this.showButtonScroll = false;
                 }
             }
-
-
         }, 100);
     }
 
@@ -1586,7 +1345,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
     showInfoDx29(contentInfoDx29) {
         this.initGraphs();
-
         let ngbModalOptions: NgbModalOptions = {
             keyboard: true,
             windowClass: 'ModalClass-sm'// xl, lg, sm
@@ -1596,41 +1354,38 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
     onFileDropped(event) {
         var reader = new FileReader();
-            reader.readAsDataURL(event[0]); // read file as data url
-            reader.onload = (event2: any) => { // called once readAsDataURL is completed
-                var the_url = event2.target.result
-
-                var extension = (event[0]).name.substr((event[0]).name.lastIndexOf('.'));
-                extension = extension.toLowerCase();
-                this.langToExtract = '';
-                if (event[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || extension == '.docx') {
-                    this.loadFile(the_url, function (err, content) {
-                        if (err) { console.log(err); };
-                        var doc = new Docxgen(content);
-                        var text = doc.getFullText();
-                        this.detectLanguage(text, 'otherdocs');
-                        this.medicalText = text;
-                        this.showPanelExtractor = true;
-                        this.expanded = true;
-                    }.bind(this))
-                } else if (event[0].type == 'application/pdf' || extension == '.pdf' || extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif') {
-                    this.parserObject.file = event[0]
-                    if (extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif') {
-                        this.parserObject.parserStrategy = 'OcrOnly';
-                    } else {
-                        this.parserObject.parserStrategy = 'OcrOnly';//Auto
-                    }
-
-                    this.callParser();
-
+        reader.readAsDataURL(event[0]); // read file as data url
+        reader.onload = (event2: any) => { // called once readAsDataURL is completed
+            var the_url = event2.target.result
+            var extension = (event[0]).name.substr((event[0]).name.lastIndexOf('.'));
+            extension = extension.toLowerCase();
+            this.langToExtract = '';
+            if (event[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || extension == '.docx') {
+                this.loadFile(the_url, function (err, content) {
+                    if (err) { console.log(err); };
+                    var doc = new Docxgen(content);
+                    var text = doc.getFullText();
+                    this.detectLanguage(text, 'otherdocs');
+                    this.medicalText = text;
+                    this.showPanelExtractor = true;
+                    this.expanded = true;
+                }.bind(this))
+            } else if (event[0].type == 'application/pdf' || extension == '.pdf' || extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif') {
+                this.parserObject.file = event[0]
+                if (extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif') {
+                    this.parserObject.parserStrategy = 'OcrOnly';
                 } else {
-                    Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "error");
+                    this.parserObject.parserStrategy = 'OcrOnly';//Auto
                 }
-
+                this.callParser();
+            } else {
+                Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "error");
             }
-      }
 
-      registerToDx29Swal(contentToDx29V2) {
+        }
+    }
+
+    registerToDx29Swal(contentToDx29V2) {
         let ngbModalOptions: NgbModalOptions = {
             keyboard: true,
             windowClass: 'ModalClass-lg'// xl, lg, sm
@@ -1638,26 +1393,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.modalReference = this.modalService.open(contentToDx29V2, ngbModalOptions);
     }
 
-      /*registerToDx29Swal(){
-        Swal.fire({
-            html:
-            '<h4>'+this.translate.instant("land.table.button")+'</h4>'
-            +'<p>'+this.translate.instant("land.swal.p1")+'</p>'
-            +'<p>'+this.translate.instant("land.swal.p2")+'</p>'
-            +'<button class="btn btn-danger mr-1 btn-raised mb-0 btn-navbar" (click)="registerToDx29V2()">'+this.translate.instant("land.table.button")+'</button>',
-            showCancelButton: false,
-            confirmButtonColor: '#f9423a',
-            confirmButtonText: this.translate.instant("land.table.button"),
-            showLoaderOnConfirm: true,
-            allowOutsideClick: true,
-            reverseButtons: true
-        }).then((result) => {
-            Swal.close();
-            this.registerToDx29V2();
-        });
-      }*/
-
-      registerToDx29V2(){
+    registerToDx29V2() {
         if (this.modalReference != undefined) {
             this.modalReference.close();
         }
@@ -1672,21 +1408,20 @@ export class LandPageComponent implements OnInit, OnDestroy {
         if (info.Symptoms.length > 0) {
             console.log(info);
             this.subscription.add(this.apiDx29ServerService.createblobOpenDx29(info)
-            .subscribe((res: any) => {
-                console.log(res);
-                if(res.message=='Done'){
-                    window.location.href=environment.urlDxv2+"/Identity/Account/Register?opendata="+res.token;
-                }else{
-                    window.location.href=environment.urlDxv2+"/Identity/Account/Register";
-                }
-            }));
-        }else{
-            window.location.href=environment.urlDxv2+"/Identity/Account/Register";
+                .subscribe((res: any) => {
+                    console.log(res);
+                    if (res.message == 'Done') {
+                        window.location.href = environment.urlDxv2 + "/Identity/Account/Register?opendata=" + res.token;
+                    } else {
+                        window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
+                    }
+                }));
+        } else {
+            window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
         }
-        
-      }
+    }
 
-      goto(url){
-        document.getElementById(url).scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
-      }      
+    goto(url) {
+        document.getElementById(url).scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+    }
 }
