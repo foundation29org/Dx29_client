@@ -126,8 +126,8 @@ export class ApiDx29ServerService {
         })
     }
 
-    calculate(info) {
-      return this.http.post(environment.api + '/api/gateway/Diagnosis/calculate', info)
+    calculate(info, lang) {
+      return this.http.post(environment.api + '/api/gateway/Diagnosis/calculate/'+lang, info)
         .map((res: any) => {
           return res;
         }, (err) => {
@@ -138,6 +138,16 @@ export class ApiDx29ServerService {
 
     sendCustomsEmail(info) {
       return this.http.post(environment.api + '/api/sendCustomsEmail', info)
+        .map((res: any) => {
+          return res;
+        }, (err) => {
+          console.log(err);
+          return err;
+        })
+    }
+
+    createblobOpenDx29(symptoms) {
+      return this.http.post(environment.api + '/api/blobOpenDx29', symptoms)
         .map((res: any) => {
           return res;
         }, (err) => {

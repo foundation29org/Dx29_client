@@ -1,5 +1,5 @@
 <section id="login" class="mt-2" style="min-height: 75vh !important;">
-  <div class="container-fluid">
+  <div class="container-fluid pb-4">
     <div style="margin: auto;" style="margin: auto;">
       <div class="text-center p-2">
         <div class="section">
@@ -7,85 +7,92 @@
         </div>
       </div>
       <div class="row" [ngClass]="(topRelatedConditions.length>0)?'diffHeight':''">
-        <div *ngIf="substepExtract=='0'" class="offset-xl-1 col-xl-5 mrbox shadow rounded-lg light-background border">
+        <div *ngIf="substepExtract=='0'"
+          class="mb-2 offset-xl-1 col-xl-5 mrbox shadow rounded-lg light-background border">
           <div class="row pt-2">
             <div class="col-md-12">
-              <ngb-tabset >
+              <ngb-tabset>
                 <ngb-tab>
                   <ng-template ngbTabTitle><strong><i class="fa fa-language" aria-hidden="true"></i>
-                     {{'land.Text' | translate }}</strong></ng-template>
+                      {{'land.Text' | translate }}</strong></ng-template>
                   <ng-template ngbTabContent>
                     <div>
                       <textarea class="form-control" style="height:30vh;" [(ngModel)]="medicalText" name="medicalText"
                         placeholder="{{'land.placeholder' | translate }}"></textarea>
-                      <a class="info"
-                        href={{refLangs}}
-                        target="_blank" title="{{'land.availableLangs' | translate }}">{{'land.availableLangs' | translate }} <i
-                          class="ft-external-link"></i></a>
+                      <!--<mat-checkbox
+                            class="example-margin mt-0" name="lucky" [(ngModel)]="lucky">
+                          <label (click)="changeLucky()" style="cursor: pointer;">
+                            <span>Voy a tener suerte</span>
+                          </label>
+                        </mat-checkbox>-->
                     </div>
                     <div class="text-center mt-2">
                       <button type="button" class="btn btn-lg btn-secondary btn-raised"
                         [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholder') : getLiteral('land.Extract')"
                         [ngClass]="(medicalText.length<5)?'not-allowed':'btn-info'" [disabled]="medicalText.length<5"
-                        (click)="startExtractor();">{{'land.Extract' | translate }} <em class="ml-2 fas fa-play"></em></button>
+                        (click)="startExtractor();"><em class="ml-1 mr-1 mt-1 mb-1 fas fa-play fa-2x"></em></button>
                     </div>
                   </ng-template>
                 </ngb-tab>
                 <ngb-tab>
-                  <ng-template ngbTabTitle><strong><i class="fas fa-file"></i> {{'land.Documents' | translate }}</strong></ng-template>
+                  <ng-template ngbTabTitle><strong><i class="fas fa-file"></i> {{'land.Documents' | translate
+                      }}</strong></ng-template>
                   <ng-template ngbTabContent>
-                    <div class="container mb-2" appDnd (fileDropped)="onFileDropped($event)">
-                      <input type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);" accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
-                      <svg xmlns="http://www.w3.org/2000/svg" width="63" height="64" viewBox="0 0 63 64">
-                        <g fill="#3B454F" fill-rule="nonzero">
-                          <path
-                            d="M42.656 15.135a1.953 1.953 0 0 1-1.391-.578L31.5 4.795l-9.765 9.762a1.97 1.97 0 1 1-2.785-2.785L30.106.616a1.97 1.97 0 0 1 2.785 0l11.157 11.156a1.97 1.97 0 0 1-1.392 3.363z" />
-                          <path
-                            d="M31.5 36.791a1.97 1.97 0 0 1-1.969-1.969V2.01a1.97 1.97 0 0 1 3.938 0v32.812a1.97 1.97 0 0 1-1.969 1.969z" />
-                          <path
-                            d="M55.781 63.041H7.22A7.225 7.225 0 0 1 0 55.822V41.385a4.599 4.599 0 0 1 4.594-4.594h7.234a4.567 4.567 0 0 1 4.402 3.276l2.814 9.382a.658.658 0 0 0 .628.467h23.656a.658.658 0 0 0 .628-.467l2.814-9.385a4.572 4.572 0 0 1 4.402-3.273h7.234A4.599 4.599 0 0 1 63 41.385v14.437a7.225 7.225 0 0 1-7.219 7.219zM4.594 40.729a.656.656 0 0 0-.657.656v14.437a3.286 3.286 0 0 0 3.282 3.282H55.78a3.286 3.286 0 0 0 3.282-3.282V41.385a.656.656 0 0 0-.657-.656h-7.234a.65.65 0 0 0-.628.467L47.73 50.58a4.628 4.628 0 0 1-4.402 3.274H19.672a4.567 4.567 0 0 1-4.402-3.276l-2.814-9.382a.65.65 0 0 0-.628-.467H4.594z" />
-                        </g>
+                    <div class="container-custom" appDnd (fileDropped)="onFileDropped($event)">
+                      <input type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
+                        accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
+                      <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="arrow-alt-from-bottom"
+                        role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
+                        class="info svg-inline--fa fa-arrow-alt-from-bottom fa-w-12 fa-fw fa-2x">
+                        <path fill="currentColor"
+                          d="M372 480H12c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h360c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12zm-218.9-96h77.7c8.8 0 16-7.2 16-16V224h93.9c7.1 0 10.7-8.6 5.7-13.6L203.3 66.8c-6.3-6.3-16.4-6.3-22.7 0l-143 143.6c-5 5-1.5 13.6 5.7 13.6h93.9v144c-.1 8.8 7.1 16 15.9 16m0 32c-26.5 0-48-21.5-48-48V256H43.3c-35.6 0-53.4-43.1-28.3-68.2L158 44.2c18.8-18.8 49.2-18.8 68 0l143.1 143.5c25.2 25.2 7.2 68.2-28.3 68.2h-61.9v112c0 26.5-21.5 48-48 48h-77.8v.1z"
+                          class=""></path>
                       </svg>
-                    
                       <h3 class="mt-2">{{'land.Drag and drop file here' | translate }}</h3>
                       <h3>{{'land.or' | translate }}</h3>
-                      <label class="btn btn-info btn-raised" style="text-transform: none;letter-spacing: 0px;cursor: pointer;" for="fileDropRef">{{'land.Browse for file' | translate }}</label>
+                      <label class="btn btn-info btn-raised"
+                        style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
+                        for="fileDropRef">{{'land.Browse for file' | translate }}</label>
                       <span class="mt-2 d-block text-muted">{{'land.Accepted files' | translate }}</span>
                     </div>
-                    <!--<label class="btn btn-info btn-raised"
-                        style="text-transform: none;letter-spacing: 0px;cursor: pointer;">
-                        <em class="fa fa-file mr-1"></em> {{'land.Extract symptom from document' | translate }} <input
-                          type="file" (change)="onFileChangePDF($event);" style="display: none;" accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif">
-                      </label>-->
+                    <!--<mat-checkbox
+                        class="example-margin mt-0" name="lucky" [(ngModel)]="lucky">
+                      <label (click)="changeLucky()" style="cursor: pointer;">
+                        <span>Voy a tener suerte</span>
+                      </label>
+                    </mat-checkbox>-->
                   </ng-template>
                 </ngb-tab>
               </ngb-tabset>
             </div>
-            
           </div>
-
+          <span style="position: absolute; top:102%">
+            {{'land.availableLangs' | translate }}
+            <a class="info" href={{refLangs}} target="_blank" title="{{'land.availableLangs' | translate }}"><i
+                class="ft-external-link"></i></a>
+          </span>
         </div>
-        <div *ngIf="substepExtract!='0'" class="offset-xl-1 col-xl-5 mrbox shadow rounded-lg light-background border" [ngClass]="(substepExtract!='4')?'d-flex':''">
-            <div *ngIf="temporalSymptoms.length==0" class="mr-2 section w-100  mb-2 align-self-center">
-
-              <span class="d-block pt-2 center-elements font-medium-3">{{'land.The symptoms found will be shown here' |
-                translate }}</span>
-              <span *ngIf="substepExtract!='0' && substepExtract!='4'" class="d-block pt-2 center-elements">
-                <em class="fa fa-spinner fa-spin fa-3x fa-fw info"></em>
-                <span class="d-block overlay-text col-md-12 font-medium-3 mt-2">{{'land.Calculating' | translate
-                  }}...</span>
-                <span class="d-block font-medium-3 mt-1 pb-2">{{'land.pleaseWait' | translate }}</span>
-              </span>
-
-            </div>
-
+        <div *ngIf="substepExtract!='0'"
+          class="mb-2 offset-xl-1 col-xl-5 mrbox shadow rounded-lg light-background border"
+          [ngClass]="(substepExtract!='4')?'d-flex':''">
+          <div *ngIf="temporalSymptoms.length==0" class="mr-2 section w-100  mb-2 align-self-center">
+            <span class="d-block pt-2 center-elements font-medium-3">{{'land.The symptoms found will be shown here' |
+              translate }}</span>
+            <span *ngIf="substepExtract!='0' && substepExtract!='4'" class="d-block pt-2 center-elements">
+              <em class="fa fa-spinner fa-spin fa-3x fa-fw info"></em>
+              <span class="d-block overlay-text col-md-12 font-medium-3 mt-2">{{'land.Calculating' | translate
+                }}...</span>
+              <span class="d-block font-medium-3 mt-1 pb-2">{{'land.pleaseWait' | translate }}</span>
+            </span>
+          </div>
           <div *ngIf="temporalSymptoms.length>0" class="section row maintxt">
             <table class="col-md-12 table mb-0 border-bottom">
               <thead>
                 <tr>
                   <th id="headerTable" style="border-top-style: none;">{{'land.SelectSymptoms' | translate }}
-                    <em class="mt-1 fa fa-download grey float-right mr-2" title="{{'land.Download symptoms' | translate }}"
-                      (click)="downloadSymptoms()" style="cursor: pointer;"></em>
+                    <em class="mt-1 fa fa-download grey float-right mr-2"
+                      title="{{'land.Download symptoms' | translate }}" (click)="downloadSymptoms()"
+                      style="cursor: pointer;"></em>
                     <em class="mt-1 fas fa-copy grey float-right mr-2" title="{{'land.Copy symptoms' | translate }}"
                       (click)="copySymptoms()" style="cursor: pointer;"></em>
                     <em class="mt-1 fa fa-refresh grey float-right mr-2" title="{{'land.Start over' | translate }}"
@@ -100,52 +107,47 @@
                     slice:0:140)+'...':(r.desc) }}</span>
                 </ng-template>
                 <div style="padding-top: 0.5rem !important;">
-                  <i class="fas fa-search ml-1 mr-2"></i> <input #input style="width: 91%;display: inline;"
-                    type="text" class="form-control ml-1" [(ngModel)]="modelTemp" [ngbTypeahead]="searchSymptom"
+                  <i class="fas fa-search ml-1 mr-2"></i> <input #input style="width: 91%;display: inline;" type="text"
+                    class="form-control ml-1" [(ngModel)]="modelTemp" [ngbTypeahead]="searchSymptom"
                     [resultTemplate]="rt" [inputFormatter]="formatter1"
                     placeholder="{{'symptomssection.manualinput' | translate }}" (selectItem)="selected($event)" />
                 </div>
               </caption>
             </table>
-            <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white">
-              <tbody>
-                <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
-                  <td>
-                    <span>
-                      <span class="float-right ml-1">
-                        <button (click)="changeStateSymptom(i, true)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                          [ngClass]="(hpo.checked==true)?'btn-info':'btn-secondary '"
-                          href="javascript:void(0)" title="{{'phenotype.Click to check it' | translate }}">
-                          <em class="fa fa-check w-13"></em>
-                        </button>
-                        <button (click)="changeStateSymptom(i, false)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                          [ngClass]="(hpo.checked==false)?'btn-danger':'btn-secondary'"
-                          href="javascript:void(0)" title="{{'phenotype.Click to uncheck it' | translate }}">
-                          <em class="fa fa-times w-13"></em>
-                        </button>
-                      </span>
+            <div class="table-cont">
+              <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white">
+                <tbody>
+                  <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
+                    <td>
                       <span>
-                        <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);" class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round"
-                        title="{{'generics.More information' | translate }} ({{hpo.id}})">
-                          <em class="fa fa-info w-13"></em>
-                        </button>
-                        <span class="ml-1 custom-bold">{{hpo.name}}</span>
-                        
-                        <!--<span class="d-block">
-                          <span *ngIf="hpo.def!=null" style="font-size: 0.925rem;" class="mr-1 text-muted"
-                            title="{{hpo.def}}">{{ (hpo.def.length>100)? (hpo.def | slice:0:100)+'...':(hpo.def)
-                            }}</span>
-                          <span *ngIf="hpo.def==null && hpo.comment!=null" style="font-size: 0.925rem;"
-                            class="mr-1 text-muted" title="{{hpo.comment}}">{{ (hpo.comment.length>100)? (hpo.comment |
-                            slice:0:100)+'...':(hpo.comment) }}</span>
-                        </span>-->
+                        <span class="float-right ml-1">
+                          <button (click)="changeStateSymptom(i, true)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                            [ngClass]="(hpo.checked==true)?'btn-info':'btn-secondary '" href="javascript:void(0)"
+                            title="{{'phenotype.Click to check it' | translate }}">
+                            <em class="fa fa-check w-13"></em>
+                          </button>
+                          <button (click)="changeStateSymptom(i, false)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                            [ngClass]="(hpo.checked==false)?'btn-danger':'btn-secondary'" href="javascript:void(0)"
+                            title="{{'phenotype.Click to uncheck it' | translate }}">
+                            <em class="fa fa-times w-13"></em>
+                          </button>
+                        </span>
+                        <span>
+                          <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
+                            class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round"
+                            title="{{'generics.More information' | translate }} ({{hpo.id}})">
+                            <em class="fa fa-info w-13"></em>
+                          </button>
+                          <span class="ml-1 custom-bold">{{hpo.name}}</span>
+                        </span>
                       </span>
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <span class="col-md-12 p-2 border-top" style="height: 83px;background-color: #f5f5f5;">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <span class="col-md-12 p-2 border-top" style="height: 69px;background-color: #f5f5f5;">
               <span>
                 <span>
                   {{'land.You have selected' | translate }} {{numberOfSymtomsChecked}} {{'land.symptom' | translate
@@ -159,10 +161,8 @@
               </span>
             </span>
           </div>
-
-
         </div>
-        <div class="col-xl-5 row light-background rounded-lg loadingPanel ml-2 shadow border"
+        <div class="mb-2 col-xl-5 row light-background rounded-lg loadingPanel ml-2 shadow border"
           [ngClass]="(!loadingCalculate && topRelatedConditions.length>0)?'row':''">
           <div *ngIf="!loadingCalculate && topRelatedConditions.length==0"
             class="section w-100 pt-1 pl-2 mb-2 align-self-center">
@@ -191,19 +191,21 @@
             <p class="d-block font-medium-3 mt-1">{{'land.pleaseWait' | translate }}
             </p>
           </div>
-
           <div *ngIf="substepExtract!='0' && !loadingCalculate" class="section row maintxt">
             <span *ngIf="topRelatedConditions.length>0">
               <table class="col-md-12 table mb-0 bg-white border-bottom">
                 <thead>
                   <tr>
                     <th id="headerTable" style="border-top-style: none;">{{'land.Diseases' | translate }}
-                      <em class="mt-1 fa fa-download grey float-right mr-2" title="{{'land.Download results' | translate }}"
-                        (click)="downloadResults()" style="cursor: pointer;"></em>
-                      <em class="mt-1 fas fa-share-alt grey float-right mr-2" title="{{'land.Send results' | translate }}"
-                        (click)="sendEmail()" style="cursor: pointer;"></em>
-                      <em class="mt-1 fa fa-refresh grey float-right mr-2" title="{{'Recalculate diseases' | translate }}"
-                        (click)="calculate()" style="cursor: pointer;"></em>
+                      <em class="mt-1 fa fa-download grey float-right mr-2"
+                        title="{{'land.Download results' | translate }}" (click)="downloadResults()"
+                        style="cursor: pointer;"></em>
+                      <em class="mt-1 fas fa-share-alt grey float-right mr-2"
+                        title="{{'land.Send results' | translate }}" (click)="sendEmail()"
+                        style="cursor: pointer;"></em>
+                      <em class="mt-1 fa fa-refresh grey float-right mr-2"
+                        title="{{'Recalculate diseases' | translate }}" (click)="calculate()"
+                        style="cursor: pointer;"></em>
                     </th>
                   </tr>
                 </thead>
@@ -214,59 +216,269 @@
                       style="cursor: pointer;"></em></span>
                 </caption>
               </table>
-              <table class="table mb-0 bg-white">
-                <tbody>
-                  <tr *ngFor="let disease of topRelatedConditions ; let i = index" class="d-flex">
-                    <td class="col-md-12" id="{{disease.Id}}">
-                      <button class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round"
-                      (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);"
-                      title="{{'generics.More information' | translate }} ({{disease.Id}})">
+              <div class="table-cont">
+                <table class="table mb-0 bg-white">
+                  <tbody>
+                    <tr *ngFor="let disease of topRelatedConditions ; let i = index" class="d-flex">
+                      <td class="col-md-12" id="{{disease.id}}">
+                        <button class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round"
+                          (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);"
+                          title="{{'generics.More information' | translate }} ({{disease.id}})">
                           <em class="fa fa-info w-13"></em>
                         </button>
-                      <span class="custom-bold ml-1">{{disease.name}}</span>
-                      <!--<span *ngIf="disease.desc!=null" class="text-muted d-block" style="font-size: 0.925rem;">{{
-                        (disease.desc.length>160)? (disease.desc | slice:0:160)+'...':(disease.desc) }}</span>
-                      <span *ngIf="disease.desc==null" class="text-muted d-block"
-                        style="font-size: 0.925rem;">{{'land.We have no description for this disease' | translate
-                        }}
-                      </span>-->
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div
-                *ngIf="temporalDiseases.length>showNumerRelatedConditions && indexListRelatedConditions<temporalDiseases.length"
-                class="d-block p-1 center-elements border-top" style="background-color: #f5f5f5;">
-                <a href="javascript:;" class="btn btn-info btn-raised font-medium-3 mt-1 mb-0" (click)="loadMore()">
-                  <i class="fas fa-arrow-up mr-2"></i>
-                  <span>{{'land.Load more diseases' | translate }}</span>
-                  <i class="fas fa-arrow-up ml-2"></i>
+                        <span class="custom-bold ml-1">{{disease.name}}</span>
+                      </td>
+                    </tr>
+                    <tr
+                      *ngIf="temporalDiseases.length>showNumerRelatedConditions && indexListRelatedConditions<temporalDiseases.length"
+                      class="col-md-12 text-center">
+                      <a href="javascript:;" class="border-top center-elements pt-2 mb-0" (click)="loadMore()"
+                        style="display: block;">
+                        <span>{{'land.Load more diseases' | translate }}</span>
+                      </a>
+                      <span class="d-block font-small-3 pb-2">{{'land.There are' | translate }} {{totalDiseasesLeft}}
+                        {{'land.remaining not shown in the table' | translate }}</span>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <div class="d-block p-2 center-elements border-top" style="background-color: #f5f5f5;">
+                <a href="javascript:;" class="d-block btn btn-info btn-lg btn-raised font-medium-3 mb-0"
+                  (click)="registerToDx29Swal(contentToDx29V2)">
+                  <span>{{'land.table.button' | translate }}</span>
                 </a>
-                <span class="d-block font-small-3">{{'land.There are' | translate }} {{totalDiseasesLeft}}
-                  {{'land.remaining not shown in the table' | translate }}</span>
               </div>
             </span>
           </div>
+          <span style="position: absolute; top:102%">
+            {{'land.If you want to know how Dx29' | translate }}
+            <a (click)="showInfoDx29(contentInfoDx29);" title="Dx29 y sus resultados"> {{'land.here' | translate }}</a>
+          </span>
         </div>
       </div>
-      <div class="text-center p-2 mt-2">
-        <span>
-          {{'land.If you want to know how Dx29' | translate }}
-          <a (click)="showInfoDx29(contentInfoDx29);" title="Dx29 y sus resultados"> {{'land.here' | translate }}</a>
-        </span>
+      <div *ngIf="topRelatedConditions.length>0" class="p-2 mt-3">
+        <div class="bodyscroll mt-3">
+          <div class='scrolldown' style="--color: #33658A; cursor: pointer;" (click)="goto('initpos')">
+            <div class="chevrons">
+              <div class='chevrondown'></div>
+              <div class='chevrondown'></div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div *ngIf="topRelatedConditions.length>0" class="border-top row mt-4 text-center pt-4"
+      <a id="initpos"></a>
+      <div *ngIf="topRelatedConditions.length>0" class="border-top border-bottom row mt-3 text-center pt-4"
         style="background-color: #fff;">
         <div class="col-md-12">
           <div class="section2">
             <h3>{{'land.What now' | translate }}</h3>
             <p>{{'land.This was just an appetizer' | translate }}</p>
             <div class="mb-4 p-2">
-              <a class="btn btn-lg btn-danger mr-1 btn-raised mb-0 btn-navbar"
-                href="https://app.dx29.ai/Identity/Account/Register">{{'login.Create User' |
-                translate}}</a>
+
             </div>
           </div>
+        </div>
+        <div class="offset-md-2 col-md-8 offset-xl-3 col-xl-6 mb-4">
+          <table class="table mb-0 text-center">
+            <thead>
+              <tr class="d-flex">
+                <th class="col-md-8 text-left" id="description"></th>
+                <th class="col-md-2" id="openDx29">Open Dx29</th>
+                <th class="col-md-2" id="RegisterDx29">Register Dx29</th>
+              </tr>
+            </thead>
+            <tbody style="max-height:inherit;">
+              <tr class="d-flex">
+                <td class="col-md-8 text-left">
+                  <span>
+                    <strong>{{'land.table.t1' | translate }}</strong>
+                  </span>
+                  <span class="d-block">
+                    {{'land.table.d1' | translate }}
+                  </span>
+                </td>
+                <td class="col-md-2">
+                  <i class="fa fa-check fa-2x info"></i>
+                </td>
+                <td class="col-md-2">
+                  <i class="fa fa-check fa-2x info"></i>
+                </td>
+              </tr>
+              <tr class="d-flex">
+                <td class="col-md-8 text-left">
+                  <span>
+                    <strong>{{'land.table.t2' | translate }}</strong>
+                  </span>
+                  <span class="d-block">
+                    {{'land.table.d2' | translate }}
+                  </span>
+                </td>
+                <td class="col-md-2">
+                  <i class="fa fa-check fa-2x info"></i>
+                </td>
+                <td class="col-md-2">
+                  <i class="fa fa-check fa-2x info"></i>
+                </td>
+              </tr>
+              <tr class="d-flex">
+                <td class="col-md-8 text-left">
+                  <span>
+                    <strong>{{'land.table.t3' | translate }}</strong>
+                  </span>
+                  <span class="d-block">
+                    {{'land.table.d3' | translate }}
+                  </span>
+                </td>
+                <td class="col-md-2">
+                  <i class="fa fa-check fa-2x info"></i>
+                </td>
+                <td class="col-md-2">
+                  <i class="fa fa-check fa-2x info"></i>
+                </td>
+              </tr>
+              <tr class="d-flex">
+                <td class="col-md-8 text-left">
+                  <span>
+                    <strong>{{'land.table.t4' | translate }}</strong>
+                  </span>
+                  <span class="d-block">
+                    {{'land.table.d4' | translate }}
+                  </span>
+                </td>
+                <td class="col-md-2">
+                  <i class="fa fa-check fa-2x info"></i>
+                </td>
+                <td class="col-md-2">
+                  <i class="fa fa-check fa-2x info"></i>
+                </td>
+              </tr>
+              <tr class="d-flex">
+                <td class="col-md-8 text-left">
+                  <span>
+                    <strong>{{'land.table.t5' | translate }}</strong>
+                  </span>
+                  <span class="d-block">
+                    {{'land.table.d5' | translate }}
+                  </span>
+                </td>
+                <td class="col-md-2">
+                  <i class="fa fa-check fa-2x info"></i>
+                </td>
+                <td class="col-md-2">
+                  <i class="fa fa-check fa-2x info"></i>
+                </td>
+              </tr>
+              <tr class="d-flex">
+                <td class="col-md-8 text-left">
+                  <span>
+                    <strong>{{'land.table.t6' | translate }}</strong>
+                  </span>
+                  <span class="d-block">
+                    {{'land.table.d6' | translate }}
+                  </span>
+                </td>
+                <td class="col-md-2">
+                  <i class="fa fa-check fa-2x info"></i>
+                </td>
+                <td class="col-md-2">
+                  <i class="fa fa-check fa-2x info"></i>
+                </td>
+              </tr>
+              <tr class="d-flex">
+                <td class="col-md-8 text-left">
+                  <span>
+                    <strong>{{'land.table.t7' | translate }}</strong>
+                  </span>
+                  <span class="d-block">
+                    {{'land.table.d7' | translate }}
+                  </span>
+                </td>
+                <td class="col-md-2">
+                </td>
+                <td class="col-md-2">
+                  <i class="fa fa-check fa-2x info"></i>
+                </td>
+              </tr>
+              <tr class="d-flex">
+                <td class="col-md-8 text-left">
+                  <span>
+                    <strong>{{'land.table.t8' | translate }}</strong>
+                  </span>
+                  <span class="d-block">
+                    {{'land.table.d8' | translate }}
+                  </span>
+                </td>
+                <td class="col-md-2">
+                </td>
+                <td class="col-md-2">
+                  <i class="fa fa-check fa-2x info"></i>
+                </td>
+              </tr>
+              <tr class="d-flex">
+                <td class="col-md-8 text-left">
+                  <span>
+                    <strong>{{'land.table.t9' | translate }}</strong>
+                  </span>
+                  <span class="d-block">
+                    {{'land.table.d9' | translate }}
+                  </span>
+                </td>
+                <td class="col-md-2">
+                </td>
+                <td class="col-md-2">
+                  <i class="fa fa-check fa-2x info"></i>
+                </td>
+              </tr>
+              <tr class="d-flex">
+                <td class="col-md-8 text-left">
+                  <span>
+                    <strong>{{'land.table.t10' | translate }}</strong>
+                  </span>
+                  <span class="d-block">
+                    {{'land.table.d10' | translate }}
+                  </span>
+                </td>
+                <td class="col-md-2">
+                </td>
+                <td class="col-md-2">
+                  <i class="fa fa-check fa-2x info"></i>
+                </td>
+              </tr>
+              <tr class="d-flex">
+                <td class="col-md-8 text-left">
+                  <span>
+                    <strong>{{'land.table.t11' | translate }}</strong>
+                  </span>
+                  <span class="d-block">
+                    {{'land.table.d11' | translate }}
+                  </span>
+                </td>
+                <td class="col-md-2">
+                </td>
+                <td class="col-md-2">
+                  <i class="fa fa-check fa-2x info"></i>
+                </td>
+              </tr>
+              <tr class="d-flex">
+                <td class="col-md-8 text-left">
+                  <span>
+                    <strong>{{'land.table.t12' | translate }}</strong>
+                  </span>
+                  <span class="d-block">
+                    {{'land.table.d12' | translate }}
+                  </span>
+                </td>
+                <td class="col-md-2">
+                </td>
+                <td class="col-md-2">
+                  <i class="fa fa-check fa-2x info"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <button class="btn btn-info mr-1 btn-raised mb-0 btn-navbar float-right"
+            (click)="registerToDx29Swal(contentToDx29V2)">{{'land.table.button' | translate }}</button>
         </div>
       </div>
     </div>
@@ -361,8 +573,6 @@
         </div>
       </span>
     </div>
-
-
   </div>
   <div class="modal-footer">
     <span>{{'land.See more information about the symptom' | translate }} <a
@@ -377,18 +587,18 @@
   <div class="modal-header" id="idHeader">
     <div class="content-header text-left">
       <h4 class="text-bold-400 mb-0">{{ topRelatedConditions[selectedInfoDiseaseIndex].name }}
-        <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].XRefs!=undefined" class="ml-1">
-          <span *ngFor="let xref of topRelatedConditions[selectedInfoDiseaseIndex].XRefs ; let i = index">
+        <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].xRefs!=undefined" class="ml-1">
+          <span *ngFor="let xref of topRelatedConditions[selectedInfoDiseaseIndex].xRefs ; let i = index">
             <a *ngIf="xref.name=='Orphanet'" class="info"
               href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert={{xref.id}}&lng={{lang}}" target="_blank"
               title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
             <a *ngIf="xref.name=='OMIM'" class="info" href="https://omim.org/entry/{{xref.id}}" target="_blank"
               title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
-            <span *ngIf="i<(topRelatedConditions[selectedInfoDiseaseIndex].XRefs.length-1)">, </span>
+            <span *ngIf="i<(topRelatedConditions[selectedInfoDiseaseIndex].xRefs.length-1)"> </span>
           </span>
         </span>
       </h4>
-      <span class="content-sub-header text-muted">{{ topRelatedConditions[selectedInfoDiseaseIndex].Id }}</span>
+      <span class="content-sub-header text-muted">{{ topRelatedConditions[selectedInfoDiseaseIndex].id }}</span>
     </div>
     <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
       <span aria-hidden="true">&times;</span>
@@ -398,10 +608,11 @@
     <p *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].desc!=null">{{
       topRelatedConditions[selectedInfoDiseaseIndex].desc }}</p>
 
-    <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Id == 'MONDO:0009688'">
-      <button (click)="showInfoSponsored(contentInfoSponsored);" title="MYASTHENIA GRAVIS" class="btn btn-danger btn-raised">{{'land.Sponsor' | translate}} Miastenia Gravis (MG)</button>
+    <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].id == 'MONDO:0009688'">
+      <button (click)="showInfoSponsored(contentInfoSponsored);" title="MYASTHENIA GRAVIS"
+        class="btn btn-danger btn-raised">{{'land.Sponsor' | translate}} Miastenia Gravis (MG)</button>
     </span>
-    <div *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms.length>0">
+    <div *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].symptoms.length>0">
       <h5 class="text-bold-300 mb-0">{{'land.Symptom by symptom comparison' | translate }}</h5>
       <p class="text-muted">{{'land.Table showing' | translate }}</p>
       <table class="table mb-0 text-center">
@@ -415,55 +626,53 @@
           </tr>
         </thead>
         <tbody style="max-height:inherit;">
-          <tr *ngFor="let symptom of topRelatedConditions[selectedInfoDiseaseIndex].Symptoms ; let i = index"
+          <tr *ngFor="let symptom of topRelatedConditions[selectedInfoDiseaseIndex].symptoms ; let i = index"
             class="d-flex">
             <td class="col-md-5 text-left">
-              <button *ngIf="symptom.Name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease);" class="btn-outline-info btn btn-sm mr-2 mb-0 btn-fab round"
-                        title="{{'generics.More information' | translate }} ({{symptom.Id}})">
-                          <em class="fa fa-info w-13"></em>
-                        </button>
-              <span *ngIf="symptom.Name">{{symptom.Name}}</span>
-              <!--<span *ngIf="symptom.Name" style="cursor: pointer;" class="ml-1 mt-1"
-                (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease);"
-                title="{{'generics.More information' | translate }} ({{symptom.Id}})">
-                {{symptom.id}} <em style="font-size: 1.3em;" class="ml-2 fa fa-info info"></em>
-              </span>-->
-              <span *ngIf="!symptom.Name">
-                {{symptom.Id}} ({{'phenotype.Deprecated' | translate}}) <a
-                  href="https://hpo.jax.org/app/browse/term/{{symptom.Id}}" target="_blank" title="{{symptom.Id}}">
+              <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease);"
+                class="btn-outline-info btn btn-sm mr-2 mb-0 btn-fab round"
+                title="{{'generics.More information' | translate }} ({{symptom.id}})">
+                <em class="fa fa-info w-13"></em>
+              </button>
+              <span *ngIf="symptom.name">{{symptom.name}}</span>
+              <span *ngIf="!symptom.name">
+                {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                  href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
                   <i class="ft-external-link"></i></a></span>
             </td>
             <td class="col-md-2">
-              <span *ngIf="symptom.Frequency.Name!=''" title="{{symptom.Frequency.Desc}}">{{symptom.Frequency.Name}}</span>
-              <span *ngIf="symptom.Frequency.Name==''" title="{{'land.Unknown' | translate}}">{{'land.Unknown' | translate}}</span>
+              <span *ngIf="symptom.frequency.name!=''"
+                title="{{symptom.frequency.desc}}">{{symptom.frequency.name}}</span>
+              <span *ngIf="symptom.frequency.name==''" title="{{'land.Unknown' | translate}}">{{'land.Unknown' |
+                translate}}</span>
             </td>
             <td class="col-md-2">
-              <i *ngIf="symptom.HasPatient" class="fa fa-check success"></i>
-              <i *ngIf="!symptom.HasPatient" class="fa fa-times danger"></i>
+              <i *ngIf="symptom.hasPatient" class="fa fa-check success"></i>
+              <i *ngIf="!symptom.hasPatient" class="fa fa-times danger"></i>
             </td>
             <td class="col-md-2">
-              <i *ngIf="symptom.HasDisease" class="fa fa-check success"></i>
-              <i *ngIf="!symptom.HasDisease" class="fa fa-times danger"></i>
+              <i *ngIf="symptom.hasDisease" class="fa fa-check success"></i>
+              <i *ngIf="!symptom.hasDisease" class="fa fa-times danger"></i>
             </td>
             <td class="col-md-1">
-              <span *ngIf="symptom.HasPatient && symptom.HasDisease">
-                <span *ngIf="symptom.Relationship == 'Equal'">
+              <span *ngIf="symptom.hasPatient && symptom.hasDisease">
+                <span *ngIf="symptom.relationship == 'Equal'">
                   <i class="fas fa-info-circle info"
                     title="{{'land.Symptom observed in the patient and the disease' | translate }}"></i>
                 </span>
-                <span *ngIf="symptom.Relationship == 'Successor'">
+                <span *ngIf="symptom.relationship == 'Successor'">
                   <i class="fas fa-info-circle info"
-                    title="{{'land.Symptom deduced in the patient because they also present' | translate }} {{symptom.RelatedName}}"></i>
+                    title="{{'land.Symptom deduced in the patient because they also present' | translate }} {{symptom.relatedName}}"></i>
                 </span>
-                <span *ngIf="symptom.Relationship == 'Predecessor'">
+                <span *ngIf="symptom.relationship == 'Predecessor'">
                   <i class="fas fa-info-circle info"
                     title="{{'land.Symptom observed in patient and disease' | translate }}"></i>
                 </span>
               </span>
-              <span *ngIf="symptom.HasPatient && !symptom.HasDisease">
+              <span *ngIf="symptom.hasPatient && !symptom.hasDisease">
                 <i class="fas fa-info-circle info" title="{{'land.Symptom observed in the patient' | translate }}"></i>
               </span>
-              <span *ngIf="!symptom.HasPatient && symptom.HasDisease">
+              <span *ngIf="!symptom.hasPatient && symptom.hasDisease">
                 <i class="fas fa-info-circle info" title="{{'land.Symptom observed in the disease' | translate }}"></i>
               </span>
             </td>
@@ -477,8 +686,8 @@
 <ng-template #contentInfoSymptomDisease let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-header" id="idHeader">
     <div class="content-header text-left">
-      <h4>{{topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].Name }} -
-        {{topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].Id }}</h4>
+      <h4>{{topRelatedConditions[selectedInfoDiseaseIndex].symptoms[selectedInfoSymptomIndex].name }} -
+        {{topRelatedConditions[selectedInfoDiseaseIndex].symptoms[selectedInfoSymptomIndex].id }}</h4>
     </div>
     <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
       <span aria-hidden="true">&times;</span>
@@ -486,33 +695,33 @@
   </div>
   <div class="modal-body content-wrapper p-2">
     <div class="row col-md-12" class="p-2">
-      <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].Desc!=null">
+      <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].symptoms[selectedInfoSymptomIndex].desc!=null">
         <h5><strong>{{'generics.Description' | translate }}</strong></h5>
-        <span>{{topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].Desc}} </span>
+        <span>{{topRelatedConditions[selectedInfoDiseaseIndex].symptoms[selectedInfoSymptomIndex].desc}} </span>
       </span>
-      <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].Desc==''">
+      <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].symptoms[selectedInfoSymptomIndex].desc==''">
         <h5><strong>{{'generics.Description' | translate }}</strong></h5>
         <span> {{'symptomssection.No description' | translate }} </span>
       </span>
     </div>
-    <div *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms">
-      <div *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms.length"
+    <div *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].symptoms[selectedInfoSymptomIndex].synonyms">
+      <div *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].symptoms[selectedInfoSymptomIndex].synonyms.length"
         class="p-2">
         <h5><strong>{{'generics.Synonyms' | translate }}</strong></h5>
         <span
-          *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms.length>0">
-          <p *ngFor="let synonym of topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms ; let j = index"
-            [ngClass]="(j==topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms.length-1)?'mb-0':''">
+          *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].symptoms[selectedInfoSymptomIndex].synonyms.length>0">
+          <p *ngFor="let synonym of topRelatedConditions[selectedInfoDiseaseIndex].symptoms[selectedInfoSymptomIndex].synonyms ; let j = index"
+            [ngClass]="(j==topRelatedConditions[selectedInfoDiseaseIndex].symptoms[selectedInfoSymptomIndex].synonyms.length-1)?'mb-0':''">
             <span>{{j+1}}. </span> <span>{{synonym.label}}</span>
           </p>
         </span>
         <span
-          *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms.length==0">
+          *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].symptoms[selectedInfoSymptomIndex].synonyms.length==0">
           {{'symptomssection.No synonyms' | translate }}
         </span>
       </div>
     </div>
-    <div *ngIf="!topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].synonyms">
+    <div *ngIf="!topRelatedConditions[selectedInfoDiseaseIndex].symptoms[selectedInfoSymptomIndex].synonyms">
       <span>
         {{'symptomssection.No synonyms' | translate }}
       </span>
@@ -521,9 +730,9 @@
   </div>
   <div class="modal-footer">
     <span>{{'land.See more information about the symptom' | translate }} <a
-        href="https://hpo.jax.org/app/browse/term/{{topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].Id}}"
+        href="https://hpo.jax.org/app/browse/term/{{topRelatedConditions[selectedInfoDiseaseIndex].symptoms[selectedInfoSymptomIndex].id}}"
         target="_blank"
-        title=" {{topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].name}} ({{topRelatedConditions[selectedInfoDiseaseIndex].Symptoms[selectedInfoSymptomIndex].Id}}):">
+        title=" {{topRelatedConditions[selectedInfoDiseaseIndex].symptoms[selectedInfoSymptomIndex].name}} ({{topRelatedConditions[selectedInfoDiseaseIndex].symptoms[selectedInfoSymptomIndex].id}}):">
         <i class="ft-external-link"></i></a></span>
   </div>
 </ng-template>
@@ -625,9 +834,10 @@
   </div>
   <div class="modal-body content-wrapper p-2">
     <p>
-      {{'land.InfoDx29.p1' | translate }} <a href="https://monarchinitiative.org" target="_blank" title="Monarch Initiative">Monarch Initiative <i class="ft-external-link"></i></a>. 
+      {{'land.InfoDx29.p1' | translate }} <a href="https://monarchinitiative.org" target="_blank"
+        title="Monarch Initiative">Monarch Initiative <i class="ft-external-link"></i></a>.
       {{'land.InfoDx29.p2' | translate }}
-    </p> 
+    </p>
     <p>
       {{'land.InfoDx29.p3' | translate }}
     </p>
@@ -635,7 +845,7 @@
       {{'land.InfoDx29.p4' | translate }}
     </p>
     <ol>
-      <li>{{'land.InfoDx29.p5' | translate }} 
+      <li>{{'land.InfoDx29.p5' | translate }}
         <ul>
           <li>{{'land.InfoDx29.p6' | translate }}</li>
           <li>{{'land.InfoDx29.p7' | translate }}</li>
@@ -645,83 +855,87 @@
       <li>{{'land.InfoDx29.p9' | translate }}</li>
     </ol>
     <p>
-      {{'land.InfoDx29.p10' | translate }} 
+      {{'land.InfoDx29.p10' | translate }}
     </p>
     <p>
       {{'land.InfoDx29.p11' | translate }}
     </p>
-<div class="mt-4 mb-4">
-  <apx-chart
-  [series]="lineChartIdealOptions.series"
-  [colors]="lineChartIdealOptions.colors"
-  [chart]="lineChartIdealOptions.chart"
-  [xaxis]="lineChartIdealOptions.xaxis"
-  [yaxis]="lineChartIdealOptions.yaxis"
-  [title]="lineChartIdealOptions.title"
-  [dataLabels]="lineChartIdealOptions.dataLabels"
-  [stroke]="lineChartIdealOptions.stroke"
-  [grid]="lineChartIdealOptions.grid"
-  [tooltip]="lineChartIdealOptions.tooltip"
-  [plotOptions]="lineChartIdealOptions.plotOptions"
-  [fill]="lineChartIdealOptions.fill"
-  [legend]="lineChartIdealOptions.legend"
-  [labels]="lineChartIdealOptions.labels"
-  [markers]="lineChartIdealOptions.markers"
-  [theme]="lineChartIdealOptions.theme"
-  [responsive]="lineChartIdealOptions.responsive"
-></apx-chart>
-</div>
- <p>
-  {{'land.InfoDx29.p12' | translate }}
- </p>
- <div class="mt-4 mb-4">
-  <apx-chart
-  [series]="lineChartZoomIdealOptions.series"
-  [colors]="lineChartZoomIdealOptions.colors"
-  [chart]="lineChartZoomIdealOptions.chart"
-  [xaxis]="lineChartZoomIdealOptions.xaxis"
-  [yaxis]="lineChartZoomIdealOptions.yaxis"
-  [title]="lineChartZoomIdealOptions.title"
-  [dataLabels]="lineChartZoomIdealOptions.dataLabels"
-  [stroke]="lineChartZoomIdealOptions.stroke"
-  [grid]="lineChartZoomIdealOptions.grid"
-  [tooltip]="lineChartZoomIdealOptions.tooltip"
-  [plotOptions]="lineChartZoomIdealOptions.plotOptions"
-  [fill]="lineChartZoomIdealOptions.fill"
-  [legend]="lineChartZoomIdealOptions.legend"
-  [labels]="lineChartZoomIdealOptions.labels"
-  [markers]="lineChartZoomIdealOptions.markers"
-  [theme]="lineChartZoomIdealOptions.theme"
-  [responsive]="lineChartZoomIdealOptions.responsive"
-></apx-chart>
-</div>
+    <div class="mt-4 mb-4">
+      <apx-chart [series]="lineChartIdealOptions.series" [colors]="lineChartIdealOptions.colors"
+        [chart]="lineChartIdealOptions.chart" [xaxis]="lineChartIdealOptions.xaxis"
+        [yaxis]="lineChartIdealOptions.yaxis" [title]="lineChartIdealOptions.title"
+        [dataLabels]="lineChartIdealOptions.dataLabels" [stroke]="lineChartIdealOptions.stroke"
+        [grid]="lineChartIdealOptions.grid" [tooltip]="lineChartIdealOptions.tooltip"
+        [plotOptions]="lineChartIdealOptions.plotOptions" [fill]="lineChartIdealOptions.fill"
+        [legend]="lineChartIdealOptions.legend" [labels]="lineChartIdealOptions.labels"
+        [markers]="lineChartIdealOptions.markers" [theme]="lineChartIdealOptions.theme"
+        [responsive]="lineChartIdealOptions.responsive"></apx-chart>
+    </div>
+    <p>
+      {{'land.InfoDx29.p12' | translate }}
+    </p>
+    <div class="mt-4 mb-4">
+      <apx-chart [series]="lineChartZoomIdealOptions.series" [colors]="lineChartZoomIdealOptions.colors"
+        [chart]="lineChartZoomIdealOptions.chart" [xaxis]="lineChartZoomIdealOptions.xaxis"
+        [yaxis]="lineChartZoomIdealOptions.yaxis" [title]="lineChartZoomIdealOptions.title"
+        [dataLabels]="lineChartZoomIdealOptions.dataLabels" [stroke]="lineChartZoomIdealOptions.stroke"
+        [grid]="lineChartZoomIdealOptions.grid" [tooltip]="lineChartZoomIdealOptions.tooltip"
+        [plotOptions]="lineChartZoomIdealOptions.plotOptions" [fill]="lineChartZoomIdealOptions.fill"
+        [legend]="lineChartZoomIdealOptions.legend" [labels]="lineChartZoomIdealOptions.labels"
+        [markers]="lineChartZoomIdealOptions.markers" [theme]="lineChartZoomIdealOptions.theme"
+        [responsive]="lineChartZoomIdealOptions.responsive"></apx-chart>
+    </div>
 
-<p>
-  {{'land.InfoDx29.p13' | translate }}
-</p>
-<div class="mt-4 mb-4">
-  <apx-chart
-  [series]="lineChartRuidoOptions.series"
-  [colors]="lineChartRuidoOptions.colors"
-  [chart]="lineChartRuidoOptions.chart"
-  [xaxis]="lineChartRuidoOptions.xaxis"
-  [yaxis]="lineChartRuidoOptions.yaxis"
-  [title]="lineChartRuidoOptions.title"
-  [dataLabels]="lineChartRuidoOptions.dataLabels"
-  [stroke]="lineChartRuidoOptions.stroke"
-  [grid]="lineChartRuidoOptions.grid"
-  [tooltip]="lineChartRuidoOptions.tooltip"
-  [plotOptions]="lineChartRuidoOptions.plotOptions"
-  [fill]="lineChartRuidoOptions.fill"
-  [legend]="lineChartRuidoOptions.legend"
-  [labels]="lineChartRuidoOptions.labels"
-  [markers]="lineChartRuidoOptions.markers"
-  [theme]="lineChartRuidoOptions.theme"
-  [responsive]="lineChartRuidoOptions.responsive"
-></apx-chart>
-</div>
- <p>
-  {{'land.InfoDx29.p14' | translate }}
- </p>
+    <p>
+      {{'land.InfoDx29.p13' | translate }}
+    </p>
+    <div class="mt-4 mb-4">
+      <apx-chart [series]="lineChartRuidoOptions.series" [colors]="lineChartRuidoOptions.colors"
+        [chart]="lineChartRuidoOptions.chart" [xaxis]="lineChartRuidoOptions.xaxis"
+        [yaxis]="lineChartRuidoOptions.yaxis" [title]="lineChartRuidoOptions.title"
+        [dataLabels]="lineChartRuidoOptions.dataLabels" [stroke]="lineChartRuidoOptions.stroke"
+        [grid]="lineChartRuidoOptions.grid" [tooltip]="lineChartRuidoOptions.tooltip"
+        [plotOptions]="lineChartRuidoOptions.plotOptions" [fill]="lineChartRuidoOptions.fill"
+        [legend]="lineChartRuidoOptions.legend" [labels]="lineChartRuidoOptions.labels"
+        [markers]="lineChartRuidoOptions.markers" [theme]="lineChartRuidoOptions.theme"
+        [responsive]="lineChartRuidoOptions.responsive"></apx-chart>
+    </div>
+    <p>
+      {{'land.InfoDx29.p14' | translate }}
+    </p>
+  </div>
+</ng-template>
+<ng-template #contentToDx29V2 let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 center-elements mb-3">
+    <div class="p-2">
+      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="align-self-center"><strong>{{'land.swal.title' | translate }}</strong></h4>
+    </div>
+    <div class="row col-md-12">
+      <div class="col-md-5">
+        <img class="col-md-12 mt-1" src='assets/img/home/kid.jpg' />
+      </div>
+      <div class="col-md-7 align-self-center">
+        <span class="text-left">
+          <p><strong>{{'land.swal.subtitle' | translate }}</strong></p>
+          <p [innerHTML]="'land.swal.p1' | translate"></p>
+          <p>{{'land.swal.p2' | translate }}</p>
+          <ul>
+            <li><strong>{{'land.table.t7' | translate }}:</strong> {{'land.table.d7' | translate }}</li>
+            <li><strong>{{'land.table.t8' | translate }}:</strong> {{'land.table.d8' | translate }}</li>
+            <li><strong>{{'land.table.t9' | translate }}:</strong> {{'land.table.d9' | translate }}</li>
+            <li><strong>{{'land.table.t10' | translate }}:</strong> {{'land.table.d10' | translate }}</li>
+            <li><strong>{{'land.table.t11' | translate }}:</strong> {{'land.table.d11' | translate }}</li>
+            <li><strong>{{'land.table.t12' | translate }}:</strong> {{'land.table.d12' | translate }}</li>
+          </ul>
+        </span>
+
+
+        <button class="btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2()">{{'land.swal.button' |
+          translate }}</button>
+      </div>
+    </div>
   </div>
 </ng-template>

@@ -245,9 +245,9 @@ export class SortService {
 
     GetSortTwoElementsLand(prop1: string, prop2: string) {
         return function (a, b) {
-            if (a[prop1].Id < b[prop1].Id) {
+            if (a[prop1].id < b[prop1].id) {
                 return -1;
-            } else if (a[prop1].Id > b[prop1].Id) {
+            } else if (a[prop1].id > b[prop1].id) {
                 return 1;
             } else {
                 if (a[prop2] < b[prop2]) {
@@ -263,14 +263,14 @@ export class SortService {
     }
 
     GetSortSymptomsLand() {
-        var prop1 = "Frequency";
-        var prop2_1 = "HasDisease";
-        var prop2_2 = "HasPatient";
-        var prop3 = "Name";
+        var prop1 = "frequency";
+        var prop2_1 = "hasDisease";
+        var prop2_2 = "hasPatient";
+        var prop3 = "name";
         return function (a, b) {
-            if ((a[prop1].Id) > (b[prop1].Id)) {
+            if ((a[prop1].id) > (b[prop1].id)) {
                 return 1;
-            } else if ((a[prop1].Id) < (b[prop1].Id)) {
+            } else if ((a[prop1].id) < (b[prop1].id)) {
                 return -1;
             } else {
                 if (a[prop2_1] && a[prop2_2]) {
@@ -291,12 +291,12 @@ export class SortService {
     }
 
     GetSortSymptoms2Land() {
-        var prop1 = "Frequency";
-        var prop2_1 = "HasDisease";
-        var prop2_2 = "HasPatient";
-        var prop3 = "Name";
+        var prop1 = "frequency";
+        var prop2_1 = "hasDisease";
+        var prop2_2 = "hasPatient";
+        var prop3 = "name";
         return function (a, b) {
-            if ((a[prop1].Id) == (b[prop1].Id)) {
+            if ((a[prop1].id) == (b[prop1].id)) {
                 if ((a[prop2_1] && a[prop2_2]) && (b[prop2_1] && b[prop2_2])) {
                     if ((a[prop3]).toLowerCase() > (b[prop3]).toLowerCase()) {
                         return 1;

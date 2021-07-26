@@ -256,13 +256,13 @@ export class AppComponent implements OnInit, OnDestroy{
      }
 
      ngOnInit(){
-
-       this.meta.addTags([
-      	  {name: 'keywords', content: 'dx29, rare disease, diagnosis, genetic, physicians, Artificial intelligence, AI, Big data, genomics, Machine learning, ML'},
-      	  {name: 'description', content: 'AI for you to achieve fast rare disease diagnosis'},
-          {name: 'title', content: 'Dx29: Designed for physicians. Committed to patients.'},
-          {name: 'robots', content: 'index, follow'}
-       ]);
+      this.meta.addTags([
+        {name: 'keywords', content: this.translate.instant("seo.keywords")},
+        {name: 'description', content: this.translate.instant("seo.description")},
+        {name: 'title', content: this.translate.instant("seo.title")},
+        {name: 'robots', content: 'index, follow'}
+      ]);
+       
 
        //evento que escucha si ha habido un error de conexión
        this.eventsService.on('http-error', function(error) {
@@ -365,10 +365,9 @@ export class AppComponent implements OnInit, OnDestroy{
              if(event.title =='homedx.Donate'){
                //this.meta.updateTag({name: 'keywords', content: 'DONA a Juntos hacia el diagnóstico'});
                //this.meta.updateTag({name: 'description', content: this.translate.instant("donate.descriptionSeo")});
-               this.meta.updateTag({name: 'description', content: this.translate.instant("DONA a Juntos hacia el diagnóstico")});
+               this.meta.updateTag({name: 'description', content: this.translate.instant("donate.descriptionSeo")});
              }else{
-               //this.meta.updateTag({name: 'keywords', content: 'Web Devlopment, Software Development'});
-               this.meta.updateTag({name: 'description', content: "AI for you to achieve fast rare disease diagnosis"});
+               this.changeMeta();
              }
 
          })();
@@ -409,6 +408,7 @@ export class AppComponent implements OnInit, OnDestroy{
              var titulo= this.translate.instant(this.tituloEvent);
              this.titleService.setTitle(titulo);
              sessionStorage.setItem('lang', lang);
+             this.changeMeta();
          })();
 
 
@@ -439,6 +439,12 @@ export class AppComponent implements OnInit, OnDestroy{
         if(this.subscriptionTestForce) {
             this.subscriptionTestForce.unsubscribe();
          }
+     }
+
+     changeMeta(){
+      this.meta.updateTag({name: 'keywords', content: this.translate.instant("seo.keywords")});
+      this.meta.updateTag({name: 'description', content: this.translate.instant("seo.description")});
+      this.meta.updateTag({name: 'title', content: this.translate.instant("seo.title")});
      }
 
 

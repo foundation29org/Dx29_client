@@ -14,5 +14,6 @@
     f29api: undefined, // f29api service URL
     f29ncr:undefined, // f29ncr service URL 
     hotjarSiteId:undefined, // Horjar ID
-    captcha:undefined // captcha 
+    captcha:undefined, // captcha 
+    urlDxv2:undefined // url dx29 v2 
     };
