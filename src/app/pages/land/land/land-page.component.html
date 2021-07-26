@@ -30,7 +30,7 @@
                       <button type="button" class="btn btn-lg btn-secondary btn-raised"
                         [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholder') : getLiteral('land.Extract')"
                         [ngClass]="(medicalText.length<5)?'not-allowed':'btn-info'" [disabled]="medicalText.length<5"
-                        (click)="startExtractor();"><em class="ml-1 mr-1 mt-1 mb-1 fas fa-play"></em></button>
+                        (click)="startExtractor();"><em class="ml-1 mr-1 mt-1 mb-1 fas fa-play fa-2x"></em></button>
                     </div>
                   </ng-template>
                 </ngb-tab>
@@ -114,36 +114,39 @@
                 </div>
               </caption>
             </table>
-            <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white" style="overflow: auto;">
-              <tbody>
-                <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
-                  <td>
-                    <span>
-                      <span class="float-right ml-1">
-                        <button (click)="changeStateSymptom(i, true)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                          [ngClass]="(hpo.checked==true)?'btn-info':'btn-secondary '" href="javascript:void(0)"
-                          title="{{'phenotype.Click to check it' | translate }}">
-                          <em class="fa fa-check w-13"></em>
-                        </button>
-                        <button (click)="changeStateSymptom(i, false)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                          [ngClass]="(hpo.checked==false)?'btn-danger':'btn-secondary'" href="javascript:void(0)"
-                          title="{{'phenotype.Click to uncheck it' | translate }}">
-                          <em class="fa fa-times w-13"></em>
-                        </button>
-                      </span>
+            <div class="table-cont">
+              <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white">
+                <tbody>
+                  <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
+                    <td>
                       <span>
-                        <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
-                          class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round"
-                          title="{{'generics.More information' | translate }} ({{hpo.id}})">
-                          <em class="fa fa-info w-13"></em>
-                        </button>
-                        <span class="ml-1 custom-bold">{{hpo.name}}</span>
+                        <span class="float-right ml-1">
+                          <button (click)="changeStateSymptom(i, true)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                            [ngClass]="(hpo.checked==true)?'btn-info':'btn-secondary '" href="javascript:void(0)"
+                            title="{{'phenotype.Click to check it' | translate }}">
+                            <em class="fa fa-check w-13"></em>
+                          </button>
+                          <button (click)="changeStateSymptom(i, false)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                            [ngClass]="(hpo.checked==false)?'btn-danger':'btn-secondary'" href="javascript:void(0)"
+                            title="{{'phenotype.Click to uncheck it' | translate }}">
+                            <em class="fa fa-times w-13"></em>
+                          </button>
+                        </span>
+                        <span>
+                          <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
+                            class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round"
+                            title="{{'generics.More information' | translate }} ({{hpo.id}})">
+                            <em class="fa fa-info w-13"></em>
+                          </button>
+                          <span class="ml-1 custom-bold">{{hpo.name}}</span>
+                        </span>
                       </span>
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
             <span class="col-md-12 p-2 border-top" style="height: 69px;background-color: #f5f5f5;">
               <span>
                 <span>
@@ -213,30 +216,33 @@
                       style="cursor: pointer;"></em></span>
                 </caption>
               </table>
-              <table class="table mb-0 bg-white" style="overflow: auto;">
-                <tbody>
-                  <tr *ngFor="let disease of topRelatedConditions ; let i = index" class="d-flex">
-                    <td class="col-md-12" id="{{disease.id}}">
-                      <button class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round"
-                        (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);"
-                        title="{{'generics.More information' | translate }} ({{disease.id}})">
-                        <em class="fa fa-info w-13"></em>
-                      </button>
-                      <span class="custom-bold ml-1">{{disease.name}}</span>
-                    </td>
-                  </tr>
-                  <tr
-                    *ngIf="temporalDiseases.length>showNumerRelatedConditions && indexListRelatedConditions<temporalDiseases.length"
-                    class="col-md-12 text-center">
-                    <a href="javascript:;" class="border-top center-elements pt-2 mb-0" (click)="loadMore()"
-                      style="display: block;">
-                      <span>{{'land.Load more diseases' | translate }}</span>
-                    </a>
-                    <span class="d-block font-small-3 pb-2">{{'land.There are' | translate }} {{totalDiseasesLeft}}
-                      {{'land.remaining not shown in the table' | translate }}</span>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="table-cont">
+                <table class="table mb-0 bg-white">
+                  <tbody>
+                    <tr *ngFor="let disease of topRelatedConditions ; let i = index" class="d-flex">
+                      <td class="col-md-12" id="{{disease.id}}">
+                        <button class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round"
+                          (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);"
+                          title="{{'generics.More information' | translate }} ({{disease.id}})">
+                          <em class="fa fa-info w-13"></em>
+                        </button>
+                        <span class="custom-bold ml-1">{{disease.name}}</span>
+                      </td>
+                    </tr>
+                    <tr
+                      *ngIf="temporalDiseases.length>showNumerRelatedConditions && indexListRelatedConditions<temporalDiseases.length"
+                      class="col-md-12 text-center">
+                      <a href="javascript:;" class="border-top center-elements pt-2 mb-0" (click)="loadMore()"
+                        style="display: block;">
+                        <span>{{'land.Load more diseases' | translate }}</span>
+                      </a>
+                      <span class="d-block font-small-3 pb-2">{{'land.There are' | translate }} {{totalDiseasesLeft}}
+                        {{'land.remaining not shown in the table' | translate }}</span>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
               <div class="d-block p-2 center-elements border-top" style="background-color: #f5f5f5;">
                 <a href="javascript:;" class="d-block btn btn-info btn-lg btn-raised font-medium-3 mb-0"
                   (click)="registerToDx29Swal(contentToDx29V2)">
@@ -914,7 +920,7 @@
       <div class="col-md-7 align-self-center">
         <span class="text-left">
           <p><strong>{{'land.swal.subtitle' | translate }}</strong></p>
-          <p>{{'land.swal.p1' | translate }}</p>
+          <p [innerHTML]="'land.swal.p1' | translate"></p>
           <p>{{'land.swal.p2' | translate }}</p>
           <ul>
             <li><strong>{{'land.table.t7' | translate }}:</strong> {{'land.table.d7' | translate }}</li>

@@ -196,7 +196,7 @@
     "Welcome to dx29": "Bienvenido a Dx29",
     "Please enter the basic data": "Añade información sobre tu condición y tus síntomas.",
     "Change": "Cambiar",
-    "Foundation 29": "Fundación 29 de Febrero",
+    "Foundation 29": "Fundación 29",
     "Copied to the clipboard": "Copiado al portapapeles",
     "Contact us!": "Contáctenos!",
     "Resend": "Reenviar",
@@ -2179,9 +2179,9 @@
     "Extract symptom from document": "Extraer síntomas a partir de un informe",
     "availableLangs": "Pulsa aqui para ver de los idiomas disponibles",
     "Extract": "Extraer",
-    "The symptoms found will be shown here": "Aquí se mostrarán los síntomas encontrados.",
+    "The symptoms found will be shown here": "Aquí se mostrarán los síntomas encontrados",
     "Calculating": "Calculando",
-    "pleaseWait": "Este proceso puede tardar entre 1 y 2 minutos.",
+    "pleaseWait": "Este proceso puede tardar entre 1 y 2 minutos",
     "SelectSymptoms": "Selecciona lo sintomas que consideres correctos",
     "placeholder": "Escribe síntomas, corta y pega texto o usa un infome. Después tienes que hacer clic en 'Extraer' para ver los síntomas.",
     "Download symptoms": "Descargar síntomas",
@@ -2193,12 +2193,12 @@
     "You must select at least": "Tiene que selecionar al menos",
     "in order to continue": "para poder continuar.",
     "See suggested diseases": "Ver enfermedades propuestas",
-    "You need to select more symptoms": "Necesita selecionar más síntomas.",
-    "Suggested diseases will be shown here": "Aquí se mostrarán enfermedades propuestas.",
+    "You need to select more symptoms": "Necesita selecionar más síntomas",
+    "Suggested diseases will be shown here": "Aquí se mostrarán enfermedades propuestas",
     "Diseases": "Enfermedades",
     "DescDiseases": "Estas son las enfermedades propuestas en base a los síntomas que tiene seleccionados.",
     "InfoDescDiseases": "Puede seleccionar/deseleccionar síntomas y volver a calcular haciendo clic aquí:",
-    "We have no description for this disease": "No tenemos descripción para esta enfermedad.",
+    "We have no description for this disease": "No tenemos descripción para esta enfermedad",
     "Download results": "Descargar resultados",
     "Send results": "Enviar resultados",
     "Recalculate diseases": "Recalcular enfermedades",
@@ -2208,7 +2208,7 @@
     "What now": "¿Y ahora que?",
     "This was just an appetizer": "Esto solo ha sido un aperitivo. Regístrate para acceder a la funcionalidad completa, ¡es gratis!",
     "Where did we get this symptom from": "¿De donde hemos extraido este síntoma?",
-    "The symptom was added manually": "Añadió el síntoma de forma manual.",
+    "The symptom was added manually": "Añadió el síntoma de forma manual",
     "See more information about the symptom": "Ver más información del sintoma",
     "here": "aquí",
     "Symptom by symptom comparison": "Comparación síntoma por síntoma",
@@ -2292,14 +2292,14 @@
       "d11": "Comparte tu caso con tu médico o con otros profesionales",
       "t12": "Re-Análisis",
       "d12": "Reanaliza tu caso según se actualice el caso o la tecnología",
-      "button": "Quiero superpoderes!"
+      "button": "Quiero ser un usuario poderoso"
     },
     "swal":{
       "title": "Regístrate para utilizar la capacidad total de Dx29, ¡es gratis!",
       "subtitle": "Prepárate para recibir tus nuevos poderes",
-      "p1": "Nos hemos tomado la molestia de prepararte para tu nuevo papel, por lo tanto, tendrás en tu nuevo perfil los síntomas y enfermedades que has obtenido para que tu despegue sea lo más cómodo posible.",
+      "p1": "Nos hemos tomado la molestia de prepararte para tu nuevo papel, por lo tanto, <ins>tendrás en tu nuevo perfil los síntomas y enfermedades que has obtenido</ins> para que tu despegue sea lo más cómodo posible.",
       "p2": "Tus nuevos poderes incluyen:",
-      "button": "Descubre la fuerza del registro"
+      "button": "Conviérteme en usuario poderoso"
     }
   },
   "seo":{

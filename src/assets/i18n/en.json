@@ -197,7 +197,7 @@
     "Welcome to dx29": "Welcome to Dx29",
     "Please enter the basic data": "Add information about your condition and symptoms.",
     "Change": "Change",
-    "Foundation 29": "Foundation 29 of February",
+    "Foundation 29": "Foundation 29",
     "Copied to the clipboard": "Copied to the clipboard",
     "Contact us!": "Contact us!",
     "Resend": "Resend",
@@ -2180,7 +2180,7 @@
     "Extract": "Extract",
     "The symptoms found will be shown here": "The symptoms found will be shown here",
     "Calculating": "Calculating",
-    "pleaseWait": "This process may take 1 to 2 minutes. Please wait.",
+    "pleaseWait": "This process may take 1 to 2 minutes. Please wait",
     "SelectSymptoms": "Select the symptoms that you think are correct",
     "placeholder": "Type symptoms, cut and paste text or use a medical record. Click 'Extract' to see the symptoms.",
     "Download symptoms": "Download symptoms",
@@ -2193,11 +2193,11 @@
     "in order to continue": "in order to continue.",
     "See suggested diseases": "View suggested diseases",
     "You need to select more symptoms": "You need to select more symptoms",
-    "Suggested diseases will be shown here": "Suggested diseases will be shown here.",
+    "Suggested diseases will be shown here": "Suggested diseases will be shown here",
     "Diseases": "Diseases",
     "DescDiseases": "The proposed diseases will be presented here.",
     "InfoDescDiseases": "You can select/deselect symptoms and recalculate by clicking here:",
-    "We have no description for this disease": "We have no description for this disease.",
+    "We have no description for this disease": "We have no description for this disease",
     "Download results": "Download results",
     "Send results": "Send results",
     "Recalculate diseases": "Recalculate diseases",
@@ -2207,7 +2207,7 @@
     "What now": "What now?",
     "This was just an appetizer": "This was just an appetizer. Register to access the full functionality, it's free!",
     "Where did we get this symptom from": "Where did we get this symptom from?",
-    "The symptom was added manually": "The symptom was added manually.",
+    "The symptom was added manually": "The symptom was added manually",
     "See more information about the symptom": "See more information about the symptom",
     "here": "here",
     "Symptom by symptom comparison": "Symptom by symptom comparison",
@@ -2291,14 +2291,14 @@
       "d11": "Share your case with your doctor or professionals",
       "t12": "Re-Analysis",
       "d12": "Anytime with new case data or updated technology",
-      "button": "I want super powers!"
+      "button": "I want to be a Power User"
     },
     "swal":{
       "title": "Register to use the full capacity of Dx29, it's free!",
       "subtitle": "Get ready to receive your new powers",
-      "p1": "We have taken the trouble to prepare you for your new role, therefore, you will have in your new profile the symptoms and diseases that you have obtained so that your take off is as comfortable as possible.",
+      "p1": "We have taken the trouble to prepare you for your new role, therefore, <ins>you will have in your new profile the symptoms and diseases that you have obtained</ins> so that your take off is as comfortable as possible.",
       "p2": "Your new powers include:",
-      "button": "Discover the strength of the registry"
+      "button": "Turn me into a Power User"
     }
   },
   "seo":{
