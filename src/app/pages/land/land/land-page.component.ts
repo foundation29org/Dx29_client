@@ -839,7 +839,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
             }
         }
         if (info.symptoms.length > 4) {
-            this.subscription.add(this.apiDx29ServerService.calculate(info)
+            var lang = this.lang;
+            this.subscription.add(this.apiDx29ServerService.calculate(info, lang)
                 .subscribe((res: any) => {
                     if (res == null) {
                         this.calculate()
@@ -866,7 +867,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                 for (var i = 0; i < this.temporalDiseases.length; i++) {
                     var valtemp = this.temporalDiseases[i].id;
                     if (res1[valtemp] != undefined) {
-                        this.temporalDiseases[i].name = res1[valtemp].name;
+                        //this.temporalDiseases[i].name = res1[valtemp].name;
                         //this.temporalDiseases[i].id = res1[valtemp].id;
                         if (res1[valtemp].desc != "") {
                             this.temporalDiseases[i].desc = res1[valtemp].desc;
@@ -875,7 +876,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                         }
                         this.temporalDiseases[i].xRefs = res1[valtemp].xrefs;
                     } else {
-                        this.temporalDiseases[i].name = this.temporalDiseases[i].id;
+                        //this.temporalDiseases[i].name = this.temporalDiseases[i].id;
                     }
                 }
                 this.cleanDiseases();

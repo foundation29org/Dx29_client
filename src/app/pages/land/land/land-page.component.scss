@@ -564,6 +564,11 @@ body {
 }
 
 @media ( max-width: 1199px ){
+
+  .offset-xl-1 {
+    margin-left: 0%;
+  }
+  
   .loadingPanel{
       max-width: 100%;
       margin-left: 0rem !important;
