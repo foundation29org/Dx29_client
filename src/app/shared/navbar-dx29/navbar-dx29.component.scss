@@ -25,6 +25,19 @@ i{
   vertical-align: 0.055em;
 }
 
+.text-logo{
+  position: absolute;
+  top: 2em;
+  font-weight: 500;
+  width: 100px;
+  line-height: 15px;
+  left: 120px;
+}
+
+.text-es{
+  width: 160px;
+}
+
 @media ( max-width: 991.98px ){
 .navbar-container {
     width: unset !important;
@@ -33,6 +46,22 @@ i{
   .navbar-header {
       width: unset !important;
     }
+
+    .logo-img{
+      width: 60px;
+    }
+
+    .text-logo{
+      font-size: 12px;
+      left: 85px;
+    }
+}
+
+@media (max-width: 604px) {
+  .text-logo{
+    display: block;
+    position: inherit;
+  }
 }
 
 @media (max-width: 481px) {
@@ -50,12 +79,15 @@ i{
     font-size: 0.7rem !important;
   }
 
+  .text-logo{
+    display: block;
+    position: inherit;
+  }
+
 }
 
 @media (max-width: 377px) {
-  .navbar-container{
-    margin-top:1em;
-  }
+
 
   .logo-img{
     width: 50px;
@@ -71,7 +103,7 @@ i{
 
 }
 
-@media (max-width: 320px) {
+@media (max-width: 319px) {
   .navbar .navbar-nav{
     display: ruby-base !important;
   }

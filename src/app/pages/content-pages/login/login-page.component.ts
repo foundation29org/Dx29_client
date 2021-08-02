@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnDestroy, OnInit, ElementRef  } from '@angular/core';
+import { environment } from 'environments/environment';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
-import { environment } from '../../../../environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { sha512 } from "js-sha512";
 import { AuthService } from '../../../../app/shared/auth/auth.service';
@@ -51,6 +51,7 @@ export class LoginPageComponent implements OnDestroy, OnInit{
     @ViewChild('recaptcha', {static: true }) recaptchaElement: ElementRef;
     captchaToken: string = "";
     needCaptcha: boolean = false;
+    urlV2: string = environment.urlDxv2;
 
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, public authService: AuthService, private authGuard: AuthGuard,  public translate: TranslateService, private patientService: PatientService, private inj: Injector) {
       //var param = router.parseUrl(router.url).queryParams["email","key"];

@@ -57,7 +57,9 @@
     "This account has not been activated yet": "Esta cuenta aún no ha sido activada.",
     "Swal resend email text": "Le hemos mandado un email. Por favor, compruebe la carpeta Spam. Si no encuentra el email, clique en 'Reenviar email' o en 'Contactar soporte'.",
     "The account is not activated": "La cuenta no está activada. Haga clic en 'Activar cuenta' en el correo electrónico de verificación.",
-    "The account is blocked by an administrator": "La cuenta está bloqueada por un administrador."
+    "The account is blocked by an administrator": "La cuenta está bloqueada por un administrador.",
+    "Go to the new version": "Ir a la nueva versión",
+    "This version is deprecated and will stop working": "Esta versión está obsoleta y dejará de funcionar"
   },
   "registration":{
     "Registration": "Registro",
@@ -2175,6 +2177,7 @@
     "updatePatient": "Actualizar datos"
   },
   "land":{
+    "for rare diseases": "para enfermedades raras",
     "title": "¿No encuentras diagnóstico? Vamos a ayudarte",
     "Extract symptom from document": "Extraer síntomas a partir de un informe",
     "availableLangs": "Pulsa aqui para ver de los idiomas disponibles",
