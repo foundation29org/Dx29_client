@@ -1,5 +1,14 @@
 <!--Registration Page Starts-->
 <section id="regestration">
+  <ngb-alert type="warning" class="mb-0 mt-3" [dismissible]="false">
+    <div class="mt-3 center-elements">
+      <h4 class="white">{{'login.This version is deprecated and will stop working' | translate }}</h4>
+      <span>
+        <a href={{urlV2}} class="btn btn-primary btn-raised">{{'login.Go to the new version' | translate }}</a>
+      </span>
+    </div>
+  </ngb-alert>
+  <!--
     <div class="container-fluid">
         <div class="row almost-full-height-vh">
             <div class="row col-12  align-items-center justify-content-center">
@@ -153,6 +162,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 </section>
 <!--Registration Page Ends-->
