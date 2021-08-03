@@ -18,7 +18,6 @@ import { Injectable, Injector } from '@angular/core';
 @Injectable()
 export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
     currentLang = 'en';
-    currentLangCode = 'en';
     toggleClass = 'ft-maximize';
     placement = "bottom-right";
     public isCollapsed = true;
@@ -291,7 +290,6 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
           this.langs=res;
           if(sessionStorage.getItem('lang')){
             this.translate.use(sessionStorage.getItem('lang'));
-            this.currentLangCode = sessionStorage.getItem('lang');
             this.searchLangName(sessionStorage.getItem('lang'));
           }else{
             const browserLang: string = this.translate.getBrowserLang();
@@ -299,7 +297,6 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
             for(let lang of this.langs) {
               if(browserLang.match(lang.code)){
                 this.translate.use(lang.code);
-                this.currentLangCode = lang.code;
                 foundlang = true;
                 sessionStorage.setItem('lang', lang.code);
                 this.searchLangName(lang.name);
@@ -326,7 +323,6 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy{
 
     ChangeLanguage(language: string) {
         this.translate.use(language);
-        this.currentLangCode = language;
         sessionStorage.setItem('lang', language);
         this.searchLangName(language);
         var eventsLang = this.inj.get(EventsService);

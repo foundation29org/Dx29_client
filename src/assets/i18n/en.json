@@ -2176,8 +2176,7 @@
     "updatePatient": "Update patient"
   },
   "land":{
-    "for rare diseases": "for rare diseases",
-    "title": "Can't find a diagnosis? We will help you",
+    "title": "Can't find a diagnosis for a rare disease? We will help you",
     "Extract symptom from document": "Extract symptom from a medical record",
     "availableLangs": "Click here to see the available languages",
     "Extract": "Extract",
@@ -2186,6 +2185,7 @@
     "pleaseWait": "This process may take 1 to 2 minutes. Please wait",
     "SelectSymptoms": "Select the symptoms that you think are correct",
     "placeholder": "Type symptoms, cut and paste text or use a medical record. Click on the play button to see the symptoms.",
+    "placeholderError": "Type symptoms, cut and paste text or use a medical record.",
     "Download symptoms": "Download symptoms",
     "Copy symptoms": "Copy symptoms",
     "Start over": "Start over",
@@ -2193,7 +2193,8 @@
     "symptom": "symptom",
     "out of": "out of",
     "You must select at least": "You must select at least",
-    "in order to continue": "in order to continue.",
+    "in order to continue": "in order to continue. We recommend between 5 and 10",
+    "addMoreSymp": "You must have at least 2 symptoms to continue. Add more from the search bar",
     "See suggested diseases": "View suggested diseases",
     "You need to select more symptoms": "You need to select more symptoms",
     "Suggested diseases will be shown here": "Suggested diseases will be shown here",
@@ -2240,6 +2241,7 @@
     "click here": "IS HERE",
     "If you want to know how Dx29": "If you want to know how Dx29 works and the accuracy of its results click",
     "you have to select": "Great! Now you have to cure the symptoms. Symptom curation allows you to eliminate errors and be accurate in your diagnosis, it is a very important step in helping your patient. You have to select between 5 and 10 “guiding symptoms”. The guiding symptoms are the ones that you consider characterize your patient and that your clinical eye tells you are important.",
+    "remember": "Remember, To be accurate in diagnosis, You have to select between 5 and 10 “guiding symptoms”. The guiding symptoms are the ones that you consider characterize your patient and that your clinical eye tells you are important.",
     "Do not show this message again": "Do not show this message again",
     "When you have selected them": "When you have selected them you have to click on the “View suggested diseases” button.",
     "InfoDx29":{
@@ -2302,7 +2304,12 @@
       "p1": "We have taken the trouble to prepare you for your new role, therefore, <ins>you will have in your new profile the symptoms and diseases that you have obtained</ins> so that your take off is as comfortable as possible.",
       "p2": "Your new powers include:",
       "button": "Turn me into a Power User"
-    }
+    },
+    "We have not found anything": "We have not found anything",
+    "Please try a different search": "Please try a different search",
+    "Do you want to add the symptoms manually": "Do you want to add the symptoms manually, or try again?",
+    "add the symptoms manually": "Add manually",
+    "try again": "Try again"
   },
   "seo":{
     "keywords": "diagnosis, diagnose, rare disease, syndrome, disease, prognosis, symptoms, HPO, epilepsy, seizures, status epilepticus, developmental delay, tremors, palpitations, tonic-clonic, myoclonic, pediatrics, genetics, neurology, symptom extraction, genetic disease, genetic disease",

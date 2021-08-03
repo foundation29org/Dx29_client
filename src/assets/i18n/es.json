@@ -2177,8 +2177,7 @@
     "updatePatient": "Actualizar datos"
   },
   "land":{
-    "for rare diseases": "para enfermedades raras",
-    "title": "¿No encuentras diagnóstico? Vamos a ayudarte",
+    "title": "¿No encuentras diagnóstico para una enfermedad rara? Vamos a ayudarte",
     "Extract symptom from document": "Extraer síntomas a partir de un informe",
     "availableLangs": "Pulsa aqui para ver de los idiomas disponibles",
     "Extract": "Extraer",
@@ -2187,6 +2186,7 @@
     "pleaseWait": "Este proceso puede tardar entre 1 y 2 minutos",
     "SelectSymptoms": "Selecciona lo sintomas que consideres correctos",
     "placeholder": "Escribe síntomas, corta y pega texto o usa un infome. Después tienes que hacer clic en el botón de reproducción para ver los síntomas.",
+    "placeholderError": "Escribe síntomas, corta y pega texto o usa un infome.",
     "Download symptoms": "Descargar síntomas",
     "Copy symptoms": "Copiar síntomas",
     "Start over": "Volver a empezar",
@@ -2194,7 +2194,8 @@
     "symptom": "síntoma",
     "out of": "de",
     "You must select at least": "Tiene que selecionar al menos",
-    "in order to continue": "para poder continuar.",
+    "in order to continue": "para poder continuar. Recomendamos entre 5 y 10.",
+    "addMoreSymp": "Tienes que tener al menos 2 síntomas para continuar. Añade más desde la barra de búsqueda",
     "See suggested diseases": "Ver enfermedades propuestas",
     "You need to select more symptoms": "Necesita selecionar más síntomas",
     "Suggested diseases will be shown here": "Aquí se mostrarán enfermedades propuestas",
@@ -2241,6 +2242,7 @@
     "click here": "ESTÁ AQUÍ",
     "If you want to know how Dx29": "Si quieres saber como funciona Dx29 y la precisión de sus resultados pulsa",
     "you have to select": "¡Estupendo! Ahora tiene que curar los síntomas. La curación de síntomas permite eliminar errores y ser precisos en el diagnóstico, es un paso muy importante para ayudar a tu paciente. Tienes que seleccionar entre 5 y 10 “síntomas guía”. Los síntomas guía son los que consideras que caracterizan a tu paciente y que tu ojo clínico te dice que son importantes.",
+    "remember": "Recuerda, para ser precisos en el diagnóstico, tienes que seleccionar entre 5 y 10 “síntomas guía”. Los síntomas guía son los que consideras que caracterizan a tu paciente y que tu ojo clínico te dice que son importantes.",
     "Do not show this message again": "No volver a mostrar este mensaje",
     "When you have selected them": "Cuando los hayas seleccionados tienes que hacer clic en el botón “Ver enfermedades propuestas”.",
     "InfoDx29":{
@@ -2303,7 +2305,12 @@
       "p1": "Nos hemos tomado la molestia de prepararte para tu nuevo papel, por lo tanto, <ins>tendrás en tu nuevo perfil los síntomas y enfermedades que has obtenido</ins> para que tu despegue sea lo más cómodo posible.",
       "p2": "Tus nuevos poderes incluyen:",
       "button": "Conviérteme en usuario poderoso"
-    }
+    },
+    "We have not found anything": "No hemos encontrado nada",
+    "Please try a different search": "Inténtelo con una búsqueda distinta",
+    "Do you want to add the symptoms manually": "¿Quiere añadir los síntomas manualmente, o intentarlo de nuevo?",
+    "add the symptoms manually": "Añadir manualmente",
+    "try again": "Intentarlo de nuevo"
   },
   "seo":{
     "keywords": "diagnóstico, diagnosticar, enfermedad rara, síndrome, enfermedad, pronóstico, síntomas, HPO, epilepsia, crisis epiléptica, status epiléctico, convulsiones, retraso en el desarrollo, temblores, palpitaciones, tónica-clónica, mioclónica, pediatría, genética, neurología, extracción de síntomas, enfermedad genética",

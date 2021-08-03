@@ -34,6 +34,15 @@ i{
   left: 120px;
 }
 
+.text-logo2{
+  position: absolute;
+  top: 2em;
+  font-weight: 500;
+  width: 100px;
+  line-height: 15px;
+  left: 120px;
+}
+
 .text-es{
   width: 160px;
 }
@@ -62,6 +71,11 @@ i{
     display: block;
     position: inherit;
   }
+
+  .text-logo2{
+    display: block;
+    position: inherit;
+  }
 }
 
 @media (max-width: 481px) {
@@ -79,7 +93,7 @@ i{
     font-size: 0.7rem !important;
   }
 
-  .text-logo{
+  .text-logo2{
     display: block;
     position: inherit;
   }
