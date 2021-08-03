@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Subscription } from 'rxjs/Subscription';
 import { EventsService } from 'app/shared/services/events.service';
@@ -62,7 +62,7 @@ let phenotypesinfo = [];
     providers: [Apif29BioService, Apif29NcrService, ApiDx29ServerService],
 })
 
-export class LandPageComponent implements OnInit, OnDestroy {
+export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private subscription: Subscription = new Subscription();
     parserObject: any = { parserStrategy: 'Auto', callingParser: false, file: undefined };
@@ -91,7 +91,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     selectedInfoDiseaseIndex: number = -1;
     totalDiseasesLeft: number = -1;
     numberOfSymtomsChecked: number = 0;
-    minSymptoms: number = 5;
+    minSymptoms: number = 2;
     @ViewChild('input') inputEl;
     showButtonScroll: boolean = false;
     failAnnotate_batch: boolean = false;
@@ -101,18 +101,44 @@ export class LandPageComponent implements OnInit, OnDestroy {
     lineChartRuidoOptions: Partial<ChartOptions>;
     refLangs: string = "https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support";
     lucky: boolean = false;
-
+    showErrorMsg: boolean = false;
     modelTemp: any;
+    @ViewChild("inputTextArea") inputTextAreaElement: ElementRef;
+    @ViewChild("inputManualSymptoms") inputManualSymptomsElement: ElementRef;
+
     formatter1 = (x: { name: string }) => x.name;
 
     // Flag search
     searchSymptom = (text$: Observable<string>) =>
         text$.pipe(
             debounceTime(200),
-            map(term => term === '' ? []
-                : ((phenotypesinfo.filter(v => v.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").indexOf(term.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim()) > -1).slice(0, 100))).concat((phenotypesinfo.filter(v => v.id.toLowerCase().indexOf(term.toLowerCase().trim()) > -1).slice(0, 100)))
-            )
+            map(term => {
+                if (term.length < 2) {
+                    return [];
+                  }
+                const searchResults = ((phenotypesinfo.filter(v => v.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").indexOf(term.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim()) > -1).slice(0, 100))).concat((phenotypesinfo.filter(v => v.id.toLowerCase().indexOf(term.toLowerCase().trim()) > -1).slice(0, 100)))
+                if(searchResults.length==0){
+                    this.showErrorMsg = true;
+                }else{
+                    this.showErrorMsg = false;
+                }
+                return searchResults.length > 0 ? searchResults : [{name:this.translate.instant("land.We have not found anything"), desc: this.translate.instant("land.Please try a different search"), error: true}];
+            }) 
         );
+
+        /*searchSymptom = (text$: Observable<string>) => {
+            return text$.pipe(
+              debounceTime(200),
+              distinctUntilChanged(),
+              map(term => {
+                if (term.length < 2) {
+                  return [];
+                }
+                const searchResults = ((phenotypesinfo.filter(v => v.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").indexOf(term.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim()) > -1).slice(0, 100))).concat((phenotypesinfo.filter(v => v.id.toLowerCase().indexOf(term.toLowerCase().trim()) > -1).slice(0, 100)))
+                return searchResults.length > 0 ? searchResults : [{name:"not found", desc: "Try again"}];
+              })
+            );
+          };*/
 
     constructor(private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch) {
 
@@ -312,21 +338,26 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
     }
 
+    ngAfterViewInit() {
+        this.focusTextArea();
+    }
+
     ngOnDestroy() {
         this.subscription.unsubscribe();
     }
 
     selected($e) {
         $e.preventDefault();
-
-        var symptom = $e.item;
-        var foundElement = this.searchService.search(this.temporalSymptoms, 'id', symptom.id);
-        if (!foundElement) {
-            this.temporalSymptoms.push({ id: symptom.id, name: symptom.name, new: true, checked: true, percentile: -1, inputType: 'manual', importance: '1', polarity: '0', synonyms: symptom.synonyms, def: symptom.desc });
-            this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
-            this.numberOfSymtomsChecked++;
-        } else {
-            //this.toastr.warning(this.translate.instant("generics.Name")+': '+symptom.name, this.translate.instant("phenotype.You already had the symptom"));
+        if(!$e.item.error){
+            var symptom = $e.item;
+            var foundElement = this.searchService.search(this.temporalSymptoms, 'id', symptom.id);
+            if (!foundElement) {
+                this.temporalSymptoms.push({ id: symptom.id, name: symptom.name, new: true, checked: true, percentile: -1, inputType: 'manual', importance: '1', polarity: '0', synonyms: symptom.synonyms, def: symptom.desc });
+                this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
+                this.numberOfSymtomsChecked++;
+            } else {
+                //this.toastr.warning(this.translate.instant("generics.Name")+': '+symptom.name, this.translate.instant("phenotype.You already had the symptom"));
+            }
         }
         this.modelTemp = '';
     }
@@ -507,18 +538,21 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
 
     startExtractor() {
-        var testLangText = this.medicalText.substr(0, 4000)
-        this.subscription.add(this.apiDx29ServerService.getDetectLanguage(testLangText)
-            .subscribe((res: any) => {
-                this.langToExtract = res[0].language;
-                this.langDetected = this.langToExtract;
-                this.onSubmitToExtractor();
-            }, (err) => {
-                console.log(err);
-                this.loadingHpoExtractor = false;
-                this.toastr.error('', this.translate.instant("generics.error try again"));
-            }));
-
+        if(this.medicalText.length<5){
+            Swal.fire('', this.translate.instant("land.placeholderError"), "error");
+        }else{
+            var testLangText = this.medicalText.substr(0, 4000)
+            this.subscription.add(this.apiDx29ServerService.getDetectLanguage(testLangText)
+                .subscribe((res: any) => {
+                    this.langToExtract = res[0].language;
+                    this.langDetected = this.langToExtract;
+                    this.onSubmitToExtractor();
+                }, (err) => {
+                    console.log(err);
+                    this.loadingHpoExtractor = false;
+                    this.toastr.error('', this.translate.instant("generics.error try again"));
+                }));
+        }
     }
 
     onSubmitToExtractor() {
@@ -631,9 +665,29 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
                         Swal.close();
                         if (hposStrins.length == 0) {
-                            Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
-                            this.medicalText = '';
+                            //Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
+                            //this.medicalText = '';
                             this.substepExtract = '0';
+                            Swal.fire({
+                                title: this.translate.instant("phenotype.No symptoms found"),
+                                text: this.translate.instant("land.Do you want to add the symptoms manually"),
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#0CC27E',
+                                cancelButtonColor: '#f9423a',
+                                confirmButtonText: this.translate.instant("land.add the symptoms manually"),
+                                cancelButtonText: this.translate.instant("land.try again"),
+                                showLoaderOnConfirm: true,
+                                allowOutsideClick: false,
+                                reverseButtons: true
+                            }).then((result) => {
+                                if (result.value) {
+                                    this.substepExtract = '4';
+                                    this.focusManualSymptoms();
+                                }else{
+                                    this.focusTextArea();
+                                }
+                            });
                         } else {
                             this.callGetInfoTempSymptomsJSON(hposStrins);
                         }
@@ -641,6 +695,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     } else {
                         this.substepExtract = '4';
                         Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
+                        this.focusManualSymptoms();
                     }
 
                     this.loadingHpoExtractor = false;
@@ -653,6 +708,26 @@ export class LandPageComponent implements OnInit, OnDestroy {
                 this.callNoSegmentation();
                 Swal.close();
             }));
+    }
+
+    focusManualSymptoms(){
+        setTimeout(function () {
+            if(this.temporalSymptoms.length==0){
+                this.inputManualSymptomsElement.nativeElement.focus();
+            }
+            /*var showSwalSelSymptoms = localStorage.getItem('showSwalSelSymptoms');
+            if (showSwalSelSymptoms != 'false') {
+                if(this.temporalSymptoms.length==0){
+                    this.inputManualSymptomsElement.nativeElement.focus();
+                }
+            }*/
+        }.bind(this), 200);
+    }
+
+    focusTextArea(){
+        setTimeout(function () {
+            this.inputTextAreaElement.nativeElement.focus();
+        }.bind(this), 200);
     }
 
     callNoSegmentation() {
@@ -694,10 +769,12 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     } else {
                         this.substepExtract = '4';
                         Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
+                        this.focusManualSymptoms();
                     }
                 } else {
                     this.substepExtract = '4';
                     Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
+                    this.focusManualSymptoms();
                 }
 
             }, (err) => {
@@ -760,11 +837,13 @@ export class LandPageComponent implements OnInit, OnDestroy {
                 } else {
                     this.showSwalSelectSymptoms();
                 }
+                this.focusManualSymptoms();
 
 
             }, (err) => {
                 console.log(err);
                 this.substepExtract = '4';
+                this.focusManualSymptoms();
             }));
     }
 
@@ -775,7 +854,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
                 icon: 'warning',
                 html: '<p>' + this.translate.instant("land.you have to select") + '</p><p>' + this.translate.instant("land.When you have selected them") + '</p>',
                 input: 'checkbox',
-                inputPlaceholder: this.translate.instant("land.Do not show this message again")
+                inputPlaceholder: this.translate.instant("land.Do not show this message again"),
+                focusConfirm: true
             }).then((result) => {
                 if (result.isConfirmed) {
                     if (result.value) {
@@ -783,6 +863,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     }
                 } else {
                     console.log(`modal was dismissed by ${result.dismiss}`)
+                }
+                if(this.temporalSymptoms.length==0){
+                    this.inputManualSymptomsElement.nativeElement.focus();
                 }
             })
         }
@@ -838,7 +921,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                 info.symptoms.push(this.temporalSymptoms[index].id);
             }
         }
-        if (info.symptoms.length > 4) {
+        if (info.symptoms.length >= this.minSymptoms) {
             var lang = this.lang;
             this.subscription.add(this.apiDx29ServerService.calculate(info, lang)
                 .subscribe((res: any) => {
@@ -854,8 +937,14 @@ export class LandPageComponent implements OnInit, OnDestroy {
                     }
                 }));
         } else {
-            Swal.fire(this.translate.instant("land.You need to select more symptoms"), '', "error");
-            this.loadingCalculate = false;
+            if(this.temporalSymptoms.length < this.minSymptoms){
+                Swal.fire(this.translate.instant("land.addMoreSymp"), this.translate.instant("land.remember"), "error");
+                this.loadingCalculate = false;
+            }else{
+                Swal.fire(this.translate.instant("land.You need to select more symptoms"), this.translate.instant("land.remember"), "error");
+                this.loadingCalculate = false;
+            }
+            
         }
 
     }
@@ -946,6 +1035,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.medicalText = '';
         this.substepExtract = '0';
         this.restartAllVars();
+        this.focusTextArea();        
     }
 
     getPlainInfoSymptoms() {

@@ -190,13 +190,18 @@ img.logo {
 ::placeholder {
     font-size: 22px;
 }
+.pos-abs{
+  position: absolute;
+  bottom: 0px;
+}
+
 body {
     --table-width: 100%; /* Or any value, this will change dinamically */
   }
   tbody {
     display:block;
-    max-height:300px;
-    min-height:300px;
+    max-height:270px;
+    min-height:270px;
     overflow-y:auto;
   }
   thead, tbody tr {

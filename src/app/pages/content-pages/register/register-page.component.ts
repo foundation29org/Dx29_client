@@ -39,6 +39,7 @@ export class RegisterPageComponent implements OnDestroy{
 
     emailpar1: string = null;
     emailpar2: string = null;
+    urlV2: string = environment.urlDxv2;
 
     private subscription: Subscription = new Subscription();
 

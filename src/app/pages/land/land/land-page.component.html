@@ -1,4 +1,4 @@
-<section id="login" class="mt-2" style="min-height: 75vh !important;">
+<section id="login" class="mt-2">
   <div class="container-fluid pb-4">
     <div style="margin: auto;" style="margin: auto;">
       <div class="text-center p-2">
@@ -17,7 +17,7 @@
                       {{'land.Text' | translate }}</strong></ng-template>
                   <ng-template ngbTabContent>
                     <div>
-                      <textarea class="form-control" style="height:30vh;" [(ngModel)]="medicalText" name="medicalText"
+                      <textarea #inputTextArea class="form-control" style="height:30vh;" [(ngModel)]="medicalText" name="medicalText"
                         placeholder="{{'land.placeholder' | translate }}"></textarea>
                       <!--<mat-checkbox
                             class="example-margin mt-0" name="lucky" [(ngModel)]="lucky">
@@ -27,10 +27,15 @@
                         </mat-checkbox>-->
                     </div>
                     <div class="text-center mt-2">
-                      <button type="button" class="btn btn-lg btn-secondary btn-raised"
+                      <button type="button" *ngIf="medicalText.length>4" class="btn btn-lg btn-info btn-raised"
+                        [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholderError') : getLiteral('land.Extract')"
+                        (click)="startExtractor();"><em class="ml-1 mr-1 mt-1 mb-1 fas fa-play fa-2x"></em></button>
+                        <!--
+                          <button type="button" class="btn btn-lg btn-secondary btn-raised"
                         [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholder') : getLiteral('land.Extract')"
                         [ngClass]="(medicalText.length<5)?'not-allowed':'btn-info'" [disabled]="medicalText.length<5"
                         (click)="startExtractor();"><em class="ml-1 mr-1 mt-1 mb-1 fas fa-play fa-2x"></em></button>
+                        -->
                     </div>
                   </ng-template>
                 </ngb-tab>
@@ -75,7 +80,7 @@
         <div *ngIf="substepExtract!='0'"
           class="mb-2 offset-xl-1 col-xl-5 mrbox shadow rounded-lg light-background border"
           [ngClass]="(substepExtract!='4')?'d-flex':''">
-          <div *ngIf="temporalSymptoms.length==0" class="mr-2 section w-100  mb-2 align-self-center">
+          <div *ngIf="substepExtract!='4'" class="mr-2 section w-100  mb-2 align-self-center">
             <span class="d-block pt-2 center-elements font-medium-3">{{'land.The symptoms found will be shown here' |
               translate }}</span>
             <span *ngIf="substepExtract!='0' && substepExtract!='4'" class="d-block pt-2 center-elements">
@@ -85,8 +90,8 @@
               <span class="d-block font-medium-3 mt-1 pb-2">{{'land.pleaseWait' | translate }}</span>
             </span>
           </div>
-          <div *ngIf="temporalSymptoms.length>0" class="section row maintxt">
-            <table class="col-md-12 table mb-0 border-bottom">
+          <div *ngIf="substepExtract=='4'" class="section row maintxt">
+            <table class="col-md-12 table mb-0" [ngClass]="(temporalSymptoms.length>0)?'border-bottom':''">
               <thead>
                 <tr>
                   <th id="headerTable" style="border-top-style: none;">{{'land.SelectSymptoms' | translate }}
@@ -107,7 +112,7 @@
                     slice:0:140)+'...':(r.desc) }}</span>
                 </ng-template>
                 <div style="padding-top: 0.5rem !important;">
-                  <i class="fas fa-search ml-1 mr-2"></i> <input #input style="width: 91%;display: inline;" type="text"
+                  <i class="fas fa-search ml-1 mr-2"></i> <input #input style="width: 91%;display: inline;" type="text" #inputManualSymptoms
                     class="form-control ml-1" [(ngModel)]="modelTemp" [ngbTypeahead]="searchSymptom"
                     [resultTemplate]="rt" [inputFormatter]="formatter1"
                     placeholder="{{'symptomssection.manualinput' | translate }}" (selectItem)="selected($event)" />
@@ -147,16 +152,19 @@
               </table>
             </div>
             
-            <span class="col-md-12 p-2 border-top" style="height: 69px;background-color: #f5f5f5;">
+            <span class="col-md-12 p-2 border-top" style="min-height: 69px;background-color: #f5f5f5;" [ngClass]="(temporalSymptoms.length==0)?'pos-abs':''">
               <span>
                 <span>
                   {{'land.You have selected' | translate }} {{numberOfSymtomsChecked}} {{'land.symptom' | translate
                   }}<span *ngIf="numberOfSymtomsChecked!=1">s</span> {{'land.out of' | translate }}
                   {{temporalSymptoms.length}}
                 </span>
-                <span *ngIf="numberOfSymtomsChecked<minSymptoms" class="danger d-block">
+                <span *ngIf="numberOfSymtomsChecked<minSymptoms && temporalSymptoms.length > 1" class="danger d-block">
                   {{'land.You must select at least' | translate }} {{minSymptoms}} {{'land.symptom' | translate }}s
                   {{'land.in order to continue' | translate }}
+                </span>
+                <span *ngIf="numberOfSymtomsChecked<minSymptoms && temporalSymptoms.length < 2" class="danger d-block">
+                  {{'land.addMoreSymp' | translate }}
                 </span>
               </span>
             </span>
@@ -169,7 +177,13 @@
             <span class="d-block pt-2 center-elements font-medium-3">{{'land.Suggested diseases will be shown here' |
               translate }}</span>
             <div class="col-md-12 center-elements mt-4" *ngIf="substepExtract!='0'">
-              <button type="button" class="btn btn-secondary btn-lg btn-raised pb-2 font-medium-3"
+              <button type="button" class="btn btn-info btn-lg btn-raised pb-2 font-medium-3"
+                (click)="calculate();"
+                [attr.title]="(numberOfSymtomsChecked<minSymptoms) ? getLiteral('land.You need to select more symptoms') : getLiteral('land.See suggested diseases')">
+                <span>{{'land.See suggested diseases' | translate }}</span>
+              </button>
+              <!--
+                <button type="button" class="btn btn-secondary btn-lg btn-raised pb-2 font-medium-3"
                 (click)="calculate();" [disabled]="numberOfSymtomsChecked<minSymptoms"
                 [attr.title]="(numberOfSymtomsChecked<minSymptoms) ? getLiteral('land.You need to select more symptoms') : getLiteral('land.See suggested diseases')"
                 [ngClass]="(numberOfSymtomsChecked<minSymptoms)?'not-allowed':'btn-info'">
@@ -177,12 +191,16 @@
                 <span *ngIf="numberOfSymtomsChecked<minSymptoms" class="d-block font-small-3">
                   {{'land.You have selected' | translate }} {{numberOfSymtomsChecked}} {{'land.symptom' | translate
                   }}<span *ngIf="numberOfSymtomsChecked!=1">s</span>
-                  <span class="d-block">
+                  <span class="d-block" *ngIf="numberOfSymtomsChecked<minSymptoms && temporalSymptoms.length > 4">
                     {{'land.You must select at least' | translate }} {{minSymptoms}} {{'land.symptom' | translate }}s
                     {{'land.in order to continue' | translate }}
                   </span>
+                  <span *ngIf="numberOfSymtomsChecked<minSymptoms && temporalSymptoms.length < 5" class="danger d-block">
+                    {{'land.addMoreSymp' | translate }}
+                  </span>
                 </span>
               </button>
+              -->
             </div>
           </div>
           <div *ngIf="loadingCalculate && substepExtract!='0'" class="col-md-12 align-self-center center-elements">
@@ -220,12 +238,10 @@
                 <table class="table mb-0 bg-white">
                   <tbody>
                     <tr *ngFor="let disease of topRelatedConditions ; let i = index" class="d-flex">
-                      <td class="col-md-12" id="{{disease.id}}">
-                        <button class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round"
-                          (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);"
-                          title="{{'generics.More information' | translate }} ({{disease.id}})">
+                      <td class="col-md-12" id="{{disease.id}}" (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{disease.id}})">
+                        <span class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round">
                           <em class="fa fa-info w-13"></em>
-                        </button>
+                        </span>
                         <span class="custom-bold ml-1">{{disease.name}}</span>
                       </td>
                     </tr>
@@ -615,70 +631,73 @@
     <div *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].symptoms.length>0">
       <h5 class="text-bold-300 mb-0">{{'land.Symptom by symptom comparison' | translate }}</h5>
       <p class="text-muted">{{'land.Table showing' | translate }}</p>
-      <table class="table mb-0 text-center">
-        <thead>
-          <tr class="d-flex">
-            <th class="col-md-5 text-left" id="Name symptom">{{'land.Symptom' | translate }}</th>
-            <th class="col-md-2" id="Frequent">{{'land.Frequency' | translate }}</th>
-            <th class="col-md-2" id="Patient">{{'land.Patient' | translate }}</th>
-            <th class="col-md-2" id="Disease">{{'land.Disease' | translate }}</th>
-            <th class="col-md-1" id="Info">Info</th>
-          </tr>
-        </thead>
-        <tbody style="max-height:inherit;">
-          <tr *ngFor="let symptom of topRelatedConditions[selectedInfoDiseaseIndex].symptoms ; let i = index"
-            class="d-flex">
-            <td class="col-md-5 text-left">
-              <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease);"
-                class="btn-outline-info btn btn-sm mr-2 mb-0 btn-fab round"
-                title="{{'generics.More information' | translate }} ({{symptom.id}})">
-                <em class="fa fa-info w-13"></em>
-              </button>
-              <span *ngIf="symptom.name">{{symptom.name}}</span>
-              <span *ngIf="!symptom.name">
-                {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
-                  href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
-                  <i class="ft-external-link"></i></a></span>
-            </td>
-            <td class="col-md-2">
-              <span *ngIf="symptom.frequency.name!=''"
-                title="{{symptom.frequency.desc}}">{{symptom.frequency.name}}</span>
-              <span *ngIf="symptom.frequency.name==''" title="{{'land.Unknown' | translate}}">{{'land.Unknown' |
-                translate}}</span>
-            </td>
-            <td class="col-md-2">
-              <i *ngIf="symptom.hasPatient" class="fa fa-check success"></i>
-              <i *ngIf="!symptom.hasPatient" class="fa fa-times danger"></i>
-            </td>
-            <td class="col-md-2">
-              <i *ngIf="symptom.hasDisease" class="fa fa-check success"></i>
-              <i *ngIf="!symptom.hasDisease" class="fa fa-times danger"></i>
-            </td>
-            <td class="col-md-1">
-              <span *ngIf="symptom.hasPatient && symptom.hasDisease">
-                <span *ngIf="symptom.relationship == 'Equal'">
-                  <i class="fas fa-info-circle info"
-                    title="{{'land.Symptom observed in the patient and the disease' | translate }}"></i>
+      <div class="table-responsive">
+        <table class="table mb-0 text-center">
+          <thead>
+            <tr class="d-flex">
+              <th class="col-md-6 text-left" id="Name symptom">{{'land.Symptom' | translate }}</th>
+              <th class="col-md-2" id="Frequent">{{'land.Frequency' | translate }}</th>
+              <th class="col-md-2" id="Patient">{{'land.Patient' | translate }}</th>
+              <th class="col-md-2" id="Disease">{{'land.Disease' | translate }}</th>
+              <!--<th class="col-md-1" id="Info">Info</th>-->
+            </tr>
+          </thead>
+          <tbody style="max-height:inherit;">
+            <tr *ngFor="let symptom of topRelatedConditions[selectedInfoDiseaseIndex].symptoms ; let i = index"
+              class="d-flex">
+              <td class="col-md-6 text-left">
+                <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease);"
+                  class="btn-outline-info btn btn-sm mr-2 mb-0 btn-fab round"
+                  title="{{'generics.More information' | translate }} ({{symptom.id}})">
+                  <em class="fa fa-info w-13"></em>
+                </button>
+                <span *ngIf="symptom.name">{{symptom.name}}</span>
+                <span *ngIf="!symptom.name">
+                  {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                    href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
+                    <i class="ft-external-link"></i></a></span>
+              </td>
+              <td class="col-md-2">
+                <span *ngIf="symptom.frequency.name!=''"
+                  title="{{symptom.frequency.desc}}">{{symptom.frequency.name}}</span>
+                <span *ngIf="symptom.frequency.name==''" title="{{'land.Unknown' | translate}}">{{'land.Unknown' |
+                  translate}}</span>
+              </td>
+              <td class="col-md-2">
+                <i *ngIf="symptom.hasPatient" class="fa fa-check success"></i>
+                <i *ngIf="!symptom.hasPatient" class="fa fa-times danger"></i>
+              </td>
+              <td class="col-md-2">
+                <i *ngIf="symptom.hasDisease" class="fa fa-check success"></i>
+                <i *ngIf="!symptom.hasDisease" class="fa fa-times danger"></i>
+              </td>
+              <!--<td class="col-md-1">
+                <span *ngIf="symptom.hasPatient && symptom.hasDisease">
+                  <span *ngIf="symptom.relationship == 'Equal'">
+                    <i class="fas fa-info-circle info"
+                      title="{{'land.Symptom observed in the patient and the disease' | translate }}"></i>
+                  </span>
+                  <span *ngIf="symptom.relationship == 'Successor'">
+                    <i class="fas fa-info-circle info"
+                      title="{{'land.Symptom deduced in the patient because they also present' | translate }} {{symptom.relatedName}}"></i>
+                  </span>
+                  <span *ngIf="symptom.relationship == 'Predecessor'">
+                    <i class="fas fa-info-circle info"
+                      title="{{'land.Symptom observed in patient and disease' | translate }}"></i>
+                  </span>
                 </span>
-                <span *ngIf="symptom.relationship == 'Successor'">
-                  <i class="fas fa-info-circle info"
-                    title="{{'land.Symptom deduced in the patient because they also present' | translate }} {{symptom.relatedName}}"></i>
+                <span *ngIf="symptom.hasPatient && !symptom.hasDisease">
+                  <i class="fas fa-info-circle info" title="{{'land.Symptom observed in the patient' | translate }}"></i>
                 </span>
-                <span *ngIf="symptom.relationship == 'Predecessor'">
-                  <i class="fas fa-info-circle info"
-                    title="{{'land.Symptom observed in patient and disease' | translate }}"></i>
+                <span *ngIf="!symptom.hasPatient && symptom.hasDisease">
+                  <i class="fas fa-info-circle info" title="{{'land.Symptom observed in the disease' | translate }}"></i>
                 </span>
-              </span>
-              <span *ngIf="symptom.hasPatient && !symptom.hasDisease">
-                <i class="fas fa-info-circle info" title="{{'land.Symptom observed in the patient' | translate }}"></i>
-              </span>
-              <span *ngIf="!symptom.hasPatient && symptom.hasDisease">
-                <i class="fas fa-info-circle info" title="{{'land.Symptom observed in the disease' | translate }}"></i>
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </td>-->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
     </div>
   </div>
 </ng-template>
