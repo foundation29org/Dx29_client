@@ -238,13 +238,11 @@
                 <table class="table mb-0 bg-white">
                   <tbody>
                     <tr *ngFor="let disease of topRelatedConditions ; let i = index" class="d-flex">
-                      <td class="col-md-12" id="{{disease.id}}">
-                        <button class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round"
-                          (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);"
-                          title="{{'generics.More information' | translate }} ({{disease.id}})">
+                      <td class="col-md-12" id="{{disease.id}}" (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{disease.id}})">
+                        <span class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round">
                           <em class="fa fa-info w-13"></em>
-                        </button>
-                        <span class="custom-bold ml-1" (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);" style="cursor: pointer;">{{disease.name}}</span>
+                        </span>
+                        <span class="custom-bold ml-1">{{disease.name}}</span>
                       </td>
                     </tr>
                     <tr
