@@ -16,12 +16,15 @@ import { SortService } from 'app/shared/services/sort.service';
 import { SearchService } from 'app/shared/services/search.service';
 import { HighlightSearch } from 'app/shared/services/search-filter-highlight.service';
 import { Clipboard } from "@angular/cdk/clipboard"
+import {v4 as uuidv4} from 'uuid';
+import{GoogleAnalyticsService} from 'app/shared/services/google-analytics.service';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
 import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexYAxis, ApexGrid, ApexDataLabels, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexLegend, ApexPlotOptions, ApexFill, ApexMarkers, ApexTheme, ApexNonAxisChartSeries, ApexResponsive } from "ng-apexcharts";
+import { GtpPageComponent } from '../gtp/gtp-page.component';
 
 export type ChartOptions = {
     series: ApexAxisChartSeries | ApexNonAxisChartSeries;
@@ -54,6 +57,7 @@ var themeColors = [$primary, $warning, $success, $danger, $info];
 declare var JSZipUtils: any;
 declare var Docxgen: any;
 let phenotypesinfo = [];
+declare let gtag:any;
 
 @Component({
     selector: 'app-land-page',
@@ -103,10 +107,14 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
     lucky: boolean = false;
     showErrorMsg: boolean = false;
     modelTemp: any;
+    _startTime: any;
     @ViewChild("inputTextArea") inputTextAreaElement: ElementRef;
     @ViewChild("inputManualSymptoms") inputManualSymptomsElement: ElementRef;
 
+    myuuid: string = uuidv4();
+
     formatter1 = (x: { name: string }) => x.name;
+    optionSymptomAdded: string = "textarea";
 
     // Flag search
     searchSymptom = (text$: Observable<string>) =>
@@ -140,7 +148,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
             );
           };*/
 
-    constructor(private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch) {
+    constructor(private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService) {
 
         this.lang = sessionStorage.getItem('lang');
         this.originalLang = sessionStorage.getItem('lang');
@@ -160,7 +168,29 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
             //console.log("finished loading and running docxtemplater.js. with a status of" + textStatus);
         });
 
+        //this.googleAnalyticsService.eventEmitter("OpenDx - init: "+result, "general", this.myuuid);
+        //this.googleAnalyticsService.eventEmitter("OpenDx - init", "general", this.myuuid, 'init', 5);
+        this._startTime = Date.now();
+        this.lauchEvent("init");
+        //gtag('event',this.myuuid,{"event_category":"init", "event_label": 0});
     }
+
+    getElapsedSeconds (){
+        var endDate   = Date.now();
+        var seconds = (endDate - this._startTime) / 1000;
+        return seconds;
+      };
+
+      lauchEvent(category){
+        var secs = this.getElapsedSeconds();
+        if(category=="Symptoms"){
+            gtag('event',this.myuuid,{"event_category":category, "event_label": secs});
+            gtag('event',this.myuuid,{"event_category":category+ ' - '+this.optionSymptomAdded, "event_label": secs});
+        }else{
+            gtag('event',this.myuuid,{"event_category":category, "event_label": secs});
+        }
+        
+      }
 
     initGraphs() {
         var dataIdeal = [80.4, 85.6, 88, 89.2, 90.1, 90.6, 90.9, 91.3, 91.6, 91.9, 92.2, 92.3, 92.6, 92.7, 92.9, 93, 93.3, 93.4, 93.5, 93.6, 93.7, 93.8, 93.8, 93.8, 93.9, 93.9, 94, 94.1, 94.1, 94.1, 94.2, 94.2, 94.3, 94.3, 94.3, 94.3, 94.3, 94.4, 94.4, 94.4, 94.5, 94.5, 94.5, 94.5, 94.5, 94.5, 94.5, 94.6, 94.6, 94.6, 94.6, 94.6, 94.7, 94.7, 94.7, 94.7, 94.7, 94.7, 94.7, 94.8, 94.9, 94.8, 94.8, 94.8, 94.9, 94.9, 94.9, 94.9, 95, 95, 95, 95, 95, 95.1, 95.1, 95.1, 95.2, 95.2, 95.2, 95.3, 95.3, 95.3, 95.4, 95.4, 95.4, 95.4, 95.4, 95.4, 95.4, 95.4, 95.5];
@@ -355,6 +385,8 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.temporalSymptoms.push({ id: symptom.id, name: symptom.name, new: true, checked: true, percentile: -1, inputType: 'manual', importance: '1', polarity: '0', synonyms: symptom.synonyms, def: symptom.desc });
                 this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
                 this.numberOfSymtomsChecked++;
+                this.optionSymptomAdded = "Manual";
+                this.lauchEvent("Symptoms");
             } else {
                 //this.toastr.warning(this.translate.instant("generics.Name")+': '+symptom.name, this.translate.instant("phenotype.You already had the symptom"));
             }
@@ -372,6 +404,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 var extension = (event.target.files[0]).name.substr((event.target.files[0]).name.lastIndexOf('.'));
                 extension = extension.toLowerCase();
                 this.langToExtract = '';
+                this.optionSymptomAdded = "File";
                 if (event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || extension == '.docx') {
                     this.loadFile(the_url, function (err, content) {
                         if (err) { console.log(err); };
@@ -538,6 +571,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     startExtractor() {
+        this.optionSymptomAdded = "Textarea";
         if(this.medicalText.length<5){
             Swal.fire('', this.translate.instant("land.placeholderError"), "error");
         }else{
@@ -683,6 +717,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
                             }).then((result) => {
                                 if (result.value) {
                                     this.substepExtract = '4';
+                                    this.lauchEvent("Symptoms");
                                     this.focusManualSymptoms();
                                 }else{
                                     this.focusTextArea();
@@ -694,6 +729,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
                     } else {
                         this.substepExtract = '4';
+                        this.lauchEvent("Symptoms");
                         Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
                         this.focusManualSymptoms();
                     }
@@ -768,11 +804,13 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
                         }
                     } else {
                         this.substepExtract = '4';
+                        this.lauchEvent("Symptoms");
                         Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
                         this.focusManualSymptoms();
                     }
                 } else {
                     this.substepExtract = '4';
+                    this.lauchEvent("Symptoms");
                     Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
                     this.focusManualSymptoms();
                 }
@@ -832,6 +870,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
                 }
                 this.substepExtract = '4';
+                this.lauchEvent("Symptoms");
                 if (this.lucky) {
                     this.checkSymptoms();
                 } else {
@@ -843,6 +882,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
             }, (err) => {
                 console.log(err);
                 this.substepExtract = '4';
+                this.lauchEvent("Symptoms");
                 this.focusManualSymptoms();
             }));
     }
@@ -972,6 +1012,8 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.totalDiseasesLeft = this.temporalDiseases.length - this.showNumerRelatedConditions;
                 this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
                 this.loadingCalculate = false;
+                this.lauchEvent("Diseases");
+                this.saveSymptomsSession();
             }, (err) => {
                 console.log(err);
                 this.loadingCalculate = false;
@@ -1078,6 +1120,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
             setTimeout(function () {
                 Swal.close();
             }, 2000);
+            this.lauchEvent("Copy symptoms");
 
         } else {
             Swal.fire(this.translate.instant("land.To be able to copy the symptoms"), '', "warning");
@@ -1435,6 +1478,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     showInfoDx29(contentInfoDx29) {
+        this.lauchEvent("showInfoDx29");
         this.initGraphs();
         let ngbModalOptions: NgbModalOptions = {
             keyboard: true,
@@ -1451,6 +1495,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
             var extension = (event[0]).name.substr((event[0]).name.lastIndexOf('.'));
             extension = extension.toLowerCase();
             this.langToExtract = '';
+            this.optionSymptomAdded = "File";
             if (event[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || extension == '.docx') {
                 this.loadFile(the_url, function (err, content) {
                     if (err) { console.log(err); };
@@ -1485,6 +1530,8 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     registerToDx29V2() {
+        this.lauchEvent("Registration");
+        this.lauchEvent("Registration Power");
         if (this.modalReference != undefined) {
             this.modalReference.close();
         }
@@ -1500,7 +1547,8 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
             console.log(info);
             this.subscription.add(this.apiDx29ServerService.createblobOpenDx29(info)
                 .subscribe((res: any) => {
-                    console.log(res);
+                    sessionStorage.removeItem('symptoms');
+                    sessionStorage.removeItem('uuid');
                     if (res.message == 'Done') {
                         window.location.href = environment.urlDxv2 + "/Identity/Account/Register?opendata=" + res.token;
                     } else {
@@ -1514,5 +1562,18 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     goto(url) {
         document.getElementById(url).scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+    }
+
+    saveSymptomsSession(){
+        var info = {
+            "Symptoms": []
+        }
+        for (var index in this.temporalSymptoms) {
+            if (this.temporalSymptoms[index].checked) {
+                info.Symptoms.push(this.temporalSymptoms[index].id);
+            }
+        }
+        sessionStorage.setItem('symptoms', JSON.stringify(info));
+        sessionStorage.setItem('uuid', this.myuuid);
     }
 }

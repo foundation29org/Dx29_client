@@ -27,7 +27,7 @@
                         </mat-checkbox>-->
                     </div>
                     <div class="text-center mt-2">
-                      <button type="button" *ngIf="medicalText.length>4" class="btn btn-lg btn-info btn-raised"
+                      <button type="button" class="btn btn-lg btn-info btn-raised"
                         [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholderError') : getLiteral('land.Extract')"
                         (click)="startExtractor();"><em class="ml-1 mr-1 mt-1 mb-1 fas fa-play fa-2x"></em></button>
                         <!--
@@ -73,7 +73,7 @@
           </div>
           <span style="position: absolute; top:102%">
             {{'land.availableLangs' | translate }}
-            <a class="info" href={{refLangs}} target="_blank" title="{{'land.availableLangs' | translate }}"><i
+            <a class="info" href={{refLangs}} target="_blank" title="{{'land.availableLangs' | translate }}" click="lauchEvent('langInfo');"><i
                 class="ft-external-link"></i></a>
           </span>
         </div>
