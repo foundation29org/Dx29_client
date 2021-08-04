@@ -566,6 +566,10 @@ body {
    width:90vh;
   }
 
+  .section h2{
+    font-size: 32px;
+  }
+
 }
 
 @media ( max-width: 1199px ){
@@ -593,12 +597,21 @@ body {
     .mrbox{
       margin-right: 0rem !important;
     }
+
+    .section h2{
+      font-size: 28px;
+    }
+
 }
 
 @media ( max-width: 960px ){
 
   ::ng-deep ngb-typeahead-window.dropdown-menu {
    width:60vh;
+  }
+
+  .section h2{
+    font-size: 24px;
   }
 
 }
@@ -610,6 +623,10 @@ body {
         bottom: 3.5%;
         animation: animatebottom 0.4s;
       }
+
+      .section h2{
+        font-size: 22px;
+      }
   }
 
   @media ( max-width: 575px ){
@@ -617,6 +634,9 @@ body {
     ::ng-deep ngb-typeahead-window.dropdown-menu {
      width: 100%;
     }
-  
+    
+    .section h2{
+      font-size: 18px;
+    }
   }
   
