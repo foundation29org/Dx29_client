@@ -171,7 +171,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
         //this.googleAnalyticsService.eventEmitter("OpenDx - init: "+result, "general", this.myuuid);
         //this.googleAnalyticsService.eventEmitter("OpenDx - init", "general", this.myuuid, 'init', 5);
         this._startTime = Date.now();
-        this.lauchEvent("init");
+        this.lauchEvent("Init");
         //gtag('event',this.myuuid,{"event_category":"init", "event_label": 0});
     }
 
@@ -1478,7 +1478,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     showInfoDx29(contentInfoDx29) {
-        this.lauchEvent("showInfoDx29");
+        this.lauchEvent("ShowInfoDx29");
         this.initGraphs();
         let ngbModalOptions: NgbModalOptions = {
             keyboard: true,
