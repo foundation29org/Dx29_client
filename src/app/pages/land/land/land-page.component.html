@@ -91,7 +91,7 @@
             </span>
           </div>
           <div *ngIf="substepExtract=='4'" class="section row maintxt">
-            <table class="col-md-12 table mb-0" [ngClass]="(temporalSymptoms.length>0)?'border-bottom':''">
+            <table class="col-md-12 table mb-0" [ngClass]="(temporalSymptoms.length>0)?'border-bottom':''" aria-label="extract HPO">
               <thead>
                 <tr>
                   <th id="headerTable" style="border-top-style: none;">{{'land.SelectSymptoms' | translate }}
@@ -120,7 +120,7 @@
               </caption>
             </table>
             <div class="table-cont">
-              <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white">
+              <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white" aria-labelledby="HPO">
                 <tbody>
                   <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
                     <td>
@@ -211,7 +211,7 @@
           </div>
           <div *ngIf="substepExtract!='0' && !loadingCalculate" class="section row maintxt">
             <span *ngIf="topRelatedConditions.length>0">
-              <table class="col-md-12 table mb-0 bg-white border-bottom">
+              <table class="col-md-12 table mb-0 bg-white border-bottom" aria-labelledby="get diagnosis">
                 <thead>
                   <tr>
                     <th id="headerTable" style="border-top-style: none;">{{'land.Diseases' | translate }}
@@ -235,7 +235,7 @@
                 </caption>
               </table>
               <div class="table-cont">
-                <table class="table mb-0 bg-white">
+                <table class="table mb-0 bg-white" aria-labelledby="rare disease">
                   <tbody>
                     <tr *ngFor="let disease of topRelatedConditions ; let i = index" class="d-flex">
                       <td class="col-md-12" id="{{disease.id}}" (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{disease.id}})">
