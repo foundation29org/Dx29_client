@@ -68,6 +68,64 @@
                     </mat-checkbox>-->
                   </ng-template>
                 </ngb-tab>
+                <ngb-tab>
+                  <ng-template ngbTabTitle><strong><i class="fa fa-pencil" aria-hidden="true"></i>
+                      {{'symptomssection.manualinput' | translate }}</strong></ng-template>
+                  <ng-template ngbTabContent>
+                    <div>
+                      <ng-template #rt let-r="result" let-t="term">
+                        <strong title="{{r.name}}">{{ r.name}}</strong>
+                        <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
+                          slice:0:140)+'...':(r.desc) }}</span>
+                      </ng-template>
+                      <div style="padding-bottom: 0.5rem !important;">
+                        <i class="fas fa-search ml-1 mr-2"></i> <input #input style="width: 95%;display: inline;" type="text" #inputManualSymptoms
+                          class="form-control ml-1" [(ngModel)]="modelTemp" [ngbTypeahead]="searchSymptom"
+                          [resultTemplate]="rt" [inputFormatter]="formatter1"
+                          placeholder="{{'symptomssection.manualinput' | translate }}" (selectItem)="selected($event)" />
+                      </div>
+                    </div>
+                    <div *ngIf="temporalSymptoms.length>0">
+                      <div class="table-cont border">
+                        <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white" aria-labelledby="HPO">
+                          <tbody>
+                            <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
+                              <td>
+                                <span>
+                                  <span class="float-right ml-1">
+                                    <button (click)="changeStateSymptom(i, true)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                                      [ngClass]="(hpo.checked==true)?'btn-info':'btn-secondary '" href="javascript:void(0)"
+                                      title="{{'phenotype.Click to check it' | translate }}">
+                                      <em class="fa fa-check w-13"></em>
+                                    </button>
+                                    <button (click)="changeStateSymptom(i, false)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                                      [ngClass]="(hpo.checked==false)?'btn-danger':'btn-secondary'" href="javascript:void(0)"
+                                      title="{{'phenotype.Click to uncheck it' | translate }}">
+                                      <em class="fa fa-times w-13"></em>
+                                    </button>
+                                  </span>
+                                  <span>
+                                    <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
+                                      class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round"
+                                      title="{{'generics.More information' | translate }} ({{hpo.id}})">
+                                      <em class="fa fa-info w-13"></em>
+                                    </button>
+                                    <span class="ml-1 custom-bold">{{hpo.name}}</span>
+                                  </span>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="text-center mt-2">
+                        <button type="button" class="btn btn-lg btn-info btn-raised"
+                          (click)="directCalculate();"><em class="ml-1 mr-1 mt-1 mb-1 fas fa-play"></em></button>
+                      </div>
+                    </div>
+                    
+                  </ng-template>
+                </ngb-tab>
               </ngb-tabset>
             </div>
           </div>
