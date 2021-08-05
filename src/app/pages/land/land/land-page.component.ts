@@ -1576,4 +1576,16 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
         sessionStorage.setItem('symptoms', JSON.stringify(info));
         sessionStorage.setItem('uuid', this.myuuid);
     }
+
+    directCalculate(){
+        if (this.temporalSymptoms.length >= this.minSymptoms) {
+            this.substepExtract = '4';
+            this.lauchEvent("Symptoms");
+            this.calculate();
+        } else {
+            Swal.fire(this.translate.instant("land.addMoreSymp"), this.translate.instant("land.remember"), "error");
+            this.loadingCalculate = false;
+        }
+        
+    }
 }
