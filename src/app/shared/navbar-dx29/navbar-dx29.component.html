@@ -3,8 +3,9 @@
     <div class="container-fluid">
       <div>
           <span class="navbar-header-logos">
-            <img *ngIf="isHomePage" class="logo-img" src='assets/img/logo-Dx29.png' (click)="lauchEvent('Logo Dx29');"/>
-            <img *ngIf="!isHomePage" class="logo-img" src='assets/img/logo-Dx29.png' routerLink="/." (click)="lauchEvent('Logo Dx29');"/>
+            <img *ngIf="isHomePage" class="logo-img" src='assets/img/logo-Dx29.png' (click)="lauchEvent('Logo Dx29');showAboutUs(contentAboutUs);" style="cursor: pointer;"/>
+            <img *ngIf="!isHomePage" class="logo-img" src='assets/img/logo-Dx29.png' routerLink="/." (click)="lauchEvent('Logo Dx29');showAboutUs(contentAboutUs);" style="cursor: pointer;"/>
+            <!--<i class="fa fa-info" aria-hidden="true" (click)="showAboutUs(contentAboutUs)" style="cursor: pointer;"></i>-->
           </span>
 
       </div>
@@ -16,6 +17,9 @@
                         <span>{{'homedx.Donate' | translate }}</span>
                       </button>
                   </li>
+                  <!--<li class="nav-item mr-2">
+                    <a class="btn btn-info mr-1 btn-raised mb-0 btn-navbar" (click)="showAboutUs(contentAboutUs)">{{'land.aboutUs.title' | translate }}</a>
+                  </li>-->
                     <li class="nav-item mr-2" *ngIf="!isGTPPage">
                       <a class="btn btn-danger mr-1 btn-raised mb-0 btn-navbar" (click)="registerToDx29V2()">{{'login.Create User' | translate }}</a>
                     </li>
@@ -37,5 +41,27 @@
         </div>
     </div>
 </nav>
-
+<ng-template #contentAboutUs let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 center-elements mb-3">
+    <div class="p-2">
+      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="row col-md-12">
+      <div class="col-md-5 d-none d-sm-none d-md-block">
+        <img class="col-md-12 mt-1" src='assets/img/home/kid.jpg' />
+      </div>
+      <div class="col-md-7">
+        <span class="text-left">
+          <h4><strong>{{'land.aboutUs.title' | translate }}</strong></h4>
+          <p>{{'land.aboutUs.p1' | translate }}</p>
+          <p>{{'land.aboutUs.p2' | translate }}</p>
+          <p>{{'land.aboutUs.p3' | translate }}</p>
+          <a class="btn btn-info btn-raised btn-navbar" href="https://www.foundation29.org" target="_blank">{{'land.aboutUs.btn1' | translate }}</a>
+        </span>
+      </div>
+    </div>
+  </div>
+</ng-template>
 <!-- Navbar (Header) Ends -->

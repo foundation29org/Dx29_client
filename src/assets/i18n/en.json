@@ -741,7 +741,7 @@
     "title": "Symptoms",
     "subtitle": "Include the patient symptoms.",
     "obsolete": "This patient has symptoms considered as obsolete. It is recommended that you replace them with equivalent and up to date symptoms.",
-    "manualinput": "Write a symptom",
+    "manualinput": "Type a symptom",
     "searchdoc": "Search a document",
     "searchtext": "Search in text",
     "nosymptoms": "The patient does not have symptoms.",
@@ -2183,6 +2183,7 @@
     "The symptoms found will be shown here": "The symptoms found will be shown here",
     "Calculating": "Calculating",
     "pleaseWait": "This process may take 1 to 2 minutes. Please wait",
+    "pleaseWait2": "This process may take a few seconds. Please wait",
     "SelectSymptoms": "Select the symptoms that you think are correct",
     "placeholder": "Type symptoms, cut and paste text or use a medical record. Click on the play button to see the symptoms.",
     "placeholderError": "Type symptoms, cut and paste text or use a medical record.",
@@ -2240,7 +2241,7 @@
     "Sponsor": "Click here to learn all about",
     "click here": "IS HERE",
     "If you want to know how Dx29": "If you want to know how Dx29 works and the accuracy of its results click",
-    "you have to select": "Great! Now you have to cure the symptoms. Symptom curation allows you to eliminate errors and be accurate in your diagnosis, it is a very important step in helping your patient. You have to select between 5 and 10 “guiding symptoms”. The guiding symptoms are the ones that you consider characterize your patient and that your clinical eye tells you are important.",
+    "you have to select": "Great! Now you have to select the symptoms, this allows you to eliminate errors and be accurate in your diagnosis, it is a very important step in helping your patient. You have to select between 5 and 10 “guiding symptoms”. The guiding symptoms are the ones that you consider characterize your patient and that your clinical eye tells you are important.",
     "remember": "Remember, To be accurate in diagnosis, You have to select between 5 and 10 “guiding symptoms”. The guiding symptoms are the ones that you consider characterize your patient and that your clinical eye tells you are important.",
     "Do not show this message again": "Do not show this message again",
     "When you have selected them": "When you have selected them you have to click on the “View suggested diseases” button.",
@@ -2296,20 +2297,27 @@
       "d11": "Share your case with your doctor or professionals",
       "t12": "Re-Analysis",
       "d12": "Anytime with new case data or updated technology",
-      "button": "I want to be a Power User, it´s free!"
+      "button": "I want to register, it´s free!"
     },
     "swal":{
       "title": "Register to use the full capacity of Dx29, completely free of charge",
       "subtitle": "Get ready to receive your new powers",
       "p1": "We have taken the trouble to prepare you for your new role, therefore, <ins>you will have in your new profile the symptoms and diseases that you have obtained</ins> so that your take off is as comfortable as possible.",
       "p2": "Your new powers include:",
-      "button": "Turn me into a Power User"
+      "button": "Create user"
     },
     "We have not found anything": "We have not found anything",
     "Please try a different search": "Please try a different search",
     "Do you want to add the symptoms manually": "Do you want to add the symptoms manually, or try again?",
     "add the symptoms manually": "Add manually",
-    "try again": "Try again"
+    "try again": "Try again",
+    "aboutUs":{
+      "title": "Who we are?",
+      "p2": "We are a non-profit foundation. We work for a medicine in which empowered patients take control of their health through their data and work with physicians and institutions to improve their well-being and that of others.",
+      "p3": "We create technologies that enable a radical change in their capabilities as users and in the entire medical ecosystem.",
+      "p1": "Dx29 is a revolutionary system to facilitate the diagnosis of rare diseases that allows patients and doctors to know with great precision the symptoms a patient has and the rare diseases that match those symptoms. After registering, they have in their possession even more tools that facilitate the diagnosis of patients with rare diseases.",
+      "btn1": "Visit the Foundation 29 website"
+    }
   },
   "seo":{
     "keywords": "diagnosis, diagnose, rare disease, syndrome, disease, prognosis, symptoms, HPO, epilepsy, seizures, status epilepticus, developmental delay, tremors, palpitations, tonic-clonic, myoclonic, pediatrics, genetics, neurology, symptom extraction, genetic disease, genetic disease",

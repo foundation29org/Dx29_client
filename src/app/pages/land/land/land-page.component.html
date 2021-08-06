@@ -8,7 +8,7 @@
       </div>
       <div class="row" [ngClass]="(topRelatedConditions.length>0)?'diffHeight':''">
         <div *ngIf="substepExtract=='0'"
-          class="mb-2 offset-xl-1 col-xl-5 mrbox shadow rounded-lg light-background border">
+          class="mb-2 offset-xl-1 col-xl-5 mrbox shadow rounded-lg light-background border box-panels">
           <div class="row pt-2">
             <div class="col-md-12">
               <ngb-tabset>
@@ -79,14 +79,14 @@
                           slice:0:140)+'...':(r.desc) }}</span>
                       </ng-template>
                       <div style="padding-bottom: 0.5rem !important;">
-                        <i class="fas fa-search ml-1 mr-2"></i> <input #input style="width: 91%;display: inline;" type="text" #inputManualSymptoms
-                          class="form-control ml-1" [(ngModel)]="modelTemp" [ngbTypeahead]="searchSymptom"
+                        <i class="fas fa-search ml-1 mr-2"></i> <input #input style="display: inline;" type="text" #inputManualSymptoms
+                          class="form-control ml-1 inputSearch" [(ngModel)]="modelTemp" [ngbTypeahead]="searchSymptom"
                           [resultTemplate]="rt" [inputFormatter]="formatter1"
                           placeholder="{{'symptomssection.manualinput' | translate }}" (selectItem)="selected($event)" />
                       </div>
                     </div>
                     <div *ngIf="temporalSymptoms.length>0">
-                      <div class="table-cont border">
+                      <div class="table-cont" style="border: 1px solid #ced4da;border-radius: 0.25rem;">
                         <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white" aria-labelledby="HPO">
                           <tbody>
                             <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
@@ -170,8 +170,8 @@
                     slice:0:140)+'...':(r.desc) }}</span>
                 </ng-template>
                 <div style="padding-top: 0.5rem !important;">
-                  <i class="fas fa-search ml-1 mr-2"></i> <input #input style="width: 91%;display: inline;" type="text" #inputManualSymptoms
-                    class="form-control ml-1" [(ngModel)]="modelTemp" [ngbTypeahead]="searchSymptom"
+                  <i class="fas fa-search ml-1 mr-2"></i> <input #input style="display: inline;" type="text" #inputManualSymptoms
+                    class="form-control ml-1 inputSearch" [(ngModel)]="modelTemp" [ngbTypeahead]="searchSymptom"
                     [resultTemplate]="rt" [inputFormatter]="formatter1"
                     placeholder="{{'symptomssection.manualinput' | translate }}" (selectItem)="selected($event)" />
                 </div>
@@ -228,7 +228,7 @@
             </span>
           </div>
         </div>
-        <div class="mb-2 col-xl-5 row light-background rounded-lg loadingPanel ml-2 shadow border"
+        <div class="mb-2 col-xl-5 row light-background rounded-lg loadingPanel ml-2 shadow border box-panels"
           [ngClass]="(!loadingCalculate && topRelatedConditions.length>0)?'row':''">
           <div *ngIf="!loadingCalculate && topRelatedConditions.length==0"
             class="section w-100 pt-1 pl-2 mb-2 align-self-center">
@@ -264,7 +264,7 @@
           <div *ngIf="loadingCalculate && substepExtract!='0'" class="col-md-12 align-self-center center-elements">
             <em class="fa fa-spinner fa-spin fa-3x fa-fw info"></em>
             <p class="d-block overlay-text col-md-12 font-medium-3 mt-2">{{'land.Calculating' | translate }}...</p>
-            <p class="d-block font-medium-3 mt-1">{{'land.pleaseWait' | translate }}
+            <p class="d-block font-medium-3 mt-1">{{'land.pleaseWait2' | translate }}
             </p>
           </div>
           <div *ngIf="substepExtract!='0' && !loadingCalculate" class="section row maintxt">

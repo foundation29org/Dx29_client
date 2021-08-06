@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
+import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 declare let gtag: any;
 
@@ -14,8 +14,9 @@ export class FooterLandComponent{
     //Variables
     currentDate : Date = new Date();
     _startTime: any;
+    modalReference: NgbModalRef;
 
-    constructor(public translate: TranslateService, public toastr: ToastrService) {
+    constructor(public translate: TranslateService, private modalService: NgbModal) {
         this._startTime = Date.now();
     }
 
@@ -29,6 +30,14 @@ export class FooterLandComponent{
         var seconds = (endDate - this._startTime) / 1000;
         return seconds;
       };
+
+      showAboutUs(contentAboutUs){
+        let ngbModalOptions: NgbModalOptions = {
+            keyboard: true,
+            windowClass: 'ModalClass-lg'// xl, lg, sm
+        };
+        this.modalReference = this.modalService.open(contentAboutUs, ngbModalOptions);
+      }
   
 
 }
