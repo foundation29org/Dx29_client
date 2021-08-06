@@ -1,9 +1,33 @@
 <div class="pt-3 pb-3 empty-padding-left border-top" style="display: flex;align-items: flex-end;">
-  <span (click)="lauchEvent('Logo Foundation29')">
+  <!--<span (click)="lauchEvent('Logo Foundation29')">
     <a href="https://www.foundation29.org" target="_blank"><img style="width: 100px;" src='assets/img/logo-foundation-twentynine-footer.png' /></a>
   </span>
   <span class="ml-2">
     <span class="ptm mb-0 mt-1">&copy;  {{currentDate | date: 'yyyy'}} {{'generics.Foundation 29' | translate }}</span>
     <a class="ml-2 info" mailto="info@foundation29.org" href="mailto:info@foundation29.org">info@foundation29.org</a>
-  </span>
+  </span>-->
+  <a class="btn btn-info mr-1 btn-raised mb-0 btn-navbar" (click)="showAboutUs(contentAboutUs)" style="width: 100px;position: relative; left: 5px;top: 2vh;">{{'land.aboutUs.title' | translate }}</a>
 </div>
+<ng-template #contentAboutUs let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 center-elements mb-3">
+    <div class="p-2">
+      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="row col-md-12">
+      <div class="col-md-5 d-none d-sm-none d-md-block">
+        <img class="col-md-12 mt-1" src='assets/img/home/kid.jpg' />
+      </div>
+      <div class="col-md-7">
+        <span class="text-left">
+          <h4><strong>{{'land.aboutUs.title' | translate }}</strong></h4>
+          <p>{{'land.aboutUs.p1' | translate }}</p>
+          <p>{{'land.aboutUs.p2' | translate }}</p>
+          <p>{{'land.aboutUs.p3' | translate }}</p>
+          <a class="btn btn-info btn-raised btn-navbar" href="https://www.foundation29.org" target="_blank">{{'land.aboutUs.btn1' | translate }}</a>
+        </span>
+      </div>
+    </div>
+  </div>
+</ng-template>

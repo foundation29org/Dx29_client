@@ -24,7 +24,6 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
 import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexYAxis, ApexGrid, ApexDataLabels, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexLegend, ApexPlotOptions, ApexFill, ApexMarkers, ApexTheme, ApexNonAxisChartSeries, ApexResponsive } from "ng-apexcharts";
-import { GtpPageComponent } from '../gtp/gtp-page.component';
 
 export type ChartOptions = {
     series: ApexAxisChartSeries | ApexNonAxisChartSeries;
@@ -182,6 +181,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
       };
 
       lauchEvent(category){
+        //traquear
         var secs = this.getElapsedSeconds();
         if(category=="Symptoms"){
             gtag('event',this.myuuid,{"event_category":category, "event_label": secs});
@@ -388,6 +388,11 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.optionSymptomAdded = "Manual";
                 this.lauchEvent("Symptoms");
             } else {
+                var foundElementIndex = this.searchService.searchIndex(this.temporalSymptoms, 'id', symptom.id);
+                if(!this.temporalSymptoms[foundElementIndex].checked){
+                    this.temporalSymptoms[foundElementIndex].checked = true;
+                    this.getNumberOfSymptomsChecked();
+                }
                 //this.toastr.warning(this.translate.instant("generics.Name")+': '+symptom.name, this.translate.instant("phenotype.You already had the symptom"));
             }
         }
@@ -936,6 +941,12 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.numberOfSymtomsChecked++;
             }
         }
+        console.log(this.temporalDiseases.length);
+        if(this.numberOfSymtomsChecked >= this.minSymptoms && this.temporalDiseases.length>0){
+            this.calculate();
+        }else if(this.numberOfSymtomsChecked < this.minSymptoms){
+            this.topRelatedConditions = [];
+        }
     }
 
     showMoreInfoSymptomPopup(symptomIndex, contentInfoSymptomNcr) {
@@ -949,19 +960,20 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     calculate() {
-        this.topRelatedConditions = [];
-        this.temporalDiseases = [];
-        this.indexListRelatedConditions = this.showNumerRelatedConditions;
-        this.loadingCalculate = true;
-        var info = {
-            "symptoms": []
-        }
-        for (var index in this.temporalSymptoms) {
-            if (this.temporalSymptoms[index].checked) {
-                info.symptoms.push(this.temporalSymptoms[index].id);
+       
+        if (this.numberOfSymtomsChecked >= this.minSymptoms) {
+            this.topRelatedConditions = [];
+            this.temporalDiseases = [];
+            this.indexListRelatedConditions = this.showNumerRelatedConditions;
+            this.loadingCalculate = true;
+            var info = {
+                "symptoms": []
             }
-        }
-        if (info.symptoms.length >= this.minSymptoms) {
+            for (var index in this.temporalSymptoms) {
+                if (this.temporalSymptoms[index].checked) {
+                    info.symptoms.push(this.temporalSymptoms[index].id);
+                }
+            }
             var lang = this.lang;
             this.subscription.add(this.apiDx29ServerService.calculate(info, lang)
                 .subscribe((res: any) => {
