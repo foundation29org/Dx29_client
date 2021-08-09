@@ -18,6 +18,7 @@ import { HighlightSearch } from 'app/shared/services/search-filter-highlight.ser
 import { Clipboard } from "@angular/cdk/clipboard"
 import {v4 as uuidv4} from 'uuid';
 import{GoogleAnalyticsService} from 'app/shared/services/google-analytics.service';
+import { SearchFilterPipe} from 'app/shared/services/search-filter.service';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -107,6 +108,14 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
     showErrorMsg: boolean = false;
     modelTemp: any;
     _startTime: any;
+    preLand: boolean = true;
+    role: string = '';
+    searchDiseaseField: string = '';
+    listOfFilteredDiseases: any = [];
+    listOfDiseases: any = [];
+    loadedListOfDiseases: boolean = false;
+    selectedDiseaseIndex: number = -1;
+
     @ViewChild("inputTextArea") inputTextAreaElement: ElementRef;
     @ViewChild("inputManualSymptoms") inputManualSymptomsElement: ElementRef;
 
@@ -148,7 +157,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
             );
           };*/
 
-    constructor(private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService) {
+    constructor(private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe) {
 
         this.lang = sessionStorage.getItem('lang');
         this.originalLang = sessionStorage.getItem('lang');
@@ -1608,4 +1617,53 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         
     }
+
+    selectRole(role){
+        this.role = role;
+        this.preLand = false;
+        if(role=='diagnosed'){
+            this.loadListOfDiseases();
+        }
+    }
+
+    loadListOfDiseases(){
+        this.loadedListOfDiseases = false;
+        var lang = sessionStorage.getItem('lang');
+        this.subscription.add( this.http.get('assets/jsons/diseases_'+lang+'.json')
+        //this.subscription.add( this.http.get('https://f29bio.northeurope.cloudapp.azure.com/api/BioEntity/diseases/'+lang+'/all')
+         .subscribe( (res : any) => {
+           this.listOfDiseases = res;
+           this.loadedListOfDiseases = true;
+          }, (err) => {
+            console.log(err);
+            this.loadedListOfDiseases = true;
+          }));
+      }
+
+    onKey(event){
+        if( this.searchDiseaseField.trim().length > 3){
+          var tempModelTimp = this.searchDiseaseField.trim();
+          this.listOfFilteredDiseases = this.searchFilterPipe.transformDiseases(this.listOfDiseases, 'name', tempModelTimp);
+        }else{
+          this.listOfFilteredDiseases = [];
+        }
+      }
+
+      showMoreInfoDisease(diseaseIndex){
+        if(this.selectedDiseaseIndex == diseaseIndex ){
+          this.selectedDiseaseIndex = -1;
+        }else{
+          this.selectedDiseaseIndex = diseaseIndex;
+        }
+      }
+
+      showMoreInfoDiagnosePopup(index,contentInfoDiagnose){
+          this.selectedDiseaseIndex = index;
+        let ngbModalOptions: NgbModalOptions = {
+            keyboard: true,
+            windowClass: 'ModalClass-lg'// xl, lg, sm
+        };
+        this.modalReference = this.modalService.open(contentInfoDiagnose, ngbModalOptions);
+      }
+      
 }

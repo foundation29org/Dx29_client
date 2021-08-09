@@ -1,4 +1,39 @@
-<section id="login" class="mt-2">
+<section *ngIf="preLand">
+  <div class="grid-hover">
+    <div class="row col-md-12 panel-preland">
+      <div class="offset-md-2 col-md-4 col-12">
+        <figure class="effect-layla">
+          <img src="assets/img/home/kid.jpg" alt="img">
+          <figcaption>
+            <h2>Un
+              <span>diagnosed</span>
+            </h2>
+            <p>I want a diagnosis</p>
+            <p><a href="javascript:;" class="btn btn-white mr-1 btn-raised" (click)="selectRole('undiagnosed');">
+                <span class="info">For clinicians</span>
+              </a> 
+              <a class="btn btn-white ml-1 btn-raised" href="http://search.dx29.ai/" target="_blank">
+                <span class="info">For patients</span>
+              </a>
+            </p>
+          </figcaption>
+        </figure>
+      </div>
+      <div class="col-md-4 col-12" (click)="selectRole('diagnosed');">
+        <figure class="effect-layla effect-layla2">
+          <img src="assets/img/home/kid.jpg" alt="img">
+          <figcaption>
+            <h2>
+              <span>Diagnosed</span>
+            </h2>
+            <p>I already have a diagnosis</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="login" class="mt-2" *ngIf="!preLand && role=='undiagnosed'">
   <div class="container-fluid pb-4">
     <div style="margin: auto;" style="margin: auto;">
       <div class="text-center p-2">
@@ -17,8 +52,8 @@
                       {{'land.Text' | translate }}</strong></ng-template>
                   <ng-template ngbTabContent>
                     <div>
-                      <textarea #inputTextArea class="form-control" style="height:30vh;" [(ngModel)]="medicalText" name="medicalText"
-                        placeholder="{{'land.placeholder' | translate }}"></textarea>
+                      <textarea #inputTextArea class="form-control" style="height:30vh;" [(ngModel)]="medicalText"
+                        name="medicalText" placeholder="{{'land.placeholder' | translate }}"></textarea>
                       <!--<mat-checkbox
                             class="example-margin mt-0" name="lucky" [(ngModel)]="lucky">
                           <label (click)="changeLucky()" style="cursor: pointer;">
@@ -30,7 +65,7 @@
                       <button type="button" class="btn btn-lg btn-info btn-raised"
                         [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholderError') : getLiteral('land.Extract')"
                         (click)="startExtractor();"><em class="ml-1 mr-1 mt-1 mb-1 fas fa-play fa-2x"></em></button>
-                        <!--
+                      <!--
                           <button type="button" class="btn btn-lg btn-secondary btn-raised"
                         [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholder') : getLiteral('land.Extract')"
                         [ngClass]="(medicalText.length<5)?'not-allowed':'btn-info'" [disabled]="medicalText.length<5"
@@ -49,7 +84,9 @@
                       <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="arrow-alt-from-bottom"
                         role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
                         class="info svg-inline--fa fa-arrow-alt-from-bottom fa-w-12 fa-fw fa-2x">
-                        <path fill="currentColor" d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48z" class=""></path>
+                        <path fill="currentColor"
+                          d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48z"
+                          class=""></path>
                       </svg>
                       <h3 class="mt-2">{{'land.Drag and drop file here' | translate }}</h3>
                       <h3>{{'land.or' | translate }}</h3>
@@ -77,27 +114,32 @@
                           slice:0:140)+'...':(r.desc) }}</span>
                       </ng-template>
                       <div style="padding-bottom: 0.5rem !important;">
-                        <i class="fas fa-search ml-1 mr-2"></i> <input #input style="display: inline;" type="text" #inputManualSymptoms
-                          class="form-control ml-1 inputSearch" [(ngModel)]="modelTemp" [ngbTypeahead]="searchSymptom"
-                          [resultTemplate]="rt" [inputFormatter]="formatter1"
-                          placeholder="{{'symptomssection.manualinput' | translate }}" (selectItem)="selected($event)" />
+                        <i class="fas fa-search ml-1 mr-2"></i> <input #input style="display: inline;" type="text"
+                          #inputManualSymptoms class="form-control ml-1 inputSearch" [(ngModel)]="modelTemp"
+                          [ngbTypeahead]="searchSymptom" [resultTemplate]="rt" [inputFormatter]="formatter1"
+                          placeholder="{{'symptomssection.manualinput' | translate }}"
+                          (selectItem)="selected($event)" />
                       </div>
                     </div>
                     <div *ngIf="temporalSymptoms.length>0">
                       <div class="table-cont" style="border: 1px solid #ced4da;border-radius: 0.25rem;">
-                        <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white" aria-labelledby="HPO">
+                        <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
+                          aria-labelledby="HPO">
                           <tbody>
                             <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
-                              <td  [ngClass]="(i==0)?'border-top-0':''">
+                              <td [ngClass]="(i==0)?'border-top-0':''">
                                 <span>
                                   <span class="float-right ml-1">
-                                    <button (click)="changeStateSymptom(i, true)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                                      [ngClass]="(hpo.checked==true)?'btn-info':'btn-secondary '" href="javascript:void(0)"
-                                      title="{{'phenotype.Click to check it' | translate }}">
+                                    <button (click)="changeStateSymptom(i, true)"
+                                      class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                                      [ngClass]="(hpo.checked==true)?'btn-info':'btn-secondary '"
+                                      href="javascript:void(0)" title="{{'phenotype.Click to check it' | translate }}">
                                       <em class="fa fa-check w-13"></em>
                                     </button>
-                                    <button (click)="changeStateSymptom(i, false)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                                      [ngClass]="(hpo.checked==false)?'btn-danger':'btn-secondary'" href="javascript:void(0)"
+                                    <button (click)="changeStateSymptom(i, false)"
+                                      class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                                      [ngClass]="(hpo.checked==false)?'btn-danger':'btn-secondary'"
+                                      href="javascript:void(0)"
                                       title="{{'phenotype.Click to uncheck it' | translate }}">
                                       <em class="fa fa-times w-13"></em>
                                     </button>
@@ -117,11 +159,11 @@
                         </table>
                       </div>
                       <div class="text-center mt-2">
-                        <button type="button" class="btn btn-lg btn-info btn-raised"
-                          (click)="directCalculate();"><em class="ml-1 mr-1 mt-1 mb-1 fas fa-play"></em></button>
+                        <button type="button" class="btn btn-lg btn-info btn-raised" (click)="directCalculate();"><em
+                            class="ml-1 mr-1 mt-1 mb-1 fas fa-play"></em></button>
                       </div>
                     </div>
-                    
+
                   </ng-template>
                 </ngb-tab>
               </ngb-tabset>
@@ -129,8 +171,8 @@
           </div>
           <span style="position: absolute; top:102%">
             {{'land.availableLangs' | translate }}
-            <a class="info" href={{refLangs}} target="_blank" title="{{'land.availableLangs' | translate }}" (click)="lauchEvent('LangInfo');"><i
-                class="ft-external-link"></i></a>
+            <a class="info" href={{refLangs}} target="_blank" title="{{'land.availableLangs' | translate }}"
+              (click)="lauchEvent('LangInfo');"><i class="ft-external-link"></i></a>
           </span>
         </div>
         <div *ngIf="substepExtract!='0'"
@@ -147,7 +189,8 @@
             </span>
           </div>
           <div *ngIf="substepExtract=='4'" class="section row maintxt">
-            <table class="col-md-12 table mb-0" [ngClass]="(temporalSymptoms.length>0)?'border-bottom':''" aria-label="extract HPO">
+            <table class="col-md-12 table mb-0" [ngClass]="(temporalSymptoms.length>0)?'border-bottom':''"
+              aria-label="extract HPO">
               <thead>
                 <tr>
                   <th id="headerTable" style="border-top-style: none;">{{'land.SelectSymptoms' | translate }}
@@ -156,8 +199,11 @@
                       style="cursor: pointer;"></em>
                     <em class="mt-1 fas fa-copy grey float-right mr-2" title="{{'land.Copy symptoms' | translate }}"
                       (click)="copySymptoms()" style="cursor: pointer;"></em>
-                    <label class="float-right"  style="cursor: pointer;" title="{{'diagnosis.Input or upload a medical record' | translate }}">
-                      <em class="mt-1 far fa-file grey mr-2"></em> <input type="file" (change)="onFileChangePDF($event);" style="display: none;" accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif">
+                    <label class="float-right" style="cursor: pointer;"
+                      title="{{'diagnosis.Input or upload a medical record' | translate }}">
+                      <em class="mt-1 far fa-file grey mr-2"></em> <input type="file"
+                        (change)="onFileChangePDF($event);" style="display: none;"
+                        accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif">
                     </label>
                     <em class="mt-1 fa fa-refresh grey float-right mr-2" title="{{'land.Start over' | translate }}"
                       (click)="restartInitVars()" style="cursor: pointer;"></em>
@@ -171,9 +217,9 @@
                     slice:0:140)+'...':(r.desc) }}</span>
                 </ng-template>
                 <div style="padding-top: 0.5rem !important;">
-                  <i class="fas fa-search ml-1 mr-2"></i> <input #input style="display: inline;" type="text" #inputManualSymptoms
-                    class="form-control ml-1 inputSearch" [(ngModel)]="modelTemp" [ngbTypeahead]="searchSymptom"
-                    [resultTemplate]="rt" [inputFormatter]="formatter1"
+                  <i class="fas fa-search ml-1 mr-2"></i> <input #input style="display: inline;" type="text"
+                    #inputManualSymptoms class="form-control ml-1 inputSearch" [(ngModel)]="modelTemp"
+                    [ngbTypeahead]="searchSymptom" [resultTemplate]="rt" [inputFormatter]="formatter1"
                     placeholder="{{'symptomssection.manualinput' | translate }}" (selectItem)="selected($event)" />
                 </div>
               </caption>
@@ -190,7 +236,8 @@
                             title="{{'phenotype.Click to check it' | translate }}">
                             <em class="fa fa-check w-13"></em>
                           </button>
-                          <button (click)="changeStateSymptom(i, false)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                          <button (click)="changeStateSymptom(i, false)"
+                            class="btn btn-sm mr-1 mb-0 btn-fab round white"
                             [ngClass]="(hpo.checked==false)?'btn-danger':'btn-secondary'" href="javascript:void(0)"
                             title="{{'phenotype.Click to uncheck it' | translate }}">
                             <em class="fa fa-times w-13"></em>
@@ -210,8 +257,9 @@
                 </tbody>
               </table>
             </div>
-            
-            <span class="col-md-12 p-2 border-top" style="min-height: 69px;background-color: #f5f5f5;" [ngClass]="(temporalSymptoms.length==0)?'pos-abs':''">
+
+            <span class="col-md-12 p-2 border-top" style="min-height: 69px;background-color: #f5f5f5;"
+              [ngClass]="(temporalSymptoms.length==0)?'pos-abs':''">
               <span>
                 <span>
                   {{'land.You have selected' | translate }} {{numberOfSymtomsChecked}} {{'land.symptom' | translate
@@ -229,15 +277,14 @@
             </span>
           </div>
         </div>
-        <div class="mb-2 col-xl-5 row light-background rounded-lg loadingPanel ml-2 shadow border box-panels"
-          [ngClass]="(!loadingCalculate && topRelatedConditions.length>0)?'row':''">
+        <div class="mb-2 col-xl-5 row rounded-lg loadingPanel ml-2 shadow border box-panels"
+          [ngClass]="(substepExtract!='4')?'gray-background':'light-background'">
           <div *ngIf="!loadingCalculate && topRelatedConditions.length==0"
             class="section w-100 pt-1 pl-2 mb-2 align-self-center">
             <span class="d-block pt-2 center-elements font-medium-3">{{'land.Suggested diseases will be shown here' |
               translate }}</span>
             <div class="col-md-12 center-elements mt-4" *ngIf="substepExtract!='0'">
-              <button type="button" class="btn btn-info btn-lg btn-raised pb-2 font-medium-3"
-                (click)="calculate();"
+              <button type="button" class="btn btn-info btn-lg btn-raised pb-2 font-medium-3" (click)="calculate();"
                 [attr.title]="(numberOfSymtomsChecked<minSymptoms) ? getLiteral('land.You need to select more symptoms') : getLiteral('land.See suggested diseases')">
                 <span>{{'land.See suggested diseases' | translate }}</span>
               </button>
@@ -297,7 +344,9 @@
                 <table class="table mb-0 bg-white" aria-labelledby="rare disease">
                   <tbody>
                     <tr *ngFor="let disease of topRelatedConditions ; let i = index" class="d-flex">
-                      <td class="col-md-12" id="{{disease.id}}" (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{disease.id}})">
+                      <td class="col-md-12" id="{{disease.id}}"
+                        (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);" style="cursor: pointer;"
+                        title="{{'generics.More information' | translate }} ({{disease.id}})">
                         <span class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round">
                           <em class="fa fa-info w-13"></em>
                         </span>
@@ -317,7 +366,7 @@
                   </tbody>
                 </table>
               </div>
-              
+
               <div class="d-block p-2 center-elements border-top" style="background-color: #f5f5f5;">
                 <a href="javascript:;" class="d-block btn btn-info btn-lg btn-raised font-medium-3 mb-0"
                   (click)="registerToDx29Swal(contentToDx29V2)">
@@ -559,6 +608,53 @@
     </div>
   </div>
 </section>
+
+<section id="login" class="mt-2" *ngIf="!preLand && role=='diagnosed'">
+  <div class="d-flex flex-column" style="height: 40%">
+    <div class="d-flex flex-column flex-grow-1">
+      <div class="d-flex flex-fill flex-grow-1 align-items-end justify-content-center">
+        <div class="d-flex flex-column">
+          <!--!-->
+          <div class="text-center m-4"><img src="assets/img/Dx29Search.png" width="260">
+            <p class="font-size-h4 m-2">Helping rare disease search</p>
+          </div>
+          <div class="position-relative">
+            <input type="text" id="searchDiseaseField" class="form-control" name="searchDiseaseField"
+              [(ngModel)]="searchDiseaseField" (keyup)="onKey($event)"
+              placeholder="{{'dashboardpatient.Search condition' | translate }}">
+          </div>
+          <div>
+            <div class="form-group">
+              <span *ngIf="listOfFilteredDiseases.length>0">
+                <div class="table-cont">
+                  <table class="table mb-0 bg-white" aria-labelledby="rare disease">
+                    <tbody style="max-height: initial;min-height: initial">
+                      <tr *ngFor="let disease of listOfFilteredDiseases ; let i = index" class="d-flex">
+                        <td class="col-md-12" id="{{disease.id}}"
+                          (click)="showMoreInfoDiagnosePopup(i,contentInfoDiagnose);" style="cursor: pointer;"
+                          title="{{'generics.More information' | translate }} ({{disease.id}})">
+                          <span class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round">
+                            <em class="fa fa-info w-13"></em>
+                          </span>
+                          <span class="custom-bold ml-1">{{disease.name}}</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </span>
+              <span *ngIf="listOfFilteredDiseases.length==0 && searchDiseaseField !=undefined">
+                <span *ngIf="(searchDiseaseField).trim().length>3">
+                  <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 <ng-template #contentInfoSymptomNcr let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-header" id="idHeader">
     <div class="content-header text-left">
@@ -756,7 +852,7 @@
           </tbody>
         </table>
       </div>
-      
+
     </div>
   </div>
 </ng-template>
@@ -1013,6 +1109,27 @@
 
         <button class="btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2()">{{'land.swal.button' |
           translate }}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #contentInfoDiagnose let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 mb-3">
+    <div class="p-2">
+      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="align-self-center"><strong>{{listOfFilteredDiseases[selectedDiseaseIndex].name}}</strong>
+        ({{listOfFilteredDiseases[selectedDiseaseIndex].id}})</h4>
+    </div>
+    <div class="row col-md-12">
+      <div class="col-md-12 mt-2">
+        <h4 class="mt-2"><strong>{{'generics.Description' | translate }}</strong></h4>
+        {{listOfFilteredDiseases[selectedDiseaseIndex].desc}}
+        <h4 class="mt-4"><strong>{{'generics.Synonyms' | translate }}</strong></h4>
+        <p *ngFor="let synonym of listOfFilteredDiseases[selectedDiseaseIndex].synonyms ; let j = index">
+          <span>{{j+1}}. </span> <span class="">{{synonym}}</span>
+        </p>
       </div>
     </div>
   </div>
