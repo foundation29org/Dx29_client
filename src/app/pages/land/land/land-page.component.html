@@ -49,9 +49,7 @@
                       <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="arrow-alt-from-bottom"
                         role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
                         class="info svg-inline--fa fa-arrow-alt-from-bottom fa-w-12 fa-fw fa-2x">
-                        <path fill="currentColor"
-                          d="M372 480H12c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h360c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12zm-218.9-96h77.7c8.8 0 16-7.2 16-16V224h93.9c7.1 0 10.7-8.6 5.7-13.6L203.3 66.8c-6.3-6.3-16.4-6.3-22.7 0l-143 143.6c-5 5-1.5 13.6 5.7 13.6h93.9v144c-.1 8.8 7.1 16 15.9 16m0 32c-26.5 0-48-21.5-48-48V256H43.3c-35.6 0-53.4-43.1-28.3-68.2L158 44.2c18.8-18.8 49.2-18.8 68 0l143.1 143.5c25.2 25.2 7.2 68.2-28.3 68.2h-61.9v112c0 26.5-21.5 48-48 48h-77.8v.1z"
-                          class=""></path>
+                        <path fill="currentColor" d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48z" class=""></path>
                       </svg>
                       <h3 class="mt-2">{{'land.Drag and drop file here' | translate }}</h3>
                       <h3>{{'land.or' | translate }}</h3>
@@ -90,7 +88,7 @@
                         <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white" aria-labelledby="HPO">
                           <tbody>
                             <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
-                              <td>
+                              <td  [ngClass]="(i==0)?'border-top-0':''">
                                 <span>
                                   <span class="float-right ml-1">
                                     <button (click)="changeStateSymptom(i, true)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
@@ -158,6 +156,9 @@
                       style="cursor: pointer;"></em>
                     <em class="mt-1 fas fa-copy grey float-right mr-2" title="{{'land.Copy symptoms' | translate }}"
                       (click)="copySymptoms()" style="cursor: pointer;"></em>
+                    <label class="float-right"  style="cursor: pointer;" title="{{'diagnosis.Input or upload a medical record' | translate }}">
+                      <em class="mt-1 far fa-file grey mr-2"></em> <input type="file" (change)="onFileChangePDF($event);" style="display: none;" accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif">
+                    </label>
                     <em class="mt-1 fa fa-refresh grey float-right mr-2" title="{{'land.Start over' | translate }}"
                       (click)="restartInitVars()" style="cursor: pointer;"></em>
                   </th>
