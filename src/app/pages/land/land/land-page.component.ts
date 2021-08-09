@@ -111,6 +111,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild("inputManualSymptoms") inputManualSymptomsElement: ElementRef;
 
     myuuid: string = uuidv4();
+    eventList: any = [];
 
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
@@ -183,13 +184,19 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
       lauchEvent(category){
         //traquear
         var secs = this.getElapsedSeconds();
+        var savedEvent = this.searchService.search(this.eventList, 'name', category);
         if(category=="Symptoms"){
-            gtag('event',this.myuuid,{"event_category":category, "event_label": secs});
-            gtag('event',this.myuuid,{"event_category":category+ ' - '+this.optionSymptomAdded, "event_label": secs});
-        }else{
+            var subCategory = category+ ' - '+this.optionSymptomAdded;
+            var savedSubEvent = this.searchService.search(this.eventList, 'name', subCategory);
+                if(!savedSubEvent){
+                    this.eventList.push({name:subCategory});
+                    gtag('event',this.myuuid,{"event_category":subCategory, "event_label": secs});
+                }
+        }
+        if(!savedEvent){
+            this.eventList.push({name:category});
             gtag('event',this.myuuid,{"event_category":category, "event_label": secs});
         }
-        
       }
 
     initGraphs() {
@@ -643,7 +650,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     callNCR() {
         this.numberOfSymtomsChecked = 0;
-        this.temporalSymptoms = [];
+        //this.temporalSymptoms = [];
         this.failAnnotate_batch = false;
         var temporal = [];
         if (this.resultSegmentation.segments) {
@@ -836,7 +843,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
             //buscar el sintoma, mirar si tiene mejor prababilidad, y meter la nueva aparicion en posiciones
             var enc = false;
             for (var z = 0; z < this.temporalSymptoms.length && !enc; z++) {
-                if (this.temporalSymptoms[z].id == symptom.id) {
+                if (this.temporalSymptoms[z].id == symptom.id && this.temporalSymptoms[z].inputType!="manual") {
                     if (this.temporalSymptoms[z].similarity < symptom.similarity) {
                         this.temporalSymptoms[z].similarity = symptom.similarity;
                     }
@@ -1079,13 +1086,14 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     restartAllVars() {
         this.indexListRelatedConditions = this.showNumerRelatedConditions;
-        this.temporalSymptoms = [];
+        //this.temporalSymptoms = [];
         this.numberOfSymtomsChecked = 0;
         this.topRelatedConditions = [];
         this.temporalDiseases = [];
     }
 
     restartInitVars() {
+        this.temporalSymptoms = [];
         this.medicalText = '';
         this.substepExtract = '0';
         this.restartAllVars();

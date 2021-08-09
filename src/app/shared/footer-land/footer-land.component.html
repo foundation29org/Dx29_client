@@ -6,7 +6,7 @@
     <span class="ptm mb-0 mt-1">&copy;  {{currentDate | date: 'yyyy'}} {{'generics.Foundation 29' | translate }}</span>
     <a class="ml-2 info" mailto="info@foundation29.org" href="mailto:info@foundation29.org">info@foundation29.org</a>
   </span>-->
-  <a class="btn btn-info mr-1 btn-raised mb-0 btn-navbar" (click)="showAboutUs(contentAboutUs)" style="width: 100px;position: relative; left: 5px;top: 2vh;">{{'land.aboutUs.title' | translate }}</a>
+  <a class="btn btn-info mr-1 btn-raised mb-0 btn-navbar" (click)="showAboutUs(contentAboutUs);lauchEvent('who we are - Footer');" style="width: 100px;position: relative; left: 5px;top: 2vh;">{{'land.aboutUs.title' | translate }}</a>
 </div>
 <ng-template #contentAboutUs let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-body content-wrapper p-2 center-elements mb-3">
