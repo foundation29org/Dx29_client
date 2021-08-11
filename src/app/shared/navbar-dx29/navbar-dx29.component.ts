@@ -383,5 +383,10 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
     this.modalReference = this.modalService.open(contentAboutUs, ngbModalOptions);
   }
 
+  restartHome(){
+    var eventsRestartHome = this.inj.get(EventsService);
+    eventsRestartHome.broadcast('restartHome', 'yes');
+  }
+
 
 }

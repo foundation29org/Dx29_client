@@ -11,6 +11,7 @@ import { HttpClient } from "@angular/common/http";
 import { TextTransform } from 'app/shared/services/transform-text.service';
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
 import { Apif29NcrService } from 'app/shared/services/api-f29ncr.service';
+import { ApiClinicalTrialsService } from 'app/shared/services/api-clinicaltrials.service';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import { SortService } from 'app/shared/services/sort.service';
 import { SearchService } from 'app/shared/services/search.service';
@@ -63,7 +64,7 @@ declare let gtag:any;
     selector: 'app-land-page',
     templateUrl: './land-page.component.html',
     styleUrls: ['./land-page.component.scss'],
-    providers: [Apif29BioService, Apif29NcrService, ApiDx29ServerService],
+    providers: [Apif29BioService, Apif29NcrService, ApiDx29ServerService, ApiClinicalTrialsService],
 })
 
 export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -115,12 +116,14 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
     listOfDiseases: any = [];
     loadedListOfDiseases: boolean = false;
     selectedDiseaseIndex: number = -1;
+    infoOneDisease: any = {};
 
     @ViewChild("inputTextArea") inputTextAreaElement: ElementRef;
     @ViewChild("inputManualSymptoms") inputManualSymptomsElement: ElementRef;
 
     myuuid: string = uuidv4();
     eventList: any = [];
+    clinicalTrials: any = {};
 
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
@@ -157,7 +160,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
             );
           };*/
 
-    constructor(private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe) {
+    constructor(private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiClinicalTrialsService: ApiClinicalTrialsService) {
 
         this.lang = sessionStorage.getItem('lang');
         this.originalLang = sessionStorage.getItem('lang');
@@ -381,11 +384,16 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
         }.bind(this));
 
+        this.eventsService.on('restartHome', function(par) {
+            console.log(par);
+            this.role = '';
+            this.preLand = true;
+          }.bind(this));
 
     }
 
     ngAfterViewInit() {
-        this.focusTextArea();
+        //this.focusTextArea();
     }
 
     ngOnDestroy() {
@@ -407,15 +415,15 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 var foundElementIndex = this.searchService.searchIndex(this.temporalSymptoms, 'id', symptom.id);
                 if(!this.temporalSymptoms[foundElementIndex].checked){
                     this.temporalSymptoms[foundElementIndex].checked = true;
-                    this.getNumberOfSymptomsChecked();
                 }
                 //this.toastr.warning(this.translate.instant("generics.Name")+': '+symptom.name, this.translate.instant("phenotype.You already had the symptom"));
             }
+            this.getNumberOfSymptomsChecked();
         }
         this.modelTemp = '';
     }
 
-    onFileChangePDF(event) {
+    onFileChangePDF(event,element) {
         if (event.target.files && event.target.files[0]) {
             var reader = new FileReader();
             reader.readAsDataURL(event.target.files[0]); // read file as data url
@@ -425,7 +433,7 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 var extension = (event.target.files[0]).name.substr((event.target.files[0]).name.lastIndexOf('.'));
                 extension = extension.toLowerCase();
                 this.langToExtract = '';
-                this.optionSymptomAdded = "File";
+                this.optionSymptomAdded = "File - "+ element;
                 if (event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || extension == '.docx') {
                     this.loadFile(the_url, function (err, content) {
                         if (err) { console.log(err); };
@@ -957,7 +965,6 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.numberOfSymtomsChecked++;
             }
         }
-        console.log(this.temporalDiseases.length);
         if(this.numberOfSymtomsChecked >= this.minSymptoms && this.temporalDiseases.length>0){
             this.calculate();
         }else if(this.numberOfSymtomsChecked < this.minSymptoms){
@@ -1620,9 +1627,14 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     selectRole(role){
         this.role = role;
-        this.preLand = false;
+        if(this.role!='patient'){
+            this.preLand = false;
+        }
         if(role=='diagnosed'){
             this.loadListOfDiseases();
+        }
+        if(role=='undiagnosed' || role=='clinician'){
+            this.focusTextArea();
         }
     }
 
@@ -1658,12 +1670,95 @@ export class LandPageComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
       showMoreInfoDiagnosePopup(index,contentInfoDiagnose){
-          this.selectedDiseaseIndex = index;
-        let ngbModalOptions: NgbModalOptions = {
-            keyboard: true,
-            windowClass: 'ModalClass-lg'// xl, lg, sm
-        };
-        this.modalReference = this.modalService.open(contentInfoDiagnose, ngbModalOptions);
+        this.selectedDiseaseIndex = index;
+        this.getInfoOneDisease(contentInfoDiagnose);
       }
+
+    getInfoOneDisease(contentInfoDiagnose){
+        this.infoOneDisease = {};
+        var lang = sessionStorage.getItem('lang');
+        var param = [this.listOfFilteredDiseases[this.selectedDiseaseIndex].id];
+        this.subscription.add(this.apif29BioService.getSymptomsOfDisease(lang, param, 0)
+            .subscribe((res: any) => {
+                var info = res[this.listOfFilteredDiseases[this.selectedDiseaseIndex].id];
+                this.infoOneDisease = info;
+                this.cleanxrefs();
+                this.infoOneDisease.symptoms = [];
+                var tamano = Object.keys(info.phenotypes).length;
+                if (tamano > 0) {
+                    var hposStrins = [];
+                    for (var i in info.phenotypes) {
+                        var frequency =info.phenotypes[i].frequency;
+                        if(frequency!=undefined){
+                            hposStrins.push(frequency); 
+                        }else{
+                            info.phenotypes[i].Frequency = {name:this.translate.instant("land.Unknown"),id:'HP:9999999'};
+                        }
+                        info.phenotypes[i].id = i;
+                        this.infoOneDisease.symptoms.push(info.phenotypes[i]);
+                    }
+                    this.getfrequenciesSelectedDisease(hposStrins, contentInfoDiagnose);
+                }               
+                this.getClinicalTrials();
+            }, (err) => {
+                console.log(err);
+                this.toastr.error('', this.translate.instant("dashboardpatient.error try again"));
+            }));
+    }
+
+    cleanxrefs() {
+            if (this.infoOneDisease.xrefs != undefined) {
+                if (this.infoOneDisease.xrefs.length == 0) {
+                    this.infoOneDisease.xrefs.push(this.infoOneDisease.id);
+                }
+                this.infoOneDisease.xrefs.sort((one, two) => (one > two ? -1 : 1));
+                var xrefs = this.cleanOrphas(this.infoOneDisease.xrefs)
+                this.infoOneDisease.xrefs = xrefs;
+            }
+            this.infoOneDisease.name = this.textTransform.transform(this.infoOneDisease.name);
+        
+    }
+
+    getfrequenciesSelectedDisease(hposStrins, contentInfoDiagnose) {
+        //getInfo symptoms
+        
+        var lang = sessionStorage.getItem('lang');
+        this.apif29BioService.getInfoOfSymptoms(lang, hposStrins)
+            .subscribe((res: any) => {
+                var tamano = Object.keys(res).length;
+                if (tamano > 0) {
+                    for (var i in res) {
+                        for (var j = 0; j < this.infoOneDisease.symptoms.length; j++) {
+                            if (res[i].id == this.infoOneDisease.symptoms[j].frequency) {
+                                if (this.infoOneDisease.symptoms[j].Frequency == undefined) {
+                                    this.infoOneDisease.symptoms[j].Frequency = {name:res[i].name,desc:res[i].desc, id: res[i].id};
+                                }
+                            }
+                        }
+                    }
+                    console.log(this.infoOneDisease.symptoms);
+                    this.infoOneDisease.symptoms.sort(this.sortService.GetSortTwoElementsLand("Frequency", "name"));
+                    console.log(this.infoOneDisease.symptoms);
+                }
+                let ngbModalOptions: NgbModalOptions = {
+                    keyboard: true,
+                    windowClass: 'ModalClass-lg'// xl, lg, sm
+                };
+                this.modalReference = this.modalService.open(contentInfoDiagnose, ngbModalOptions);
+
+            }, (err) => {
+                console.log(err);
+            });
+    }
+
+    getClinicalTrials(){
+        this.subscription.add(this.apiClinicalTrialsService.getClinicalTrials(this.infoOneDisease.name)
+            .subscribe((res: any) => {
+                console.log(res);
+                this.clinicalTrials = res;
+            }, (err) => {
+                console.log(err);
+            }));
+    }
       
 }

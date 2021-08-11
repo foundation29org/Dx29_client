@@ -16,8 +16,8 @@ a.navbar-brand {
     word-break: break-all;
 }
 
-.panel-preland{
-  margin-top: 6vh !important;
+.grid-hover {
+  padding: 1em 0 2em !important;
 }
 
 .backinit1{
@@ -551,7 +551,7 @@ body {
 @media ( max-width: 1600px ){
 
   ::ng-deep ngb-typeahead-window.dropdown-menu {
-   width:90vh;
+   width:88vw;
   }
 
   .section h2{
@@ -590,12 +590,16 @@ body {
       font-size: 28px;
     }
 
+    ::ng-deep .dropdown-item {
+      white-space: normal !important;
+  }
+
 }
 
 @media ( max-width: 960px ){
 
   ::ng-deep ngb-typeahead-window.dropdown-menu {
-   width:60vh;
+   width:88vw;
   }
 
   .section h2{
@@ -620,7 +624,7 @@ body {
   @media ( max-width: 575px ){
   
     ::ng-deep ngb-typeahead-window.dropdown-menu {
-     width: 100%;
+      width:80vw;
     }
     
     .section h2{

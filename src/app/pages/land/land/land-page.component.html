@@ -1,12 +1,46 @@
+<nav aria-label="breadcrumb" *ngIf="!preLand">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a (click)="selectRole('');preLand=true;">Home</a></li>
+    <li *ngIf="role=='undiagnosed' || role=='diagnosed'" class="breadcrumb-item"><a
+        (click)="selectRole('patient');preLand=true;">Patient</a></li>
+    <li *ngIf="role=='undiagnosed'" class="breadcrumb-item active" aria-current="page">Undiagnosed</li>
+    <li *ngIf="role=='diagnosed'" class="breadcrumb-item active" aria-current="page">Diagnosed</li>
+    <li *ngIf="role=='clinician'" class="breadcrumb-item active" aria-current="page">Clinician</li>
+  </ol>
+</nav>
 <section *ngIf="preLand">
   <div class="grid-hover">
     <div class="text-center p-2 mt-3">
       <div class="section">
         <h2>We are experts in rare diseases </h2>
-        <h4>Choose your option:</h4>
       </div>
     </div>
-    <div class="row col-md-12 panel-preland">
+    <div>
+      <div class="col-md-12">
+        <div class="center-elements">
+          <h4>Choose your option:</h4>
+          <button (click)="selectRole('patient');"
+            [ngClass]="(role=='patient')?'btn round mr-1 mb-1 btn btn-info btn-raised':'btn round mr-1 mb-1 btn btn-info btn-outline-info '"
+            type="button">I´m a patient</button>
+          <button (click)="selectRole('clinician');" _ngcontent-mws-c277="" type="button"
+            class="btn btn-outline-info round ml-1 mb-1">I´m a clinician</button>
+        </div>
+      </div>
+    </div>
+    <div class="mt-3" *ngIf="role=='patient'">
+      <div class="col-md-12">
+        <div class="center-elements">
+          <h4>What kind of patient are you?</h4>
+          <button (click)="selectRole('undiagnosed');" class="btn round mr-1 mb-1 btn-outline-info" type="button">I want
+            a diagnosis
+          </button>
+          <button (click)="selectRole('diagnosed');" _ngcontent-mws-c277="" type="button"
+            class="btn btn-outline-info round ml-1 mb-1">I already have a diagnosis
+          </button>
+        </div>
+      </div>
+    </div>
+    <!--<div class="row col-md-12" *ngIf="role=='patient'">
       <div class="offset-md-2 col-md-4 col-12" (click)="selectRole('undiagnosed');">
         <figure class="effect-layla">
           <img src="assets/img/home/kid.jpg" alt="img">
@@ -31,10 +65,10 @@
           </figcaption>
         </figure>
       </div>
-    </div>
+    </div>-->
   </div>
 </section>
-<section id="login" class="mt-2" *ngIf="!preLand && role=='undiagnosed'">
+<section id="login" class="mt-2" *ngIf="!preLand && (role=='undiagnosed' || role=='clinician') ">
   <div class="container-fluid pb-4">
     <div style="margin: auto;" style="margin: auto;">
       <div class="text-center p-2">
@@ -80,7 +114,7 @@
                       }}</strong></ng-template>
                   <ng-template ngbTabContent>
                     <div class="container-custom" appDnd (fileDropped)="onFileDropped($event)">
-                      <input type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
+                      <input type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event, '1');"
                         accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
                       <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="arrow-alt-from-bottom"
                         role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
@@ -203,7 +237,7 @@
                     <label class="float-right" style="cursor: pointer;"
                       title="{{'diagnosis.Input or upload a medical record' | translate }}">
                       <em class="mt-1 far fa-file grey mr-2"></em> <input type="file"
-                        (change)="onFileChangePDF($event);" style="display: none;"
+                        (change)="onFileChangePDF($event, '2');" style="display: none;"
                         accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif">
                     </label>
                     <em class="mt-1 fa fa-refresh grey float-right mr-2" title="{{'land.Start over' | translate }}"
@@ -346,8 +380,8 @@
                   <tbody>
                     <tr *ngFor="let disease of topRelatedConditions ; let i = index" class="d-flex">
                       <td class="col-md-12" id="{{disease.id}}"
-                        (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);" style="cursor: pointer;"
-                        title="{{'generics.More information' | translate }} ({{disease.id}})">
+                        (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);lauchEvent('ShowMoreInfoDiseasePopup');"
+                        style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{disease.id}})">
                         <span class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round">
                           <em class="fa fa-info w-13"></em>
                         </span>
@@ -611,10 +645,10 @@
 </section>
 
 <section id="login" class="mt-2" *ngIf="!preLand && role=='diagnosed'">
-  <div class="d-flex flex-column" style="height: 40%">
-    <div class="d-flex flex-column flex-grow-1">
-      <div class="d-flex flex-fill flex-grow-1 align-items-end justify-content-center">
-        <div class="d-flex flex-column">
+  <div class="" style="height: 40%">
+    <div class="">
+      <div class="align-items-end justify-content-center">
+        <div class="offset-md-3 col-md-6">
           <!--!-->
           <div class="text-center m-4"><img src="assets/img/Dx29Search.png" width="260">
             <p class="font-size-h4 m-2">Helping rare disease search</p>
@@ -1120,18 +1154,154 @@
       <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
         <span aria-hidden="true">&times;</span>
       </button>
-      <h4 class="align-self-center"><strong>{{listOfFilteredDiseases[selectedDiseaseIndex].name}}</strong>
-        ({{listOfFilteredDiseases[selectedDiseaseIndex].id}})</h4>
+      <h4 class="align-self-center mb-0"><strong>{{infoOneDisease.name}}</strong>
+        <span *ngIf="infoOneDisease.xrefs!=undefined" class="ml-1">
+          <span *ngFor="let xref of infoOneDisease.xrefs ; let i = index">
+            <a *ngIf="xref.name=='Orphanet'" class="info"
+              href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert={{xref.id}}&lng={{lang}}" target="_blank"
+              title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
+            <a *ngIf="xref.name=='OMIM'" class="info" href="https://omim.org/entry/{{xref.id}}" target="_blank"
+              title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
+            <span *ngIf="i<(infoOneDisease.xrefs.length-1)"> </span>
+          </span>
+        </span>
+      </h4>
+      <span class="content-sub-header text-muted" *ngIf="infoOneDisease.xrefs==undefined">{{ infoOneDisease.id }}</span>
+      <span class="content-sub-header text-muted" *ngIf="infoOneDisease.xrefs!=undefined">
+        <span *ngIf="infoOneDisease.xrefs.length>0">{{ infoOneDisease.xrefs[0].name}}:{{ infoOneDisease.xrefs[0].id}}</span>
+        <span *ngIf="infoOneDisease.xrefs.length==0">{{ infoOneDisease.id }}</span>
+      </span>
     </div>
-    <div class="row col-md-12">
-      <div class="col-md-12 mt-2">
-        <h4 class="mt-2"><strong>{{'generics.Description' | translate }}</strong></h4>
-        {{listOfFilteredDiseases[selectedDiseaseIndex].desc}}
-        <h4 class="mt-4"><strong>{{'generics.Synonyms' | translate }}</strong></h4>
-        <p *ngFor="let synonym of listOfFilteredDiseases[selectedDiseaseIndex].synonyms ; let j = index">
-          <span>{{j+1}}. </span> <span class="">{{synonym}}</span>
-        </p>
+    <ngb-tabset>
+      <ngb-tab>
+        <ng-template ngbTabTitle><strong>
+            General</strong></ng-template>
+        <ng-template ngbTabContent>
+          <div>
+            <div class="row col-md-12">
+              <div class="col-md-12 mt-2">
+                <h4 class="mt-2"><strong>{{'generics.Description' | translate }}</strong></h4>
+                {{infoOneDisease.desc}}
+                <h4 class="mt-4"><strong>{{'generics.Synonyms' | translate }}</strong></h4>
+                <p *ngFor="let synonym of infoOneDisease.synonyms ; let j = index">
+                  <span>{{j+1}}. </span> <span class="">{{synonym.label}}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined">
+        <ng-template ngbTabTitle><strong>Symptoms</strong></ng-template>
+        <ng-template ngbTabContent>
+          <div>
+            <div class="table-responsive">
+              <table class="table mb-0 text-center">
+                <thead>
+                  <tr class="d-flex">
+                    <th class="col-md-6 text-left" id="Name symptom">{{'land.Symptom' | translate }}</th>
+                    <th class="col-md-2" id="Frequent">{{'land.Frequency' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody style="max-height:inherit;">
+                  <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="d-flex">
+                    <td class="col-md-6 text-left">
+                      <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
+                        class="btn-outline-info btn btn-sm mr-2 mb-0 btn-fab round"
+                        title="{{'generics.More information' | translate }} ({{symptom.id}})">
+                        <em class="fa fa-info w-13"></em>
+                      </button>
+                      <span *ngIf="symptom.name">{{symptom.name}}</span>
+                      <span *ngIf="!symptom.name">
+                        {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                          href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
+                          title="{{symptom.id}}">
+                          <i class="ft-external-link"></i></a></span>
+                    </td>
+                    <td class="col-md-2">
+                      <span *ngIf="symptom.Frequency.name!=''"
+                        title="{{symptom.Frequency.desc}}">{{symptom.Frequency.name}}</span>
+                      <span *ngIf="symptom.Frequency.name==''" title="{{'land.Unknown' | translate}}">{{'land.Unknown' |
+                        translate}}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle><strong>Clinical trials</strong></ng-template>
+        <ng-template ngbTabContent>
+          <div>
+            {{clinicalTrials|json}}
+          </div>
+
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle><strong>Patient groups</strong></ng-template>
+        <ng-template ngbTabContent>
+          <div>
+          </div>
+
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+
+
+  </div>
+</ng-template>
+
+<ng-template #contentInfoSymptomOneDisease let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-header" id="idHeader">
+    <div class="content-header text-left">
+      <h4>{{this.infoOneDisease.symptoms[selectedInfoSymptomIndex].name }} -
+        {{this.infoOneDisease.symptoms[selectedInfoSymptomIndex].id }}</h4>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body content-wrapper p-2">
+    <div class="row col-md-12" class="p-2">
+      <span *ngIf="this.infoOneDisease.symptoms[selectedInfoSymptomIndex].desc!=null">
+        <h5><strong>{{'generics.Description' | translate }}</strong></h5>
+        <span>{{this.infoOneDisease.symptoms[selectedInfoSymptomIndex].desc}} </span>
+      </span>
+      <span *ngIf="this.infoOneDisease.symptoms[selectedInfoSymptomIndex].desc==''">
+        <h5><strong>{{'generics.Description' | translate }}</strong></h5>
+        <span> {{'symptomssection.No description' | translate }} </span>
+      </span>
+    </div>
+    <div *ngIf="this.infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms">
+      <div *ngIf="this.infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms.length" class="p-2">
+        <h5><strong>{{'generics.Synonyms' | translate }}</strong></h5>
+        <span *ngIf="this.infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms.length>0">
+          <p *ngFor="let synonym of this.infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms ; let j = index"
+            [ngClass]="(j==this.infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms.length-1)?'mb-0':''">
+            <span>{{j+1}}. </span> <span>{{synonym.label}}</span>
+          </p>
+        </span>
+        <span *ngIf="this.infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms.length==0">
+          {{'symptomssection.No synonyms' | translate }}
+        </span>
       </div>
     </div>
+    <div *ngIf="!this.infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms">
+      <span>
+        {{'symptomssection.No synonyms' | translate }}
+      </span>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <span>{{'land.See more information about the symptom' | translate }} <a
+        href="https://hpo.jax.org/app/browse/term/{{this.infoOneDisease.symptoms[selectedInfoSymptomIndex].id}}"
+        target="_blank"
+        title=" {{this.infoOneDisease.symptoms[selectedInfoSymptomIndex].name}} ({{this.infoOneDisease.symptoms[selectedInfoSymptomIndex].id}}):">
+        <i class="ft-external-link"></i></a></span>
   </div>
 </ng-template>
