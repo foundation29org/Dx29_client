@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { LandPageComponent } from "./land/land-page.component";
+import { OpenPageComponent } from "./open/open-page.component";
 import { ClinicianPageComponent } from "./clinician/clinician-page.component";
 import { DiagnosedPatientPageComponent } from "./diagnosedpatient/diagnosedpatient-page.component";
 import { UndiagnosedPatientPageComponent } from "./undiagnosedpatient/undiagnosedpatient-page.component";
@@ -20,6 +21,13 @@ const routes: Routes = [
         component: LandPageComponent,
         data: {
           title: 'Dx29'
+        },
+      },
+      {
+        path: 'open',
+        component: OpenPageComponent,
+        data: {
+          title: 'Dx29 open'
         },
       },
       {

@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgApexchartsModule } from "ng-apexcharts";
 
 import { LandPageComponent } from "./land/land-page.component";
+import { OpenPageComponent } from "./open/open-page.component";
 import { ClinicianPageComponent } from "./clinician/clinician-page.component";
 import { DiagnosedPatientPageComponent } from "./diagnosedpatient/diagnosedpatient-page.component";
 import { UndiagnosedPatientPageComponent } from "./undiagnosedpatient/undiagnosedpatient-page.component";
@@ -38,6 +39,7 @@ import {DndDirective} from "app/shared/directives/dnd.directive";
     ],
     declarations: [
         LandPageComponent,
+        OpenPageComponent,
         ClinicianPageComponent,
         DiagnosedPatientPageComponent,
         UndiagnosedPatientPageComponent,

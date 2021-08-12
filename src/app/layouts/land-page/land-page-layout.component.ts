@@ -45,6 +45,7 @@ export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy
   bgColor = "black";
   bgImage = "assets/img/sidebar-bg/01.jpg";
   isGTPPage: boolean = false;
+  isHomePage: boolean = false;
 
   public config: any = {};
 
@@ -58,10 +59,15 @@ export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy
     private renderer: Renderer2,
     private router: Router
   ) {
-    if((this.router.url).indexOf('/juntoshaciaeldiagnostico')!=-1){
+    if ((this.router.url).indexOf('/.') != -1 || (this.router.url)== '/') {
+      this.isHomePage = true;
+      this.isGTPPage = false;
+    }else if((this.router.url).indexOf('/juntoshaciaeldiagnostico')!=-1){
       this.isGTPPage = true;
+      this.isHomePage = false;
     }else{
       this.isGTPPage = false;
+      this.isHomePage = false;
     }
     //event emitter call from customizer
     this.layoutSub = layoutService.customizerChangeEmitted$.subscribe(
@@ -242,10 +248,15 @@ export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy
 
       event => {
         var tempUrl = (event.url).toString();
-        if(tempUrl.indexOf('/juntoshaciaeldiagnostico')!=-1){
+        if(tempUrl.indexOf('/.') != -1 || tempUrl== '/'){
+          this.isHomePage = true;
+          this.isGTPPage = false;
+        }else if(tempUrl.indexOf('/juntoshaciaeldiagnostico')!=-1){
           this.isGTPPage = true;
+          this.isHomePage = false;
         }else{
           this.isGTPPage = false;
+          this.isHomePage = false;
         }
       }
     );

@@ -1,12 +1,89 @@
-<div class="pt-3 pb-3 empty-padding-left border-top" style="display: flex;align-items: flex-end;">
-  <!--<span (click)="lauchEvent('Logo Foundation29')">
-    <a href="https://www.foundation29.org" target="_blank"><img style="width: 100px;" src='assets/img/logo-foundation-twentynine-footer.png' /></a>
-  </span>
-  <span class="ml-2">
-    <span class="ptm mb-0 mt-1">&copy;  {{currentDate | date: 'yyyy'}} {{'generics.Foundation 29' | translate }}</span>
-    <a class="ml-2 info" mailto="info@foundation29.org" href="mailto:info@foundation29.org">info@foundation29.org</a>
-  </span>-->
-  <a class="btn btn-info mr-1 btn-raised mb-0 btn-navbar" (click)="showAboutUs(contentAboutUs);lauchEvent('who we are - Footer');" style="width: 100px;position: relative; left: 5px;top: 2vh;">{{'land.aboutUs.title' | translate }}</a>
+<div class="col-md-12 pt-3 pb-3">
+  <div class="col-md-12 mt-2">
+    <div class="row">
+      <div class="col-md-5 center-xs pts pbxl start-sm panel-about">
+        <nav>
+          <a href="https://www.foundation29.org" target="_blank"><img class=""
+              src='assets/img/logo-foundation-twentynine-footer.png' /></a>
+              <span class="btn-about"><a class="btn btn-danger ml-3 btn-raised mb-0 btn-navbar"
+                (click)="showAboutUs(contentAboutUs);lauchEvent('who we are - Footer');">{{'land.aboutUs.title' | translate }}</a></span>
+          <p class="ptm mb-0 mt-2">© 2021 {{'generics.Foundation 29' | translate }}</p>
+          <p>info@foundation29.org</p>
+        </nav>
+        <div class="mt-2">
+          <a href="https://www.instagram.com/foundation29thfeb/" target="_blank" type="button"
+            class="btn btn-outline-danger btn-icon round mr-1 mb-1">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://www.facebook.com/foundation29thfeb/" target="_blank" type="button"
+            class="btn btn-outline-danger btn-icon round mr-1 mb-1">
+            <i class="fab fa-facebook"></i>
+          </a>
+          <a href="https://twitter.com/foundation29feb" target="_blank" type="button"
+            class="btn btn-outline-danger btn-icon round mr-1 mb-1">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="https://www.linkedin.com/company/foundation29/" target="_blank" type="button"
+            class="btn btn-outline-danger btn-icon round mr-1 mb-1">
+            <i class="fab fa-linkedin"></i>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="redes-line"></div>
+      </div>
+      <a id="contact"></a>
+      <div class="col-md-5 center-xs start-sm form-contact">
+        <div class="card-block">
+          <h3>{{'homedx.Contact us' | translate }}</h3>
+          <form class="form" (ngSubmit)="sendMsg()" #f="ngForm">
+            <div class="form-body">
+              <div class="">
+                <div class="">
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="userName" id="userName"
+                      placeholder="{{'generics.Name' | translate }}" ngModel required #userName="ngModel">
+                    <small class="form-text text-muted danger"
+                      *ngIf="!userName.valid && (userName.dirty || userName.touched)">{{'generics.required' | translate
+                      }}</small>
+                  </div>
+                </div>
+                <div class="">
+                  <div class="form-group">
+                    <input type="email" class="form-control" name="email" id="email"
+                      placeholder="{{'generics.Email' | translate }}" ngModel required email #email="ngModel">
+                    <small class="form-text text-muted danger"
+                      *ngIf="!email.valid && (email.dirty || email.touched)">{{'generics.entervalidemail' | translate
+                      }}</small>
+                  </div>
+                </div>
+                <div class="">
+                  <div class="form-group">
+                    <textarea name="description" id="textarea1"
+                      placeholder="{{'support.Message' | translate }}" class="form-control" ngModel
+                      required #description="ngModel"></textarea>
+                    <small class="form-text text-muted danger"
+                      *ngIf="!description.valid && (description.dirty || description.touched)">{{'generics.required' |
+                      translate }}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!sending" class="center-elements">
+              <div *ngIf="f.valid;then formValid else formError"></div>
+              <ng-template #formValid><button class="btn btn-outline-red mr-1" type="submit"> {{'support.Send' |
+                  translate }}</button></ng-template>
+              <ng-template #formError><button class="btn btn-outline-red mr-1" type="button"
+                  (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
+            </div>
+            <div class="form-actions" *ngIf="sending" class="center-elements">
+              <span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <ng-template #contentAboutUs let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-body content-wrapper p-2 center-elements mb-3">
@@ -25,7 +102,8 @@
           <p>{{'land.aboutUs.p1' | translate }}</p>
           <p>{{'land.aboutUs.p2' | translate }}</p>
           <p>{{'land.aboutUs.p3' | translate }}</p>
-          <a class="btn btn-info btn-raised btn-navbar" href="https://www.foundation29.org" target="_blank">{{'land.aboutUs.btn1' | translate }}</a>
+          <a class="btn btn-info btn-raised btn-navbar" href="https://www.foundation29.org"
+            target="_blank">{{'land.aboutUs.btn1' | translate }}</a>
         </span>
       </div>
     </div>

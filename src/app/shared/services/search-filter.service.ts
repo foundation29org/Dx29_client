@@ -24,6 +24,7 @@ export class SearchFilterPipe implements PipeTransform {
          var temp2 = (items[i].synonyms[j].toLowerCase()).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
          if(temp2.indexOf(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) != -1){
            enc = true;
+           //items[i].name = items[i].name + ' (Synonym: '+ items[i].synonyms[j]+')';
            resul.push(items[i]);
          }
        }
