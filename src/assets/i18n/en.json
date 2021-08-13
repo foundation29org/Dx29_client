@@ -1301,6 +1301,7 @@
     "My map": "My map",
     "My tribe": "My tribe",
     "Do you have a diagnosis?": "Do you have a diagnosis?",
+    "titleSearchCondition": "What is your diagnosis?",
     "Write your condition": "Write your condition",
     "Search condition": "Type the name of your condition",
     "Condition": "Condition",
@@ -2176,6 +2177,10 @@
     "updatePatient": "Update patient"
   },
   "land":{
+    "Home": "Home",
+    "Undiagnosed": "Undiagnosed",
+    "Diagnosed": "Diagnosed",
+    "Physician": "Physician",
     "title": "Can't find a diagnosis for a rare disease? We will help you",
     "Extract symptom from document": "Extract symptom from a medical record",
     "availableLangs": "Click here to see the available languages",
@@ -2307,6 +2312,8 @@
       "button": "Create user"
     },
     "We have not found anything": "We have not found anything",
+    "we have not found any disease": "Sorry, we have not found any disease",
+    "Please try again adding more symptoms": "Please try again adding more symptoms",
     "Please try a different search": "Please try a different search",
     "Do you want to add the symptoms manually": "Do you want to add the symptoms manually, or try again?",
     "add the symptoms manually": "Add manually",
@@ -2317,7 +2324,59 @@
       "p3": "We create technologies that enable a radical change in their capabilities as users and in the entire medical ecosystem.",
       "p1": "Dx29 is a revolutionary system to facilitate the diagnosis of rare diseases that allows patients and doctors to know with great precision the symptoms a patient has and the rare diseases that match those symptoms. After registering, they have in their possession even more tools that facilitate the diagnosis of patients with rare diseases.",
       "btn1": "Visit the Foundation 29 website"
+    },
+    "diagnosed":{
+      "general":{
+        "title": "General",
+        "Symptoms": "Symptoms",
+        "Clinical trials": "Clinical trials",
+        "Patient groups": "Patient groups",
+        "Donate your data": "How can we help you?"
+      },
+      "diseases":{
+        "error1":"Sorry, we have no information about",
+        "error2": "We are working on it"
+      },
+      "symptoms":{
+        "t1": "We want to create the best diagnostic tool for rare diseases. To do this we need the symptom information to be accurate. Current databases are not accurate.  <ins>We need your help</ins> so that your disease is well described and we can help others who are looking for a diagnosis.",
+        "t2": "Select the most important symptoms of your disease, a maximum of 10. If you see a huge error or if you miss any symptom, please contact us.",
+        "btn": "I have checked the symptoms",
+        "error1": "You have to select at least 1 symptom",
+        "Nice": "Nice!",
+        "msgCheckedSymptoms": "You made a great contribution to the rare disease community. Thank you!"
+      },
+      "clinicalTrials":{
+        "msgNoTrials": "Sorry, at this time we do not have clinical trial data for",
+        "OrgFullName": "Name of the center where it is performed",
+        "BriefTitle": "Short description",
+        "StudyFirstSubmitDate": "Start of the study",
+        "ResponsiblePartyInvestigatorFullName": "Name of the PI (Principal Investigator)",
+        "LocationCountry": "Country"
+      },
+      "PatientGroups":{
+        "title1": "We are working to obtain this information. The next few days it will be available",
+        "title2": "Sorry for the inconvenience"
+      },
+      "DonorData":{
+        "question": "What do you want?",
+        "op1": "I want to know more about my disease",
+        "op2": "Find more patients like me",
+        "op3": "Help other patients like me",
+        "free": "If you want other things, write them here",
+        "msgform": "Thank you very much for your response!"
+      }
     }
+  },
+  "preland":{
+    "t1": "Diagnostic aid for <span class='danger'>physicians</span> and <span class='danger'>patients</span>",
+    "t2": "Dx29 is a free application that allows patients and physicians to speed up the process of diagnosing rare diseases.",
+    "t3": "We apply artificial intelligence to help professionals convert symptoms and genetic information into accurate diagnoses.",
+    "p1": "First, let us know who you are:",
+    "p1.1": "I'm a patient",
+    "p1.2": "I'm a physician",
+    "p2": "What kind of patient are you?",
+    "p2.1": "I'm looking for a diagnosis",
+    "p2.2": "I want information about a disease"
   },
   "seo":{
     "keywords": "diagnosis, diagnose, rare disease, syndrome, disease, prognosis, symptoms, HPO, epilepsy, seizures, status epilepticus, developmental delay, tremors, palpitations, tonic-clonic, myoclonic, pediatrics, genetics, neurology, symptom extraction, genetic disease, genetic disease",

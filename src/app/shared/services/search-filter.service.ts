@@ -17,6 +17,11 @@ export class SearchFilterPipe implements PipeTransform {
    for(var i = 0; i < items.length; i++) {
      var temp = (items[i][field].toLowerCase()).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
      if(temp.indexOf(value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) != -1){
+       var tempchar = items[i].name.slice(-1);
+       if(tempchar=='.'){
+         var newStr = items[i].name.slice(0, -1);
+         items[i].name = newStr;
+       }
        resul.push(items[i]);
      }else{
        var enc = false;
