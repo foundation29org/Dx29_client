@@ -156,4 +156,14 @@ export class ApiDx29ServerService {
         })
     }
 
+    chekedSymptomsOpenDx29(info) {
+      return this.http.post(environment.api + '/api/chekedSymptomsOpenDx29', info)
+        .map((res: any) => {
+          return res;
+        }, (err) => {
+          console.log(err);
+          return err;
+        })
+    }
+
 }

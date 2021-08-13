@@ -112,6 +112,11 @@ export class AuthInterceptor implements HttpInterceptor {
           //authReq = authReq.clone({ headers: req.headers.set('Content-Type',  'application/json' )});
         }
 
+        if(req.url.indexOf('https://clinicaltrials')!==-1){
+          isExternalReq = true;
+          //authReq = authReq.clone({ headers: req.headers.set('Content-Type',  'application/json' )});
+        }
+
         // se podría controlar antes sin realizar la petición por si no hay conexión a internet con esto: navigator.onLine
         // Pass on the cloned request instead of the original request.
         return next.handle(authReq)
