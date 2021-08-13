@@ -383,5 +383,4 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
     this.modalReference = this.modalService.open(contentAboutUs, ngbModalOptions);
   }
 
-
 }

@@ -1301,8 +1301,9 @@
     "My map": "Mi mapa de paciente",
     "My tribe": "Mi tribu",
     "Do you have a diagnosis?": "¿Tienes un diagnóstico?",
-    "Write your condition": "Introduce tu condición",
-    "Search condition": "Escriba el nombre de su condición",
+    "Write your condition": "Introduce tu enfermedad",
+    "titleSearchCondition": "¿Qué diagnóstico tienes?",
+    "Search condition": "Escriba el nombre de tu enfermedad",
     "Select condition": "Selecciona condición",
     "Conditions": "Condiciones",
     "Nothing found. Try again.": "No se ha encontrado nada. Inténtalo de nuevo.",
@@ -2177,6 +2178,10 @@
     "updatePatient": "Actualizar datos"
   },
   "land":{
+    "Home": "Inicio",
+    "Undiagnosed": "Sin diagnosticar",
+    "Diagnosed": "Diagnosticado",
+    "Physician": "Médico",
     "title": "¿No encuentras diagnóstico para una enfermedad rara? Vamos a ayudarte",
     "Extract symptom from document": "Extraer síntomas a partir de un informe",
     "availableLangs": "Pulsa aqui para ver de los idiomas disponibles",
@@ -2308,6 +2313,8 @@
       "button": "Crear usuario"
     },
     "We have not found anything": "No hemos encontrado nada",
+    "we have not found any disease": "Disculpa, no hemos encontrado ninguna enfermedad",
+    "Please try again adding more symptoms": "Inténtelo de nuevo añadiendo más síntomas",
     "Please try a different search": "Inténtelo con una búsqueda distinta",
     "Do you want to add the symptoms manually": "¿Quiere añadir los síntomas manualmente, o intentarlo de nuevo?",
     "add the symptoms manually": "Añadir manualmente",
@@ -2318,7 +2325,59 @@
       "p3": "Creamos tecnologías que permiten un cambio radical en sus capacidades como usuarios y en todo el ecosistema médico.",
       "p1": "Dx29 es un sistema revolucionario para facilitar el diagnóstico de enfermedades raras que permite a pacientes y médicos conocer con gran precisión los síntomas que un paciente tiene y las enfermedades raras que encajan con dichos síntomas. Tras registrarse tienen en su poder más herramientas aún que facilitan el diagnóstico de pacientes con enfermedades raras.",
       "btn1": "Visitar la página web de Foundation 29"
+    },
+    "diagnosed":{
+      "general":{
+        "title": "General",
+        "Symptoms": "Síntomas",
+        "Clinical trials": "Ensayos clínicos",
+        "Patient groups": "Grupos de pacientes",
+        "Donate your data": "¿Cómo podemos ayudarte?"
+      },
+      "diseases":{
+        "error1":"Lo sentimos, no tenemos información sobre",
+        "error2": "Estamos trabajando en ello"
+      },
+      "symptoms":{
+        "t1": "Queremos crear la mejor herramienta de diagnóstico de enfermedades raras. Para ello necesitamos que la información de los síntomas sea precisa. Las bases de datos actuales no lo son.  <ins>Necesitamos tu ayuda</ins> para que tu enfermedad este bien descrita y poder ayudar a otros que están en busca de un diagnóstico.",
+        "t2": "Selecciona los síntomas más importantes de tu enfermedad, un máximo de 10. Si ves un error grabe o echas en falta algún síntoma, ponte en contacto con nosotros.",
+        "btn": "He revisado los síntomas",
+        "error1": "Tienes que seleccionar al menos 1 síntoma",
+        "Nice": "¡Bien!",
+        "msgCheckedSymptoms": "¡Enhorabuena! Has hecho una gran contribución a la comunidad de enfermedades raras. ¡Gracias!"
+      },
+      "clinicalTrials":{
+        "msgNoTrials": "Lo sentimos, en estos momentos no tenemos datos sobre ensayos clínicos para",
+        "OrgFullName": "Nombre del centro donde se realiza",
+        "BriefTitle": "Pequeña descripción",
+        "StudyFirstSubmitDate": "Inicio del estudio",
+        "ResponsiblePartyInvestigatorFullName": "Nombre del investigador principal",
+        "LocationCountry": "País"
+      },
+      "PatientGroups":{
+        "title1": "Estamos trabajando para obtener esta información. El los próximos días estará disponible.",
+        "title2": "Disculpa las molestias"
+      },
+      "DonorData":{
+        "question": "¿Qué quieres?",
+        "op1": "Quiero conocer más sobre mi enfermedad",
+        "op2": "Buscar mas pacientes como yo",
+        "op3": "Ayudar a otros pacientes como yo",
+        "free": "Si quieres otras cosas, escríbelas aquí",
+        "msgform": "Muchas gracias por responder!"
+      }
     }
+  },
+  "preland":{
+    "t1": "Ayuda al diagnóstico para <span class='danger'>médicos</span> y <span class='danger'>pacientes</span>",
+    "t2": "Dx29 es una aplicación gratuita que permite a pacientes y médicos acelerar el proceso de diagnóstico de enfermedades raras.",
+    "t3": "Aplicamos la inteligencia artificial para ayudar a los profesionales a convertir los síntomas y la información genética en diagnósticos precisos.",
+    "p1": "Primero, dinos quién eres:",
+    "p1.1": "Soy un paciente",
+    "p1.2": "Soy un médico",
+    "p2": "¿Qué tipo de paciente eres?",
+    "p2.1": "Busco un diagnóstico",
+    "p2.2": "Quiero información sobre una enfermedad"
   },
   "seo":{
     "keywords": "diagnóstico, diagnosticar, enfermedad rara, síndrome, enfermedad, pronóstico, síntomas, HPO, epilepsia, crisis epiléptica, status epiléctico, convulsiones, retraso en el desarrollo, temblores, palpitaciones, tónica-clónica, mioclónica, pediatría, genética, neurología, extracción de síntomas, enfermedad genética",
