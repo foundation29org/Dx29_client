@@ -117,6 +117,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     loadedListOfDiseases: boolean = false;
     selectedDiseaseIndex: number = -1;
     infoOneDisease: any = {};
+    sendTerms: boolean = false;
 
     @ViewChild("inputTextArea") inputTextAreaElement: ElementRef;
     @ViewChild("inputManualSymptoms") inputManualSymptomsElement: ElementRef;
@@ -296,6 +297,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     loadFilesLang() {
         this.searchDiseaseField = '';
         this.listOfFilteredDiseases = [];
+        this.sendTerms= false;
         this.loadListOfDiseases();
         this.subscription.add(this.http.get('assets/jsons/phenotypes_' + this.lang + '.json')
             .subscribe((res: any) => {
@@ -1630,8 +1632,24 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         if( this.searchDiseaseField.trim().length > 3){
           var tempModelTimp = this.searchDiseaseField.trim();
           this.listOfFilteredDiseases = this.searchFilterPipe.transformDiseases(this.listOfDiseases, 'name', tempModelTimp);
+          if(this.listOfFilteredDiseases.length==0 && !this.sendTerms){
+              //send text
+              this.sendTerms= true;
+              var params:any = {}
+              params.uuid= this.myuuid;
+              params.Term = tempModelTimp;
+              params.Lang = sessionStorage.getItem('lang');
+              var d = new Date(Date.now());
+              var a = d.toString();
+              params.Date = a;
+              this.subscription.add( this.http.post('https://prod-246.westeurope.logic.azure.com:443/workflows/5af138b9f41f400f89ecebc580d7668f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PiYef1JHGPRDGhYWI0s1IS5a_9Dpz7HLjwfEN_M7TKY', params)
+              .subscribe( (res : any) => {
+               }, (err) => {
+               }));
+          }
         }else{
           this.listOfFilteredDiseases = [];
+          this.sendTerms= false;
         }
       }
 
