@@ -200,7 +200,7 @@
     "Change": "Cambiar",
     "Foundation 29": "Fundación 29",
     "Copied to the clipboard": "Copiado al portapapeles",
-    "Contact us!": "Contáctenos!",
+    "Contact us!": "Contáctanos",
     "Resend": "Reenviar",
     "Shared": "Compartido",
     "Pending": "Pendiente",
@@ -1256,7 +1256,7 @@
     "wglab": "Dx29 utiliza Phenolyzer, desarrollado por Wang Genomics Lab: Hui Yang, Peter N. Robinson, Kai Wang. Fenolyzer: priorización basada en fenotipos de genes candidatos para enfermedades humanas. Nature Methods, 12:841-843 (2015). Más información en",
     "microsoft": "está basado en Microsoft Azure Cloud. Microsoft ha proporcionado capacidades de computación en nube y soporte para el marco de GDPR.",
     "ilitia-plainconcepts": "Gracias a Ilitia y Plain Concepts por su colaboración en el desarrollo de la solución, mostrando compromiso y energía en partes iguales. Ambos son reconocidos socios de Microsoft, líderes en el uso de tecnología e inteligencia artificial, con probada experiencia en soluciones para el área de la salud. Es importante destacar que han dedicado los mejores recursos de su empresa para ayudarnos voluntariamente.",
-    "Contact us": "Contáctenos",
+    "Contact us": "Contáctanos",
     "Dx29 for physicians": "Dx29 para médicos",
     "Donate": "Donar"
   },
@@ -2170,7 +2170,7 @@
     "comments": "Por favor, indícanos cualquier comentario que tengas:",
     "commentsPlaceholder": "Escribe aquí...",
     "Button": "Envía mis respuestas",
-    "Consent": "El responsable del tratamiento de los datos facilitados en el presente formulario es Fundación 29 de Febrero, quien los tratará con la finalidad de estudiar la información proporcionada y por motivos estadísticos. Tienes derecho a acceder, rectificar, suprimir tus datos y revocar tu consentimiento, así como otros derechos, como se explica en la Política de privacidad, donde podrás recabar más información sobre el tratamiento de tus datos.",
+    "Consent": "El responsable del tratamiento de los datos facilitados en el presente formulario es Fundación 29 de Febrero, quien los tratará con la finalidad de estudiar la información proporcionada y por motivos estadísticos. Tienes derecho a acceder, rectificar, suprimir tus datos y revocar tu consentimiento, así como otros derechos, como se explica en el Aviso legal, donde podrás recabar más información sobre el tratamiento de tus datos.",
     "CheckConsent": "Acepto recibir comunicaciones por parte de Fundación 29 de Febrero relevantes a mi perfil."
   },
   "patient":{
@@ -2252,25 +2252,19 @@
     "Do not show this message again": "No volver a mostrar este mensaje",
     "When you have selected them": "Cuando los hayas seleccionados tienes que hacer clic en el botón “Ver enfermedades propuestas”.",
     "InfoDx29":{
-      "title":"Cómo funciona Dx29 y la precisión de nuestros resultados",
-      "p1": "Nuestro algoritmo de cálculo de condiciones utiliza",
-      "p2": "Gracias a esto, somos capaces de analizar y procesar los síntomas que nos indiques y, en base a esta información, proponerte un listado de posibles diagnósticos.",
-      "p3": "Para ganarnos tu confianza, lo hemos puesto a prueba generando distintos escenarios posibles.",
-      "p4": "Hemos realizado varias simulaciones del siguiente modo: ",
-      "p5": "Hemos creado un listado de pacientes. Para una lista de aproximadamente 12000 diseases, basándonos en la información fenotípica que nos proporciona tanto Orphanet como OMIM de las mismas, conseguimos dos tipos de pacientes:",
-      "p6": "Los ideales, cuyo fenotipado estará formado únicamente por una selección de los síntomas conocidos de esa enfermedad",
-      "p7": "Los imprecisos. El fenotipado de estos, a diferencia de los anteriores, contendrá síntomas no tan exactos. En particular, para generar estos pacientes hemos impuesto que la probabilidad de los dos síntomas predecesores sea igual a la del síntoma exacto. [Nos hemos basado en la Distribución de Poisson con lambda igual a 2].",
-      "p8": "Hemos ejecutado nuestro algoritmo de cálculo de condiciones con el fenotipado de todos los anteriores. Con esto, obtenemos una lista ordenada de diagnósticos candidatos. El criterio de ranking o puntuación de este resultado viene dado por Monarch.",
-      "p9": "Finalmente, hemos comprobado cuál es la precisión y la fiabilidad de nuestro algoritmo, analizando si es capaz de encontrar o no la disease correcta y además en qué posición del ranking resultado aparece.",
-      "p10": "Los resultados de estas pruebas son los que aquí te mostramos:",
-      "p11": "Con los pacientes ideales, esto es, si el fenotipado que nos facilitas es lo más preciso y exacto posible, tenemos una precisión y fiabilidad del 95.5% de acuerdo con la siguiente gráfica:",
-      "p12": "En la gráfica puedes observar como se distribuye este porcentaje de aciertos en el ranking resultado que te ofrecemos. Así, en el top 10 de diseases resultado te garantizamos en este caso que acertamos con un 91.9%.",
-      "p13": "Por otro lado, con los pacientes imprecisos el porcentaje de acierto que te aseguramos es de un 80.9%.",
-      "p14": "Como puedes ver, nuestro algoritmo depende muy fuertemente de la calidad de la información fenotípica que nos facilites. Así, cuánto más preciso seas con los síntomas de entrada, mejores resultados podremos garantizarte.",
+      "title":"La precisión de Dx29",
+      "p1": "Nuestro algoritmo de cálculo de enfermedades analiza y procesa los síntomas que nos indiques y, en base a esta información, te propone un listado de posibles diagnósticos.",
+      "p3": "Para ganarnos tu confianza, lo hemos puesto a prueba generando distintos escenarios. No existen suficientes datos públicos y anónimos de pacientes, por lo que hemos realizado simulaciones del siguiente modo:",
+      "p5": "Hemos creado un listado de pacientes. Para una lista de aproximadamente 10000 enfermedades, basándonos en la información de los síntomas que proporciona tanto <a href='https://www.orpha.net/consor/cgi-bin/index.php' target='_blank'>Orphanet</a> como <a href='https://www.omim.org/' target='_blank'>OMIM</a> de las mismas, conseguimos dos tipos de pacientes:<ul><li>Los ideales, cuyos síntomas están formado únicamente por una selección de los síntomas conocidos de esa enfermedad.</li><li>Los realistas. El conjunto de los síntomas de estos pacientes, a diferencia de los anteriores, contendrá síntomas no tan precisos. Esto se entiende mejor con el ejemplo de convulsiones epilépticas de inicio focal. En algunos pacientes, en lugar de incluir este síntoma, hemos incluido convulsiones epilépticas, un término que es menos preciso que el anterior según <a href='https://hpo.jax.org/' target='_blank'>HPO</a>.</li></ul>",
+      "p8": "Hemos evaluado nuestro algoritmo con los dos tipos de pacientes anteriores y hemos comprobado cuál es la fiabilidad media de nuestro algoritmo, analizando en qué posición del ranking resultado aparecen las enfermedades correctas.",
+      "p9": "Los resultados de estas pruebas son los que mostramos a continuación. Como podrás ver, nuestro algoritmo depende muy fuertemente de la calidad de los síntomas que nos facilites. Así, cuánto más preciso seas con los síntomas de entrada, mejores resultados podremos darte.",
+      "p11": "Con los pacientes ideales predecimos la enfermedad correcta entre las 10 primeras en un 91.9 % (top-10) de las veces.",
+      "p12": "Por otro lado, con los pacientes realistas el porcentaje de acierto en el top 10 es de 51.1%.",
+      "p13": "Si tienes alguna duda sobre cómo funciona Dx29 os sobre cómo te podemos ayudar, ponte en contacto con nosotros.",
       "Percentage of success of the disease": "Porcentaje de acierto de la enfermedad",
       "Ideal patients": "Pacientes ideales",
       "Position of the disease": "Posición de la enfermedad",
-      "Inaccurate patients": "Pacientes imprecisos"
+      "Inaccurate patients": "Pacientes realistas"
     },
     "Text": "Texto",
     "Documents": "Documentos",
@@ -2320,10 +2314,9 @@
     "add the symptoms manually": "Añadir manualmente",
     "try again": "Intentarlo de nuevo",
     "aboutUs":{
-      "title": "¿Quienes somos?",
-      "p2": "Somos una fundación sin ánimo de lucro. Trabajamos por una medicina en la que pacientes empoderados toman el control de su salud a través de sus datos y trabajan con médicos e instituciones para mejorar su bienestar y el de los demás.",
-      "p3": "Creamos tecnologías que permiten un cambio radical en sus capacidades como usuarios y en todo el ecosistema médico.",
-      "p1": "Dx29 es un sistema revolucionario para facilitar el diagnóstico de enfermedades raras que permite a pacientes y médicos conocer con gran precisión los síntomas que un paciente tiene y las enfermedades raras que encajan con dichos síntomas. Tras registrarse tienen en su poder más herramientas aún que facilitan el diagnóstico de pacientes con enfermedades raras.",
+      "title": "¿Quiénes somos?",
+      "p2": "Creamos tecnologías que permiten un cambio radical en sus capacidades como usuarios y en todo el ecosistema médico. Dx29 investiga la aplicación de modelos predictivos en la interfaz del paciente y sus médicos para acelerar el diagnóstico de enfermedades raras.",
+      "p1": "Somos una fundación sin ánimo de lucro. Trabajamos por una medicina en la que pacientes empoderados toman el control de su salud a través de sus datos y trabajan con médicos e instituciones para mejorar su bienestar y el de los demás.",
       "btn1": "Visitar la página web de Foundation 29"
     },
     "diagnosed":{
@@ -2339,8 +2332,8 @@
         "error2": "Estamos trabajando en ello"
       },
       "symptoms":{
-        "t1": "Queremos crear la mejor herramienta de diagnóstico de enfermedades raras. Para ello necesitamos que la información de los síntomas sea precisa. Las bases de datos actuales no lo son.  <ins>Necesitamos tu ayuda</ins> para que tu enfermedad este bien descrita y poder ayudar a otros que están en busca de un diagnóstico.",
-        "t2": "Selecciona los síntomas más importantes de tu enfermedad, un máximo de 10. Si ves un error grabe o echas en falta algún síntoma, ponte en contacto con nosotros.",
+        "t1": "Queremos crear la mejor herramienta de diagnóstico de enfermedades raras. Para ello necesitamos que la información de los síntomas sea precisa. Las bases de datos actuales no lo son. <ins>Necesitamos tu ayuda</ins> para que tu enfermedad esté bien descrita y poder ayudar a otros que están en busca de un diagnóstico.",
+        "t2": "Selecciona los síntomas más importantes de tu enfermedad, un máximo de 10. Si ves un error grave o echas en falta algún síntoma, ponte en contacto con nosotros.",
         "btn": "He revisado los síntomas",
         "error1": "Tienes que seleccionar al menos 1 síntoma",
         "Nice": "¡Bien!",
@@ -2355,13 +2348,13 @@
         "LocationCountry": "País"
       },
       "PatientGroups":{
-        "title1": "Estamos trabajando para obtener esta información. El los próximos días estará disponible.",
+        "title1": "Estamos trabajando para obtener esta información. Estará disponible en los próximos días.",
         "title2": "Disculpa las molestias"
       },
       "DonorData":{
         "question": "¿Qué quieres?",
-        "op1": "Quiero conocer más sobre mi enfermedad",
-        "op2": "Buscar mas pacientes como yo",
+        "op1": "Conocer más sobre mi enfermedad",
+        "op2": "Buscar más pacientes como yo",
         "op3": "Ayudar a otros pacientes como yo",
         "free": "Si quieres otras cosas, escríbelas aquí",
         "msgform": "Muchas gracias por responder!"
@@ -2370,8 +2363,9 @@
   },
   "preland":{
     "t1": "Ayuda al diagnóstico para <span class='danger'>médicos</span> y <span class='danger'>pacientes</span>",
-    "t2": "Dx29 es una aplicación gratuita que permite a pacientes y médicos acelerar el proceso de diagnóstico de enfermedades raras.",
-    "t3": "Aplicamos la inteligencia artificial para ayudar a los profesionales a convertir los síntomas y la información genética en diagnósticos precisos.",
+    "t2": "Dx29 es una aplicación gratuita que permite a pacientes y médicos acelerar el proceso de diagnóstico de <strong>enfermedades raras.</strong>",
+    "t3": "Aplicamos inteligencia artificial para ayudar a deducir diagnósticos precisos de los síntomas del paciente y de su información genética, si estuviera disponible.",
+    "t4": "Prueba aquí la funcionalidad y regístrate para aprovechar todo su potencial.",
     "p1": "Primero, dinos quién eres:",
     "p1.1": "Soy un paciente",
     "p1.2": "Soy un médico",

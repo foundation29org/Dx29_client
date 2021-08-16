@@ -13,7 +13,7 @@ export class ApiClinicalTrialsService {
     constructor(private http: HttpClient) {}
 
     getClinicalTrials(name){
-        return this.http.get('https://clinicaltrials.gov/api/query/full_studies?expr='+name+'&fmt=json')
+        return this.http.get('https://clinicaltrials.gov/api/query/full_studies?expr='+name+'&fmt=json&max_rnk=50')
         //return this.http.get('https://clinicaltrials.gov/api/query/field_values?expr='+name+'&field=Condition&fmt=json')
         .map( (res : any) => {
             return res;

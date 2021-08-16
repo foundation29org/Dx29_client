@@ -2169,7 +2169,7 @@
     "comments": "Please let us know if you have any comments:",
     "commentsPlaceholder": "Write here...",
     "Button": "Send my answers",
-    "Consent": "The person responsible for the treatment of the data provided in this form is Foundation 29 of February, who will treat them with the purpose of studying the information provided and for statistical reasons. You have the right to access, rectify, delete your data and revoke your consent, as well as other rights, as explained in the Privacy Policy, where you can obtain more information about the processing of your data.",
+    "Consent": "The entity responsible for the treatment of the data provided in this form is Foundation 29 of February, who will treat them with the purpose of improving the service provided in the site. You have the right to access, rectify, delete your data and revoke your consent, as well as other rights, as explained in the Legal notice, where you can obtain more information about the processing of your data.",
     "CheckConsent": "I accept to receive communications from Foundation 29 of February relevant to my profile."
   },
   "patient":{
@@ -2251,25 +2251,19 @@
     "Do not show this message again": "Do not show this message again",
     "When you have selected them": "When you have selected them you have to click on the “View suggested diseases” button.",
     "InfoDx29":{
-      "title":"How Dx29 works and the accuracy of our results",
-      "p1": "Our condition calculation algorithm uses",
-      "p2": "Therefore, we are able to analyse and process the symptoms you indicate to us and, based on this information, propose a list of possible diagnoses.",
-      "p3": "To gain your trust, we have put it to the test by generating different possible scenarios.",
-      "p4": "We have carried out several simulations as follows:",
-      "p5": "We created a list of patients. For a list of approximately 12,000 diseases, based on the phenotypic information provided by both Orphanet and OMIM, we got two types of patients:",
-      "p6": "The ideal ones, whose phenotyping will consist only of a selection of the known symptoms of that disease.",
-      "p7": "The imprecise ones. The phenotyping of these, unlike the previous ones, will contain less accurate symptoms. In particular, to generate these patients we have imposed that the probability of the two predecessor symptoms is equal to that of the exact symptom. We have relied on the Poisson Distribution with lambda equal to 2].",
+      "title":"The accuracy of Dx29",
+      "p1": "Our disease calculation algorithm analyzes and processes the symptoms you provide and, based on this information, proposes a list of possible diagnoses.",
+      "p3": "To gain your trust, we have tested it by generating different scenarios. There is not enough public and anonymous patient data, so we have performed simulations as follows:",
+      "p5": "We created a list of patients. For a list of about 10000 diseases, based on the symptom information provided by both <a href='https://www.orpha.net/consor/cgi-bin/index.php' target='_blank'>Orphanet</a> and <a href='https://www.omim.org/' target='_blank'>OMIM</a> of the diseases, we have two types of patients:<ul><li>The ideal ones, whose symptoms are formed only by a selection of the known symptoms of a disease.</li><li>Realistic patients., whose symptoms, unlike the previous ones, will contain not so precise symptoms. This is best understood by the example of focal onset epileptic seizures. In some patients, instead of including this symptom, we have included epileptic seizures, a term that is less precise than the previous one according to <a href='https://hpo.jax.org/' target='_blank'>HPO</a>.</li></ul>",
       "p8": "We have run our condition calculation algorithm with phenotyping of all the above. With this, we obtained an ordered list of candidate diagnoses. The ranking criterion or score of this result is given by Monarch.",
-      "p9": "Finally, we have checked the accuracy and reliability of our algorithm, analysing whether or not it is able to find the correct disease and also in which position of the ranking result it appears.",
-      "p10": "The results of these tests are shown here:",
-      "p11": "With ideal patients, that is, if the phenotyping you provide us with is as accurate and precise as possible, we have an accuracy and reliability of 95.45808460939527% according to the following graph:",
-      "p12": "In the graph you can see how this percentage of hits is distributed in the result ranking that we offer you. Thus, in the top 10 of the diseases result we guarantee in this case that we were right with 91.9%.",
-      "p13": "On the other hand, with inaccurate patients the success rate we ensure is 80.9%.",
-      "p14": "As you can see, our algorithm depends very strongly on the quality of the phenotypic information you provide. So, the more accurate you are with the input symptoms, the better results we can guarantee you.",
+      "p9": "The results of these tests are shown below. As you can see, our algorithm depends very strongly on the quality of the symptoms you provide. Thus, the more accurate you are with the input symptoms, the better results we will be able to give you.",
+      "p11": "With ideal patients we predict the correct disease in the top 10 in 91.9 % (top-10) of the patients.",
+      "p12": "On the other hand, with the realistic patients the hit percentage in the top 10 is 51.1%.",
+      "p13": "If you have any questions about how Dx29 works or how we can help you, please contact us.",
       "Percentage of success of the disease": "Percentage of success of the disease",
       "Ideal patients": "Ideal patients",
       "Position of the disease": "Position of the disease",
-      "Inaccurate patients": "Inaccurate patients"
+      "Inaccurate patients": "Realistic patients"
     },
     "Text": "Text",
     "Documents": "Documents",
@@ -2320,9 +2314,8 @@
     "try again": "Try again",
     "aboutUs":{
       "title": "Who we are?",
-      "p2": "We are a non-profit foundation. We work for a medicine in which empowered patients take control of their health through their data and work with physicians and institutions to improve their well-being and that of others.",
-      "p3": "We create technologies that enable a radical change in their capabilities as users and in the entire medical ecosystem.",
-      "p1": "Dx29 is a revolutionary system to facilitate the diagnosis of rare diseases that allows patients and doctors to know with great precision the symptoms a patient has and the rare diseases that match those symptoms. After registering, they have in their possession even more tools that facilitate the diagnosis of patients with rare diseases.",
+      "p2": "We create technologies that enable a radical change in their capabilities as users and in the entire medical ecosystem. Dx29 tests the applicability of cutting-edge predictive models in the patient/physician interface to accelerate rare disease diagnosis",
+      "p1": "We are a not-for-profit foundation. We work for a medicine in which empowered patients take control of their health through their data and work with physicians and institutions to improve their well-being and that of others.",
       "btn1": "Visit the Foundation 29 website"
     },
     "diagnosed":{
@@ -2338,8 +2331,8 @@
         "error2": "We are working on it"
       },
       "symptoms":{
-        "t1": "We want to create the best diagnostic tool for rare diseases. To do this we need the symptom information to be accurate. Current databases are not accurate.  <ins>We need your help</ins> so that your disease is well described and we can help others who are looking for a diagnosis.",
-        "t2": "Select the most important symptoms of your disease, a maximum of 10. If you see a huge error or if you miss any symptom, please contact us.",
+        "t1": "We want to create the best diagnostic tool for rare diseases. To do this we need the symptom information to be accurate. Current databases are not accurate. <ins>We need your help</ins> so that your disease is well described and we can help others who are looking for a diagnosis.",
+        "t2": "Select the most important symptoms of your disease, a maximum of 10. If you see a huge error or if you miss any symptom, please contact us using the chat below.",
         "btn": "I have checked the symptoms",
         "error1": "You have to select at least 1 symptom",
         "Nice": "Nice!",
@@ -2354,7 +2347,7 @@
         "LocationCountry": "Country"
       },
       "PatientGroups":{
-        "title1": "We are working to obtain this information. The next few days it will be available",
+        "title1": "We are working to obtain this information. It will be available in the next few days.",
         "title2": "Sorry for the inconvenience"
       },
       "DonorData":{
@@ -2369,8 +2362,9 @@
   },
   "preland":{
     "t1": "Diagnostic aid for <span class='danger'>physicians</span> and <span class='danger'>patients</span>",
-    "t2": "Dx29 is a free application that allows patients and physicians to speed up the process of diagnosing rare diseases.",
-    "t3": "We apply artificial intelligence to help professionals convert symptoms and genetic information into accurate diagnoses.",
+    "t2": "Dx29 is a free application that allows patients and physicians to speed up the process of diagnosing <strong>rare diseases</strong>.",
+    "t3": "We apply artificial intelligence to help deduce accurate diagnoses from the patient symptoms and from their genetic information, if available.",
+    "t4": "Try the functionality here and register to harness its full potential.",
     "p1": "First, let us know who you are:",
     "p1.1": "I'm a patient",
     "p1.2": "I'm a physician",
