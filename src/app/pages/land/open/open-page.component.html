@@ -773,7 +773,7 @@
       <h5 class="text-bold-300 mb-0">{{'land.Symptom by symptom comparison' | translate }}</h5>
       <p class="text-muted">{{'land.Table showing' | translate }}</p>
       <div class="table-responsive">
-        <table class="table mb-0 text-center">
+        <table class="table mb-0 text-center d-none d-sm-block">
           <thead>
             <tr class="d-flex">
               <th class="col-md-6 text-left" id="Name symptom">{{'land.Symptom' | translate }}</th>
@@ -834,6 +834,47 @@
                   <i class="fas fa-info-circle info" title="{{'land.Symptom observed in the disease' | translate }}"></i>
                 </span>
               </td>-->
+            </tr>
+          </tbody>
+        </table>
+        <table class="table mb-0 text-center d-block d-sm-none">
+          <tbody style="max-height:inherit;">
+            <tr *ngFor="let symptom of topRelatedConditions[selectedInfoDiseaseIndex].symptoms ; let i = index" class="text-left">
+              <td class="col-md-12" style="padding: 0.4rem;">
+                <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease);"
+                  class="btn-outline-info btn btn-sm mr-2 mb-0 btn-fab round"
+                  title="{{'generics.More information' | translate }} ({{symptom.id}})">
+                  <em class="fa fa-info w-13"></em>
+                </button>
+                <strong>
+                  <span *ngIf="symptom.name">{{symptom.name}}</span>
+                  <span *ngIf="!symptom.name">
+                    {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                      href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
+                      <i class="ft-external-link"></i></a></span>
+                </strong>
+              </td>
+              <td class="col-md-12 border-top-0 pt-0" style="padding: 0.4rem;">
+                <span>
+                  <span *ngIf="symptom.frequency.name!=''"
+                  title="{{symptom.frequency.desc}}">{{symptom.frequency.name}}</span>
+                <span *ngIf="symptom.frequency.name==''" title="{{'land.Unknown' | translate}}">{{'land.Unknown' |
+                  translate}}</span>
+                </span>
+              </td>
+              <td class="col-md-12 border-top-0 pt-0 pb-2" style="padding: 0.4rem;">
+                <span>
+                  <span>{{'land.Patient' | translate }}</span>
+                  <i *ngIf="symptom.hasPatient" class="ml-1 fa fa-check success"></i>
+                  <i *ngIf="!symptom.hasPatient" class="ml-1 fa fa-times danger"></i>
+                </span>
+                <span class="col-6">
+                  <span>{{'land.Disease' | translate }}</span>
+                  <i *ngIf="symptom.hasDisease" class="ml-1 fa fa-check success"></i>
+                  <i *ngIf="!symptom.hasDisease" class="ml-1 fa fa-times danger"></i>
+                </span>
+              </td>
+              
             </tr>
           </tbody>
         </table>
@@ -994,33 +1035,21 @@
   </div>
   <div class="modal-body content-wrapper p-2">
     <p>
-      {{'land.InfoDx29.p1' | translate }} <a href="https://monarchinitiative.org" target="_blank"
-        title="Monarch Initiative">Monarch Initiative <i class="ft-external-link"></i></a>.
-      {{'land.InfoDx29.p2' | translate }}
+      {{'land.InfoDx29.p1' | translate }}
     </p>
     <p>
       {{'land.InfoDx29.p3' | translate }}
     </p>
-    <p>
-      {{'land.InfoDx29.p4' | translate }}
-    </p>
     <ol>
-      <li>{{'land.InfoDx29.p5' | translate }}
-        <ul>
-          <li>{{'land.InfoDx29.p6' | translate }}</li>
-          <li>{{'land.InfoDx29.p7' | translate }}</li>
-        </ul>
-      </li>
+      <li [innerHTML]="'land.InfoDx29.p5' | translate"></li>
       <li>{{'land.InfoDx29.p8' | translate }}</li>
       <li>{{'land.InfoDx29.p9' | translate }}</li>
     </ol>
-    <p>
-      {{'land.InfoDx29.p10' | translate }}
-    </p>
+    <p><strong>{{'land.InfoDx29.Ideal patients' | translate }}</strong></p>
     <p>
       {{'land.InfoDx29.p11' | translate }}
     </p>
-    <div class="mt-4 mb-4">
+    <div class="mb-4">
       <apx-chart [series]="lineChartIdealOptions.series" [colors]="lineChartIdealOptions.colors"
         [chart]="lineChartIdealOptions.chart" [xaxis]="lineChartIdealOptions.xaxis"
         [yaxis]="lineChartIdealOptions.yaxis" [title]="lineChartIdealOptions.title"
@@ -1031,25 +1060,11 @@
         [markers]="lineChartIdealOptions.markers" [theme]="lineChartIdealOptions.theme"
         [responsive]="lineChartIdealOptions.responsive"></apx-chart>
     </div>
+    <p><strong>{{'land.InfoDx29.Inaccurate patients' | translate }}</strong></p>
     <p>
       {{'land.InfoDx29.p12' | translate }}
     </p>
-    <div class="mt-4 mb-4">
-      <apx-chart [series]="lineChartZoomIdealOptions.series" [colors]="lineChartZoomIdealOptions.colors"
-        [chart]="lineChartZoomIdealOptions.chart" [xaxis]="lineChartZoomIdealOptions.xaxis"
-        [yaxis]="lineChartZoomIdealOptions.yaxis" [title]="lineChartZoomIdealOptions.title"
-        [dataLabels]="lineChartZoomIdealOptions.dataLabels" [stroke]="lineChartZoomIdealOptions.stroke"
-        [grid]="lineChartZoomIdealOptions.grid" [tooltip]="lineChartZoomIdealOptions.tooltip"
-        [plotOptions]="lineChartZoomIdealOptions.plotOptions" [fill]="lineChartZoomIdealOptions.fill"
-        [legend]="lineChartZoomIdealOptions.legend" [labels]="lineChartZoomIdealOptions.labels"
-        [markers]="lineChartZoomIdealOptions.markers" [theme]="lineChartZoomIdealOptions.theme"
-        [responsive]="lineChartZoomIdealOptions.responsive"></apx-chart>
-    </div>
-
-    <p>
-      {{'land.InfoDx29.p13' | translate }}
-    </p>
-    <div class="mt-4 mb-4">
+    <div class="mb-4">
       <apx-chart [series]="lineChartRuidoOptions.series" [colors]="lineChartRuidoOptions.colors"
         [chart]="lineChartRuidoOptions.chart" [xaxis]="lineChartRuidoOptions.xaxis"
         [yaxis]="lineChartRuidoOptions.yaxis" [title]="lineChartRuidoOptions.title"
@@ -1061,7 +1076,7 @@
         [responsive]="lineChartRuidoOptions.responsive"></apx-chart>
     </div>
     <p>
-      {{'land.InfoDx29.p14' | translate }}
+      {{'land.InfoDx29.p13' | translate }}
     </p>
   </div>
 </ng-template>
@@ -1147,16 +1162,16 @@
             <p [innerHTML]="'land.diagnosed.symptoms.t1' | translate"></p>
             <p>{{'land.diagnosed.symptoms.t2' | translate }}</p>
             <div class="table-responsive">
-              <table class="table mb-0 text-center">
+              <table class="table mb-0 text-center d-none d-sm-block">
                 <thead>
-                  <tr class="d-flex">
+                  <tr class="d-md-flex">
                     <th class="col-md-6 text-left" id="Name symptom">{{'land.Symptom' | translate }}</th>
                     <th class="col-md-2" id="Frequent">{{'land.Frequency' | translate }}</th>
                     <th class="col-md-2" id="Checked"></th>
                   </tr>
                 </thead>
                 <tbody style="max-height:inherit;">
-                  <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="d-flex">
+                  <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="d-md-flex ">
                     <td class="col-md-6 text-left">
                       <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
                         class="btn-outline-info btn btn-sm mr-2 mb-0 btn-fab round"
@@ -1170,7 +1185,7 @@
                           title="{{symptom.id}}">
                           <i class="ft-external-link"></i></a></span>
                     </td>
-                    <td class="col-md-2">
+                    <td class="col-md-2 text-center">
                       <span *ngIf="symptom.Frequency.name!=''"
                         title="{{symptom.Frequency.desc}}">{{symptom.Frequency.name}}</span>
                       <span *ngIf="symptom.Frequency.name==''" title="{{'land.Unknown' | translate}}">{{'land.Unknown' |
@@ -1178,19 +1193,63 @@
                     </td>
                     <td class="col-md-2">
                       <span class="float-right ml-1">
-                        <button (click)="changeStateSymptomDisease(i, true)"
+                        <button (click)="changeStateSymptomDisease(i)"
                           class="btn btn-sm mr-1 mb-0 btn-fab round white"
                           [ngClass]="(symptom.checked==true)?'btn-info':'btn-secondary '"
-                          href="javascript:void(0)" title="{{'phenotype.Click to check it' | translate }}">
+                          href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
                           <em class="fa fa-check w-13"></em>
                         </button>
-                        <button (click)="changeStateSymptomDisease(i, false)"
+                        <!--<button (click)="changeStateSymptomDisease(i, false)"
                           class="btn btn-sm mr-1 mb-0 btn-fab round white"
                           [ngClass]="(symptom.checked==false)?'btn-danger':'btn-secondary'"
                           href="javascript:void(0)"
                           title="{{'phenotype.Click to uncheck it' | translate }}">
                           <em class="fa fa-times w-13"></em>
+                        </button>-->
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="table mb-0 text-center d-block d-sm-none">
+                <tbody style="max-height:inherit;">
+                  <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="text-left">
+                    <td class="col-md-12 pb-0" style="padding: 0.4rem;">
+                      <strong>
+                        <span *ngIf="symptom.name">{{symptom.name}}</span>
+                        <span *ngIf="!symptom.name">
+                          {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                            href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
+                            title="{{symptom.id}}">
+                            <i class="ft-external-link"></i></a></span>
+                      </strong>
+                    </td>
+                    <td class="col-md-6 border-top-0 pt-0" style="padding: 0.4rem;">
+                      <span *ngIf="symptom.Frequency.name!=''"
+                        title="{{symptom.Frequency.desc}}">{{symptom.Frequency.name}}</span>
+                      <span *ngIf="symptom.Frequency.name==''" title="{{'land.Unknown' | translate}}">{{'land.Unknown' |
+                        translate}}</span>
+                    </td>
+                    <td class="col-md-6 border-top-0 pt-0 pb-2" style="padding: 0.4rem;">
+                      <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
+                        class="btn-outline-info btn btn-sm mr-2 mb-0 btn-fab round"
+                        title="{{'generics.More information' | translate }} ({{symptom.id}})">
+                        <em class="fa fa-info w-13"></em>
+                      </button>
+                      <span class="float-right ml-1">
+                        <button (click)="changeStateSymptomDisease(i)"
+                          class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                          [ngClass]="(symptom.checked==true)?'btn-info':'btn-secondary '"
+                          href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
+                          <em class="fa fa-check w-13"></em>
                         </button>
+                        <!--<button (click)="changeStateSymptomDisease(i, false)"
+                          class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                          [ngClass]="(symptom.checked==false)?'btn-danger':'btn-secondary'"
+                          href="javascript:void(0)"
+                          title="{{'phenotype.Click to uncheck it' | translate }}">
+                          <em class="fa fa-times w-13"></em>
+                        </button>-->
                       </span>
                     </td>
                   </tr>
@@ -1207,7 +1266,7 @@
         <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Clinical Trials');">{{'land.diagnosed.general.Clinical trials' | translate }}</strong></ng-template>
         <ng-template ngbTabContent>
           <div *ngIf="clinicalTrials.length>0" class="col-md-12">
-            <p *ngFor="let studie of clinicalTrials ; let i = index">
+            <div *ngFor="let studie of clinicalTrials ; let i = index">
               <span class="d-block"><strong>Id:</strong></span>
               <span class="d-block">{{studie.Study.ProtocolSection.IdentificationModule.NCTId}}
                 <a class="ml-1"
@@ -1227,11 +1286,13 @@
 
               <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.ResponsiblePartyInvestigatorFullName' | translate }}:</strong></span>
               <span class="d-block">{{studie.Study.ProtocolSection.SponsorCollaboratorsModule.ResponsibleParty.ResponsiblePartyInvestigatorFullName}}</span>
-
-              <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.LocationCountry' | translate }}:</strong></span>
-              <span class="d-block" *ngFor="let location of studie.Study.ProtocolSection.ContactsLocationsModule.LocationList.Location ; let j = index">{{location.LocationCountry}}</span>
-            </p>
-            <hr *ngIf="i<clinicalTrials.length-1" width="100%" size="20" color="#b0b6bb" class="mt-2">
+              <span *ngIf="studie.Study.ProtocolSection.ContactsLocationsModule.listCountriesCleaned!=undefined">
+                <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.LocationCountry' | translate }}:</strong></span>
+                <span class="d-block" *ngFor="let location of studie.Study.ProtocolSection.ContactsLocationsModule.listCountriesCleaned ; let j = index">{{location.LocationCountry}}</span>
+              </span>
+              <hr *ngIf="i<clinicalTrials.length-1" width="100%" size="20" color="#b0b6bb" class="mt-2">
+            </div>
+            
           </div>
           <div *ngIf="clinicalTrials.length==0" class="col-md-12">
             {{'land.diagnosed.clinicalTrials.msgNoTrials' | translate }} {{infoOneDisease.name}}

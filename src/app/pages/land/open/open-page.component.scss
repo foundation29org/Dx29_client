@@ -640,6 +640,12 @@ body {
       }
   }
 
+  @media ( max-width: 578px ){
+    table, thead, tbody, th, td, tr {
+      display: block; 
+    }
+  }
+
   @media ( max-width: 575px ){
   
     ::ng-deep ngb-typeahead-window.dropdown-menu {
@@ -665,6 +671,8 @@ body {
     :host /deep/ .nav-tabs{
       flex-direction: column !important;
     }
+
+      
   }
 
   
