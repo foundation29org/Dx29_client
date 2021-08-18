@@ -777,7 +777,7 @@
           <thead>
             <tr class="d-flex">
               <th class="col-md-6 text-left" id="Name symptom">{{'land.Symptom' | translate }}</th>
-              <th class="col-md-2" id="Frequent">{{'land.Frequency' | translate }}</th>
+              <!--<th class="col-md-2" id="Frequent">{{'land.Frequency' | translate }}</th>-->
               <th class="col-md-2" id="Patient">{{'land.Patient' | translate }}</th>
               <th class="col-md-2" id="Disease">{{'land.Disease' | translate }}</th>
               <!--<th class="col-md-1" id="Info">Info</th>-->
@@ -798,12 +798,12 @@
                     href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
                     <i class="ft-external-link"></i></a></span>
               </td>
-              <td class="col-md-2">
+              <!--<td class="col-md-2">
                 <span *ngIf="symptom.frequency.name!=''"
                   title="{{symptom.frequency.desc}}">{{symptom.frequency.name}}</span>
                 <span *ngIf="symptom.frequency.name==''" title="{{'land.Unknown' | translate}}">{{'land.Unknown' |
                   translate}}</span>
-              </td>
+              </td>-->
               <td class="col-md-2">
                 <i *ngIf="symptom.hasPatient" class="fa fa-check success"></i>
                 <i *ngIf="!symptom.hasPatient" class="fa fa-times danger"></i>
@@ -854,14 +854,14 @@
                       <i class="ft-external-link"></i></a></span>
                 </strong>
               </td>
-              <td class="col-md-12 border-top-0 pt-0" style="padding: 0.4rem;">
+              <!--<td class="col-md-12 border-top-0 pt-0" style="padding: 0.4rem;">
                 <span>
                   <span *ngIf="symptom.frequency.name!=''"
                   title="{{symptom.frequency.desc}}">{{symptom.frequency.name}}</span>
                 <span *ngIf="symptom.frequency.name==''" title="{{'land.Unknown' | translate}}">{{'land.Unknown' |
                   translate}}</span>
                 </span>
-              </td>
+              </td>-->
               <td class="col-md-12 border-top-0 pt-0 pb-2" style="padding: 0.4rem;">
                 <span>
                   <span>{{'land.Patient' | translate }}</span>
@@ -1257,7 +1257,7 @@
               </table>
             </div>
             <div class="center-elements mt-3">
-              <button class="btn btn-info btn-raised btn-navbar" (click)="sendSymtomsChecked(); lauchEvent('Diagnosed - Send Symptoms');">{{'land.diagnosed.symptoms.btn' | translate }}</button>
+              <button class="btn btn-info btn-raised btn-navbar" (click)="sendSymtomsChecked();">{{'land.diagnosed.symptoms.btn' | translate }}</button>
             </div>
           </div>
         </ng-template>

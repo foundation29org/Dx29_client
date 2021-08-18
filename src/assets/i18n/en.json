@@ -2321,7 +2321,13 @@
     "diagnosed":{
       "general":{
         "title": "General",
-        "Symptoms": "Symptoms",
+        "Symptoms": "The revolution",
+        "Interested in the revolution": "Interested in the revolution?",
+        "msgSend": "Welcome to the rebellion, you will know about us",
+        "Rev-t1": "Join",
+        "Rev-t2": "the revolution",
+        "Rev-p1": "Your disease symptoms are wrong! Join the revolution and leave the email. You are already part of the rebellion, you will hear from us. Target email and healing!",
+        "Rev-btn1": "Let's go!",
         "Clinical trials": "Clinical trials",
         "Patient groups": "Patient groups",
         "Donate your data": "How can we help you?"
@@ -2368,7 +2374,7 @@
     "p1": "First, let us know who you are:",
     "p1.1": "I'm a patient",
     "p1.2": "I'm a physician",
-    "p2": "What kind of patient are you?",
+    "p2": "Start again",
     "p2.1": "I'm looking for a diagnosis",
     "p2.2": "I want information about a disease"
   },

@@ -2322,7 +2322,13 @@
     "diagnosed":{
       "general":{
         "title": "General",
-        "Symptoms": "Síntomas",
+        "Symptoms": "La revolución",
+        "Interested in the revolution": "¿Interesado en la revolución?",
+        "msgSend": "Bienvenido a la rebelión, sabrás de nosotros",
+        "Rev-t1": "Apúntate",
+        "Rev-t2": "a la revolución",
+        "Rev-p1": "Los síntomas de tu enfermedad son incorrectos! Apuntate a la revolución y deja el email. Ya eres de la rebelión, sabrás de nosotros. Objetivo email y curación!",
+        "Rev-btn1": "¡Vamos!",
         "Clinical trials": "Ensayos clínicos",
         "Patient groups": "Grupos de pacientes",
         "Donate your data": "¿Cómo podemos ayudarte?"
@@ -2369,7 +2375,7 @@
     "p1": "Primero, dinos quién eres:",
     "p1.1": "Soy un paciente",
     "p1.2": "Soy un médico",
-    "p2": "¿Qué tipo de paciente eres?",
+    "p2": "Empezar de nuevo",
     "p2.1": "Busco un diagnóstico",
     "p2.2": "Quiero información sobre una enfermedad"
   },
