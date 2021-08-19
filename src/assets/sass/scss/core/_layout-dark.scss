@@ -13,8 +13,28 @@ body {
       background-color: $dl-bg-color !important;
       color: $component-active-bg !important;
     }
+    
+    body::-webkit-scrollbar-track {
+      background: orange;        /* color of the tracking area */
+    }
+    
+    body::-webkit-scrollbar-thumb {
+      background-color: blue;    /* color of the scroll thumb */
+      border-radius: 20px;       /* roundness of the scroll thumb */
+      border: 3px solid orange;  /* creates padding around scroll thumb */
+    }
 
-    p,
+    p, span{
+      color:$dl-p-color;
+    }
+
+    a,.info{
+      color: $dl-link-color !important;
+    }
+
+    .nav-tabs .nav-link.active{
+      border-bottom: 2px solid $dl-headings-color !important;
+    }
     .content-sub-header,
     .table td,
     .list-group-item-action,

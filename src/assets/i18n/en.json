@@ -2322,6 +2322,12 @@
       "general":{
         "title": "General",
         "Symptoms": "Symptoms",
+        "Interested in the revolution": "Interested in the revolution?",
+        "msgSend": "Welcome to the rebellion, you will know about us",
+        "Rev-t1": "Join",
+        "Rev-t2": "the revolution",
+        "Rev-p1": "Your disease symptoms are wrong! Join the revolution!",
+        "Rev-btn1": "I want to help",
         "Clinical trials": "Clinical trials",
         "Patient groups": "Patient groups",
         "Donate your data": "How can we help you?"
@@ -2331,7 +2337,7 @@
         "error2": "We are working on it"
       },
       "symptoms":{
-        "t1": "We want to create the best diagnostic tool for rare diseases. To do this we need the symptom information to be accurate. Current databases are not accurate. <ins>We need your help</ins> so that your disease is well described and we can help others who are looking for a diagnosis.",
+        "t1": "Current symptom databases are not accurate. <ins>The world needs your help</ins> so that your disease is well described and we can help others who are looking for a diagnosis.",
         "t2": "Select the most important symptoms of your disease, a maximum of 10. If you see a huge error or if you miss any symptom, please contact us using the chat below.",
         "btn": "I have checked the symptoms",
         "error1": "You have to select at least 1 symptom",
@@ -2356,7 +2362,10 @@
         "op2": "Find more patients like me",
         "op3": "Help other patients like me",
         "free": "If you want other things, write them here",
-        "msgform": "Thank you very much for your response!"
+        "msgform": "Thank you very much for your response!",
+        "p1": "Thank you. Data about your disease is very important. Foundation 29 is building a tool to speed up the diagnosis of rare diseases. Your data will be used to make this tool accurate.",
+        "p2": "At Foundation 29 we are working to make patient data usable for research. Traditional databases with information about rare diseases are inaccurate because the information does not come from patients. We want to change medicine by putting the patient at the center; the first step is to make their data usable.",
+        "p3": "If you want to join this revolution and be informed of our progress sign up for our newsletter."
       }
     }
   },
@@ -2368,7 +2377,7 @@
     "p1": "First, let us know who you are:",
     "p1.1": "I'm a patient",
     "p1.2": "I'm a physician",
-    "p2": "What kind of patient are you?",
+    "p2": "Start again",
     "p2.1": "I'm looking for a diagnosis",
     "p2.2": "I want information about a disease"
   },

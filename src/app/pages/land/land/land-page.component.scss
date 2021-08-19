@@ -21,6 +21,13 @@ a {
     color: #33658A;
 }
 
+.listDisease {
+  display:block;
+  max-height:270px;
+  min-height:270px;
+  overflow-y:auto;
+}
+
 .btn-primary {
     color: #fff;
     background-color: #33658A;
@@ -33,8 +40,69 @@ a {
     border-color: #33658A;
 }
 
+.w-13{
+  width: 13px;
+}
 
-@media (min-width: 768px) {
+.margin-top{
+  padding-top: 2.75rem !important;
+}
+
+.titleneon {
+  color:#f9423a;
+  font-family: 'monospace', sans-serif;
+  font-size:64px;
+}
+
+.content2{
+	font-family: monospace;
+  margin: auto;
+	color: #fff;
+	padding: 7%;;
+}
+
+#title{
+	text-align: center;
+	font-size : 1.5em;
+  line-height: normal;
+}
+
+.btn-white{
+  color: #f9423a !important
+}
+
+.border {
+  border: 5px solid #fff !important;
+}
+
+.rounded {
+  border-radius: 1.25rem !important;
+}
+
+::ng-deep .modal-content {
+  background-color: unset !important;
+  border: unset !important;
+}
+
+.neonText {
+  color: #fff;
+  text-shadow:
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 21px #fff,
+      0 0 42px #fff,
+      0 0 82px #fff,
+      0 0 92px #fff,
+      0 0 102px #fff,
+      0 0 151px #fff;
+}
+
+#text{
+	text-align: left;
+	font-size : 1.25em;
+}
+
+@media (max-width: 768px) {
     html {
         font-size: 16px;
     }
@@ -44,6 +112,14 @@ a {
     
     .full-height-vh{
       height:auto !important;
+    }
+
+    table, thead, tbody, th, td, tr {
+      display: block; 
+    }
+
+    .margin-top{
+      padding-top: 0.75rem !important;
     }
   }
 

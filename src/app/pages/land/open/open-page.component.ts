@@ -189,7 +189,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         //this.googleAnalyticsService.eventEmitter("OpenDx - init: "+result, "general", this.myuuid);
         //this.googleAnalyticsService.eventEmitter("OpenDx - init", "general", this.myuuid, 'init', 5);
         this._startTime = Date.now();
-        this.lauchEvent("Init");
+        //this.lauchEvent("Init");
         //gtag('event',this.myuuid,{"event_category":"init", "event_label": 0});
     }
 
@@ -1804,6 +1804,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         if(this.numberOfSymtomsChecked==0){
             Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
         }else{
+            this.lauchEvent('Diagnosed - Send Symptoms');
             var listChecked = [];
             for (var i = 0; i < this.infoOneDisease.symptoms.length; i++) {
                 if (this.infoOneDisease.symptoms[i].checked) {
