@@ -126,10 +126,13 @@ $shadow-24dp: 0 9px 46px 8px rgba($black, $shadow-penumbra-opacity),
 
 $bg-color-dark: #101010;
 $dl-text-color: #bdbdc7;
-$dl-bg-color: #fff;
+//$dl-text-color: #119f05 !important;
+$dl-bg-color: rgb(0, 0, 0);
 $dl-headings-color: #fff;
 $dl-text-muted-color: #b1b1bb;
 $dl-border-color: #616279;
+$dl-p-color: #fff !important;
+$dl-link-color: #009DA0;
 
 //////////////////////////////////////////////
 

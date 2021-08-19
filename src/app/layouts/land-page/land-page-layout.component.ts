@@ -28,7 +28,6 @@ var fireRefreshEventOnWindow = function() {
 })
 
 export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild("sidebarBgImage", {static: true}) sidebarBgImage: ElementRef;
   @ViewChild("appSidebar", {static: true}) appSidebar: ElementRef;
   @ViewChild("wrapper", {static: true}) wrapper: ElementRef;
   currentDate : Date = new Date();
@@ -78,28 +77,12 @@ export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy
           }
           if (options.bgImage) {
             this.bgImage = options.bgImage;
-            this.renderer.setAttribute(
-              this.sidebarBgImage.nativeElement,
-              "style",
-              'background-image: url("' + this.bgImage + '")'
-            );
           }
 
           if (options.bgImageDisplay === true) {
             this.bgImage = options.bgImage;
-            this.renderer.setAttribute(
-              this.sidebarBgImage.nativeElement,
-              "style",
-              'display: block; background-image: url("' + this.bgImage + '")'
-            );
           } else if (options.bgImageDisplay === false) {
             this.bgImage = "";
-            // this.renderer.setAttribute(this.sidebarBgImage.nativeElement, 'style', 'display: none');
-            this.renderer.setAttribute(
-              this.sidebarBgImage.nativeElement,
-              "style",
-              "background-image: none"
-            );
           }
 
           if (options.compactMenu === true) {
@@ -286,11 +269,6 @@ export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy
         this.bgImage = "";
         this.options.bgImage = "";
         this.bgImage = "";
-        this.renderer.setAttribute(
-          this.sidebarBgImage.nativeElement,
-          "style",
-          "background-image: none"
-        );
       }
     }, 0);
   }
