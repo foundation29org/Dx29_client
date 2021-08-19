@@ -24,12 +24,12 @@ body {
       border: 3px solid orange;  /* creates padding around scroll thumb */
     }
 
-    p{
+    p, span{
       color:$dl-p-color;
     }
 
     a,.info{
-      color: $dl-headings-color !important;
+      color: $dl-link-color !important;
     }
 
     .nav-tabs .nav-link.active{

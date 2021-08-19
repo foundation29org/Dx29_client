@@ -10,10 +10,10 @@
                 <p class="mt-3" [innerHTML]="'preland.t2' | translate"></p>
                 <p>{{'preland.t3' | translate }}</p>
                 <p>{{'preland.t4' | translate }}</p>
-                <div *ngIf="role!=''">
+                <!--<div *ngIf="role!=''">
                   <span class="card-title grey mb-3" title="reload"
                   (click)="restartVars()" style="cursor: pointer;">{{'preland.p2' | translate }} <em class="fa fa-refresh grey ml-1"></em></span>
-                </div>
+                </div>-->
               </div>
               <div class="col-lg-12 col-md-12 py-3">
                 <div *ngIf="role==''">
@@ -75,7 +75,7 @@
                                   <span *ngIf="listOfFilteredDiseases.length>0">
                                     <div class="table-cont">
                                       <table class="table mb-0 bg-white" aria-labelledby="rare disease">
-                                        <tbody style="max-height: initial;min-height: initial">
+                                        <tbody class="listDisease">
                                           <tr *ngFor="let disease of listOfFilteredDiseases ; let i = index" class="d-flex">
                                             <td class="col-md-12" id="{{disease.id}}"
                                               (click)="showMoreInfoDiagnosePopup(i,contentInfoDiagnose);lauchEvent('Diagnosed - Select Disease');" style="cursor: pointer;"
@@ -112,30 +112,31 @@
   </div>
 </section>
 <ng-template #contentInfoDiagnose let-c="close" let-d="dismiss" appendTo="body">
-  <div class="modal-body content-wrapper p-2 border" style="min-height: 75vh;">
-    <div *ngIf="showIntro" class="pt-2">
+  <a id="step1"></a>
+  <div class="modal-body content-wrapper p-2 border rounded" style="min-height: 75vh;">
+    <div *ngIf="showIntro && !dontShowIntro" class="pt-2 margin-top">
       <div class="col-md-12 pt-2">
         <div class="center-elements mt-3">
-            <span id="text" class="leds p-2" style="display: inline-flex;">
-              <h1 class="titleneon">D<span id="offset">x</span>29</h1>
+            <span id="text" class="p-2" style="display: inline-flex;">
+              <h1 class="titleneon">{{'generics.Foundation 29' | translate }}</h1>
             </span>
-            <div class="container mt-2">
-              <h1 class="neonText">
+            <!--<div class="container mt-2">
+              <h1 class="neonText ml-2">
                 {{'land.diagnosed.general.Rev-t1' | translate }}
               </h1>
               <h2 class="neonText">{{'land.diagnosed.general.Rev-t2' | translate }}</h2> 
-          
-           </div>
-            <div class="content2" id="title">{{'land.diagnosed.general.Rev-p1' | translate }}</div>
+           </div>-->
+            <div class="content2" id="title" [innerHTML]="'land.diagnosed.symptoms.t1' | translate"></div>
+            <!--<div class="content2" id="title">{{'land.diagnosed.general.Rev-p1' | translate }}</div>-->
         </div>
-        <div class="center-elements mt-3">
-          <button class="btn btn-lg btn-light btn-raised btn-navbar" (click)="letsGo();">{{'land.diagnosed.general.Rev-btn1' | translate }}</button>
+        <div class="center-elements">
+          <button class="btn btn-lg btn-outline-light btn-navbar" (click)="letsGo();">{{'land.diagnosed.general.Rev-btn1' | translate }}</button>
         </div>
       </div>
       
     </div>
-    <div *ngIf="!showIntro">
-      <div class="p-2">
+    <div *ngIf="!showIntro || dontShowIntro" class="p-2">
+      <div>
         <button type="button" class="close" [ngClass]="(infoOneDisease.symptoms!=undefined)?'white':''" aria-label="Close" (click)="closeDisease()">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -156,114 +157,138 @@
             <span *ngIf="i<(infoOneDisease.xrefs.length-1)"> </span>
           </span>
         </span>
-        <p class="mt-1 mb-0">{{infoOneDisease.desc}}</p>
+        <div class="row">
+          <span class="col-md-12">
+            <p>{{infoOneDisease.desc}}</p>
+          </span>          
+        </div>
+        <div class="row" *ngIf="infoOneDisease.symptoms!=undefined && !symtomsSent">
+          <span class="col-md-12">
+            <p class="mb-0">{{'land.diagnosed.symptoms.t2' | translate }}</p>
+          </span>
+          <div class="mt-2 col-md-12">
+            <div class="table-responsive">
+              <table class="offset-xl-3 col-xl-6 offset-md-2 col-md-8 table mb-0 text-center d-none d-sm-block">
+                <thead style="width: 100%;display: inline-table;">
+                  <tr class="border-bottom-0 border-top-0">
+                    <th class="text-left" id="Name symptom">{{'diagnosis.Symptoms' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody style="width: 100%;display: inline-table;">
+                  <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
+                    <td class="text-left">
+                      <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
+                        class="btn-outline-primary btn btn-sm mr-2 mb-0 btn-fab round"
+                        title="{{'generics.More information' | translate }} ({{symptom.id}})">
+                        <em class="fa fa-info w-13"></em>
+                      </button>
+                      <span *ngIf="symptom.name">{{symptom.name}}</span>
+                      <span *ngIf="!symptom.name">
+                        {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                          href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
+                          title="{{symptom.id}}">
+                          <i class="ft-external-link"></i></a></span>
+                    </td>
+                    <td>
+                      <span class="float-right ml-1">
+                        <button (click)="changeStateSymptomDisease(i)"
+                          class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                          [ngClass]="(symptom.checked==true)?'btn-primary':'btn-secondary '"
+                          href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
+                          <em class="fa fa-check w-13"></em>
+                        </button>
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="table mb-0 text-center d-block d-sm-none">
+                <tbody>
+                  <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="text-left">
+                    <td class="col-md-12 pb-0" style="padding: 0.4rem;">
+                      <strong>
+                        <span *ngIf="symptom.name">{{symptom.name}}</span>
+                        <span *ngIf="!symptom.name">
+                          {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                            href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
+                            title="{{symptom.id}}">
+                            <i class="ft-external-link"></i></a></span>
+                      </strong>
+                    </td>
+                    <td class="col-md-12 border-top-0 pt-0 pb-2" style="padding: 0.4rem;">
+                      <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
+                        class="btn-outline-primary btn btn-sm mr-2 mb-0 btn-fab round"
+                        title="{{'generics.More information' | translate }} ({{symptom.id}})">
+                        <em class="fa fa-info w-13"></em>
+                      </button>
+                      <span class="float-right ml-1">
+                        <button (click)="changeStateSymptomDisease(i)"
+                          class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                          [ngClass]="(symptom.checked==true)?'btn-primary':'btn-secondary '"
+                          href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
+                          <em class="fa fa-check w-13"></em>
+                        </button>
+                        <!--<button (click)="changeStateSymptomDisease(i, false)"
+                          class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                          [ngClass]="(symptom.checked==false)?'btn-danger':'btn-secondary'"
+                          href="javascript:void(0)"
+                          title="{{'phenotype.Click to uncheck it' | translate }}">
+                          <em class="fa fa-times w-13"></em>
+                        </button>-->
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="center-elements ml-2 mt-3">
+              <button class="btn btn-outline-light btn-navbar" (click)="sendSymtomsChecked(contentInfoSendSymptoms);">{{'land.diagnosed.symptoms.btn' | translate }}</button>
+            </div>
+          </div>
+        </div>
       </div>
-      <ngb-tabset>
+      <ngb-tabset *ngIf="infoOneDisease.symptoms==undefined || symtomsSent">
         <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined">
           <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Symptoms');">{{'land.diagnosed.general.Symptoms' | translate }}</strong></ng-template>
           <ng-template ngbTabContent>
-            <div class="row">
-              <span class="col-md-9">
-                <p [innerHTML]="'land.diagnosed.symptoms.t1' | translate"></p>
-                <p>{{'land.diagnosed.symptoms.t2' | translate }}</p>
-              </span>
-              <span class="col-md-3">
-                <form class="form" #f="ngForm">
-                  <span class="d-block">{{'land.diagnosed.general.Interested in the revolution' | translate }}</span>
-                  <div class="mt-1">
-                    <input class="col-md-12 form-control" type="email" id="Email" name="Email" placeholder="{{'generics.Email' | translate }}" ngModel required #Email="ngModel" email name="Email" [(ngModel)]="email">
-                    <small class="form-text danger" *ngIf="!Email.valid && showErrorForm">{{'generics.entervalidemail' | translate }}</small>
-                  </div>
-                  <div *ngIf="!sending" class="mt-2">
-                    <div *ngIf="f.valid;then formValid else formError"></div>
-                    <ng-template #formValid><button class="btn btn-outline-light" (click)="onSubmitRevolution();lauchEvent('Diagnosed - Submit Revolution');"> {{'support.Send' | translate }}</button></ng-template>
-                    <ng-template #formError><button class="btn btn-outline-light" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
-                  </div>
-                  <div class="form-actions" *ngIf="sending">
-                      <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
-                  </div>
-                </form>
-              </span>
-              <div class="col-md-12">
-                <div class="table-responsive">
-                  <table class="col-xl-6 table mb-0 text-center d-none d-sm-block">
-                    <thead style="width: 100%;display: inline-table;">
-                      <tr class="border-bottom-0 border-top-0">
-                        <th class="text-left" id="Name symptom">{{'diagnosis.Symptoms' | translate }}</th>
-                      </tr>
-                    </thead>
-                    <tbody style="width: 100%;display: inline-table;">
-                      <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
-                        <td class="text-left">
-                          <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
-                            class="btn-outline-primary btn btn-sm mr-2 mb-0 btn-fab round"
-                            title="{{'generics.More information' | translate }} ({{symptom.id}})">
-                            <em class="fa fa-info w-13"></em>
-                          </button>
+            <div class="mt-2 row col-md-12">
+              <div class="table-responsive">
+                <table class="table mb-0 text-center d-none d-sm-block">
+                  <tbody style="width: 100%;display: inline-table;">
+                    <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
+                      <td class="text-left">
+                        <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
+                          class="btn-outline-primary btn btn-sm mr-2 mb-0 btn-fab round"
+                          title="{{'generics.More information' | translate }} ({{symptom.id}})">
+                          <em class="fa fa-info w-13"></em>
+                        </button>
+                        <span *ngIf="symptom.name">{{symptom.name}}</span>
+                        <span *ngIf="!symptom.name">
+                          {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                            href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
+                            title="{{symptom.id}}">
+                            <i class="ft-external-link"></i></a></span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <table class="table mb-0 text-center d-block d-sm-none">
+                  <tbody>
+                    <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="text-left">
+                      <td class="col-md-12 pb-0" style="padding: 0.4rem;">
+                        <strong>
                           <span *ngIf="symptom.name">{{symptom.name}}</span>
                           <span *ngIf="!symptom.name">
                             {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                               href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
                               title="{{symptom.id}}">
                               <i class="ft-external-link"></i></a></span>
-                        </td>
-                        <td>
-                          <span class="float-right ml-1">
-                            <button (click)="changeStateSymptomDisease(i)"
-                              class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                              [ngClass]="(symptom.checked==true)?'btn-primary':'btn-secondary '"
-                              href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
-                              <em class="fa fa-check w-13"></em>
-                            </button>
-                          </span>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <table class="table mb-0 text-center d-block d-sm-none">
-                    <tbody>
-                      <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="text-left">
-                        <td class="col-md-12 pb-0" style="padding: 0.4rem;">
-                          <strong>
-                            <span *ngIf="symptom.name">{{symptom.name}}</span>
-                            <span *ngIf="!symptom.name">
-                              {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
-                                href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
-                                title="{{symptom.id}}">
-                                <i class="ft-external-link"></i></a></span>
-                          </strong>
-                        </td>
-                        <td class="col-md-12 border-top-0 pt-0 pb-2" style="padding: 0.4rem;">
-                          <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
-                            class="btn-outline-primary btn btn-sm mr-2 mb-0 btn-fab round"
-                            title="{{'generics.More information' | translate }} ({{symptom.id}})">
-                            <em class="fa fa-info w-13"></em>
-                          </button>
-                          <span class="float-right ml-1">
-                            <button (click)="changeStateSymptomDisease(i)"
-                              class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                              [ngClass]="(symptom.checked==true)?'btn-primary':'btn-secondary '"
-                              href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
-                              <em class="fa fa-check w-13"></em>
-                            </button>
-                            <!--<button (click)="changeStateSymptomDisease(i, false)"
-                              class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                              [ngClass]="(symptom.checked==false)?'btn-danger':'btn-secondary'"
-                              href="javascript:void(0)"
-                              title="{{'phenotype.Click to uncheck it' | translate }}">
-                              <em class="fa fa-times w-13"></em>
-                            </button>-->
-                          </span>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="ml-2 mt-3">
-                  <button class="btn btn-light btn-navbar" (click)="sendSymtomsChecked();">{{'land.diagnosed.symptoms.btn' | translate }}</button>
-                </div>
+                        </strong>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              
             </div>
           </ng-template>
         </ngb-tab>
@@ -316,7 +341,7 @@
               
             </div>
             <div *ngIf="clinicalTrials.length==0" class="col-md-12">
-              {{'land.diagnosed.clinicalTrials.msgNoTrials' | translate }} {{infoOneDisease.name}}
+              <p>{{'land.diagnosed.clinicalTrials.msgNoTrials' | translate }} {{infoOneDisease.name}}</p>
             </div>
   
           </ng-template>
@@ -390,7 +415,7 @@
 </ng-template>
 
 <ng-template #contentInfoSymptomOneDisease let-c="close" let-d="dismiss" appendTo="body">
-  <div class="modal-body content-wrapper p-2 border">
+  <div class="modal-body content-wrapper p-2 border rounded">
     <div class="p-2">
       <button type="button" class="close" [ngClass]="(infoOneDisease.symptoms!=undefined)?'white':''" aria-label="Close" (click)="closeSymptom()">
         <span aria-hidden="true">&times;</span>
@@ -405,11 +430,11 @@
     <div class="row col-md-12" class="p-2">
       <span *ngIf="infoOneDisease.symptoms[selectedInfoSymptomIndex].desc!=null">
         <h5><strong>{{'generics.Description' | translate }}</strong></h5>
-        <span>{{infoOneDisease.symptoms[selectedInfoSymptomIndex].desc}} </span>
+        <p class="mb-0">{{infoOneDisease.symptoms[selectedInfoSymptomIndex].desc}} </p>
       </span>
       <span *ngIf="infoOneDisease.symptoms[selectedInfoSymptomIndex].desc==''">
         <h5><strong>{{'generics.Description' | translate }}</strong></h5>
-        <span> {{'symptomssection.No description' | translate }} </span>
+        <p class="mb-0"> {{'symptomssection.No description' | translate }} </p>
       </span>
     </div>
     <div *ngIf="infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms">
@@ -430,6 +455,42 @@
         {{'symptomssection.No synonyms' | translate }}
       </span>
     </div>
+  </div>
+</ng-template>
 
+<ng-template #contentInfoSendSymptoms let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 border rounded">
+    <div class="p-2">
+      <button type="button" class="close" [ngClass]="(infoOneDisease.symptoms!=undefined)?'white':''" aria-label="Close" (click)="closeInfoSendSymptoms()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="row col-md-12" class="p-2">
+      <p>
+        {{'land.diagnosed.DonorData.p1' | translate }} 
+      </p>
+      <p>
+        {{'land.diagnosed.DonorData.p2' | translate }}
+      </p>
+      <p *ngIf="!sendEmail">
+        {{'land.diagnosed.DonorData.p3' | translate }}
+      </p>
+    </div>
+    <div *ngIf="!sendEmail">
+      <form class="form" #f="ngForm">
+        <div class="">
+          <input class="offset-md-3 col-md-6 form-control" type="email" id="Email" name="Email" placeholder="{{'generics.Email' | translate }}" ngModel required #Email="ngModel" email name="Email" [(ngModel)]="email">
+          <small class="pr-0 pl-0 offset-md-3 col-md-6 form-text danger" *ngIf="!Email.valid && showErrorForm">{{'generics.entervalidemail' | translate }}</small>
+        </div>
+        <div *ngIf="!sending" class="mt-2 center-elements">
+          <div *ngIf="f.valid;then formValid else formError"></div>
+          <ng-template #formValid><button class="btn btn-outline-light" (click)="onSubmitRevolution();lauchEvent('Diagnosed - Submit Revolution');"> {{'support.Send' | translate }}</button></ng-template>
+          <ng-template #formError><button class="btn btn-outline-light" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
+        </div>
+        <div class="form-actions center-elements" *ngIf="sending">
+            <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+        </div>
+      </form>
+    </div>
   </div>
 </ng-template>

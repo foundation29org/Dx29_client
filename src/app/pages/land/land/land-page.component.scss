@@ -21,12 +21,12 @@ a {
     color: #33658A;
 }
 
-/*tbody {
+.listDisease {
   display:block;
   max-height:270px;
   min-height:270px;
   overflow-y:auto;
-}*/
+}
 
 .btn-primary {
     color: #fff;
@@ -44,176 +44,44 @@ a {
   width: 13px;
 }
 
-
-
-.leds {
-  text-align:center;
-  border:5px solid #1086e8;
-  border-radius:20px;
-  animation: border-flicker 2s linear infinite;
+.margin-top{
+  padding-top: 2.75rem !important;
 }
 
 .titleneon {
   color:#f9423a;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'monospace', sans-serif;
   font-size:64px;
-  letter-spacing:10px;
-  animation: text-flicker 3s linear infinite;
-}
-
-#offset {
-  animation: letter-flicker 2s linear infinite;
-}
-
-@keyframes text-flicker {
-  0% {
-    opacity:0.1;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1);
-  }
-  
-  2% {
-    opacity:1;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1);
-  }
-  8% {
-    opacity:0.1;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1);
-  }
-  9% {
-    opacity:1;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1);
-  }
-  12% {
-    opacity:0.1;
-    text-shadow: 0px 0px rgba(242, 22, 22, 1);
-  }
-  20% {
-    opacity:1;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1)
-  }
-  25% {
-    opacity:0.3;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1)
-  }
-  30% {
-    opacity:1;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1)
-  }
-  
-  70% {
-    opacity:0.7;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1)
-  }
-  
-  72% {
-    opacity:0.2;
-    text-shadow:0px 0px 29px rgba(242, 22, 22, 1)
-  }
-  
-  77% {
-    opacity:.9;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1)
-  }
-  100% {
-    opacity:.9;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1)
-  }
-}
-
-@keyframes border-flicker {
-  0% {
-    opacity:0.1;
-    -webkit-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
--moz-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
-  }
-  2% {
-    opacity:1;
-    -webkit-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
--moz-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
-  }
-  4% {
-    opacity:0.1;
-    -webkit-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
--moz-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
-  }
-  
-  8% {
-    opacity:1;
-    -webkit-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
--moz-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
-  }
-  70% {
-    opacity:0.7;
-    -webkit-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
--moz-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
-  }
-  100% {
-    opacity:1;
-    -webkit-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
--moz-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
-box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
-  }
-}
-
-@keyframes letter-flicker {
-  0% {
-    opacity:0.1;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1);
-  }
-  2% {
-    opacity:0.1;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1);
-  }
-  4% {
-    opacity:1;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1);
-  }
-  
-  
-  19% {
-    opacity:1;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1);
-  }
-  21% {
-    opacity:0.1;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1);
-  }
-  23% {
-    opacity:1;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1);
-  }
-  
-  80% {
-    opacity:1;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1);
-  }
-  83% {
-    opacity:0.4;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1);
-  }
-  87% {
-    opacity:1;
-    text-shadow: 0px 0px 29px rgba(242, 22, 22, 1);
-  }
 }
 
 .content2{
 	font-family: monospace;
   margin: auto;
-	color: cyan;
+	color: #fff;
 	padding: 7%;;
 }
 
 #title{
 	text-align: center;
 	font-size : 1.5em;
-	border-bottom : solid 1px cyan;
   line-height: normal;
+}
+
+.btn-white{
+  color: #f9423a !important
+}
+
+.border {
+  border: 5px solid #fff !important;
+}
+
+.rounded {
+  border-radius: 1.25rem !important;
+}
+
+::ng-deep .modal-content {
+  background-color: unset !important;
+  border: unset !important;
 }
 
 .neonText {
@@ -222,11 +90,11 @@ box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
       0 0 7px #fff,
       0 0 10px #fff,
       0 0 21px #fff,
-      0 0 42px #0fa,
-      0 0 82px #0fa,
-      0 0 92px #0fa,
-      0 0 102px #0fa,
-      0 0 151px #0fa;
+      0 0 42px #fff,
+      0 0 82px #fff,
+      0 0 92px #fff,
+      0 0 102px #fff,
+      0 0 151px #fff;
 }
 
 #text{
@@ -234,7 +102,7 @@ box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
 	font-size : 1.25em;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
     html {
         font-size: 16px;
     }
@@ -248,6 +116,10 @@ box-shadow: 0px 0px 78px 4px rgba(16,134,232,0.73);
 
     table, thead, tbody, th, td, tr {
       display: block; 
+    }
+
+    .margin-top{
+      padding-top: 0.75rem !important;
     }
   }
 

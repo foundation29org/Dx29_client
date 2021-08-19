@@ -2322,13 +2322,13 @@
     "diagnosed":{
       "general":{
         "title": "General",
-        "Symptoms": "La revolución",
+        "Symptoms": "Síntomas",
         "Interested in the revolution": "¿Interesado en la revolución?",
         "msgSend": "Bienvenido a la rebelión, sabrás de nosotros",
         "Rev-t1": "Apúntate",
         "Rev-t2": "a la revolución",
-        "Rev-p1": "Los síntomas de tu enfermedad son incorrectos! Apuntate a la revolución y deja el email. Ya eres de la rebelión, sabrás de nosotros. Objetivo email y curación!",
-        "Rev-btn1": "¡Vamos!",
+        "Rev-p1": "Los síntomas de tu enfermedad son incorrectos! Apuntate a la revolución!",
+        "Rev-btn1": "Quiero ayudar",
         "Clinical trials": "Ensayos clínicos",
         "Patient groups": "Grupos de pacientes",
         "Donate your data": "¿Cómo podemos ayudarte?"
@@ -2338,7 +2338,7 @@
         "error2": "Estamos trabajando en ello"
       },
       "symptoms":{
-        "t1": "Queremos crear la mejor herramienta de diagnóstico de enfermedades raras. Para ello necesitamos que la información de los síntomas sea precisa. Las bases de datos actuales no lo son. <ins>Necesitamos tu ayuda</ins> para que tu enfermedad esté bien descrita y poder ayudar a otros que están en busca de un diagnóstico.",
+        "t1": "Las bases de datos actuales de síntomas no son precisas. <ins>El mundo necesita tu ayuda</ins> para que tu enfermedad esté bien descrita y poder ayudar a otros que están en busca de un diagnóstico.",
         "t2": "Selecciona los síntomas más importantes de tu enfermedad, un máximo de 10. Si ves un error grave o echas en falta algún síntoma, ponte en contacto con nosotros.",
         "btn": "He revisado los síntomas",
         "error1": "Tienes que seleccionar al menos 1 síntoma",
@@ -2363,7 +2363,10 @@
         "op2": "Buscar más pacientes como yo",
         "op3": "Ayudar a otros pacientes como yo",
         "free": "Si quieres otras cosas, escríbelas aquí",
-        "msgform": "Muchas gracias por responder!"
+        "msgform": "Muchas gracias por responder!",
+        "p1": "Gracias. Los datos sobre tu enfermedad son muy importantes. Fundación 29 está construyendo una herramienta para agilizar el diagnóstico de enfermedades raras. Tus datos se usarán para que esta herramienta sea precisa.",
+        "p2": "En Fundación 29 trabajamos para que los datos de los pacientes se pueden usar en investigación. Las bases de datos tradicionales con información sobre enfermedades raras son imprecisas porque la información no viene de los pacientes. Queremos cambiar la medicina poniendo al paciente en el centro, el primer paso es hacer que sus datos se usen.",
+        "p3": "Si quieres unirte a esta revolución y estar informado de nuestros avances apúntate a nuestra newsletter."
       }
     }
   },

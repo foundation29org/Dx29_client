@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild, Output, EventEmitter, AfterViewInit, ElementRef, Renderer2 } from '@angular/core';
+import { Router, ActivatedRoute } from "@angular/router";
 import { NgForm } from '@angular/forms';
 import { HttpClient } from "@angular/common/http";
 import { TranslateService } from '@ngx-translate/core';
@@ -45,6 +46,7 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
     infoOneDisease: any = {};
     modalReference: NgbModalRef;
     modalReference2: NgbModalRef;
+    modalReference3: NgbModalRef;
     numberOfSymtomsChecked: number = 0;
     clinicalTrials: any = {};
 
@@ -53,7 +55,11 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
     formOpen: any = {Answers:[], Free: '', Email: '', terms2: false};
     showErrorForm: boolean = false;
     selectedInfoSymptomIndex: number = -1;
-    showIntro =true;
+    showIntro: boolean = true;
+    symtomsSent: boolean = false;
+    curatedLists: any = [];
+    sendEmail: boolean = false;
+    dontShowIntro: boolean = false;
 
     //colors
     options = {
@@ -77,7 +83,8 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
       selectedTLBgImage: string = "";
       email: string = '';
 
-    constructor(public googleAnalyticsService: GoogleAnalyticsService, private searchService: SearchService, private eventsService: EventsService, private http: HttpClient, public searchFilterPipe: SearchFilterPipe, private apif29BioService: Apif29BioService, private modalService: NgbModal, public translate: TranslateService, public toastr: ToastrService, private textTransform: TextTransform, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private apiClinicalTrialsService: ApiClinicalTrialsService,private elRef: ElementRef,
+    constructor(private router: Router, private route: ActivatedRoute, public googleAnalyticsService: GoogleAnalyticsService, private searchService: SearchService, private eventsService: EventsService, private http: HttpClient, public searchFilterPipe: SearchFilterPipe, private apif29BioService: Apif29BioService, private modalService: NgbModal, public translate: TranslateService, public toastr: ToastrService, private textTransform: TextTransform, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private apiClinicalTrialsService: ApiClinicalTrialsService,private elRef: ElementRef,
+        
         private renderer: Renderer2,
         private layoutService: LayoutService,
         private configService: ConfigService) {
@@ -116,7 +123,26 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
     @Output() directionEvent = new EventEmitter<Object>();
 
     ngOnInit() {
+        var param = this.router.parseUrl(this.router.url).queryParams;
+        if(param.role){
+            this.role = param.role;
+            if(this.role=='diagnosed'){
+                  this.loadListOfDiseases();
+              }
+        }
+        /*this.subscription.add( this.route.params.subscribe(params => {
+            if(params['role']!=undefined){
+              this.role = params['role'];
+              if(this.role=='diagnosed'){
+                    this.loadListOfDiseases();
+                }
+                if(this.role=='undiagnosed' || this.role=='clinician'){
+                }
+            }
+          }));*/
+
         this.eventsService.on('changelang', function (lang) {
+            this.lang = lang;
             this.loadFilesLang();
         }.bind(this));
 
@@ -408,7 +434,6 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
     }*/
 
     changeStateSymptomDisease(index) {
-        console.log(this.infoOneDisease.symptoms[index].checke);
         if(this.infoOneDisease.symptoms[index].checked){
             this.infoOneDisease.symptoms[index].checked= !this.infoOneDisease.symptoms[index].checked;
         }else{
@@ -426,7 +451,7 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
         }
     }
 
-    sendSymtomsChecked(){
+    sendSymtomsChecked(contentInfoSendSymptoms){
         if(this.numberOfSymtomsChecked==0){
             Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
         }else{
@@ -440,7 +465,19 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
             var info = {idClient: this.myuuid, diseaseId: this.infoOneDisease.id, xrefs:this.infoOneDisease.xrefs, symptoms: listChecked};
             this.subscription.add(this.apiDx29ServerService.chekedSymptomsOpenDx29(info)
                 .subscribe((res: any) => {       
-                    Swal.fire(this.translate.instant("land.diagnosed.symptoms.Nice"), this.translate.instant("land.diagnosed.symptoms.msgCheckedSymptoms"), "success"); 
+                    document.getElementById('step1').scrollIntoView(true);
+                    this.curatedLists.push({id:this.infoOneDisease.id});
+                    this.dontShowIntro = true;
+                    let ngbModalOptions: NgbModalOptions = {
+                        backdrop: 'static',
+                        keyboard: false,
+                        windowClass: 'ModalClass-lg'// xl, lg, sm
+                    };
+                    if (this.modalReference3 != undefined) {
+                        this.modalReference3.close();
+                    }
+                    this.modalReference3 = this.modalService.open(contentInfoSendSymptoms, ngbModalOptions);
+                   // Swal.fire(this.translate.instant("land.diagnosed.symptoms.Nice"), this.translate.instant("land.diagnosed.symptoms.msgCheckedSymptoms"), "success"); 
                 }));
         }
     }
@@ -469,7 +506,6 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
                         }
                     }
                 }
-                console.log(this.clinicalTrials);
                 //this.clinicalTrials = res.FullStudiesResponse.FullStudies;
             }, (err) => {
                 console.log(err);
@@ -504,7 +540,7 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
             this.subscription.add( this.http.post('https://prod-12.westeurope.logic.azure.com:443/workflows/183bc21bfa054c77ac44c297e1f3bd04/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=rYHWLbMjZrv_q3yN8EezS5zA2Jmvyxc16-zKtn4zQz0', params)
             .subscribe( (res : any) => {
               this.sending = false;
-              Swal.fire('', this.translate.instant("land.diagnosed.DonorData.msgform"), "success"); 
+              Swal.fire('', this.translate.instant("land.diagnosed.DonorData.msgform"), "success");
               this.formOpen= {Answers:[], Free: '', Email: '', terms2: false};
              }, (err) => {
                console.log(err);
@@ -551,11 +587,20 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
     }
 
     showEffects(contentInfoDiagnose){
-        if(this.infoOneDisease.symptoms!=undefined){
+        var foundElement = this.searchService.search(this.curatedLists, 'id', this.infoOneDisease.id);
+        if(foundElement){
+            this.showIntro = false;
+            this.symtomsSent = true;
             this.onDarkLayout();
         }else{
-            this.showIntro = false;
+            if(this.infoOneDisease.symptoms!=undefined){
+                this.onDarkLayout();
+            }else{
+                this.showIntro = false;
+                this.onDarkLayout();
+            }
         }
+        
         
         
         let ngbModalOptions: NgbModalOptions = {
@@ -590,8 +635,16 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
         if (this.modalReference2 != undefined) {
             this.modalReference2.close();
             this.showIntro = true;
+            this.symtomsSent = false;
         }
         this.onLightLayout();
+      }
+
+      closeInfoSendSymptoms(){
+        if (this.modalReference3 != undefined) {
+            this.modalReference3.close();
+            this.symtomsSent = true;
+        }
       }
 
       onLightLayout() {
@@ -622,7 +675,13 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
         this.subscription.add( this.http.post('https://prod-59.westeurope.logic.azure.com:443/workflows/2d7a82d83b4c4b92a8270a84540b0213/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=fnADjHH0yXxYxonVtre2_yrUFyQ0LR4cX2PJSnPwmrM', params)
         .subscribe( (res : any) => {
             this.sending = false;
-            Swal.fire('', this.translate.instant("land.diagnosed.general.msgSend"), "success");
+            this.symtomsSent = true;
+            this.sendEmail = true;
+            //Swal.fire('', this.translate.instant("land.diagnosed.general.msgSend"), "success");
+            Swal.fire('', this.translate.instant("land.diagnosed.DonorData.msgform"), "success");
+            if (this.modalReference3 != undefined) {
+                this.modalReference3.close();
+            }
             this.email = ''; 
             }, (err) => {
             console.log(err);
