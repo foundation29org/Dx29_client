@@ -2337,8 +2337,10 @@
         "error2": "We are working on it"
       },
       "symptoms":{
+        "title": "Attention",
+        "subtitle": "En <a href='http://foundation29.org/' target='_blank'>Fundación 29</a> trabajamos para arreglar este problema.",
         "t1": "Current symptom databases are not accurate. <ins>The world needs your help</ins> so that your disease is well described and we can help others who are looking for a diagnosis.",
-        "t2": "Select the most important symptoms of your disease, a maximum of 10. If you see a huge error or if you miss any symptom, please contact us using the chat below.",
+        "t2": "Select the most important symptoms of your disease, a maximum of 10.",
         "btn": "I have checked the symptoms",
         "error1": "You have to select at least 1 symptom",
         "Nice": "Nice!",
@@ -2362,10 +2364,12 @@
         "op2": "Find more patients like me",
         "op3": "Help other patients like me",
         "free": "If you want other things, write them here",
-        "msgform": "Thank you very much for your response!",
-        "p1": "Thank you. Data about your disease is very important. Foundation 29 is building a tool to speed up the diagnosis of rare diseases. Your data will be used to make this tool accurate.",
-        "p2": "At Foundation 29 we are working to make patient data usable for research. Traditional databases with information about rare diseases are inaccurate because the information does not come from patients. We want to change medicine by putting the patient at the center; the first step is to make their data usable.",
-        "p3": "If you want to join this revolution and be informed of our progress sign up for our newsletter."
+        "msgform": "Thank you for joining the patient revolution!",
+        "title": "Thank you",
+        "p1": "The data you can give us about your disease is very important. Because that information does not come directly from patients, traditional databases - which are used to make diagnoses - contain inaccurate information about rare diseases.",
+        "p2": "At Fundación 29 we want to change the way medicine is done. We want patient data to be used and for more research to be done with it.",
+        "p3": "We are building a tool to speed up the diagnosis of rare diseases (Dx29) and we need your data to make it more accurate so we can help more and more patients.",
+        "p4": "Join our revolution by leaving your email address here and we will keep you informed of all our progress."
       }
     }
   },

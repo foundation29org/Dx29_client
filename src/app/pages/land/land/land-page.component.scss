@@ -17,14 +17,9 @@
   height: 80px;
 }
 
-a {
-    color: #33658A;
-}
-
 .listDisease {
   display:block;
   max-height:270px;
-  min-height:270px;
   overflow-y:auto;
 }
 
@@ -54,16 +49,9 @@ a {
   font-size:64px;
 }
 
-.content2{
-	font-family: monospace;
-  margin: auto;
-	color: #fff;
-	padding: 7%;;
-}
-
 #title{
 	text-align: center;
-	font-size : 1.5em;
+	font-size : 1.25em;
   line-height: normal;
 }
 
@@ -71,16 +59,7 @@ a {
   color: #f9423a !important
 }
 
-.border {
-  border: 5px solid #fff !important;
-}
-
-.rounded {
-  border-radius: 1.25rem !important;
-}
-
 ::ng-deep .modal-content {
-  background-color: unset !important;
   border: unset !important;
 }
 

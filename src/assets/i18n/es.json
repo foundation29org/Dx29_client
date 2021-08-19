@@ -2338,8 +2338,10 @@
         "error2": "Estamos trabajando en ello"
       },
       "symptoms":{
+        "title": "Attention",
+        "subtitle": "At <a href='http://foundation29.org/' target='_blank'>Foundation 29</a> we are working to fix this problem.",
         "t1": "Las bases de datos actuales de síntomas no son precisas. <ins>El mundo necesita tu ayuda</ins> para que tu enfermedad esté bien descrita y poder ayudar a otros que están en busca de un diagnóstico.",
-        "t2": "Selecciona los síntomas más importantes de tu enfermedad, un máximo de 10. Si ves un error grave o echas en falta algún síntoma, ponte en contacto con nosotros.",
+        "t2": "Selecciona los síntomas más importantes de tu enfermedad, un máximo de 10.",
         "btn": "He revisado los síntomas",
         "error1": "Tienes que seleccionar al menos 1 síntoma",
         "Nice": "¡Bien!",
@@ -2363,10 +2365,12 @@
         "op2": "Buscar más pacientes como yo",
         "op3": "Ayudar a otros pacientes como yo",
         "free": "Si quieres otras cosas, escríbelas aquí",
-        "msgform": "Muchas gracias por responder!",
-        "p1": "Gracias. Los datos sobre tu enfermedad son muy importantes. Fundación 29 está construyendo una herramienta para agilizar el diagnóstico de enfermedades raras. Tus datos se usarán para que esta herramienta sea precisa.",
-        "p2": "En Fundación 29 trabajamos para que los datos de los pacientes se pueden usar en investigación. Las bases de datos tradicionales con información sobre enfermedades raras son imprecisas porque la información no viene de los pacientes. Queremos cambiar la medicina poniendo al paciente en el centro, el primer paso es hacer que sus datos se usen.",
-        "p3": "Si quieres unirte a esta revolución y estar informado de nuestros avances apúntate a nuestra newsletter."
+        "msgform": "Gracias por unirte a la revolución de los pacientes!",
+        "title": "Gracias",
+        "p1": "Los datos que tú nos puedes dar sobre tu enfermedad son muy importantes. Porque esa información no viene directamente de los pacientes, las bases de datos tradicionales - que se usan para hacer los diagnósticos - contienen información imprecisa sobre las enfermedades raras.",
+        "p2": "En Fundación 29 queremos cambiar la forma en la que se hace Medicina. Queremos que los datos de los pacientes se usen y que se pueda hacer más investigación con ellos.",
+        "p3": "Estamos construyendo una herramienta para agilizar el diagnóstico de enfermedades raras (Dx29) y necesitamos tus datos para hacerla más precisa y así poder ayudar a más y más pacientes.",
+        "p4": "Únete a nuestra revolución dejando aquí tu dirección de correo electrónico y además te mantendremos informado de todos nuestros avances."
       }
     }
   },

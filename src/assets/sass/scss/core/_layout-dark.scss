@@ -117,12 +117,12 @@ body {
     // Table & DataTables
     .table {
       thead th {
-        border-bottom: 2px solid $dl-border-color;
+        border-bottom: 2px solid $dl-headings-color;
       }
 
       th,
       td {
-        border-top: 2px solid $dl-border-color;
+        border-top: 2px solid $dl-headings-color;
       }
 
       .bg-light {

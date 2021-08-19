@@ -60,7 +60,8 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
     curatedLists: any = [];
     sendEmail: boolean = false;
     dontShowIntro: boolean = false;
-
+    showAllDescrip: boolean = false;
+    
     //colors
     options = {
         direction: "ltr",
@@ -471,7 +472,7 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
                     let ngbModalOptions: NgbModalOptions = {
                         backdrop: 'static',
                         keyboard: false,
-                        windowClass: 'ModalClass-lg'// xl, lg, sm
+                        windowClass: 'ModalClass-sm'// xl, lg, sm
                     };
                     if (this.modalReference3 != undefined) {
                         this.modalReference3.close();
@@ -591,7 +592,7 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
         if(foundElement){
             this.showIntro = false;
             this.symtomsSent = true;
-            this.onDarkLayout();
+            //this.onDarkLayout();
         }else{
             if(this.infoOneDisease.symptoms!=undefined){
                 this.onDarkLayout();
@@ -606,23 +607,24 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
         let ngbModalOptions: NgbModalOptions = {
             backdrop: 'static',
             keyboard: false,
-            windowClass: 'ModalClass-lg'// xl, lg, sm
+            windowClass: 'ModalClass-sm'// xl, lg, sm
         };
         if (this.modalReference2 != undefined) {
             this.modalReference2.close();
         }
+        this.showAllDescrip=false;
         this.modalReference2 = this.modalService.open(contentInfoDiagnose, ngbModalOptions);
     }
 
     onDarkLayout() {
-        this.options.layout = "Dark";
+       /* this.options.layout = "Dark";
         this.options.bgColor = "black";
         this.selectedBgColor = "black";
         if (this.isBgImageDisplay) {
           this.options.bgImageDisplay = true;
         }
         //emit event to FUll Layout
-        this.layoutService.emitCustomizerChange(this.options);
+        this.layoutService.emitCustomizerChange(this.options);*/
       }
 
       closeSymptom(){
@@ -638,13 +640,6 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
             this.symtomsSent = false;
         }
         this.onLightLayout();
-      }
-
-      closeInfoSendSymptoms(){
-        if (this.modalReference3 != undefined) {
-            this.modalReference3.close();
-            this.symtomsSent = true;
-        }
       }
 
       onLightLayout() {
@@ -663,6 +658,24 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
           this.showIntro = false;
       }
 
+      closeInfoSendSymptoms(){
+        if (this.modalReference3 != undefined) {
+            this.modalReference3.close();
+            Swal.fire({
+                icon: 'success',
+                html: this.translate.instant("land.diagnosed.symptoms.msgCheckedSymptoms"),
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false
+            })
+            setTimeout(function () {
+                Swal.close();
+                window.location.href = 'https://foundation29.org/';
+            }, 2000);
+            this.symtomsSent = true;
+        }
+      }
+
       onSubmitRevolution(){
         this.showErrorForm = false;
         this.sending = true;
@@ -678,7 +691,18 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
             this.symtomsSent = true;
             this.sendEmail = true;
             //Swal.fire('', this.translate.instant("land.diagnosed.general.msgSend"), "success");
-            Swal.fire('', this.translate.instant("land.diagnosed.DonorData.msgform"), "success");
+            Swal.fire({
+                icon: 'success',
+                html: this.translate.instant("land.diagnosed.DonorData.msgform"),
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false
+            })
+            setTimeout(function () {
+                Swal.close();
+                window.location.href = 'https://foundation29.org/';
+            }, 2000);
+            
             if (this.modalReference3 != undefined) {
                 this.modalReference3.close();
             }
@@ -689,6 +713,10 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
             this.toastr.error('', this.translate.instant("generics.error try again"));
             }));
         
+    }
+
+    showAllDesc(){
+        this.showAllDescrip=true;
     }
 
 }
