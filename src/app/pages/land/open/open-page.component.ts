@@ -118,6 +118,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     selectedDiseaseIndex: number = -1;
     infoOneDisease: any = {};
     sendTerms: boolean = false;
+    sendSympTerms: boolean = false;
 
     @ViewChild("inputTextArea") inputTextAreaElement: ElementRef;
     @ViewChild("inputManualSymptoms") inputManualSymptomsElement: ElementRef;
@@ -145,7 +146,25 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 const searchResults = ((phenotypesinfo.filter(v => v.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").indexOf(term.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim()) > -1).slice(0, 100))).concat((phenotypesinfo.filter(v => v.id.toLowerCase().indexOf(term.toLowerCase().trim()) > -1).slice(0, 100)))
                 if(searchResults.length==0){
                     this.showErrorMsg = true;
+
+                    if(!this.sendSympTerms){
+                        //send text
+                        this.sendSympTerms= true;
+                        var params:any = {}
+                        params.uuid= this.myuuid;
+                        params.Term = term;
+                        params.Lang = sessionStorage.getItem('lang');
+                        var d = new Date(Date.now());
+                        var a = d.toString();
+                        params.Date = a;
+                        this.subscription.add( this.http.post('https://prod-112.westeurope.logic.azure.com:443/workflows/95df9b0148cf409f9a8f2b0853820beb/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OZyXnirC5JTHpc_MQ5IwqBugUqI853qek4o8qjNy7AA', params)
+                        .subscribe( (res : any) => {
+                         }, (err) => {
+                         }));
+                    }
+                    
                 }else{
+                    this.sendSympTerms = false;
                     this.showErrorMsg = false;
                 }
                 return searchResults.length > 0 ? searchResults : [{name:this.translate.instant("land.We have not found anything"), desc: this.translate.instant("land.Please try a different search"), error: true}];
