@@ -29,23 +29,11 @@
                     <div>
                       <textarea #inputTextArea class="form-control" style="height:30vh;" [(ngModel)]="medicalText"
                         name="medicalText" placeholder="{{'land.placeholder' | translate }}"></textarea>
-                      <!--<mat-checkbox
-                            class="example-margin mt-0" name="lucky" [(ngModel)]="lucky">
-                          <label (click)="changeLucky()" style="cursor: pointer;">
-                            <span>Voy a tener suerte</span>
-                          </label>
-                        </mat-checkbox>-->
                     </div>
                     <div class="text-center mt-2">
                       <button type="button" class="btn btn-lg btn-info btn-raised"
                         [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholderError') : getLiteral('land.Extract')"
                         (click)="startExtractor();"><em class="ml-1 mr-1 mt-1 mb-1 fas fa-play fa-2x"></em></button>
-                      <!--
-                          <button type="button" class="btn btn-lg btn-secondary btn-raised"
-                        [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholder') : getLiteral('land.Extract')"
-                        [ngClass]="(medicalText.length<5)?'not-allowed':'btn-info'" [disabled]="medicalText.length<5"
-                        (click)="startExtractor();"><em class="ml-1 mr-1 mt-1 mb-1 fas fa-play fa-2x"></em></button>
-                        -->
                     </div>
                   </ng-template>
                 </ngb-tab>
@@ -263,25 +251,6 @@
                 [attr.title]="(numberOfSymtomsChecked<minSymptoms) ? getLiteral('land.You need to select more symptoms') : getLiteral('land.See suggested diseases')">
                 <span>{{'land.See suggested diseases' | translate }}</span>
               </button>
-              <!--
-                <button type="button" class="btn btn-secondary btn-lg btn-raised pb-2 font-medium-3"
-                (click)="calculate();" [disabled]="numberOfSymtomsChecked<minSymptoms"
-                [attr.title]="(numberOfSymtomsChecked<minSymptoms) ? getLiteral('land.You need to select more symptoms') : getLiteral('land.See suggested diseases')"
-                [ngClass]="(numberOfSymtomsChecked<minSymptoms)?'not-allowed':'btn-info'">
-                <span>{{'land.See suggested diseases' | translate }}</span>
-                <span *ngIf="numberOfSymtomsChecked<minSymptoms" class="d-block font-small-3">
-                  {{'land.You have selected' | translate }} {{numberOfSymtomsChecked}} {{'land.symptom' | translate
-                  }}<span *ngIf="numberOfSymtomsChecked!=1">s</span>
-                  <span class="d-block" *ngIf="numberOfSymtomsChecked<minSymptoms && temporalSymptoms.length > 4">
-                    {{'land.You must select at least' | translate }} {{minSymptoms}} {{'land.symptom' | translate }}s
-                    {{'land.in order to continue' | translate }}
-                  </span>
-                  <span *ngIf="numberOfSymtomsChecked<minSymptoms && temporalSymptoms.length < 5" class="danger d-block">
-                    {{'land.addMoreSymp' | translate }}
-                  </span>
-                </span>
-              </button>
-              -->
             </div>
           </div>
           <div *ngIf="loadingCalculate && substepExtract!='0'" class="col-md-12 align-self-center center-elements">

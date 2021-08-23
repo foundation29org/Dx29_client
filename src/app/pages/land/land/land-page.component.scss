@@ -85,6 +85,10 @@
     html {
         font-size: 16px;
     }
+
+    .titleneon {
+      font-size:42px;
+    }
 }
 
   @media ( max-width: 575px ){
@@ -93,12 +97,16 @@
       height:auto !important;
     }
 
-    table, thead, tbody, th, td, tr {
+    /*table, thead, tbody, th, td, tr {
       display: block; 
-    }
+    }*/
 
     .margin-top{
       padding-top: 0.75rem !important;
+    }
+
+    .titleneon {
+      font-size:34px;
     }
   }
 
@@ -106,6 +114,15 @@
   @media ( max-width: 449px ){
     .card-body{
       padding: 0rem;
+    }
+    .container-fluid{
+      padding-right: 0px !important;
+      padding-left: 0px !important;
+    }
+
+    .no-padding{
+      padding-right: 0px !important;
+      padding-left: 0px !important;
     }
   }
 

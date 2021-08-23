@@ -64,7 +64,7 @@
                             <em class="fa fa-spinner fa-spin fa-3x fa-fw info"></em>
                           </div>
                           <div class="align-items-end justify-content-center" *ngIf="loadedListOfDiseases">
-                            <div class="col-md-12">
+                            <div class="col-md-12 no-padding">
                               <div class="position-relative">
                                 <input type="text" id="searchDiseaseField" class="form-control" name="searchDiseaseField"
                                   [(ngModel)]="searchDiseaseField" (keyup)="onKey($event)"
@@ -202,11 +202,11 @@
                 </tbody>
               </table>
               <table class="table mb-0 text-center d-block d-sm-none">
-                <tbody>
+                <tbody style="width: 100%;display: inline-table;">
                   <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="text-left">
-                    <td class="col-md-12 pb-0" style="padding: 0.4rem;">
+                    <td class="text-left pb-0" style="padding: 0.4rem;">
                       <strong>
-                        <span *ngIf="symptom.name">{{symptom.name}}</span>
+                        <span *ngIf="symptom.name" class="info" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{symptom.id}})">{{symptom.name}}</span>
                         <span *ngIf="!symptom.name">
                           {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                             href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
@@ -214,8 +214,15 @@
                             <i class="ft-external-link"></i></a></span>
                       </strong>
                     </td>
-                    <td class="col-md-12 border-top-0 pt-0 pb-2" style="padding: 0.4rem;">
-                      <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
+                    <td class="text-left border-top-0 pt-0 pb-2" style="padding: 0.4rem;">
+                      <button (click)="changeStateSymptomDisease(i)"
+                          class="btn btn-sm mr-1 mb-0 mt-1 btn-fab round white"
+                          [ngClass]="(symptom.checked==true)?'btn-info':'btn-secondary '"
+                          href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
+                          <em class="fa fa-check w-13"></em>
+                        </button>
+                      <!--
+                        <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
                         class="btn-outline-info btn btn-sm mr-2 mb-0 btn-fab round"
                         title="{{'generics.More information' | translate }} ({{symptom.id}})">
                         <em class="fa fa-info w-13"></em>
@@ -227,6 +234,9 @@
                           href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
                           <em class="fa fa-check w-13"></em>
                         </button>
+                        </span>
+                      -->
+                      
                         <!--<button (click)="changeStateSymptomDisease(i, false)"
                           class="btn btn-sm mr-1 mb-0 btn-fab round white"
                           [ngClass]="(symptom.checked==false)?'btn-danger':'btn-secondary'"
@@ -234,7 +244,7 @@
                           title="{{'phenotype.Click to uncheck it' | translate }}">
                           <em class="fa fa-times w-13"></em>
                         </button>-->
-                      </span>
+                      
                     </td>
                   </tr>
                 </tbody>

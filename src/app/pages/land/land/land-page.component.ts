@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, Output, EventEmitter, AfterViewInit, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, Output, EventEmitter, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { NgForm } from '@angular/forms';
 import { HttpClient } from "@angular/common/http";
@@ -17,8 +17,6 @@ import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.servic
 import { ApiClinicalTrialsService } from 'app/shared/services/api-clinicaltrials.service';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
-import { LayoutService } from "app/shared/services/layout.service";
-import { ConfigService } from "app/shared/services/config.service";
 
 declare let gtag: any;
 
@@ -29,7 +27,7 @@ declare let gtag: any;
     providers: [Apif29BioService, ApiDx29ServerService, ApiClinicalTrialsService],
 })
 
-export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
+export class LandPageComponent implements OnInit,  OnDestroy {
 
     private subscription: Subscription = new Subscription();
     lang: string = 'en';
@@ -61,49 +59,14 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
     sendEmail: boolean = false;
     dontShowIntro: boolean = false;
     showAllDescrip: boolean = false;
-    
-    //colors
-    options = {
-        direction: "ltr",
-        bgColor: "black",
-        transparentColor: "",
-        bgImage: "assets/img/sidebar-bg/01.jpg",
-        bgImageDisplay: true,
-        compactMenu: false,
-        sidebarSize: "sidebar-md",
-        layout: "Light"
-      };
-      size = "sidebar-md";
-      isOpen = true;
-      public config: any = {};
-      layoutSub: Subscription;
-      isBgImageDisplay = true;
-      selectedBgColor: string = "black";
-      selectedBgImage: string = "assets/img/sidebar-bg/01.jpg";
-      selectedTLBgColor: string = "";
-      selectedTLBgImage: string = "";
-      email: string = '';
+    email: string = '';
 
-    constructor(private router: Router, private route: ActivatedRoute, public googleAnalyticsService: GoogleAnalyticsService, private searchService: SearchService, private eventsService: EventsService, private http: HttpClient, public searchFilterPipe: SearchFilterPipe, private apif29BioService: Apif29BioService, private modalService: NgbModal, public translate: TranslateService, public toastr: ToastrService, private textTransform: TextTransform, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private apiClinicalTrialsService: ApiClinicalTrialsService,private elRef: ElementRef,
-        
-        private renderer: Renderer2,
-        private layoutService: LayoutService,
-        private configService: ConfigService) {
+    constructor(private router: Router, private route: ActivatedRoute, public googleAnalyticsService: GoogleAnalyticsService, private searchService: SearchService, private eventsService: EventsService, private http: HttpClient, public searchFilterPipe: SearchFilterPipe, private apif29BioService: Apif29BioService, private modalService: NgbModal, public translate: TranslateService, public toastr: ToastrService, private textTransform: TextTransform, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private apiClinicalTrialsService: ApiClinicalTrialsService,private elRef: ElementRef) {
 
         this.lang = sessionStorage.getItem('lang');
         this._startTime = Date.now();
         this.lauchEvent("Init");
 
-        this.layoutSub = layoutService.customizerChangeEmitted$.subscribe(
-            options => {
-              if (options) {
-                if (options.bgColor) {
-                  this.selectedBgColor = options.bgColor;
-                  this.selectedBgImage = options.bgImage;
-                }
-              }
-            }
-          );
     }
 
     getElapsedSeconds() {
@@ -147,99 +110,10 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
             this.loadFilesLang();
         }.bind(this));
 
-        this.config = this.configService.templateConf;
-        this.isOpen = !this.config.layout.customizer.hidden;
-
-        if (this.config.layout.sidebar.size) {
-        this.options.sidebarSize = this.config.layout.sidebar.size;
-        this.size = this.config.layout.sidebar.size;
-        }
     }
-
-    ngAfterViewInit() {
-        setTimeout(() => {
-          if (this.config.layout.dir) {
-            this.options.direction = this.config.layout.dir;
-          }
-    
-          if (this.config.layout.variant) {
-            this.options.layout = this.config.layout.variant;
-          }
-          if (this.config.layout.sidebar.collapsed != undefined) {
-            this.options.compactMenu = this.config.layout.sidebar.collapsed;
-          }
-    
-          if (
-            this.config.layout.sidebar.backgroundColor &&
-            this.config.layout.sidebar.backgroundColor != ""
-          ) {
-            this.options.bgColor = this.config.layout.sidebar.backgroundColor;
-            this.selectedBgColor = this.config.layout.sidebar.backgroundColor;
-          } else {
-            this.options.bgColor = "black";
-            this.selectedBgColor = "black";
-          }
-    
-          if (this.config.layout.sidebar.backgroundImage != undefined) {
-            this.options.bgImageDisplay = this.config.layout.sidebar.backgroundImage;
-            this.isBgImageDisplay = this.config.layout.sidebar.backgroundImage;
-          }
-    
-          if (this.config.layout.sidebar.backgroundImageURL) {
-            this.options.bgImage = this.config.layout.sidebar.backgroundImageURL;
-            this.selectedBgImage = this.config.layout.sidebar.backgroundImageURL;
-          }
-    
-          if (this.options.layout === "Transparent") {
-            this.options.bgColor = "black";
-            this.selectedBgColor = "black";
-            this.options.bgImageDisplay = false;
-            this.selectedTLBgColor = "";
-            this.selectedBgImage = "";
-            this.options.bgImage = "";
-            this.isBgImageDisplay = false;
-    
-            if (this.config.layout.sidebar.backgroundColor) {
-              if (this.config.layout.sidebar.backgroundColor === "bg-glass-1") {
-                this.selectedTLBgImage = "assets/img/gallery/bg-glass-1.jpg";
-                this.options.transparentColor = "bg-glass-1";
-              } else if (
-                this.config.layout.sidebar.backgroundColor === "bg-glass-2"
-              ) {
-                this.selectedTLBgImage = "assets/img/gallery/bg-glass-2.jpg";
-                this.options.transparentColor = "bg-glass-2";
-              } else if (
-                this.config.layout.sidebar.backgroundColor === "bg-glass-3"
-              ) {
-                this.selectedTLBgImage = "assets/img/gallery/bg-glass-3.jpg";
-                this.options.transparentColor = "bg-glass-3";
-              } else if (
-                this.config.layout.sidebar.backgroundColor === "bg-glass-4"
-              ) {
-                this.selectedTLBgImage = "assets/img/gallery/bg-glass-4.jpg";
-                this.options.transparentColor = "bg-glass-4";
-              } else {
-                this.options.transparentColor = this.config.layout.sidebar.backgroundColor;
-                this.selectedTLBgColor = this.config.layout.sidebar.backgroundColor;
-              }
-            } else {
-              this.options.bgColor = "black";
-              this.selectedBgColor = "black";
-              this.options.bgImageDisplay = false;
-              this.selectedBgColor = "";
-              this.selectedTLBgColor = "";
-              this.selectedTLBgImage = "assets/img/gallery/bg-glass-1.jpg";
-              this.options.transparentColor = "bg-glass-1";
-            }
-          }
-        }, 0);
-      }
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
-        if (this.layoutSub) {
-            this.layoutSub.unsubscribe();
-          }
     }
 
     selectRole(role) {
@@ -592,17 +466,7 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
         if(foundElement){
             this.showIntro = false;
             this.symtomsSent = true;
-            //this.onDarkLayout();
-        }else{
-            if(this.infoOneDisease.symptoms!=undefined){
-                this.onDarkLayout();
-            }else{
-                this.showIntro = false;
-                this.onDarkLayout();
-            }
         }
-        
-        
         
         let ngbModalOptions: NgbModalOptions = {
             backdrop: 'static',
@@ -616,17 +480,6 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
         this.modalReference2 = this.modalService.open(contentInfoDiagnose, ngbModalOptions);
     }
 
-    onDarkLayout() {
-       /* this.options.layout = "Dark";
-        this.options.bgColor = "black";
-        this.selectedBgColor = "black";
-        if (this.isBgImageDisplay) {
-          this.options.bgImageDisplay = true;
-        }
-        //emit event to FUll Layout
-        this.layoutService.emitCustomizerChange(this.options);*/
-      }
-
       closeSymptom(){
         if (this.modalReference != undefined) {
             this.modalReference.close();
@@ -639,19 +492,6 @@ export class LandPageComponent implements OnInit, AfterViewInit,  OnDestroy {
             this.showIntro = true;
             this.symtomsSent = false;
         }
-        this.onLightLayout();
-      }
-
-      onLightLayout() {
-        this.options.layout = "Light";
-        this.options.bgColor = "man-of-steel";
-        this.selectedBgColor = "man-of-steel";
-        if (this.isBgImageDisplay) {
-          this.options.bgImageDisplay = true;
-        }
-    
-        //emit event to FUll Layout
-        this.layoutService.emitCustomizerChange(this.options);
       }
 
       letsGo(){
