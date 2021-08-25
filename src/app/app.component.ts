@@ -47,13 +47,6 @@ export class AppComponent implements OnInit, OnDestroy{
   actualPage: string = '';
   isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
   hasLocalLang: boolean = false;
-  actualVersion:any = {
-    minCodeVersion: environment.version.minCodeVersion,
-    actualCodeVersion: environment.version.actualCodeVersion,
-    secondsNextRelease: null
-  };
-  versionServer:any = {};
-  loadedVersion = false;
   actualScenarioHotjar:any = {lang: '', scenario: ''};
   tituloEvent: string = '';
     //Set toastr container ref configuration for toastr positioning on screen
@@ -76,8 +69,6 @@ export class AppComponent implements OnInit, OnDestroy{
           document.addEventListener("deviceready", this.onDeviceReady.bind(this), false);
          }
 
-        this.loadVersion();
-
     }
 
     loadLanguages() {
@@ -98,85 +89,6 @@ export class AppComponent implements OnInit, OnDestroy{
          }, (err) => {
            console.log(err);
          })
-    }
-
-    loadVersion(){
-      var date = Date.now();
-      this.subscription.add( this.http.get(environment.settingsAccessToken.blobAccountUrl+'version.json'+environment.settingsAccessToken.sasToken+'&'+date)
-       .subscribe( (res : any) => {
-         this.versionServer = res;
-         if(this.versionServer.launchTime!=null){
-            this.actualVersion.secondsNextRelease = this.getSecondsToNextRelease(this.versionServer.launchTime);
-            if(this.actualVersion.secondsNextRelease<=0 && this.actualVersion.actualCodeVersion!=this.versionServer.actualCodeVersion){
-              this.authGuard.reload();
-            }else{
-              this.doTimer();
-              this.testIfForceLoadVersion();
-            }
-         }else{
-           if(this.actualVersion.actualCodeVersion<this.versionServer.actualCodeVersion){
-             this.authGuard.reload();
-           }
-         }
-         if(!this.loadedVersion){
-           this.loadedVersion = true;
-           if(this.versionServer.launchTime==null){
-             //cada 10 minutos
-             this.subscriptionIntervals = Observable.interval(1000 * 60 * 10 ).subscribe(() => {
-               if(this.versionServer.launchTime!=null){
-                 this.loadedVersion = false;
-                 //kill interval
-                 this.subscriptionIntervals.unsubscribe();
-               }
-               this.loadVersion();
-             });
-           }
-         }
-        }, (err) => {
-          console.log(err);
-        }));
-
-    }
-
-    async doTimer() {
-        this.subscriptionIntervals = Observable.interval(1000 ).subscribe(() => {
-          this.actualVersion.secondsNextRelease = this.actualVersion.secondsNextRelease - 1;
-          if(this.actualVersion.secondsNextRelease<=0){
-            this.subscriptionIntervals.unsubscribe();
-            this.authGuard.reload();
-          }
-        });
-    }
-
-    async testIfForceLoadVersion() {
-      var date = Date.now();
-        this.subscriptionTestForce = Observable.interval(1000 * 60 * 60 ).subscribe(() => {
-          this.subscription.add( this.http.get(environment.settingsAccessToken.blobAccountUrl+'version.json'+environment.settingsAccessToken.sasToken+'&'+date)
-           .subscribe( (res : any) => {
-              if(this.versionServer.versionFile<res.versionFile){
-                this.loadVersion();
-                if (this.subscriptionIntervals) {
-                  this.subscriptionIntervals.unsubscribe();
-                }
-                if(this.subscriptionTestForce) {
-                    this.subscriptionTestForce.unsubscribe();
-                 }
-              }
-            }, (err) => {
-              console.log(err);
-            }
-          ));
-        });
-
-    }
-
-    getSecondsToNextRelease(launchTime){
-      var launchTimeTemp= new Date(launchTime);//'06/19/2020 13:41:00'
-       var actualdate = new Date(); // get current date
-       var getactualdate = actualdate;
-       var secondsNextRelease = launchTimeTemp.getTime()-getactualdate.getTime();
-       secondsNextRelease = Math.round(secondsNextRelease/1000);
-       return secondsNextRelease;
     }
 
     launchHotjarTrigger(lang){
