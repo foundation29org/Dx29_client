@@ -61,6 +61,7 @@ declare var JSZipUtils: any;
 declare var Docxgen: any;
 let phenotypesinfo = [];
 declare let gtag: any;
+/*
 declare var device;
 declare global {
     interface Navigator {
@@ -69,7 +70,7 @@ declare global {
       },
       splashscreen:any
     }
-}
+}*/
 
 @Component({
     selector: 'app-open-page',
@@ -233,9 +234,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         //this.lauchEvent("Init");
         //gtag('event',this.myuuid,{"event_category":"init", "event_label": 0});
 
-        document.addEventListener("deviceready", this.onDeviceReady.bind(this), false);
+        //document.addEventListener("deviceready", this.onDeviceReady.bind(this), false);
     }
-
+    /*
     onDeviceReady() {
         if(device.platform == 'android' || device.platform == 'Android'){
           document.addEventListener("backbutton", this.onBackKeyDown.bind(this), false);
@@ -281,7 +282,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         
       }
-
+    */
     getElapsedSeconds() {
         var endDate = Date.now();
         var seconds = (endDate - this._startTime) / 1000;
