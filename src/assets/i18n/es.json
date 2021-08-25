@@ -2234,6 +2234,8 @@
     "Symptom observed in the disease": "Síntoma observado en la enfermedad.",
     "Language has changed": "Ha cambiado el idioma",
     "Do you want to start over": "¿Quiere empezar de nuevo para mostrar los síntomas y enfermedades en el idioma seleccionado?",
+    "loseprogress": "Perderá los síntomas añadidos",
+    "Do you want to exit": "¿Quieres salir de la aplicación?",
     "Symptoms copied to the clipboard": "Síntomas copiados en el portapapeles",
     "To be able to copy the symptoms": "Para poder copiar los síntomas, tiene que seleccionar al menos un síntoma.",
     "In order to download the symptoms": "Para poder descargar los síntomas, tiene que seleccionar al menos un síntoma.",
@@ -2338,11 +2340,12 @@
         "error2": "Estamos trabajando en ello"
       },
       "symptoms":{
-        "title": "Attention",
+        "title": "Atención",
         "subtitle": "En <a href='http://foundation29.org/' target='_blank'>Fundación 29</a> trabajamos para arreglar este problema.",
         "t1": "Las bases de datos actuales de síntomas no son precisas. <ins>El mundo necesita tu ayuda</ins> para que tu enfermedad esté bien descrita y poder ayudar a otros que están en busca de un diagnóstico.",
         "t2": "Selecciona los síntomas más importantes de tu enfermedad, un máximo de 10.",
         "btn": "He revisado los síntomas",
+        "btn2": "No quiero ayudar",
         "error1": "Tienes que seleccionar al menos 1 síntoma",
         "Nice": "¡Bien!",
         "msgCheckedSymptoms": "¡Enhorabuena! Has hecho una gran contribución a la comunidad de enfermedades raras. ¡Gracias!"
@@ -2353,7 +2356,8 @@
         "BriefTitle": "Pequeña descripción",
         "StudyFirstSubmitDate": "Inicio del estudio",
         "ResponsiblePartyInvestigatorFullName": "Nombre del investigador principal",
-        "LocationCountry": "País"
+        "LocationCountry": "País",
+        "Contact": "Contacto"
       },
       "PatientGroups":{
         "title1": "Estamos trabajando para obtener esta información. Estará disponible en los próximos días.",

@@ -136,6 +136,16 @@ export class ApiDx29ServerService {
         })
     }
 
+    searchDiseases(info) {
+      return this.http.post(environment.api + '/api/gateway/search/disease/', info)
+        .map((res: any) => {
+          return res;
+        }, (err) => {
+          console.log(err);
+          return err;
+        })
+    }
+
     sendCustomsEmail(info) {
       return this.http.post(environment.api + '/api/sendCustomsEmail', info)
         .map((res: any) => {
