@@ -81,7 +81,7 @@
                           #inputManualSymptoms class="form-control ml-1 inputSearch" [(ngModel)]="modelTemp"
                           [ngbTypeahead]="searchSymptom" [resultTemplate]="rt" [inputFormatter]="formatter1"
                           placeholder="{{'symptomssection.manualinput' | translate }}"
-                          (selectItem)="selected($event)" />
+                          (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
                       </div>
                     </div>
                     <div *ngIf="temporalSymptoms.length>0">
@@ -350,14 +350,13 @@
         <div class="offset-md-2 col-md-8 offset-xl-3 col-xl-6 mb-4">
           <table class="table mb-0 text-center">
             <thead>
-              <tr class="d-flex">
-                <th class="col-md-8 text-left" id="description"></th>
-                <th class="col-md-2" id="openDx29">Open Dx29</th>
+              <tr style="table-layout: auto !important;display: table;">
+                <th class="col-md-10 text-left" id="description"></th>
                 <th class="col-md-2" id="RegisterDx29">Register Dx29</th>
               </tr>
             </thead>
             <tbody style="max-height:inherit;">
-              <tr class="d-flex">
+              <!--<tr class="d-flex tr-auto">
                 <td class="col-md-8 text-left">
                   <span>
                     <strong>{{'land.table.t1' | translate }}</strong>
@@ -373,7 +372,7 @@
                   <i class="fa fa-check fa-2x info"></i>
                 </td>
               </tr>
-              <tr class="d-flex">
+              <tr class="d-flex tr-auto">
                 <td class="col-md-8 text-left">
                   <span>
                     <strong>{{'land.table.t2' | translate }}</strong>
@@ -389,7 +388,7 @@
                   <i class="fa fa-check fa-2x info"></i>
                 </td>
               </tr>
-              <tr class="d-flex">
+              <tr class="d-flex tr-auto">
                 <td class="col-md-8 text-left">
                   <span>
                     <strong>{{'land.table.t3' | translate }}</strong>
@@ -405,7 +404,7 @@
                   <i class="fa fa-check fa-2x info"></i>
                 </td>
               </tr>
-              <tr class="d-flex">
+              <tr class="d-flex tr-auto">
                 <td class="col-md-8 text-left">
                   <span>
                     <strong>{{'land.table.t4' | translate }}</strong>
@@ -421,7 +420,7 @@
                   <i class="fa fa-check fa-2x info"></i>
                 </td>
               </tr>
-              <tr class="d-flex">
+              <tr class="d-flex tr-auto">
                 <td class="col-md-8 text-left">
                   <span>
                     <strong>{{'land.table.t5' | translate }}</strong>
@@ -437,7 +436,7 @@
                   <i class="fa fa-check fa-2x info"></i>
                 </td>
               </tr>
-              <tr class="d-flex">
+              <tr class="d-flex tr-auto">
                 <td class="col-md-8 text-left">
                   <span>
                     <strong>{{'land.table.t6' | translate }}</strong>
@@ -452,9 +451,9 @@
                 <td class="col-md-2">
                   <i class="fa fa-check fa-2x info"></i>
                 </td>
-              </tr>
-              <tr class="d-flex">
-                <td class="col-md-8 text-left">
+              </tr>-->
+              <tr class="tr-auto">
+                <td class="col-md-10 text-left">
                   <span>
                     <strong>{{'land.table.t7' | translate }}</strong>
                   </span>
@@ -463,13 +462,11 @@
                   </span>
                 </td>
                 <td class="col-md-2">
-                </td>
-                <td class="col-md-2">
                   <i class="fa fa-check fa-2x info"></i>
                 </td>
               </tr>
-              <tr class="d-flex">
-                <td class="col-md-8 text-left">
+              <tr class="tr-auto">
+                <td class="col-md-10 text-left">
                   <span>
                     <strong>{{'land.table.t8' | translate }}</strong>
                   </span>
@@ -478,13 +475,11 @@
                   </span>
                 </td>
                 <td class="col-md-2">
-                </td>
-                <td class="col-md-2">
                   <i class="fa fa-check fa-2x info"></i>
                 </td>
               </tr>
-              <tr class="d-flex">
-                <td class="col-md-8 text-left">
+              <tr class="tr-auto">
+                <td class="col-md-10 text-left">
                   <span>
                     <strong>{{'land.table.t9' | translate }}</strong>
                   </span>
@@ -493,13 +488,11 @@
                   </span>
                 </td>
                 <td class="col-md-2">
-                </td>
-                <td class="col-md-2">
                   <i class="fa fa-check fa-2x info"></i>
                 </td>
               </tr>
-              <tr class="d-flex">
-                <td class="col-md-8 text-left">
+              <tr class="tr-auto">
+                <td class="col-md-10 text-left">
                   <span>
                     <strong>{{'land.table.t10' | translate }}</strong>
                   </span>
@@ -508,13 +501,11 @@
                   </span>
                 </td>
                 <td class="col-md-2">
-                </td>
-                <td class="col-md-2">
                   <i class="fa fa-check fa-2x info"></i>
                 </td>
               </tr>
-              <tr class="d-flex">
-                <td class="col-md-8 text-left">
+              <tr class="tr-auto">
+                <td class="col-md-10 text-left">
                   <span>
                     <strong>{{'land.table.t11' | translate }}</strong>
                   </span>
@@ -523,21 +514,17 @@
                   </span>
                 </td>
                 <td class="col-md-2">
-                </td>
-                <td class="col-md-2">
                   <i class="fa fa-check fa-2x info"></i>
                 </td>
               </tr>
-              <tr class="d-flex">
-                <td class="col-md-8 text-left">
+              <tr class="tr-auto">
+                <td class="col-md-10 text-left">
                   <span>
                     <strong>{{'land.table.t12' | translate }}</strong>
                   </span>
                   <span class="d-block">
                     {{'land.table.d12' | translate }}
                   </span>
-                </td>
-                <td class="col-md-2">
                 </td>
                 <td class="col-md-2">
                   <i class="fa fa-check fa-2x info"></i>
@@ -566,7 +553,7 @@
           <div class="position-relative">
             <input type="text" id="searchDiseaseField" class="form-control" name="searchDiseaseField"
               [(ngModel)]="searchDiseaseField" (keyup)="onKey($event)"
-              placeholder="{{'dashboardpatient.Search condition' | translate }}">
+              placeholder="{{'dashboardpatient.Search condition' | translate }}" (focusout)="focusOutFunctionDiseases()">
           </div>
           <div>
             <div class="center-elements" *ngIf="callListOfDiseases">
@@ -598,7 +585,7 @@
                   </table>
                 </div>
               </span>
-              <span *ngIf="listOfFilteredDiseases.length==0 && searchDiseaseField !=undefined">
+              <span *ngIf="listOfFilteredDiseases.length==0 && searchDiseaseField !=undefined && !callListOfDiseases">
                 <span *ngIf="(searchDiseaseField).trim().length>3">
                   <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
                 </span>
@@ -614,9 +601,9 @@
   </div>
   <div *ngIf="showDisease && !loadingOneDisease">
       <a id="step1"></a>
-      <div class="modal-body content-wrapper p-2 border offset-xl-2 col-xl-8 offset-md-1 col-md-10">
+      <div class="modal-body content-wrapper p-2 border offset-xl-2 col-xl-8 offset-md-1 col-md-10" style="background-color: #fffc !important;">
         <div class="p-2">
-          <div class="center-elements">
+          <div>
             <button type="button" class="close" aria-label="Close" (click)="closeDisease()">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -639,93 +626,19 @@
             </span>
             <div class="mt-2 row">
               <span class="col-md-12">
-                <p *ngIf="showAllDescrip">{{infoOneDisease.desc}}</p> 
+                <p>{{infoOneDisease.desc}}</p> 
+                <!--<p *ngIf="showAllDescrip">{{infoOneDisease.desc}}</p> 
                 <p *ngIf="!showAllDescrip" class="d-block" title="{{infoOneDisease.desc}}">{{ (infoOneDisease.desc.length>120)? (infoOneDisease.desc | slice:0:120)+'...':(infoOneDisease.desc) }}
                   <a *ngIf="!showAllDescrip && infoOneDisease.desc.length>140" class="info" style="cursor: pointer;" (click)='showAllDesc();'>{{'generics.Read more' | translate }}</a>
-                </p>
+                </p>-->
               </span>          
-            </div>
-            <div class="row" *ngIf="infoOneDisease.symptoms!=undefined">
-              <span class="col-md-12">
-                <p class="mb-0 center-elements"><strong>{{'land.diagnosed.symptoms.t2' | translate }}</strong></p>
-              </span>
-              <div class="mt-2 col-md-12">
-                <div class="table-responsive">
-                  <table class="offset-xl-2 col-xl-8 offset-md-1 col-md-10 table mb-0 text-center d-none d-sm-block">
-                    <thead style="width: 100%;display: inline-table;">
-                      <tr class="border-bottom-0 border-top-0">
-                        <th class="text-left" id="Name symptom">{{'diagnosis.Symptoms' | translate }}</th>
-                      </tr>
-                    </thead>
-                    <tbody class="tableList">
-                      <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
-                        <td class="text-left">
-                          <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
-                            class="btn-outline-info btn btn-sm mr-2 mb-0 btn-fab round"
-                            title="{{'generics.More information' | translate }} ({{symptom.id}})">
-                            <em class="fa fa-info w-13"></em>
-                          </button>
-                          <span *ngIf="symptom.name">{{symptom.name}}</span>
-                          <span *ngIf="!symptom.name">
-                            {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
-                              href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
-                              title="{{symptom.id}}">
-                              <i class="ft-external-link"></i></a></span>
-                        </td>
-                        <td>
-                          <span class="float-right ml-1">
-                            <button (click)="changeStateSymptomDisease(i)"
-                              class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                              [ngClass]="(symptom.checked==true)?'btn-info':'btn-secondary '"
-                              href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
-                              <em class="fa fa-check w-13"></em>
-                            </button>
-                          </span>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <table class="table mb-0 text-center d-block d-sm-none">
-                    <thead style="width: 100%;display: inline-table;">
-                      <tr class="border-bottom-0 border-top-0">
-                        <th class="text-left" id="Name symptom">{{'diagnosis.Symptoms' | translate }}</th>
-                      </tr>
-                    </thead>
-                    <tbody class="tableList">
-                      <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="text-left" style="display: table-row !important;">
-                        <td class="text-left pb-0" style="padding: 0.4rem;">
-                          <strong>
-                            <span *ngIf="symptom.name" class="info" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{symptom.id}})">{{symptom.name}}</span>
-                            <span *ngIf="!symptom.name">
-                              {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
-                                href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
-                                title="{{symptom.id}}">
-                                <i class="ft-external-link"></i></a></span>
-                          </strong>
-                        </td>
-                        <td class="text-left border-top-0 pt-0 pb-2" style="padding: 0.4rem;">
-                          <button (click)="changeStateSymptomDisease(i)"
-                              class="btn btn-sm mr-1 mb-0 mt-1 btn-fab round white"
-                              [ngClass]="(symptom.checked==true)?'btn-info':'btn-secondary '"
-                              href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
-                              <em class="fa fa-check w-13"></em>
-                            </button>                          
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="center-elements ml-2 mt-3">
-                  <button class="btn btn-outline-info btn-navbar" (click)="sendSymtomsChecked(contentInfoSendSymptoms);">{{'land.diagnosed.symptoms.btn' | translate }}</button>
-                </div>
-              </div>
             </div>
           </div>
           <ngb-tabset>
             <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined">
               <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Symptoms');">{{'land.diagnosed.general.Symptoms' | translate }}</strong></ng-template>
               <ng-template ngbTabContent>
-                <div class="mt-2 row col-md-12">
+                <div class="row col-md-12">
                   <div class="table-responsive">
                     <table class="table mb-0 text-center d-none d-sm-block">
                       <tbody style="width: 100%;display: inline-table;">
@@ -810,6 +723,11 @@
                       <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.LocationCountry' | translate }}:</strong></span>
                       <p class="d-block mb-0" *ngFor="let location of studie.Study.ProtocolSection.ContactsLocationsModule.listCountriesCleaned ; let j = index">{{location.LocationCountry}}</p>
                     </span>
+                    <span *ngIf="studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList.CentralContact.length>0">
+                      <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.Contact' | translate }}:</strong></span>
+                      <p class="d-block mb-0" *ngFor="let contact of studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList.CentralContact ; let k = index">{{contact.CentralContactName}} <<a href='mailto:{{contact.CentralContactEMail}}'>{{contact.CentralContactEMail}}</a>></p>
+                    </span>
+                    
                     <hr *ngIf="i<clinicalTrials.length-1" width="100%" size="20" color="#b0b6bb" class="mt-2">
                   </div>
                   
@@ -829,7 +747,7 @@
                 </div>
               </ng-template>
             </ngb-tab>
-            <ngb-tab *ngIf="false">
+            <ngb-tab>
               <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Donate your data');">{{'land.diagnosed.general.Donate your data' | translate }}</strong></ng-template>
               <ng-template ngbTabContent>
                 <div class="col-md-6">
@@ -865,7 +783,7 @@
                       <mat-checkbox
                           class="example-margin" style="position: absolute; margin-top: 2px;" name="terms2" required ngModel #terms2="ngModel" id="terms2" [(ngModel)]="formOpen.terms2">
                       </mat-checkbox>
-                      <span class="ml-3">
+                      <span class="ml-3" (click)="checkConsent()" style="cursor: pointer;">
                         {{'know-me.CheckConsent' | translate }}
                       </span>
                        <small class="form-text text-muted danger" *ngIf="!terms2.valid && showErrorForm">{{'gtp.mandatoryConsent' | translate }}</small>
@@ -1456,19 +1374,132 @@
 <ng-template #contentInfoAttention let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-body content-wrapper p-2 center-elements mb-3">
     <div class="p-2">
-      <div class="col-md-12 pt-2">
+      <button type="button" class="close" aria-label="Close" (click)="letsGo()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="align-self-center mb-0"><strong>{{infoOneDisease.name}}</strong></h4>
+    </div>
+    <div>
+      <div class="offset-xl-2 col-xl-8 offset-md-1 col-md-10 pt-2">
         <div class="center-elements">
             <span id="text" style="display: inline-flex;">
               <h1 class="titleneon">{{'land.diagnosed.symptoms.title' | translate }}</h1>
             </span>
-           <div id="title">
+           <div>
             <p [innerHTML]="'land.diagnosed.symptoms.t1' | translate"></p>
             <p class="d-block mt-1" [innerHTML]="'land.diagnosed.symptoms.subtitle' | translate"></p>
            </div>
         </div>
-        <div class="center-elements mt-2">
-          <button class="btn btn-lg btn-outline-info btn-navbar" (click)="letsGo();">{{'land.diagnosed.general.Rev-btn1' | translate }}</button>
+        <div class="row" *ngIf="infoOneDisease.symptoms!=undefined">
+          <span class="col-md-12">
+            <p class="mb-0 center-elements"><strong>{{'land.diagnosed.symptoms.t2' | translate }}</strong></p>
+          </span>
+          <div class="mt-2 col-md-12">
+            <div class="table-responsive">
+              <!--<table class="table mb-0 text-center d-none d-sm-block">
+                <thead style="width: 100%;display: inline-table;">
+                  <tr class="border-bottom-0 border-top-0">
+                    <th class="text-left" id="Name symptom">{{'diagnosis.Symptoms' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody class="tableList">
+                  <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
+                    <td class="text-left">
+                      <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
+                        class="btn-outline-info btn btn-sm mr-2 mb-0 btn-fab round"
+                        title="{{'generics.More information' | translate }} ({{symptom.id}})">
+                        <em class="fa fa-info w-13"></em>
+                      </button>
+                      <span *ngIf="symptom.name">{{symptom.name}}</span>
+                      <span *ngIf="!symptom.name">
+                        {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                          href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
+                          title="{{symptom.id}}">
+                          <i class="ft-external-link"></i></a></span>
+                    </td>
+                    <td>
+                      <span class="float-right ml-1">
+                        <button (click)="changeStateSymptomDisease(i)"
+                          class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                          [ngClass]="(symptom.checked==true)?'btn-info':'btn-secondary '"
+                          href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
+                          <em class="fa fa-check w-13"></em>
+                        </button>
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+             <table class="table mb-0 text-center d-block d-sm-none">
+                <thead style="width: 100%;display: inline-table;">
+                  <tr class="border-bottom-0 border-top-0">
+                    <th class="text-left" id="Name symptom">{{'diagnosis.Symptoms' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody class="tableList">
+                  <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="text-left" style="display: table-row !important;">
+                    <td class="text-left pb-0" style="padding: 0.4rem;">
+                      <strong>
+                        <span *ngIf="symptom.name" class="info" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{symptom.id}})">{{symptom.name}}</span>
+                        <span *ngIf="!symptom.name">
+                          {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                            href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
+                            title="{{symptom.id}}">
+                            <i class="ft-external-link"></i></a></span>
+                      </strong>
+                    </td>
+                    <td class="text-left border-top-0 pt-0 pb-2" style="padding: 0.4rem;">
+                      <button (click)="changeStateSymptomDisease(i)"
+                          class="btn btn-sm mr-1 mb-0 mt-1 btn-fab round white"
+                          [ngClass]="(symptom.checked==true)?'btn-info':'btn-secondary '"
+                          href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
+                          <em class="fa fa-check w-13"></em>
+                        </button>                          
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            -->
+              <table class="table mb-0 text-center">
+                <thead>
+                  <tr class="border-bottom-0 border-top-0">
+                    <th class="text-left" id="Name symptom">{{'diagnosis.Symptoms' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody class="tableList">
+                  <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="text-left col-12" style="table-layout:auto !important;">
+                    <td class="text-left pb-0 col-10">
+                        <span *ngIf="symptom.name" class="info" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{symptom.id}})">{{symptom.name}}</span>
+                        <span *ngIf="!symptom.name">
+                          {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                            href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
+                            title="{{symptom.id}}">
+                            <i class="ft-external-link"></i></a></span>
+                      
+                    </td>
+                    <td class="col-2">
+                      <span class="float-right ml-1">
+                        <button (click)="changeStateSymptomDisease(i)"
+                          class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                          [ngClass]="(symptom.checked==true)?'btn-info':'btn-secondary '"
+                          href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
+                          <em class="fa fa-check w-13"></em>
+                        </button>
+                      </span>                     
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="center-elements ml-2 mt-3">
+              <button class="mb-0 btn btn-outline-info btn-navbar" (click)="sendSymtomsChecked(contentInfoSendSymptoms);">{{'land.diagnosed.symptoms.btn' | translate }}</button>
+              <span class="d-block font-small-3 pb-2 info" style="cursor: pointer;" (click)="letsGo();">{{'land.diagnosed.symptoms.btn2' | translate }}</span>
+            </div>
+          </div>
         </div>
+        <!--<div class="center-elements mt-2">
+          <button class="btn btn-lg btn-outline-info btn-navbar" (click)="letsGo();">{{'land.diagnosed.general.Rev-btn1' | translate }}</button>
+        </div>-->
       </div>
     </div>
   </div>

@@ -2342,6 +2342,7 @@
         "t1": "Current symptom databases are not accurate. <ins>The world needs your help</ins> so that your disease is well described and we can help others who are looking for a diagnosis.",
         "t2": "Select the most important symptoms of your disease, a maximum of 10.",
         "btn": "I have checked the symptoms",
+        "btn2": "I don't want to help",
         "error1": "You have to select at least 1 symptom",
         "Nice": "Nice!",
         "msgCheckedSymptoms": "You made a great contribution to the rare disease community. Thank you!"
@@ -2352,7 +2353,8 @@
         "BriefTitle": "Short description",
         "StudyFirstSubmitDate": "Start of the study",
         "ResponsiblePartyInvestigatorFullName": "Name of the PI (Principal Investigator)",
-        "LocationCountry": "Country"
+        "LocationCountry": "Country",
+        "Contact": "Contact"
       },
       "PatientGroups":{
         "title1": "We are working to obtain this information. It will be available in the next few days.",

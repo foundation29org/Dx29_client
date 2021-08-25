@@ -1981,8 +1981,11 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             })
             setTimeout(function () {
                 Swal.close();
-                window.location.href = 'https://foundation29.org/';
+                //window.location.href = 'https://foundation29.org/';
             }, 2000);
+            if (this.modalReference2 != undefined) {
+                this.modalReference2.close();
+            }
             this.symtomsSent = true;
         }
     }
@@ -2011,13 +2014,16 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 })
                 setTimeout(function () {
                     Swal.close();
-                    window.location.href = 'https://foundation29.org/';
+                    //window.location.href = 'https://foundation29.org/';
                 }, 2000);
 
                 if (this.modalReference3 != undefined) {
                     this.modalReference3.close();
                 }
                 this.email = '';
+                if (this.modalReference2 != undefined) {
+                    this.modalReference2.close();
+                }
             }, (err) => {
                 console.log(err);
                 this.sending = false;
@@ -2032,6 +2038,47 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.listOfFilteredDiseases = []
         this.showDisease = false;
         this.searchDiseaseField = '';
+    }
+
+    focusOutFunctionSymptom(){
+        if(this.showErrorMsg && this.modelTemp.length > 2){
+                this.sendSympTerms = true;
+                var params: any = {}
+                params.uuid = this.myuuid;
+                params.Term = this.modelTemp;
+                params.Lang = sessionStorage.getItem('lang');
+                var d = new Date(Date.now());
+                var a = d.toString();
+                params.Date = a;
+                this.subscription.add(this.http.post('https://prod-112.westeurope.logic.azure.com:443/workflows/95df9b0148cf409f9a8f2b0853820beb/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OZyXnirC5JTHpc_MQ5IwqBugUqI853qek4o8qjNy7AA', params)
+                    .subscribe((res: any) => {
+                    }, (err) => {
+                    }));
+            
+        }
+    }
+
+    focusOutFunctionDiseases(){
+        if (this.searchDiseaseField.trim().length > 3 && this.listOfFilteredDiseases.length==0 && !this.callListOfDiseases) {
+            //send text
+            var tempModelTimp = this.searchDiseaseField.trim();
+            this.sendTerms = true;
+            var params: any = {}
+            params.uuid = this.myuuid;
+            params.Term = tempModelTimp;
+            params.Lang = sessionStorage.getItem('lang');
+            var d = new Date(Date.now());
+            var a = d.toString();
+            params.Date = a;
+            this.subscription.add(this.http.post('https://prod-246.westeurope.logic.azure.com:443/workflows/5af138b9f41f400f89ecebc580d7668f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PiYef1JHGPRDGhYWI0s1IS5a_9Dpz7HLjwfEN_M7TKY', params)
+                .subscribe((res: any) => {
+                }, (err) => {
+                }));
+        }
+    }
+
+    checkConsent(){
+        this.formOpen.terms2 = !this.formOpen.terms2;
     }
 
 }

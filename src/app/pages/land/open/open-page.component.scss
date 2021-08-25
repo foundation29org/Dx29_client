@@ -15,6 +15,7 @@
   display:block;
   max-height:270px;
   overflow-y:auto;
+  min-height: auto !important;
 }
 
 #title{
@@ -277,6 +278,10 @@ body {
     display:table;
     width: 100%;
     table-layout:fixed;
+  }
+
+  .tr-auto{
+    table-layout:auto !important;
   }
 
   ::-webkit-input-placeholder { /* Chrome/Opera/Safari */

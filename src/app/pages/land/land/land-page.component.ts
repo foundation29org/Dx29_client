@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, Output, EventEmitter, ElementRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { NgForm } from '@angular/forms';
 import { HttpClient } from "@angular/common/http";
@@ -8,15 +8,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { SearchService } from 'app/shared/services/search.service';
 import { v4 as uuidv4 } from 'uuid';
 import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.service';
-import { SearchFilterPipe} from 'app/shared/services/search-filter.service';
-import { SortService } from 'app/shared/services/sort.service';
 import { EventsService } from 'app/shared/services/events.service';
-import { TextTransform } from 'app/shared/services/transform-text.service';
-import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
-import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
-import { ApiClinicalTrialsService } from 'app/shared/services/api-clinicaltrials.service';
-import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
-import Swal from 'sweetalert2';
 
 declare let gtag: any;
 
@@ -24,7 +16,6 @@ declare let gtag: any;
     selector: 'app-land-page',
     templateUrl: './land-page.component.html',
     styleUrls: ['./land-page.component.scss'],
-    providers: [Apif29BioService, ApiDx29ServerService, ApiClinicalTrialsService],
 })
 
 export class LandPageComponent implements OnInit,  OnDestroy {
@@ -37,7 +28,7 @@ export class LandPageComponent implements OnInit,  OnDestroy {
     eventList: any = [];
     
 
-    constructor(private router: Router, private route: ActivatedRoute, public googleAnalyticsService: GoogleAnalyticsService, private searchService: SearchService, private eventsService: EventsService, private http: HttpClient, public searchFilterPipe: SearchFilterPipe, private apif29BioService: Apif29BioService, private modalService: NgbModal, public translate: TranslateService, public toastr: ToastrService, private textTransform: TextTransform, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private apiClinicalTrialsService: ApiClinicalTrialsService,private elRef: ElementRef) {
+    constructor(private router: Router, private route: ActivatedRoute, public googleAnalyticsService: GoogleAnalyticsService, private searchService: SearchService, private eventsService: EventsService, private http: HttpClient, public translate: TranslateService, public toastr: ToastrService) {
 
         this.lang = sessionStorage.getItem('lang');
         this._startTime = Date.now();
@@ -80,9 +71,6 @@ export class LandPageComponent implements OnInit,  OnDestroy {
 
     selectRole(role) {
         this.role = role;
-        /*if(this.role=='diagnosed'){
-            this.loadListOfDiseases();
-        }*/
     }
 
     restartVars() {
