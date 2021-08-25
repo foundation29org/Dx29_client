@@ -2233,6 +2233,8 @@
     "Symptom observed in the disease": "Symptom observed in the disease.",
     "Language has changed": "Language has changed",
     "Do you want to start over": "Do you want to start over to show the symptoms and diseases in the selected language?",
+    "loseprogress": "You will lose the added symptoms",
+    "Do you want to exit": "Do you want to exit the application?",
     "Symptoms copied to the clipboard": "Symptoms copied to the clipboard",
     "To be able to copy the symptoms": "To be able to copy the symptoms, you have to select at least one symptom.",
     "In order to download the symptoms": "In order to download the symptoms, you have to select at least one symptom.",

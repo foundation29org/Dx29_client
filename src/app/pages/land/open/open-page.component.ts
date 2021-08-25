@@ -61,6 +61,15 @@ declare var JSZipUtils: any;
 declare var Docxgen: any;
 let phenotypesinfo = [];
 declare let gtag: any;
+declare var device;
+declare global {
+    interface Navigator {
+      app: {
+          exitApp: () => any; // Or whatever is the type of the exitApp function
+      },
+      splashscreen:any
+    }
+}
 
 @Component({
     selector: 'app-open-page',
@@ -223,7 +232,55 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this._startTime = Date.now();
         //this.lauchEvent("Init");
         //gtag('event',this.myuuid,{"event_category":"init", "event_label": 0});
+
+        document.addEventListener("deviceready", this.onDeviceReady.bind(this), false);
     }
+
+    onDeviceReady() {
+        if(device.platform == 'android' || device.platform == 'Android'){
+          document.addEventListener("backbutton", this.onBackKeyDown.bind(this), false);
+        }else if(device.platform == 'iOS'){
+ 
+        };
+       
+      }
+
+      onBackKeyDown(){
+        if (this.modalReference != undefined) {
+            this.modalReference.close();
+        }else if (this.modalReference2 != undefined) {
+            this.modalReference2.close();
+        }else if (this.modalReference3 != undefined) {
+            this.modalReference3.close();
+        }else{
+            if(this.role!='diagnosed' && this.temporalSymptoms.length>0 && this.topRelatedConditions.length==0){
+                //if(this.actualPage == 'menu.Dashboard' || this.actualPage == 'menu.Dashboard Admin'){
+                    Swal.fire({
+                        title: this.translate.instant("land.Do you want to exit"),
+                        text: this.translate.instant("land.loseprogress"),
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#0CC27E',
+                        cancelButtonColor: '#f9423a',
+                        confirmButtonText: this.translate.instant("generics.Yes"),
+                        cancelButtonText: this.translate.instant("generics.No, cancel"),
+                        showLoaderOnConfirm: true,
+                        allowOutsideClick: false,
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            window.history.back();
+                        } else {
+        
+                        }
+                    });
+         
+                }else{
+                    window.history.back();
+                }
+        }
+        
+      }
 
     getElapsedSeconds() {
         var endDate = Date.now();
