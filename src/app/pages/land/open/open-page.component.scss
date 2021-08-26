@@ -7,8 +7,7 @@
 
 .titleneon {
   color:#f9423a;
-  font-family: 'monospace', sans-serif;
-  font-size:64px;
+  font-size:34px;
 }
 
 .tableList {
@@ -353,11 +352,6 @@ body {
   .w-13{
     width: 13px;
   }
-
-  .custom-bold{
-    /*font-size: 1.25rem !important;
-    font-weight: bolder !important;*/
-  }
   
   ::ng-deep .apexcharts-menu-icon{
       display: none;
@@ -671,10 +665,6 @@ body {
     html {
         font-size: 16px;
     }
-
-    .titleneon {
-      font-size:42px;
-    }
 }
 
   /*@media ( max-width: 578px ){
@@ -696,10 +686,6 @@ body {
     .box-panels{
       margin-bottom: 2.25rem !important;
     }
-
-    .titleneon {
-      font-size:34px;
-    }
   }
 
 
@@ -716,10 +702,10 @@ body {
     .card-body{
       padding: 0rem;
     }
-    .container-fluid{
+    /*.container-fluid{
       padding-right: 0px !important;
       padding-left: 0px !important;
-    }
+    }*/
 
     .no-padding{
       padding-right: 0px !important;

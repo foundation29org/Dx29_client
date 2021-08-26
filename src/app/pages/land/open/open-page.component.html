@@ -133,10 +133,14 @@
             </div>
           </div>
           <span style="position: absolute; top:102%">
+            <a class="info" title="{{'homepatientdx.subtitlep5.3' | translate }}"
+              (click)="registerToDx29V2();">{{'homepatientdx.subtitlep5.3' | translate }}</a> {{'land.msgSaveData' | translate }}
+          </span>
+          <!--<span style="position: absolute; top:102%">
             {{'land.availableLangs' | translate }}
             <a class="info" href={{refLangs}} target="_blank" title="{{'land.availableLangs' | translate }}"
               (click)="lauchEvent('LangInfo');"><i class="ft-external-link"></i></a>
-          </span>
+          </span>-->
         </div>
         <div *ngIf="substepExtract!='0'"
           class="mb-2 offset-xl-1 col-xl-5 mrbox shadow rounded-lg light-background border"
@@ -565,13 +569,10 @@
                   <table class="table mb-0 bg-white" aria-labelledby="rare disease">
                     <tbody class="tableList">
                       <tr *ngFor="let disease of listOfFilteredDiseases ; let i = index" class="d-flex">
-                        <td class="col-md-12" id="{{disease.id}}"
+                        <td class="col-md-12 dropdown-item" id="{{disease.id}}"
                           (click)="showMoreInfoDiagnosePopup(i, contentInfoAttention);lauchEvent('Diagnosed - Select Disease');" style="cursor: pointer;"
                           title="{{'generics.More information' | translate }} ({{disease.id}})">
-                          <span class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round">
-                            <em class="fa fa-info w-13"></em>
-                          </span>
-                          <span class="custom-bold ml-1">{{disease.name}}</span>
+                          <span>{{disease.name}}</span>
                           <!--<span class="custom-bold ml-1"><strong>{{disease.name}}</strong></span>
                           <span *ngIf="disease.synonyms.length>0">
                             <span class="d-block">Synonyms:</span>
@@ -585,7 +586,7 @@
                   </table>
                 </div>
               </span>
-              <span *ngIf="listOfFilteredDiseases.length==0 && searchDiseaseField !=undefined && !callListOfDiseases">
+              <span *ngIf="nothingFoundDisease">
                 <span *ngIf="(searchDiseaseField).trim().length>3">
                   <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
                 </span>
@@ -639,6 +640,7 @@
               <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Symptoms');">{{'land.diagnosed.general.Symptoms' | translate }}</strong></ng-template>
               <ng-template ngbTabContent>
                 <div class="row col-md-12">
+                  <p>{{'land.diagnosed.symptoms.Select the symptoms you have by' | translate }} <span class="info" style="cursor: pointer;" (click)="showAttentionPanel(contentInfoAttention)">{{'land.diagnosed.symptoms.clicking here' | translate }}</span></p>
                   <div class="table-responsive">
                     <table class="table mb-0 text-center d-none d-sm-block">
                       <tbody style="width: 100%;display: inline-table;">
@@ -716,9 +718,11 @@
       
                     <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.StudyFirstSubmitDate' | translate }}:</strong></span>
                     <p class="d-block mb-0">{{studie.Study.ProtocolSection.StatusModule.StudyFirstSubmitDate}}</p>
-      
-                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.ResponsiblePartyInvestigatorFullName' | translate }}:</strong></span>
-                    <p class="d-block mb-0">{{studie.Study.ProtocolSection.SponsorCollaboratorsModule.ResponsibleParty.ResponsiblePartyInvestigatorFullName}}</p>
+                    <span *ngIf="studie.Study.ProtocolSection.SponsorCollaboratorsModule.ResponsibleParty.ResponsiblePartyInvestigatorFullName">
+                      <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.ResponsiblePartyInvestigatorFullName' | translate }}:</strong></span>
+                      <p class="d-block mb-0">{{studie.Study.ProtocolSection.SponsorCollaboratorsModule.ResponsibleParty.ResponsiblePartyInvestigatorFullName}}</p>
+                    </span>
+                    
                     <span *ngIf="studie.Study.ProtocolSection.ContactsLocationsModule.listCountriesCleaned!=undefined">
                       <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.LocationCountry' | translate }}:</strong></span>
                       <p class="d-block mb-0" *ngFor="let location of studie.Study.ProtocolSection.ContactsLocationsModule.listCountriesCleaned ; let j = index">{{location.LocationCountry}}</p>

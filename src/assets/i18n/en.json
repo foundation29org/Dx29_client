@@ -2183,6 +2183,7 @@
     "Physician": "Physician",
     "title": "Can't find a diagnosis for a rare disease? We will help you",
     "Extract symptom from document": "Extract symptom from a medical record",
+    "msgSaveData": "to save your symptoms",
     "availableLangs": "Click here to see the available languages",
     "Extract": "Extract",
     "The symptoms found will be shown here": "The symptoms found will be shown here",
@@ -2347,7 +2348,9 @@
         "btn2": "I don't want to help",
         "error1": "You have to select at least 1 symptom",
         "Nice": "Nice!",
-        "msgCheckedSymptoms": "You made a great contribution to the rare disease community. Thank you!"
+        "msgCheckedSymptoms": "You made a great contribution to the rare disease community. Thank you!",
+        "Select the symptoms you have by": "Select the symptoms you have by",
+        "clicking here": "clicking here"
       },
       "clinicalTrials":{
         "msgNoTrials": "Sorry, at this time we do not have clinical trial data for",
