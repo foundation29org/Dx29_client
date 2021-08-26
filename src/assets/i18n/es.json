@@ -2184,6 +2184,7 @@
     "Physician": "Médico",
     "title": "¿No encuentras diagnóstico para una enfermedad rara? Vamos a ayudarte",
     "Extract symptom from document": "Extraer síntomas a partir de un informe",
+    "msgSaveData": "para guardar tus síntomas",
     "availableLangs": "Pulsa aqui para ver de los idiomas disponibles",
     "Extract": "Extraer",
     "The symptoms found will be shown here": "Aquí se mostrarán los síntomas encontrados",
@@ -2348,7 +2349,9 @@
         "btn2": "No quiero ayudar",
         "error1": "Tienes que seleccionar al menos 1 síntoma",
         "Nice": "¡Bien!",
-        "msgCheckedSymptoms": "¡Enhorabuena! Has hecho una gran contribución a la comunidad de enfermedades raras. ¡Gracias!"
+        "msgCheckedSymptoms": "¡Enhorabuena! Has hecho una gran contribución a la comunidad de enfermedades raras. ¡Gracias!",
+        "Select the symptoms you have by": "Selecciona los síntomas que tienes",
+        "clicking here": "pulsando aquí"
       },
       "clinicalTrials":{
         "msgNoTrials": "Lo sentimos, en estos momentos no tenemos datos sobre ensayos clínicos para",

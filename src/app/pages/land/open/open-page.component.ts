@@ -147,6 +147,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     showDisease: boolean = false;
     loadingOneDisease: boolean = false;
     email: string = '';
+    nothingFoundDisease: boolean = false;
 
 
     @ViewChild("inputTextArea") inputTextAreaElement: ElementRef;
@@ -231,8 +232,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         //this.googleAnalyticsService.eventEmitter("OpenDx - init: "+result, "general", this.myuuid);
         //this.googleAnalyticsService.eventEmitter("OpenDx - init", "general", this.myuuid, 'init', 5);
         this._startTime = Date.now();
-        //this.lauchEvent("Init");
-        //gtag('event',this.myuuid,{"event_category":"init", "event_label": 0});
 
         //document.addEventListener("deviceready", this.onDeviceReady.bind(this), false);
     }
@@ -1706,6 +1705,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onKey(event) {
+        this.nothingFoundDisease = false;
         this.showDisease = false;
         this.showIntro = true;
         this.symtomsSent = false;
@@ -1718,25 +1718,37 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             this.subscription.add(this.apiDx29ServerService.searchDiseases(info)
                 .subscribe((res: any) => {
+                    console.log(res);
                     this.callListOfDiseases = false;
-                    this.listOfFilteredDiseases = res;
-                    if (this.listOfFilteredDiseases.length == 0 && !this.sendTerms) {
-                        //send text
-                        this.sendTerms = true;
-                        var params: any = {}
-                        params.uuid = this.myuuid;
-                        params.Term = tempModelTimp;
-                        params.Lang = sessionStorage.getItem('lang');
-                        var d = new Date(Date.now());
-                        var a = d.toString();
-                        params.Date = a;
-                        this.subscription.add(this.http.post('https://prod-246.westeurope.logic.azure.com:443/workflows/5af138b9f41f400f89ecebc580d7668f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PiYef1JHGPRDGhYWI0s1IS5a_9Dpz7HLjwfEN_M7TKY', params)
-                            .subscribe((res: any) => {
-                            }, (err) => {
-                            }));
+                    if(res==null){
+                        this.nothingFoundDisease = true;
+                        this.listOfFilteredDiseases = [];
+                    }else{
+                        this.nothingFoundDisease = false;
+                        this.listOfFilteredDiseases = res;
+                        if(this.listOfFilteredDiseases.length == 0){
+                            this.nothingFoundDisease = true;
+                        }
+                        if (this.listOfFilteredDiseases.length == 0 && !this.sendTerms) {
+                            //send text
+                            this.sendTerms = true;
+                            var params: any = {}
+                            params.uuid = this.myuuid;
+                            params.Term = tempModelTimp;
+                            params.Lang = sessionStorage.getItem('lang');
+                            var d = new Date(Date.now());
+                            var a = d.toString();
+                            params.Date = a;
+                            this.subscription.add(this.http.post('https://prod-246.westeurope.logic.azure.com:443/workflows/5af138b9f41f400f89ecebc580d7668f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PiYef1JHGPRDGhYWI0s1IS5a_9Dpz7HLjwfEN_M7TKY', params)
+                                .subscribe((res: any) => {
+                                }, (err) => {
+                                }));
+                        }
                     }
+                    
                 }, (err) => {
                     console.log(err);
+                    this.nothingFoundDisease = false;
                     this.callListOfDiseases = false;
                 }));
         } else {
@@ -1814,7 +1826,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                         this.getClinicalTrials(this.infoOneDisease.name);
                     }
                 }
-                if(this.showIntro){
+                if(this.showIntro && this.infoOneDisease.symptoms!=undefined){
                     let ngbModalOptions: NgbModalOptions = {
                         backdrop: 'static',
                         keyboard: false,
@@ -1827,6 +1839,15 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 console.log(err);
                 this.toastr.error('', this.translate.instant("dashboardpatient.error try again"));
             }));
+    }
+
+    showAttentionPanel(contentInfoAttention){
+            let ngbModalOptions: NgbModalOptions = {
+                backdrop: 'static',
+                keyboard: false,
+                windowClass: 'ModalClass-sm'// xl, lg, sm
+            };
+            this.modalReference2 = this.modalService.open(contentInfoAttention, ngbModalOptions);
     }
 
     cleanxrefs() {

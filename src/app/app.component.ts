@@ -92,7 +92,6 @@ export class AppComponent implements OnInit, OnDestroy{
     }
 
     launchHotjarTrigger(lang){
-      //this.$hotjar.trigger('fake');
       this.actualScenarioHotjar.scenario = 'fake'
       if(lang=='es'){
         var ojb = {lang: lang, scenario: 'generalincoming_es'};
