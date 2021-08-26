@@ -666,7 +666,7 @@
                         <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="text-left">
                           <td class="col-md-12 pb-0" style="padding: 0.4rem;">
                             <strong>
-                              <span *ngIf="symptom.name">{{symptom.name}}</span>
+                              <span *ngIf="symptom.name" class="info" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{symptom.name}}</span>
                               <span *ngIf="!symptom.name">
                                 {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                                   href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
