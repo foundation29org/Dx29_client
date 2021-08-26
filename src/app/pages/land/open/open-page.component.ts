@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { LocationStrategy } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
 import { environment } from 'environments/environment';
@@ -209,7 +210,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         );
       };*/
 
-    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiClinicalTrialsService: ApiClinicalTrialsService) {
+    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiClinicalTrialsService: ApiClinicalTrialsService, private location: LocationStrategy) {
 
         this.lang = sessionStorage.getItem('lang');
         this.originalLang = sessionStorage.getItem('lang');
@@ -234,6 +235,50 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this._startTime = Date.now();
 
         //document.addEventListener("deviceready", this.onDeviceReady.bind(this), false);
+        history.pushState(null, null, window.location.href);  
+
+        this.location.onPopState(() => {
+            if (this.modalReference != undefined) {
+                this.modalReference.close();
+            }else if (this.modalReference2 != undefined) {
+                this.modalReference2.close();
+            }else if (this.modalReference3 != undefined) {
+                this.modalReference3.close();
+            }else{
+                var gotoUrl = environment.api;
+                if(gotoUrl=='http://localhost:8443'){
+                    gotoUrl= 'http://localhost:4200';
+                }
+                if(window.location.href.indexOf("open;role=undiagnosed")!=-1 || window.location.href.indexOf("open;role=clinician")!=-1){
+                    if(this.temporalSymptoms.length>0){
+                        Swal.fire({
+                            title: this.translate.instant("land.Do you want to exit"),
+                            text: this.translate.instant("land.loseprogress"),
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#0CC27E',
+                            cancelButtonColor: '#f9423a',
+                            confirmButtonText: this.translate.instant("generics.Yes"),
+                            cancelButtonText: this.translate.instant("generics.No, cancel"),
+                            showLoaderOnConfirm: true,
+                            allowOutsideClick: false,
+                            reverseButtons: true
+                        }).then((result) => {
+                            if (result.value) {
+                                this.router.navigate(['/']);
+                            } else {
+                                //window.location.replace(gotoUrl);
+                            }
+                        });
+                    }else{
+                        window.location.replace(gotoUrl);
+                    }
+                }else{
+                    window.location.replace(gotoUrl);
+                }
+            }
+            history.pushState(null, null, window.location.href);
+        });
     }
     /*
     onDeviceReady() {
