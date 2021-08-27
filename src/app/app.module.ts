@@ -34,6 +34,7 @@ import { TextTransform } from 'app/shared/services/transform-text.service';
 import { SortService } from 'app/shared/services/sort.service';
 import { SearchService } from 'app/shared/services/search.service';
 import { EventsService } from 'app/shared/services/events.service';
+import { DialogService } from 'app/shared/services/dialog.service';
 import { Data } from 'app/shared/services/data.service';
 import { environment } from 'environments/environment';
 import { BlobStorageService } from 'app/shared/services/blob-storage.service';
@@ -95,6 +96,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       SortService,
       SearchService,
       EventsService,
+      DialogService,
       Data,
       BlobStorageService,
       BlobStoragePedService,

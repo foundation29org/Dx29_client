@@ -11,6 +11,7 @@ import { CONTENT_ROUTES } from "./shared/routes/content-layout.routes";
 import { Land_Pages_ROUTES } from "./shared/routes/land-page-layout.routes"
 
 import { AuthGuard } from './shared/auth/auth-guard.service';
+import { CanDeactivateGuard } from './shared/auth/can-deactivate-guard.service';
 
 const appRoutes: Routes = [
   {
@@ -26,7 +27,10 @@ const appRoutes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    CanDeactivateGuard
+  ]
 })
 
 export class AppRoutingModule {
