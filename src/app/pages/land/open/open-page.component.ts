@@ -234,17 +234,26 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         //this.googleAnalyticsService.eventEmitter("OpenDx - init", "general", this.myuuid, 'init', 5);
         this._startTime = Date.now();
 
-        //document.addEventListener("deviceready", this.onDeviceReady.bind(this), false);
-        history.pushState(null, null, window.location.href);  
+        /*history.pushState(null, null, window.location.href);  
 
         this.location.onPopState(() => {
+            console.log(this.modalReference);
+            console.log(this.modalReference2);
+            console.log(this.modalReference3);
             if (this.modalReference != undefined) {
                 this.modalReference.close();
+                this.modalReference = undefined;
             }else if (this.modalReference2 != undefined) {
                 this.modalReference2.close();
+                this.modalReference2 = undefined;
             }else if (this.modalReference3 != undefined) {
                 this.modalReference3.close();
-            }else{
+                this.modalReference3 = undefined;
+            }
+            history.pushState(null, null, window.location.href);
+        });*/
+
+        /*else{
                 var gotoUrl = environment.api;
                 if(gotoUrl=='http://localhost:8443'){
                     gotoUrl= 'http://localhost:4200';
@@ -276,57 +285,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 }else{
                     window.location.replace(gotoUrl);
                 }
-            }
-            history.pushState(null, null, window.location.href);
-        });
+            }*/
     }
-    /*
-    onDeviceReady() {
-        if(device.platform == 'android' || device.platform == 'Android'){
-          document.addEventListener("backbutton", this.onBackKeyDown.bind(this), false);
-        }else if(device.platform == 'iOS'){
- 
-        };
-       
-      }
 
-      onBackKeyDown(){
-        if (this.modalReference != undefined) {
-            this.modalReference.close();
-        }else if (this.modalReference2 != undefined) {
-            this.modalReference2.close();
-        }else if (this.modalReference3 != undefined) {
-            this.modalReference3.close();
-        }else{
-            if(this.role!='diagnosed' && this.temporalSymptoms.length>0 && this.topRelatedConditions.length==0){
-                //if(this.actualPage == 'menu.Dashboard' || this.actualPage == 'menu.Dashboard Admin'){
-                    Swal.fire({
-                        title: this.translate.instant("land.Do you want to exit"),
-                        text: this.translate.instant("land.loseprogress"),
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#0CC27E',
-                        cancelButtonColor: '#f9423a',
-                        confirmButtonText: this.translate.instant("generics.Yes"),
-                        cancelButtonText: this.translate.instant("generics.No, cancel"),
-                        showLoaderOnConfirm: true,
-                        allowOutsideClick: false,
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.value) {
-                            window.history.back();
-                        } else {
-        
-                        }
-                    });
-         
-                }else{
-                    window.history.back();
-                }
-        }
-        
-      }
-    */
     getElapsedSeconds() {
         var endDate = Date.now();
         var seconds = (endDate - this._startTime) / 1000;
@@ -518,7 +479,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.modelTemp = '';
     }
 
-    onFileChangePDF(event, element) {
+    onFileChangePDF(event) {
         if (event.target.files && event.target.files[0]) {
             var reader = new FileReader();
             reader.readAsDataURL(event.target.files[0]); // read file as data url
@@ -528,7 +489,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 var extension = (event.target.files[0]).name.substr((event.target.files[0]).name.lastIndexOf('.'));
                 extension = extension.toLowerCase();
                 this.langToExtract = '';
-                this.optionSymptomAdded = "File - " + element;
+                this.optionSymptomAdded = "File";
                 if (event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || extension == '.docx') {
                     this.loadFile(the_url, function (err, content) {
                         if (err) { console.log(err); };

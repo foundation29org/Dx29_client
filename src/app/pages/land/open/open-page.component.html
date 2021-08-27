@@ -42,7 +42,7 @@
                       }}</strong></ng-template>
                   <ng-template ngbTabContent>
                     <div class="container-custom" appDnd (fileDropped)="onFileDropped($event)">
-                      <input type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event, '1');"
+                      <input type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
                         accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
                       <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="arrow-alt-from-bottom"
                         role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
@@ -132,10 +132,10 @@
               </ngb-tabset>
             </div>
           </div>
-          <span style="position: absolute; top:102%">
+          <!--<span style="position: absolute; top:102%">
             <a class="info" title="{{'homepatientdx.subtitlep5.3' | translate }}"
               (click)="registerToDx29V2();">{{'homepatientdx.subtitlep5.3' | translate }}</a> {{'land.msgSaveData' | translate }}
-          </span>
+          </span>-->
           <!--<span style="position: absolute; top:102%">
             {{'land.availableLangs' | translate }}
             <a class="info" href={{refLangs}} target="_blank" title="{{'land.availableLangs' | translate }}"
@@ -166,12 +166,6 @@
                       style="cursor: pointer;"></em>
                     <em class="mt-1 fas fa-copy grey float-right mr-2" title="{{'land.Copy symptoms' | translate }}"
                       (click)="copySymptoms()" style="cursor: pointer;"></em>
-                    <label class="float-right" style="cursor: pointer;"
-                      title="{{'diagnosis.Input or upload a medical record' | translate }}">
-                      <em class="mt-1 far fa-file grey mr-2"></em> <input type="file"
-                        (change)="onFileChangePDF($event, '2');" style="display: none;"
-                        accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif">
-                    </label>
                     <em class="mt-1 fa fa-refresh grey float-right mr-2" title="{{'land.Start over' | translate }}"
                       (click)="restartInitVars()" style="cursor: pointer;"></em>
                   </th>
@@ -323,14 +317,14 @@
               </div>
             </span>
           </div>
-          <span style="position: absolute; top:102%">
+          <!--<span style="position: absolute; top:102%">
             {{'land.If you want to know how Dx29' | translate }}
             <a (click)="showInfoDx29(contentInfoDx29);" title="Dx29 y sus resultados"> {{'land.here' | translate }}</a>
-          </span>
+          </span>-->
         </div>
       </div>
-      <div class="p-2 mt-3">
-        <div class="bodyscroll mt-3">
+      <div class="p-2">
+        <div class="bodyscroll mt-2">
           <div class='scrolldown' style="--color: #33658A; cursor: pointer;" (click)="goto('initpos')">
             <div class="chevrons">
               <div class='chevrondown'></div>
