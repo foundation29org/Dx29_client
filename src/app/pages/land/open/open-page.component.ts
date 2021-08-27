@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { LocationStrategy } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
 import { environment } from 'environments/environment';
@@ -23,6 +22,7 @@ import { Clipboard } from "@angular/cdk/clipboard"
 import { v4 as uuidv4 } from 'uuid';
 import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.service';
 import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
+import { DialogService  } from 'app/shared/services/dialog.service';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -149,7 +149,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     loadingOneDisease: boolean = false;
     email: string = '';
     nothingFoundDisease: boolean = false;
-
+    private activeRoute: string;
 
     @ViewChild("inputTextArea") inputTextAreaElement: ElementRef;
     @ViewChild("inputManualSymptoms") inputManualSymptomsElement: ElementRef;
@@ -210,7 +210,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         );
       };*/
 
-    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiClinicalTrialsService: ApiClinicalTrialsService, private location: LocationStrategy) {
+    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiClinicalTrialsService: ApiClinicalTrialsService, public dialogService: DialogService) {
 
         this.lang = sessionStorage.getItem('lang');
         this.originalLang = sessionStorage.getItem('lang');
@@ -234,58 +234,35 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         //this.googleAnalyticsService.eventEmitter("OpenDx - init", "general", this.myuuid, 'init', 5);
         this._startTime = Date.now();
 
-        /*history.pushState(null, null, window.location.href);  
+    }
 
-        this.location.onPopState(() => {
-            console.log(this.modalReference);
-            console.log(this.modalReference2);
-            console.log(this.modalReference3);
-            if (this.modalReference != undefined) {
-                this.modalReference.close();
-                this.modalReference = undefined;
-            }else if (this.modalReference2 != undefined) {
-                this.modalReference2.close();
-                this.modalReference2 = undefined;
-            }else if (this.modalReference3 != undefined) {
-                this.modalReference3.close();
-                this.modalReference3 = undefined;
-            }
-            history.pushState(null, null, window.location.href);
-        });*/
-
-        /*else{
-                var gotoUrl = environment.api;
-                if(gotoUrl=='http://localhost:8443'){
-                    gotoUrl= 'http://localhost:4200';
-                }
-                if(window.location.href.indexOf("open;role=undiagnosed")!=-1 || window.location.href.indexOf("open;role=clinician")!=-1){
-                    if(this.temporalSymptoms.length>0){
-                        Swal.fire({
-                            title: this.translate.instant("land.Do you want to exit"),
-                            text: this.translate.instant("land.loseprogress"),
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#0CC27E',
-                            cancelButtonColor: '#f9423a',
-                            confirmButtonText: this.translate.instant("generics.Yes"),
-                            cancelButtonText: this.translate.instant("generics.No, cancel"),
-                            showLoaderOnConfirm: true,
-                            allowOutsideClick: false,
-                            reverseButtons: true
-                        }).then((result) => {
-                            if (result.value) {
-                                this.router.navigate(['/']);
-                            } else {
-                                //window.location.replace(gotoUrl);
-                            }
-                        });
-                    }else{
-                        window.location.replace(gotoUrl);
-                    }
+    canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+        if (this.modalReference != undefined) {
+            this.modalReference.close();
+            this.modalReference = undefined;
+            return false;
+        }else if (this.modalReference2 != undefined) {
+            this.modalReference2.close();
+            this.modalReference2 = undefined;
+            return false;
+        }else if (this.modalReference3 != undefined) {
+            this.modalReference3.close();
+            this.modalReference3 = undefined;
+            return false;
+        }else{            
+            if(this.activeRoute.indexOf("open;role=undiagnosed")!=-1 || this.activeRoute.indexOf("open;role=clinician")!=-1){
+                console.log(this.temporalSymptoms.length);
+                if(this.temporalSymptoms.length>0){
+                    var obser =this.dialogService.confirm(this.translate.instant("land.Do you want to exit"), this.translate.instant("land.loseprogress"));
+                    return obser;
                 }else{
-                    window.location.replace(gotoUrl);
+                    return true;
                 }
-            }*/
+            }else{
+                return true;
+            }
+        }
+        //return true;
     }
 
     getElapsedSeconds() {
@@ -402,6 +379,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngOnInit() {
+        this.activeRoute = this.router.url;
         this.subscription.add(this.route.params.subscribe(params => {
             if (params['role'] != undefined) {
                 this.role = params['role'];
