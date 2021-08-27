@@ -9,6 +9,8 @@ export interface CanComponentDeactivate {
 @Injectable()
 export class CanDeactivateGuard implements CanDeactivate<CanComponentDeactivate> {
   canDeactivate(component: CanComponentDeactivate) {
+     history.pushState(null, null, window.location.href);
+
      return component.canDeactivate ? component.canDeactivate() : true;
   }
 }
