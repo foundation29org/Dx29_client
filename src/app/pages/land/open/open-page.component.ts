@@ -1726,7 +1726,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             this.subscriptionDiseasesCall= this.apiDx29ServerService.searchDiseases(info)
                 .subscribe((res: any) => {
-                    console.log(res);
                     this.callListOfDiseases = false;
                     if(res==null){
                         this.nothingFoundDisease = true;
