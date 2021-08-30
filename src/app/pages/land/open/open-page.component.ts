@@ -83,6 +83,8 @@ declare global {
 export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private subscription: Subscription = new Subscription();
+    private subscriptionDiseasesCall: Subscription = new Subscription();
+    private subscriptionDiseasesNotFound: Subscription = new Subscription();
     parserObject: any = { parserStrategy: 'Auto', callingParser: false, file: undefined };
     showPanelExtractor: boolean = false;
     expanded: boolean = true;
@@ -432,6 +434,13 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
+
+        if (this.subscriptionDiseasesCall) {
+            this.subscriptionDiseasesCall.unsubscribe();
+        }
+        if (this.subscriptionDiseasesNotFound) {
+            this.subscriptionDiseasesNotFound.unsubscribe();
+        }
     }
 
     selected($e) {
@@ -1656,12 +1665,21 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     directCalculate() {
         if (this.temporalSymptoms.length >= this.minSymptoms) {
-            this.substepExtract = '4';
-            this.lauchEvent("Symptoms");
-            this.calculate();
+            if(this.medicalText.length>5){
+                this.startExtractor();
+            }else{
+                this.substepExtract = '4';
+                this.lauchEvent("Symptoms");
+                this.calculate();
+            }
+            
         } else {
-            Swal.fire(this.translate.instant("land.addMoreSymp"), this.translate.instant("land.remember"), "error");
-            this.loadingCalculate = false;
+            if(this.medicalText.length>5){
+                this.startExtractor();
+            }else{
+                Swal.fire(this.translate.instant("land.addMoreSymp"), this.translate.instant("land.remember"), "error");
+                this.loadingCalculate = false;
+            }  
         }
 
     }
@@ -1694,13 +1712,19 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.showIntro = true;
         this.symtomsSent = false;
         if (this.searchDiseaseField.trim().length > 3) {
+            if (this.subscriptionDiseasesCall) {
+                this.subscriptionDiseasesCall.unsubscribe();
+            }
+            if (this.subscriptionDiseasesNotFound) {
+                this.subscriptionDiseasesNotFound.unsubscribe();
+            }
             this.callListOfDiseases = true;
             var tempModelTimp = this.searchDiseaseField.trim();
             var info = {
                 "text": tempModelTimp,
                 "lang": sessionStorage.getItem('lang')
             }
-            this.subscription.add(this.apiDx29ServerService.searchDiseases(info)
+            this.subscriptionDiseasesCall= this.apiDx29ServerService.searchDiseases(info)
                 .subscribe((res: any) => {
                     console.log(res);
                     this.callListOfDiseases = false;
@@ -1723,10 +1747,10 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                             var d = new Date(Date.now());
                             var a = d.toString();
                             params.Date = a;
-                            this.subscription.add(this.http.post('https://prod-246.westeurope.logic.azure.com:443/workflows/5af138b9f41f400f89ecebc580d7668f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PiYef1JHGPRDGhYWI0s1IS5a_9Dpz7HLjwfEN_M7TKY', params)
+                            this.subscriptionDiseasesNotFound = this.http.post('https://prod-246.westeurope.logic.azure.com:443/workflows/5af138b9f41f400f89ecebc580d7668f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PiYef1JHGPRDGhYWI0s1IS5a_9Dpz7HLjwfEN_M7TKY', params)
                                 .subscribe((res: any) => {
                                 }, (err) => {
-                                }));
+                                });
                         }
                     }
                     
@@ -1734,7 +1758,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     console.log(err);
                     this.nothingFoundDisease = false;
                     this.callListOfDiseases = false;
-                }));
+                });
         } else {
             this.callListOfDiseases = false;
             this.listOfFilteredDiseases = [];

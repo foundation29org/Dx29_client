@@ -21,7 +21,7 @@
           class="mb-2 offset-xl-1 col-xl-5 mrbox shadow rounded-lg light-background border box-panels">
           <div class="row pt-2">
             <div class="col-md-12">
-              <ngb-tabset>
+              <ngb-tabset justify="justified">
                 <ngb-tab>
                   <ng-template ngbTabTitle><strong><i class="fa fa-language" aria-hidden="true"></i>
                       {{'land.Text' | translate }}</strong></ng-template>
@@ -160,18 +160,21 @@
               aria-label="extract HPO">
               <thead>
                 <tr>
-                  <th id="headerTable" style="border-top-style: none;">{{'land.SelectSymptoms' | translate }}
-                    <em class="mt-1 fa fa-download grey float-right mr-2"
+                  <th id="headerTable" style="border-top-style: none;">
+                    <span class="icons-title-symptoms">{{'land.SelectSymptoms' | translate }}</span>
+                    <span class="float-right icons-opt-symptoms">
+                    <em class="mt-1 fa fa-refresh grey  mr-2" title="{{'land.Start over' | translate }}"
+                      (click)="restartInitVars()" style="cursor: pointer;"></em>
+                      <em class="mt-1 fas fa-copy grey mr-2" title="{{'land.Copy symptoms' | translate }}"
+                      (click)="copySymptoms()" style="cursor: pointer;"></em>
+                      <em class="mt-1 fa fa-download grey mr-2"
                       title="{{'land.Download symptoms' | translate }}" (click)="downloadSymptoms()"
                       style="cursor: pointer;"></em>
-                    <em class="mt-1 fas fa-copy grey float-right mr-2" title="{{'land.Copy symptoms' | translate }}"
-                      (click)="copySymptoms()" style="cursor: pointer;"></em>
-                    <em class="mt-1 fa fa-refresh grey float-right mr-2" title="{{'land.Start over' | translate }}"
-                      (click)="restartInitVars()" style="cursor: pointer;"></em>
+                    </span>
                   </th>
                 </tr>
               </thead>
-              <caption class="ml-2 text-muted d-block">
+              <caption class="ml-2 text-muted d-block caption-symptoms">
                 <ng-template #rt let-r="result" let-t="term">
                   <strong title="{{r.name}}">{{ r.name}}</strong>
                   <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
@@ -566,8 +569,7 @@
                         <td class="col-md-12 dropdown-item" id="{{disease.id}}"
                           (click)="showMoreInfoDiagnosePopup(i, contentInfoAttention);lauchEvent('Diagnosed - Select Disease');" style="cursor: pointer;"
                           title="{{'generics.More information' | translate }} ({{disease.id}})">
-                          <span *ngIf="disease.source!='synonyms'">{{disease.name}}</span>
-                          <span *ngIf="disease.source=='synonyms'"> {{disease.itemCompared}} ({{'generics.Synonyms' | translate}}: {{disease.name}})</span>
+                          <span>{{disease.name}}</span>
                           <!--<span class="custom-bold ml-1"><strong>{{disease.name}}</strong></span>
                           <span *ngIf="disease.synonyms.length>0">
                             <span class="d-block">Synonyms:</span>
@@ -630,11 +632,11 @@
               </span>          
             </div>
           </div>
-          <ngb-tabset>
+          <ngb-tabset type="pills" id="exTab1">
             <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined">
               <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Symptoms');">{{'land.diagnosed.general.Symptoms' | translate }}</strong></ng-template>
               <ng-template ngbTabContent>
-                <div class="row col-md-12">
+                <div class="col-md-12">
                   <p>{{'land.diagnosed.symptoms.Select the symptoms you have by' | translate }} <span class="info" style="cursor: pointer;" (click)="showAttentionPanel(contentInfoAttention)">{{'land.diagnosed.symptoms.clicking here' | translate }}</span></p>
                   <div class="table-responsive">
                     <table class="table mb-0 text-center d-none d-sm-block">
@@ -1002,9 +1004,9 @@
           </tbody>
         </table>
         <table class="table mb-0 text-center d-block d-sm-none">
-          <tbody style="max-height:inherit;">
+          <tbody class="tbody-sm" style="max-height:inherit;">
             <tr *ngFor="let symptom of topRelatedConditions[selectedInfoDiseaseIndex].symptoms ; let i = index" class="text-left">
-              <td class="col-md-12" style="padding: 0.4rem;">
+              <td class="col-md-12 td-flex-sm" style="padding: 0.4rem;">
                 <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease);"
                   class="btn-outline-info btn btn-sm mr-2 mb-0 btn-fab round"
                   title="{{'generics.More information' | translate }} ({{symptom.id}})">
