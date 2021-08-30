@@ -1,3 +1,12 @@
+:host /deep/ .nav-pills{
+  background: #eee;
+}
+
+:host /deep/ #exTab1 .tab-content {
+  background-color: #f4f4f4;
+  padding-bottom: 1rem !important;
+}
+
 .background-img{
   min-height: 76vh !important;
   background-image: url("assets/img/home/background.jpg");
@@ -18,8 +27,8 @@
 }
 
 #title{
-	text-align: center;
-	font-size : 1.25em;
+    text-align: center;
+    font-size : 1.25em;
   line-height: normal;
 }
 
@@ -375,9 +384,9 @@ body {
 }
 
 :host /deep/ .dropdown-item.active, .dropdown-item:active {
-	color: #fff;
-	text-decoration: none;
-	background-color: #33658A !important;
+    color: #fff;
+    text-decoration: none;
+    background-color: #33658A !important;
 }
 
 .btn-sm, .btn-group-sm > .btn {
@@ -686,6 +695,26 @@ body {
     .box-panels{
       margin-bottom: 2.25rem !important;
     }
+
+    .td-flex-sm{
+      display: table-caption !important;
+    }
+
+    .tbody-sm{
+      display: grid !important;
+    }
+
+    .icons-title-symptoms{
+      display: block;
+    }
+
+    .icons-opt-symptoms{
+      float: left !important;
+    }
+
+    .caption-symptoms{
+      padding-top: 0rem !important;
+    }
   }
 
 
@@ -695,7 +724,7 @@ body {
       width: 86%
     }
 
-    :host /deep/ .nav-tabs{
+    :host /deep/ .nav-pills{
       flex-direction: column !important;
     }
 
