@@ -566,7 +566,8 @@
                         <td class="col-md-12 dropdown-item" id="{{disease.id}}"
                           (click)="showMoreInfoDiagnosePopup(i, contentInfoAttention);lauchEvent('Diagnosed - Select Disease');" style="cursor: pointer;"
                           title="{{'generics.More information' | translate }} ({{disease.id}})">
-                          <span>{{disease.name}}</span>
+                          <span *ngIf="disease.source!='synonyms'">{{disease.name}}</span>
+                          <span *ngIf="disease.source=='synonyms'"> {{disease.itemCompared}} ({{'generics.Synonyms' | translate}}: {{disease.name}})</span>
                           <!--<span class="custom-bold ml-1"><strong>{{disease.name}}</strong></span>
                           <span *ngIf="disease.synonyms.length>0">
                             <span class="d-block">Synonyms:</span>
