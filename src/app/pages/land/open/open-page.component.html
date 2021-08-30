@@ -724,9 +724,11 @@
                       <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.LocationCountry' | translate }}:</strong></span>
                       <p class="d-block mb-0" *ngFor="let location of studie.Study.ProtocolSection.ContactsLocationsModule.listCountriesCleaned ; let j = index">{{location.LocationCountry}}</p>
                     </span>
-                    <span *ngIf="studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList.CentralContact.length>0">
-                      <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.Contact' | translate }}:</strong></span>
-                      <p class="d-block mb-0" *ngFor="let contact of studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList.CentralContact ; let k = index">{{contact.CentralContactName}} <<a href='mailto:{{contact.CentralContactEMail}}'>{{contact.CentralContactEMail}}</a>></p>
+                    <span *ngIf="studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList!=undefined">
+                      <span *ngIf="studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList.CentralContact.length>0">
+                        <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.Contact' | translate }}:</strong></span>
+                        <p class="d-block mb-0" *ngFor="let contact of studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList.CentralContact ; let k = index">{{contact.CentralContactName}} <<a href='mailto:{{contact.CentralContactEMail}}'>{{contact.CentralContactEMail}}</a>></p>
+                      </span>
                     </span>
                     
                     <hr *ngIf="i<clinicalTrials.length-1" width="100%" size="20" color="#b0b6bb" class="mt-2">
