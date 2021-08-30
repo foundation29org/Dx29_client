@@ -251,9 +251,8 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             this.modalReference3.close();
             this.modalReference3 = undefined;
             return false;
-        }else{            
+        }else{      
             if(this.activeRoute.indexOf("open;role=undiagnosed")!=-1 || this.activeRoute.indexOf("open;role=clinician")!=-1){
-                console.log(this.temporalSymptoms.length);
                 if(this.temporalSymptoms.length>0){
                     var obser =this.dialogService.confirm(this.translate.instant("land.Do you want to exit"), this.translate.instant("land.loseprogress"));
                     return obser;
@@ -1525,6 +1524,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         document.getElementsByClassName("ModalClass-sm")[0].removeEventListener("scroll", this.myFunction);
         if (this.modalReference != undefined) {
             this.modalReference.close();
+            this.modalReference = undefined;
         }
     }
 
@@ -1620,6 +1620,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.lauchEvent("Registration Power");
         if (this.modalReference != undefined) {
             this.modalReference.close();
+            this.modalReference = undefined;
         }
         var info = {
             "Symptoms": []
@@ -1849,6 +1850,10 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     showAttentionPanel(contentInfoAttention){
+        this.numberOfSymtomsChecked = 0;
+        for (var i = 0; i < this.infoOneDisease.symptoms.length; i++) {
+            this.infoOneDisease.symptoms[i].checked = false;
+        }
             let ngbModalOptions: NgbModalOptions = {
                 backdrop: 'static',
                 keyboard: false,
@@ -1953,6 +1958,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     };
                     if (this.modalReference3 != undefined) {
                         this.modalReference3.close();
+                        this.modalReference3 = undefined;
                     }
                     this.modalReference3 = this.modalService.open(contentInfoSendSymptoms, ngbModalOptions);
                     // Swal.fire(this.translate.instant("land.diagnosed.symptoms.Nice"), this.translate.instant("land.diagnosed.symptoms.msgCheckedSymptoms"), "success"); 
@@ -2045,12 +2051,14 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     closeSymptom() {
         if (this.modalReference != undefined) {
             this.modalReference.close();
+            this.modalReference = undefined;
         }
     }
 
     letsGo() {
         if (this.modalReference2 != undefined) {
             this.modalReference2.close();
+            this.modalReference2 = undefined;
         }
         this.showIntro = false;
     }
@@ -2058,6 +2066,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     closeInfoSendSymptoms() {
         if (this.modalReference3 != undefined) {
             this.modalReference3.close();
+            this.modalReference3 = undefined;
             Swal.fire({
                 icon: 'success',
                 html: this.translate.instant("land.diagnosed.symptoms.msgCheckedSymptoms"),
@@ -2071,6 +2080,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             }, 2000);
             if (this.modalReference2 != undefined) {
                 this.modalReference2.close();
+                this.modalReference2 = undefined;
             }
             this.symtomsSent = true;
         }
@@ -2105,10 +2115,12 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
                 if (this.modalReference3 != undefined) {
                     this.modalReference3.close();
+                    this.modalReference3 = undefined;
                 }
                 this.email = '';
                 if (this.modalReference2 != undefined) {
                     this.modalReference2.close();
+                    this.modalReference2 = undefined;
                 }
             }, (err) => {
                 console.log(err);
