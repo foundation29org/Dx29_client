@@ -135,6 +135,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     infoOneDisease: any = {};
     modalReference2: NgbModalRef;
     modalReference3: NgbModalRef;
+    modalReference4: NgbModalRef;
     clinicalTrials: any = {};
 
     @ViewChild('f') donorDataForm: NgForm;
@@ -239,30 +240,43 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-        if (this.modalReference != undefined) {
-            this.modalReference.close();
-            this.modalReference = undefined;
-            return false;
-        }else if (this.modalReference2 != undefined) {
-            this.modalReference2.close();
-            this.modalReference2 = undefined;
-            return false;
-        }else if (this.modalReference3 != undefined) {
-            this.modalReference3.close();
-            this.modalReference3 = undefined;
-            return false;
-        }else{      
-            if(this.activeRoute.indexOf("open;role=undiagnosed")!=-1 || this.activeRoute.indexOf("open;role=clinician")!=-1){
-                if(this.temporalSymptoms.length>0){
-                    var obser =this.dialogService.confirm(this.translate.instant("land.Do you want to exit"), this.translate.instant("land.loseprogress"));
-                    return obser;
+        console.log(this.modalReference);
+        console.log(this.modalReference2);
+        console.log(this.modalReference3);
+        console.log(this.modalReference4);
+        if(this.role==''){
+            return true;
+        }else{
+            if (this.modalReference != undefined) {
+                this.modalReference.close();
+                this.modalReference = undefined;
+                return false;
+            }else if (this.modalReference2 != undefined) {
+                this.modalReference2.close();
+                this.modalReference2 = undefined;
+                return false;
+            }else if (this.modalReference3 != undefined) {
+                this.modalReference3.close();
+                this.modalReference3 = undefined;
+                return false;
+            }else if (this.modalReference4 != undefined) {
+                this.modalReference4.close();
+                this.modalReference4 = undefined;
+                return false;
+            }else{      
+                if(this.activeRoute.indexOf("open;role=undiagnosed")!=-1 || this.activeRoute.indexOf("open;role=clinician")!=-1){
+                    if(this.temporalSymptoms.length>0){
+                        var obser =this.dialogService.confirm(this.translate.instant("land.Do you want to exit"), this.translate.instant("land.loseprogress"));
+                        return obser;
+                    }else{
+                        return true;
+                    }
                 }else{
                     return true;
                 }
-            }else{
-                return true;
             }
         }
+        
         //return true;
     }
 
@@ -647,9 +661,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             Swal.fire('', this.translate.instant("land.placeholderError"), "error");
         } else {
             this.restartAllVars();
-        this.failSegmentation = false;
-        this.loadingHpoExtractor = true;
-        this.substepExtract = '1';
+            this.failSegmentation = false;
+            this.loadingHpoExtractor = true;
+            this.substepExtract = '1';
             var testLangText = this.medicalText.substr(0, 4000)
             this.subscription.add(this.apiDx29ServerService.getDetectLanguage(testLangText)
                 .subscribe((res: any) => {
@@ -1022,6 +1036,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.ncrResultView = false;
         this.selectedInfoSymptomIndex = symptomIndex;
         let ngbModalOptions: NgbModalOptions = {
+            backdrop: 'static',
             keyboard: false,
             windowClass: 'ModalClass-sm'// xl, lg, sm
         };
@@ -1046,7 +1061,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             var lang = this.lang;
             this.subscription.add(this.apiDx29ServerService.calculate(info, lang)
                 .subscribe((res: any) => {
-                    console.log(res);
                     if (res == null) {
                         this.calculate()
                     } else {
@@ -1236,10 +1250,11 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.selectedInfoDiseaseIndex = diseaseIndex;
         if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded) {
             let ngbModalOptions: NgbModalOptions = {
-                keyboard: true,
+                backdrop: 'static',
+                keyboard: false,
                 windowClass: 'ModalClass-lg'// xl, lg, sm
             };
-            this.modalReference = this.modalService.open(contentInfoDisease, ngbModalOptions);
+            this.modalReference4 = this.modalService.open(contentInfoDisease, ngbModalOptions);
         } else {
             this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded = true;
             if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].changed) {
@@ -1325,11 +1340,12 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
 
                 let ngbModalOptions: NgbModalOptions = {
-                    keyboard: true,
+                    backdrop: 'static',
+                    keyboard: false,
                     windowClass: 'ModalClass-lg'// xl, lg, sm
                 };
                 this.getfrequencies(this.selectedInfoDiseaseIndex);
-                this.modalReference = this.modalService.open(contentInfoDisease, ngbModalOptions);
+                this.modalReference4 = this.modalService.open(contentInfoDisease, ngbModalOptions);
 
             }, (err) => {
                 console.log(err);
@@ -1532,6 +1548,20 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
+    closeModal0() {
+        if (this.modalReference != undefined) {
+            this.modalReference.close();
+            this.modalReference = undefined;
+        }
+    }
+
+    closeModal4() {
+        if (this.modalReference4 != undefined) {
+            this.modalReference4.close();
+            this.modalReference4 = undefined;
+        }
+    }
+
     myFunction() {
         console.log("certrando");
         document.getElementsByClassName("ModalClass-sm")[0]
@@ -1561,7 +1591,8 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     showInfoSponsored(contentInfoSponsored) {
         let ngbModalOptions: NgbModalOptions = {
-            keyboard: true,
+            backdrop: 'static',
+            keyboard: false,
             windowClass: 'ModalClass-lg'// xl, lg, sm
         };
         this.modalReference = this.modalService.open(contentInfoSponsored, ngbModalOptions);
@@ -1571,7 +1602,8 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.lauchEvent("ShowInfoDx29");
         this.initGraphs();
         let ngbModalOptions: NgbModalOptions = {
-            keyboard: true,
+            backdrop: 'static',
+            keyboard: false,
             windowClass: 'ModalClass-sm'// xl, lg, sm
         };
         this.modalReference = this.modalService.open(contentInfoDx29, ngbModalOptions);
@@ -1613,7 +1645,8 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     registerToDx29Swal(contentToDx29V2) {
         let ngbModalOptions: NgbModalOptions = {
-            keyboard: true,
+            backdrop: 'static',
+            keyboard: false,
             windowClass: 'ModalClass-lg'// xl, lg, sm
         };
         this.modalReference = this.modalService.open(contentToDx29V2, ngbModalOptions);
