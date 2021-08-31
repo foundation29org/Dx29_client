@@ -2,6 +2,25 @@
   background: #eee;
 }
 
+.pointer{
+  cursor: pointer; 
+}
+.nav-link.active, .nav-pills .show > .nav-link {
+  background-color: #CD853F !important;
+  color: white !important;
+  border-radius: 0;
+  border: 3px solid #CD853F;
+  padding-bottom: 2px;      
+}
+.nav-link {
+  margin-bottom: 25px !important;
+  color: #CD853F !important;
+  border: 3px solid #CD853F !important;      
+}
+.nav-tabs{
+  border-bottom: 0 !important;
+}
+
 :host /deep/ #exTab1 .tab-content {
   background-color: #f4f4f4;
   padding-bottom: 1rem !important;
@@ -48,40 +67,6 @@
   background-color: #fffc !important;
 }
 
-figure.effect-layla {
-  background: #33658A;
-}
-
-figure.effect-layla2 {
-  background: #f9423a;
-}
-
-.grid-hover figure {
-  max-width: initial !important;
-}
-
-a.navbar-brand {
-    white-space: normal;
-    text-align: center;
-    word-break: break-all;
-}
-
-.grid-hover {
-  padding: 1em 0 2em !important;
-}
-
-.backinit1{
-  background-color: #33648ab9;
-}
-
-.backinit2{
-  background-color: #f9423a99;
-}
-
-.backover:hover{
-  background-color: #111110;
-}
-
 /* Provide sufficient contrast against white background */
 a {
     color: #33658A;
@@ -103,12 +88,6 @@ a {
 -------------------------------------------------- */
 html {
     font-size: 14px;
-}
-
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
 }
 
 .border-top {

@@ -146,8 +146,18 @@ export class ApiDx29ServerService {
         })
     }
 
-    sendCustomsEmail(info) {
-      return this.http.post(environment.api + '/api/sendCustomsEmail', info)
+    sendEmailResults(info) {
+      return this.http.post(environment.api + '/api/sendEmailResults', info)
+        .map((res: any) => {
+          return res;
+        }, (err) => {
+          console.log(err);
+          return err;
+        })
+    }
+
+    sendEmailRevolution(info) {
+      return this.http.post(environment.api + '/api/sendEmailRevolution', info)
         .map((res: any) => {
           return res;
         }, (err) => {

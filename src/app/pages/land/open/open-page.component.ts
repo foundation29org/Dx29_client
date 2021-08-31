@@ -134,7 +134,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     selectedDiseaseIndex: number = -1;
     infoOneDisease: any = {};
     modalReference2: NgbModalRef;
-    modalReference3: NgbModalRef;
     clinicalTrials: any = {};
 
     @ViewChild('f') donorDataForm: NgForm;
@@ -142,8 +141,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     formOpen: any = { Answers: [], Free: '', Email: '', terms2: false };
     showErrorForm: boolean = false;
     showIntro: boolean = true;
-    symtomsSent: boolean = false;
-    sendEmailvar: boolean = false;
     curatedLists: any = [];
     dontShowIntro: boolean = false;
     showAllDescrip: boolean = false;
@@ -246,10 +243,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }else if (this.modalReference2 != undefined) {
             this.modalReference2.close();
             this.modalReference2 = undefined;
-            return false;
-        }else if (this.modalReference3 != undefined) {
-            this.modalReference3.close();
-            this.modalReference3 = undefined;
             return false;
         }else{      
             if(this.activeRoute.indexOf("open;role=undiagnosed")!=-1 || this.activeRoute.indexOf("open;role=clinician")!=-1){
@@ -1446,7 +1439,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     showCancelButton: true
                 }).then(function (message) {
                     var info = { email: email.value, msg: message.value, symptoms: infoSymptoms, diseases: infoDiseases, lang: this.lang };
-                    this.subscription.add(this.apiDx29ServerService.sendCustomsEmail(info)
+                    this.subscription.add(this.apiDx29ServerService.sendEmailResults(info)
                         .subscribe((res: any) => {
                             Swal.fire({
                                 icon: 'success',
@@ -1711,7 +1704,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.nothingFoundDisease = false;
         this.showDisease = false;
         this.showIntro = true;
-        this.symtomsSent = false;
         if (this.searchDiseaseField.trim().length > 3) {
             if (this.subscriptionDiseasesCall) {
                 this.subscriptionDiseasesCall.unsubscribe();
@@ -1937,30 +1929,46 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.numberOfSymtomsChecked == 0) {
             Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
         } else {
-
+            this.sending = true;
             var listChecked = [];
             for (var i = 0; i < this.infoOneDisease.symptoms.length; i++) {
                 if (this.infoOneDisease.symptoms[i].checked) {
                     listChecked.push(this.infoOneDisease.symptoms[i].id);
                 }
             }
-            var info = { idClient: this.myuuid, diseaseId: this.infoOneDisease.id, xrefs: this.infoOneDisease.xrefs, symptoms: listChecked };
+            var info = { idClient: this.myuuid, diseaseId: this.infoOneDisease.id, xrefs: this.infoOneDisease.xrefs, symptoms: listChecked, email: this.email};
             this.subscription.add(this.apiDx29ServerService.chekedSymptomsOpenDx29(info)
                 .subscribe((res: any) => {
-                    this.lauchEvent('Diagnosed - Send Symptoms');
-                    document.getElementById('step1').scrollIntoView(true);
-                    this.curatedLists.push({ id: this.infoOneDisease.id });
-                    this.dontShowIntro = true;
-                    let ngbModalOptions: NgbModalOptions = {
-                        backdrop: 'static',
-                        keyboard: false,
-                        windowClass: 'ModalClass-sm'// xl, lg, sm
-                    };
-                    if (this.modalReference3 != undefined) {
-                        this.modalReference3.close();
-                        this.modalReference3 = undefined;
-                    }
-                    this.modalReference3 = this.modalService.open(contentInfoSendSymptoms, ngbModalOptions);
+
+                    this.sending = false;
+                            Swal.fire({
+                                icon: 'success',
+                                html: this.translate.instant("land.diagnosed.DonorData.msgform"),
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                allowOutsideClick: false
+                            })
+                            setTimeout(function () {
+                                Swal.close();
+                                //window.location.href = 'https://foundation29.org/';
+                            }, 2000);
+                            this.email = '';
+                            if (this.modalReference2 != undefined) {
+                                this.modalReference2.close();
+                                this.modalReference2 = undefined;
+                            }
+                            this.lauchEvent('Diagnosed - Send Symptoms');
+                            document.getElementById('step1').scrollIntoView(true);
+                            this.curatedLists.push({ id: this.infoOneDisease.id });
+                            this.dontShowIntro = true;
+                            
+                    /*var info = { email: this.email, lang: this.lang };
+                    this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
+                        .subscribe((res: any) => {
+                            
+                        }));*/
+
+                    
                     // Swal.fire(this.translate.instant("land.diagnosed.symptoms.Nice"), this.translate.instant("land.diagnosed.symptoms.msgCheckedSymptoms"), "success"); 
                 }));
         }
@@ -2042,7 +2050,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         var foundElement = this.searchService.search(this.curatedLists, 'id', this.infoOneDisease.id);
         if (foundElement) {
             this.showIntro = false;
-            this.symtomsSent = true;
         }
 
         this.showAllDescrip = false;
@@ -2063,29 +2070,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.showIntro = false;
     }
 
-    closeInfoSendSymptoms() {
-        if (this.modalReference3 != undefined) {
-            this.modalReference3.close();
-            this.modalReference3 = undefined;
-            Swal.fire({
-                icon: 'success',
-                html: this.translate.instant("land.diagnosed.symptoms.msgCheckedSymptoms"),
-                showCancelButton: false,
-                showConfirmButton: false,
-                allowOutsideClick: false
-            })
-            setTimeout(function () {
-                Swal.close();
-                //window.location.href = 'https://foundation29.org/';
-            }, 2000);
-            if (this.modalReference2 != undefined) {
-                this.modalReference2.close();
-                this.modalReference2 = undefined;
-            }
-            this.symtomsSent = true;
-        }
-    }
-
     onSubmitRevolution() {
         this.showErrorForm = false;
         this.sending = true;
@@ -2098,8 +2082,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.subscription.add(this.http.post('https://prod-59.westeurope.logic.azure.com:443/workflows/2d7a82d83b4c4b92a8270a84540b0213/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=fnADjHH0yXxYxonVtre2_yrUFyQ0LR4cX2PJSnPwmrM', params)
             .subscribe((res: any) => {
                 this.sending = false;
-                this.symtomsSent = true;
-                this.sendEmailvar = true;
                 //Swal.fire('', this.translate.instant("land.diagnosed.general.msgSend"), "success");
                 Swal.fire({
                     icon: 'success',
@@ -2112,11 +2094,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     Swal.close();
                     //window.location.href = 'https://foundation29.org/';
                 }, 2000);
-
-                if (this.modalReference3 != undefined) {
-                    this.modalReference3.close();
-                    this.modalReference3 = undefined;
-                }
                 this.email = '';
                 if (this.modalReference2 != undefined) {
                     this.modalReference2.close();
@@ -2132,7 +2109,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     closeDisease() {
         this.showIntro = true;
-        this.symtomsSent = false;
         this.listOfFilteredDiseases = []
         this.showDisease = false;
         this.searchDiseaseField = '';
