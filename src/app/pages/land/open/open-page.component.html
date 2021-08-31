@@ -1326,54 +1326,6 @@
   </div>
 </ng-template>
 
-<ng-template #contentInfoSendSymptoms let-c="close" let-d="dismiss" appendTo="body">
-  <div class="modal-body content-wrapper p-2 border">
-    <div class="p-2">
-      <button type="button" class="close" aria-label="Close" (click)="closeInfoSendSymptoms()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <h4 class="align-self-center mb-0"><strong>{{'land.diagnosed.DonorData.title' | translate }}</strong></h4>
-    </div>
-    <div class="row">
-      <div class="col-md-5">
-        <img class="col mt-1" style="max-width: 300px;" src='assets/img/home/kid.jpg' />
-      </div>
-      <div class="col-md-7 align-self-center">
-        <span class="text-left">
-          <p>
-            {{'land.diagnosed.DonorData.p1' | translate }} 
-          </p>
-          <p>
-            {{'land.diagnosed.DonorData.p2' | translate }}
-          </p>
-          <p>
-            {{'land.diagnosed.DonorData.p3' | translate }}
-          </p>
-        </span>
-      </div>
-    </div>
-    <div *ngIf="!sendEmailvar" class="p-2">
-      <p>
-        <strong>{{'land.diagnosed.DonorData.p4' | translate }}</strong>
-      </p>
-      <form class="form" #f="ngForm">
-        <div class="">
-          <input class="col-md-6 form-control" type="email" id="Email" name="Email" placeholder="{{'generics.Email' | translate }}" ngModel required #Email="ngModel" email name="Email" [(ngModel)]="email">
-          <small class="pr-0 pl-0 col-md-6 form-text danger" *ngIf="!Email.valid && showErrorForm">{{'generics.entervalidemail' | translate }}</small>
-        </div>
-        <div *ngIf="!sending" class="mt-2">
-          <div *ngIf="f.valid;then formValid else formError"></div>
-          <ng-template #formValid><button class="btn btn-outline-info" (click)="onSubmitRevolution();lauchEvent('Diagnosed - Submit Revolution');"> {{'support.Send' | translate }}</button></ng-template>
-          <ng-template #formError><button class="btn btn-outline-info" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
-        </div>
-        <div class="form-actions" *ngIf="sending">
-            <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
-        </div>
-      </form>
-    </div>
-  </div>
-</ng-template>
-
 <ng-template #contentInfoAttention let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-body content-wrapper p-2 center-elements mb-3">
     <div class="p-2">
@@ -1399,70 +1351,6 @@
           </span>
           <div class="mt-2 col-md-12">
             <div class="table-responsive">
-              <!--<table class="table mb-0 text-center d-none d-sm-block">
-                <thead style="width: 100%;display: inline-table;">
-                  <tr class="border-bottom-0 border-top-0">
-                    <th class="text-left" id="Name symptom">{{'diagnosis.Symptoms' | translate }}</th>
-                  </tr>
-                </thead>
-                <tbody class="tableList">
-                  <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
-                    <td class="text-left">
-                      <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
-                        class="btn-outline-info btn btn-sm mr-2 mb-0 btn-fab round"
-                        title="{{'generics.More information' | translate }} ({{symptom.id}})">
-                        <em class="fa fa-info w-13"></em>
-                      </button>
-                      <span *ngIf="symptom.name">{{symptom.name}}</span>
-                      <span *ngIf="!symptom.name">
-                        {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
-                          href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
-                          title="{{symptom.id}}">
-                          <i class="ft-external-link"></i></a></span>
-                    </td>
-                    <td>
-                      <span class="float-right ml-1">
-                        <button (click)="changeStateSymptomDisease(i)"
-                          class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                          [ngClass]="(symptom.checked==true)?'btn-info':'btn-secondary '"
-                          href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
-                          <em class="fa fa-check w-13"></em>
-                        </button>
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-             <table class="table mb-0 text-center d-block d-sm-none">
-                <thead style="width: 100%;display: inline-table;">
-                  <tr class="border-bottom-0 border-top-0">
-                    <th class="text-left" id="Name symptom">{{'diagnosis.Symptoms' | translate }}</th>
-                  </tr>
-                </thead>
-                <tbody class="tableList">
-                  <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="text-left" style="display: table-row !important;">
-                    <td class="text-left pb-0" style="padding: 0.4rem;">
-                      <strong>
-                        <span *ngIf="symptom.name" class="info" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{symptom.id}})">{{symptom.name}}</span>
-                        <span *ngIf="!symptom.name">
-                          {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
-                            href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
-                            title="{{symptom.id}}">
-                            <i class="ft-external-link"></i></a></span>
-                      </strong>
-                    </td>
-                    <td class="text-left border-top-0 pt-0 pb-2" style="padding: 0.4rem;">
-                      <button (click)="changeStateSymptomDisease(i)"
-                          class="btn btn-sm mr-1 mb-0 mt-1 btn-fab round white"
-                          [ngClass]="(symptom.checked==true)?'btn-info':'btn-secondary '"
-                          href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
-                          <em class="fa fa-check w-13"></em>
-                        </button>                          
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            -->
               <table class="table mb-0 text-center">
                 <thead>
                   <tr class="border-bottom-0 border-top-0">
@@ -1494,16 +1382,86 @@
                 </tbody>
               </table>
             </div>
-            <div class="center-elements ml-2 mt-3">
-              <button class="mb-0 btn btn-outline-info btn-navbar" (click)="sendSymtomsChecked(contentInfoSendSymptoms);">{{'land.diagnosed.symptoms.btn' | translate }}</button>
-              <span class="d-block font-small-3 pb-2 info" style="cursor: pointer;" (click)="letsGo();">{{'land.diagnosed.symptoms.btn2' | translate }}</span>
+            <div>
+              <p>
+                {{'land.diagnosed.DonorData.p1' | translate }} 
+              </p>
+              <p>
+                {{'land.diagnosed.DonorData.p2' | translate }}
+              </p>
+              <p>
+                {{'land.diagnosed.DonorData.p3' | translate }}
+              </p>
+              <p>
+                {{'land.diagnosed.DonorData.p4' | translate }}
+              </p>
             </div>
+            <form class="form" #f="ngForm">
+              <div class="">
+                <input class="col-md-12 form-control" type="email" id="Email" name="Email" placeholder="{{'generics.Email' | translate }}" ngModel required #Email="ngModel" email name="Email" [(ngModel)]="email">
+                <small class="pr-0 pl-0 col-md-6 text-left form-text danger" *ngIf="!Email.valid && showErrorForm">{{'generics.entervalidemail' | translate }}</small>
+              </div>
+              <div *ngIf="!sending" class="center-elements ml-2 mt-2">
+                <div *ngIf="f.valid;then formValid else formError"></div>
+                <ng-template #formValid><button class="btn btn-outline-info mb-0" (click)="sendSymtomsChecked(contentInfoSendSymptoms);lauchEvent('Diagnosed - Submit Revolution');"> {{'support.Send' | translate }}</button></ng-template>
+                <ng-template #formError><button class="btn btn-outline-info mb-0" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
+                <span class="d-block font-small-3 pb-2 info" style="cursor: pointer;" (click)="letsGo();">{{'land.diagnosed.symptoms.btn2' | translate }}</span>
+              </div>
+              <div class="form-actions" *ngIf="sending">
+                  <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+              </div>
+            </form>
           </div>
         </div>
-        <!--<div class="center-elements mt-2">
-          <button class="btn btn-lg btn-outline-info btn-navbar" (click)="letsGo();">{{'land.diagnosed.general.Rev-btn1' | translate }}</button>
-        </div>-->
       </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentInfoSendSymptoms let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 border">
+    <div class="p-2">
+      <button type="button" class="close" aria-label="Close" (click)="closeInfoSendSymptoms()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="align-self-center mb-0"><strong>{{'land.diagnosed.DonorData.title' | translate }}</strong></h4>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+        <img class="col mt-1" style="max-width: 300px;" src='assets/img/home/kid.jpg' />
+      </div>
+      <div class="col-md-7 align-self-center">
+        <span class="text-left">
+          <p>
+            {{'land.diagnosed.DonorData.p1' | translate }} 
+          </p>
+          <p>
+            {{'land.diagnosed.DonorData.p2' | translate }}
+          </p>
+          <p>
+            {{'land.diagnosed.DonorData.p3' | translate }}
+          </p>
+        </span>
+      </div>
+    </div>
+    <div class="p-2">
+      <p>
+        <strong>{{'land.diagnosed.DonorData.p4' | translate }}</strong>
+      </p>
+      <form class="form" #f="ngForm">
+        <div class="">
+          <input class="col-md-6 form-control" type="email" id="Email" name="Email" placeholder="{{'generics.Email' | translate }}" ngModel required #Email="ngModel" email name="Email" [(ngModel)]="email">
+          <small class="pr-0 pl-0 col-md-6 form-text danger" *ngIf="!Email.valid && showErrorForm">{{'generics.entervalidemail' | translate }}</small>
+        </div>
+        <div *ngIf="!sending" class="mt-2">
+          <div *ngIf="f.valid;then formValid else formError"></div>
+          <ng-template #formValid><button class="btn btn-outline-info" (click)="onSubmitRevolution();lauchEvent('Diagnosed - Submit Revolution');"> {{'support.Send' | translate }}</button></ng-template>
+          <ng-template #formError><button class="btn btn-outline-info" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
+        </div>
+        <div class="form-actions" *ngIf="sending">
+            <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+        </div>
+      </form>
     </div>
   </div>
 </ng-template>
