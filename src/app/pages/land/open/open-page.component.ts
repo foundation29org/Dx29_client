@@ -1940,10 +1940,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             this.subscription.add(this.apiDx29ServerService.chekedSymptomsOpenDx29(info)
                 .subscribe((res: any) => {
 
-                    var info = { email: this.email, lang: this.lang };
-                    this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
-                        .subscribe((res: any) => {
-                            this.sending = false;
+                    this.sending = false;
                             Swal.fire({
                                 icon: 'success',
                                 html: this.translate.instant("land.diagnosed.DonorData.msgform"),
@@ -1964,7 +1961,12 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                             document.getElementById('step1').scrollIntoView(true);
                             this.curatedLists.push({ id: this.infoOneDisease.id });
                             this.dontShowIntro = true;
-                        }));
+                            
+                    /*var info = { email: this.email, lang: this.lang };
+                    this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
+                        .subscribe((res: any) => {
+                            
+                        }));*/
 
                     
                     // Swal.fire(this.translate.instant("land.diagnosed.symptoms.Nice"), this.translate.instant("land.diagnosed.symptoms.msgCheckedSymptoms"), "success"); 
