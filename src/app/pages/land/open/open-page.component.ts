@@ -133,6 +133,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     callListOfDiseases: boolean = false;
     selectedDiseaseIndex: number = -1;
     infoOneDisease: any = {};
+    infoOneDiseaseTimeLine: any = {};
+    panelInfoAttentionNum = 1;
+    maxPanelInfoAttentionNum = 3;
     modalReference2: NgbModalRef;
     modalReference3: NgbModalRef;
     modalReference4: NgbModalRef;
@@ -217,6 +220,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.lang = sessionStorage.getItem('lang');
         this.originalLang = sessionStorage.getItem('lang');
+        this.panelInfoAttentionNum = 1;
         if (this.lang == 'es') {
             this.refLangs = "https://docs.microsoft.com/es-es/azure/cognitive-services/translator/language-support";
         } else {
@@ -395,6 +399,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngOnInit() {
         this.activeRoute = this.router.url;
+        this.panelInfoAttentionNum = 1;
         this.subscription.add(this.route.params.subscribe(params => {
             if (params['role'] != undefined) {
                 this.role = params['role'];
@@ -1970,6 +1975,56 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
+    next() { 
+        if (this.panelInfoAttentionNum < this.maxPanelInfoAttentionNum) this.panelInfoAttentionNum++;
+        if(this.panelInfoAttentionNum == 2) this.addMoreInfoSymptomsChecked();
+    }
+    
+    prev() {
+        if (this.panelInfoAttentionNum > 1) this.panelInfoAttentionNum--;
+    }
+
+    addMoreInfoSymptomsChecked(){
+        if (this.numberOfSymtomsChecked == 0) {
+            Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
+        } else {
+            for (var i = 0; i < this.infoOneDisease.symptoms.length; i++) {
+                if (this.infoOneDisease.symptoms[i].checked) {
+                    if (this.infoOneDisease.symptoms[i]["date"] == undefined){
+                        this.infoOneDisease.symptoms[i]["date"] = null
+                    }
+                    if (this.infoOneDisease.symptoms[i]["notes"] == undefined){
+                        this.infoOneDisease.symptoms[i]["notes"] = null
+                    }
+                }
+                else{
+                    if ((this.infoOneDisease.symptoms[i]["date"] != undefined)||(this.infoOneDisease.symptoms[i]["date"] != null)){
+                        this.infoOneDisease.symptoms[i]["date"] = null
+                    }
+                    if ((this.infoOneDisease.symptoms[i]["notes"] != undefined)||(this.infoOneDisease.symptoms[i]["notes"] != null)){
+                        this.infoOneDisease.symptoms[i]["notes"] = null
+                    }
+                }
+            }
+        }
+    }
+
+    updateTimeline(){
+        console.log("Update timelineeee")
+        console.log(this.infoOneDisease)
+        var listSymptomsChecked = []
+        for (var i = 0; i < this.infoOneDisease.symptoms.length; i++) {
+            if (this.infoOneDisease.symptoms[i].checked) {
+                listSymptomsChecked.push(this.infoOneDisease.symptoms[i])
+            }
+        }
+        this.infoOneDiseaseTimeLine = listSymptomsChecked.sort(this.compDate)
+    }
+    compDate(a, b) {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+    }
+
+
     sendSymtomsChecked(contentInfoSendSymptoms) {
         if (this.numberOfSymtomsChecked == 0) {
             Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
@@ -1981,7 +2036,23 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     listChecked.push(this.infoOneDisease.symptoms[i].id);
                 }
             }
-            var info = { idClient: this.myuuid, diseaseId: this.infoOneDisease.id, xrefs: this.infoOneDisease.xrefs, symptoms: listChecked };
+
+            this.lauchEvent('Diagnosed - Send Symptoms');
+            document.getElementById('step1').scrollIntoView(true);
+            this.curatedLists.push({ id: this.infoOneDisease.id });
+            this.dontShowIntro = true;
+            let ngbModalOptions: NgbModalOptions = {
+                backdrop: 'static',
+                keyboard: false,
+                windowClass: 'ModalClass-sm'// xl, lg, sm
+            };
+            if (this.modalReference3 != undefined) {
+                this.modalReference3.close();
+                this.modalReference3 = undefined;
+            }
+            this.modalReference3 = this.modalService.open(contentInfoSendSymptoms, ngbModalOptions);
+
+            /*var info = { idClient: this.myuuid, diseaseId: this.infoOneDisease.id, xrefs: this.infoOneDisease.xrefs, symptoms: listChecked };
             this.subscription.add(this.apiDx29ServerService.chekedSymptomsOpenDx29(info)
                 .subscribe((res: any) => {
                     this.lauchEvent('Diagnosed - Send Symptoms');
@@ -1999,7 +2070,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     }
                     this.modalReference3 = this.modalService.open(contentInfoSendSymptoms, ngbModalOptions);
                     // Swal.fire(this.translate.instant("land.diagnosed.symptoms.Nice"), this.translate.instant("land.diagnosed.symptoms.msgCheckedSymptoms"), "success"); 
-                }));
+                }));*/
         }
     }
 
