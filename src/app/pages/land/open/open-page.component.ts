@@ -646,6 +646,10 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.medicalText.length < 5) {
             Swal.fire('', this.translate.instant("land.placeholderError"), "error");
         } else {
+            this.restartAllVars();
+        this.failSegmentation = false;
+        this.loadingHpoExtractor = true;
+        this.substepExtract = '1';
             var testLangText = this.medicalText.substr(0, 4000)
             this.subscription.add(this.apiDx29ServerService.getDetectLanguage(testLangText)
                 .subscribe((res: any) => {
