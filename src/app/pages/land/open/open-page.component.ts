@@ -1976,8 +1976,14 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     next() { 
-        if (this.panelInfoAttentionNum < this.maxPanelInfoAttentionNum) this.panelInfoAttentionNum++;
-        if(this.panelInfoAttentionNum == 2) this.addMoreInfoSymptomsChecked();
+        if (this.numberOfSymtomsChecked == 0) {
+            Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
+        }
+        else{
+            if (this.panelInfoAttentionNum < this.maxPanelInfoAttentionNum) this.panelInfoAttentionNum++;
+            if(this.panelInfoAttentionNum == 2) this.addMoreInfoSymptomsChecked();
+            if(this.panelInfoAttentionNum == 3) this.updateTimeline();
+        }
     }
     
     prev() {
@@ -2011,19 +2017,23 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     updateTimeline(){
         console.log("Update timelineeee")
-        console.log(this.infoOneDisease)
-        var listSymptomsChecked = []
-        for (var i = 0; i < this.infoOneDisease.symptoms.length; i++) {
+        this.infoOneDiseaseTimeLine = {}
+        for (var i = 0; i< this.infoOneDisease.symptoms.length;i++){
             if (this.infoOneDisease.symptoms[i].checked) {
-                listSymptomsChecked.push(this.infoOneDisease.symptoms[i])
+                var date = this.infoOneDisease.symptoms[i].date
+                if(this.infoOneDiseaseTimeLine[date]==undefined){
+                    this.infoOneDiseaseTimeLine[date] = []
+                }
+                this.infoOneDiseaseTimeLine[date].push(this.infoOneDisease.symptoms[i])
             }
         }
-        this.infoOneDiseaseTimeLine = listSymptomsChecked.sort(this.compDate)
+        this.infoOneDiseaseTimeLine = this.sortObjectByKeys(this.infoOneDiseaseTimeLine)
+        console.log(this.infoOneDiseaseTimeLine)
     }
-    compDate(a, b) {
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
+    
+    sortObjectByKeys(o) {
+        return Object.keys(o).sort().reverse().reduce((r, k) => (r[k] = o[k], r), {});
     }
-
 
     sendSymtomsChecked(contentInfoSendSymptoms) {
         if (this.numberOfSymtomsChecked == 0) {
