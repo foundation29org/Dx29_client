@@ -8,27 +8,8 @@
               <div class="col-lg-12 justify-content-center align-items-center text-center" style="padding-top: 1.5rem;padding-right: 1.5rem;padding-left: 1.5rem;">
                 <h1 class="card-title" [innerHTML]="'preland.t1' | translate"></h1>
                 <p class="mt-3" [innerHTML]="'preland.t2' | translate"></p>
-                <!--<p>{{'preland.t3' | translate }}</p>
-                <p>{{'preland.t4' | translate }}</p>-->
               </div>
               <div class="col-lg-12 col-md-12 py-3">
-                <!--<div *ngIf="role==''">
-                  <div class="col-md-12">
-                    <div class="center-elements">
-                      <div class="row">
-                        <div class="col-12 col-md-6 mb-2 mb-md-0">
-                          <button (click)="selectRole('patient');" class="h-80"
-                            [ngClass]="(role=='patient')?'btn round mb-1 btn-block btn btn-info btn-raised':'btn round btn-block mb-1 btn btn-info btn-outline-info '"
-                            type="button">{{'preland.p1.1' | translate }}</button>
-                        </div>
-                        <div class="col-12 col-md-6 mb-2 mb-md-0">
-                          <button [routerLink]="['/open', { role: 'clinician'}]" (click)="lauchEvent('Role - Physician')" type="button"
-                            class="btn btn-outline-info btn-block round mb-1 h-80">{{'preland.p1.2' | translate }}</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>-->
                 <div class="col-md-12">
                   <div class="center-elements">
                     <div class="row">
@@ -40,7 +21,7 @@
                       <div class="col-12 col-md-6 mb-2 mb-md-0">
                         <button [routerLink]="['/open', { role: 'diagnosed'}]" (click)="lauchEvent('Role - Diagnosed');" type="button"
                           class="btn btn-outline-info round btn-block mb-1 h-80">{{'preland.p2.2' | translate }}
-                        </button><!-- I already have a diagnosis-->
+                        </button>
                       </div>
                     </div>
                   </div>
