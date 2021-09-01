@@ -13,7 +13,8 @@
     <div style="margin: auto;" style="margin: auto;">
       <div class="text-center p-2">
         <div class="section">
-          <h2>{{'land.title' | translate }}</h2>
+          <h4 class="d-block d-sm-none">{{'land.title' | translate }}</h4>
+          <h2 class="d-none d-sm-block">{{'land.title' | translate }}</h2>
         </div>
       </div>
       <div class="row" [ngClass]="(topRelatedConditions.length>0)?'diffHeight':''">
@@ -23,8 +24,13 @@
             <div class="col-md-12">
               <ngb-tabset justify="justified">
                 <ngb-tab>
-                  <ng-template ngbTabTitle><strong><i class="fa fa-language" aria-hidden="true"></i>
-                      {{'land.Text' | translate }}</strong></ng-template>
+                  <ng-template ngbTabTitle>
+                    <span>
+                      <i class="fa fa-language" aria-hidden="true"></i>
+                      <span class="d-none d-sm-inline ml-1">{{'land.Text' | translate }}</span>
+                      <span class="d-block d-sm-none">{{'land.Text' | translate }}</span>
+                    </span>
+                  </ng-template>
                   <ng-template ngbTabContent>
                     <div>
                       <textarea #inputTextArea class="form-control" style="height:30vh;" [(ngModel)]="medicalText"
@@ -38,8 +44,13 @@
                   </ng-template>
                 </ngb-tab>
                 <ngb-tab>
-                  <ng-template ngbTabTitle><strong><i class="fas fa-file"></i> {{'land.Documents' | translate
-                      }}</strong></ng-template>
+                  <ng-template ngbTabTitle>
+                    <span>
+                      <i class="fas fa-file"></i> 
+                      <span class="d-none d-sm-inline ml-1">{{'land.Documents' | translate}}</span>
+                      <span class="d-block d-sm-none">{{'land.Documents' | translate}}</span>
+                    </span>
+                    </ng-template>
                   <ng-template ngbTabContent>
                     <div class="container-custom" appDnd (fileDropped)="onFileDropped($event)">
                       <input type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
@@ -67,8 +78,13 @@
                   </ng-template>
                 </ngb-tab>
                 <ngb-tab>
-                  <ng-template ngbTabTitle><strong><i class="fa fa-pencil" aria-hidden="true"></i>
-                      {{'symptomssection.manualinput' | translate }}</strong></ng-template>
+                  <ng-template ngbTabTitle>
+                    <span>
+                      <i class="fa fa-pencil" aria-hidden="true"></i>
+                      <span class="d-none d-sm-inline ml-1">{{'symptomssection.manualinput' | translate }}</span>
+                      <span class="d-block d-sm-none">{{'land.Manual' | translate }}</span>
+                    </span>
+                  </ng-template>
                   <ng-template ngbTabContent>
                     <div>
                       <ng-template #rt let-r="result" let-t="term">
@@ -77,8 +93,9 @@
                           slice:0:140)+'...':(r.desc) }}</span>
                       </ng-template>
                       <div style="padding-bottom: 0.5rem !important;">
-                        <i class="fas fa-search ml-1 mr-2"></i> <input #input style="display: inline;" type="text"
-                          #inputManualSymptoms class="form-control ml-1 inputSearch" [(ngModel)]="modelTemp"
+                        <span class="d-none d-sm-inline ml-1 mr-2"><i class="fas fa-search"></i></span>
+                        <input #input type="text"
+                          #inputManualSymptoms class="form-control ml-1 inputSearch d-inline" [(ngModel)]="modelTemp"
                           [ngbTypeahead]="searchSymptom" [resultTemplate]="rt" [inputFormatter]="formatter1"
                           placeholder="{{'symptomssection.manualinput' | translate }}"
                           (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
@@ -181,7 +198,8 @@
                     slice:0:140)+'...':(r.desc) }}</span>
                 </ng-template>
                 <div style="padding-top: 0.5rem !important;">
-                  <i class="fas fa-search ml-1 mr-2"></i> <input #input style="display: inline;" type="text"
+                  <span class="d-none d-sm-inline ml-1 mr-2"><i class="fas fa-search"></i></span>
+                  <input #input style="display: inline;" type="text"
                     #inputManualSymptoms class="form-control ml-1 inputSearch" [(ngModel)]="modelTemp"
                     [ngbTypeahead]="searchSymptom" [resultTemplate]="rt" [inputFormatter]="formatter1"
                     placeholder="{{'symptomssection.manualinput' | translate }}" (selectItem)="selected($event)" />
@@ -222,7 +240,7 @@
               </table>
             </div>
 
-            <span class="col-md-12 p-2 border-top" style="min-height: 69px;background-color: #f5f5f5;"
+            <span class="col-md-12 p-2 border-top footer-symtoms"
               [ngClass]="(temporalSymptoms.length==0)?'pos-abs':''">
               <span>
                 <span>
@@ -544,13 +562,14 @@
 <section id="login" class="mt-2" *ngIf="role=='diagnosed'">
   <div class="container-fluid pb-4">
     <div style="margin: auto;" style="margin: auto;">
-      <div class="text-center p-2">
+      <div class="text-center pt-2">
         <div class="section">
-          <h2>{{'dashboardpatient.titleSearchCondition' | translate }}</h2>
+          <h4 class="d-block d-sm-none">{{'dashboardpatient.titleSearchCondition' | translate }}</h4>
+          <h2 class="d-none d-sm-block">{{'dashboardpatient.titleSearchCondition' | translate }}</h2>
         </div>
       </div>
       <div class="align-items-end justify-content-center">
-        <div class="offset-md-3 col-md-6">
+        <div class="offset-md-3 col-md-6 no-padding">
           <div class="position-relative">
             <input type="text" id="searchDiseaseField" class="form-control" name="searchDiseaseField"
               [(ngModel)]="searchDiseaseField" (keyup)="onKey($event)"
@@ -569,7 +588,9 @@
                         <td class="col-md-12 dropdown-item" id="{{disease.id}}"
                           (click)="showMoreInfoDiagnosePopup(i, contentInfoAttention);lauchEvent('Diagnosed - Select Disease');" style="cursor: pointer;"
                           title="{{'generics.More information' | translate }} ({{disease.id}})">
-                          <span>{{disease.name}}</span>
+                          <span *ngIf="disease.source!='synonyms'">{{disease.name}}</span>
+                          <span *ngIf="disease.source=='synonyms'"> {{disease.itemCompared}} ({{'generics.Synonyms' | translate}}: {{disease.name}})</span>
+                          <!--<span>{{disease.name}}</span>-->
                           <!--<span class="custom-bold ml-1"><strong>{{disease.name}}</strong></span>
                           <span *ngIf="disease.synonyms.length>0">
                             <span class="d-block">Synonyms:</span>
@@ -1338,7 +1359,7 @@
       <div class="offset-xl-2 col-xl-8 offset-md-1 col-md-10 pt-2">
         <div class="center-elements">
             <span id="text" style="display: inline-flex;">
-              <h1 class="titleneon">{{'land.diagnosed.symptoms.title' | translate }}</h1>
+              <h1 class="titleneon mb-0">{{'land.diagnosed.symptoms.title' | translate }}</h1>
             </span>
            <div>
             <p [innerHTML]="'land.diagnosed.symptoms.t1' | translate"></p>

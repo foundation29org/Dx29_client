@@ -2,6 +2,10 @@
   background: #eee;
 }
 
+.footer-symtoms{
+  min-height: 69px;
+  background-color: #f5f5f5;
+}
 .pointer{
   cursor: pointer; 
 }
@@ -35,7 +39,6 @@
 
 .titleneon {
   color:#f9423a;
-  font-size:34px;
 }
 
 .tableList {
@@ -86,9 +89,9 @@ a {
 
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
+/*html {
     font-size: 14px;
-}
+}*/
 
 .border-top {
     border-top: 1px solid #e5e5e5;
@@ -153,7 +156,7 @@ body {
 
 /* Custom
 -------------------------------------------------- */
-
+/*
 .section h1 {
     font-family: suisse,sans-serif;
     font-size: 48px;
@@ -214,7 +217,7 @@ body {
             font-size: 20px;
             font-weight: 600;
         }
-
+*/
 .donate p {
     font-family: suisse,sans-serif;
     font-size: 20px;
@@ -582,10 +585,6 @@ body {
    width:88vw;
   }
 
-  .section h2{
-    font-size: 32px;
-  }
-
 }
 
 @media ( max-width: 1199px ){
@@ -614,10 +613,6 @@ body {
       margin-right: 0rem !important;
     }
 
-    .section h2{
-      font-size: 28px;
-    }
-
     ::ng-deep .dropdown-item {
       white-space: normal !important;
   }
@@ -630,10 +625,6 @@ body {
    width:88vw;
   }
 
-  .section h2{
-    font-size: 24px;
-  }
-
 }
 
   @media ( max-width: 899px ){
@@ -643,16 +634,12 @@ body {
         bottom: 3.5%;
         animation: animatebottom 0.4s;
       }
-
-      .section h2{
-        font-size: 22px;
-      }
   }
 
   @media (max-width: 768px) {
-    html {
+    /*html {
         font-size: 16px;
-    }
+    }*/
 }
 
   /*@media ( max-width: 578px ){
@@ -662,14 +649,6 @@ body {
   }*/
 
   @media ( max-width: 575px ){
-  
-    ::ng-deep ngb-typeahead-window.dropdown-menu {
-      width:80vw;
-    }
-    
-    .section h2{
-      font-size: 18px;
-    }
 
     .box-panels{
       margin-bottom: 2.25rem !important;
@@ -694,15 +673,41 @@ body {
     .caption-symptoms{
       padding-top: 0rem !important;
     }
+
+    ::ng-deep ngb-typeahead-window.dropdown-menu {
+      width:93vw;
+    }
+    .inputSearch{
+      width: 93vw;
+      margin-left: 0rem !important;
+    }
+    ::ng-deep ngb-typeahead-window.dropdown-menu {
+      font-size: 0.8rem !important;
+     }
+
+     ::ng-deep .dropdown-item {
+      padding: 0.25rem 0.5rem;
+     }
+
+     .form-control{
+      font-size: 0.8rem !important;
+     }
+     ::placeholder {
+        font-size: 0.8rem;
+     }
+     caption {
+      min-height: auto;
+     }
+
+     .footer-symtoms{
+      min-height: 73px;
+      background-color: #f5f5f5;
+    }
+
   }
 
 
   @media ( max-width: 449px ){
-  
-    .inputSearch{
-      width: 86%
-    }
-
     :host /deep/ .nav-pills{
       flex-direction: column !important;
     }
@@ -719,7 +724,13 @@ body {
       padding-right: 0px !important;
       padding-left: 0px !important;
     }
-      
+
+    .container-custom {
+    
+      h3 {
+        font-size: 12px;
+      }
+    } 
   }
 
   

@@ -17,41 +17,6 @@
   height: 80px;
 }
 
-.listDisease {
-  display:block;
-  max-height:270px;
-  overflow-y:auto;
-}
-
-.btn-primary {
-    color: #fff;
-    background-color: #33658A;
-    border-color: #33658A;
-}
-
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-    color: #fff;
-    background-color: #33658A;
-    border-color: #33658A;
-}
-
-
-
-::ng-deep .modal-content {
-  border: unset !important;
-}
-
-#text{
-	text-align: left;
-	font-size : 1.25em;
-}
-
-@media (max-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
-
   @media ( max-width: 575px ){
     
     .full-height-vh{
@@ -59,19 +24,23 @@
     }
   }
 
-
   @media ( max-width: 449px ){
     .card-body{
       padding: 0rem;
     }
-    .container-fluid{
-      padding-right: 0px !important;
-      padding-left: 0px !important;
+    .card h1.card-title{
+      font-size: 1rem;
+    }
+    p {
+      font-size: 0.9rem;
     }
 
-    .no-padding{
-      padding-right: 0px !important;
-      padding-left: 0px !important;
+    .mt-3{
+      margin-top: 1rem !important;
+    }
+
+    .py-3{
+      padding-top: 1rem !important;
     }
   }
 
