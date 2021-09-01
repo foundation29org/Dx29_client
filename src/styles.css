@@ -168,6 +168,10 @@ mark{
   h5, .h5 {
     font-size: 1rem;
   }
+
+  .btn{
+    font-size: 0.9rem;
+  }
 }
 
 @media ( max-height: 550px ){
