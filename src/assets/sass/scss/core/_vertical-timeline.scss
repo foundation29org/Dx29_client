@@ -1036,8 +1036,13 @@
 
 @media (max-width: 543px) {
   .timeline-item > .timeline-badge {
-    top: 0px !important;
-    left: 44% !important; } }
+    //top: 0px !important;
+    //left: 44% !important;
+  } 
+  .timeline-left {
+    padding: 10% !important;
+  }
+}
 
 .avatar img {
     border: 0;

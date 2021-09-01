@@ -100,6 +100,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     temporalSymptoms: any = [];
     resultTextNcr: string = '';
     selectedInfoSymptomIndex: number = -1;
+    selectedNoteSymptom = null;
     modalReference: NgbModalRef;
     temporalDiseases: any = [];
     topRelatedConditions: any = [];
@@ -136,6 +137,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     infoOneDisease: any = {};
     loadingTimeline = false;
     infoOneDiseaseTimeLine: any = {};
+    infoOneDiseaseTimeLineNull:any = [];
     panelInfoAttentionNum = 1;
     maxPanelInfoAttentionNum = 3;
     panelInfoAttention1Heigh = 270;
@@ -223,6 +225,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.lang = sessionStorage.getItem('lang');
         this.loadingTimeline = false;
+        this.selectedNoteSymptom = null;
         this.originalLang = sessionStorage.getItem('lang');
         this.panelInfoAttentionNum = 1;
         if (this.lang == 'es') {
@@ -405,6 +408,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.activeRoute = this.router.url;
         this.panelInfoAttentionNum = 1;
         this.loadingTimeline = false;
+        this.selectedNoteSymptom = null;
         this.subscription.add(this.route.params.subscribe(params => {
             if (params['role'] != undefined) {
                 this.role = params['role'];
@@ -1051,6 +1055,15 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             windowClass: 'ModalClass-sm'// xl, lg, sm
         };
         this.modalReference = this.modalService.open(contentInfoSymptomNcr, ngbModalOptions);
+    }
+    showNotesPopup(symptom, contentInfoNotes){
+        this.selectedNoteSymptom = symptom;
+        let ngbModalOptions: NgbModalOptions = {
+            backdrop: 'static',
+            keyboard: false,
+            windowClass: 'ModalClass-sm'// xl, lg, sm
+        };
+        this.modalReference = this.modalService.open(contentInfoNotes, ngbModalOptions);
     }
 
     calculate() {
@@ -2024,15 +2037,31 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     updateTimeline(){
         console.log("Update timelineeee")
         this.infoOneDiseaseTimeLine = {}
+        this.infoOneDiseaseTimeLineNull = []
         this.loadingTimeline = true;
         for (var i = 0; i< this.infoOneDisease.symptoms.length;i++){
             if (this.infoOneDisease.symptoms[i].checked) {
-                var date = this.infoOneDisease.symptoms[i].date
-                if(date!= null){
-                    if(this.infoOneDiseaseTimeLine[date]==undefined){
-                        this.infoOneDiseaseTimeLine[date] = []
+                var newDate = this.infoOneDisease.symptoms[i].date
+                if(newDate!= null){
+                    if(this.infoOneDiseaseTimeLine[newDate]==undefined){
+                        this.infoOneDiseaseTimeLine[newDate] = []
                     }
-                    this.infoOneDiseaseTimeLine[date].push(this.infoOneDisease.symptoms[i])
+                    this.infoOneDiseaseTimeLine[newDate].push(this.infoOneDisease.symptoms[i])
+                    for (var j = 0; j< this.infoOneDisease.symptoms.length;j++){
+                        if (i!=j){
+                            if (this.infoOneDisease.symptoms[j].checked) {
+                                var compareDate = this.infoOneDisease.symptoms[j].date;
+                                if(compareDate!=null){
+                                    if(new Date(newDate).getTime()>new Date(compareDate).getTime()){
+                                        this.infoOneDiseaseTimeLine[newDate].push(this.infoOneDisease.symptoms[j])
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else{
+                    this.infoOneDiseaseTimeLineNull.push(this.infoOneDisease.symptoms[i])
                 }
             }
         }
