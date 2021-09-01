@@ -13,7 +13,7 @@ import { HttpClient } from "@angular/common/http";
 import { TextTransform } from 'app/shared/services/transform-text.service';
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
 import { Apif29NcrService } from 'app/shared/services/api-f29ncr.service';
-import { ApiClinicalTrialsService } from 'app/shared/services/api-clinicaltrials.service';
+import { ApiExternalServices } from 'app/shared/services/api-external.service';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import { SortService } from 'app/shared/services/sort.service';
 import { SearchService } from 'app/shared/services/search.service';
@@ -77,7 +77,7 @@ declare global {
     selector: 'app-open-page',
     templateUrl: './open-page.component.html',
     styleUrls: ['./open-page.component.scss'],
-    providers: [Apif29BioService, Apif29NcrService, ApiDx29ServerService, ApiClinicalTrialsService],
+    providers: [Apif29BioService, Apif29NcrService, ApiDx29ServerService, ApiExternalServices],
 })
 
 export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -209,7 +209,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         );
       };*/
 
-    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiClinicalTrialsService: ApiClinicalTrialsService, public dialogService: DialogService) {
+    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService) {
 
         this.lang = sessionStorage.getItem('lang');
         this.originalLang = sessionStorage.getItem('lang');
@@ -232,7 +232,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         //this.googleAnalyticsService.eventEmitter("OpenDx - init: "+result, "general", this.myuuid);
         //this.googleAnalyticsService.eventEmitter("OpenDx - init", "general", this.myuuid, 'init', 5);
         this._startTime = Date.now();
-
+        this.getFromWiki();
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
@@ -1975,7 +1975,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     getClinicalTrials(name) {
-        this.subscription.add(this.apiClinicalTrialsService.getClinicalTrials(name)
+        this.subscription.add(this.apiExternalServices.getClinicalTrials(name)
             .subscribe((res: any) => {
                 this.clinicalTrials = [];
                 if (res.FullStudiesResponse.FullStudies != undefined) {
@@ -2153,6 +2153,16 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     checkConsent(){
         this.formOpen.terms2 = !this.formOpen.terms2;
+    }
+
+    getFromWiki(){
+        var lang = sessionStorage.getItem('lang');
+        this.subscription.add(this.apiExternalServices.getFromWiki('Síndrome_de_Dravet', lang)
+            .subscribe((res: any) => {
+                console.log(res);
+            }, (err) => {
+                console.log(err);
+            }));
     }
 
 }
