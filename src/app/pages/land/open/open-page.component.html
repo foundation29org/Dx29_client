@@ -1341,7 +1341,7 @@
         </span>
       </div>
     </div>
-    <div *ngIf="!sendEmailvar" class="p-2">
+    <div class="p-2">
       <p>
         <strong>{{'land.diagnosed.DonorData.p4' | translate }}</strong>
       </p>
@@ -1383,12 +1383,12 @@
            </div>
         </div>
         <div class="row" *ngIf="infoOneDisease.symptoms!=undefined">
-          <span class="col-md-12">
-            <p class="mb-0 center-elements"><strong>{{'land.diagnosed.symptoms.t2' | translate }}</strong></p>
-          </span>
-          <div class="mt-2 col-md-12">
-            <ng-container *ngIf="panelInfoAttentionNum == 1">
-              <div class="table-responsive">
+          <ng-container *ngIf="panelInfoAttentionNum == 1">
+            <span class="col-md-12">
+              <p class="mb-0 center-elements"><strong>{{'land.diagnosed.symptoms.t2' | translate }}</strong></p>
+            </span>
+            <div class="mt-2 col-md-12">
+              <div class="table-responsive" id="panelInfoAttention1">
                 <table class="table mb-0 text-center">
                   <thead>
                     <tr class="border-bottom-0 border-top-0">
@@ -1420,12 +1420,17 @@
                   </tbody>
                 </table>
               </div>
-            </ng-container>
-            <ng-container *ngIf="panelInfoAttentionNum == 2">
-              <div class="tableList">
+            </div>
+          </ng-container>
+          <ng-container *ngIf="panelInfoAttentionNum == 2">
+            <span class="col-md-12">
+              <p class="mb-0 center-elements"><strong>Complete information about your symptoms</strong></p>
+            </span>
+            <div class="mt-2 col-md-12">
+              <div class="panelAttentionItem" [style.height.px]="panelInfoAttention1Heigh">
                 <div *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
-                  <div *ngIf="symptom.checked">
-                    <div class= "col-md-6">
+                  <div *ngIf="symptom.checked" class="row mt-2">
+                    <div class= "col-md-6" style="text-align: left">
                       <span *ngIf="symptom.name" class="info" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{symptom.id}})">{{symptom.name}}</span>
                       <span *ngIf="!symptom.name">
                         {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
@@ -1434,62 +1439,94 @@
                           <i class="ft-external-link"></i></a></span>
                     </div>
                     <div class= "col-md-6">
-                      <input type="date" id="dateOnset_{{i}}" class="form-control" name="dateOnset" [(ngModel)]="symptom.date">
+                      <input type="date" id="dateOnset_{{i}}" class="form-control" name="dateOnset" placeholder="Date onset" [(ngModel)]="symptom.date">
                     </div>
-                    <div class= "col-md-12">
-                      <input type="text" id="basicInput_{{i}}" placeholder="Notes" class="form-control" [(ngModel)]="symptom.notes">
+                    <div class="col-md-6 mt-1"></div>
+                    <div class="col-md-6 mt-1">
+                      <input type="text" id="basicInput_{{i}}" placeholder="{{'generics.notes' | translate }}" class="form-control" [(ngModel)]="symptom.notes">
                     </div>
                   </div>
                 </div>
               </div>
-            </ng-container>
-            <ng-container *ngIf="panelInfoAttentionNum == 3">
-              <section *ngIf="infoOneDiseaseTimeLine" id="vertical-timeline-left" class="timeline-left timeline-wrapper col-sm-10 col-12 offset-sm-1">
-                <ul class="timeline">
-                  <li class="timeline-line mt-4"></li>
-                  <li class="timeline-group">
-                    <h5>
-                      <span class="badge badge-primary cursor-default">Today</span>
-                    </h5>
-                  </li>
-                </ul>
-                <ul class="timeline">
-                  <li class="timeline-line"></li>
-                  <li *ngFor="let item of infoOneDiseaseTimeLine | keyvalue" class="timeline-item">
-                      <div *ngIf="item.key!=null" class="timeline-badge">
-                        <span data-toggle="tooltip" placement="right" ngbtooltip="Portfolio project work" class="bg-primary bg-lighten-4">
-                          <i class="ft-award primary"></i> {{item.key}}
-                        </span>
-                      </div>
-                      <div *ngIf="item.key!=null" class="timeline-card card shadow-z-1">
-                        <div class="card-content">
-                          <div class="card-body">
-                            <div *ngFor="let symptom of item.value">
-                              <p class="m-0">{{symptom.name}}</p>
-                              <p class="m-0">{{symptom.id}}</p>
-                              <p class="m-0">{{symptom.notes}}</p>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="panelInfoAttentionNum == 3">
+            <span class="col-md-12">
+              <p class="mb-0 center-elements"><strong> Resumen </strong></p>
+            </span>
+            <div class="mt-2 col-md-12">
+              <div *ngIf="!loadingTimeline" class="panelAttentionItem" [style.height.px]="panelInfoAttention1Heigh">
+                <section *ngIf="!isEmptyObject(infoOneDiseaseTimeLine)" id="vertical-timeline-left" class="timeline-left timeline-wrapper col-sm-10 col-12 offset-sm-1">
+                  <ul class="timeline">
+                    <li class="timeline-line mt-4"></li>
+                    <li class="timeline-group">
+                      <h5>
+                        <span class="badge badge-primary cursor-default">Today</span>
+                      </h5>
+                    </li>
+                  </ul>
+                  <ul class="timeline">
+                    <li class="timeline-line"></li>
+                    <li *ngFor="let item of infoOneDiseaseTimeLine | keyvalue: keyAscOrder" class="timeline-item">
+                        <div *ngIf="item.key!=null" class="timeline-badge">
+                          <span data-toggle="tooltip" placement="right" ngbtooltip="Portfolio project work" class="bg-primary bg-lighten-4">
+                            <i class="ft-award primary"></i> {{item.key}}
+                          </span>
+                        </div>
+                        <div *ngIf="item.key!=null" class="timeline-card card shadow-z-1">
+                          <div class="card-content">
+                            <div class="card-body">
+                              <div *ngFor="let symptom of item.value">
+                                <p class="m-0">{{symptom.name}}</p>
+                                <p class="m-0">{{symptom.id}}</p>
+                                <p class="m-0">{{symptom.notes}}</p>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                  </li>
-                </ul>
-              </section>
-              <p *ngIf="!infoOneDiseaseTimeLine"> Please, select symptoms and complete onset date</p>
-            </ng-container>
-
-            <div class="row mt-2">
-              <div class="col-md-12">
-                 <button *ngIf="panelInfoAttentionNum<maxPanelInfoAttentionNum" type="button" class="btn btn-outline-primary float-right" (click)="next()">Next</button>
-                 <button *ngIf="panelInfoAttentionNum>1" type="button" class="btn btn-outline-primary float-left" (click)="prev()">Prev</button>
-               </div>
+                    </li>
+                  </ul>
+                </section>
+                <div *ngIf="isEmptyObject(infoOneDiseaseTimeLine)" [style.height.px]="panelInfoAttention1Heigh" style="background-color: #b0b6bb;"> Please, select symptoms and complete onset date</div>
+              </div>
+              <div *ngIf="loadingTimeline" [style.height.px]="panelInfoAttention1Heigh">
+                <p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
+              </div>
             </div>
-
-            <div class="center-elements ml-2 mt-3">
-              <button class="mb-0 btn btn-outline-info btn-navbar" (click)="sendSymtomsChecked(contentInfoSendSymptoms);">{{'land.diagnosed.symptoms.btn' | translate }}</button>
+          </ng-container>
+          <div class="mt-2 col-md-12">
+            <button *ngIf="panelInfoAttentionNum<maxPanelInfoAttentionNum" type="button" class="btn btn-outline-info mb-0 float-right" (click)="next()">{{'generics.Next' | translate }}</button>
+            <button *ngIf="panelInfoAttentionNum>1" type="button" class="btn btn-outline-info mb-0 float-left" (click)="prev()">{{'generics.Previous' | translate }}</button>
+          </div>
+          <div class="mt-2 col-md-12">
+            <p>
+              {{'land.diagnosed.DonorData.p1' | translate }} 
+            </p>
+            <p>
+              {{'land.diagnosed.DonorData.p2' | translate }}
+            </p>
+            <p>
+              {{'land.diagnosed.DonorData.p3' | translate }}
+            </p>
+            <p>
+              {{'land.diagnosed.DonorData.p4' | translate }}
+            </p>
+          </div>
+          <form class="form mt-2 col-md-12" #f="ngForm">
+            <div class="">
+              <input class="col-md-12 form-control" type="email" id="Email" name="Email" placeholder="{{'generics.Email' | translate }}" ngModel required #Email="ngModel" email name="Email" [(ngModel)]="email">
+              <small class="pr-0 pl-0 col-md-6 text-left form-text danger" *ngIf="!Email.valid && showErrorForm">{{'generics.entervalidemail' | translate }}</small>
+            </div>
+            <div *ngIf="!sending" class="center-elements ml-2 mt-2">
+              <div *ngIf="f.valid;then formValid else formError"></div>
+              <ng-template #formValid><button class="btn btn-outline-info mb-0" (click)="sendSymtomsChecked(contentInfoSendSymptoms);lauchEvent('Diagnosed - Submit Revolution');"> {{'support.Send' | translate }}</button></ng-template>
+              <ng-template #formError><button class="btn btn-outline-info mb-0" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
               <span class="d-block font-small-3 pb-2 info" style="cursor: pointer;" (click)="letsGo();">{{'land.diagnosed.symptoms.btn2' | translate }}</span>
             </div>
-          </div>
+            <div class="form-actions" *ngIf="sending">
+                <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+            </div>
+          </form>
         </div>
       </div>
     </div>

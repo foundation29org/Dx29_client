@@ -1,3 +1,5 @@
+@import "../../../../assets/sass/scss/bootstrap/timeline-vertical";
+
 :host /deep/ .nav-pills{
   background: #eee;
 }
@@ -43,6 +45,10 @@
   max-height:270px;
   overflow-y:auto;
   min-height: auto !important;
+}
+.panelAttentionItem{
+  display:block;
+  overflow-y:auto;
 }
 
 #title{

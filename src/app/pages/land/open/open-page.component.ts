@@ -29,6 +29,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
 import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexYAxis, ApexGrid, ApexDataLabels, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexLegend, ApexPlotOptions, ApexFill, ApexMarkers, ApexTheme, ApexNonAxisChartSeries, ApexResponsive } from "ng-apexcharts";
+import { KeyValue } from '@angular/common';
 
 export type ChartOptions = {
     series: ApexAxisChartSeries | ApexNonAxisChartSeries;
@@ -133,9 +134,11 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     callListOfDiseases: boolean = false;
     selectedDiseaseIndex: number = -1;
     infoOneDisease: any = {};
+    loadingTimeline = false;
     infoOneDiseaseTimeLine: any = {};
     panelInfoAttentionNum = 1;
     maxPanelInfoAttentionNum = 3;
+    panelInfoAttention1Heigh = 270;
     modalReference2: NgbModalRef;
     modalReference3: NgbModalRef;
     modalReference4: NgbModalRef;
@@ -219,6 +222,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiClinicalTrialsService: ApiClinicalTrialsService, public dialogService: DialogService) {
 
         this.lang = sessionStorage.getItem('lang');
+        this.loadingTimeline = false;
         this.originalLang = sessionStorage.getItem('lang');
         this.panelInfoAttentionNum = 1;
         if (this.lang == 'es') {
@@ -400,6 +404,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit() {
         this.activeRoute = this.router.url;
         this.panelInfoAttentionNum = 1;
+        this.loadingTimeline = false;
         this.subscription.add(this.route.params.subscribe(params => {
             if (params['role'] != undefined) {
                 this.role = params['role'];
@@ -1980,8 +1985,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
         }
         else{
+            if(this.panelInfoAttentionNum == 1) this.panelInfoAttention1Heigh = this.getElementHeight("panelInfoAttention1");
             if (this.panelInfoAttentionNum < this.maxPanelInfoAttentionNum) this.panelInfoAttentionNum++;
-            if(this.panelInfoAttentionNum == 2) this.addMoreInfoSymptomsChecked();
+            if(this.panelInfoAttentionNum == 2)  this.addMoreInfoSymptomsChecked();
             if(this.panelInfoAttentionNum == 3) this.updateTimeline();
         }
     }
@@ -2018,21 +2024,39 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     updateTimeline(){
         console.log("Update timelineeee")
         this.infoOneDiseaseTimeLine = {}
+        this.loadingTimeline = true;
         for (var i = 0; i< this.infoOneDisease.symptoms.length;i++){
             if (this.infoOneDisease.symptoms[i].checked) {
                 var date = this.infoOneDisease.symptoms[i].date
-                if(this.infoOneDiseaseTimeLine[date]==undefined){
-                    this.infoOneDiseaseTimeLine[date] = []
+                if(date!= null){
+                    if(this.infoOneDiseaseTimeLine[date]==undefined){
+                        this.infoOneDiseaseTimeLine[date] = []
+                    }
+                    this.infoOneDiseaseTimeLine[date].push(this.infoOneDisease.symptoms[i])
                 }
-                this.infoOneDiseaseTimeLine[date].push(this.infoOneDisease.symptoms[i])
             }
         }
-        this.infoOneDiseaseTimeLine = this.sortObjectByKeys(this.infoOneDiseaseTimeLine)
+        this.infoOneDiseaseTimeLine = this.infoOneDiseaseTimeLine
         console.log(this.infoOneDiseaseTimeLine)
+        this.loadingTimeline = false;
     }
-    
-    sortObjectByKeys(o) {
-        return Object.keys(o).sort().reverse().reduce((r, k) => (r[k] = o[k], r), {});
+
+    // Order by ascending property key
+    keyAscOrder = ((a, b) => {
+        return new Date(a.key).getTime() > new Date(b.key).getTime() ? -1 : (new Date(b.key).getTime() > new Date(a.key).getTime() ? 1 : 0);
+    })
+
+    getElementHeight(elementId){
+        return document.getElementById(elementId).offsetHeight;
+    }
+
+    isEmptyObject(obj){
+        if (obj == undefined){
+            return true;
+        }
+        else{
+            return (obj && (Object.keys(obj).length === 0));
+        }
     }
 
     sendSymtomsChecked(contentInfoSendSymptoms) {
