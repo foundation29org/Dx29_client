@@ -1940,7 +1940,12 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             this.subscription.add(this.apiDx29ServerService.chekedSymptomsOpenDx29(info)
                 .subscribe((res: any) => {
 
-                    this.sending = false;
+                    
+
+                    var info = { email: this.email, lang: this.lang };
+                    this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
+                        .subscribe((res: any) => {
+                            this.sending = false;
                             Swal.fire({
                                 icon: 'success',
                                 html: this.translate.instant("land.diagnosed.DonorData.msgform"),
@@ -1961,12 +1966,30 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                             document.getElementById('step1').scrollIntoView(true);
                             this.curatedLists.push({ id: this.infoOneDisease.id });
                             this.dontShowIntro = true;
-
-                    /*var info = { email: this.email, lang: this.lang };
-                    this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
-                        .subscribe((res: any) => {
-                            
-                        }));*/
+                        }, (err) => {
+                            console.log(err);
+                            this.sending = false;
+                            Swal.fire({
+                                icon: 'success',
+                                html: this.translate.instant("land.diagnosed.DonorData.msgform"),
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                allowOutsideClick: false
+                            })
+                            setTimeout(function () {
+                                Swal.close();
+                                //window.location.href = 'https://foundation29.org/';
+                            }, 2000);
+                            this.email = '';
+                            if (this.modalReference2 != undefined) {
+                                this.modalReference2.close();
+                                this.modalReference2 = undefined;
+                            }
+                            this.lauchEvent('Diagnosed - Send Symptoms');
+                            document.getElementById('step1').scrollIntoView(true);
+                            this.curatedLists.push({ id: this.infoOneDisease.id });
+                            this.dontShowIntro = true;
+                        }));
 
                     
                     // Swal.fire(this.translate.instant("land.diagnosed.symptoms.Nice"), this.translate.instant("land.diagnosed.symptoms.msgCheckedSymptoms"), "success"); 
