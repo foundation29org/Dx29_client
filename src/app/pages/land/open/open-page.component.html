@@ -33,7 +33,7 @@
                   </ng-template>
                   <ng-template ngbTabContent>
                     <div>
-                      <textarea #inputTextArea class="form-control" style="height:30vh;" [(ngModel)]="medicalText"
+                      <textarea #inputTextArea class="form-control data-hj-allow" style="height:30vh;" [(ngModel)]="medicalText"
                         name="medicalText" placeholder="{{'land.placeholder' | translate }}"></textarea>
                     </div>
                     <div class="text-center mt-2">
@@ -95,7 +95,7 @@
                       <div style="padding-bottom: 0.5rem !important;">
                         <span class="d-none d-sm-inline ml-1 mr-2"><i class="fas fa-search"></i></span>
                         <input #input type="text"
-                          #inputManualSymptoms class="form-control ml-1 inputSearch d-inline" [(ngModel)]="modelTemp"
+                          #inputManualSymptoms class="form-control ml-1 inputSearch d-inline data-hj-allow" [(ngModel)]="modelTemp"
                           [ngbTypeahead]="searchSymptom" [resultTemplate]="rt" [inputFormatter]="formatter1"
                           placeholder="{{'symptomssection.manualinput' | translate }}"
                           (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
@@ -200,7 +200,7 @@
                 <div style="padding-top: 0.5rem !important;">
                   <span class="d-none d-sm-inline ml-1 mr-2"><i class="fas fa-search"></i></span>
                   <input #input style="display: inline;" type="text"
-                    #inputManualSymptoms class="form-control ml-1 inputSearch" [(ngModel)]="modelTemp"
+                    #inputManualSymptoms class="form-control ml-1 inputSearch data-hj-allow" [(ngModel)]="modelTemp"
                     [ngbTypeahead]="searchSymptom" [resultTemplate]="rt" [inputFormatter]="formatter1"
                     placeholder="{{'symptomssection.manualinput' | translate }}" (selectItem)="selected($event)" />
                 </div>
@@ -571,7 +571,7 @@
       <div class="align-items-end justify-content-center">
         <div class="offset-md-3 col-md-6 no-padding">
           <div class="position-relative">
-            <input type="text" id="searchDiseaseField" class="form-control" name="searchDiseaseField"
+            <input type="text" id="searchDiseaseField" class="form-control data-hj-allow" name="searchDiseaseField"
               [(ngModel)]="searchDiseaseField" (keyup)="onKey($event)"
               placeholder="{{'dashboardpatient.Search condition' | translate }}" (focusout)="focusOutFunctionDiseases()">
           </div>
@@ -794,7 +794,7 @@
                         <div class="form-group">
                         <label>{{'generics.Email' | translate }}*</label>
                         <div>
-                          <input class="col-md-12 form-control" type="email" id="Email" name="Email" ngModel required #Email="ngModel" email name="Email" [(ngModel)]="formOpen.Email">
+                          <input class="col-md-12 form-control data-hj-allow" type="email" id="Email" name="Email" ngModel required #Email="ngModel" email name="Email" [(ngModel)]="formOpen.Email">
                           <small class="form-text text-muted danger" *ngIf="!Email.valid && showErrorForm">{{'generics.entervalidemail' | translate }}</small>
                         </div>
                         </div>
@@ -1419,7 +1419,7 @@
             </div>
             <form class="form" #f="ngForm">
               <div class="">
-                <input class="col-md-12 form-control" type="email" id="Email" name="Email" placeholder="{{'generics.Email' | translate }}" ngModel required #Email="ngModel" email name="Email" [(ngModel)]="email">
+                <input class="col-md-12 form-control data-hj-allow" type="email" id="Email" name="Email" placeholder="{{'generics.Email' | translate }}" ngModel required #Email="ngModel" email name="Email" [(ngModel)]="email">
                 <small class="pr-0 pl-0 col-md-6 text-left form-text danger" *ngIf="!Email.valid && showErrorForm">{{'generics.entervalidemail' | translate }}</small>
               </div>
               <div *ngIf="!sending" class="center-elements ml-2 mt-2">
@@ -1471,7 +1471,7 @@
       </p>
       <form class="form" #f="ngForm">
         <div class="">
-          <input class="col-md-6 form-control" type="email" id="Email" name="Email" placeholder="{{'generics.Email' | translate }}" ngModel required #Email="ngModel" email name="Email" [(ngModel)]="email">
+          <input class="col-md-6 form-control data-hj-allow" type="email" id="Email" name="Email" placeholder="{{'generics.Email' | translate }}" ngModel required #Email="ngModel" email name="Email" [(ngModel)]="email">
           <small class="pr-0 pl-0 col-md-6 form-text danger" *ngIf="!Email.valid && showErrorForm">{{'generics.entervalidemail' | translate }}</small>
         </div>
         <div *ngIf="!sending" class="mt-2">
