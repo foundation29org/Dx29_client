@@ -155,6 +155,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     myuuid: string = uuidv4();
     eventList: any = [];
+    infoWiki: any = [];
 
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
@@ -232,7 +233,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         //this.googleAnalyticsService.eventEmitter("OpenDx - init: "+result, "general", this.myuuid);
         //this.googleAnalyticsService.eventEmitter("OpenDx - init", "general", this.myuuid, 'init', 5);
         this._startTime = Date.now();
-        this.getFromWiki();
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
@@ -1833,6 +1833,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                         windowClass: 'ModalClass-sm'// xl, lg, sm
                     };
                     this.modalReference2 = this.modalService.open(contentInfoAttention, ngbModalOptions);
+                    this.getFromWiki(this.infoOneDisease.name);
                 }
                 
             }, (err) => {
@@ -2155,11 +2156,33 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.formOpen.terms2 = !this.formOpen.terms2;
     }
 
-    getFromWiki(){
+    getFromWiki2(){
         var lang = sessionStorage.getItem('lang');
         this.subscription.add(this.apiExternalServices.getFromWiki('Síndrome_de_Dravet', lang)
             .subscribe((res: any) => {
                 console.log(res);
+            }, (err) => {
+                console.log(err);
+            }));
+    }
+
+    getFromWiki(name) {
+        this.infoWiki = [];
+        var lang = sessionStorage.getItem('lang');
+        var info = {
+            "text": 'Síndrome de Dravet',//"text": 'Dravet syndrome',
+            "lang": lang
+        }
+        console.log(info);
+        this.subscription.add(this.apiDx29ServerService.searchwiki(info)
+            .subscribe((res: any) => {
+                this.infoWiki = res;
+                for (let i = 0; i < this.infoWiki.length; i++) {
+                    if(this.infoWiki[i].title=='Enlaces externos' || this.infoWiki[i].title=='External links'){
+                        var urls = this.infoWiki[i].content.split("\n");
+                        this.infoWiki[i].urls = urls;
+                    }
+                }
             }, (err) => {
                 console.log(err);
             }));

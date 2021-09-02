@@ -699,23 +699,28 @@
                 </div>
               </ng-template>
             </ngb-tab>
-            <!--<ngb-tab>
+            <ngb-tab *ngIf="infoWiki.length>0">
               <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - General');">
                 {{'land.diagnosed.general.title' | translate }}</strong></ng-template>
               <ng-template ngbTabContent>
                 <div>
                   <div class="col-md-12">
-                    <h4><strong>{{'generics.Description' | translate }}</strong></h4>
-                    {{infoOneDisease.desc}}
-                    <h4 class="mt-4"><strong>{{'generics.Synonyms' | translate }}</strong></h4>
-                    <p *ngFor="let synonym of infoOneDisease.synonyms ; let j = index" class="mb-1">
-                      <span>{{j+1}}. </span> <span class="">{{synonym.label}}</span>
+                    <p *ngFor="let part of infoWiki ; let j = index" class="mb-1">
+                      <span *ngIf="part.content.length>0">
+                        <h4 class="mt-2"><strong>{{part.title}}</strong></h4>
+                        <span class="" *ngIf="part.title!='Enlaces externos' && part.title!='External links'">{{part.content}}</span>
+                        <span class="" *ngIf="part.title=='Enlaces externos' || part.title=='External links'">
+                          <span *ngFor="let url of part.urls ; let j = index">
+                            <a href="{{url}}" target="_blank" class="d-block">{{url}}</a>
+                          </span>
+                        </span>
+                      </span>
                     </p>
                   </div>
                 </div>
               </ng-template>
-            </ngb-tab>-->
-            <ngb-tab>
+            </ngb-tab>
+            <ngb-tab *ngIf="clinicalTrials.length>0" >
               <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Clinical Trials');">{{'land.diagnosed.general.Clinical trials' | translate }}</strong></ng-template>
               <ng-template ngbTabContent>
                 <div *ngIf="clinicalTrials.length>0" class="col-md-12">
