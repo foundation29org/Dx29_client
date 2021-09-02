@@ -282,7 +282,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     };
 
     lauchEvent(category) {
-        console.log(category);
         //traquear
         var secs = this.getElapsedSeconds();
         var savedEvent = this.searchService.search(this.eventList, 'name', category);
