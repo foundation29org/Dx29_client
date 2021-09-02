@@ -2208,8 +2208,8 @@
     "You need to select more symptoms": "Necesita selecionar más síntomas",
     "Suggested diseases will be shown here": "Aquí se mostrarán enfermedades propuestas",
     "Diseases": "Enfermedades",
-    "DescDiseases": "Estas son las enfermedades propuestas en base a los síntomas que tiene seleccionados.",
-    "InfoDescDiseases": "Puede seleccionar/deseleccionar síntomas y volver a calcular haciendo clic aquí:",
+    "DescDiseases": "Enfermedades propuestas en base a los síntomas seleccionados",
+    "InfoDescDiseases": "Puede seleccionar/deseleccionar síntomas y volver a calcular aquí:",
     "We have no description for this disease": "No tenemos descripción para esta enfermedad",
     "Download results": "Descargar resultados",
     "Send results": "Enviar resultados",
@@ -2335,7 +2335,10 @@
         "Rev-btn1": "Quiero ayudar",
         "Clinical trials": "Ensayos clínicos",
         "Patient groups": "Grupos de pacientes",
-        "Donate your data": "¿Cómo podemos ayudarte?"
+        "Donate your data": "¿Cómo podemos ayudarte?",
+        "Seconds": "segundos",
+        "We have found": "Hemos encontrado",
+        "results for": "resultados para"
       },
       "diseases":{
         "error1":"Lo sentimos, no tenemos información sobre",
@@ -2346,13 +2349,17 @@
         "subtitle": "En <a href='http://foundation29.org/' target='_blank'>Fundación 29</a> trabajamos para arreglar este problema.",
         "t1": "Las bases de datos actuales de síntomas no son precisas. <ins>El mundo necesita tu ayuda</ins> para que tu enfermedad esté bien descrita y poder ayudar a otros que están en busca de un diagnóstico.",
         "t2": "Selecciona los síntomas más importantes de tu enfermedad, un máximo de 10.",
+        "t3": "Completa la fecha de inicio de tus síntomas y, si quieres, añade notas sobre ellos.",
+        "t4": "Aquí puedes ver gráficamente la evolución de tus síntomas.",
         "btn": "He revisado los síntomas",
         "btn2": "No quiero ayudar",
         "error1": "Tienes que seleccionar al menos 1 síntoma",
         "Nice": "¡Bien!",
         "msgCheckedSymptoms": "¡Enhorabuena! Has hecho una gran contribución a la comunidad de enfermedades raras. ¡Gracias!",
         "Select the symptoms you have by": "Selecciona los síntomas que tienes",
-        "clicking here": "pulsando aquí"
+        "clicking here": "pulsando aquí",
+        "NoOnset":"Fecha de inicio desconocida",
+        "GoPrevious":"Ir al paso anterior para completar la información"
       },
       "clinicalTrials":{
         "msgNoTrials": "Lo sentimos, en estos momentos no tenemos datos sobre ensayos clínicos para",

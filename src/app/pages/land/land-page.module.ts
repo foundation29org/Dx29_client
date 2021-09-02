@@ -18,10 +18,12 @@ import { GtpDonatePageComponent } from "./gtp-donate/gtp-donate-page.component";
 import { KnowMePageComponent } from "./know-me/know-me-page.component";
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import {DndDirective} from "app/shared/directives/dnd.directive";
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
     exports: [
@@ -35,8 +37,10 @@ import {DndDirective} from "app/shared/directives/dnd.directive";
         CustomFormsModule,
         NgbModule,
         MatCheckboxModule,
+        MatExpansionModule,
         MatSelectModule,
         MatRadioModule,
+        MatBadgeModule,
         NgApexchartsModule
     ],
     declarations: [

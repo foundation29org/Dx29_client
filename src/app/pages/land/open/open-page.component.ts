@@ -13,7 +13,7 @@ import { HttpClient } from "@angular/common/http";
 import { TextTransform } from 'app/shared/services/transform-text.service';
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
 import { Apif29NcrService } from 'app/shared/services/api-f29ncr.service';
-import { ApiClinicalTrialsService } from 'app/shared/services/api-clinicaltrials.service';
+import { ApiExternalServices } from 'app/shared/services/api-external.service';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import { SortService } from 'app/shared/services/sort.service';
 import { SearchService } from 'app/shared/services/search.service';
@@ -29,6 +29,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
 import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexYAxis, ApexGrid, ApexDataLabels, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexLegend, ApexPlotOptions, ApexFill, ApexMarkers, ApexTheme, ApexNonAxisChartSeries, ApexResponsive } from "ng-apexcharts";
+import { KeyValue } from '@angular/common';
 
 export type ChartOptions = {
     series: ApexAxisChartSeries | ApexNonAxisChartSeries;
@@ -77,7 +78,7 @@ declare global {
     selector: 'app-open-page',
     templateUrl: './open-page.component.html',
     styleUrls: ['./open-page.component.scss'],
-    providers: [Apif29BioService, Apif29NcrService, ApiDx29ServerService, ApiClinicalTrialsService],
+    providers: [Apif29BioService, Apif29NcrService, ApiDx29ServerService, ApiExternalServices],
 })
 
 export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -99,6 +100,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     temporalSymptoms: any = [];
     resultTextNcr: string = '';
     selectedInfoSymptomIndex: number = -1;
+    selectedNoteSymptom = null;
     modalReference: NgbModalRef;
     temporalDiseases: any = [];
     topRelatedConditions: any = [];
@@ -133,6 +135,12 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     callListOfDiseases: boolean = false;
     selectedDiseaseIndex: number = -1;
     infoOneDisease: any = {};
+    loadingTimeline = false;
+    infoOneDiseaseTimeLine: any = {};
+    infoOneDiseaseTimeLineNull:any = [];
+    panelInfoAttentionNum = 1;
+    maxPanelInfoAttentionNum = 3;
+    panelInfoAttention1Heigh = 270;
     modalReference2: NgbModalRef;
     clinicalTrials: any = {};
 
@@ -155,6 +163,12 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     myuuid: string = uuidv4();
     eventList: any = [];
+    infoWiki: any = [];
+    infoWikiGeneral: any = [];
+    loadingArticle: boolean = false;
+    viewArticle: boolean = false;
+    actualArticle: any = {};
+    secondToResponse: string = '';
 
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
@@ -209,10 +223,13 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         );
       };*/
 
-    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiClinicalTrialsService: ApiClinicalTrialsService, public dialogService: DialogService) {
+    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService) {
 
         this.lang = sessionStorage.getItem('lang');
+        this.loadingTimeline = false;
+        this.selectedNoteSymptom = null;
         this.originalLang = sessionStorage.getItem('lang');
+        this.panelInfoAttentionNum = 1;
         if (this.lang == 'es') {
             this.refLangs = "https://docs.microsoft.com/es-es/azure/cognitive-services/translator/language-support";
         } else {
@@ -232,7 +249,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         //this.googleAnalyticsService.eventEmitter("OpenDx - init: "+result, "general", this.myuuid);
         //this.googleAnalyticsService.eventEmitter("OpenDx - init", "general", this.myuuid, 'init', 5);
         this._startTime = Date.now();
-
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
@@ -374,6 +390,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngOnInit() {
         this.activeRoute = this.router.url;
+        this.panelInfoAttentionNum = 1;
+        this.loadingTimeline = false;
+        this.selectedNoteSymptom = null;
         this.subscription.add(this.route.params.subscribe(params => {
             if (params['role'] != undefined) {
                 this.role = params['role'];
@@ -1015,6 +1034,15 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             windowClass: 'ModalClass-sm'// xl, lg, sm
         };
         this.modalReference = this.modalService.open(contentInfoSymptomNcr, ngbModalOptions);
+    }
+    showMoreInfoAndNotesSymptomPopup(symptom, contentInfoAndNotesSymptom){
+        this.selectedNoteSymptom = symptom;
+        let ngbModalOptions: NgbModalOptions = {
+            backdrop: 'static',
+            keyboard: false,
+            windowClass: 'ModalClass-sm'// xl, lg, sm
+        };
+        this.modalReference = this.modalService.open(contentInfoAndNotesSymptom, ngbModalOptions);
     }
 
     calculate() {
@@ -1770,6 +1798,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     showMoreInfoDiagnosePopup(index, contentInfoAttention) {
         this.loadingOneDisease = true;
         this.selectedDiseaseIndex = index;
+        this.panelInfoAttentionNum = 1;
+        this.infoOneDiseaseTimeLine = {}
+        this.infoOneDiseaseTimeLineNull = []
         this.getInfoOneDisease(contentInfoAttention);
     }
 
@@ -1833,6 +1864,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                         windowClass: 'ModalClass-sm'// xl, lg, sm
                     };
                     this.modalReference2 = this.modalService.open(contentInfoAttention, ngbModalOptions);
+                    this.getFromWiki(this.infoOneDisease.name);
                 }
                 
             }, (err) => {
@@ -1843,6 +1875,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     showAttentionPanel(contentInfoAttention){
         this.numberOfSymtomsChecked = 0;
+        this.panelInfoAttentionNum = 1;
+        this.infoOneDiseaseTimeLine = {}
+        this.infoOneDiseaseTimeLineNull = []
         for (var i = 0; i < this.infoOneDisease.symptoms.length; i++) {
             this.infoOneDisease.symptoms[i].checked = false;
         }
@@ -1925,23 +1960,128 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
+    next() { 
+        if (this.numberOfSymtomsChecked == 0) {
+            Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
+        }
+        else{
+            if(this.panelInfoAttentionNum == 1) this.panelInfoAttention1Heigh = this.getElementHeight("panelInfoAttention1");
+            if (this.panelInfoAttentionNum < this.maxPanelInfoAttentionNum) this.panelInfoAttentionNum++;
+            if(this.panelInfoAttentionNum == 2)  this.addMoreInfoSymptomsChecked();
+            if(this.panelInfoAttentionNum == 3) this.updateTimeline();
+        }
+    }
+    
+    prev() {
+        if (this.panelInfoAttentionNum > 1) this.panelInfoAttentionNum--;
+    }
+
+    addMoreInfoSymptomsChecked(){
+        if (this.numberOfSymtomsChecked == 0) {
+            Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
+        } else {
+            //this.sending = true;
+            for (var i = 0; i < this.infoOneDisease.symptoms.length; i++) {
+                if (this.infoOneDisease.symptoms[i].checked) {
+                    if (this.infoOneDisease.symptoms[i]["date"] == undefined){
+                        this.infoOneDisease.symptoms[i]["date"] = null
+                    }
+                    if (this.infoOneDisease.symptoms[i]["notes"] == undefined){
+                        this.infoOneDisease.symptoms[i]["notes"] = null
+                    }
+                }
+                else{
+                    if ((this.infoOneDisease.symptoms[i]["date"] != undefined)||(this.infoOneDisease.symptoms[i]["date"] != null)){
+                        this.infoOneDisease.symptoms[i]["date"] = null
+                    }
+                    if ((this.infoOneDisease.symptoms[i]["notes"] != undefined)||(this.infoOneDisease.symptoms[i]["notes"] != null)){
+                        this.infoOneDisease.symptoms[i]["notes"] = null
+                    }
+                }
+            }
+        }
+    }
+
+    updateTimeline(){
+        this.infoOneDiseaseTimeLine = {}
+        this.infoOneDiseaseTimeLineNull = []
+        this.loadingTimeline = true;
+        for (var i = 0; i< this.infoOneDisease.symptoms.length;i++){
+            if (this.infoOneDisease.symptoms[i].checked) {
+                var newDate = this.infoOneDisease.symptoms[i].date
+                
+                if(newDate!= null){
+                    var newYear = new Date(newDate).getFullYear()
+                    if(this.infoOneDiseaseTimeLine[newYear]==undefined){
+                        this.infoOneDiseaseTimeLine[newYear] = {}
+                    }
+                    if(this.infoOneDiseaseTimeLine[newYear][newDate]==undefined){
+                        this.infoOneDiseaseTimeLine[newYear][newDate] = []
+                    }
+                    this.infoOneDiseaseTimeLine[newYear][newDate].push(this.infoOneDisease.symptoms[i])
+                    for (var j = 0; j< this.infoOneDisease.symptoms.length;j++){
+                        if (i!=j){
+                            if (this.infoOneDisease.symptoms[j].checked) {
+                                var compareDate = this.infoOneDisease.symptoms[j].date;
+                                if(compareDate!=null){
+                                    if(new Date(newDate).getTime()>new Date(compareDate).getTime()){
+                                        this.infoOneDiseaseTimeLine[newYear][newDate].push(this.infoOneDisease.symptoms[j])
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else{
+                    this.infoOneDiseaseTimeLineNull.push(this.infoOneDisease.symptoms[i])
+                }
+            }
+        }
+        this.infoOneDiseaseTimeLine = this.infoOneDiseaseTimeLine
+        this.loadingTimeline = false;
+    }
+
+    // Order by ascending property key
+    keyAscOrder = ((a, b) => {
+        return new Date(a.key).getTime() > new Date(b.key).getTime() ? -1 : (new Date(b.key).getTime() > new Date(a.key).getTime() ? 1 : 0);
+    })
+
+    getElementHeight(elementId){
+        return document.getElementById(elementId).offsetHeight;
+    }
+
+    isEmptyObject(obj){
+        if (obj == undefined){
+            return true;
+        }
+        else{
+            return (obj && (Object.keys(obj).length === 0));
+        }
+    }
+
     sendSymtomsChecked(contentInfoSendSymptoms) {
         if (this.numberOfSymtomsChecked == 0) {
             Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
         } else {
             this.sending = true;
-            var listChecked = [];
+            var listChecked = {};
             for (var i = 0; i < this.infoOneDisease.symptoms.length; i++) {
                 if (this.infoOneDisease.symptoms[i].checked) {
-                    listChecked.push(this.infoOneDisease.symptoms[i].id);
+                    if(listChecked[this.infoOneDisease.symptoms[i].id]==undefined){
+                        listChecked[this.infoOneDisease.symptoms[i].id]={}
+                    }
+                    if(this.infoOneDisease.symptoms[i].date==undefined){
+                        this.infoOneDisease.symptoms[i].date=null
+                    }
+                    if(this.infoOneDisease.symptoms[i].notes==undefined){
+                        this.infoOneDisease.symptoms[i].notes=null
+                    }
+                    listChecked[this.infoOneDisease.symptoms[i].id]={"date":this.infoOneDisease.symptoms[i].date,"notes":this.infoOneDisease.symptoms[i].notes}
                 }
             }
             var info = { idClient: this.myuuid, diseaseId: this.infoOneDisease.id, xrefs: this.infoOneDisease.xrefs, symptoms: listChecked, email: this.email};
             this.subscription.add(this.apiDx29ServerService.chekedSymptomsOpenDx29(info)
                 .subscribe((res: any) => {
-
-                    
-
                     var info = { email: this.email, lang: this.lang };
                     this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
                         .subscribe((res: any) => {
@@ -1969,27 +2109,12 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                         }, (err) => {
                             console.log(err);
                             this.sending = false;
-                            Swal.fire({
-                                icon: 'success',
-                                html: this.translate.instant("land.diagnosed.DonorData.msgform"),
-                                showCancelButton: false,
-                                showConfirmButton: false,
-                                allowOutsideClick: false
-                            })
-                            setTimeout(function () {
-                                Swal.close();
-                                //window.location.href = 'https://foundation29.org/';
-                            }, 2000);
-                            this.email = '';
-                            if (this.modalReference2 != undefined) {
-                                this.modalReference2.close();
-                                this.modalReference2 = undefined;
-                            }
-                            this.lauchEvent('Diagnosed - Send Symptoms');
-                            document.getElementById('step1').scrollIntoView(true);
-                            this.curatedLists.push({ id: this.infoOneDisease.id });
-                            this.dontShowIntro = true;
                         }));
+                    /*var info = { email: this.email, lang: this.lang };
+                    this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
+                        .subscribe((res: any) => {
+                            
+                        }));*/
 
                     
                     // Swal.fire(this.translate.instant("land.diagnosed.symptoms.Nice"), this.translate.instant("land.diagnosed.symptoms.msgCheckedSymptoms"), "success"); 
@@ -1998,7 +2123,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     getClinicalTrials(name) {
-        this.subscription.add(this.apiClinicalTrialsService.getClinicalTrials(name)
+        this.subscription.add(this.apiExternalServices.getClinicalTrials(name)
             .subscribe((res: any) => {
                 this.clinicalTrials = [];
                 if (res.FullStudiesResponse.FullStudies != undefined) {
@@ -2176,6 +2301,96 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     checkConsent(){
         this.formOpen.terms2 = !this.formOpen.terms2;
+    }
+
+    getFromWiki2(){
+        var lang = sessionStorage.getItem('lang');
+        this.subscription.add(this.apiExternalServices.getFromWiki('Síndrome_de_Dravet', lang)
+            .subscribe((res: any) => {
+                console.log(res);
+            }, (err) => {
+                console.log(err);
+            }));
+    }
+
+    getFromWiki(name) {
+        this.actualArticle = {};
+        this.viewArticle = false;
+        this.infoWiki = [];
+        this.infoWikiGeneral = [];
+        var lang = sessionStorage.getItem('lang');
+        var info = {
+            "text": name,//"text": 'Dravet syndrome',
+            "lang": lang
+        }
+        console.log(info);
+        this.subscription.add(this.apiDx29ServerService.searchwiki(info)
+            .subscribe((res: any) => {
+                if(res.length>0){
+                    this.infoWiki = res;
+                    for (let i = 0; i < this.infoWiki.length; i++) {
+                        if(this.infoWiki[i].title=='Enlaces externos' || this.infoWiki[i].title=='External links'){
+                            var urls = this.infoWiki[i].content.split("\n");
+                            this.infoWiki[i].urls = urls;
+                        }
+                    }
+                }else{
+                    var t0 = performance.now()
+                    var lang = sessionStorage.getItem('lang');
+                    var info = {
+                        "text": name, //'Síndrome de Dravet',//"text": 'Dravet syndrome',
+                        "lang": lang
+                    }
+                    this.subscription.add(this.apiDx29ServerService.searchwikiSearch(info)
+                        .subscribe((res: any) => {
+                            if(res.query.search.length>0){
+                                console.log(res);
+                                this.infoWikiGeneral = res.query.search;
+                                var t1 = performance.now();
+                                this.secondToResponse = ((t1 - t0)/1000).toFixed(2);
+                                console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
+                            }
+                            
+                        }, (err) => {
+                            console.log(err);
+                        }));
+                }
+                
+            }, (err) => {
+                console.log(err);
+            }));
+    }
+
+    goToArticle(article){
+        this.actualArticle = article;
+        this.viewArticle = true;
+        this.loadingArticle = true;
+        var lang = sessionStorage.getItem('lang');
+        var info = {
+            "text": article.title,//"text": 'Dravet syndrome',
+            "lang": lang
+        }
+        console.log(info);
+        this.subscription.add(this.apiDx29ServerService.searchwiki(info)
+            .subscribe((res: any) => {
+                this.loadingArticle = false;
+                if(res.length>0){
+                    this.infoWiki = res;
+                    for (let i = 0; i < this.infoWiki.length; i++) {
+                        if(this.infoWiki[i].title=='Enlaces externos' || this.infoWiki[i].title=='External links'){
+                            var urls = this.infoWiki[i].content.split("\n");
+                            this.infoWiki[i].urls = urls;
+                        }
+                    }
+                }
+        }, (err) => {
+            console.log(err);
+        }));
+    }
+
+    backToList(){
+        this.actualArticle = {};
+        this.viewArticle = false;
     }
 
 }

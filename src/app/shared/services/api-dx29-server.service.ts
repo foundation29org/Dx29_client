@@ -185,5 +185,25 @@ export class ApiDx29ServerService {
           return err;
         })
     }
+    
+    searchwiki(info) {
+      return this.http.post(environment.api + '/api/wiki', info)
+        .map((res: any) => {
+          return res;
+        }, (err) => {
+          console.log(err);
+          return err;
+        })
+    }
+
+    searchwikiSearch(info) {
+      return this.http.post(environment.api + '/api/wikiSearch', info)
+        .map((res: any) => {
+          return res;
+        }, (err) => {
+          console.log(err);
+          return err;
+        })
+    }
 
 }
