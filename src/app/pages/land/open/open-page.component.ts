@@ -156,6 +156,11 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     myuuid: string = uuidv4();
     eventList: any = [];
     infoWiki: any = [];
+    infoWikiGeneral: any = [];
+    loadingArticle: boolean = false;
+    viewArticle: boolean = false;
+    actualArticle: any = {};
+    secondToResponse: string = '';
 
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
@@ -266,6 +271,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     };
 
     lauchEvent(category) {
+        console.log(category);
         //traquear
         var secs = this.getElapsedSeconds();
         var savedEvent = this.searchService.search(this.eventList, 'name', category);
@@ -2167,25 +2173,83 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     getFromWiki(name) {
+        this.actualArticle = {};
+        this.viewArticle = false;
         this.infoWiki = [];
+        this.infoWikiGeneral = [];
         var lang = sessionStorage.getItem('lang');
         var info = {
-            "text": 'Síndrome de Dravet',//"text": 'Dravet syndrome',
+            "text": name,//"text": 'Dravet syndrome',
             "lang": lang
         }
         console.log(info);
         this.subscription.add(this.apiDx29ServerService.searchwiki(info)
             .subscribe((res: any) => {
-                this.infoWiki = res;
-                for (let i = 0; i < this.infoWiki.length; i++) {
-                    if(this.infoWiki[i].title=='Enlaces externos' || this.infoWiki[i].title=='External links'){
-                        var urls = this.infoWiki[i].content.split("\n");
-                        this.infoWiki[i].urls = urls;
+                if(res.length>0){
+                    this.infoWiki = res;
+                    for (let i = 0; i < this.infoWiki.length; i++) {
+                        if(this.infoWiki[i].title=='Enlaces externos' || this.infoWiki[i].title=='External links'){
+                            var urls = this.infoWiki[i].content.split("\n");
+                            this.infoWiki[i].urls = urls;
+                        }
                     }
+                }else{
+                    var t0 = performance.now()
+                    var lang = sessionStorage.getItem('lang');
+                    var info = {
+                        "text": name, //'Síndrome de Dravet',//"text": 'Dravet syndrome',
+                        "lang": lang
+                    }
+                    this.subscription.add(this.apiDx29ServerService.searchwikiSearch(info)
+                        .subscribe((res: any) => {
+                            if(res.query.search.length>0){
+                                console.log(res);
+                                this.infoWikiGeneral = res.query.search;
+                                var t1 = performance.now();
+                                this.secondToResponse = ((t1 - t0)/1000).toFixed(2);
+                                console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
+                            }
+                            
+                        }, (err) => {
+                            console.log(err);
+                        }));
                 }
+                
             }, (err) => {
                 console.log(err);
             }));
+    }
+
+    goToArticle(article){
+        this.actualArticle = article;
+        this.viewArticle = true;
+        this.loadingArticle = true;
+        var lang = sessionStorage.getItem('lang');
+        var info = {
+            "text": article.title,//"text": 'Dravet syndrome',
+            "lang": lang
+        }
+        console.log(info);
+        this.subscription.add(this.apiDx29ServerService.searchwiki(info)
+            .subscribe((res: any) => {
+                this.loadingArticle = false;
+                if(res.length>0){
+                    this.infoWiki = res;
+                    for (let i = 0; i < this.infoWiki.length; i++) {
+                        if(this.infoWiki[i].title=='Enlaces externos' || this.infoWiki[i].title=='External links'){
+                            var urls = this.infoWiki[i].content.split("\n");
+                            this.infoWiki[i].urls = urls;
+                        }
+                    }
+                }
+        }, (err) => {
+            console.log(err);
+        }));
+    }
+
+    backToList(){
+        this.actualArticle = {};
+        this.viewArticle = false;
     }
 
 }

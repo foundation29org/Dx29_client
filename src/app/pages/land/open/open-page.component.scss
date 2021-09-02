@@ -9,6 +9,12 @@
 .pointer{
   cursor: pointer; 
 }
+
+.articleTitle:hover {
+  color: #33658A;
+  text-decoration: underline;
+}
+
 .nav-link.active, .nav-pills .show > .nav-link {
   background-color: #CD853F !important;
   color: white !important;
@@ -702,6 +708,18 @@ body {
      .footer-symtoms{
       min-height: 73px;
       background-color: #f5f5f5;
+    }
+
+    .breadcrumb{
+      padding: 0.15rem 1rem !important;
+    }
+
+    .no-line-height{
+      line-height: 0.5rem;
+    }
+
+    ::ng-deep .nav-tabs .nav-link{
+      padding-top: 0rem !important;
     }
 
   }

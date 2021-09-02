@@ -2208,8 +2208,8 @@
     "You need to select more symptoms": "Necesita selecionar más síntomas",
     "Suggested diseases will be shown here": "Aquí se mostrarán enfermedades propuestas",
     "Diseases": "Enfermedades",
-    "DescDiseases": "Estas son las enfermedades propuestas en base a los síntomas que tiene seleccionados.",
-    "InfoDescDiseases": "Puede seleccionar/deseleccionar síntomas y volver a calcular haciendo clic aquí:",
+    "DescDiseases": "Enfermedades propuestas en base a los síntomas seleccionados",
+    "InfoDescDiseases": "Puede seleccionar/deseleccionar síntomas y volver a calcular aquí:",
     "We have no description for this disease": "No tenemos descripción para esta enfermedad",
     "Download results": "Descargar resultados",
     "Send results": "Enviar resultados",
@@ -2335,7 +2335,10 @@
         "Rev-btn1": "Quiero ayudar",
         "Clinical trials": "Ensayos clínicos",
         "Patient groups": "Grupos de pacientes",
-        "Donate your data": "¿Cómo podemos ayudarte?"
+        "Donate your data": "¿Cómo podemos ayudarte?",
+        "Seconds": "segundos",
+        "We have found": "Hemos encontrado",
+        "results for": "resultados para"
       },
       "diseases":{
         "error1":"Lo sentimos, no tenemos información sobre",
