@@ -2207,7 +2207,7 @@
     "You need to select more symptoms": "You need to select more symptoms",
     "Suggested diseases will be shown here": "Suggested diseases will be shown here",
     "Diseases": "Diseases",
-    "DescDiseases": "The proposed diseases will be presented here.",
+    "DescDiseases": "Proposed diseases based on selected symptoms",
     "InfoDescDiseases": "You can select/deselect symptoms and recalculate by clicking here:",
     "We have no description for this disease": "We have no description for this disease",
     "Download results": "Download results",
@@ -2334,7 +2334,10 @@
         "Rev-btn1": "I want to help",
         "Clinical trials": "Clinical trials",
         "Patient groups": "Patient groups",
-        "Donate your data": "How can we help you?"
+        "Donate your data": "How can we help you?",
+        "Seconds": "seconds",
+        "We have found": "We have found",
+        "results for": "results for"
       },
       "diseases":{
         "error1":"Sorry, we have no information about",
