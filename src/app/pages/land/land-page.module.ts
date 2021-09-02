@@ -22,6 +22,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import {DndDirective} from "app/shared/directives/dnd.directive";
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
     exports: [
@@ -37,6 +38,7 @@ import {DndDirective} from "app/shared/directives/dnd.directive";
         MatCheckboxModule,
         MatSelectModule,
         MatRadioModule,
+        MatBadgeModule,
         NgApexchartsModule
     ],
     declarations: [
