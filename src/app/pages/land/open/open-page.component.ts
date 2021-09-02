@@ -1056,14 +1056,14 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         };
         this.modalReference = this.modalService.open(contentInfoSymptomNcr, ngbModalOptions);
     }
-    showNotesPopup(symptom, contentInfoNotes){
+    showMoreInfoAndNotesSymptomPopup(symptom, contentInfoAndNotesSymptom){
         this.selectedNoteSymptom = symptom;
         let ngbModalOptions: NgbModalOptions = {
             backdrop: 'static',
             keyboard: false,
             windowClass: 'ModalClass-sm'// xl, lg, sm
         };
-        this.modalReference = this.modalService.open(contentInfoNotes, ngbModalOptions);
+        this.modalReference = this.modalService.open(contentInfoAndNotesSymptom, ngbModalOptions);
     }
 
     calculate() {
@@ -2035,25 +2035,29 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     updateTimeline(){
-        console.log("Update timelineeee")
         this.infoOneDiseaseTimeLine = {}
         this.infoOneDiseaseTimeLineNull = []
         this.loadingTimeline = true;
         for (var i = 0; i< this.infoOneDisease.symptoms.length;i++){
             if (this.infoOneDisease.symptoms[i].checked) {
                 var newDate = this.infoOneDisease.symptoms[i].date
+                
                 if(newDate!= null){
-                    if(this.infoOneDiseaseTimeLine[newDate]==undefined){
-                        this.infoOneDiseaseTimeLine[newDate] = []
+                    var newYear = new Date(newDate).getFullYear()
+                    if(this.infoOneDiseaseTimeLine[newYear]==undefined){
+                        this.infoOneDiseaseTimeLine[newYear] = {}
                     }
-                    this.infoOneDiseaseTimeLine[newDate].push(this.infoOneDisease.symptoms[i])
+                    if(this.infoOneDiseaseTimeLine[newYear][newDate]==undefined){
+                        this.infoOneDiseaseTimeLine[newYear][newDate] = []
+                    }
+                    this.infoOneDiseaseTimeLine[newYear][newDate].push(this.infoOneDisease.symptoms[i])
                     for (var j = 0; j< this.infoOneDisease.symptoms.length;j++){
                         if (i!=j){
                             if (this.infoOneDisease.symptoms[j].checked) {
                                 var compareDate = this.infoOneDisease.symptoms[j].date;
                                 if(compareDate!=null){
                                     if(new Date(newDate).getTime()>new Date(compareDate).getTime()){
-                                        this.infoOneDiseaseTimeLine[newDate].push(this.infoOneDisease.symptoms[j])
+                                        this.infoOneDiseaseTimeLine[newYear][newDate].push(this.infoOneDisease.symptoms[j])
                                     }
                                 }
                             }
@@ -2066,7 +2070,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         }
         this.infoOneDiseaseTimeLine = this.infoOneDiseaseTimeLine
-        console.log(this.infoOneDiseaseTimeLine)
         this.loadingTimeline = false;
     }
 
@@ -2092,48 +2095,57 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.numberOfSymtomsChecked == 0) {
             Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
         } else {
-
-            var listChecked = [];
+            this.sending = true;
+            var listChecked = {};
             for (var i = 0; i < this.infoOneDisease.symptoms.length; i++) {
                 if (this.infoOneDisease.symptoms[i].checked) {
-                    listChecked.push(this.infoOneDisease.symptoms[i].id);
+                    if(listChecked[this.infoOneDisease.symptoms[i].id]==undefined){
+                        listChecked[this.infoOneDisease.symptoms[i].id]={}
+                    }
+                    if(this.infoOneDisease.symptoms[i].date==undefined){
+                        this.infoOneDisease.symptoms[i].date=null
+                    }
+                    if(this.infoOneDisease.symptoms[i].notes==undefined){
+                        this.infoOneDisease.symptoms[i].notes=null
+                    }
+                    listChecked[this.infoOneDisease.symptoms[i].id]={"date":this.infoOneDisease.symptoms[i].date,"notes":this.infoOneDisease.symptoms[i].notes}
                 }
             }
-
-            this.lauchEvent('Diagnosed - Send Symptoms');
-            document.getElementById('step1').scrollIntoView(true);
-            this.curatedLists.push({ id: this.infoOneDisease.id });
-            this.dontShowIntro = true;
-            let ngbModalOptions: NgbModalOptions = {
-                backdrop: 'static',
-                keyboard: false,
-                windowClass: 'ModalClass-sm'// xl, lg, sm
-            };
-            if (this.modalReference3 != undefined) {
-                this.modalReference3.close();
-                this.modalReference3 = undefined;
-            }
-            this.modalReference3 = this.modalService.open(contentInfoSendSymptoms, ngbModalOptions);
-
-            /*var info = { idClient: this.myuuid, diseaseId: this.infoOneDisease.id, xrefs: this.infoOneDisease.xrefs, symptoms: listChecked };
+            var info = { idClient: this.myuuid, diseaseId: this.infoOneDisease.id, xrefs: this.infoOneDisease.xrefs, symptoms: listChecked, email: this.email};
             this.subscription.add(this.apiDx29ServerService.chekedSymptomsOpenDx29(info)
                 .subscribe((res: any) => {
-                    this.lauchEvent('Diagnosed - Send Symptoms');
-                    document.getElementById('step1').scrollIntoView(true);
-                    this.curatedLists.push({ id: this.infoOneDisease.id });
-                    this.dontShowIntro = true;
-                    let ngbModalOptions: NgbModalOptions = {
-                        backdrop: 'static',
-                        keyboard: false,
-                        windowClass: 'ModalClass-sm'// xl, lg, sm
-                    };
-                    if (this.modalReference3 != undefined) {
-                        this.modalReference3.close();
-                        this.modalReference3 = undefined;
-                    }
-                    this.modalReference3 = this.modalService.open(contentInfoSendSymptoms, ngbModalOptions);
+
+                    this.sending = false;
+                            Swal.fire({
+                                icon: 'success',
+                                html: this.translate.instant("land.diagnosed.DonorData.msgform"),
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                allowOutsideClick: false
+                            })
+                            setTimeout(function () {
+                                Swal.close();
+                                //window.location.href = 'https://foundation29.org/';
+                            }, 2000);
+                            this.email = '';
+                            if (this.modalReference2 != undefined) {
+                                this.modalReference2.close();
+                                this.modalReference2 = undefined;
+                            }
+                            this.lauchEvent('Diagnosed - Send Symptoms');
+                            document.getElementById('step1').scrollIntoView(true);
+                            this.curatedLists.push({ id: this.infoOneDisease.id });
+                            this.dontShowIntro = true;
+                            
+                    /*var info = { email: this.email, lang: this.lang };
+                    this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
+                        .subscribe((res: any) => {
+                            
+                        }));*/
+
+                    
                     // Swal.fire(this.translate.instant("land.diagnosed.symptoms.Nice"), this.translate.instant("land.diagnosed.symptoms.msgCheckedSymptoms"), "success"); 
-                }));*/
+                }));
         }
     }
 
