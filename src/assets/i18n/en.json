@@ -2339,6 +2339,14 @@
         "We have found": "We have found",
         "results for": "results for"
       },
+      "timeline":{
+        "t1":"This is an example of reporting the evolution of symptoms over time. If you want one for yourself Dx29 allows you to generate and download it, it's free! Just click and fill in the information.",
+        "t2":"Complete symptom information and click on the button for calculate your personal timeline.",
+        "btn1":"Start",
+        "btn2":"Calculate",
+        "btnRecalculate":"Recalculate timeline",
+        "currentSymptom":"Currently"
+      },
       "diseases":{
         "error1":"Sorry, we have no information about",
         "error2": "We are working on it"
@@ -2348,8 +2356,6 @@
         "subtitle": "At <a href='http://foundation29.org/' target='_blank'>Foundation 29</a> we are working to fix this problem.",
         "t1": "Current symptom databases are not accurate. <ins>The world needs your help</ins> so that your disease is well described and we can help others who are looking for a diagnosis.",
         "t2": "Select the most important symptoms of your disease, a maximum of 10.",
-        "t3": "Complete the onset date of your symptoms and optionally add notes about them.",
-        "t4": "Here you can see graphically the evolution of your symptoms.",
         "btn": "I have checked the symptoms",
         "btn2": "I don't want to help",
         "error1": "You have to select at least 1 symptom",

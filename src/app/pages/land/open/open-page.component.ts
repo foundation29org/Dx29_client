@@ -31,6 +31,8 @@ import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, me
 import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexYAxis, ApexGrid, ApexDataLabels, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexLegend, ApexPlotOptions, ApexFill, ApexMarkers, ApexTheme, ApexNonAxisChartSeries, ApexResponsive } from "ng-apexcharts";
 import { KeyValue } from '@angular/common';
 
+import * as htmlToImage from 'html-to-image';
+
 export type ChartOptions = {
     series: ApexAxisChartSeries | ApexNonAxisChartSeries;
     colors: string[],
@@ -135,12 +137,10 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     callListOfDiseases: boolean = false;
     selectedDiseaseIndex: number = -1;
     infoOneDisease: any = {};
-    loadingTimeline = false;
+    startTimeLine = false;
+    showTimeLine = false;
     infoOneDiseaseTimeLine: any = {};
     infoOneDiseaseTimeLineNull:any = [];
-    panelInfoAttentionNum = 1;
-    maxPanelInfoAttentionNum = 3;
-    panelInfoAttention1Heigh = 270;
     modalReference2: NgbModalRef;
     clinicalTrials: any = {};
 
@@ -226,10 +226,10 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService) {
 
         this.lang = sessionStorage.getItem('lang');
-        this.loadingTimeline = false;
+        this.startTimeLine = false;
+        this.showTimeLine = false;
         this.selectedNoteSymptom = null;
         this.originalLang = sessionStorage.getItem('lang');
-        this.panelInfoAttentionNum = 1;
         if (this.lang == 'es') {
             this.refLangs = "https://docs.microsoft.com/es-es/azure/cognitive-services/translator/language-support";
         } else {
@@ -390,8 +390,8 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngOnInit() {
         this.activeRoute = this.router.url;
-        this.panelInfoAttentionNum = 1;
-        this.loadingTimeline = false;
+        this.startTimeLine = false;
+        this.showTimeLine = false;
         this.selectedNoteSymptom = null;
         this.subscription.add(this.route.params.subscribe(params => {
             if (params['role'] != undefined) {
@@ -1575,7 +1575,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }, 100);
     }
 
-
     showInfoSponsored(contentInfoSponsored) {
         let ngbModalOptions: NgbModalOptions = {
             keyboard: true,
@@ -1798,7 +1797,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     showMoreInfoDiagnosePopup(index, contentInfoAttention) {
         this.loadingOneDisease = true;
         this.selectedDiseaseIndex = index;
-        this.panelInfoAttentionNum = 1;
+        this.startTimeLine = false;
+        this.showTimeLine = false;
+        this.selectedNoteSymptom = null;
         this.infoOneDiseaseTimeLine = {}
         this.infoOneDiseaseTimeLineNull = []
         this.getInfoOneDisease(contentInfoAttention);
@@ -1875,9 +1876,11 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     showAttentionPanel(contentInfoAttention){
         this.numberOfSymtomsChecked = 0;
-        this.panelInfoAttentionNum = 1;
         this.infoOneDiseaseTimeLine = {}
         this.infoOneDiseaseTimeLineNull = []
+        this.startTimeLine = false;
+        this.showTimeLine = false;
+        this.selectedNoteSymptom = null;
         for (var i = 0; i < this.infoOneDisease.symptoms.length; i++) {
             this.infoOneDisease.symptoms[i].checked = false;
         }
@@ -1945,6 +1948,23 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     changeStateSymptomDisease(index) {
         if (this.infoOneDisease.symptoms[index].checked) {
             this.infoOneDisease.symptoms[index].checked = !this.infoOneDisease.symptoms[index].checked;
+            if (this.startTimeLine == true){
+                this.startTimeLine = false;
+                if((this.infoOneDisease.symptoms[index].onsetdate!=undefined)&&(this.infoOneDisease.symptoms[index].onsetdate!=null)){
+                    this.infoOneDisease.symptoms[index].onsetdate=null;
+                }
+                if((this.infoOneDisease.symptoms[index].finishdate!=undefined)&&(this.infoOneDisease.symptoms[index].finishdate!=null)){
+                    this.infoOneDisease.symptoms[index].finishdate=null;
+                }
+                if((this.infoOneDisease.symptoms[index].isCurrentSymptom!=undefined)&&(this.infoOneDisease.symptoms[index].isCurrentSymptom!=null)){
+                    this.infoOneDisease.symptoms[index].isCurrentSymptom=null;
+                }
+                if((this.infoOneDisease.symptoms[index].notes!=undefined)&&(this.infoOneDisease.symptoms[index].notes!=null)){
+                    this.infoOneDisease.symptoms[index].notes=null;
+                }
+                this.startTimeLine = true;
+            }
+            
         } else {
             this.infoOneDisease.symptoms[index].checked = true;
         }
@@ -1960,85 +1980,113 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
-    next() { 
-        if (this.numberOfSymtomsChecked == 0) {
-            Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
-        }
-        else{
-            if(this.panelInfoAttentionNum == 1) this.panelInfoAttention1Heigh = this.getElementHeight("panelInfoAttention1");
-            if (this.panelInfoAttentionNum < this.maxPanelInfoAttentionNum) this.panelInfoAttentionNum++;
-            if(this.panelInfoAttentionNum == 2)  this.addMoreInfoSymptomsChecked();
-            if(this.panelInfoAttentionNum == 3) this.updateTimeline();
-        }
-    }
     
-    prev() {
-        if (this.panelInfoAttentionNum > 1) this.panelInfoAttentionNum--;
+    startingTimeLine(){
+        this.startTimeLine = true;
+    }
+    backTimeline(){
+        for(var i =0; i < this.infoOneDisease.symptoms.length;i++){
+            this.infoOneDisease.symptoms[i].checked = false;
+        }
+        this.infoOneDiseaseTimeLine = {}
+        this.infoOneDiseaseTimeLineNull = []
+        this.startTimeLine = false;
+        this.showTimeLine = false;
+        this.selectedNoteSymptom = null;
     }
 
-    addMoreInfoSymptomsChecked(){
-        if (this.numberOfSymtomsChecked == 0) {
-            Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
-        } else {
-            //this.sending = true;
-            for (var i = 0; i < this.infoOneDisease.symptoms.length; i++) {
-                if (this.infoOneDisease.symptoms[i].checked) {
-                    if (this.infoOneDisease.symptoms[i]["date"] == undefined){
-                        this.infoOneDisease.symptoms[i]["date"] = null
-                    }
-                    if (this.infoOneDisease.symptoms[i]["notes"] == undefined){
-                        this.infoOneDisease.symptoms[i]["notes"] = null
-                    }
-                }
-                else{
-                    if ((this.infoOneDisease.symptoms[i]["date"] != undefined)||(this.infoOneDisease.symptoms[i]["date"] != null)){
-                        this.infoOneDisease.symptoms[i]["date"] = null
-                    }
-                    if ((this.infoOneDisease.symptoms[i]["notes"] != undefined)||(this.infoOneDisease.symptoms[i]["notes"] != null)){
-                        this.infoOneDisease.symptoms[i]["notes"] = null
-                    }
+    checkFinishDate(symptomIndex){
+        if((this.infoOneDisease.symptoms[symptomIndex].onsetdate!=null)&&(this.infoOneDisease.symptoms[symptomIndex].onsetdate!=undefined)){
+            if((this.infoOneDisease.symptoms[symptomIndex].finishdate!=null)&&(this.infoOneDisease.symptoms[symptomIndex].finishdate!=undefined)){
+                if(new Date(this.infoOneDisease.symptoms[symptomIndex].onsetdate).getTime() > new Date(this.infoOneDisease.symptoms[symptomIndex].finishdate).getTime()){
+                    this.startTimeLine = false;
+                    this.infoOneDisease.symptoms[symptomIndex].finishdate = null;
+                    this.startTimeLine = true;
                 }
             }
         }
     }
 
     updateTimeline(){
-        this.infoOneDiseaseTimeLine = {}
-        this.infoOneDiseaseTimeLineNull = []
-        this.loadingTimeline = true;
-        for (var i = 0; i< this.infoOneDisease.symptoms.length;i++){
-            if (this.infoOneDisease.symptoms[i].checked) {
-                var newDate = this.infoOneDisease.symptoms[i].date
-                
-                if(newDate!= null){
-                    var newYear = new Date(newDate).getFullYear()
-                    if(this.infoOneDiseaseTimeLine[newYear]==undefined){
-                        this.infoOneDiseaseTimeLine[newYear] = {}
-                    }
-                    if(this.infoOneDiseaseTimeLine[newYear][newDate]==undefined){
-                        this.infoOneDiseaseTimeLine[newYear][newDate] = []
-                    }
-                    this.infoOneDiseaseTimeLine[newYear][newDate].push(this.infoOneDisease.symptoms[i])
-                    for (var j = 0; j< this.infoOneDisease.symptoms.length;j++){
-                        if (i!=j){
-                            if (this.infoOneDisease.symptoms[j].checked) {
-                                var compareDate = this.infoOneDisease.symptoms[j].date;
-                                if(compareDate!=null){
-                                    if(new Date(newDate).getTime()>new Date(compareDate).getTime()){
-                                        this.infoOneDiseaseTimeLine[newYear][newDate].push(this.infoOneDisease.symptoms[j])
-                                    }
-                                }
+        if (this.numberOfSymtomsChecked == 0) {
+            Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
+        }
+        else{
+            this.showTimeLine = false;
+            this.infoOneDiseaseTimeLine = {}
+            this.infoOneDiseaseTimeLineNull = []
+
+            for (var i = 0; i< this.infoOneDisease.symptoms.length;i++){
+                if (this.infoOneDisease.symptoms[i].checked) {
+                    if(this.infoOneDisease.symptoms[i].onsetdate!=null){
+                        if((this.infoOneDisease.symptoms[i].finishdate==null)||(this.infoOneDisease.symptoms[i].finishdate==undefined)){
+                            if((this.infoOneDisease.symptoms[i].isCurrentSymptom==null)||(this.infoOneDisease.symptoms[this.indexListRelatedConditions].isCurrentSymptom==undefined)){
+                                this.infoOneDisease.symptoms[i].isCurrentSymptom = true;
                             }
                         }
                     }
                 }
-                else{
-                    this.infoOneDiseaseTimeLineNull.push(this.infoOneDisease.symptoms[i])
+            }
+
+            for (var i = 0; i< this.infoOneDisease.symptoms.length;i++){
+                if (this.infoOneDisease.symptoms[i].checked) {
+                    var newDate = this.infoOneDisease.symptoms[i].onsetdate
+                    if(newDate!= null){
+                        var newYear = new Date(newDate).getFullYear()
+                        if(this.infoOneDiseaseTimeLine[newYear]==undefined){
+                            this.infoOneDiseaseTimeLine[newYear] = {}
+                        }
+                        if(this.infoOneDiseaseTimeLine[newYear][newDate]==undefined){
+                            this.infoOneDiseaseTimeLine[newYear][newDate] = []
+                        }
+                        this.infoOneDiseaseTimeLine[newYear][newDate].push(this.infoOneDisease.symptoms[i])
+                        for (var j = 0; j< this.infoOneDisease.symptoms.length;j++){
+                            if (i!=j){
+                                if (this.infoOneDisease.symptoms[j].checked) {
+                                    var compareOnsetDate = this.infoOneDisease.symptoms[j].onsetdate;
+                                    var compareFinishDate = this.infoOneDisease.symptoms[j].finishdate;
+                                    var isCurrentSymptom = this.infoOneDisease.symptoms[j].isCurrentSymptom;
+                                    if(isCurrentSymptom){
+                                        if(compareOnsetDate!=null){
+                                            if(new Date(newDate).getTime()>new Date(compareOnsetDate).getTime()){
+                                                this.infoOneDiseaseTimeLine[newYear][newDate].push(this.infoOneDisease.symptoms[j])
+                                            }
+                                        }
+                                    }
+                                    else{
+                                        if(compareOnsetDate!=null){
+                                            if(compareFinishDate!=null){
+                                                if((new Date(newDate).getTime()>new Date(compareOnsetDate).getTime())&&(new Date(newDate).getTime()<new Date(compareFinishDate).getTime())){
+                                                    this.infoOneDiseaseTimeLine[newYear][newDate].push(this.infoOneDisease.symptoms[j])
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                }
+                            }
+                        }
+                    }
+                    else{
+                        this.infoOneDiseaseTimeLineNull.push(this.infoOneDisease.symptoms[i])
+                    }
                 }
             }
+            this.infoOneDiseaseTimeLine = this.infoOneDiseaseTimeLine
+            this.showTimeLine = true;
         }
-        this.infoOneDiseaseTimeLine = this.infoOneDiseaseTimeLine
-        this.loadingTimeline = false;
+    }
+
+    exportTimeline()
+    {
+        htmlToImage.toJpeg(document.getElementById('mytimeline'), { quality: 0.95 })
+        .then(function (dataUrl) {
+            var link = document.createElement('a');
+            link.download = 'my-timeline.jpeg';
+            link.href = dataUrl;
+            link.setAttribute("style","background-color: white !important; padding: 5% !important;");
+            link.click();
+        });
     }
 
     // Order by ascending property key
@@ -2070,13 +2118,19 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     if(listChecked[this.infoOneDisease.symptoms[i].id]==undefined){
                         listChecked[this.infoOneDisease.symptoms[i].id]={}
                     }
-                    if(this.infoOneDisease.symptoms[i].date==undefined){
-                        this.infoOneDisease.symptoms[i].date=null
+                    if(this.infoOneDisease.symptoms[i].onsetdate==undefined){
+                        this.infoOneDisease.symptoms[i].onsetdate=null
+                    }
+                    if(this.infoOneDisease.symptoms[i].finishdate==undefined){
+                        this.infoOneDisease.symptoms[i].finishdate=null
+                    }
+                    if(this.infoOneDisease.symptoms[i].isCurrentSymptom==undefined){
+                        this.infoOneDisease.symptoms[i].isCurrentSymptom=null
                     }
                     if(this.infoOneDisease.symptoms[i].notes==undefined){
                         this.infoOneDisease.symptoms[i].notes=null
                     }
-                    listChecked[this.infoOneDisease.symptoms[i].id]={"date":this.infoOneDisease.symptoms[i].date,"notes":this.infoOneDisease.symptoms[i].notes}
+                    listChecked[this.infoOneDisease.symptoms[i].id]={"onsetdate":this.infoOneDisease.symptoms[i].onsetdate,"finishdate":this.infoOneDisease.symptoms[i].finishdate,"isCurrentSymptom":this.infoOneDisease.symptoms[i].isCurrentSymptom,"notes":this.infoOneDisease.symptoms[i].notes}
                 }
             }
             var info = { idClient: this.myuuid, diseaseId: this.infoOneDisease.id, xrefs: this.infoOneDisease.xrefs, symptoms: listChecked, email: this.email};
