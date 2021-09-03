@@ -9,6 +9,7 @@
   </ol>
 </nav>
 <section id="login" class="mt-2" *ngIf="(role=='undiagnosed' || role=='clinician') ">
+  
   <div class="container-fluid pb-4">
     <div style="margin: auto;" style="margin: auto;">
       <div class="text-center p-2">
@@ -361,199 +362,74 @@
           <div class="section2">
             <h3>{{'land.What now' | translate }}</h3>
             <p>{{'land.This was just an appetizer' | translate }}</p>
-            <div class="mb-4 p-2">
+            <div class="p-2">
 
             </div>
           </div>
         </div>
-        <div class="offset-md-2 col-md-8 offset-xl-3 col-xl-6 mb-4">
-          <table class="table mb-0 text-center">
-            <thead>
-              <tr style="table-layout: auto !important;display: table;">
-                <th class="col-md-10 text-left" id="description"></th>
-                <th class="col-md-2" id="RegisterDx29">Register Dx29</th>
-              </tr>
-            </thead>
-            <tbody style="max-height:inherit;">
-              <!--<tr class="d-flex tr-auto">
-                <td class="col-md-8 text-left">
-                  <span>
-                    <strong>{{'land.table.t1' | translate }}</strong>
-                  </span>
-                  <span class="d-block">
-                    {{'land.table.d1' | translate }}
-                  </span>
-                </td>
-                <td class="col-md-2">
-                  <i class="fa fa-check fa-2x info"></i>
-                </td>
-                <td class="col-md-2">
-                  <i class="fa fa-check fa-2x info"></i>
-                </td>
-              </tr>
-              <tr class="d-flex tr-auto">
-                <td class="col-md-8 text-left">
-                  <span>
-                    <strong>{{'land.table.t2' | translate }}</strong>
-                  </span>
-                  <span class="d-block">
-                    {{'land.table.d2' | translate }}
-                  </span>
-                </td>
-                <td class="col-md-2">
-                  <i class="fa fa-check fa-2x info"></i>
-                </td>
-                <td class="col-md-2">
-                  <i class="fa fa-check fa-2x info"></i>
-                </td>
-              </tr>
-              <tr class="d-flex tr-auto">
-                <td class="col-md-8 text-left">
-                  <span>
-                    <strong>{{'land.table.t3' | translate }}</strong>
-                  </span>
-                  <span class="d-block">
-                    {{'land.table.d3' | translate }}
-                  </span>
-                </td>
-                <td class="col-md-2">
-                  <i class="fa fa-check fa-2x info"></i>
-                </td>
-                <td class="col-md-2">
-                  <i class="fa fa-check fa-2x info"></i>
-                </td>
-              </tr>
-              <tr class="d-flex tr-auto">
-                <td class="col-md-8 text-left">
-                  <span>
-                    <strong>{{'land.table.t4' | translate }}</strong>
-                  </span>
-                  <span class="d-block">
-                    {{'land.table.d4' | translate }}
-                  </span>
-                </td>
-                <td class="col-md-2">
-                  <i class="fa fa-check fa-2x info"></i>
-                </td>
-                <td class="col-md-2">
-                  <i class="fa fa-check fa-2x info"></i>
-                </td>
-              </tr>
-              <tr class="d-flex tr-auto">
-                <td class="col-md-8 text-left">
-                  <span>
-                    <strong>{{'land.table.t5' | translate }}</strong>
-                  </span>
-                  <span class="d-block">
-                    {{'land.table.d5' | translate }}
-                  </span>
-                </td>
-                <td class="col-md-2">
-                  <i class="fa fa-check fa-2x info"></i>
-                </td>
-                <td class="col-md-2">
-                  <i class="fa fa-check fa-2x info"></i>
-                </td>
-              </tr>
-              <tr class="d-flex tr-auto">
-                <td class="col-md-8 text-left">
-                  <span>
-                    <strong>{{'land.table.t6' | translate }}</strong>
-                  </span>
-                  <span class="d-block">
-                    {{'land.table.d6' | translate }}
-                  </span>
-                </td>
-                <td class="col-md-2">
-                  <i class="fa fa-check fa-2x info"></i>
-                </td>
-                <td class="col-md-2">
-                  <i class="fa fa-check fa-2x info"></i>
-                </td>
-              </tr>-->
-              <tr class="tr-auto">
-                <td class="col-md-10 text-left">
-                  <span>
-                    <strong>{{'land.table.t7' | translate }}</strong>
-                  </span>
-                  <span class="d-block">
-                    {{'land.table.d7' | translate }}
-                  </span>
-                </td>
-                <td class="col-md-2">
-                  <i class="fa fa-check fa-2x info"></i>
-                </td>
-              </tr>
-              <tr class="tr-auto">
-                <td class="col-md-10 text-left">
-                  <span>
-                    <strong>{{'land.table.t8' | translate }}</strong>
-                  </span>
-                  <span class="d-block">
-                    {{'land.table.d8' | translate }}
-                  </span>
-                </td>
-                <td class="col-md-2">
-                  <i class="fa fa-check fa-2x info"></i>
-                </td>
-              </tr>
-              <tr class="tr-auto">
-                <td class="col-md-10 text-left">
-                  <span>
-                    <strong>{{'land.table.t9' | translate }}</strong>
-                  </span>
-                  <span class="d-block">
-                    {{'land.table.d9' | translate }}
-                  </span>
-                </td>
-                <td class="col-md-2">
-                  <i class="fa fa-check fa-2x info"></i>
-                </td>
-              </tr>
-              <tr class="tr-auto">
-                <td class="col-md-10 text-left">
-                  <span>
-                    <strong>{{'land.table.t10' | translate }}</strong>
-                  </span>
-                  <span class="d-block">
-                    {{'land.table.d10' | translate }}
-                  </span>
-                </td>
-                <td class="col-md-2">
-                  <i class="fa fa-check fa-2x info"></i>
-                </td>
-              </tr>
-              <tr class="tr-auto">
-                <td class="col-md-10 text-left">
-                  <span>
-                    <strong>{{'land.table.t11' | translate }}</strong>
-                  </span>
-                  <span class="d-block">
-                    {{'land.table.d11' | translate }}
-                  </span>
-                </td>
-                <td class="col-md-2">
-                  <i class="fa fa-check fa-2x info"></i>
-                </td>
-              </tr>
-              <tr class="tr-auto">
-                <td class="col-md-10 text-left">
-                  <span>
-                    <strong>{{'land.table.t12' | translate }}</strong>
-                  </span>
-                  <span class="d-block">
-                    {{'land.table.d12' | translate }}
-                  </span>
-                </td>
-                <td class="col-md-2">
-                  <i class="fa fa-check fa-2x info"></i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <button class="btn btn-info mr-1 btn-raised mb-0 btn-navbar float-right"
+        <div class="row col-md-12 reg-panel">
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img" src='assets/img/home/reg/diskette.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t7' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d7' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img" src='assets/img/home/reg/archive.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t8' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d8' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img" src='assets/img/home/reg/genetico.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t9' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d9' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img" src='assets/img/home/reg/equipo.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t10' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d10' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img" src='assets/img/home/reg/share.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t11' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d11' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img" src='assets/img/home/reg/refresh.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t11' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d11' | translate }}</span>
+            </span>
+          </div>
+        </div>
+      <div class="col-md-12 p-4">
+        <div class="center-elements">
+          <button class="btn btn-lg btn-info btn-raised"
             (click)="registerToDx29Swal(contentToDx29V2)">{{'land.table.button' | translate }}</button>
         </div>
+      </div>
+        <span class="ml-1 float-left text-muted">Icons of <a href="https://www.flaticon.com/" target="_blank" class="grey">flaticon</a></span>
       </div>
     </div>
   </div>
@@ -1180,7 +1056,7 @@
       </h4>
       <span class="content-sub-header text-muted">{{ topRelatedConditions[selectedInfoDiseaseIndex].id }}</span>
     </div>
-    <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+    <button type="button" class="close" aria-label="Close" (click)="closeDiseaseUndiagnosed()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -1203,6 +1079,7 @@
               <!--<th class="col-md-2" id="Frequent">{{'land.Frequency' | translate }}</th>-->
               <th class="col-md-2" id="Patient">{{'land.Patient' | translate }}</th>
               <th class="col-md-2" id="Disease">{{'land.Disease' | translate }}</th>
+              <th>{{'generics.Options' | translate }}</th>
               <!--<th class="col-md-1" id="Info">Info</th>-->
             </tr>
           </thead>
@@ -1235,28 +1112,24 @@
                 <i *ngIf="symptom.hasDisease" class="fa fa-check success"></i>
                 <i *ngIf="!symptom.hasDisease" class="fa fa-times danger"></i>
               </td>
-              <!--<td class="col-md-1">
-                <span *ngIf="symptom.hasPatient && symptom.hasDisease">
-                  <span *ngIf="symptom.relationship == 'Equal'">
-                    <i class="fas fa-info-circle info"
-                      title="{{'land.Symptom observed in the patient and the disease' | translate }}"></i>
-                  </span>
-                  <span *ngIf="symptom.relationship == 'Successor'">
-                    <i class="fas fa-info-circle info"
-                      title="{{'land.Symptom deduced in the patient because they also present' | translate }} {{symptom.relatedName}}"></i>
-                  </span>
-                  <span *ngIf="symptom.relationship == 'Predecessor'">
-                    <i class="fas fa-info-circle info"
-                      title="{{'land.Symptom observed in patient and disease' | translate }}"></i>
-                  </span>
+              <td style="text-align:center">
+                <span class="mt-1 nav-item" ngbDropdown display="dynamic" placement="bottom-right" >
+                    <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt{{i}}" ngbDropdownToggle title="{{'generics.Options' | translate }}">
+                        <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
+                    </a>
+                    <div ngbDropdownMenu aria-labelledby="dropdownSympt{{j}}" class="dropdown">
+                      <a class="dropdown-item py-1" href="javascript:;" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease)">
+                        <span class="" >{{'diagnosesSection.More information' | translate }}</span> <i class="ml-2 fa fa-info info"></i>
+                      </a>
+                        <a *ngIf="!symptom.hasPatient" class="dropdown-item py-1" href="javascript:;" (click)="addTemporalSymptomTable(symptom, 'table candidates', i);">
+                          <span class="" >{{'diagnosesSection.Add symptom to the patient' | translate }}</span> <i class="ml-2 fa fa-plus primary"></i>
+                        </a>
+                        <a *ngIf="symptom.hasPatient" class="dropdown-item py-1" href="javascript:;" (click)="deleteSymptom(symptom, i);">
+                          <span class="" >{{'diagnosesSection.Delete symptom to the patient' | translate }}</span> <i class="ml-2 fa fa fa-trash danger"></i>
+                        </a>
+                    </div>
                 </span>
-                <span *ngIf="symptom.hasPatient && !symptom.hasDisease">
-                  <i class="fas fa-info-circle info" title="{{'land.Symptom observed in the patient' | translate }}"></i>
-                </span>
-                <span *ngIf="!symptom.hasPatient && symptom.hasDisease">
-                  <i class="fas fa-info-circle info" title="{{'land.Symptom observed in the disease' | translate }}"></i>
-                </span>
-              </td>-->
+              </td>
             </tr>
           </tbody>
         </table>
@@ -1903,3 +1776,4 @@
     </div>
   </div>
 </ng-template>
+<button id="openModalRegister" [hidden]="true" (click)="registerToDx29Swal(contentToDx29V2)">.</button>

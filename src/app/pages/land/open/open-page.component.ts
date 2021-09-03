@@ -86,6 +86,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     private subscription: Subscription = new Subscription();
     private subscriptionDiseasesCall: Subscription = new Subscription();
     private subscriptionDiseasesNotFound: Subscription = new Subscription();
+    private timeSubscription: Subscription = new Subscription();
     parserObject: any = { parserStrategy: 'Auto', callingParser: false, file: undefined };
     showPanelExtractor: boolean = false;
     expanded: boolean = true;
@@ -169,6 +170,10 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     viewArticle: boolean = false;
     actualArticle: any = {};
     secondToResponse: string = '';
+    reloadDiseases: boolean = false;
+    secondsInactive:number;
+    inactiveSecondsToLogout:number = 900;
+    openDiseases:number = 0;
 
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
@@ -249,6 +254,23 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         //this.googleAnalyticsService.eventEmitter("OpenDx - init: "+result, "general", this.myuuid);
         //this.googleAnalyticsService.eventEmitter("OpenDx - init", "general", this.myuuid, 'init', 5);
         this._startTime = Date.now();
+        this.secondsInactive=0;
+        this.timeSubscription =  Observable.interval(1000 * this.inactiveSecondsToLogout).subscribe(() => {
+            this.secondsInactive+=this.inactiveSecondsToLogout;
+            if(this.secondsInactive>=this.inactiveSecondsToLogout){
+                this.openModarRegister();
+              }
+          });
+    }
+
+    openModarRegister(){
+        if (this.modalReference != undefined) {
+            this.modalReference.close();
+            this.modalReference = undefined;
+            document.getElementById("openModalRegister").click();
+        }else{
+            document.getElementById("openModalRegister").click();
+        }
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
@@ -260,11 +282,15 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             this.modalReference2.close();
             this.modalReference2 = undefined;
             return false;
-        }else{      
+        }else{
             if(this.activeRoute.indexOf("open;role=undiagnosed")!=-1 || this.activeRoute.indexOf("open;role=clinician")!=-1){
                 if(this.temporalSymptoms.length>0){
+                    if(this.topRelatedConditions.length>0){
+                        this.openModarRegister();
+                    }
                     var obser =this.dialogService.confirm(this.translate.instant("land.Do you want to exit"), this.translate.instant("land.loseprogress"));
                     return obser;
+                    
                 }else{
                     return true;
                 }
@@ -925,6 +951,76 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
+    addTemporalSymptomTable(symptom, inputType, index2){
+        var foundElement = this.searchService.search(this.temporalSymptoms, 'id', symptom.id);
+        if (!foundElement) {
+            this.temporalSymptoms.push({ id: symptom.id, name: symptom.name, new: true, checked: true, percentile: -1, inputType: inputType, importance: '1', polarity: '0', similarity: symptom.similarity, positions: symptom.positions, text: symptom.text });
+            this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
+            this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[index2].hasPatient = true;
+            this.reloadDiseases = true;
+        }
+    }
+
+    showSwal(text){
+        Swal.fire({
+            icon: 'success',
+            html: text,
+            showCancelButton: false,
+            showConfirmButton: false,
+            allowOutsideClick: false
+        })
+        setTimeout(function () {
+            Swal.close();
+        }, 2000);
+    }
+
+    deleteSymptom(symptom, index2){
+        var index = -1;
+        var found = false;
+        for(var i=0;i<this.temporalSymptoms.length;i++)
+          {
+            if(symptom.id==this.temporalSymptoms[i].id){
+              index= i;
+              found = true;
+              this.confirmDeletePhenotype2(index, index2);
+            }
+          }
+      }
+
+      confirmDeletePhenotype2(index, index2){
+        Swal.fire({
+            title: this.translate.instant("generics.Are you sure delete")+" "+this.temporalSymptoms[index].name+" ?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#0CC27E',
+            cancelButtonColor: '#f9423a',
+            confirmButtonText: this.translate.instant("generics.Accept"),
+            cancelButtonText: this.translate.instant("generics.Cancel"),
+            showLoaderOnConfirm: true,
+            allowOutsideClick: false,
+            reverseButtons:true
+        }).then((result) => {
+          if (result.value) {
+            this.temporalSymptoms.splice(index, 1);
+            this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[index2].hasPatient = false;
+            this.reloadDiseases = true;
+          }
+        });
+  
+      }
+
+    closeDiseaseUndiagnosed(){
+        if (this.modalReference != undefined) {
+            this.modalReference.close();
+            this.modalReference = undefined;
+        }
+        if(this.reloadDiseases){
+            this.getNumberOfSymptomsChecked();
+            this.showSwal(this.translate.instant("land.proposed diseases has been updated"));
+        }
+        
+    }
+
     sortBySimilarity() {
         this.temporalSymptoms.sort(this.sortService.GetSortOrderInverse("similarity"));
     }
@@ -1013,6 +1109,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     getNumberOfSymptomsChecked() {
+        this.reloadDiseases = false;
         this.numberOfSymtomsChecked = 0;
         for (var i = 0; i < this.temporalSymptoms.length; i++) {
             if (this.temporalSymptoms[i].checked) {
@@ -1063,7 +1160,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             var lang = this.lang;
             this.subscription.add(this.apiDx29ServerService.calculate(info, lang)
                 .subscribe((res: any) => {
-                    console.log(res);
                     if (res == null) {
                         this.calculate()
                     } else {
@@ -1250,22 +1346,29 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     showMoreInfoDiseasePopup(diseaseIndex, contentInfoDisease) {
-        this.selectedInfoDiseaseIndex = diseaseIndex;
-        if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded) {
-            let ngbModalOptions: NgbModalOptions = {
-                keyboard: true,
-                windowClass: 'ModalClass-lg'// xl, lg, sm
-            };
-            this.modalReference = this.modalService.open(contentInfoDisease, ngbModalOptions);
-        } else {
-            this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded = true;
-            if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].changed) {
-                console.log('Ha cambiado');
-                this.getSymptomsOneDisease(this.topRelatedConditions[this.selectedInfoDiseaseIndex].id, contentInfoDisease);
+        this.openDiseases++;
+        if(this.openDiseases>=3){
+            this.openModarRegister();
+        }else{
+            this.selectedInfoDiseaseIndex = diseaseIndex;
+            if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded) {
+                let ngbModalOptions: NgbModalOptions = {
+                    backdrop: 'static',
+                    keyboard: false,
+                    windowClass: 'ModalClass-lg'// xl, lg, sm
+                };
+                this.modalReference = this.modalService.open(contentInfoDisease, ngbModalOptions);
             } else {
-                this.callGetInfoDiseaseSymptomsJSON(contentInfoDisease);
+                this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded = true;
+                if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].changed) {
+                    console.log('Ha cambiado');
+                    this.getSymptomsOneDisease(this.topRelatedConditions[this.selectedInfoDiseaseIndex].id, contentInfoDisease);
+                } else {
+                    this.callGetInfoDiseaseSymptomsJSON(contentInfoDisease);
+                }
             }
         }
+        
     }
 
     getSymptomsOneDisease(id, contentInfoDisease) {
@@ -1342,7 +1445,8 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
 
                 let ngbModalOptions: NgbModalOptions = {
-                    keyboard: true,
+                    backdrop: 'static',
+                    keyboard: false,
                     windowClass: 'ModalClass-lg'// xl, lg, sm
                 };
                 this.getfrequencies(this.selectedInfoDiseaseIndex);
@@ -1578,7 +1682,8 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     showInfoSponsored(contentInfoSponsored) {
         let ngbModalOptions: NgbModalOptions = {
-            keyboard: true,
+            backdrop: 'static',
+            keyboard: false,
             windowClass: 'ModalClass-lg'// xl, lg, sm
         };
         this.modalReference = this.modalService.open(contentInfoSponsored, ngbModalOptions);
@@ -1588,7 +1693,8 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.lauchEvent("ShowInfoDx29");
         this.initGraphs();
         let ngbModalOptions: NgbModalOptions = {
-            keyboard: true,
+            backdrop: 'static',
+            keyboard: false,
             windowClass: 'ModalClass-sm'// xl, lg, sm
         };
         this.modalReference = this.modalService.open(contentInfoDx29, ngbModalOptions);
@@ -1630,7 +1736,8 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     registerToDx29Swal(contentToDx29V2) {
         let ngbModalOptions: NgbModalOptions = {
-            keyboard: true,
+            backdrop: 'static',
+            keyboard: false,
             windowClass: 'ModalClass-lg'// xl, lg, sm
         };
         this.modalReference = this.modalService.open(contentToDx29V2, ngbModalOptions);
