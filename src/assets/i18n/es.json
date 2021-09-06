@@ -2341,12 +2341,20 @@
         "results for": "resultados para"
       },
       "timeline":{
+        "title":"TU CRONOLOGIA",
         "t1":"Este es un ejemplo de informe de la evolución de los síntomas en el tiempo. Si quieres uno para ti Dx29 te permite generarlo y descargarlo, ¡es gratis! Sólo tienes que hacer clic y rellenar la información.",
         "t2":"Completa la información de los síntomas y haz clic en el botón para calcular tu línea de tiempo personal.",
+        "t3":"Esta es la representación de tus sintomas de acuerdo con la información que has introducido. Si lo necesitas, puedes realizar las modificaciones que quieras y pulsar en el botón recalcular de arriba.",
         "btn1":"Comenzar",
         "btn2":"Calcular",
         "btnRecalculate":"Recalcular evolución",
-        "currentSymptom":"Actualmente"
+        "currentSymptom":"Actualmente",
+        "errorDates":"La fecha fin no puede ser anterior a la inicial.",
+        "exit":"Salir",
+        "ExitDiscard":"Todos los cambios que hayas hecho se descartarán.",
+        "help":"Quiero ayudar",
+        "DonnorComplete":"Con la información que ya has completado puedes ayudar a otros pacientes, es solo un click.",
+        "DonnorUncomplete":"Si completas la información de tu cronología podrás, además de obtener tu representación de síntomas en el tiempo, ayudar a otros pacientes."
       },
       "diseases":{
         "error1":"Lo sentimos, no tenemos información sobre",
@@ -2390,7 +2398,7 @@
         "free": "Si quieres otras cosas, escríbelas aquí",
         "msgform": "Gracias por unirte a la revolución de los pacientes!",
         "title": "Gracias",
-        "p1": "Los datos que tú nos puedes dar sobre tu enfermedad son muy importantes. Porque esa información no viene directamente de los pacientes, las bases de datos tradicionales - que se usan para hacer los diagnósticos - contienen información imprecisa sobre las enfermedades raras.",
+        "p1": "Los datos que tú nos puedes dar sobre tu enfermedad son muy importantes. Porque esa información no viene directamente de las bases de datos tradicionales que se usan para hacer los diagnósticos y contienen información imprecisa sobre las enfermedades raras.",
         "p2": "En Fundación 29 queremos cambiar la forma en la que se hace Medicina. Queremos que los datos de los pacientes se usen y que se pueda hacer más investigación con ellos.",
         "p3": "Estamos construyendo una herramienta para agilizar el diagnóstico de enfermedades raras (Dx29) y necesitamos tus datos para hacerla más precisa y así poder ayudar a más y más pacientes.",
         "p4": "Únete a nuestra revolución dejando aquí tu dirección de correo electrónico y además te mantendremos informado de todos nuestros avances."

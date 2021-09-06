@@ -1797,11 +1797,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     showMoreInfoDiagnosePopup(index, contentInfoAttention) {
         this.loadingOneDisease = true;
         this.selectedDiseaseIndex = index;
-        this.startTimeLine = false;
-        this.showTimeLine = false;
-        this.selectedNoteSymptom = null;
-        this.infoOneDiseaseTimeLine = {}
-        this.infoOneDiseaseTimeLineNull = []
         this.getInfoOneDisease(contentInfoAttention);
     }
 
@@ -1864,9 +1859,17 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                         keyboard: false,
                         windowClass: 'ModalClass-sm'// xl, lg, sm
                     };
-                    this.modalReference2 = this.modalService.open(contentInfoAttention, ngbModalOptions);
+                    //this.modalReference2 = this.modalService.open(contentInfoAttention, ngbModalOptions);
                     this.getFromWiki(this.infoOneDisease.name);
                 }
+                for (var j = 0; i < this.infoOneDisease.symptoms.length; j++) {
+                    this.infoOneDisease.symptoms[j].checked = false;
+                }
+                this.startTimeLine = false;
+                this.showTimeLine = false;
+                this.selectedNoteSymptom = null;
+                this.infoOneDiseaseTimeLine = {}
+                this.infoOneDiseaseTimeLineNull = []
                 
             }, (err) => {
                 console.log(err);
@@ -1875,21 +1878,12 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     showAttentionPanel(contentInfoAttention){
-        this.numberOfSymtomsChecked = 0;
-        this.infoOneDiseaseTimeLine = {}
-        this.infoOneDiseaseTimeLineNull = []
-        this.startTimeLine = false;
-        this.showTimeLine = false;
-        this.selectedNoteSymptom = null;
-        for (var i = 0; i < this.infoOneDisease.symptoms.length; i++) {
-            this.infoOneDisease.symptoms[i].checked = false;
-        }
-            let ngbModalOptions: NgbModalOptions = {
-                backdrop: 'static',
-                keyboard: false,
-                windowClass: 'ModalClass-sm'// xl, lg, sm
-            };
-            this.modalReference2 = this.modalService.open(contentInfoAttention, ngbModalOptions);
+        let ngbModalOptions: NgbModalOptions = {
+            backdrop: 'static',
+            keyboard: false,
+            windowClass: 'ModalClass-sm'// xl, lg, sm
+        };
+        this.modalReference2 = this.modalService.open(contentInfoAttention, ngbModalOptions);
     }
 
     cleanxrefs() {
@@ -1985,14 +1979,32 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.startTimeLine = true;
     }
     backTimeline(){
-        for(var i =0; i < this.infoOneDisease.symptoms.length;i++){
-            this.infoOneDisease.symptoms[i].checked = false;
-        }
-        this.infoOneDiseaseTimeLine = {}
-        this.infoOneDiseaseTimeLineNull = []
-        this.startTimeLine = false;
-        this.showTimeLine = false;
-        this.selectedNoteSymptom = null;
+        Swal.fire({
+            title: this.translate.instant("generics.Are you sure?"),
+            text: this.translate.instant("land.diagnosed.timeline.ExitDiscard"),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#0CC27E',
+            cancelButtonColor: '#f9423a',
+            confirmButtonText: this.translate.instant("generics.Yes"),
+            cancelButtonText: this.translate.instant("generics.No"),
+            showLoaderOnConfirm: true,
+            allowOutsideClick: false,
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+                for(var i =0; i < this.infoOneDisease.symptoms.length;i++){
+                    this.infoOneDisease.symptoms[i].checked = false;
+                }
+                this.infoOneDiseaseTimeLine = {}
+                this.infoOneDiseaseTimeLineNull = []
+                this.startTimeLine = false;
+                this.showTimeLine = false;
+                this.selectedNoteSymptom = null;
+            }
+        })
+
+        
     }
 
     checkFinishDate(symptomIndex){
@@ -2001,13 +2013,18 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 if(new Date(this.infoOneDisease.symptoms[symptomIndex].onsetdate).getTime() > new Date(this.infoOneDisease.symptoms[symptomIndex].finishdate).getTime()){
                     this.startTimeLine = false;
                     this.infoOneDisease.symptoms[symptomIndex].finishdate = null;
+                    this.infoOneDisease.symptoms[symptomIndex].invalidFinishdate = true;
                     this.startTimeLine = true;
+                }
+                else{
+                    this.infoOneDisease.symptoms[symptomIndex].invalidFinishdate = false;
                 }
             }
         }
     }
 
     updateTimeline(){
+        this.getNumberOfSymptomsDiseaseChecked();
         if (this.numberOfSymtomsChecked == 0) {
             Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
         }
@@ -2018,6 +2035,12 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
             for (var i = 0; i< this.infoOneDisease.symptoms.length;i++){
                 if (this.infoOneDisease.symptoms[i].checked) {
+                    if(this.infoOneDisease.symptoms[i].onsetdate==NaN){
+                        this.infoOneDisease.symptoms[i].onsetdate = null
+                    }
+                    if (this.infoOneDisease.symptoms[i].finishdate==NaN){
+                        this.infoOneDisease.symptoms[i].finishdate = null
+                    }
                     if(this.infoOneDisease.symptoms[i].onsetdate!=null){
                         if((this.infoOneDisease.symptoms[i].finishdate==null)||(this.infoOneDisease.symptoms[i].finishdate==undefined)){
                             if((this.infoOneDisease.symptoms[i].isCurrentSymptom==null)||(this.infoOneDisease.symptoms[this.indexListRelatedConditions].isCurrentSymptom==undefined)){
@@ -2072,7 +2095,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     }
                 }
             }
-            this.infoOneDiseaseTimeLine = this.infoOneDiseaseTimeLine
             this.showTimeLine = true;
         }
     }

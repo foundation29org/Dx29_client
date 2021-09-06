@@ -871,7 +871,6 @@
               <ng-template ngbTabContent>
                 <div class="col-md-12">
                   <div class="row">
-                    <!--<p>{{'land.diagnosed.symptoms.Select the symptoms you have by' | translate }} <span class="info" style="cursor: pointer;" (click)="showAttentionPanel(contentInfoAttention)">{{'land.diagnosed.symptoms.clicking here' | translate }}</span></p>-->
                     <div class="col-md-6" *ngIf="!startTimeLine">
                       <div class="table-responsive">
                         <table class="table mb-0 text-center d-none d-sm-block">
@@ -913,12 +912,24 @@
                     </div>
                     <div class="col-md-6" *ngIf="!startTimeLine">
                       <div class="row">
+                        <div class="col-md-12 pull-right">
+                          <em class="mt-1 fas ft-heart grey float-right mr-2"
+                            title="{{'land.diagnosed.timeline.help' | translate}}" (click)="showAttentionPanel(contentInfoAttention)"
+                            style="cursor: pointer;"></em>
+                        </div>
+                        <div class="col-md-12 mt-1">
+                          <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
+                        </div>
                         <div class="col-md-12">
                           <span>{{'land.diagnosed.timeline.t1' | translate}}</span>
                         </div>
                         <div class="col-md-12 mt-2 center-elements">
                           <button type="button" class="btn btn-info btn-lg btn-raised pb-2 font-medium-3" (click)="startingTimeLine();"><span>{{'land.diagnosed.timeline.btn1' | translate}}</span></button>
                         </div>
+                        <div class="col-md-12 mt-2 center-elements">
+                          <img src='assets/gif/land/diagnosed/timeline.gif' style="max-width: 100%;">
+                        </div>
+
                       </div>
                     </div>
                     <div class="col-md-6" *ngIf="startTimeLine">
@@ -949,6 +960,7 @@
                                 <div class="col-md-6 mt-3">
                                   <label for="dateFinish"> {{'generics.End Date' | translate }} </label>
                                   <input type="date" id="dateFinish_{{i}}" class="form-control" name="dateFinish" [(ngModel)]="symptom.finishdate" (change)="checkFinishDate(i)" [disabled]="(!symptom.checked)||(symptom.isCurrentSymptom)||(symptom.onsetdate==undefined)">
+                                  <small class="text-left form-text danger" *ngIf="symptom.invalidFinishdate">{{'land.diagnosed.timeline.errorDates' | translate}}</small>
                                 </div>
                                 <div class="col-md-12 mt-2">
                                   <mat-checkbox class="mt-1" name="isCurrentSymptom" [(ngModel)]="symptom.isCurrentSymptom" [disabled]="(!symptom.checked)||(symptom.onsetdate==undefined)"></mat-checkbox>
@@ -966,9 +978,12 @@
                     <div class="col-md-6" *ngIf="startTimeLine && !showTimeLine"> 
                       <div class="row">
                         <div class="col-md-12 pull-right">
-                          <em class="mt-1 ft-arrow-left grey float-right mr-2"
-                            title="{{'generics.Back | Translate'}}" (click)="backTimeline()"
+                          <em class="mt-1 ft-x grey float-right mr-2"
+                            title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="backTimeline()"
                             style="cursor: pointer;"></em>
+                        </div>
+                        <div class="col-md-12 mt-1">
+                          <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
                         </div>
                         <div class="col-md-12 mt-1">
                           <span> {{'land.diagnosed.timeline.t2' | translate}} </span>
@@ -982,18 +997,23 @@
                       <div class="row">
                         <div class="col-md-12 pull-right">
                           <em class="mt-1 fa fa-download grey float-right mr-2"
-                            title="{{'land.Download results' | translate }}" (click)="exportTimeline()"
+                            title="{{'land.Download results' | translate }}" (click)="showAttentionPanel(contentInfoAttention); exportTimeline()"
                             style="cursor: pointer;"></em>
-                          <!-- Donnations -> que abra el popup donde se explique todo, se le pida el email y pueda donar sus sintomas y timeline
-                            <em class="mt-1 fas fa-share-alt grey float-right mr-2"
-                            title="{{'land.Send results' | translate }}" (click)="sendEmail()"
-                            style="cursor: pointer;"></em>-->
+                          <em class="mt-1 fas ft-heart grey float-right mr-2"
+                            title="{{'land.diagnosed.timeline.help' | translate}}" (click)="showAttentionPanel(contentInfoAttention)"
+                            style="cursor: pointer;"></em>
                           <em class="mt-1 fa fa-refresh grey float-right mr-2"
                             title="{{'land.diagnosed.timeline.btnRecalculate' | translate}}" (click)="updateTimeline()"
                             style="cursor: pointer;"></em>
-                          <em class="mt-1 ft-arrow-left grey float-right mr-2"
-                            title="{{'generics.Back | Translate'}}" (click)="backTimeline()"
+                          <em class="mt-1 ft-x grey float-right mr-2"
+                            title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="backTimeline()"
                             style="cursor: pointer;"></em>
+                        </div>
+                        <div class="col-md-12 mt-1">
+                          <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
+                        </div>
+                        <div class="col-md-12 mt-1">
+                          <span> {{'land.diagnosed.timeline.t3' | translate}} </span>
                         </div>
                         <div class="col-md-12 mt-2" id="mytimeline">
                           <div *ngIf="!loadingTimeline">
@@ -1767,43 +1787,10 @@
             <p class="d-block mt-1" [innerHTML]="'land.diagnosed.symptoms.subtitle' | translate"></p>
            </div>
         </div>
-        <div class="row" *ngIf="infoOneDisease.symptoms!=undefined">
-          <span class="col-md-12">
-            <p class="mb-0 center-elements"><strong>{{'land.diagnosed.symptoms.t2' | translate }}</strong></p>
-          </span>
+        <div class="row" >
           <div class="mt-2 col-md-12">
-            <div class="table-responsive">
-              <table class="table mb-0 text-center">
-                <thead>
-                  <tr class="border-bottom-0 border-top-0">
-                    <th class="text-left" id="Name symptom">{{'diagnosis.Symptoms' | translate }}</th>
-                  </tr>
-                </thead>
-                <tbody class="tableList">
-                  <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="text-left col-12" style="table-layout:auto !important;">
-                    <td class="text-left pb-0 col-10">
-                        <span *ngIf="symptom.name" class="info" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{symptom.id}})">{{symptom.name}}</span>
-                        <span *ngIf="!symptom.name">
-                          {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
-                            href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
-                            title="{{symptom.id}}">
-                            <i class="ft-external-link"></i></a></span>
-                      
-                    </td>
-                    <td class="col-2">
-                      <span class="float-right ml-1">
-                        <button (click)="changeStateSymptomDisease(i)"
-                          class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                          [ngClass]="(symptom.checked==true)?'btn-info':'btn-secondary '"
-                          href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
-                          <em class="fa fa-check w-13"></em>
-                        </button>
-                      </span>                     
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <p *ngIf="showTimeLine"> {{'land.diagnosed.timeline.DonnorComplete' | translate }}</p>
+            <p *ngIf="!showTimeLine"> {{'land.diagnosed.timeline.DonnorUncomplete' | translate }}</p>
           </div>
           <div class="mt-2 col-md-12">
             <p>
@@ -1815,11 +1802,11 @@
             <p>
               {{'land.diagnosed.DonorData.p3' | translate }}
             </p>
-            <p>
+            <p *ngIf="showTimeLine">
               {{'land.diagnosed.DonorData.p4' | translate }}
             </p>
           </div>
-          <form class="form mt-2 col-md-12" #f="ngForm">
+          <form *ngIf="showTimeLine" class="form mt-2 col-md-12" #f="ngForm">
             <div class="">
               <input class="col-md-12 form-control" type="email" id="Email" name="Email" placeholder="{{'generics.Email' | translate }}" ngModel required #Email="ngModel" email name="Email" [(ngModel)]="email">
               <small class="pr-0 pl-0 col-md-6 text-left form-text danger" *ngIf="!Email.valid && showErrorForm">{{'generics.entervalidemail' | translate }}</small>
@@ -1835,6 +1822,7 @@
             </div>
           </form>
         </div>
+        
       </div>
     </div>
   </div>
