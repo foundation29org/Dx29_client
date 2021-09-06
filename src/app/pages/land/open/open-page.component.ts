@@ -1833,7 +1833,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     selectRole(role) {
-        this.role = role;
+        //this.role = role;
         this.router.navigate(['/']);
     }
 
