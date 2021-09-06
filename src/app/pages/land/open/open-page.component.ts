@@ -1964,6 +1964,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                         this.getClinicalTrials(this.infoOneDisease.name);
                     }
                 }
+                this.getFromWiki(this.infoOneDisease.name);
                 if(this.showIntro && this.infoOneDisease.symptoms!=undefined){
                     let ngbModalOptions: NgbModalOptions = {
                         backdrop: 'static',
@@ -1971,7 +1972,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                         windowClass: 'ModalClass-sm'// xl, lg, sm
                     };
                     this.modalReference2 = this.modalService.open(contentInfoAttention, ngbModalOptions);
-                    this.getFromWiki(this.infoOneDisease.name);
                 }
                 
             }, (err) => {
