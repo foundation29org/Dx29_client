@@ -661,28 +661,8 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <div class="card-body">
-                <div class="col-md-12">
-                  <p>{{'land.diagnosed.symptoms.Select the symptoms you have by' | translate }} <span class="info" style="cursor: pointer;" (click)="showAttentionPanel(contentInfoAttention)">{{'land.diagnosed.symptoms.clicking here' | translate }}</span></p>
+                <div class="col-md-12" *ngIf="!startTimeLine">
                   <div class="table-responsive">
-                    <table class="table mb-0 text-center d-none d-sm-block">
-                      <tbody style="width: 100%;display: inline-table;">
-                        <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
-                          <td class="text-left">
-                            <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
-                              class="btn-outline-info btn btn-sm mr-2 mb-0 btn-fab round"
-                              title="{{'generics.More information' | translate }} ({{symptom.id}})">
-                              <em class="fa fa-info w-13"></em>
-                            </button>
-                            <span *ngIf="symptom.name">{{symptom.name}}</span>
-                            <span *ngIf="!symptom.name">
-                              {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
-                                href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
-                                title="{{symptom.id}}">
-                                <i class="ft-external-link"></i></a></span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
                     <table class="table mb-0 text-center d-block d-sm-none">
                       <tbody>
                         <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="text-left">
@@ -699,6 +679,201 @@
                         </tr>
                       </tbody>
                     </table>
+                  </div>
+                </div>
+                <div class="col-md-12 mb-2" *ngIf="!startTimeLine">
+                  <div class="row">
+                    <div class="col-md-12 pull-right">
+                      <em class="mt-1 fas ft-heart grey float-right mr-2"
+                        title="{{'land.diagnosed.timeline.help' | translate}}" (click)="showAttentionPanel(contentInfoAttention)"
+                        style="cursor: pointer;"></em>
+                    </div>
+                    <div class="col-md-12 mt-1">
+                      <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
+                    </div>
+                    <div class="col-md-12">
+                      <p>{{'land.diagnosed.timeline.t1' | translate}}</p>
+                    </div>
+                    <div class="col-md-12 mt-1 center-elements">
+                      <button type="button" class="btn btn-info btn-md btn-raised" (click)="startingTimeLine();"><span>{{'land.diagnosed.timeline.btn1' | translate}}</span></button>
+                    </div>
+                    <div class="col-md-12 mt-1 center-elements">
+                      <img src='assets/gif/land/diagnosed/timeline-app.gif' style="max-width: 100%;">
+                    </div>
+
+                  </div>
+                </div>
+                <div class="col-md-6" *ngIf="startTimeLine && !showTimeLine"> 
+                  <div class="row">
+                    <div class="col-md-12 pull-right">
+                      <em class="mt-1 ft-x grey float-right mr-2"
+                        title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="backTimeline()"
+                        style="cursor: pointer;"></em>
+                    </div>
+                    <div class="col-md-12 mt-1">
+                      <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
+                    </div>
+                    <div class="col-md-12 mt-1">
+                      <p> {{'land.diagnosed.timeline.t2' | translate}} </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12" *ngIf="startTimeLine && showTimeLine"> 
+                  <div class="row">
+                    <div class="col-md-12 pull-right">
+                      <em class="mt-1 fa fa-refresh grey float-right mr-2"
+                        title="{{'land.diagnosed.timeline.btnRecalculate' | translate}}" (click)="updateTimeline()"
+                        style="cursor: pointer;"></em>
+                      <em class="mt-1 ft-x grey float-right mr-2"
+                        title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="backTimeline()"
+                        style="cursor: pointer;"></em>
+                    </div>
+                    <div class="col-md-12 mt-1">
+                      <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
+                    </div>
+                    <div class="col-md-12 mt-1">
+                      <p> {{'land.diagnosed.timeline.t3' | translate}} </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 mt-2" *ngIf="startTimeLine">
+                  <div class="table-responsive">
+                    <table class="table mb-0 text-center d-block d-sm-none">
+                      <tbody>
+                        <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="text-left">
+                          <td class="row pb-0" style="padding: 0.4rem;">
+                            <div class="col-md-12">
+                              <strong>
+                                <button (click)="changeStateSymptomDisease(i)"
+                                    class="btn btn-sm mr-2 mb-0 btn-fab round white"
+                                    [ngClass]="(symptom.checked==true)?'btn-info':'btn-secondary '"
+                                    href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
+                                    <em class="fa fa-check w-13"></em>
+                                </button>
+                                <span *ngIf="symptom.name" class="info" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{symptom.name}}</span>
+                                <span *ngIf="!symptom.name">
+                                  {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                                    href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
+                                    title="{{symptom.id}}">
+                                    <i class="ft-external-link"></i></a></span>
+                              </strong>
+                            </div>
+                            <div class="col-md-12 mt-1">
+                              <label for="dateOnset"> {{'generics.Start Date' | translate }} </label>
+                              <input type="date" id="dateOnset_{{i}}" class="form-control" name="dateOnset" [(ngModel)]="symptom.onsetdate" [disabled]="!symptom.checked">
+                            </div>
+                            <div class="col-md-12 mt-1">
+                              <label for="dateFinish"> {{'generics.End Date' | translate }} </label>
+                              <input type="date" id="dateFinish_{{i}}" class="form-control" name="dateFinish" [(ngModel)]="symptom.finishdate" (change)="checkFinishDate(i)" [disabled]="(!symptom.checked)||(symptom.isCurrentSymptom)||(symptom.onsetdate==undefined)">
+                              <small class="text-left form-text danger" *ngIf="symptom.invalidFinishdate">{{'land.diagnosed.timeline.errorDates' | translate}}</small>
+                            </div>
+                            <div class="col-md-12 mt-1">
+                              <mat-checkbox name="isCurrentSymptom" [(ngModel)]="symptom.isCurrentSymptom" [disabled]="(!symptom.checked)||(symptom.onsetdate==undefined)"></mat-checkbox>
+                              <label for="isCurrentSymptom"class="ml-1"> {{'land.diagnosed.timeline.currentSymptom' | translate}} </label>
+                            </div>
+                            <div class="col-md-12 mt-1 mb-3">
+                              <input type="text" id="basicInput_{{i}}" placeholder="{{'generics.notes' | translate }}" class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)">
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="col-md-12" *ngIf="startTimeLine && !showTimeLine"> 
+                  <div class="row">
+                    <div class="col-md-12 mt-2 center-elements">
+                      <button type="button" class="btn btn-info btn-md btn-raised" (click)="updateTimeline();"><span>{{'land.diagnosed.timeline.btn2' | translate}}</span></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12" *ngIf="startTimeLine && showTimeLine"> 
+                  <div class="row">
+                    <div class="col-md-12 pull-right">
+                      <em class="mt-1 fa fa-download grey float-right mr-2"
+                        title="{{'land.Download results' | translate }}" (click)="showAttentionPanel(contentInfoAttention); exportTimeline()"
+                        style="cursor: pointer;"></em>
+                      <em class="mt-1 fas ft-heart grey float-right mr-2"
+                        title="{{'land.diagnosed.timeline.help' | translate}}" (click)="showAttentionPanel(contentInfoAttention)"
+                        style="cursor: pointer;"></em>
+                    </div>
+                    <div class="col-md-12" id="mytimeline" style="max-height: 450px; overflow-y: auto;">
+                      <div *ngIf="!loadingTimeline">
+                        <section *ngIf="!isEmptyObject(infoOneDiseaseTimeLine)||!isEmptyObject(infoOneDiseaseTimeLineNull)" id="vertical-timeline-left" class="timeline-left timeline-wrapper col-sm-10 col-12 offset-sm-1">
+                          <div *ngIf="!isEmptyObject(infoOneDiseaseTimeLine)">
+                            <div *ngFor="let year of infoOneDiseaseTimeLine | keyvalue: keyAscOrder">
+                              <ul class="timeline">
+                                <li class="timeline-line"></li>
+                                <li class="timeline-group">
+                                  <h5>
+                                    <span class="badge badge-primary cursor-default">{{year.key}}</span>
+                                  </h5>
+                                </li>
+                              </ul>
+                              <ul class="timeline">
+                                <li class="timeline-line"></li>
+                                <li *ngFor="let item of year.value | keyvalue: keyAscOrder" class="timeline-item">
+                                    <div *ngIf="item.key!=null" class="timeline-badge">
+                                      <span data-toggle="tooltip" placement="right" [ngbTooltip]="item.key" class="bg-primary bg-lighten-4" matBadge="{{item.value.length}}">
+                                        <i class="ft-calendar primary"></i>
+                                      </span>
+                                    </div>
+                                    <div *ngIf="item.key!=null" class="timeline-card card shadow-z-1">
+                                      <div class="card-content">
+                                        <div class="card-body">
+                                          <span class="card-title mb-0">{{item.key}}</span>
+                                          <hr class="mt-0 mb-2">
+                                          <div *ngFor="let symptom of item.value;">
+                                            <span *ngIf="symptom.name" class="info" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{symptom.id}})" (click)="showMoreInfoAndNotesSymptomPopup(symptom, contentInfoAndNotesSymptom);">{{symptom.name}}</span>
+                                            <span *ngIf="!symptom.name">
+                                              {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) 
+                                              <a href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
+                                                title="{{symptom.id}}">
+                                                <i class="ft-external-link"></i>
+                                              </a>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div *ngIf="!isEmptyObject(infoOneDiseaseTimeLine)&&(infoOneDiseaseTimeLineNull.length>0)" class="col-md-12 mt-2"></div>
+                          <ul class="timeline" *ngIf="infoOneDiseaseTimeLineNull.length>0">
+                            <li class="timeline-group">
+                              <h5>
+                                <span class="badge badge-primary cursor-default"> {{'land.diagnosed.symptoms.NoOnset' | translate }} </span>
+                              </h5>
+                            </li>
+                            <li class="timeline-item">
+                              <div class="timeline-badge">
+                                <span data-toggle="tooltip" title="{{'land.diagnosed.symptoms.GoPrevious' | translate }}" placement="right" class="bg-primary bg-lighten-4" matBadge="{{infoOneDiseaseTimeLineNull.length}}" (click)="prev()" >
+                                  <i class="ft-help-circle primary"></i>
+                                </span>
+                              </div>
+                              <div class="timeline-card card shadow-z-1">
+                                <div class="card-content">
+                                  <div class="card-body">
+                                    <div *ngFor="let symptom of infoOneDiseaseTimeLineNull">
+                                      <span *ngIf="symptom.name" class="info" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{symptom.id}})" (click)="showMoreInfoAndNotesSymptomPopup(symptom, contentInfoAndNotesSymptom);">{{symptom.name}}</span>
+                                      <span *ngIf="!symptom.name">
+                                        {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) 
+                                        <a href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
+                                          title="{{symptom.id}}">
+                                          <i class="ft-external-link"></i>
+                                        </a>
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </section>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
