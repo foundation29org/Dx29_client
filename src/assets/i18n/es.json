@@ -154,7 +154,7 @@
     "Exit the application without logging off": "Salir de la aplicación sin cerrar la sesión",
     "We will reply as soon as possible": "Le contestaremos lo antes posible. ¡Gracias!",
     "Sending": "Enviando",
-    "Add": "Agregrar",
+    "Add": "Añadir",
     "Saved": "Guardado",
     "Not saved": "No guardado",
     "Saved on": "Guardado el",
@@ -2305,9 +2305,10 @@
       "button": "Quiero registrarme, es gratis!"
     },
     "swal":{
-      "title": "Regístrate para utilizar la capacidad total de Dx29, de forma totalmente gratuita",
+      "title": "Regístrate para utilizar la capacidad total de Dx29",
+      "title2": "de forma totalmente gratuita",
       "subtitle": "Prepárate para recibir tus nuevos poderes",
-      "p1": "Nos hemos tomado la molestia de prepararte para tu nuevo papel, por lo tanto, <ins>tendrás en tu nuevo perfil los síntomas y enfermedades que has obtenido</ins> para que tu despegue sea lo más cómodo posible.",
+      "p1": "Nos hemos tomado la molestia de prepararte para tu nuevo rol, por lo tanto, <ins>tendrás en tu nuevo perfil los síntomas y enfermedades que has obtenido</ins> para que tu despegue sea lo más cómodo posible.",
       "p2": "Tus nuevos poderes incluyen:",
       "button": "Crear usuario"
     },

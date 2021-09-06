@@ -2304,7 +2304,8 @@
       "button": "I want to register, it's free!"
     },
     "swal":{
-      "title": "Register to use the full capacity of Dx29, completely free of charge",
+      "title": "Register to use the full capacity of Dx29",
+      "title2": "completely free of charge",
       "subtitle": "Get ready to receive your new powers",
       "p1": "We have taken the trouble to prepare you for your new role, therefore, <ins>you will have in your new profile the symptoms and diseases that you have obtained</ins> so that your take off is as comfortable as possible.",
       "p2": "Your new powers include:",
