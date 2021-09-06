@@ -1934,6 +1934,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                             }
 
                             this.showEffects();
+                            this.getFromWiki(this.infoOneDisease.name);
 
                         }, (err) => {
                             console.log(err);
@@ -1963,8 +1964,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     } else {
                         this.getClinicalTrials(this.infoOneDisease.name);
                     }
+                    this.getFromWiki(this.infoOneDisease.name);
                 }
-                this.getFromWiki(this.infoOneDisease.name);
+                
                 if(this.showIntro && this.infoOneDisease.symptoms!=undefined){
                     let ngbModalOptions: NgbModalOptions = {
                         backdrop: 'static',
