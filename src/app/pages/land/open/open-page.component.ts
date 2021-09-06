@@ -2111,7 +2111,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             var link = document.createElement('a');
             link.download = 'my-timeline.jpeg';
             link.href = dataUrl;
-            link.setAttribute("style","background-color: white !important; padding: 5% !important;");
+            document.getElementById(timeLineElementId).style.removeProperty("background-color");
             link.click();
         });
     }
