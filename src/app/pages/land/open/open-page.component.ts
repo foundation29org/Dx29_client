@@ -143,6 +143,8 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     maxPanelInfoAttentionNum = 3;
     panelInfoAttention1Heigh = 270;
     modalReference2: NgbModalRef;
+    modalReference3: NgbModalRef;
+    modalReference4: NgbModalRef;
     clinicalTrials: any = {};
 
     @ViewChild('f') donorDataForm: NgForm;
@@ -174,6 +176,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     secondsInactive:number;
     inactiveSecondsToLogout:number = 900;
     openDiseases:number = 0;
+    timeoutWait: number = 2000;
 
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
@@ -264,9 +267,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     openModarRegister(){
-        if (this.modalReference != undefined) {
-            this.modalReference.close();
-            this.modalReference = undefined;
+        if (this.modalReference3 != undefined) {
+            this.modalReference3.close();
+            this.modalReference3 = undefined;
             document.getElementById("openModalRegister").click();
         }else{
             document.getElementById("openModalRegister").click();
@@ -281,6 +284,14 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }else if (this.modalReference2 != undefined) {
             this.modalReference2.close();
             this.modalReference2 = undefined;
+            return false;
+        }else if (this.modalReference3 != undefined) {
+            this.modalReference3.close();
+            this.modalReference3 = undefined;
+            return false;
+        }else if (this.modalReference4 != undefined) {
+            this.modalReference4.close();
+            this.modalReference4 = undefined;
             return false;
         }else{
             if(this.activeRoute.indexOf("open;role=undiagnosed")!=-1 || this.activeRoute.indexOf("open;role=clinician")!=-1){
@@ -739,6 +750,10 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     this.callNCR();
                 }, (err) => {
                     console.log(err);
+                    setTimeout(function () {
+                        this.prepareCallNCR();
+                    }, this.timeoutWait);
+                    this.timeoutWait = this.timeoutWait+2000;
                 }));
         } else {
             this.callNCR();
@@ -860,6 +875,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             if (this.temporalSymptoms.length == 0) {
                 this.inputManualSymptomsElement.nativeElement.focus();
             }
+            this.getNumberOfSymptomsChecked();
             /*var showSwalSelSymptoms = localStorage.getItem('showSwalSelSymptoms');
             if (showSwalSelSymptoms != 'false') {
                 if(this.temporalSymptoms.length==0){
@@ -1130,7 +1146,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             keyboard: false,
             windowClass: 'ModalClass-sm'// xl, lg, sm
         };
-        this.modalReference = this.modalService.open(contentInfoSymptomNcr, ngbModalOptions);
+        this.modalReference4 = this.modalService.open(contentInfoSymptomNcr, ngbModalOptions);
     }
     showMoreInfoAndNotesSymptomPopup(symptom, contentInfoAndNotesSymptom){
         this.selectedNoteSymptom = symptom;
@@ -1139,7 +1155,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             keyboard: false,
             windowClass: 'ModalClass-sm'// xl, lg, sm
         };
-        this.modalReference = this.modalService.open(contentInfoAndNotesSymptom, ngbModalOptions);
+        this.modalReference4 = this.modalService.open(contentInfoAndNotesSymptom, ngbModalOptions);
     }
 
     calculate() {
@@ -1263,6 +1279,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     loadMore() {
         this.indexListRelatedConditions = this.indexListRelatedConditions + this.showNumerRelatedConditions;
         this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
+        if(this.topRelatedConditions.length>16){
+            this.openModarRegister();
+        }
         this.totalDiseasesLeft = this.temporalDiseases.length - this.topRelatedConditions.length;
     }
 
@@ -1647,9 +1666,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     closeModal() {
         document.getElementsByClassName("ModalClass-sm")[0].removeEventListener("scroll", this.myFunction);
-        if (this.modalReference != undefined) {
-            this.modalReference.close();
-            this.modalReference = undefined;
+        if (this.modalReference4 != undefined) {
+            this.modalReference4.close();
+            this.modalReference4 = undefined;
         }
     }
 
@@ -1740,15 +1759,15 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             keyboard: false,
             windowClass: 'ModalClass-lg'// xl, lg, sm
         };
-        this.modalReference = this.modalService.open(contentToDx29V2, ngbModalOptions);
+        this.modalReference3 = this.modalService.open(contentToDx29V2, ngbModalOptions);
     }
 
     registerToDx29V2() {
         this.lauchEvent("Registration");
         this.lauchEvent("Registration Power");
-        if (this.modalReference != undefined) {
-            this.modalReference.close();
-            this.modalReference = undefined;
+        if (this.modalReference3 != undefined) {
+            this.modalReference3.close();
+            this.modalReference3 = undefined;
         }
         var info = {
             "Symptoms": []
@@ -2313,9 +2332,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     closeSymptom() {
-        if (this.modalReference != undefined) {
-            this.modalReference.close();
-            this.modalReference = undefined;
+        if (this.modalReference4 != undefined) {
+            this.modalReference4.close();
+            this.modalReference4 = undefined;
         }
     }
 

@@ -131,7 +131,7 @@
                                       title="{{'generics.More information' | translate }} ({{hpo.id}})">
                                       <em class="fa fa-info w-13"></em>
                                     </button>
-                                    <span class="ml-1 custom-bold">{{hpo.name}}</span>
+                                    <span class="ml-1 custom-bold pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">{{hpo.name}}</span>
                                   </span>
                                 </span>
                               </td>
@@ -232,7 +232,7 @@
                             title="{{'generics.More information' | translate }} ({{hpo.id}})">
                             <em class="fa fa-info w-13"></em>
                           </button>
-                          <span class="ml-1 custom-bold">{{hpo.name}}</span>
+                          <span class="ml-1 custom-bold pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">{{hpo.name}}</span>
                         </span>
                       </span>
                     </td>
@@ -426,7 +426,7 @@
       <div class="col-md-12 p-4">
         <div class="center-elements">
           <button class="btn btn-lg btn-info btn-raised"
-            (click)="registerToDx29Swal(contentToDx29V2)">{{'land.table.button' | translate }}</button>
+            (click)="registerToDx29V2()">{{'land.table.button' | translate }}</button>
         </div>
       </div>
         <span class="ml-1 float-left text-muted">Icons from <a href="https://www.flaticon.com/" target="_blank" class="grey">flaticon</a></span>
@@ -757,7 +757,7 @@
                               title="{{'generics.More information' | translate }} ({{symptom.id}})">
                               <em class="fa fa-info w-13"></em>
                             </button>
-                            <span *ngIf="symptom.name">{{symptom.name}}</span>
+                            <span *ngIf="symptom.name" class="pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{symptom.name}}</span>
                             <span *ngIf="!symptom.name">
                               {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                                 href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
@@ -1079,7 +1079,7 @@
               <!--<th class="col-md-2" id="Frequent">{{'land.Frequency' | translate }}</th>-->
               <th class="col-md-2" id="Patient">{{'land.Patient' | translate }}</th>
               <th class="col-md-2" id="Disease">{{'land.Disease' | translate }}</th>
-              <th>{{'generics.Options' | translate }}</th>
+              <th class="col-md-2">{{'generics.Options' | translate }}</th>
               <!--<th class="col-md-1" id="Info">Info</th>-->
             </tr>
           </thead>
@@ -1092,7 +1092,7 @@
                   title="{{'generics.More information' | translate }} ({{symptom.id}})">
                   <em class="fa fa-info w-13"></em>
                 </button>
-                <span *ngIf="symptom.name">{{symptom.name}}</span>
+                <span *ngIf="symptom.name" class="pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease);">{{symptom.name}}</span>
                 <span *ngIf="!symptom.name">
                   {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                     href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
@@ -1112,23 +1112,13 @@
                 <i *ngIf="symptom.hasDisease" class="fa fa-check success"></i>
                 <i *ngIf="!symptom.hasDisease" class="fa fa-times danger"></i>
               </td>
-              <td style="text-align:center">
-                <span class="mt-1 nav-item" ngbDropdown display="dynamic" placement="bottom-right" >
-                    <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt{{i}}" ngbDropdownToggle title="{{'generics.Options' | translate }}">
-                        <i class="fas fa-ellipsis-h font-medium-3 primary"></i>
-                    </a>
-                    <div ngbDropdownMenu aria-labelledby="dropdownSympt{{j}}" class="dropdown">
-                      <a class="dropdown-item py-1" href="javascript:;" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease)">
-                        <span class="" >{{'diagnosesSection.More information' | translate }}</span> <i class="ml-2 fa fa-info info"></i>
-                      </a>
-                        <a *ngIf="!symptom.hasPatient" class="dropdown-item py-1" href="javascript:;" (click)="addTemporalSymptomTable(symptom, 'table candidates', i);">
-                          <span class="" >{{'diagnosesSection.Add symptom to the patient' | translate }}</span> <i class="ml-2 fa fa-plus primary"></i>
-                        </a>
-                        <a *ngIf="symptom.hasPatient" class="dropdown-item py-1" href="javascript:;" (click)="deleteSymptom(symptom, i);">
-                          <span class="" >{{'diagnosesSection.Delete symptom to the patient' | translate }}</span> <i class="ml-2 fa fa fa-trash danger"></i>
-                        </a>
-                    </div>
-                </span>
+              <td class="col-md-2">
+                <a *ngIf="!symptom.hasPatient" href="javascript:;" (click)="addTemporalSymptomTable(symptom, 'table candidates', i);">
+                  <span class="" >{{'generics.Add' | translate }}</span> <i class="ml-2 fa fa-plus primary"></i>
+                </a>
+                <a *ngIf="symptom.hasPatient" href="javascript:;" (click)="deleteSymptom(symptom, i);">
+                  <span class="" >{{'generics.Delete' | translate }}</span> <i class="ml-2 fa fa fa-trash danger"></i>
+                </a>
               </td>
             </tr>
           </tbody>
@@ -1143,7 +1133,7 @@
                   <em class="fa fa-info w-13"></em>
                 </button>
                 <strong>
-                  <span *ngIf="symptom.name">{{symptom.name}}</span>
+                  <span *ngIf="symptom.name" class="pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease);">{{symptom.name}}</span>
                   <span *ngIf="!symptom.name">
                     {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                       href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
@@ -1168,6 +1158,14 @@
                   <span>{{'land.Disease' | translate }}</span>
                   <i *ngIf="symptom.hasDisease" class="ml-1 fa fa-check success"></i>
                   <i *ngIf="!symptom.hasDisease" class="ml-1 fa fa-times danger"></i>
+                </span>
+                <span>
+                  <a *ngIf="!symptom.hasPatient" class="d-block py-1" href="javascript:;" (click)="addTemporalSymptomTable(symptom, 'table candidates', i);">
+                    <span class="" >{{'generics.Add' | translate }}</span> <i class="ml-2 fa fa-plus primary"></i>
+                  </a>
+                  <a *ngIf="symptom.hasPatient" class="d-block py-1" href="javascript:;" (click)="deleteSymptom(symptom, i);">
+                    <span class="" >{{'generics.Delete' | translate }}</span> <i class="ml-2 fa fa fa-trash danger"></i>
+                  </a>
                 </span>
               </td>
               
@@ -1382,29 +1380,74 @@
       <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
         <span aria-hidden="true">&times;</span>
       </button>
-      <h4 class="align-self-center"><strong>{{'land.swal.title' | translate }}</strong></h4>
+      <h4 class="align-self-center"><strong>{{'land.swal.title' | translate }}</strong><span class="d-block"><strong>{{'land.swal.title2' | translate }}</strong></span></h4>
     </div>
-    <div class="row col-md-12">
-      <div class="col-md-5">
-        <img class="col-md-12 mt-1" src='assets/img/home/kid.jpg' />
-      </div>
-      <div class="col-md-7 align-self-center">
-        <span class="text-left">
-          <p><strong>{{'land.swal.subtitle' | translate }}</strong></p>
-          <p [innerHTML]="'land.swal.p1' | translate"></p>
-          <p>{{'land.swal.p2' | translate }}</p>
-          <ul>
-            <li><strong>{{'land.table.t7' | translate }}:</strong> {{'land.table.d7' | translate }}</li>
-            <li><strong>{{'land.table.t8' | translate }}:</strong> {{'land.table.d8' | translate }}</li>
-            <li><strong>{{'land.table.t9' | translate }}:</strong> {{'land.table.d9' | translate }}</li>
-            <li><strong>{{'land.table.t10' | translate }}:</strong> {{'land.table.d10' | translate }}</li>
-            <li><strong>{{'land.table.t11' | translate }}:</strong> {{'land.table.d11' | translate }}</li>
-            <li><strong>{{'land.table.t12' | translate }}:</strong> {{'land.table.d12' | translate }}</li>
-          </ul>
+    <div>
+      <div class="align-self-center">
+        <span>
+          <span *ngIf="temporalSymptoms.length>0">
+            <p [innerHTML]="'land.swal.p1' | translate"></p>
+            <p>{{'land.swal.p2' | translate }}</p>
+          </span>
         </span>
+        <div class="row reg-panel">
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/diskette.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t7' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d7' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/archive.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t8' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d8' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/genetico.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t9' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d9' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/equipo.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t10' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d10' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/share.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t11' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d11' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/refresh.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t12' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d12' | translate }}</span>
+            </span>
+          </div>
+        </div>
 
-
-        <button class="btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2()">{{'land.swal.button' |
+        <button class="mb-0 mt-2 btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2()">{{'land.swal.button' |
           translate }}</button>
       </div>
     </div>
