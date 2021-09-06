@@ -2342,7 +2342,9 @@
       },
       "timeline":{
         "title":"TU CRONOLOGIA",
-        "t1":"Este es un ejemplo de informe de la evolución de los síntomas en el tiempo. Si quieres uno para ti Dx29 te permite generarlo y descargarlo, ¡es gratis! Sólo tienes que hacer clic y rellenar la información.",
+        "t1":"Este es un ejemplo de informe de la evolución de los síntomas en el tiempo. Permite recoger de un vistazo la cronología de tu sintomatología.",
+        "t1b":"Si quieres uno para ti Dx29 te permite generarlo y descargarlo, ¡es gratis!",
+        "t1c":"Sólo tienes que hacer clic y rellenar la información. De este modo podrás guardar tu información de síntomas de forma ordenada.",
         "t2":"Completa la información de los síntomas y haz clic en el botón para calcular tu línea de tiempo personal.",
         "t3":"Esta es la representación de tus sintomas de acuerdo con la información que has introducido. Si lo necesitas, puedes realizar las modificaciones que quieras y pulsar en el botón recalcular de arriba.",
         "btn1":"Comenzar",

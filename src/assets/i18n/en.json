@@ -2341,7 +2341,9 @@
       },
       "timeline":{
         "title":"YOUR TIMELINE",
-        "t1":"This is an example of reporting the evolution of symptoms over time. If you want one for yourself Dx29 allows you to generate and download it, it's free! Just click and fill in the information.",
+        "t1":"This is an example of a report of the evolution of symptoms over time. It allows you to collect at a glance the chronology of your symptomatology.",
+        "t1b":"If you want one for yourself, Dx29 allows you to generate and download it, it's free!",
+        "t1c":"Just click and fill in the information. This way you can save your symptom information in an orderly way.",
         "t2":"Complete symptom information and click on the button for calculate your personal timeline.",
         "t3":"This is the representation of your symptoms according to the information you have entered. If you need to, you can make any modifications you want and click on the recalculate button above.",
         "btn1":"Start",

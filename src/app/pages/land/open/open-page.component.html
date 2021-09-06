@@ -693,6 +693,8 @@
                     </div>
                     <div class="col-md-12">
                       <p>{{'land.diagnosed.timeline.t1' | translate}}</p>
+                      <p class="mt-1">{{'land.diagnosed.timeline.t1b' | translate}}</p>
+                      <p class="mt-1">{{'land.diagnosed.timeline.t1c' | translate}}</p>
                     </div>
                     <div class="col-md-12 mt-1 center-elements">
                       <button type="button" class="btn btn-info btn-md btn-raised" (click)="startingTimeLine();"><span>{{'land.diagnosed.timeline.btn1' | translate}}</span></button>
@@ -706,6 +708,9 @@
                 <div class="col-md-6" *ngIf="startTimeLine && !showTimeLine"> 
                   <div class="row">
                     <div class="col-md-12 pull-right">
+                      <em class="mt-1 fas ft-heart grey float-right mr-2"
+                        title="{{'land.diagnosed.timeline.help' | translate}}" (click)="showAttentionPanel(contentInfoAttention)"
+                        style="cursor: pointer;"></em>  
                       <em class="mt-1 ft-x grey float-right mr-2"
                         title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="backTimeline()"
                         style="cursor: pointer;"></em>
@@ -797,7 +802,7 @@
                         title="{{'land.diagnosed.timeline.help' | translate}}" (click)="showAttentionPanel(contentInfoAttention)"
                         style="cursor: pointer;"></em>
                     </div>
-                    <div class="col-md-12" id="mytimeline" style="max-height: 450px; overflow-y: auto;">
+                    <div class="col-md-12" id="mytimeline-app" style="max-height: 450px; overflow-y: auto;">
                       <div *ngIf="!loadingTimeline">
                         <section *ngIf="!isEmptyObject(infoOneDiseaseTimeLine)||!isEmptyObject(infoOneDiseaseTimeLineNull)" id="vertical-timeline-left" class="timeline-left timeline-wrapper col-sm-10 col-12 offset-sm-1">
                           <div *ngIf="!isEmptyObject(infoOneDiseaseTimeLine)">
@@ -1096,7 +1101,9 @@
                           <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
                         </div>
                         <div class="col-md-12">
-                          <span>{{'land.diagnosed.timeline.t1' | translate}}</span>
+                          <p>{{'land.diagnosed.timeline.t1' | translate}}</p>
+                          <p class="mt-1">{{'land.diagnosed.timeline.t1b' | translate}}</p>
+                          <p class="mt-1">{{'land.diagnosed.timeline.t1c' | translate}}</p>
                         </div>
                         <div class="col-md-12 mt-2 center-elements">
                           <button type="button" class="btn btn-info btn-lg btn-raised pb-2 font-medium-3" (click)="startingTimeLine();"><span>{{'land.diagnosed.timeline.btn1' | translate}}</span></button>
@@ -1104,7 +1111,6 @@
                         <div class="col-md-12 mt-2 center-elements">
                           <img src='assets/gif/land/diagnosed/timeline.gif' style="max-width: 100%;">
                         </div>
-
                       </div>
                     </div>
                     <div class="col-md-6" *ngIf="startTimeLine">
@@ -1153,6 +1159,9 @@
                     <div class="col-md-6" *ngIf="startTimeLine && !showTimeLine"> 
                       <div class="row">
                         <div class="col-md-12 pull-right">
+                          <em class="mt-1 fas ft-heart grey float-right mr-2"
+                            title="{{'land.diagnosed.timeline.help' | translate}}" (click)="showAttentionPanel(contentInfoAttention)"
+                            style="cursor: pointer;"></em>
                           <em class="mt-1 ft-x grey float-right mr-2"
                             title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="backTimeline()"
                             style="cursor: pointer;"></em>
@@ -1161,7 +1170,7 @@
                           <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
                         </div>
                         <div class="col-md-12 mt-1">
-                          <span> {{'land.diagnosed.timeline.t2' | translate}} </span>
+                          <p> {{'land.diagnosed.timeline.t2' | translate}} </p>
                         </div>
                         <div class="col-md-12 mt-2 center-elements">
                           <button type="button" class="btn btn-info btn-lg btn-raised pb-2 font-medium-3" (click)="updateTimeline();"><span>{{'land.diagnosed.timeline.btn2' | translate}}</span></button>
@@ -1188,7 +1197,7 @@
                           <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
                         </div>
                         <div class="col-md-12 mt-1">
-                          <span> {{'land.diagnosed.timeline.t3' | translate}} </span>
+                          <p> {{'land.diagnosed.timeline.t3' | translate}} </p>
                         </div>
                         <div class="col-md-12 mt-2" id="mytimeline">
                           <div *ngIf="!loadingTimeline">

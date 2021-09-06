@@ -2101,7 +2101,12 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     exportTimeline()
     {
-        htmlToImage.toJpeg(document.getElementById('mytimeline'), { quality: 0.95 })
+        var timeLineElementId = ('mytimeline')
+        if(document.getElementById(timeLineElementId)==null){
+            timeLineElementId='mytimeline-app'
+        }
+        document.getElementById(timeLineElementId).style.backgroundColor="white";
+        htmlToImage.toJpeg(document.getElementById(timeLineElementId), { quality: 0.95 })
         .then(function (dataUrl) {
             var link = document.createElement('a');
             link.download = 'my-timeline.jpeg';
