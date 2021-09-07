@@ -277,21 +277,21 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-        if (this.modalReference != undefined) {
-            this.modalReference.close();
-            this.modalReference = undefined;
-            return false;
-        }else if (this.modalReference2 != undefined) {
-            this.modalReference2.close();
-            this.modalReference2 = undefined;
+        if (this.modalReference4 != undefined) {
+            this.modalReference4.close();
+            this.modalReference4 = undefined;
             return false;
         }else if (this.modalReference3 != undefined) {
             this.modalReference3.close();
             this.modalReference3 = undefined;
             return false;
-        }else if (this.modalReference4 != undefined) {
-            this.modalReference4.close();
-            this.modalReference4 = undefined;
+        }else if (this.modalReference2 != undefined) {
+            this.modalReference2.close();
+            this.modalReference2 = undefined;
+            return false;
+        }else if (this.modalReference != undefined) {
+            this.modalReference.close();
+            this.modalReference = undefined;
             return false;
         }else{
             if(this.activeRoute.indexOf("open;role=undiagnosed")!=-1 || this.activeRoute.indexOf("open;role=clinician")!=-1){
