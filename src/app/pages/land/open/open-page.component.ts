@@ -974,6 +974,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
             this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[index2].hasPatient = true;
             this.reloadDiseases = true;
+            this.lauchEvent("Add symptoms");
         }
     }
 
@@ -1020,6 +1021,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             this.temporalSymptoms.splice(index, 1);
             this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[index2].hasPatient = false;
             this.reloadDiseases = true;
+            this.lauchEvent("Delete symptoms");
           }
         });
   

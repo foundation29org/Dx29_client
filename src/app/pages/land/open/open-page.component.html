@@ -1115,10 +1115,10 @@
               </td>
               <td class="col-md-2">
                 <a *ngIf="!symptom.hasPatient" href="javascript:;" (click)="addTemporalSymptomTable(symptom, 'table candidates', i);">
-                  <span class="" >{{'generics.Add' | translate }}</span> <i class="ml-2 fa fa-plus primary"></i>
+                  <i class="fa fa-plus primary"></i><span class="ml-1" >{{'generics.Add' | translate }}</span>
                 </a>
                 <a *ngIf="symptom.hasPatient" href="javascript:;" (click)="deleteSymptom(symptom, i);">
-                  <span class="" >{{'generics.Delete' | translate }}</span> <i class="ml-2 fa fa fa-trash danger"></i>
+                  <i class="fa fa fa-trash danger"></i> <span class="ml-1" >{{'generics.Delete' | translate }}</span>
                 </a>
               </td>
             </tr>
