@@ -2370,7 +2370,7 @@
         "Select the symptoms you have by": "Selecciona los síntomas que tienes",
         "clicking here": "pulsando aquí",
         "NoOnset":"Fecha de inicio desconocida",
-        "GoPrevious":"Ir al paso anterior para completar la información"
+        "GoPrevious":"Completa la información de estos síntomas."
       },
       "clinicalTrials":{
         "msgNoTrials": "Lo sentimos, en estos momentos no tenemos datos sobre ensayos clínicos para",
@@ -2396,7 +2396,7 @@
         "p1": "Los datos que tú nos puedes dar sobre tu enfermedad, al completar la cronología, son muy importantes. Porque esa información no viene directamente de las bases de datos tradicionales, que se usan para hacer los diagnósticos y contienen información imprecisa sobre las enfermedades raras.",
         "p2": "En Fundación 29 queremos cambiar la forma en la que se hace Medicina. Queremos que los datos de los pacientes se usen y que se pueda hacer más investigación con ellos.",
         "p3": "Estamos construyendo una herramienta para agilizar el diagnóstico de enfermedades raras (Dx29) y necesitamos tus datos para hacerla más precisa y así poder ayudar a más y más pacientes.",
-        "p4Complete": "Únete a nuestra revolución dejando aquí tu dirección de correo electrónico para recibir tu informe y además te mantendremos informado de todos nuestros avances.",
+        "p4Complete": "Únete a nuestra revolución dejando aquí tu dirección de correo electrónico para descargar tu informe y además te mantendremos informado de todos nuestros avances.",
         "p4UnComplete": "Si completas la información de la cronología podrás, además de obtener tu informe de evolución de síntomas en el tiempo, ayudarnos en esta misión."
       }
     }

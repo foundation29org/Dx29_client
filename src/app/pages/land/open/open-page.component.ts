@@ -2095,21 +2095,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
-    exportTimeline()
+    exportTimeline(contentInfoAttention)
     {
-        var timeLineElementId = ('mytimeline')
-        if(document.getElementById(timeLineElementId)==null){
-            timeLineElementId='mytimeline-app'
-        }
-        document.getElementById(timeLineElementId).style.backgroundColor="white";
-        htmlToImage.toJpeg(document.getElementById(timeLineElementId), { quality: 0.95 })
-        .then(function (dataUrl) {
-            var link = document.createElement('a');
-            link.download = 'my-timeline.jpeg';
-            link.href = dataUrl;
-            document.getElementById(timeLineElementId).style.removeProperty("background-color");
-            link.click();
-        });
+        this.showAttentionPanel(contentInfoAttention); 
     }
 
     // Order by ascending property key
@@ -2156,10 +2144,11 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     listChecked[this.infoOneDisease.symptoms[i].id]={"onsetdate":this.infoOneDisease.symptoms[i].onsetdate,"finishdate":this.infoOneDisease.symptoms[i].finishdate,"isCurrentSymptom":this.infoOneDisease.symptoms[i].isCurrentSymptom,"notes":this.infoOneDisease.symptoms[i].notes}
                 }
             }
-            var info = { idClient: this.myuuid, diseaseId: this.infoOneDisease.id, xrefs: this.infoOneDisease.xrefs, symptoms: listChecked, email: this.email};
-            this.subscription.add(this.apiDx29ServerService.chekedSymptomsOpenDx29(info)
+            var infoChecked = { idClient: this.myuuid, diseaseId: this.infoOneDisease.id, xrefs: this.infoOneDisease.xrefs, symptoms: listChecked, email: this.email};
+            this.subscription.add(this.apiDx29ServerService.chekedSymptomsOpenDx29(infoChecked)
                 .subscribe((res: any) => {
-                    var info = { email: this.email, lang: this.lang };
+                    var attachments = this.generateTimelineForEmail();
+                    var info = { email: this.email, lang: this.lang, attachments: attachments};
                     this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
                         .subscribe((res: any) => {
                             this.sending = false;
@@ -2186,17 +2175,30 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                         }, (err) => {
                             console.log(err);
                             this.sending = false;
-                        }));
-                    /*var info = { email: this.email, lang: this.lang };
-                    this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
-                        .subscribe((res: any) => {
-                            
-                        }));*/
-
-                    
-                    // Swal.fire(this.translate.instant("land.diagnosed.symptoms.Nice"), this.translate.instant("land.diagnosed.symptoms.msgCheckedSymptoms"), "success"); 
+                    }));
                 }));
         }
+    }
+
+    generateTimelineForEmail(){
+        var timeLineElementId = ('mytimeline')
+        if(document.getElementById(timeLineElementId)==null){
+            timeLineElementId='mytimeline-app'
+        }
+        document.getElementById(timeLineElementId).style.backgroundColor="white";
+        htmlToImage.toJpeg(document.getElementById(timeLineElementId), { quality: 0.95 })
+        .then(function (dataUrl) {
+            var link = document.createElement('a');
+            var actualDate = Date.now();
+            link.download = 'Dx29_Timeline_' + actualDate + '.jpeg';
+            link.href = dataUrl;
+            document.getElementById(timeLineElementId).style.removeProperty("background-color");
+            let blob = new Blob(["Timeline"], { type: 'text/plain' });
+
+            link.click();
+            // TODO: No tiene que hacer el link.click sino que cuando se envie el email estara el PDF adjunto
+            return link;
+        });
     }
 
     getClinicalTrials(name) {
