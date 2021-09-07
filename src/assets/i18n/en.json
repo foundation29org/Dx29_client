@@ -2341,6 +2341,17 @@
         "We have found": "We have found",
         "results for": "results for"
       },
+      "timeline":{
+        "title":"TIMELINE",
+        "t1":"Dx29 allows to generate a chronological report of symptoms in order to store this information in an orderly way and to share it with doctors in an efficient way.",
+        "btn1":"Create",
+        "btnRecalculate":"Recalculate timeline",
+        "currentSymptom":"Currently",
+        "errorDates":"The end date cannot be earlier than the start date.",
+        "exit":"Delete",
+        "ExitDiscard":"Any changes you have made will be discarded.",
+        "help":"I want to help"
+      },
       "diseases":{
         "error1":"Sorry, we have no information about",
         "error2": "We are working on it"
@@ -2350,8 +2361,6 @@
         "subtitle": "At <a href='http://foundation29.org/' target='_blank'>Foundation 29</a> we are working to fix this problem.",
         "t1": "Current symptom databases are not accurate. <ins>The world needs your help</ins> so that your disease is well described and we can help others who are looking for a diagnosis.",
         "t2": "Select the most important symptoms of your disease, a maximum of 10.",
-        "t3": "Complete the onset date of your symptoms and optionally add notes about them.",
-        "t4": "Here you can see graphically the evolution of your symptoms.",
         "btn": "I have checked the symptoms",
         "btn2": "I don't want to help",
         "error1": "You have to select at least 1 symptom",
@@ -2360,7 +2369,7 @@
         "Select the symptoms you have by": "Select the symptoms you have by",
         "clicking here": "clicking here",
         "NoOnset":"Onset date unknown",
-        "GoPrevious":"Go to previous step for completing information"
+        "GoPrevious":"Complete the information on these symptoms."
       },
       "clinicalTrials":{
         "msgNoTrials": "Sorry, at this time we do not have clinical trial data for",
@@ -2383,10 +2392,11 @@
         "free": "If you want other things, write them here",
         "msgform": "Thank you for joining the patient revolution!",
         "title": "Thank you",
-        "p1": "The data you can give us about your disease is very important. Because that information does not come directly from patients, traditional databases - which are used to make diagnoses - contain inaccurate information about rare diseases.",
+        "p1": "The data you can give us about your disease is very important. Because that information does not come directly from patients, but from traditional databases - which are used to make diagnoses and contains inaccurate information about rare diseases -.",
         "p2": "At Fundación 29 we want to change the way medicine is done. We want patient data to be used and for more research to be done with it.",
         "p3": "We are building a tool to speed up the diagnosis of rare diseases (Dx29) and we need your data to make it more accurate so we can help more and more patients.",
-        "p4": "Join our revolution by leaving your email address here and we will keep you informed of all our progress."
+        "p4Complete": "Join our revolution by leaving your email address here to download your report and we will also keep you informed of our progress.",
+        "p4UnComplete": "If you complete the information in the timeline, you can, in addition to getting your symptom evolution report over time, help us in this mission."
       }
     }
   },
