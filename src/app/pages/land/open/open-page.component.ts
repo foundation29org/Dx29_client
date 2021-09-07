@@ -32,6 +32,7 @@ import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexYAxis, ApexGrid, ApexDat
 import { KeyValue } from '@angular/common';
 
 import * as htmlToImage from 'html-to-image';
+import { jsPDF } from "jspdf";
 
 export type ChartOptions = {
     series: ApexAxisChartSeries | ApexNonAxisChartSeries;
@@ -2266,9 +2267,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     listChecked[this.infoOneDisease.symptoms[i].id]={"onsetdate":this.infoOneDisease.symptoms[i].onsetdate,"finishdate":this.infoOneDisease.symptoms[i].finishdate,"isCurrentSymptom":this.infoOneDisease.symptoms[i].isCurrentSymptom,"notes":this.infoOneDisease.symptoms[i].notes}
                 }
             }
-            var infoChecked = { idClient: this.myuuid, diseaseId: this.infoOneDisease.id, xrefs: this.infoOneDisease.xrefs, symptoms: listChecked, email: this.email};
-            this.subscription.add(this.apiDx29ServerService.chekedSymptomsOpenDx29(infoChecked)
-                .subscribe((res: any) => {
+            //var infoChecked = { idClient: this.myuuid, diseaseId: this.infoOneDisease.id, xrefs: this.infoOneDisease.xrefs, symptoms: listChecked, email: this.email};
+            //this.subscription.add(this.apiDx29ServerService.chekedSymptomsOpenDx29(infoChecked)
+                //.subscribe((res: any) => {
                     var attachments = this.generateTimelineForEmail();
                     var info = { email: this.email, lang: this.lang, attachments: attachments};
                     this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
@@ -2298,7 +2299,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                             console.log(err);
                             this.sending = false;
                     }));
-                }));
+                //}));
         }
     }
 
@@ -2317,7 +2318,18 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             document.getElementById(timeLineElementId).style.removeProperty("background-color");
             let blob = new Blob(["Timeline"], { type: 'text/plain' });
 
-            link.click();
+            //link.click();
+            var img = new Image()
+            img.src = dataUrl;
+
+            var doc = new jsPDF('p', 'mm', 'a4');
+            const bufferX = 5;
+            const bufferY = 5;
+            const imgProps = (<any>doc).getImageProperties(img);
+            const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+            doc.addImage(img, 'JPG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
+            doc.save('Dx29_Timeline_' + actualDate +'.pdf');
             // TODO: No tiene que hacer el link.click sino que cuando se envie el email estara el PDF adjunto
             return link;
         });
