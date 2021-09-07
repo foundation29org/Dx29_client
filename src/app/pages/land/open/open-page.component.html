@@ -1114,12 +1114,8 @@
                 <i *ngIf="!symptom.hasDisease" class="fa fa-times danger"></i>
               </td>
               <td class="col-md-2">
-                <a *ngIf="!symptom.hasPatient" href="javascript:;" (click)="addTemporalSymptomTable(symptom, 'table candidates', i);">
-                  <i class="fa fa-plus primary"></i><span class="ml-1" >{{'generics.Add' | translate }}</span>
-                </a>
-                <a *ngIf="symptom.hasPatient" href="javascript:;" (click)="deleteSymptom(symptom, i);">
-                  <i class="fa fa fa-trash danger"></i> <span class="ml-1" >{{'generics.Delete' | translate }}</span>
-                </a>
+                <button *ngIf="!symptom.hasPatient" title="{{'diagnosesSection.Add symptom to the patient' | translate }}" type="button" (click)="addTemporalSymptomTable(symptom, 'table candidates', i);" class="btn btn-outline-info mb-0"><i class="fa fa-plus info"></i></button>
+                <button *ngIf="symptom.hasPatient" title="{{'diagnosesSection.Delete symptom to the patient' | translate }}" type="button" (click)="deleteSymptom(symptom, i);" class="btn btn-outline-danger mb-0"><i class="fa fa fa-trash danger"></i></button>
               </td>
             </tr>
           </tbody>
