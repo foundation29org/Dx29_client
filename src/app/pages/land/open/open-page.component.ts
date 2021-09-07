@@ -137,7 +137,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     callListOfDiseases: boolean = false;
     selectedDiseaseIndex: number = -1;
     infoOneDisease: any = {};
-    startTimeLine = false;
+    modifyFormSymtoms = false;
     showTimeLine = false;
     infoOneDiseaseTimeLine: any = {};
     infoOneDiseaseTimeLineNull:any = [];
@@ -226,7 +226,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService) {
 
         this.lang = sessionStorage.getItem('lang');
-        this.startTimeLine = false;
+        this.modifyFormSymtoms = false;
         this.showTimeLine = false;
         this.selectedNoteSymptom = null;
         this.originalLang = sessionStorage.getItem('lang');
@@ -390,7 +390,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngOnInit() {
         this.activeRoute = this.router.url;
-        this.startTimeLine = false;
+        this.modifyFormSymtoms = false;
         this.showTimeLine = false;
         this.selectedNoteSymptom = null;
         this.subscription.add(this.route.params.subscribe(params => {
@@ -1865,7 +1865,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 for (var j = 0; i < this.infoOneDisease.symptoms.length; j++) {
                     this.infoOneDisease.symptoms[j].checked = false;
                 }
-                this.startTimeLine = false;
+                this.modifyFormSymtoms = false;
                 this.showTimeLine = false;
                 this.selectedNoteSymptom = null;
                 this.infoOneDiseaseTimeLine = {}
@@ -1942,8 +1942,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     changeStateSymptomDisease(index) {
         if (this.infoOneDisease.symptoms[index].checked) {
             this.infoOneDisease.symptoms[index].checked = !this.infoOneDisease.symptoms[index].checked;
-            if (this.startTimeLine == true){
-                this.startTimeLine = false;
+            if (this.modifyFormSymtoms == true){
                 if((this.infoOneDisease.symptoms[index].onsetdate!=undefined)&&(this.infoOneDisease.symptoms[index].onsetdate!=null)){
                     this.infoOneDisease.symptoms[index].onsetdate=null;
                 }
@@ -1956,7 +1955,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 if((this.infoOneDisease.symptoms[index].notes!=undefined)&&(this.infoOneDisease.symptoms[index].notes!=null)){
                     this.infoOneDisease.symptoms[index].notes=null;
                 }
-                this.startTimeLine = true;
             }
             
         } else {
@@ -1974,10 +1972,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
-    
-    startingTimeLine(){
-        this.startTimeLine = true;
-    }
     backTimeline(){
         Swal.fire({
             title: this.translate.instant("generics.Are you sure?"),
@@ -1993,14 +1987,16 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             reverseButtons: true
         }).then((result) => {
             if (result.value) {
+                this.modifyFormSymtoms = true;
                 for(var i =0; i < this.infoOneDisease.symptoms.length;i++){
+                    this.changeStateSymptomDisease(i);
                     this.infoOneDisease.symptoms[i].checked = false;
                 }
                 this.infoOneDiseaseTimeLine = {}
                 this.infoOneDiseaseTimeLineNull = []
-                this.startTimeLine = false;
                 this.showTimeLine = false;
                 this.selectedNoteSymptom = null;
+                this.modifyFormSymtoms = false;
             }
         })
 
@@ -2011,10 +2007,10 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         if((this.infoOneDisease.symptoms[symptomIndex].onsetdate!=null)&&(this.infoOneDisease.symptoms[symptomIndex].onsetdate!=undefined)){
             if((this.infoOneDisease.symptoms[symptomIndex].finishdate!=null)&&(this.infoOneDisease.symptoms[symptomIndex].finishdate!=undefined)){
                 if(new Date(this.infoOneDisease.symptoms[symptomIndex].onsetdate).getTime() > new Date(this.infoOneDisease.symptoms[symptomIndex].finishdate).getTime()){
-                    this.startTimeLine = false;
+                    this.modifyFormSymtoms = true;
                     this.infoOneDisease.symptoms[symptomIndex].finishdate = null;
                     this.infoOneDisease.symptoms[symptomIndex].invalidFinishdate = true;
-                    this.startTimeLine = true;
+                    this.modifyFormSymtoms = false;
                 }
                 else{
                     this.infoOneDisease.symptoms[symptomIndex].invalidFinishdate = false;

@@ -2340,22 +2340,15 @@
         "results for": "results for"
       },
       "timeline":{
-        "title":"YOUR TIMELINE",
-        "t1":"This is an example of a report of the evolution of symptoms over time. It allows you to collect at a glance the chronology of your symptomatology.",
-        "t1b":"If you want one for yourself, Dx29 allows you to generate and download it, it's free!",
-        "t1c":"Just click and fill in the information. This way you can save your symptom information in an orderly way.",
-        "t2":"Complete symptom information and click on the button for calculate your personal timeline.",
-        "t3":"This is the representation of your symptoms according to the information you have entered. If you need to, you can make any modifications you want and click on the recalculate button above.",
-        "btn1":"Start",
-        "btn2":"Calculate",
+        "title":"TIMELINE",
+        "t1":"Dx29 allows to generate a chronological report of symptoms in order to store this information in an orderly way and to share it with doctors in an efficient way.",
+        "btn1":"Create",
         "btnRecalculate":"Recalculate timeline",
         "currentSymptom":"Currently",
         "errorDates":"The end date cannot be earlier than the start date.",
-        "exit":"Exit",
+        "exit":"Delete",
         "ExitDiscard":"Any changes you have made will be discarded.",
-        "help":"I want to help",
-        "DonnorComplete":"With the information you have already filled in you can help other patients, it's just a click away.",
-        "DonnorUncomplete":"By completing the information in your timeline you can not only get your symptom representation over time, but also help other patients."
+        "help":"I want to help"
       },
       "diseases":{
         "error1":"Sorry, we have no information about",
@@ -2400,7 +2393,8 @@
         "p1": "The data you can give us about your disease is very important. Because that information does not come directly from patients, but from traditional databases - which are used to make diagnoses and contains inaccurate information about rare diseases -.",
         "p2": "At Fundación 29 we want to change the way medicine is done. We want patient data to be used and for more research to be done with it.",
         "p3": "We are building a tool to speed up the diagnosis of rare diseases (Dx29) and we need your data to make it more accurate so we can help more and more patients.",
-        "p4": "Join our revolution by leaving your email address here and we will keep you informed of all our progress."
+        "p4Complete": "Join our revolution by leaving your email address here to receive your report and we will also keep you informed of our progress.",
+        "p4UnComplete": "If you complete the information in the timeline, you can, in addition to getting your symptom evolution report over time, help us in this mission."
       }
     }
   },
