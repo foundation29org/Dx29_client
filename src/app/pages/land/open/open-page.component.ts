@@ -32,7 +32,14 @@ import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexYAxis, ApexGrid, ApexDat
 import { KeyValue } from '@angular/common';
 
 import * as htmlToImage from 'html-to-image';
+
 import { jsPDF } from "jspdf";
+import 'jspdf-autotable';
+import { UserOptions } from 'jspdf-autotable';
+
+interface jsPDFWithPlugin extends jsPDF {
+  autoTable: (options: UserOptions) => jsPDF;
+}
 
 export type ChartOptions = {
     series: ApexAxisChartSeries | ApexNonAxisChartSeries;
@@ -2329,17 +2336,64 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             var img = new Image()
             img.src = dataUrl;
 
-            var doc = new jsPDF('p', 'mm', 'a4');
+            var doc = new jsPDF('portrait', 'px', 'a4') as jsPDFWithPlugin;
+            
             const bufferX = 5;
             const bufferY = 5;
             const imgProps = (<any>doc).getImageProperties(img);
             const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
             const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-            doc.addImage(img, 'JPG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
+
+            var imgHeight = imgProps.height
+            imgHeight -= pdfHeight;
+
+            while (imgHeight>=0) {
+                doc.addImage(img, 'JPG', bufferX, bufferY, imgProps.width, imgHeight, undefined, 'FAST');
+                doc.addPage();
+                imgHeight -= pdfHeight;
+            }
+            
+
+            doc.addPage();
+            var bodyTable = []
+            
+            for (var i = 0; i< this.infoOneDisease.symptoms.length;i++){
+                if(this.infoOneDisease.symptoms[i].checked){
+                    var name = this.infoOneDisease.symptoms[i].name
+                    if(name==undefined){
+                        name = this.infoOneDisease.symptoms[i].id + "-" + this.translate.instant("phenotype.Deprecated")
+                    }
+                    var id = this.infoOneDisease.symptoms[i].id
+                    var desc = this.infoOneDisease.symptoms[i].desc
+                    if((desc==undefined)||(desc==null)){
+                        desc="-"
+                    }
+                    var onsetdate = this.infoOneDisease.symptoms[i].onsetdate
+                    if((onsetdate==undefined)||(onsetdate==null)){
+                        onsetdate="-"
+                    }
+                    var finishdate = this.infoOneDisease.symptoms[i].finishdate
+                    if((finishdate==undefined)||(finishdate==null)){
+                        finishdate="-"
+                    }
+                    var notes = this.infoOneDisease.symptoms[i].notes
+                    if((notes==undefined)||(notes==null)){
+                        notes="-"
+                    }
+                    bodyTable.push([name,id,desc,onsetdate,finishdate,notes])
+                }
+            }
+            doc.autoTable({
+                head: [[this.translate.instant("generics.Name"), "ID", this.translate.instant("generics.Description"), this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"), this.translate.instant("generics.notes")]],
+                body: bodyTable,
+                showHead: 'firstPage',
+            }); 
+
+        
             doc.save('Dx29_Timeline_' + actualDate +'.pdf');
             // TODO: No tiene que hacer el link.click sino que cuando se envie el email estara el PDF adjunto
             return link;
-        });
+        }.bind(this));
     }
 
     getClinicalTrials(name) {
