@@ -6,6 +6,7 @@ import { NgForm } from '@angular/forms';
 import { environment } from 'environments/environment';
 import { Subscription } from 'rxjs/Subscription';
 import { ToastrService } from 'ngx-toastr';
+import { v4 as uuidv4 } from 'uuid';
 
 declare let gtag: any;
 
@@ -23,15 +24,17 @@ export class FooterLandComponent implements OnDestroy{
     @ViewChild('f') mainForm: NgForm;
     sending: boolean = false;
     email: string;
+    myuuid: string = uuidv4();
     private subscription: Subscription = new Subscription();
 
     constructor(private modalService: NgbModal,  private http: HttpClient, public translate: TranslateService, public toastr: ToastrService) {
       this._startTime = Date.now();
+      sessionStorage.setItem('uuid', this.myuuid);
     }
 
     lauchEvent(category) {
         var secs = this.getElapsedSeconds();
-        gtag('event', sessionStorage.getItem('uuid'), { "event_category": category, "event_label": secs });
+        gtag('event', this.myuuid, { "event_category": category, "event_label": secs });
       }
     
       getElapsedSeconds() {
