@@ -2295,11 +2295,18 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                             document.getElementById('step1').scrollIntoView(true);
                             this.curatedLists.push({ id: this.infoOneDisease.id });
                             this.dontShowIntro = true;
+                            this.sending = false;
                         }, (err) => {
                             console.log(err);
                             this.sending = false;
+                            this.toastr.error('', this.translate.instant("generics.error try again"));
                     }));
-                //}));
+                /*}, (err) => {
+                    console.log(err);
+                    this.sending = false;
+                    this.toastr.error('', this.translate.instant("generics.error try again"));
+                }));*/
+                
         }
     }
 
