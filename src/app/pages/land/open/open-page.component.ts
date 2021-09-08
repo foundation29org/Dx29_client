@@ -2278,9 +2278,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             //this.subscription.add(this.apiDx29ServerService.chekedSymptomsOpenDx29(infoChecked)
                 //.subscribe((res: any) => {
                     var attachments = this.generateTimelineForEmail();
-                    var info = { email: this.email, lang: this.lang, attachments: attachments};
-                    this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
-                        .subscribe((res: any) => {
+                    //var info = { email: this.email, lang: this.lang, attachments: attachments};
+                    //this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
+                        //.subscribe((res: any) => {
                             this.sending = false;
                             Swal.fire({
                                 icon: 'success',
@@ -2303,11 +2303,11 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                             this.curatedLists.push({ id: this.infoOneDisease.id });
                             this.dontShowIntro = true;
                             this.sending = false;
-                        }, (err) => {
+                        /*}, (err) => {
                             console.log(err);
                             this.sending = false;
                             this.toastr.error('', this.translate.instant("generics.error try again"));
-                    }));
+                    }));*/
                 /*}, (err) => {
                     console.log(err);
                     this.sending = false;
@@ -2342,14 +2342,20 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             const bufferY = 5;
             const imgProps = (<any>doc).getImageProperties(img);
             const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
-            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+            //const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+            const pdfHeight = doc.internal.pageSize.getHeight()
 
-            var imgHeight = imgProps.height
+            var imgHeight = imgProps.height;
+            
+
+            var position = bufferY;
+            doc.addImage(img, 'JPG', bufferX, position, pdfWidth, imgHeight, undefined, 'FAST');
+
             imgHeight -= pdfHeight;
-
             while (imgHeight>=0) {
-                doc.addImage(img, 'JPG', bufferX, bufferY, imgProps.width, imgHeight, undefined, 'FAST');
+                position += pdfHeight - imgHeight;
                 doc.addPage();
+                doc.addImage(img, 'JPG', bufferX, position, pdfWidth, imgHeight, undefined, 'FAST');
                 imgHeight -= pdfHeight;
             }
             
