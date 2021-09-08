@@ -32,6 +32,12 @@ export class LandPageComponent implements OnInit,  OnDestroy {
 
         this.lang = sessionStorage.getItem('lang');
         this._startTime = Date.now();
+        if(sessionStorage.getItem('uuid')!=null){
+            this.myuuid = sessionStorage.getItem('uuid');
+        }else{
+            this.myuuid = uuidv4();
+            sessionStorage.setItem('uuid', this.myuuid);
+        }
         //this.lauchEvent("Init");
 
     }

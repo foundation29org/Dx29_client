@@ -261,12 +261,21 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.timeSubscription =  Observable.interval(1000 * this.inactiveSecondsToLogout).subscribe(() => {
             this.secondsInactive+=this.inactiveSecondsToLogout;
             if(this.secondsInactive>=this.inactiveSecondsToLogout){
-                this.openModarRegister();
+                this.openModarRegister('Time out');
               }
           });
+          
+        if(sessionStorage.getItem('uuid')!=null){
+            this.myuuid = sessionStorage.getItem('uuid');
+        }else{
+            this.myuuid = uuidv4();
+            sessionStorage.setItem('uuid', this.myuuid);
+        }
     }
 
-    openModarRegister(){
+    openModarRegister(type){
+        var titleEvent = "OpenModalRegister - " + type;
+        this.lauchEvent(titleEvent);
         if (this.modalReference3 != undefined) {
             this.modalReference3.close();
             this.modalReference3 = undefined;
@@ -297,7 +306,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             if(this.activeRoute.indexOf("open;role=undiagnosed")!=-1 || this.activeRoute.indexOf("open;role=clinician")!=-1){
                 if(this.temporalSymptoms.length>0){
                     if(this.topRelatedConditions.length>0){
-                        this.openModarRegister();
+                        this.openModarRegister('Back');
                     }
                     var obser =this.dialogService.confirm(this.translate.instant("land.Do you want to exit"), this.translate.instant("land.loseprogress"));
                     return obser;
@@ -1282,7 +1291,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.indexListRelatedConditions = this.indexListRelatedConditions + this.showNumerRelatedConditions;
         this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
         if(this.topRelatedConditions.length>16){
-            this.openModarRegister();
+            this.openModarRegister('Load More');
         }
         this.totalDiseasesLeft = this.temporalDiseases.length - this.topRelatedConditions.length;
     }
@@ -1369,7 +1378,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     showMoreInfoDiseasePopup(diseaseIndex, contentInfoDisease) {
         this.openDiseases++;
         if(this.openDiseases>=3){
-            this.openModarRegister();
+            this.openModarRegister('Click disease');
         }else{
             this.selectedInfoDiseaseIndex = diseaseIndex;
             if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded) {
@@ -1810,7 +1819,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         }
         sessionStorage.setItem('symptoms', JSON.stringify(info));
-        sessionStorage.setItem('uuid', this.myuuid);
     }
 
     directCalculate() {
