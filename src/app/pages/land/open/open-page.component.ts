@@ -981,9 +981,17 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!foundElement) {
             this.temporalSymptoms.push({ id: symptom.id, name: symptom.name, new: true, checked: true, percentile: -1, inputType: inputType, importance: '1', polarity: '0', similarity: symptom.similarity, positions: symptom.positions, text: symptom.text });
             this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
-            this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[index2].hasPatient = true;
-            this.reloadDiseases = true;
-            this.lauchEvent("Add symptoms");
+        }else{
+            var indexElement = this.searchService.searchIndex(this.temporalSymptoms, 'id', symptom.id);
+            this.temporalSymptoms[indexElement].checked = true;
+        }
+        this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[index2].hasPatient = true;
+        this.reloadDiseases = true;
+        this.lauchEvent("Add symptoms");
+        for (var i = 0; i < this.temporalSymptoms.length; i++) {
+            if (this.temporalSymptoms[i].checked) {
+                this.numberOfSymtomsChecked++;
+            }
         }
     }
 
