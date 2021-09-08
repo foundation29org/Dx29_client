@@ -2277,37 +2277,40 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             //var infoChecked = { idClient: this.myuuid, diseaseId: this.infoOneDisease.id, xrefs: this.infoOneDisease.xrefs, symptoms: listChecked, email: this.email};
             //this.subscription.add(this.apiDx29ServerService.chekedSymptomsOpenDx29(infoChecked)
                 //.subscribe((res: any) => {
-                    var attachments = this.generateTimelineForEmail();
-                    //var info = { email: this.email, lang: this.lang, attachments: attachments};
-                    //this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
-                        //.subscribe((res: any) => {
-                            this.sending = false;
-                            Swal.fire({
-                                icon: 'success',
-                                html: this.translate.instant("land.diagnosed.DonorData.msgform"),
-                                showCancelButton: false,
-                                showConfirmButton: false,
-                                allowOutsideClick: false
-                            })
-                            setTimeout(function () {
-                                Swal.close();
-                                //window.location.href = 'https://foundation29.org/';
-                            }, 2000);
-                            this.email = '';
-                            if (this.modalReference2 != undefined) {
-                                this.modalReference2.close();
-                                this.modalReference2 = undefined;
-                            }
-                            this.lauchEvent('Diagnosed - Send Symptoms');
-                            document.getElementById('step1').scrollIntoView(true);
-                            this.curatedLists.push({ id: this.infoOneDisease.id });
-                            this.dontShowIntro = true;
-                            this.sending = false;
-                        /*}, (err) => {
-                            console.log(err);
-                            this.sending = false;
-                            this.toastr.error('', this.translate.instant("generics.error try again"));
-                    }));*/
+                    this.generateTimelineForEmail().then((attachments)=>{
+                        var info = { email: this.email, lang: this.lang, attachments: attachments};
+                        console.log("attachments")
+                        console.log(attachments)
+                        this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
+                            .subscribe((res: any) => {
+                                this.sending = false;
+                                Swal.fire({
+                                    icon: 'success',
+                                    html: this.translate.instant("land.diagnosed.DonorData.msgform"),
+                                    showCancelButton: false,
+                                    showConfirmButton: false,
+                                    allowOutsideClick: false
+                                })
+                                setTimeout(function () {
+                                    Swal.close();
+                                    //window.location.href = 'https://foundation29.org/';
+                                }, 2000);
+                                this.email = '';
+                                if (this.modalReference2 != undefined) {
+                                    this.modalReference2.close();
+                                    this.modalReference2 = undefined;
+                                }
+                                this.lauchEvent('Diagnosed - Send Symptoms');
+                                document.getElementById('step1').scrollIntoView(true);
+                                this.curatedLists.push({ id: this.infoOneDisease.id });
+                                this.dontShowIntro = true;
+                                this.sending = false;
+                            }, (err) => {
+                                console.log(err);
+                                this.sending = false;
+                                this.toastr.error('', this.translate.instant("generics.error try again"));
+                        }));
+                    });
                 /*}, (err) => {
                     console.log(err);
                     this.sending = false;
@@ -2317,14 +2320,15 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
-    generateTimelineForEmail(){
+    generateTimelineForEmail(): Promise<string>{
         var timeLineElementId = ('mytimeline')
         if(document.getElementById(timeLineElementId)==null){
             timeLineElementId='mytimeline-app'
         }
         document.getElementById(timeLineElementId).style.backgroundColor="white";
-        htmlToImage.toJpeg(document.getElementById(timeLineElementId), { quality: 0.95 })
+        return htmlToImage.toJpeg(document.getElementById(timeLineElementId), { quality: 0.95 })
         .then(function (dataUrl) {
+            // Generate timeline image
             var link = document.createElement('a');
             var actualDate = Date.now();
             link.download = 'Dx29_Timeline_' + actualDate + '.jpeg';
@@ -2333,36 +2337,40 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             let blob = new Blob(["Timeline"], { type: 'text/plain' });
 
             //link.click();
+
+            // Doc image
             var img = new Image()
             img.src = dataUrl;
-
+            
             var doc = new jsPDF('portrait', 'px', 'a4') as jsPDFWithPlugin;
-            
-            const bufferX = 5;
-            const bufferY = 5;
             const imgProps = (<any>doc).getImageProperties(img);
-            const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
-            //const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-            const pdfHeight = doc.internal.pageSize.getHeight()
 
-            var imgHeight = imgProps.height;
+            const marginX = 5;
             
+            const pdfWidth = doc.internal.pageSize.getWidth() - 2 * marginX;
+            const pdfPageHeight = doc.internal.pageSize.getHeight()
 
-            var position = bufferY;
-            doc.addImage(img, 'JPG', bufferX, position, pdfWidth, imgHeight, undefined, 'FAST');
+            var positionY = this.newHeatherAndFooter(doc);
+            var headermargin = positionY;
+            var imgMaxHeightShow = pdfPageHeight-headermargin-30;
+            var imgRealHeigh = img.height;
 
-            imgHeight -= pdfHeight;
-            while (imgHeight>=0) {
-                position += pdfHeight - imgHeight;
+            doc.addImage(img, 'JPG', marginX, positionY, pdfWidth-50, imgMaxHeightShow, undefined, 'FAST');
+
+            imgRealHeigh -= pdfPageHeight - headermargin - 30;
+
+            while (imgRealHeigh>=0) {
+                positionY += imgMaxHeightShow;
                 doc.addPage();
-                doc.addImage(img, 'JPG', bufferX, position, pdfWidth, imgHeight, undefined, 'FAST');
-                imgHeight -= pdfHeight;
+                this.newHeatherAndFooter(doc);
+                doc.addImage(img, 'JPG', marginX, positionY, pdfWidth-50, imgMaxHeightShow, undefined, 'FAST');
+                imgRealHeigh -= (pdfPageHeight - headermargin - 30);
             }
             
-
+            // Doc table
             doc.addPage();
+            positionY = this.newHeatherAndFooter(doc);
             var bodyTable = []
-            
             for (var i = 0; i< this.infoOneDisease.symptoms.length;i++){
                 if(this.infoOneDisease.symptoms[i].checked){
                     var name = this.infoOneDisease.symptoms[i].name
@@ -2392,14 +2400,74 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             doc.autoTable({
                 head: [[this.translate.instant("generics.Name"), "ID", this.translate.instant("generics.Description"), this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"), this.translate.instant("generics.notes")]],
                 body: bodyTable,
-                showHead: 'firstPage',
+                startY: positionY
             }); 
 
         
             doc.save('Dx29_Timeline_' + actualDate +'.pdf');
             // TODO: No tiene que hacer el link.click sino que cuando se envie el email estara el PDF adjunto
-            return link;
+
+            return doc.output('datauristring');
+            //return binary ? btoa(binary) : "";
+
         }.bind(this));
+    }
+
+    newHeatherAndFooter(doc){
+
+        var pdfHeight = doc.internal.pageSize.getHeight()
+        var pdfWidth = doc.internal.pageSize.getWidth()
+        var marginX = 20;
+
+        // Header
+        var posYHeader = 10
+
+        var img = new Image();
+        img.src = "https://dx29.ai/assets/img/logo-Dx29.png"
+        doc.addImage(img, 'png', marginX, posYHeader += 5, 10, 7);
+        //doc.setFontType("bold");
+        doc.setFont(undefined, 'bold');
+        doc.setFontSize(15);
+    
+        doc.text(pdfWidth/2 - 80, posYHeader += 5, "Timeline report");
+        doc.setFontSize(12);
+        var actualDate = new Date();
+        var dateHeader = this.getFormatDate(actualDate);
+
+        doc.text(pdfWidth-50, posYHeader, dateHeader)
+    
+        // Footer
+        var posYFooter = pdfHeight - 20
+        var bufferY = posYFooter + 5;
+        var initPositionX = (pdfWidth/2)
+        
+        var logoHealth = document.createElement('img');
+        logoHealth.src = "https://dx29.ai/assets/img/logo-foundation-twentynine-footer.png"
+        doc.addImage(logoHealth, 'png', marginX, posYFooter, 25, 10);
+        //doc.setFontType("normal");
+        doc.setFont(undefined, 'normal');
+        doc.setFontSize(10);
+        
+        doc.text(initPositionX, bufferY, "Copyright " + actualDate.getUTCFullYear())
+        doc.setTextColor(51, 101, 138)
+        doc.text(initPositionX+55, bufferY, "http://www.foundation29.org/ ")
+        doc.setTextColor(0, 0, 0)
+        doc.text(initPositionX+155, bufferY, "All rights reserved.")
+
+        return posYHeader + 10
+    }
+
+    getFormatDate(date) {
+        return date.getUTCFullYear() +
+            '-' + this.pad(date.getUTCMonth() + 1) +
+            '-' + this.pad(date.getUTCDate());
+    }
+
+    pad(number) {
+        if (number < 10) {
+            return '0' + number;
+        }
+        return number;
     }
 
     getClinicalTrials(name) {
