@@ -2298,8 +2298,14 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                         }, (err) => {
                             console.log(err);
                             this.sending = false;
+                            this.toastr.error('', this.translate.instant("generics.error try again"));
                     }));
+                }, (err) => {
+                    console.log(err);
+                    this.sending = false;
+                    this.toastr.error('', this.translate.instant("generics.error try again"));
                 }));
+                
         }
     }
 
