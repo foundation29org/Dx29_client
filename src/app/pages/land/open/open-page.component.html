@@ -599,11 +599,12 @@
                             </div>
                           </div>
                           <div class="card-footer center-elements bt-n">
-                            <span *ngIf="(actualTemporalSymptomsIndex>0)" style="cursor: pointer;" class="float-left primary mt-1" (click)="goPrevSymptom();">
-                                <em style="font-size: 1.3em;" class="ft-chevron-left primary"></em>
+                            <span *ngIf="(actualTemporalSymptomsIndex>0)" style="cursor: pointer;" class="float-left info mt-1" (click)="goPrevSymptom();">
+                                <em style="font-size: 1.3em;" class="ft-chevron-left info"></em>
                             </span>
-                            <span *ngIf="actualTemporalSymptomsIndex<infoOneDisease.symptoms.length" style="cursor: pointer;" class="float-right primary mt-1" (click)="goNextSymptom();">
-                                <em style="font-size: 1.3em;" class="ft-chevron-right primary"></em>
+                            <span class="info mt-1">{{actualTemporalSymptomsIndex+1}} / {{infoOneDisease.symptoms.length}}</span>
+                            <span *ngIf="actualTemporalSymptomsIndex<infoOneDisease.symptoms.length-1" style="cursor: pointer;" class="float-right info mt-1" (click)="goNextSymptom();">
+                                <em style="font-size: 1.3em;" class="ft-chevron-right info"></em>
                             </span>
                           </div>
                         </div>
