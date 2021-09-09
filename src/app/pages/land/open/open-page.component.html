@@ -95,6 +95,9 @@
                       </ng-template>
                       <div style="padding-bottom: 0.5rem !important;">
                         <span class="d-none d-sm-inline ml-1 mr-2"><i class="fas fa-search"></i></span>
+                        <!--<input type="text" id="modelTemp" class="ml-1 form-control data-hj-allow" name="modelTemp" style="width: 93% !important;display: inline !important;"
+                        [(ngModel)]="modelTemp" (keyup)="onKeySymptoms($event)"
+                        placeholder="{{'symptomssection.manualinput' | translate }}" (focusout)="focusOutFunctionSymptom()">-->
                         <input #input type="text"
                           #inputManualSymptoms class="form-control ml-1 inputSearch d-inline data-hj-allow" [(ngModel)]="modelTemp"
                           [ngbTypeahead]="searchSymptom" [resultTemplate]="rt" [inputFormatter]="formatter1"
