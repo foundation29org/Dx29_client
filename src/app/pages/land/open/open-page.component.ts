@@ -2150,6 +2150,12 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     updateTimeline(){
+        for (var i = 0; i< this.infoOneDisease.symptoms.length;i++){
+            console.log(this.infoOneDisease.symptoms[i].onsetdate)
+            if(this.infoOneDisease.symptoms[i].onsetdate!=null){
+                this.infoOneDisease.symptoms[i].checked = true;
+            }
+        }
         this.getNumberOfSymptomsDiseaseChecked();
         if (this.numberOfSymtomsChecked == 0) {
             Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
@@ -2167,13 +2173,23 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     if (this.infoOneDisease.symptoms[i].finishdate==NaN){
                         this.infoOneDisease.symptoms[i].finishdate = null
                     }
-                    if(this.infoOneDisease.symptoms[i].onsetdate!=null){
+                    if((this.infoOneDisease.symptoms[i].isCurrentSymptom!=null)||(this.infoOneDisease.symptoms[this.indexListRelatedConditions].isCurrentSymptom!=undefined)){
+                        this.modifyFormSymtoms = true;
+                        this.infoOneDisease.symptoms[i].finishdate=null;
+                        this.modifyFormSymtoms = false;
+                    }
+                    else{
+                        if((this.infoOneDisease.symptoms[i].finishdate!=null)&&(this.infoOneDisease.symptoms[i].finishdate!=undefined)){
+                            this.checkFinishDate(i);
+                        }
+                    }
+                    /*if(this.infoOneDisease.symptoms[i].onsetdate!=null){
                         if((this.infoOneDisease.symptoms[i].finishdate==null)||(this.infoOneDisease.symptoms[i].finishdate==undefined)){
                             if((this.infoOneDisease.symptoms[i].isCurrentSymptom==null)||(this.infoOneDisease.symptoms[this.indexListRelatedConditions].isCurrentSymptom==undefined)){
                                 this.infoOneDisease.symptoms[i].isCurrentSymptom = true;
                             }
                         }
-                    }
+                    }*/
                 }
             }
 
@@ -2278,11 +2294,11 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             //this.subscription.add(this.apiDx29ServerService.chekedSymptomsOpenDx29(infoChecked)
                 //.subscribe((res: any) => {
                     this.generateTimelineForEmail().then((attachments)=>{
-                        var info = { email: this.email, lang: this.lang, attachments: attachments};
-                        console.log("attachments")
-                        console.log(attachments)
-                        this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
-                            .subscribe((res: any) => {
+                        //var info = { email: this.email, lang: this.lang, attachments: attachments};
+                        //console.log("attachments")
+                        //console.log(attachments)
+                        //this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
+                            //.subscribe((res: any) => {
                                 this.sending = false;
                                 Swal.fire({
                                     icon: 'success',
@@ -2305,11 +2321,11 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                                 this.curatedLists.push({ id: this.infoOneDisease.id });
                                 this.dontShowIntro = true;
                                 this.sending = false;
-                            }, (err) => {
+                            /*}, (err) => {
                                 console.log(err);
                                 this.sending = false;
                                 this.toastr.error('', this.translate.instant("generics.error try again"));
-                        }));
+                        }));*/
                     });
                 /*}, (err) => {
                     console.log(err);
@@ -2320,9 +2336,22 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
+    isVisible(el) {
+        /* offsetParent would be null if display 'none' is set.
+           However Chrome, IE and MS Edge returns offsetParent as null for elements
+           with CSS position 'fixed'. So check whether the dimensions are zero.
+    
+           This check would be inaccurate if position is 'fixed' AND dimensions were
+           intentionally set to zero. But..it is good enough for most cases.*/
+        if (!el.offsetParent && el.offsetWidth === 0 && el.offsetHeight === 0) {
+            return false;
+        }
+        return true;
+    }
+
     generateTimelineForEmail(): Promise<string>{
         var timeLineElementId = ('mytimeline')
-        if(document.getElementById(timeLineElementId)==null){
+        if(!this.isVisible(document.getElementById(timeLineElementId))){
             timeLineElementId='mytimeline-app'
         }
         document.getElementById(timeLineElementId).style.backgroundColor="white";
@@ -2334,9 +2363,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             link.download = 'Dx29_Timeline_' + actualDate + '.jpeg';
             link.href = dataUrl;
             document.getElementById(timeLineElementId).style.removeProperty("background-color");
-            let blob = new Blob(["Timeline"], { type: 'text/plain' });
-
-            //link.click();
 
             // Doc image
             var img = new Image()
@@ -2345,28 +2371,33 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             var doc = new jsPDF('portrait', 'px', 'a4') as jsPDFWithPlugin;
             const imgProps = (<any>doc).getImageProperties(img);
 
-            const marginX = 5;
+            const marginX = (doc.internal.pageSize.getWidth()/2);
             
-            const pdfWidth = doc.internal.pageSize.getWidth() - 2 * marginX;
+            const pdfPageWidth = doc.internal.pageSize.getWidth() - 2 * marginX;
             const pdfPageHeight = doc.internal.pageSize.getHeight()
 
             var positionY = this.newHeatherAndFooter(doc);
             var headermargin = positionY;
-            var imgMaxHeightShow = pdfPageHeight-headermargin-30;
-            var imgRealHeigh = img.height;
 
-            doc.addImage(img, 'JPG', marginX, positionY, pdfWidth-50, imgMaxHeightShow, undefined, 'FAST');
+            var imgHeight = imgProps.height/2;
+            var heightLeft = imgHeight;
+            var imgShowHeight = imgHeight-headermargin-30;
 
-            imgRealHeigh -= pdfPageHeight - headermargin - 30;
-
-            while (imgRealHeigh>=0) {
-                positionY += imgMaxHeightShow;
-                doc.addPage();
-                this.newHeatherAndFooter(doc);
-                doc.addImage(img, 'JPG', marginX, positionY, pdfWidth-50, imgMaxHeightShow, undefined, 'FAST');
-                imgRealHeigh -= (pdfPageHeight - headermargin - 30);
-            }
+            doc.addImage(img, 'JPG', marginX, positionY, pdfPageWidth/2, imgShowHeight/2, undefined, 'FAST');
+            heightLeft -= 2*pdfPageHeight;
             
+            while (heightLeft >= 0) {
+                positionY = (heightLeft - imgHeight); // top padding for other pages
+                console.log("positionY prev:")
+                console.log(positionY)
+                heightLeft -= 2*pdfPageHeight;
+                doc.addPage();
+                positionY -= this.newHeatherAndFooter(doc);
+                console.log("positionY header:")
+                console.log(positionY)
+                doc.addImage(img, 'JPG', marginX, positionY, pdfPageWidth/2, imgShowHeight/2, undefined, 'FAST');
+            }
+
             // Doc table
             doc.addPage();
             positionY = this.newHeatherAndFooter(doc);
@@ -2402,14 +2433,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 body: bodyTable,
                 startY: positionY
             }); 
-
-        
             doc.save('Dx29_Timeline_' + actualDate +'.pdf');
-            // TODO: No tiene que hacer el link.click sino que cuando se envie el email estara el PDF adjunto
 
             return doc.output('datauristring');
-            //return binary ? btoa(binary) : "";
-
         }.bind(this));
     }
 
