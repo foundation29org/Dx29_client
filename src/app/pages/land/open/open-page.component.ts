@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, Injectable } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
 import { environment } from 'environments/environment';
@@ -24,7 +24,8 @@ import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.ser
 import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
 import { DialogService  } from 'app/shared/services/dialog.service';
 
-import { Observable } from 'rxjs/Observable';
+//import { Observable } from 'rxjs/Observable';
+import {Observable, of, OperatorFunction} from 'rxjs';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
@@ -76,11 +77,29 @@ declare global {
     }
 }*/
 
+@Injectable()
+export class SearchTermService {
+  constructor(private apiDx29ServerService: ApiDx29ServerService) {}
+
+  search(term: string) {
+    if (term === '') {
+        return of([]);
+      }
+      var info = {
+          "text": term,
+          "lang": sessionStorage.getItem('lang')
+      }
+      return this.apiDx29ServerService.searchSymptoms(info).pipe(
+        map(response => response)
+      );
+  }
+}
+
 @Component({
     selector: 'app-open-page',
     templateUrl: './open-page.component.html',
     styleUrls: ['./open-page.component.scss'],
-    providers: [Apif29BioService, Apif29NcrService, ApiDx29ServerService, ApiExternalServices],
+    providers: [Apif29BioService, Apif29NcrService, ApiDx29ServerService, ApiExternalServices, SearchTermService],
 })
 
 export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -133,6 +152,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     searchDiseaseField: string = '';
     listOfFilteredDiseases: any = [];
+    listOfFilteredSymptoms: any = [];
     sendTerms: boolean = false;
     listOfDiseases: any = [];
     callListOfDiseases: boolean = false;
@@ -184,7 +204,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     optionSymptomAdded: string = "textarea";
 
     // Flag search
-    searchSymptom2 = (text$: Observable<string>) =>
+    searchSymptom = (text$: Observable<string>) =>
         text$.pipe(
             debounceTime(200),
             map(term => {
@@ -220,64 +240,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             })
         );
 
-        // Flag search
-    searchSymptom = (text$: Observable<string>) =>
-    text$.pipe(
-        debounceTime(200),
-        map(term => {
-            this.nothingFoundSymptoms = false;
-            if (term.trim().length > 2) {
-                this.callListOfSymptoms = true;
-                var tempModelTimp = term.trim();
-                var info = {
-                    "text": tempModelTimp,
-                    "lang": sessionStorage.getItem('lang')
-                }
-                this.subscriptionDiseasesCall= this.apiDx29ServerService.searchSymptoms(info)
-                    .subscribe((res: any) => {
-                        this.callListOfSymptoms = false;
-                        if(res==null){
-                            this.nothingFoundSymptoms = true;
-                            this.listOfFilteredDiseases = [];
-                        }else{
-                            this.nothingFoundSymptoms = false;
-                            this.listOfFilteredDiseases = res;
-                            if(this.listOfFilteredDiseases.length == 0){
-                                this.nothingFoundSymptoms = true;
-                            }
-                            if (this.listOfFilteredDiseases.length == 0 && !this.sendSympTerms) {
-                                //send text
-                                this.sendSympTerms = true;
-                                var params: any = {}
-                                params.uuid = this.myuuid;
-                                params.Term = tempModelTimp;
-                                params.Lang = sessionStorage.getItem('lang');
-                                var d = new Date(Date.now());
-                                var a = d.toString();
-                                params.Date = a;
-                                this.subscriptionDiseasesNotFound = this.http.post('https://prod-246.westeurope.logic.azure.com:443/workflows/5af138b9f41f400f89ecebc580d7668f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PiYef1JHGPRDGhYWI0s1IS5a_9Dpz7HLjwfEN_M7TKY', params)
-                                    .subscribe((res: any) => {
-                                    }, (err) => {
-                                    });
-                            }
-                        }
-                        console.log(this.listOfFilteredDiseases);
-                        return this.listOfFilteredDiseases;
-                        
-                    }, (err) => {
-                        console.log(err);
-                        this.nothingFoundSymptoms = false;
-                        this.callListOfSymptoms = false;
-                    });
-            } else {
-                this.callListOfSymptoms = false;
-                this.sendSympTerms = false;
-                return [];
-            }
-        })
-    );
-
-    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService) {
+    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService) {
 
         this.lang = sessionStorage.getItem('lang');
         this.modifyFormSymtoms = false;
@@ -1976,6 +1939,23 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     }
 
+    searchSymptoms: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => this.callListOfSymptoms = true),
+      switchMap(term =>
+        this.searchTermService.search(term).pipe(
+          tap(() => this.nothingFoundSymptoms = false),
+          catchError(() => {
+            this.nothingFoundSymptoms = true;
+            return of([]);
+          }))
+      ),
+      tap(() => this.callListOfSymptoms = false)
+    )
+      
+
     onKeySymptoms(event) {
         this.nothingFoundSymptoms = false;
         if (this.modelTemp.trim().length > 3) {
@@ -1990,14 +1970,14 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     this.callListOfSymptoms = false;
                     if(res==null){
                         this.nothingFoundSymptoms = true;
-                        this.listOfFilteredDiseases = [];
+                        this.listOfFilteredSymptoms = [];
                     }else{
                         this.nothingFoundSymptoms = false;
-                        this.listOfFilteredDiseases = res;
-                        if(this.listOfFilteredDiseases.length == 0){
+                        this.listOfFilteredSymptoms = res;
+                        if(this.listOfFilteredSymptoms.length == 0){
                             this.nothingFoundSymptoms = true;
                         }
-                        if (this.listOfFilteredDiseases.length == 0 && !this.sendSympTerms) {
+                        if (this.listOfFilteredSymptoms.length == 0 && !this.sendSympTerms) {
                             //send text
                             this.sendSympTerms = true;
                             var params: any = {}
@@ -2017,7 +1997,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 }, (err) => {
                     console.log(err);
                     this.nothingFoundSymptoms = false;
-                    this.callListOfSymptoms = false;
+                    this.nothingFoundSymptoms = false;
                 });
         } else {
             this.callListOfSymptoms = false;
