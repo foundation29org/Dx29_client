@@ -2350,7 +2350,7 @@
         "errorDates":"The end date cannot be earlier than the start date.",
         "exit":"Delete",
         "ExitDiscard":"Any changes you have made will be discarded.",
-        "help":"I want to help"
+        "help":"Help"
       },
       "diseases":{
         "error1":"Sorry, we have no information about",

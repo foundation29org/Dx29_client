@@ -150,9 +150,11 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     showTimeLine = false;
     infoOneDiseaseTimeLine: any = {};
     infoOneDiseaseTimeLineNull:any = [];
+    actualTemporalSymptomsIndex = 0;
     modalReference2: NgbModalRef;
     modalReference3: NgbModalRef;
     modalReference4: NgbModalRef;
+    modalReference5: NgbModalRef;
     clinicalTrials: any = {};
 
     @ViewChild('f') donorDataForm: NgForm;
@@ -245,6 +247,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.modifyFormSymtoms = false;
         this.showTimeLine = false;
         this.selectedNoteSymptom = null;
+        this.actualTemporalSymptomsIndex = 0;
         this.originalLang = sessionStorage.getItem('lang');
         if (this.lang == 'es') {
             this.refLangs = "https://docs.microsoft.com/es-es/azure/cognitive-services/translator/language-support";
@@ -301,6 +304,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             this.modalReference.close();
             this.modalReference = undefined;
             return false;
+        }else if(this.modalReference5 !=undefined){
+            this.modalReference5.close()
+            this.modalReference5 = undefined;
         }else{
             if(this.activeRoute.indexOf("open;role=undiagnosed")!=-1 || this.activeRoute.indexOf("open;role=clinician")!=-1){
                 if(this.temporalSymptoms.length>0){
@@ -438,6 +444,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.modifyFormSymtoms = false;
         this.showTimeLine = false;
         this.selectedNoteSymptom = null;
+        this.actualTemporalSymptomsIndex=0;
         this.subscription.add(this.route.params.subscribe(params => {
             if (params['role'] != undefined) {
                 this.role = params['role'];
@@ -1998,6 +2005,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.modifyFormSymtoms = false;
                 this.showTimeLine = false;
                 this.selectedNoteSymptom = null;
+                this.actualTemporalSymptomsIndex = 0;
                 this.infoOneDiseaseTimeLine = {}
                 this.infoOneDiseaseTimeLineNull = []
                 
@@ -2125,6 +2133,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.infoOneDiseaseTimeLine = {}
                 this.infoOneDiseaseTimeLineNull = []
                 this.showTimeLine = false;
+                this.actualTemporalSymptomsIndex = 0;
                 this.selectedNoteSymptom = null;
                 this.modifyFormSymtoms = false;
             }
@@ -2148,7 +2157,16 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         }
     }
-
+    goPrevSymptom(){
+        this.modifyFormSymtoms = true;
+        this.actualTemporalSymptomsIndex--;
+        this.modifyFormSymtoms = false;
+    }
+    goNextSymptom(){
+        this.modifyFormSymtoms = true;
+        this.actualTemporalSymptomsIndex++;
+        this.modifyFormSymtoms = false;
+    }
     updateTimeline(){
         for (var i = 0; i< this.infoOneDisease.symptoms.length;i++){
             console.log(this.infoOneDisease.symptoms[i].onsetdate)
@@ -2238,6 +2256,20 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
             }
             this.showTimeLine = true;
+        }
+    }
+
+    openTimelineAppHelp(contentTimelineAppHelp){
+        let ngbModalOptions: NgbModalOptions = {
+            keyboard: false,
+            windowClass: 'ModalClass-sm'// xl, lg, sm
+        };
+        this.modalReference5 = this.modalService.open(contentTimelineAppHelp, ngbModalOptions);
+    }
+    closeTimelineAppHelp(){
+        if(this.modalReference5!=undefined){
+            this.modalReference5.close();
+            this.modalReference5=undefined;
         }
     }
 

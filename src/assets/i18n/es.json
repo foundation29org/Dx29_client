@@ -2351,7 +2351,7 @@
         "errorDates":"La fecha fin no puede ser anterior a la inicial.",
         "exit":"Borrar",
         "ExitDiscard":"Todos los cambios que hayas hecho se descartarán.",
-        "help":"Quiero ayudar"
+        "help":"Ayuda"
       },
       "diseases":{
         "error1":"Lo sentimos, no tenemos información sobre",

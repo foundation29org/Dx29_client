@@ -540,73 +540,82 @@
               <div class="card-body">
                 <div class="col-md-12">
                   <div class="row">
-                    <div class="col-md-12 mb-1">
+                    <div class="col-md-12">
                       <em *ngIf="showTimeLine" class="mr-2 fa fa-refresh info float-right"
                           title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="backTimeline()"
+                          style="cursor: pointer;"></em>
+                      <em class="mr-2 ft-help-circle info float-right"
+                          title="{{'land.diagnosed.timeline.help' | translate}}" (click)="openTimelineAppHelp(contentTimelineAppHelp)"
                           style="cursor: pointer;"></em>
                       <em *ngIf="showTimeLine" class="mr-2 fa fa-download info float-right"
                           title="{{'land.Download results' | translate }}" (click)="exportTimeline(contentInfoAttention)"
                           style="cursor: pointer;"></em>
                     </div>
-                    <div class="col-md-12 mt-1" *ngIf="!showTimeLine">
-                        <div class="col-md-12">
-                          <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
-                        </div>
-                        <div class="col-md-12">
-                          <p>{{'land.diagnosed.timeline.t1' | translate}}</p>
-                        </div>
-                        <div class="col-md-12 mt-2 center-elements">
-                          <img src='assets/gif/land/diagnosed/timeline-app.gif' style="max-width: 100%;">
-                        </div>
-                    </div>
-                    <div class="col-md-12 mt-1" *ngIf="!modifyFormSymtoms">
-                      <div class="table-responsive">
-                          <table class="table mb-0 text-center d-block d-sm-none">
-                            <tbody>
-                              <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="text-left">
-                                <td class="row pb-0" style="padding: 0.4rem;">
-                                  <div class="col-md-12">
-                                    <strong>
-                                      <button (click)="changeStateSymptomDisease(i); updateTimeline();"
-                                          class="btn btn-sm mr-2 mb-0 btn-fab round white"
-                                          [ngClass]="(symptom.checked==true)?'btn-info':'btn-secondary '"
-                                          href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
-                                          <em class="fa fa-check w-13"></em>
-                                      </button>
-                                      <span *ngIf="symptom.name" class="info" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{symptom.name}}</span>
-                                      <span *ngIf="!symptom.name">
-                                        {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
-                                          href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
-                                          title="{{symptom.id}}">
-                                          <i class="ft-external-link"></i></a></span>
-                                    </strong>
-                                  </div>
-                                  <div class="col-md-12 mt-1">
-                                    <label for="dateOnset"> {{'generics.Start Date' | translate }} </label>
-                                    <input type="date" id="dateOnset_{{i}}" class="form-control" name="dateOnset" [(ngModel)]="symptom.onsetdate" (change)="updateTimeline()">
-                                  </div>
-                                  <div class="col-md-12 mt-1">
-                                    <label for="dateFinish"> {{'generics.End Date' | translate }} </label>
-                                    <input type="date" id="dateFinish_{{i}}" class="form-control" name="dateFinish" [(ngModel)]="symptom.finishdate" (change)="updateTimeline()" [disabled]="(!symptom.checked)||(symptom.isCurrentSymptom)||(symptom.onsetdate==undefined)">
-                                    <small class="text-left form-text danger" *ngIf="symptom.invalidFinishdate">{{'land.diagnosed.timeline.errorDates' | translate}}</small>
-                                  </div>
-                                  <div class="col-md-12 mt-1">
-                                    <mat-checkbox name="isCurrentSymptom" [(ngModel)]="symptom.isCurrentSymptom" [disabled]="(!symptom.checked)||(symptom.onsetdate==undefined)" (change)="updateTimeline()"></mat-checkbox>
-                                    <label for="isCurrentSymptom"class="ml-1"> {{'land.diagnosed.timeline.currentSymptom' | translate}} </label>
-                                  </div>
-                                  <div class="col-md-12 mt-1 mb-3">
-                                    <input type="text" id="basicInput_{{i}}" placeholder="{{'generics.notes' | translate }}" class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)" (change)="updateTimeline()">
-                                  </div>
+                    <div class="col-md-12" *ngIf="!modifyFormSymtoms">
+                      <div class="w-100" *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
+                        <div class="card bg-grey bg-lighten-3 box border mb-3" *ngIf="actualTemporalSymptomsIndex ==i">
+                          <div class="card-header">
+                            <table>
+                              <tr style="display: contents;">
+                                <td>
+                                  <button (click)="changeStateSymptomDisease(i); updateTimeline();"
+                                  class="btn btn-sm mb-0 btn-fab round white mr-2"
+                                  style="font-size: smaller;"
+                                  [ngClass]="(symptom.checked==true)?'btn-info':'btn-secondary '"
+                                  href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
+                                      <em class="fa fa-check w-13"></em>
+                                </button>
+                                </td>
+                                <td>
+                                  <strong>
+                                    <span *ngIf="symptom.name" class="info" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{symptom.name}}</span>
+                                    <span *ngIf="!symptom.name">
+                                        {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) 
+                                        <a href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
+                                            <i class="ft-external-link"></i>
+                                        </a>
+                                    </span>
+                                  </strong>
                                 </td>
                               </tr>
-                            </tbody>
-                          </table>
+                            </table>
+                          </div>
+                          <div class="card-body mt-1">
+                            <div class="col-md-12 mt-1">
+                                <label for="dateOnset"> {{'generics.Start Date' | translate }} </label>
+                                <input type="date" id="dateOnset_{{i}}" class="form-control" name="dateOnset" [(ngModel)]="symptom.onsetdate" (change)="updateTimeline()">
+                            </div>
+                            <div class="col-md-12 mt-1">
+                                <label for="dateFinish"> {{'generics.End Date' | translate }} </label>
+                                <input type="date" id="dateFinish_{{i}}" class="form-control" name="dateFinish" [(ngModel)]="symptom.finishdate" (change)="updateTimeline()" [disabled]="(!symptom.checked)||(symptom.isCurrentSymptom)||(symptom.onsetdate==undefined)">
+                                <small class="text-left form-text danger" *ngIf="symptom.invalidFinishdate">{{'land.diagnosed.timeline.errorDates' | translate}}</small>
+                            </div>
+                            <div class="col-md-12 mt-1">
+                                <mat-checkbox name="isCurrentSymptom" [(ngModel)]="symptom.isCurrentSymptom" [disabled]="(!symptom.checked)||(symptom.onsetdate==undefined)" (change)="updateTimeline()"></mat-checkbox>
+                                <label for="isCurrentSymptom"class="ml-1"> {{'land.diagnosed.timeline.currentSymptom' | translate}} </label>
+                            </div>
+                            <div class="col-md-12 mt-1">
+                                <input type="text" id="basicInput_{{i}}" placeholder="{{'generics.notes' | translate }}" class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)" (change)="updateTimeline()">
+                            </div>
+                          </div>
+                          <div class="card-footer center-elements bt-n">
+                            <span *ngIf="(actualTemporalSymptomsIndex>0)" style="cursor: pointer;" class="float-left primary mt-1" (click)="goPrevSymptom();">
+                                <em style="font-size: 1.3em;" class="ft-chevron-left primary"></em>
+                            </span>
+                            <span *ngIf="actualTemporalSymptomsIndex<infoOneDisease.symptoms.length" style="cursor: pointer;" class="float-right primary mt-1" (click)="goNextSymptom();">
+                                <em style="font-size: 1.3em;" class="ft-chevron-right primary"></em>
+                            </span>
+                          </div>
                         </div>
+                      </div>
                     </div>
-                    <div class="col-md-12 mt-1" *ngIf="modifyFormSymtoms">
+                    <div class="col-md-12" *ngIf="modifyFormSymtoms">
                         <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
                       </div>
                     <div class="col-md-12" *ngIf="showTimeLine" style="max-height: 450px; overflow-y: auto;">
+                      <div class="col-md-12">
+                        <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
+                      </div>
                         <div class="col-md-12" id="mytimeline-app" style="max-height: 450px; overflow-y: auto;">
                           <div *ngIf="!loadingTimeline">
                               <section *ngIf="!isEmptyObject(infoOneDiseaseTimeLine)||!isEmptyObject(infoOneDiseaseTimeLineNull)" id="vertical-timeline-left" class="timeline-left timeline-wrapper col-sm-10 col-12 offset-sm-1">
@@ -1905,4 +1914,28 @@
     </div>
   </div>
 </ng-template>
+
+<ng-template #contentTimelineAppHelp let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 border">
+    <div class="p-2">
+      <button type="button" class="close" aria-label="Close" (click)="closeTimelineAppHelp()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="align-self-center mb-0"><strong>{{'land.diagnosed.timeline.help' | translate }} </strong></h4>
+    </div>  
+    <div class="row">
+      <div class="col-md-12">
+        <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
+      </div>
+      <div class="col-md-12">
+        <p>{{'land.diagnosed.timeline.t1' | translate}}</p>
+      </div>
+      <div class="col-md-12 mt-2 center-elements">
+        <img src='assets/gif/land/diagnosed/timeline-app.gif' style="max-width: 100%;">
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
 <button id="openModalRegister" [hidden]="true" (click)="registerToDx29Swal(contentToDx29V2)">.</button>
