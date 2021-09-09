@@ -97,7 +97,7 @@
                         <span class="d-none d-sm-inline ml-1 mr-2"><i class="fas fa-search"></i></span>
                         <input #input type="text"
                           #inputManualSymptoms class="form-control ml-1 inputSearch d-inline data-hj-allow" [(ngModel)]="modelTemp"
-                          [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1"
+                          [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
                           placeholder="{{'symptomssection.manualinput' | translate }}"
                           (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
                           <div class="center-elements" *ngIf="callListOfSymptoms">
@@ -210,7 +210,7 @@
                   <span class="d-none d-sm-inline ml-1 mr-2"><i class="fas fa-search"></i></span>
                   <input #input type="text"
                   #inputManualSymptoms class="form-control ml-1 inputSearch d-inline data-hj-allow" [(ngModel)]="modelTemp"
-                  [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1"
+                  [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
                   placeholder="{{'symptomssection.manualinput' | translate }}"
                   (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
                   <div class="center-elements" *ngIf="callListOfSymptoms">
@@ -466,7 +466,7 @@
           <div class="position-relative">
             <i class="fas fa-search"></i>
             <input type="text" id="searchDiseaseField" class="ml-1 form-control data-hj-allow" name="searchDiseaseField" style="width: 93% !important;display: inline !important;"
-              [(ngModel)]="searchDiseaseField" (keyup)="onKey($event)"
+              [(ngModel)]="searchDiseaseField" (keyup)="onKey($event)" (paste)="onKey"
               placeholder="{{'dashboardpatient.Search condition' | translate }}" (focusout)="focusOutFunctionDiseases()">
           </div>
           <div>
