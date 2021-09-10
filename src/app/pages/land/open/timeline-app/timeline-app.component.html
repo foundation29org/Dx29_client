@@ -65,8 +65,8 @@
       <div class="col-md-12">
         <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
       </div>
-        <div class="col-md-12" id="mytimeline-app" style="max-height: 450px; overflow-y: auto;">
-          <div *ngIf="!loadingTimeline">
+      <div class="col-md-12" style="max-height: 450px; overflow-y: auto;">
+          <div *ngIf="!loadingTimeline" id="mytimeline-app">
               <section *ngIf="!isEmptyObject(dictionaryTimeline)||!isEmptyObject(listTimelineNull)" id="vertical-timeline-left" class="timeline-left timeline-wrapper col-sm-10 col-12 offset-sm-1">
                 <div *ngIf="!isEmptyObject(dictionaryTimeline)">
                   <div *ngFor="let year of dictionaryTimeline | keyvalue: keyAscOrder">

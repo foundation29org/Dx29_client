@@ -23,6 +23,10 @@ export class jsPDFService {
 
             var doc = new jsPDF('portrait', 'px', 'a4') as jsPDFWithPlugin;
             var positionY = 0;
+            const marginX = 5;
+            
+            const pdfPageWidth = doc.internal.pageSize.getWidth() - 2 * marginX;
+            const pdfPageHeight = doc.internal.pageSize.getHeight()
 
             // Cabecera inicial
             var img_logo = new Image();
@@ -30,21 +34,21 @@ export class jsPDFService {
             doc.addImage(img_logo, 'png', 20, 10, 29, 17);
             doc.setFont(undefined, 'bold');
             doc.setFontSize(15);
-            doc.text(this.translate.instant("land.diagnosed.timeline.Report"),80, 17);
+            doc.text(this.translate.instant("land.diagnosed.timeline.Report"),(pdfPageWidth/2)-50, 17);
 
             doc.setFont(undefined, 'normal');
             doc.setFontSize(10);
 
-            this.writeHeader(doc, 90, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
+            this.writeHeader(doc, (pdfPageWidth/2)-20, 6, this.translate.instant("land.diagnosed.timeline.RegDate"));
 
             var actualDate = new Date();
             var dateHeader = this.getFormatDate(actualDate);
-            this. writeDataHeader(doc, 89, 7, dateHeader);
+            this.writeDataHeader(doc, (pdfPageWidth/2)-23, 16, dateHeader);
 
            //Add QR
             var img_qr = new Image();
             img_qr.src = "https://dx29.ai/assets/img/elements/qr.png"
-            doc.addImage(img_qr, 'png', 160, 5, 32, 30);
+            doc.addImage(img_qr, 'png', pdfPageWidth-50, 5, 32, 30);
 
             // Generate timeline image
             var link = document.createElement('a');
@@ -55,19 +59,11 @@ export class jsPDFService {
             // Doc image
             var img = new Image()
             img.src = dataUrl;
-            
-            
             const imgProps = (<any>doc).getImageProperties(img);
 
-            const marginX = 5;
-            
-            const pdfPageWidth = doc.internal.pageSize.getWidth() - 2 * marginX;
-            const pdfPageHeight = doc.internal.pageSize.getHeight()
 
             this.newHeatherAndFooter(doc);
-
             positionY += 55
-
             positionY = this.newSectionDoc(doc,null, this.translate.instant("land.diagnosed.timeline.title"),null, positionY)
             var headermargin = positionY;
 
@@ -75,14 +71,14 @@ export class jsPDFService {
             var heightLeft = imgHeight;
             var imgShowHeight = imgHeight-headermargin-30;
 
-            doc.addImage(img, 'JPG', marginX, positionY, pdfPageWidth, imgHeight, undefined, 'FAST');
+            doc.addImage(img, 'JPG', marginX, positionY, pdfPageWidth/2, imgShowHeight, undefined, 'FAST');
             heightLeft -= pdfPageHeight;
             
             while (heightLeft >= 0) {
                 positionY = (heightLeft - imgHeight); // top padding for other pages
                 heightLeft -= pdfPageHeight;
                 doc.addPage();
-                doc.addImage(img, 'JPG', marginX, positionY, pdfPageWidth, imgHeight, undefined, 'FAST');
+                doc.addImage(img, 'JPG', marginX, positionY, pdfPageWidth/2, imgShowHeight, undefined, 'FAST');
                 //this.newHeatherAndFooter(doc);
             }
 
@@ -154,13 +150,16 @@ export class jsPDFService {
 
     private newHeatherAndFooter(doc, line){
         // Footer
+        const pdfPageWidth = doc.internal.pageSize.getWidth() - 10;
+        const pdfPageHeight = doc.internal.pageSize.getHeight()
+
         var logoHealth = new Image();
         logoHealth.src = "https://dx29.ai/assets/img/logo-foundation-twentynine-footer.png"
-        doc.addImage(logoHealth, 'png', 20, 280, 25, 10);
+        doc.addImage(logoHealth, 'png', 20, pdfPageHeight-20, 35, 20);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
         doc.setTextColor(0, 133, 133)
-        doc.textWithLink("www.dx29.ai", 148, 286, { url: 'https://app.dx29.ai/Identity/Account/Register' });
+        doc.textWithLink("www.dx29.ai", pdfPageWidth-50, pdfPageHeight-20, { url: 'https://app.dx29.ai/Identity/Account/Register' });
 
     }
 
