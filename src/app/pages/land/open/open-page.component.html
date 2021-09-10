@@ -27,6 +27,83 @@
                 <ngb-tab>
                   <ng-template ngbTabTitle>
                     <span>
+                      <i class="fas fa-search" aria-hidden="true"></i>
+                      <span class="d-none d-sm-inline ml-1">{{'land.Quick search' | translate }}</span>
+                      <span class="d-block d-sm-none no-line-height">{{'land.Quick search' | translate }}</span>
+                    </span>
+                  </ng-template>
+                  <ng-template ngbTabContent>
+                    <div>
+                      <ng-template #rt let-r="result" let-t="term">
+                        <strong title="{{r.name}}">{{ r.name}}</strong>
+                        <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
+                          slice:0:140)+'...':(r.desc) }}</span>
+                      </ng-template>
+                      <div style="padding-bottom: 0.5rem !important;">
+                        <span class="d-none d-sm-inline ml-1 mr-2"><i class="fas fa-search"></i></span>
+                        <input #input type="text"
+                          #inputManualSymptoms class="form-control ml-1 inputSearch d-inline data-hj-allow" [(ngModel)]="modelTemp"
+                          [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
+                          placeholder="{{'symptomssection.manualinput' | translate }}"
+                          (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
+                          <div class="center-elements" *ngIf="callListOfSymptoms">
+                            <em class="fa fa-spinner fa-spin fa-3x fa-fw info"></em>
+                          </div>
+                          <span *ngIf="nothingFoundSymptoms">
+                            <span *ngIf="(modelTemp).trim().length>3">
+                              <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
+                            </span>
+                          </span>
+                      </div>
+                    </div>
+                    <div *ngIf="temporalSymptoms.length>0">
+                      <div class="table-cont" style="border: 1px solid #ced4da;border-radius: 0.25rem;">
+                        <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
+                          aria-labelledby="HPO">
+                          <tbody>
+                            <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
+                              <td [ngClass]="(i==0)?'border-top-0':''">
+                                <span>
+                                  <span class="float-right ml-1">
+                                    <button (click)="changeStateSymptom(i, true)"
+                                      class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                                      [ngClass]="(hpo.checked==true)?'btn-info':'btn-secondary '"
+                                      href="javascript:void(0)" title="{{'phenotype.Click to check it' | translate }}">
+                                      <em class="fa fa-check w-13"></em>
+                                    </button>
+                                    <button (click)="changeStateSymptom(i, false)"
+                                      class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                                      [ngClass]="(hpo.checked==false)?'btn-danger':'btn-secondary'"
+                                      href="javascript:void(0)"
+                                      title="{{'phenotype.Click to uncheck it' | translate }}">
+                                      <em class="fa fa-times w-13"></em>
+                                    </button>
+                                  </span>
+                                  <span>
+                                    <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
+                                      class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round"
+                                      title="{{'generics.More information' | translate }} ({{hpo.id}})">
+                                      <em class="fa fa-info w-13"></em>
+                                    </button>
+                                    <span class="ml-1 custom-bold pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">{{hpo.name}}</span>
+                                  </span>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="text-center mt-2">
+                        <button type="button" class="btn btn-lg btn-info btn-raised" (click)="directCalculate();"><em
+                            class="ml-1 mr-1 mt-1 mb-1 fas fa-play"></em></button>
+                      </div>
+                    </div>
+
+                  </ng-template>
+                </ngb-tab>
+                <ngb-tab>
+                  <ng-template ngbTabTitle>
+                    <span>
                       <i class="fa fa-language" aria-hidden="true"></i>
                       <span class="d-none d-sm-inline ml-1">{{'land.Text' | translate }}</span>
                       <span class="d-block d-sm-none no-line-height">{{'land.Text' | translate }}</span>
@@ -76,75 +153,6 @@
                         <span>Voy a tener suerte</span>
                       </label>
                     </mat-checkbox>-->
-                  </ng-template>
-                </ngb-tab>
-                <ngb-tab>
-                  <ng-template ngbTabTitle>
-                    <span>
-                      <i class="fa fa-pencil" aria-hidden="true"></i>
-                      <span class="d-none d-sm-inline ml-1">{{'symptomssection.manualinput' | translate }}</span>
-                      <span class="d-block d-sm-none no-line-height">{{'land.Manual' | translate }}</span>
-                    </span>
-                  </ng-template>
-                  <ng-template ngbTabContent>
-                    <div>
-                      <ng-template #rt let-r="result" let-t="term">
-                        <strong title="{{r.name}}">{{ r.name}}</strong>
-                        <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
-                          slice:0:140)+'...':(r.desc) }}</span>
-                      </ng-template>
-                      <div style="padding-bottom: 0.5rem !important;">
-                        <span class="d-none d-sm-inline ml-1 mr-2"><i class="fas fa-search"></i></span>
-                        <input #input type="text"
-                          #inputManualSymptoms class="form-control ml-1 inputSearch d-inline data-hj-allow" [(ngModel)]="modelTemp"
-                          [ngbTypeahead]="searchSymptom" [resultTemplate]="rt" [inputFormatter]="formatter1"
-                          placeholder="{{'symptomssection.manualinput' | translate }}"
-                          (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
-                      </div>
-                    </div>
-                    <div *ngIf="temporalSymptoms.length>0">
-                      <div class="table-cont" style="border: 1px solid #ced4da;border-radius: 0.25rem;">
-                        <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
-                          aria-labelledby="HPO">
-                          <tbody>
-                            <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
-                              <td [ngClass]="(i==0)?'border-top-0':''">
-                                <span>
-                                  <span class="float-right ml-1">
-                                    <button (click)="changeStateSymptom(i, true)"
-                                      class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                                      [ngClass]="(hpo.checked==true)?'btn-info':'btn-secondary '"
-                                      href="javascript:void(0)" title="{{'phenotype.Click to check it' | translate }}">
-                                      <em class="fa fa-check w-13"></em>
-                                    </button>
-                                    <button (click)="changeStateSymptom(i, false)"
-                                      class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                                      [ngClass]="(hpo.checked==false)?'btn-danger':'btn-secondary'"
-                                      href="javascript:void(0)"
-                                      title="{{'phenotype.Click to uncheck it' | translate }}">
-                                      <em class="fa fa-times w-13"></em>
-                                    </button>
-                                  </span>
-                                  <span>
-                                    <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
-                                      class="btn-outline-info btn btn-sm mr-1 mb-0 btn-fab round"
-                                      title="{{'generics.More information' | translate }} ({{hpo.id}})">
-                                      <em class="fa fa-info w-13"></em>
-                                    </button>
-                                    <span class="ml-1 custom-bold pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">{{hpo.name}}</span>
-                                  </span>
-                                </span>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div class="text-center mt-2">
-                        <button type="button" class="btn btn-lg btn-info btn-raised" (click)="directCalculate();"><em
-                            class="ml-1 mr-1 mt-1 mb-1 fas fa-play"></em></button>
-                      </div>
-                    </div>
-
                   </ng-template>
                 </ngb-tab>
               </ngb-tabset>
@@ -200,10 +208,19 @@
                 </ng-template>
                 <div style="padding-top: 0.5rem !important;">
                   <span class="d-none d-sm-inline ml-1 mr-2"><i class="fas fa-search"></i></span>
-                  <input #input style="display: inline;" type="text"
-                    #inputManualSymptoms class="form-control ml-1 inputSearch data-hj-allow" [(ngModel)]="modelTemp"
-                    [ngbTypeahead]="searchSymptom" [resultTemplate]="rt" [inputFormatter]="formatter1"
-                    placeholder="{{'symptomssection.manualinput' | translate }}" (selectItem)="selected($event)" />
+                  <input #input type="text"
+                  #inputManualSymptoms class="form-control ml-1 inputSearch d-inline data-hj-allow" [(ngModel)]="modelTemp"
+                  [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
+                  placeholder="{{'symptomssection.manualinput' | translate }}"
+                  (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
+                  <div class="center-elements" *ngIf="callListOfSymptoms">
+                    <em class="fa fa-spinner fa-spin fa-3x fa-fw info"></em>
+                  </div>
+                  <span *ngIf="nothingFoundSymptoms">
+                    <span *ngIf="(modelTemp).trim().length>3">
+                      <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
+                    </span>
+                  </span>
                 </div>
               </caption>
             </table>
@@ -449,7 +466,7 @@
           <div class="position-relative">
             <i class="fas fa-search"></i>
             <input type="text" id="searchDiseaseField" class="ml-1 form-control data-hj-allow" name="searchDiseaseField" style="width: 93% !important;display: inline !important;"
-              [(ngModel)]="searchDiseaseField" (keyup)="onKey($event)"
+              [(ngModel)]="searchDiseaseField" (keyup)="onKey()" (paste)="onKey()"
               placeholder="{{'dashboardpatient.Search condition' | translate }}" (focusout)="focusOutFunctionDiseases()">
           </div>
           <div>
@@ -463,7 +480,7 @@
                     <tbody class="tableList">
                       <tr *ngFor="let disease of listOfFilteredDiseases ; let i = index" class="d-flex">
                         <td class="col-md-12 dropdown-item" id="{{disease.id}}"
-                          (click)="showMoreInfoDiagnosePopup(i, contentInfoAttention);lauchEvent('Diagnosed - Select Disease');" style="cursor: pointer;"
+                          (click)="showMoreInfoDiagnosePopup(i);lauchEvent('Diagnosed - Select Disease');" style="cursor: pointer;"
                           title="{{'generics.More information' | translate }} ({{disease.id}})">
                           <span *ngIf="disease.source!='synonyms'">{{disease.name}}</span>
                           <span *ngIf="disease.source=='synonyms'"> {{disease.itemCompared}} ({{'generics.Synonyms' | translate}}: {{disease.name}})</span>
