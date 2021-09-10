@@ -2344,14 +2344,23 @@
       },
       "timeline":{
         "title":"CRONOLOGIA",
-        "t1":"Dx29 permite generar un informe cronológico de los síntomas para almacenar esta información de forma ordenada y poder compartirla con los médicos de un modo eficiente.",
+        "t0":"Dx29 te ofrece la oportunidad de tener todo tu historial de síntomas organizado, en un solo documento y listo para compartir con tu médico. ¡No lo dejes pasar y create el tuyo!",
+        "t1":"Selecciona los síntomas",
+        "t2":"Tómate el tiempo que necesites para añadir la información de cada uno de los síntomas y, automáticamente, podrás ir revisando como se organizan en la cronología.",
         "btn1":"Crear",
+        "btn2":"Continuar y ordenar síntomas",
         "btnRecalculate":"Recalcular cronologia",
-        "currentSymptom":"Actualmente",
+        "currentSymptom":"Sigo con ello",
         "errorDates":"La fecha fin no puede ser anterior a la inicial.",
-        "exit":"Borrar",
+        "exit":"Salir",
+        "reset":"Borrar",
         "ExitDiscard":"Todos los cambios que hayas hecho se descartarán.",
-        "help":"Ayuda"
+        "help":"Ayuda",
+        "Report":"Informe cronológico",
+        "RegDate":"Fecha reg.",
+        "Appendix1":"Anexo 1",
+        "Symptoms":"Síntomas",
+        "Appendix1Desc":"Aqui se presenta de forma mas detallada la información de los síntomas."
       },
       "diseases":{
         "error1":"Lo sentimos, no tenemos información sobre",
@@ -2395,11 +2404,11 @@
         "free": "Si quieres otras cosas, escríbelas aquí",
         "msgform": "Gracias por unirte a la revolución de los pacientes!",
         "title": "Gracias",
-        "p1": "Los datos que tú nos puedes dar sobre tu enfermedad, al completar la cronología, son muy importantes. Porque esa información no viene directamente de las bases de datos tradicionales, que se usan para hacer los diagnósticos y contienen información imprecisa sobre las enfermedades raras.",
+        "t1":"La comunidad necesita tu ayuda",
+        "p1": "Los datos que tú nos puedes dar sobre tu enfermedad, al completar los distintos pasos de la cronología, son muy importantes. Porque esa información no viene directamente de las bases de datos tradicionales, que se usan para hacer los diagnósticos y contienen información imprecisa sobre las enfermedades raras.",
         "p2": "En Fundación 29 queremos cambiar la forma en la que se hace Medicina. Queremos que los datos de los pacientes se usen y que se pueda hacer más investigación con ellos.",
         "p3": "Estamos construyendo una herramienta para agilizar el diagnóstico de enfermedades raras (Dx29) y necesitamos tus datos para hacerla más precisa y así poder ayudar a más y más pacientes.",
-        "p4Complete": "Únete a nuestra revolución dejando aquí tu dirección de correo electrónico. Te enviaremos tu informe y además te mantendremos informado de todos nuestros avances.",
-        "p4UnComplete": "Si completas la información de la cronología podrás, además de obtener tu informe de evolución de síntomas en el tiempo, ayudarnos en esta misión."
+        "p4": "Únete a nuestra revolución donándonos estos datos y dejando aquí tu dirección de correo electrónico. Además, te mantendremos informado de todos nuestros avances."
       }
     }
   },

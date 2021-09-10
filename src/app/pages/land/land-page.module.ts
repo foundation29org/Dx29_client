@@ -24,6 +24,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import {DndDirective} from "app/shared/directives/dnd.directive";
 import {MatBadgeModule} from '@angular/material/badge';
+import { TimelineComponent } from './open/timeline/timeline.component';
+import { TimelineAppComponent } from './open/timeline-app/timeline-app.component';
 
 @NgModule({
     exports: [
@@ -46,6 +48,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     declarations: [
         LandPageComponent,
         OpenPageComponent,
+        TimelineComponent,
+        TimelineAppComponent,
         ClinicianPageComponent,
         DiagnosedPatientPageComponent,
         UndiagnosedPatientPageComponent,

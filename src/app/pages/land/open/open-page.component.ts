@@ -31,15 +31,6 @@ import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, me
 import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexYAxis, ApexGrid, ApexDataLabels, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexLegend, ApexPlotOptions, ApexFill, ApexMarkers, ApexTheme, ApexNonAxisChartSeries, ApexResponsive } from "ng-apexcharts";
 import { KeyValue } from '@angular/common';
 
-import * as htmlToImage from 'html-to-image';
-
-import { jsPDF } from "jspdf";
-import 'jspdf-autotable';
-import { UserOptions } from 'jspdf-autotable';
-
-interface jsPDFWithPlugin extends jsPDF {
-  autoTable: (options: UserOptions) => jsPDF;
-}
 
 export type ChartOptions = {
     series: ApexAxisChartSeries | ApexNonAxisChartSeries;
@@ -146,11 +137,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     callListOfDiseases: boolean = false;
     selectedDiseaseIndex: number = -1;
     infoOneDisease: any = {};
-    modifyFormSymtoms = false;
-    showTimeLine = false;
-    infoOneDiseaseTimeLine: any = {};
-    infoOneDiseaseTimeLineNull:any = [];
-    actualTemporalSymptomsIndex = 0;
     modalReference2: NgbModalRef;
     modalReference3: NgbModalRef;
     modalReference4: NgbModalRef;
@@ -187,6 +173,13 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     inactiveSecondsToLogout:number = 900;
     openDiseases:number = 0;
     timeoutWait: number = 2000;
+
+    startCheckSymptoms = false;
+    startTimeline = false;
+    listSymptomsCheckedTimeline: any = []
+    listSymptomsCheckedModified = false;
+    donnorSet = false;
+
 
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
@@ -244,10 +237,13 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService) {
 
         this.lang = sessionStorage.getItem('lang');
-        this.modifyFormSymtoms = false;
-        this.showTimeLine = false;
         this.selectedNoteSymptom = null;
-        this.actualTemporalSymptomsIndex = 0;
+        this.startCheckSymptoms = false;
+        this.startTimeline = false;
+        this.listSymptomsCheckedTimeline = [];
+        this.listSymptomsCheckedModified = false;
+        this.donnorSet = false;
+
         this.originalLang = sessionStorage.getItem('lang');
         if (this.lang == 'es') {
             this.refLangs = "https://docs.microsoft.com/es-es/azure/cognitive-services/translator/language-support";
@@ -441,10 +437,13 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngOnInit() {
         this.activeRoute = this.router.url;
-        this.modifyFormSymtoms = false;
-        this.showTimeLine = false;
         this.selectedNoteSymptom = null;
-        this.actualTemporalSymptomsIndex=0;
+        this.startCheckSymptoms = false;
+        this.startTimeline = false;
+        this.listSymptomsCheckedTimeline = [];
+        this.listSymptomsCheckedModified = false;
+        this.donnorSet = false;
+
         this.subscription.add(this.route.params.subscribe(params => {
             if (params['role'] != undefined) {
                 this.role = params['role'];
@@ -2002,12 +2001,12 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 for (var j = 0; i < this.infoOneDisease.symptoms.length; j++) {
                     this.infoOneDisease.symptoms[j].checked = false;
                 }
-                this.modifyFormSymtoms = false;
-                this.showTimeLine = false;
-                this.selectedNoteSymptom = null;
-                this.actualTemporalSymptomsIndex = 0;
-                this.infoOneDiseaseTimeLine = {}
-                this.infoOneDiseaseTimeLineNull = []
+                this.startCheckSymptoms = false;
+                this.startTimeline = false;
+                this.listSymptomsCheckedTimeline = [];
+                this.listSymptomsCheckedModified = false;
+                this.donnorSet = false;
+                
                 
             }, (err) => {
                 console.log(err);
@@ -2040,7 +2039,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     getfrequenciesSelectedDisease(hposStrins) {
         //getInfo symptoms
-
         var lang = sessionStorage.getItem('lang');
         this.apif29BioService.getInfoOfSymptoms(lang, hposStrins)
             .subscribe((res: any) => {
@@ -2078,27 +2076,25 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }*/
 
     changeStateSymptomDisease(index) {
+        
         if (this.infoOneDisease.symptoms[index].checked) {
-            this.infoOneDisease.symptoms[index].checked = !this.infoOneDisease.symptoms[index].checked;
-            if (this.modifyFormSymtoms == true){
-                if((this.infoOneDisease.symptoms[index].onsetdate!=undefined)&&(this.infoOneDisease.symptoms[index].onsetdate!=null)){
-                    this.infoOneDisease.symptoms[index].onsetdate=null;
-                }
-                if((this.infoOneDisease.symptoms[index].finishdate!=undefined)&&(this.infoOneDisease.symptoms[index].finishdate!=null)){
-                    this.infoOneDisease.symptoms[index].finishdate=null;
-                }
-                if((this.infoOneDisease.symptoms[index].isCurrentSymptom!=undefined)&&(this.infoOneDisease.symptoms[index].isCurrentSymptom!=null)){
-                    this.infoOneDisease.symptoms[index].isCurrentSymptom=null;
-                }
-                if((this.infoOneDisease.symptoms[index].notes!=undefined)&&(this.infoOneDisease.symptoms[index].notes!=null)){
-                    this.infoOneDisease.symptoms[index].notes=null;
-                }
-            }
-            
+            this.infoOneDisease.symptoms[index].checked = !this.infoOneDisease.symptoms[index].checked;            
         } else {
             this.infoOneDisease.symptoms[index].checked = true;
         }
+
+        this.listSymptomsCheckedTimeline=[];
         this.getNumberOfSymptomsDiseaseChecked();
+        if(this.numberOfSymtomsChecked>0){
+            this.listSymptomsCheckedModified = true;
+            for (var i =0; i<this.infoOneDisease.symptoms.length;i++){
+                if(this.infoOneDisease.symptoms[i].checked){
+                    this.listSymptomsCheckedTimeline.push(this.infoOneDisease.symptoms[i]);
+                }
+            }
+            this.listSymptomsCheckedModified = false;
+        }
+        
     }
 
     getNumberOfSymptomsDiseaseChecked() {
@@ -2110,154 +2106,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
-    backTimeline(){
-        Swal.fire({
-            title: this.translate.instant("generics.Are you sure?"),
-            text: this.translate.instant("land.diagnosed.timeline.ExitDiscard"),
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#0CC27E',
-            cancelButtonColor: '#f9423a',
-            confirmButtonText: this.translate.instant("generics.Yes"),
-            cancelButtonText: this.translate.instant("generics.No"),
-            showLoaderOnConfirm: true,
-            allowOutsideClick: false,
-            reverseButtons: true
-        }).then((result) => {
-            if (result.value) {
-                this.modifyFormSymtoms = true;
-                for(var i =0; i < this.infoOneDisease.symptoms.length;i++){
-                    this.changeStateSymptomDisease(i);
-                    this.infoOneDisease.symptoms[i].checked = false;
-                }
-                this.infoOneDiseaseTimeLine = {}
-                this.infoOneDiseaseTimeLineNull = []
-                this.showTimeLine = false;
-                this.actualTemporalSymptomsIndex = 0;
-                this.selectedNoteSymptom = null;
-                this.modifyFormSymtoms = false;
-            }
-        })
-
-        
-    }
-
-    checkFinishDate(symptomIndex){
-        if((this.infoOneDisease.symptoms[symptomIndex].onsetdate!=null)&&(this.infoOneDisease.symptoms[symptomIndex].onsetdate!=undefined)){
-            if((this.infoOneDisease.symptoms[symptomIndex].finishdate!=null)&&(this.infoOneDisease.symptoms[symptomIndex].finishdate!=undefined)){
-                if(new Date(this.infoOneDisease.symptoms[symptomIndex].onsetdate).getTime() > new Date(this.infoOneDisease.symptoms[symptomIndex].finishdate).getTime()){
-                    this.modifyFormSymtoms = true;
-                    this.infoOneDisease.symptoms[symptomIndex].finishdate = null;
-                    this.infoOneDisease.symptoms[symptomIndex].invalidFinishdate = true;
-                    this.modifyFormSymtoms = false;
-                }
-                else{
-                    this.infoOneDisease.symptoms[symptomIndex].invalidFinishdate = false;
-                }
-            }
-        }
-    }
-    goPrevSymptom(){
-        this.modifyFormSymtoms = true;
-        this.actualTemporalSymptomsIndex--;
-        this.modifyFormSymtoms = false;
-    }
-    goNextSymptom(){
-        this.modifyFormSymtoms = true;
-        this.actualTemporalSymptomsIndex++;
-        this.modifyFormSymtoms = false;
-    }
-    updateTimeline(){
-        for (var i = 0; i< this.infoOneDisease.symptoms.length;i++){
-            console.log(this.infoOneDisease.symptoms[i].onsetdate)
-            if(this.infoOneDisease.symptoms[i].onsetdate!=null){
-                this.infoOneDisease.symptoms[i].checked = true;
-            }
-        }
-        this.getNumberOfSymptomsDiseaseChecked();
-        if (this.numberOfSymtomsChecked == 0) {
-            Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
-        }
-        else{
-            this.showTimeLine = false;
-            this.infoOneDiseaseTimeLine = {}
-            this.infoOneDiseaseTimeLineNull = []
-
-            for (var i = 0; i< this.infoOneDisease.symptoms.length;i++){
-                if (this.infoOneDisease.symptoms[i].checked) {
-                    if(this.infoOneDisease.symptoms[i].onsetdate==NaN){
-                        this.infoOneDisease.symptoms[i].onsetdate = null
-                    }
-                    if (this.infoOneDisease.symptoms[i].finishdate==NaN){
-                        this.infoOneDisease.symptoms[i].finishdate = null
-                    }
-                    if((this.infoOneDisease.symptoms[i].isCurrentSymptom!=null)||(this.infoOneDisease.symptoms[this.indexListRelatedConditions].isCurrentSymptom!=undefined)){
-                        this.modifyFormSymtoms = true;
-                        this.infoOneDisease.symptoms[i].finishdate=null;
-                        this.modifyFormSymtoms = false;
-                    }
-                    else{
-                        if((this.infoOneDisease.symptoms[i].finishdate!=null)&&(this.infoOneDisease.symptoms[i].finishdate!=undefined)){
-                            this.checkFinishDate(i);
-                        }
-                    }
-                    /*if(this.infoOneDisease.symptoms[i].onsetdate!=null){
-                        if((this.infoOneDisease.symptoms[i].finishdate==null)||(this.infoOneDisease.symptoms[i].finishdate==undefined)){
-                            if((this.infoOneDisease.symptoms[i].isCurrentSymptom==null)||(this.infoOneDisease.symptoms[this.indexListRelatedConditions].isCurrentSymptom==undefined)){
-                                this.infoOneDisease.symptoms[i].isCurrentSymptom = true;
-                            }
-                        }
-                    }*/
-                }
-            }
-
-            for (var i = 0; i< this.infoOneDisease.symptoms.length;i++){
-                if (this.infoOneDisease.symptoms[i].checked) {
-                    var newDate = this.infoOneDisease.symptoms[i].onsetdate
-                    if(newDate!= null){
-                        var newYear = new Date(newDate).getFullYear()
-                        if(this.infoOneDiseaseTimeLine[newYear]==undefined){
-                            this.infoOneDiseaseTimeLine[newYear] = {}
-                        }
-                        if(this.infoOneDiseaseTimeLine[newYear][newDate]==undefined){
-                            this.infoOneDiseaseTimeLine[newYear][newDate] = []
-                        }
-                        this.infoOneDiseaseTimeLine[newYear][newDate].push(this.infoOneDisease.symptoms[i])
-                        for (var j = 0; j< this.infoOneDisease.symptoms.length;j++){
-                            if (i!=j){
-                                if (this.infoOneDisease.symptoms[j].checked) {
-                                    var compareOnsetDate = this.infoOneDisease.symptoms[j].onsetdate;
-                                    var compareFinishDate = this.infoOneDisease.symptoms[j].finishdate;
-                                    var isCurrentSymptom = this.infoOneDisease.symptoms[j].isCurrentSymptom;
-                                    if(isCurrentSymptom){
-                                        if(compareOnsetDate!=null){
-                                            if(new Date(newDate).getTime()>new Date(compareOnsetDate).getTime()){
-                                                this.infoOneDiseaseTimeLine[newYear][newDate].push(this.infoOneDisease.symptoms[j])
-                                            }
-                                        }
-                                    }
-                                    else{
-                                        if(compareOnsetDate!=null){
-                                            if(compareFinishDate!=null){
-                                                if((new Date(newDate).getTime()>new Date(compareOnsetDate).getTime())&&(new Date(newDate).getTime()<new Date(compareFinishDate).getTime())){
-                                                    this.infoOneDiseaseTimeLine[newYear][newDate].push(this.infoOneDisease.symptoms[j])
-                                                }
-                                            }
-                                        }
-                                    }
-                                    
-                                }
-                            }
-                        }
-                    }
-                    else{
-                        this.infoOneDiseaseTimeLineNull.push(this.infoOneDisease.symptoms[i])
-                    }
-                }
-            }
-            this.showTimeLine = true;
-        }
-    }
 
     openTimelineAppHelp(contentTimelineAppHelp){
         let ngbModalOptions: NgbModalOptions = {
@@ -2273,30 +2121,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
-    exportTimeline(contentInfoAttention)
-    {
-        this.showAttentionPanel(contentInfoAttention); 
-    }
-
-    // Order by ascending property key
-    keyAscOrder = ((a, b) => {
-        return new Date(a.key).getTime() > new Date(b.key).getTime() ? -1 : (new Date(b.key).getTime() > new Date(a.key).getTime() ? 1 : 0);
-    })
-
-    getElementHeight(elementId){
-        return document.getElementById(elementId).offsetHeight;
-    }
-
-    isEmptyObject(obj){
-        if (obj == undefined){
-            return true;
-        }
-        else{
-            return (obj && (Object.keys(obj).length === 0));
-        }
-    }
-
-    sendSymtomsChecked(contentInfoSendSymptoms) {
+    sendSymtomsChecked() {
         if (this.numberOfSymtomsChecked == 0) {
             Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
         } else {
@@ -2325,13 +2150,13 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             //var infoChecked = { idClient: this.myuuid, diseaseId: this.infoOneDisease.id, xrefs: this.infoOneDisease.xrefs, symptoms: listChecked, email: this.email};
             //this.subscription.add(this.apiDx29ServerService.chekedSymptomsOpenDx29(infoChecked)
                 //.subscribe((res: any) => {
-                    this.generateTimelineForEmail().then((attachments)=>{
-                        //var info = { email: this.email, lang: this.lang, attachments: attachments};
+                        var info = { email: this.email, lang: this.lang};
                         //console.log("attachments")
                         //console.log(attachments)
-                        //this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
-                            //.subscribe((res: any) => {
+                        this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
+                            .subscribe((res: any) => {
                                 this.sending = false;
+                                this.donnorSet = true;
                                 Swal.fire({
                                     icon: 'success',
                                     html: this.translate.instant("land.diagnosed.DonorData.msgform"),
@@ -2353,12 +2178,11 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                                 this.curatedLists.push({ id: this.infoOneDisease.id });
                                 this.dontShowIntro = true;
                                 this.sending = false;
-                            /*}, (err) => {
+                            }, (err) => {
                                 console.log(err);
                                 this.sending = false;
                                 this.toastr.error('', this.translate.instant("generics.error try again"));
-                        }));*/
-                    });
+                        }));
                 /*}, (err) => {
                     console.log(err);
                     this.sending = false;
@@ -2366,166 +2190,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                 }));*/
                 
         }
-    }
-
-    isVisible(el) {
-        /* offsetParent would be null if display 'none' is set.
-           However Chrome, IE and MS Edge returns offsetParent as null for elements
-           with CSS position 'fixed'. So check whether the dimensions are zero.
-    
-           This check would be inaccurate if position is 'fixed' AND dimensions were
-           intentionally set to zero. But..it is good enough for most cases.*/
-        if (!el.offsetParent && el.offsetWidth === 0 && el.offsetHeight === 0) {
-            return false;
-        }
-        return true;
-    }
-
-    generateTimelineForEmail(): Promise<string>{
-        var timeLineElementId = ('mytimeline')
-        if(!this.isVisible(document.getElementById(timeLineElementId))){
-            timeLineElementId='mytimeline-app'
-        }
-        document.getElementById(timeLineElementId).style.backgroundColor="white";
-        return htmlToImage.toJpeg(document.getElementById(timeLineElementId), { quality: 0.95 })
-        .then(function (dataUrl) {
-            // Generate timeline image
-            var link = document.createElement('a');
-            var actualDate = Date.now();
-            link.download = 'Dx29_Timeline_' + actualDate + '.jpeg';
-            link.href = dataUrl;
-            document.getElementById(timeLineElementId).style.removeProperty("background-color");
-
-            // Doc image
-            var img = new Image()
-            img.src = dataUrl;
-            
-            var doc = new jsPDF('portrait', 'px', 'a4') as jsPDFWithPlugin;
-            const imgProps = (<any>doc).getImageProperties(img);
-
-            const marginX = (doc.internal.pageSize.getWidth()/2);
-            
-            const pdfPageWidth = doc.internal.pageSize.getWidth() - 2 * marginX;
-            const pdfPageHeight = doc.internal.pageSize.getHeight()
-
-            var positionY = this.newHeatherAndFooter(doc);
-            var headermargin = positionY;
-
-            var imgHeight = imgProps.height/2;
-            var heightLeft = imgHeight;
-            var imgShowHeight = imgHeight-headermargin-30;
-
-            doc.addImage(img, 'JPG', marginX, positionY, pdfPageWidth/2, imgShowHeight/2, undefined, 'FAST');
-            heightLeft -= 2*pdfPageHeight;
-            
-            while (heightLeft >= 0) {
-                positionY = (heightLeft - imgHeight); // top padding for other pages
-                console.log("positionY prev:")
-                console.log(positionY)
-                heightLeft -= 2*pdfPageHeight;
-                doc.addPage();
-                positionY -= this.newHeatherAndFooter(doc);
-                console.log("positionY header:")
-                console.log(positionY)
-                doc.addImage(img, 'JPG', marginX, positionY, pdfPageWidth/2, imgShowHeight/2, undefined, 'FAST');
-            }
-
-            // Doc table
-            doc.addPage();
-            positionY = this.newHeatherAndFooter(doc);
-            var bodyTable = []
-            for (var i = 0; i< this.infoOneDisease.symptoms.length;i++){
-                if(this.infoOneDisease.symptoms[i].checked){
-                    var name = this.infoOneDisease.symptoms[i].name
-                    if(name==undefined){
-                        name = this.infoOneDisease.symptoms[i].id + "-" + this.translate.instant("phenotype.Deprecated")
-                    }
-                    var id = this.infoOneDisease.symptoms[i].id
-                    var desc = this.infoOneDisease.symptoms[i].desc
-                    if((desc==undefined)||(desc==null)){
-                        desc="-"
-                    }
-                    var onsetdate = this.infoOneDisease.symptoms[i].onsetdate
-                    if((onsetdate==undefined)||(onsetdate==null)){
-                        onsetdate="-"
-                    }
-                    var finishdate = this.infoOneDisease.symptoms[i].finishdate
-                    if((finishdate==undefined)||(finishdate==null)){
-                        finishdate="-"
-                    }
-                    var notes = this.infoOneDisease.symptoms[i].notes
-                    if((notes==undefined)||(notes==null)){
-                        notes="-"
-                    }
-                    bodyTable.push([name,id,desc,onsetdate,finishdate,notes])
-                }
-            }
-            doc.autoTable({
-                head: [[this.translate.instant("generics.Name"), "ID", this.translate.instant("generics.Description"), this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"), this.translate.instant("generics.notes")]],
-                body: bodyTable,
-                startY: positionY
-            }); 
-            doc.save('Dx29_Timeline_' + actualDate +'.pdf');
-
-            return doc.output('datauristring');
-        }.bind(this));
-    }
-
-    newHeatherAndFooter(doc){
-
-        var pdfHeight = doc.internal.pageSize.getHeight()
-        var pdfWidth = doc.internal.pageSize.getWidth()
-        var marginX = 20;
-
-        // Header
-        var posYHeader = 10
-
-        var img = new Image();
-        img.src = "https://dx29.ai/assets/img/logo-Dx29.png"
-        doc.addImage(img, 'png', marginX, posYHeader += 5, 10, 7);
-        //doc.setFontType("bold");
-        doc.setFont(undefined, 'bold');
-        doc.setFontSize(15);
-    
-        doc.text(pdfWidth/2 - 80, posYHeader += 5, "Timeline report");
-        doc.setFontSize(12);
-        var actualDate = new Date();
-        var dateHeader = this.getFormatDate(actualDate);
-
-        doc.text(pdfWidth-50, posYHeader, dateHeader)
-    
-        // Footer
-        var posYFooter = pdfHeight - 20
-        var bufferY = posYFooter + 5;
-        var initPositionX = (pdfWidth/2)
-        
-        var logoHealth = document.createElement('img');
-        logoHealth.src = "https://dx29.ai/assets/img/logo-foundation-twentynine-footer.png"
-        doc.addImage(logoHealth, 'png', marginX, posYFooter, 25, 10);
-        //doc.setFontType("normal");
-        doc.setFont(undefined, 'normal');
-        doc.setFontSize(10);
-        
-        doc.text(initPositionX, bufferY, "Copyright " + actualDate.getUTCFullYear())
-        doc.setTextColor(51, 101, 138)
-        doc.text(initPositionX+55, bufferY, "http://www.foundation29.org/ ")
-        doc.setTextColor(0, 0, 0)
-        doc.text(initPositionX+155, bufferY, "All rights reserved.")
-
-        return posYHeader + 10
-    }
-
-    getFormatDate(date) {
-        return date.getUTCFullYear() +
-            '-' + this.pad(date.getUTCMonth() + 1) +
-            '-' + this.pad(date.getUTCDate());
-    }
-
-    pad(number) {
-        if (number < 10) {
-            return '0' + number;
-        }
-        return number;
     }
 
     getClinicalTrials(name) {
@@ -2797,6 +2461,49 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     backToList(){
         this.actualArticle = {};
         this.viewArticle = false;
+    }
+    startCheckSymptomsFunction(){
+        this.startCheckSymptoms = true;
+    }
+
+    endCheckSymptomsFunction(){
+        this.startCheckSymptoms = false;
+    }
+    
+    startTimelineFunction(){
+        if(this.listSymptomsCheckedTimeline.length>0) {
+            this.endCheckSymptomsFunction();
+            this.startTimeline=true;
+        }
+        else{
+            Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
+        }
+        
+    }
+    endTimeLineFunction(){
+        this.listSymptomsCheckedTimeline=[];
+        for (var i =0; i<this.infoOneDisease.symptoms.length;i++){
+            if(this.infoOneDisease.symptoms[i].checked){
+                this.infoOneDisease.symptoms[i].checked= false;
+            }
+        }
+        this.startTimeline=false;
+        this.endCheckSymptomsFunction();
+    }
+
+
+    checkDonnorState(contentInfoAttention){
+        if(!this.donnorSet){
+            let ngbModalOptions: NgbModalOptions = {
+                backdrop: 'static',
+                keyboard: false,
+                windowClass: 'ModalClass-sm'// xl, lg, sm
+            };
+            this.modalReference2 = this.modalService.open(contentInfoAttention, ngbModalOptions);
+        }
+        else{
+            this.sendSymtomsChecked();
+        }
     }
 
 }
