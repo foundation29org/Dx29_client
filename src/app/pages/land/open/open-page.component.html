@@ -384,7 +384,65 @@
             </div>
           </div>
         </div>
-        <div class="row col-md-12 reg-panel">
+        <div class="row col-md-12 reg-panel d-block d-sm-none">
+          <button class="mb-4 btn btn-lg btn-info btn-raised"
+            (click)="registerToDx29V2()">{{'land.table.button' | translate }}</button>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/diskette.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t7' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d7' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/archive.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t8' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d8' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/genetico.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t9' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d9' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/equipo.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t10' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d10' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/share.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t11' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d11' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/refresh.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t12' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d12' | translate }}</p>
+            </span>
+          </div>
+        </div>
+        <div class="row col-md-12 reg-panel d-none d-sm-flex">
           <div class="col-sm-4 pb-3 pt-3">
             <div class="mb-2">
               <img class="col w-reg-img" src='assets/img/home/reg/diskette.png' />
@@ -464,7 +522,7 @@
       <div class="align-items-end justify-content-center">
         <div class="offset-md-3 col-md-6 no-padding">
           <div class="position-relative">
-            <i class="fas fa-search"></i>
+            <i class="fas fa-search" (click)="onKey()"></i>
             <input type="text" id="searchDiseaseField" class="ml-1 form-control data-hj-allow" name="searchDiseaseField" style="width: 93% !important;display: inline !important;"
               [(ngModel)]="searchDiseaseField" (keyup)="onKey()" (paste)="onKey()"
               placeholder="{{'dashboardpatient.Search condition' | translate }}" (focusout)="focusOutFunctionDiseases()">
@@ -1361,7 +1419,7 @@
                   <em class="fa fa-info w-13"></em>
                 </button>
                 <span *ngIf="symptom.name" class="pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease);">{{symptom.name}}</span>
-                <span *ngIf="!symptom.name">
+                <span *ngIf="!symptom.name" style="margin-left: 2.7rem !important;">
                   {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                     href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
                     <i class="ft-external-link"></i></a></span>
@@ -1647,10 +1705,68 @@
         <span>
           <span *ngIf="temporalSymptoms.length>0">
             <p [innerHTML]="'land.swal.p1' | translate"></p>
-            <p>{{'land.swal.p2' | translate }}</p>
           </span>
         </span>
-        <div class="row reg-panel">
+        <div class="row reg-panel d-block d-sm-none">
+          <button class="mt-2 btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2()">{{'land.swal.button' |
+            translate }}</button>
+            <p>{{'land.swal.p2' | translate }}</p>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/diskette.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t7' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d7' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/archive.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t8' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d8' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/genetico.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t9' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d9' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/equipo.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t10' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d10' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/share.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t11' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d11' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/refresh.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t12' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d12' | translate }}</p>
+            </span>
+          </div>
+        </div>
+        <div class="row reg-panel d-none d-sm-flex">
           <div class="col-sm-4 pb-3 pt-3">
             <div class="mb-2">
               <img class="col w-reg-img-sm" src='assets/img/home/reg/diskette.png' />
@@ -1706,7 +1822,6 @@
             </span>
           </div>
         </div>
-
         <button class="mb-0 mt-2 btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2()">{{'land.swal.button' |
           translate }}</button>
       </div>

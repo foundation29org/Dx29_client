@@ -1419,6 +1419,10 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     keyboard: false,
                     windowClass: 'ModalClass-lg'// xl, lg, sm
                 };
+                if (this.modalReference != undefined) {
+                    this.modalReference.close();
+                    this.modalReference = undefined;
+                }
                 this.modalReference = this.modalService.open(contentInfoDisease, ngbModalOptions);
             } else {
                 this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded = true;
@@ -1511,6 +1515,10 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     windowClass: 'ModalClass-lg'// xl, lg, sm
                 };
                 this.getfrequencies(this.selectedInfoDiseaseIndex);
+                if (this.modalReference != undefined) {
+                    this.modalReference.close();
+                    this.modalReference = undefined;
+                }
                 this.modalReference = this.modalService.open(contentInfoDisease, ngbModalOptions);
 
             }, (err) => {
