@@ -2430,11 +2430,13 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         var params: any = {}
         params.Email = this.formOpen.Email;
         params.Answers = this.formOpen.Answers.toString();
+        params.Disease = this.idDisease;
         params.Free = this.formOpen.Free;
         params.Lang = sessionStorage.getItem('lang');
         var d = new Date(Date.now());
         var a = d.toString();
         params.Date = a;
+        console.log(params);
         this.subscription.add(this.http.post('https://prod-12.westeurope.logic.azure.com:443/workflows/183bc21bfa054c77ac44c297e1f3bd04/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=rYHWLbMjZrv_q3yN8EezS5zA2Jmvyxc16-zKtn4zQz0', params)
             .subscribe((res: any) => {
                 this.sending = false;
