@@ -1,0 +1,217 @@
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
+import Swal from 'sweetalert2';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+
+import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.service';
+
+import {jsPDFService} from 'app/shared/services/jsPDF.service'
+
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/toPromise';
+
+
+var $primary = "#975AFF",
+    $success = "#40C057",
+    $info = "#2F8BE6",
+    $warning = "#F77E17",
+    $danger = "#F55252",
+    $label_color_light = "#E6EAEE";
+
+var themeColors = [$primary, $warning, $success, $danger, $info];
+
+
+@Component({
+    selector: 'timeline',
+    templateUrl: './timeline.component.html',
+    styleUrls: ['./timeline.component.scss'],
+    providers: [jsPDFService]
+})
+
+
+export class TimelineComponent implements OnInit, OnDestroy {
+    @Input() listSymptoms: any[];
+    @Output() openModalSymptomInfo = new EventEmitter();
+    @Output() backEvent = new EventEmitter();
+    @Output() finishEvent = new EventEmitter();
+
+    private dictionaryTimeline: any;
+    private listTimelineNull: any;
+
+    modifyFormSymtoms = false;
+    showTimeLine = false;
+    selectedInfoSymptom = null;
+
+
+    constructor(public translate: TranslateService,  public toastr: ToastrService, public googleAnalyticsService: GoogleAnalyticsService, public jsPDFService: jsPDFService) {
+        this.modifyFormSymtoms = false;
+        this.showTimeLine = false;
+        this.selectedInfoSymptom = null;
+    }
+
+    ngOnInit() {
+        this.modifyFormSymtoms = false;
+        this.showTimeLine = false;
+        this.selectedInfoSymptom = null;
+        console.log(this.listSymptoms);
+    }
+
+    ngOnDestroy() {
+    }
+
+    showMoreInfoSymptomPopup(symptom){
+        this.openModalSymptomInfo.emit(symptom);
+    }
+
+    // Order by ascending property key
+    keyAscOrder = ((a, b) => {
+        return new Date(a.key).getTime() > new Date(b.key).getTime() ? -1 : (new Date(b.key).getTime() > new Date(a.key).getTime() ? 1 : 0);
+    })
+
+    isEmptyObject(obj){
+        if (obj == undefined){
+            return true;
+        }
+        else{
+            return (obj && (Object.keys(obj).length === 0));
+        }
+    }
+
+    updateTimeline(){
+        this.showTimeLine = false;
+        this.dictionaryTimeline = {}
+        this.listTimelineNull = []
+
+        for (var i = 0; i< this.listSymptoms.length;i++){
+            if(this.listSymptoms[i].onsetdate==NaN){
+                this.listSymptoms[i].onsetdate = null
+            }
+            if (this.listSymptoms[i].finishdate==NaN){
+                this.listSymptoms[i].finishdate = null
+            }
+            if((this.listSymptoms[i].isCurrentSymptom!=null)||(this.listSymptoms[i].isCurrentSymptom!=undefined)){
+                this.modifyFormSymtoms = true;
+                this.listSymptoms[i].finishdate=null;
+                this.modifyFormSymtoms = false;
+            }
+            else{
+                if((this.listSymptoms[i].finishdate!=null)&&(this.listSymptoms[i].finishdate!=undefined)){
+                    this.checkFinishDate(i);
+                }
+            }
+        }
+        for (var i = 0; i< this.listSymptoms.length;i++){
+            var newDate = this.listSymptoms[i].onsetdate
+            if(newDate!= null){
+                var newYear = new Date(newDate).getFullYear()
+                if(this.dictionaryTimeline[newYear]==undefined){
+                    this.dictionaryTimeline[newYear] = {}
+                }
+                if(this.dictionaryTimeline[newYear][newDate]==undefined){
+                    this.dictionaryTimeline[newYear][newDate] = []
+                }
+                this.dictionaryTimeline[newYear][newDate].push(this.listSymptoms[i])
+                for (var j = 0; j< this.listSymptoms.length;j++){
+                    if (i!=j){
+                        var compareOnsetDate = this.listSymptoms[j].onsetdate;
+                        var compareFinishDate = this.listSymptoms[j].finishdate;
+                        var isCurrentSymptom = this.listSymptoms[j].isCurrentSymptom;
+                        if(isCurrentSymptom){
+                            if(compareOnsetDate!=null){
+                                if(new Date(newDate).getTime()>new Date(compareOnsetDate).getTime()){
+                                    this.dictionaryTimeline[newYear][newDate].push(this.listSymptoms[j])
+                                }
+                            }
+                        }
+                        else{
+                            if(compareOnsetDate!=null){
+                                if(compareFinishDate!=null){
+                                    if((new Date(newDate).getTime()>new Date(compareOnsetDate).getTime())&&(new Date(newDate).getTime()<new Date(compareFinishDate).getTime())){
+                                        this.dictionaryTimeline[newYear][newDate].push(this.listSymptoms[j])
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else{
+                this.listTimelineNull.push(this.listSymptoms[i])
+            }
+        }
+        this.showTimeLine = true;
+    }
+
+    checkFinishDate(symptomIndex){
+        if((this.listSymptoms[symptomIndex].onsetdate!=null)&&(this.listSymptoms[symptomIndex].onsetdate!=undefined)){
+            if((this.listSymptoms[symptomIndex].finishdate!=null)&&(this.listSymptoms[symptomIndex].finishdate!=undefined)){
+                if(new Date(this.listSymptoms[symptomIndex].onsetdate).getTime() > new Date(this.listSymptoms[symptomIndex].finishdate).getTime()){
+                    this.modifyFormSymtoms = true;
+                    this.listSymptoms[symptomIndex].finishdate = null;
+                    this.listSymptoms[symptomIndex].invalidFinishdate = true;
+                    this.modifyFormSymtoms = false;
+                }
+                else{
+                    this.listSymptoms[symptomIndex].invalidFinishdate = false;
+                }
+            }
+        }
+    }
+
+    backTimeline(exit){
+        Swal.fire({
+            title: this.translate.instant("generics.Are you sure?"),
+            text: this.translate.instant("land.diagnosed.timeline.ExitDiscard"),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#0CC27E',
+            cancelButtonColor: '#f9423a',
+            confirmButtonText: this.translate.instant("generics.Yes"),
+            cancelButtonText: this.translate.instant("generics.No"),
+            showLoaderOnConfirm: true,
+            allowOutsideClick: false,
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+                this.modifyFormSymtoms = true;
+                this.resetTimeline();
+                this.dictionaryTimeline = {}
+                this.listTimelineNull = []
+                this.showTimeLine = false;
+                this.selectedInfoSymptom = null;
+                this.modifyFormSymtoms = false;
+
+                if (exit=='true'){
+                    // Send event Form deleted
+                    this.backEvent.emit(true);
+                }
+                
+            }
+        })
+    }
+
+    resetTimeline(){
+        for(var index =0; index < this.listSymptoms.length;index++){
+            if((this.listSymptoms[index].onsetdate!=undefined)&&(this.listSymptoms[index].onsetdate!=null)){
+                this.listSymptoms[index].onsetdate=null;
+            }
+            if((this.listSymptoms[index].finishdate!=undefined)&&(this.listSymptoms[index].finishdate!=null)){
+                this.listSymptoms[index].finishdate=null;
+            }
+            if((this.listSymptoms[index].isCurrentSymptom!=undefined)&&(this.listSymptoms[index].isCurrentSymptom!=null)){
+                this.listSymptoms[index].isCurrentSymptom=null;
+            }
+            if((this.listSymptoms[index].notes!=undefined)&&(this.listSymptoms[index].notes!=null)){
+                this.listSymptoms[index].notes=null;
+            }
+        }
+    }
+
+    exportTimeline()
+    {
+        // Download and send event 
+        this.finishEvent.emit(true);
+        this.jsPDFService.generateTimelinePDF('mytimeline', this.listSymptoms)
+    }
+    
+}
