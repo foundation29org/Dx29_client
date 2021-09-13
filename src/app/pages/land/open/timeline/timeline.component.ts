@@ -50,10 +50,10 @@ export class TimelineComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.modifyFormSymtoms = false;
-        this.showTimeLine = false;
-        this.selectedInfoSymptom = null;
-        console.log(this.listSymptoms);
+        //this.modifyFormSymtoms = false;
+        //this.showTimeLine = false;
+        //this.selectedInfoSymptom = null;
+        //console.log(this.listSymptoms);
     }
 
     ngOnDestroy() {

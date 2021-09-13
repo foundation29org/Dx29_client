@@ -53,11 +53,11 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.modifyFormSymtoms = false;
-        this.showTimeLine = false;
-        console.log(this.listSymptoms);
-        this.actualTemporalSymptomsIndex = 0;
-        this.selectedInfoSymptom = null;
+        //this.modifyFormSymtoms = false;
+        //this.showTimeLine = false;
+        //console.log(this.listSymptoms);
+        //this.actualTemporalSymptomsIndex = 0;
+        //this.selectedInfoSymptom = null;
     }
 
     ngOnDestroy() {

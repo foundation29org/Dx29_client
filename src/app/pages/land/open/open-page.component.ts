@@ -248,6 +248,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService) {
 
+        console.log("constructor")
         this.lang = sessionStorage.getItem('lang');
         this.selectedNoteSymptom = null;
         this.startCheckSymptoms = false;
@@ -334,7 +335,14 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     return obser;
                     
                 }else{
-                    return true;
+                    console.log("canDeactivate")
+                    if((this.startCheckSymptoms||this.startTimeline)&&(this.listSymptomsCheckedTimeline.length>0)){
+                        var obser =this.dialogService.confirm(this.translate.instant("land.Do you want to exit"), this.translate.instant("land.loseprogress"));
+                        return obser;
+                    }
+                    else{
+                        return true;
+                    }   
                 }
             }else{
                 return true;
@@ -1085,7 +1093,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             this.getNumberOfSymptomsChecked();
             this.showSwal(this.translate.instant("land.proposed diseases has been updated"));
         }
-        
     }
 
     sortBySimilarity() {
@@ -1915,7 +1922,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     onKey() {
         this.nothingFoundDisease = false;
-        this.showDisease = false;
+        if(!((this.startCheckSymptoms||this.startTimeline)&&(this.listSymptomsCheckedTimeline.length>0))){
+            this.showDisease = false;
+        }
         this.showIntro = true;
         if (this.searchDiseaseField.trim().length > 3) {
             if (this.subscriptionDiseasesCall) {
@@ -1964,11 +1973,13 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     this.nothingFoundDisease = false;
                     this.callListOfDiseases = false;
                 });
-        } else {
+        } 
+        else {
             this.callListOfDiseases = false;
             this.listOfFilteredDiseases = [];
             this.sendTerms = false;
         }
+        
 
     }
 
@@ -1997,13 +2008,46 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     showMoreInfoDiagnosePopup(index) {
-        this.loadingOneDisease = true;
-        this.selectedDiseaseIndex = index;
-        this.idDisease = this.listOfFilteredDiseases[this.selectedDiseaseIndex].id;
-        this.getInfoOneDisease();
+        if((this.startCheckSymptoms||this.startTimeline)&&(this.listSymptomsCheckedTimeline.length>0)){
+            Swal.fire({
+                title: this.translate.instant("land.Do you want to exit"),
+                text: this.translate.instant("land.loseprogress"),
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#0CC27E',
+                cancelButtonColor: '#f9423a',
+                confirmButtonText: this.translate.instant("generics.Yes"),
+                cancelButtonText: this.translate.instant("generics.No, cancel"),
+                showLoaderOnConfirm: true,
+                allowOutsideClick: false
+              }).then(result => {
+                if (result.value) {
+                    this.loadingOneDisease = true;
+                    this.selectedDiseaseIndex = index;
+                    this.idDisease = this.listOfFilteredDiseases[this.selectedDiseaseIndex].id;
+                    this.getInfoOneDisease();
+                    this.startCheckSymptoms = false;
+                    this.startTimeline = false;
+                    this.listSymptomsCheckedTimeline = [];
+
+                } else {
+                    this.searchDiseaseField = "";
+                    this.listOfFilteredDiseases = [];
+                    this.callListOfDiseases = false;
+                }
+              });
+        }
+        else{
+            this.loadingOneDisease = true;
+            this.selectedDiseaseIndex = index;
+            this.idDisease = this.listOfFilteredDiseases[this.selectedDiseaseIndex].id;
+            this.getInfoOneDisease();
+        }
+        
     }
 
     getInfoOneDisease() {
+        console.log("getInfoOneDisease")
         this.listOfFilteredDiseases = [];
         this.searchDiseaseField = '';
         this.infoOneDisease = {};
@@ -2389,10 +2433,36 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     closeDisease() {
-        this.showIntro = true;
-        this.listOfFilteredDiseases = []
-        this.showDisease = false;
-        this.searchDiseaseField = '';
+        if((this.startCheckSymptoms||this.startTimeline)&&(this.listSymptomsCheckedTimeline.length>0)){
+            Swal.fire({
+                title: this.translate.instant("land.Do you want to exit"),
+                text: this.translate.instant("land.loseprogress"),
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#0CC27E',
+                cancelButtonColor: '#f9423a',
+                confirmButtonText: this.translate.instant("generics.Yes"),
+                cancelButtonText: this.translate.instant("generics.No, cancel"),
+                showLoaderOnConfirm: true,
+                allowOutsideClick: false
+              }).then(result => {
+                if (result.value) {
+                    this.showIntro = true;
+                    this.listOfFilteredDiseases = []
+                    this.showDisease = false;
+                    this.searchDiseaseField = '';
+                    this.startCheckSymptoms = false;
+                    this.startTimeline = false;
+                    this.listSymptomsCheckedTimeline = [];
+                }
+              });
+        }
+        else{
+            this.showIntro = true;
+            this.listOfFilteredDiseases = []
+            this.showDisease = false;
+            this.searchDiseaseField = '';
+        }
     }
 
     focusOutFunctionSymptom(){
@@ -2520,6 +2590,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     
     startTimelineFunction(){
+        console.log("startTimelineFunction")
         if(this.listSymptomsCheckedTimeline.length>0) {
             this.endCheckSymptomsFunction();
             this.startTimeline=true;
@@ -2530,6 +2601,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         
     }
     endTimeLineFunction(){
+        console.log("endTimeLineFunction")
         this.listSymptomsCheckedTimeline=[];
         for (var i =0; i<this.infoOneDisease.symptoms.length;i++){
             if(this.infoOneDisease.symptoms[i].checked){
