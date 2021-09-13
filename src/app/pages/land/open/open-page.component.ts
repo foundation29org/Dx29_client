@@ -2015,12 +2015,15 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     showAttentionPanel(contentInfoAttention){
-        let ngbModalOptions: NgbModalOptions = {
-            backdrop: 'static',
-            keyboard: false,
-            windowClass: 'ModalClass-sm'// xl, lg, sm
-        };
-        this.modalReference2 = this.modalService.open(contentInfoAttention, ngbModalOptions);
+        console.log(this.listSymptomsCheckedTimeline.length)
+        if(this.listSymptomsCheckedTimeline.length>0) {
+            let ngbModalOptions: NgbModalOptions = {
+                backdrop: 'static',
+                keyboard: false,
+                windowClass: 'ModalClass-sm'// xl, lg, sm
+            };
+            this.modalReference2 = this.modalService.open(contentInfoAttention, ngbModalOptions);
+        }
     }
 
     cleanxrefs() {

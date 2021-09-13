@@ -607,7 +607,7 @@
                       </table>
                     </div>
                     <div class="col-md-12 center-elements mt-2">
-                      <button type="button" class="btn btn-info btn-md btn-raised" (click)="showAttentionPanel(contentInfoAttention);startTimelineFunction();">
+                      <button type="button" class="btn btn-info btn-md btn-raised" (click)="startTimelineFunction();showAttentionPanel(contentInfoAttention);">
                           <span>{{'land.diagnosed.timeline.btn2' | translate}}</span>
                       </button>
                     </div>
@@ -894,7 +894,7 @@
                         </div>
                       </div>
                       <div class="col-md-12 mt-2 center-elements">
-                        <button type="button" class="btn btn-info btn-md btn-raised" (click)="showAttentionPanel(contentInfoAttention);startTimelineFunction();">
+                        <button type="button" class="btn btn-info btn-md btn-raised" (click)="startTimelineFunction();showAttentionPanel(contentInfoAttention);">
                             <span>{{'land.diagnosed.timeline.btn2' | translate}}</span>
                         </button>
                       </div>

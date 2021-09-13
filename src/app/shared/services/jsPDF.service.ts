@@ -15,7 +15,7 @@ interface jsPDFWithPlugin extends jsPDF {
 export class jsPDFService {
     constructor(public translate: TranslateService,) { }
 
-    generateTimelinePDF(timeLineElementId: string, listSymptoms): Promise<string>{
+    generateTimelinePDF(timeLineElementId: string, listSymptoms): Promise<void>{
         document.getElementById(timeLineElementId).style.backgroundColor="white";
 
         return htmlToImage.toJpeg(document.getElementById(timeLineElementId), { quality: 0.95 })
@@ -60,31 +60,40 @@ export class jsPDFService {
             var img = new Image()
             img.src = dataUrl;
             const imgProps = (<any>doc).getImageProperties(img);
-
-
-            this.newHeatherAndFooter(doc);
-            positionY += 55
-            positionY = this.newSectionDoc(doc,null, this.translate.instant("land.diagnosed.timeline.title"),null, positionY)
-            var headermargin = positionY;
-
-            var imgHeight = imgProps.height;
-            var heightLeft = imgHeight;
-            var imgShowHeight = imgHeight-headermargin-30;
-
-            doc.addImage(img, 'JPG', marginX, positionY, pdfPageWidth/2, imgShowHeight, undefined, 'FAST');
-            heightLeft -= pdfPageHeight;
             
+            positionY += 55
+            var marginXimgDoc = 30;
+
+            positionY = this.newSectionDoc(doc,null, this.translate.instant("land.diagnosed.timeline.title"),null, positionY)
+            var marginheader = positionY;
+
+            var imgWidth = pdfPageWidth-marginXimgDoc;
+            var imgHeight = imgProps.height;
+            
+            if((imgHeight-pdfPageHeight)>0){
+                imgWidth = pdfPageWidth/2;
+                imgHeight = (imgProps.height/2);
+                marginXimgDoc = (pdfPageWidth/2)-(pdfPageWidth/4);
+            }
+
+            var heightLeft = imgHeight;
+
+            doc.addImage(img, 'JPG', marginXimgDoc, positionY, imgWidth, imgHeight, undefined, 'FAST');
+            this.newHeatherAndFooter(doc);
+
+            heightLeft -= (pdfPageHeight-marginheader);
             while (heightLeft >= 0) {
                 positionY = (heightLeft - imgHeight); // top padding for other pages
-                heightLeft -= pdfPageHeight;
+                heightLeft -= (pdfPageHeight);
                 doc.addPage();
-                doc.addImage(img, 'JPG', marginX, positionY, pdfPageWidth/2, imgShowHeight, undefined, 'FAST');
-                //this.newHeatherAndFooter(doc);
+                doc.addImage(img, 'JPG', marginXimgDoc, positionY, imgWidth, imgHeight, undefined, 'FAST');
+                this.newHeatherAndFooter(doc);
             }
 
             // Doc table
             doc.addPage();
             this.newHeatherAndFooter(doc);
+            positionY=40;
             positionY = this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Appendix1"), this.translate.instant("land.diagnosed.timeline.Symptoms"),this.translate.instant("land.diagnosed.timeline.Appendix1Desc"),positionY)
 
             var bodyTable = []
@@ -112,17 +121,19 @@ export class jsPDFService {
             doc.autoTable({
                 head: [[this.translate.instant("generics.Name"), "ID", this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"), this.translate.instant("generics.notes")]],
                 body: bodyTable,
-                startY: positionY
+                startY: positionY,
+                didDrawPage: (data)=>{
+                    this.newHeatherAndFooter(doc);
+                }
             }); 
             doc.save('Dx29_Timeline_' + actualDate +'.pdf');
             
-            return doc.output('datauristring');
+            return;
 
         }.bind(this));
     }
 
     private newSectionDoc(doc,sectionNumber,sectionTitle,sectionSubtitle,line){
-        line = line + 20;
         var title = sectionTitle;
         if(sectionNumber!=null){
             title=sectionNumber+".- "+sectionTitle;
@@ -148,20 +159,21 @@ export class jsPDFService {
         return line + 20
     }
 
-    private newHeatherAndFooter(doc, line){
-        // Footer
+    private newHeatherAndFooter(doc){
         const pdfPageWidth = doc.internal.pageSize.getWidth() - 10;
         const pdfPageHeight = doc.internal.pageSize.getHeight()
 
+        // Footer
         var logoHealth = new Image();
         logoHealth.src = "https://dx29.ai/assets/img/logo-foundation-twentynine-footer.png"
-        doc.addImage(logoHealth, 'png', 20, pdfPageHeight-20, 35, 20);
+        doc.addImage(logoHealth, 'png', 20, pdfPageHeight-40, 45, 20);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
         doc.setTextColor(0, 133, 133)
-        doc.textWithLink("www.dx29.ai", pdfPageWidth-50, pdfPageHeight-20, { url: 'https://app.dx29.ai/Identity/Account/Register' });
+        doc.textWithLink("www.dx29.ai", pdfPageWidth-65, pdfPageHeight-20, { url: 'https://app.dx29.ai/Identity/Account/Register' });
 
     }
+
 
     private getFormatDate(date) {
         return date.getUTCFullYear() +
@@ -176,14 +188,14 @@ export class jsPDFService {
         return number;
     }
 
-    writeHeader(doc, pos, lineText, text) {
+    private writeHeader(doc, pos, lineText, text) {
         doc.setTextColor(117, 120, 125)
         doc.setFont(undefined, 'normal');
         doc.setFontSize(9);
         doc.text(text, pos, lineText += 20);
     }
 
-    writeDataHeader(doc, pos, lineText, text) {
+    private writeDataHeader(doc, pos, lineText, text) {
         doc.setTextColor(0, 0, 0)
         doc.setFont(undefined, 'bold');
         doc.setFontSize(10);
