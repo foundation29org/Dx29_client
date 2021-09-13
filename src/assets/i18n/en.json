@@ -2346,14 +2346,23 @@
       },
       "timeline":{
         "title":"TIMELINE",
-        "t1":"Dx29 allows to generate a chronological report of symptoms in order to store this information in an orderly way and to share it with doctors in an efficient way.",
+        "t0":"Dx29 offers you the opportunity to have your entire symptom history organised, in one document and ready to share with your doctor. Don't miss out and create your own!",
+        "t1":"Select symptoms",
+        "t2":"Take as much time as you need to add the information for each symptom and you will automatically be able to see how they are organised in the timeline.",
         "btn1":"Create",
+        "btn2":"Continue & order symptoms",
         "btnRecalculate":"Recalculate timeline",
-        "currentSymptom":"Currently",
+        "currentSymptom":"I still have it",
         "errorDates":"The end date cannot be earlier than the start date.",
-        "exit":"Delete",
+        "exit":"Exit",
+        "reset":"Reset",
         "ExitDiscard":"Any changes you have made will be discarded.",
-        "help":"I want to help"
+        "help":"Help",
+        "Report":"Timeline report",
+        "RegDate":"Reg. date",
+        "Appendix1":"Appendix 1",
+        "Symptoms":"Síntomas",
+        "Appendix1Desc":"More detailed symptom information is presented here."
       },
       "diseases":{
         "error1":"Sorry, we have no information about",
@@ -2395,11 +2404,11 @@
         "free": "If you want other things, write them here",
         "msgform": "Thank you for joining the patient revolution!",
         "title": "Thank you",
-        "p1": "The data you can give us about your disease is very important. Because that information does not come directly from patients, but from traditional databases - which are used to make diagnoses and contains inaccurate information about rare diseases -.",
+        "t1":"The community needs your help",
+        "p1": "The data you can give us about your disease by completing the different steps of the timeline, is very important. Because that information does not come directly from patients, but from traditional databases - which are used to make diagnoses and contains inaccurate information about rare diseases -.",
         "p2": "At Fundación 29 we want to change the way medicine is done. We want patient data to be used and for more research to be done with it.",
         "p3": "We are building a tool to speed up the diagnosis of rare diseases (Dx29) and we need your data to make it more accurate so we can help more and more patients.",
-        "p4Complete": "Join our revolution by leaving your email address here to download your report and we will also keep you informed of our progress.",
-        "p4UnComplete": "If you complete the information in the timeline, you can, in addition to getting your symptom evolution report over time, help us in this mission."
+        "p4": "Join our revolution by donating these data and leaving your email address here. We will also keep you informed of our progress."
       }
     }
   },
