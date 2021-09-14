@@ -199,6 +199,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     openDiseases:number = 0;
     timeoutWait: number = 2000;
 
+    patientGroups: any = []
+    loadingPatientGroups = false;
+
     startCheckSymptoms = false;
     startTimeline = false;
     listSymptomsCheckedTimeline: any = []
@@ -2007,6 +2010,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.listOfFilteredDiseases = [];
         this.searchDiseaseField = '';
         this.infoOneDisease = {};
+        this.getPatientGroups();
         var lang = sessionStorage.getItem('lang');
         var param = [this.idDisease];
         this.subscription.add(this.apif29BioService.getSymptomsOfDisease(lang, param, 0)
@@ -2074,6 +2078,18 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             }));
     }
 
+    getPatientGroups(){
+        this.loadingPatientGroups = true;
+        this.patientGroups = [];
+        var param = this.idDisease.split(':');
+        this.subscription.add(this.apiDx29ServerService.getPatientGroups(param[1])
+                .subscribe((res: any) => {
+                    this.patientGroups = res;
+                    this.loadingPatientGroups = false;
+                    console.log(res);
+                }));
+    }
+    
     showAttentionPanel(contentInfoAttention){
         console.log(this.listSymptomsCheckedTimeline.length)
         if(this.listSymptomsCheckedTimeline.length>0) {

@@ -2394,7 +2394,8 @@
       },
       "PatientGroups":{
         "title1": "We are working to obtain this information. It will be available in the next few days.",
-        "title2": "Sorry for the inconvenience"
+        "title2": "Sorry for the inconvenience",
+        "Website": "Website"
       },
       "DonorData":{
         "question": "What do you want?",
