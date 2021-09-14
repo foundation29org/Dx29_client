@@ -741,7 +741,7 @@
               <div class="card-body">
                 <div *ngIf="clinicalTrials.length>0" class="col-md-12">
                   <div *ngFor="let studie of clinicalTrials ; let i = index">
-                    <span class="d-block"><strong>Id:</strong></span>
+                    <span class="d-block"><strong>Id</strong></span>
                     <p class="d-block mb-0">{{studie.Study.ProtocolSection.IdentificationModule.NCTId}}
                       <a class="ml-1"
                         href="https://clinicaltrials.gov/ct2/show/{{studie.Study.ProtocolSection.IdentificationModule.NCTId}}"
@@ -749,31 +749,31 @@
                         title="{{studie.Study.ProtocolSection.IdentificationModule.NCTId}}">
                         <i class="ft-external-link"></i></a>
                     </p>
-                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.OrgFullName' | translate }}:</strong></span>
+                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.OrgFullName' | translate }}</strong></span>
                     <p class="d-block mb-0">{{studie.Study.ProtocolSection.IdentificationModule.Organization.OrgFullName}}</p>
       
-                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.BriefTitle' | translate }}:</strong></span>
+                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.BriefTitle' | translate }}</strong></span>
                     <p class="d-block mb-0">{{studie.Study.ProtocolSection.IdentificationModule.BriefTitle}}</p>
       
-                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.StudyFirstSubmitDate' | translate }}:</strong></span>
+                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.StudyFirstSubmitDate' | translate }}</strong></span>
                     <p class="d-block mb-0">{{studie.Study.ProtocolSection.StatusModule.StudyFirstSubmitDate}}</p>
                     <span *ngIf="studie.Study.ProtocolSection.SponsorCollaboratorsModule.ResponsibleParty.ResponsiblePartyInvestigatorFullName">
-                      <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.ResponsiblePartyInvestigatorFullName' | translate }}:</strong></span>
+                      <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.ResponsiblePartyInvestigatorFullName' | translate }}</strong></span>
                       <p class="d-block mb-0">{{studie.Study.ProtocolSection.SponsorCollaboratorsModule.ResponsibleParty.ResponsiblePartyInvestigatorFullName}}</p>
                     </span>
                     
                     <span *ngIf="studie.Study.ProtocolSection.ContactsLocationsModule.listCountriesCleaned!=undefined">
-                      <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.LocationCountry' | translate }}:</strong></span>
+                      <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.LocationCountry' | translate }}</strong></span>
                       <p class="d-block mb-0" *ngFor="let location of studie.Study.ProtocolSection.ContactsLocationsModule.listCountriesCleaned ; let j = index">{{location.LocationCountry}}</p>
                     </span>
                     <span *ngIf="studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList!=undefined">
                       <span *ngIf="studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList.CentralContact.length>0">
-                        <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.Contact' | translate }}:</strong></span>
+                        <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.Contact' | translate }}</strong></span>
                         <p class="d-block mb-0" *ngFor="let contact of studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList.CentralContact ; let k = index">{{contact.CentralContactName}} <<a href='mailto:{{contact.CentralContactEMail}}'>{{contact.CentralContactEMail}}</a>></p>
                       </span>
                     </span>
                     
-                    <hr *ngIf="i<clinicalTrials.length-1" width="100%" size="20" color="#b0b6bb" class="mt-2">
+                    <hr *ngIf="i<clinicalTrials.length-1" width="100%" size="20" color="#b0b6bb">
                   </div>
                   
                 </div>
@@ -790,8 +790,38 @@
               </mat-expansion-panel-header>
               <div class="card-body">
                 <div class="col-md-12">
-                  <p>{{'land.diagnosed.PatientGroups.title1' | translate }}</p>
-                  <p>{{'land.diagnosed.PatientGroups.title2' | translate }}</p>
+                  <div *ngIf="loadingPatientGroups" class="center-elements">
+                    <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+                  </div>
+                  <span *ngIf="!loadingPatientGroups">
+                    <span *ngIf="patientGroups.length==0">
+                      <p>{{'land.diagnosed.PatientGroups.title1' | translate }}</p>
+                      <p>{{'land.diagnosed.PatientGroups.title2' | translate }}</p>
+                    </span>
+                    <span *ngIf="patientGroups.length>0">
+                      <div *ngFor="let patientGroup of patientGroups ; let i = index">
+                        <span class="d-block"><strong>{{'generics.Name' | translate }}</strong></span>
+                        <p class="d-block mb-0">{{patientGroup.Name}}</p>
+                        
+                        <span class="d-block mt-1"><strong>{{'personalinfo.Country' | translate }}</strong></span>
+                        <p class="d-block mb-0">{{patientGroup.Country.Name.__text}}</p>
+
+                        <span class="d-block mt-1"><strong>{{'generics.Lang' | translate }}</strong></span>
+                        <p class="d-block mb-0">{{patientGroup.LanguageOfName}}</p>
+
+                        <span class="d-block mt-1"><strong>{{'land.diagnosed.PatientGroups.Website' | translate }}</strong></span>
+                        <p class="d-block mb-0">
+                          <a
+                            href="{{patientGroup.Url}}"
+                            target="_blank"
+                            title="{{patientGroup.Name}}">{{patientGroup.Url}} 
+                            <i class="ft-external-link"></i></a>
+                        </p>
+
+                        <hr *ngIf="i<patientGroups.length-1" width="100%" size="20" color="#b0b6bb">
+                      </div>
+                    </span>
+                  </span>
                 </div>
               </div>
             </mat-expansion-panel>
@@ -1022,7 +1052,7 @@
               <ng-template ngbTabContent>
                 <div *ngIf="clinicalTrials.length>0" class="col-md-12">
                   <div *ngFor="let studie of clinicalTrials ; let i = index">
-                    <span class="d-block"><strong>Id:</strong></span>
+                    <span class="d-block"><strong>Id</strong></span>
                     <p class="d-block mb-0">{{studie.Study.ProtocolSection.IdentificationModule.NCTId}}
                       <a class="ml-1"
                         href="https://clinicaltrials.gov/ct2/show/{{studie.Study.ProtocolSection.IdentificationModule.NCTId}}"
@@ -1030,31 +1060,31 @@
                         title="{{studie.Study.ProtocolSection.IdentificationModule.NCTId}}">
                         <i class="ft-external-link"></i></a>
                     </p>
-                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.OrgFullName' | translate }}:</strong></span>
+                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.OrgFullName' | translate }}</strong></span>
                     <p class="d-block mb-0">{{studie.Study.ProtocolSection.IdentificationModule.Organization.OrgFullName}}</p>
       
-                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.BriefTitle' | translate }}:</strong></span>
+                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.BriefTitle' | translate }}</strong></span>
                     <p class="d-block mb-0">{{studie.Study.ProtocolSection.IdentificationModule.BriefTitle}}</p>
       
-                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.StudyFirstSubmitDate' | translate }}:</strong></span>
+                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.StudyFirstSubmitDate' | translate }}</strong></span>
                     <p class="d-block mb-0">{{studie.Study.ProtocolSection.StatusModule.StudyFirstSubmitDate}}</p>
                     <span *ngIf="studie.Study.ProtocolSection.SponsorCollaboratorsModule.ResponsibleParty.ResponsiblePartyInvestigatorFullName">
-                      <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.ResponsiblePartyInvestigatorFullName' | translate }}:</strong></span>
+                      <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.ResponsiblePartyInvestigatorFullName' | translate }}</strong></span>
                       <p class="d-block mb-0">{{studie.Study.ProtocolSection.SponsorCollaboratorsModule.ResponsibleParty.ResponsiblePartyInvestigatorFullName}}</p>
                     </span>
                     
                     <span *ngIf="studie.Study.ProtocolSection.ContactsLocationsModule.listCountriesCleaned!=undefined">
-                      <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.LocationCountry' | translate }}:</strong></span>
+                      <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.LocationCountry' | translate }}</strong></span>
                       <p class="d-block mb-0" *ngFor="let location of studie.Study.ProtocolSection.ContactsLocationsModule.listCountriesCleaned ; let j = index">{{location.LocationCountry}}</p>
                     </span>
                     <span *ngIf="studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList!=undefined">
                       <span *ngIf="studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList.CentralContact.length>0">
-                        <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.Contact' | translate }}:</strong></span>
+                        <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.Contact' | translate }}</strong></span>
                         <p class="d-block mb-0" *ngFor="let contact of studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList.CentralContact ; let k = index">{{contact.CentralContactName}} <<a href='mailto:{{contact.CentralContactEMail}}'>{{contact.CentralContactEMail}}</a>></p>
                       </span>
                     </span>
                     
-                    <hr *ngIf="i<clinicalTrials.length-1" width="100%" size="20" color="#b0b6bb" class="mt-2">
+                    <hr *ngIf="i<clinicalTrials.length-1" width="100%" size="20" color="#b0b6bb">
                   </div>
                   
                 </div>
@@ -1068,8 +1098,38 @@
               <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Patient Groups');">{{'land.diagnosed.general.Patient groups' | translate }}</strong></ng-template>
               <ng-template ngbTabContent>
                 <div class="col-md-12">
-                  <p>{{'land.diagnosed.PatientGroups.title1' | translate }}</p>
-                  <p>{{'land.diagnosed.PatientGroups.title2' | translate }}</p>
+                  <div *ngIf="loadingPatientGroups" class="center-elements">
+                    <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+                  </div>
+                  <span *ngIf="!loadingPatientGroups">
+                    <span *ngIf="patientGroups.length==0">
+                      <p>{{'land.diagnosed.PatientGroups.title1' | translate }}</p>
+                      <p>{{'land.diagnosed.PatientGroups.title2' | translate }}</p>
+                    </span>
+                    <span *ngIf="patientGroups.length>0">
+                      <div *ngFor="let patientGroup of patientGroups ; let i = index">
+                        <span class="d-block"><strong>{{'generics.Name' | translate }}</strong></span>
+                        <p class="d-block mb-0">{{patientGroup.Name}}</p>
+                        
+                        <span class="d-block mt-1"><strong>{{'personalinfo.Country' | translate }}</strong></span>
+                        <p class="d-block mb-0">{{patientGroup.Country.Name.__text}}</p>
+
+                        <span class="d-block mt-1"><strong>{{'generics.Lang' | translate }}</strong></span>
+                        <p class="d-block mb-0">{{patientGroup.LanguageOfName}}</p>
+
+                        <span class="d-block mt-1"><strong>{{'land.diagnosed.PatientGroups.Website' | translate }}</strong></span>
+                        <p class="d-block mb-0">
+                          <a
+                            href="{{patientGroup.Url}}"
+                            target="_blank"
+                            title="{{patientGroup.Name}}">{{patientGroup.Url}} 
+                            <i class="ft-external-link"></i></a>
+                        </p>
+
+                        <hr *ngIf="i<patientGroups.length-1" width="100%" size="20" color="#b0b6bb">
+                      </div>
+                    </span>
+                  </span>
                 </div>
               </ng-template>
             </ngb-tab>

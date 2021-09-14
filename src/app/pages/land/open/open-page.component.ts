@@ -151,7 +151,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     sendSympTerms: boolean = false;
 
     searchDiseaseField: string = '';
-    idDisease: string = '';
+    actualInfoOneDisease: any = {};
     listOfFilteredDiseases: any = [];
     listOfFilteredSymptoms: any = [];
     sendTerms: boolean = false;
@@ -198,6 +198,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     inactiveSecondsToLogout:number = 900;
     openDiseases:number = 0;
     timeoutWait: number = 2000;
+
+    patientGroups: any = []
+    loadingPatientGroups = false;
 
     startCheckSymptoms = false;
     startTimeline = false;
@@ -1999,7 +2002,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     showMoreInfoDiagnosePopup(index) {
         this.loadingOneDisease = true;
         this.selectedDiseaseIndex = index;
-        this.idDisease = this.listOfFilteredDiseases[this.selectedDiseaseIndex].id;
+        this.actualInfoOneDisease = this.listOfFilteredDiseases[this.selectedDiseaseIndex];
         this.getInfoOneDisease();
     }
 
@@ -2007,25 +2010,45 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.listOfFilteredDiseases = [];
         this.searchDiseaseField = '';
         this.infoOneDisease = {};
+        this.getPatientGroups();
         var lang = sessionStorage.getItem('lang');
-        var param = [this.idDisease];
+        var param = [this.actualInfoOneDisease.id];
         this.subscription.add(this.apif29BioService.getSymptomsOfDisease(lang, param, 0)
             .subscribe((res: any) => {
-                var info = res[this.idDisease];
+                var info = res[this.actualInfoOneDisease.id];
                 if (info == undefined) {
                     this.subscription.add(this.apif29BioService.getInfoOfDiseasesLang(param, lang)
                         .subscribe((res1: any) => {
-                            this.infoOneDisease = res1[this.idDisease];
-                            this.cleanxrefs();
-                            if (this.lang == 'es') {
-                                this.loadNameDiseasesEn(this.infoOneDisease.id);
-
-                            } else {
-                                this.getClinicalTrials(this.infoOneDisease.name);
+                            this.infoOneDisease = res1[this.actualInfoOneDisease.id];
+                            if(this.infoOneDisease!=undefined){
+                                
+                                this.cleanxrefs();
+                                if (this.lang == 'es') {
+                                    this.loadNameDiseasesEn(this.infoOneDisease.id);
+    
+                                } else {
+                                    this.getClinicalTrials(this.infoOneDisease.name);
+                                }
+    
+                                this.showEffects();
+                                this.getFromWiki(this.infoOneDisease.name);
+                                if(this.infoOneDisease.symptoms){
+                                    for (var j = 0; i < this.infoOneDisease.symptoms.length; j++) {
+                                        this.infoOneDisease.symptoms[j].checked = false;
+                                    }
+                                }
+                            }else{
+                                this.infoOneDisease = this.actualInfoOneDisease;
+                                if (this.lang == 'es') {
+                                    this.loadNameDiseasesEn(this.infoOneDisease.id);
+    
+                                } else {
+                                    this.getClinicalTrials(this.infoOneDisease.name);
+                                }
+                                this.getFromWiki(this.infoOneDisease.name);
+                                this.loadingOneDisease = false;
+                                this.showDisease = true;
                             }
-
-                            this.showEffects();
-                            this.getFromWiki(this.infoOneDisease.name);
 
                         }, (err) => {
                             console.log(err);
@@ -2056,11 +2079,14 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                         this.getClinicalTrials(this.infoOneDisease.name);
                     }
                     this.getFromWiki(this.infoOneDisease.name);
+                    if(this.infoOneDisease.symptoms){
+                        for (var j = 0; i < this.infoOneDisease.symptoms.length; j++) {
+                            this.infoOneDisease.symptoms[j].checked = false;
+                        }
+                    }
                 }
                 
-                for (var j = 0; i < this.infoOneDisease.symptoms.length; j++) {
-                    this.infoOneDisease.symptoms[j].checked = false;
-                }
+                
                 this.startCheckSymptoms = false;
                 this.startTimeline = false;
                 this.listSymptomsCheckedTimeline = [];
@@ -2074,6 +2100,17 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             }));
     }
 
+    getPatientGroups(){
+        this.loadingPatientGroups = true;
+        this.patientGroups = [];
+        var param = this.actualInfoOneDisease.id.split(':');
+        this.subscription.add(this.apiDx29ServerService.getPatientGroups(param[1])
+                .subscribe((res: any) => {
+                    this.patientGroups = res;
+                    this.loadingPatientGroups = false;
+                }));
+    }
+    
     showAttentionPanel(contentInfoAttention){
         console.log(this.listSymptomsCheckedTimeline.length)
         if(this.listSymptomsCheckedTimeline.length>0) {
@@ -2303,7 +2340,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         var params: any = {}
         params.Email = this.formOpen.Email;
         params.Answers = this.formOpen.Answers.toString();
-        params.Disease = this.idDisease;
+        params.Disease = this.actualInfoOneDisease.id + ", " +this.actualInfoOneDisease.name;
         params.Free = this.formOpen.Free;
         params.Lang = sessionStorage.getItem('lang');
         var d = new Date(Date.now());

@@ -216,4 +216,14 @@ export class ApiDx29ServerService {
         })
     }
 
+    getPatientGroups(idDisease) {
+      return this.http.get(environment.api + '/api/patientgroups/'+idDisease)
+        .map((res: any) => {
+          return res;
+        }, (err) => {
+          console.log(err);
+          return err;
+        })
+    }
+
 }
