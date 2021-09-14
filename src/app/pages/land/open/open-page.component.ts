@@ -2236,48 +2236,45 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     listChecked[this.infoOneDisease.symptoms[i].id]={"onsetdate":this.infoOneDisease.symptoms[i].onsetdate,"finishdate":this.infoOneDisease.symptoms[i].finishdate,"isCurrentSymptom":this.infoOneDisease.symptoms[i].isCurrentSymptom,"notes":this.infoOneDisease.symptoms[i].notes}
                 }
             }
-            //var infoChecked = { idClient: this.myuuid, diseaseId: this.infoOneDisease.id, xrefs: this.infoOneDisease.xrefs, symptoms: listChecked, email: this.email};
-            //this.subscription.add(this.apiDx29ServerService.chekedSymptomsOpenDx29(infoChecked)
-                //.subscribe((res: any) => {
-                        var info = { email: this.email, lang: this.lang};
-                        //console.log("attachments")
-                        //console.log(attachments)
-                        this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
-                            .subscribe((res: any) => {
-                                this.sending = false;
-                                this.donnorSet = true;
-                                Swal.fire({
-                                    icon: 'success',
-                                    html: this.translate.instant("land.diagnosed.DonorData.msgform"),
-                                    showCancelButton: false,
-                                    showConfirmButton: false,
-                                    allowOutsideClick: false
-                                })
-                                setTimeout(function () {
-                                    Swal.close();
-                                    //window.location.href = 'https://foundation29.org/';
-                                }, 2000);
-                                this.email = '';
-                                if (this.modalReference2 != undefined) {
-                                    this.modalReference2.close();
-                                    this.modalReference2 = undefined;
-                                }
-                                this.lauchEvent('Diagnosed - Send Symptoms');
-                                document.getElementById('step1').scrollIntoView(true);
-                                this.curatedLists.push({ id: this.infoOneDisease.id });
-                                this.dontShowIntro = true;
-                                this.sending = false;
-                            }, (err) => {
-                                console.log(err);
-                                this.sending = false;
-                                this.toastr.error('', this.translate.instant("generics.error try again"));
-                        }));
-                /*}, (err) => {
-                    console.log(err);
-                    this.sending = false;
-                    this.toastr.error('', this.translate.instant("generics.error try again"));
-                }));*/
-                
+            var infoChecked = { idClient: this.myuuid, diseaseId: this.infoOneDisease.id, xrefs: this.infoOneDisease.xrefs, symptoms: listChecked, email: this.email};
+            this.subscription.add(this.apiDx29ServerService.chekedSymptomsOpenDx29(infoChecked)
+            .subscribe((res: any) => {
+                    var info = { email: this.email, lang: this.lang};
+                    this.subscription.add(this.apiDx29ServerService.sendEmailRevolution(info)
+                        .subscribe((res: any) => {
+                            this.sending = false;
+                            this.donnorSet = true;
+                            Swal.fire({
+                                icon: 'success',
+                                html: this.translate.instant("land.diagnosed.DonorData.msgform"),
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                allowOutsideClick: false
+                            })
+                            setTimeout(function () {
+                                Swal.close();
+                                //window.location.href = 'https://foundation29.org/';
+                            }, 2000);
+                            this.email = '';
+                            if (this.modalReference2 != undefined) {
+                                this.modalReference2.close();
+                                this.modalReference2 = undefined;
+                            }
+                            this.lauchEvent('Diagnosed - Send Symptoms');
+                            document.getElementById('step1').scrollIntoView(true);
+                            this.curatedLists.push({ id: this.infoOneDisease.id });
+                            this.dontShowIntro = true;
+                            this.sending = false;
+                        }, (err) => {
+                            console.log(err);
+                            this.sending = false;
+                            this.toastr.error('', this.translate.instant("generics.error try again"));
+                    }));
+            }, (err) => {
+                console.log(err);
+                this.sending = false;
+                this.toastr.error('', this.translate.instant("generics.error try again"));
+            }));
         }
     }
 
