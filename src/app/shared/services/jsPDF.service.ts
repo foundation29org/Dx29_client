@@ -16,13 +16,13 @@ export class jsPDFService {
     constructor(public translate: TranslateService) { }
     lang: string = '';
 
-    generateTimelinePDF(timeLineElementId: string, listSymptoms): Promise<void>{
+    generateTimelinePDF(timeLineElementId: string, lang, listSymptoms): Promise<void>{
         document.getElementById(timeLineElementId).style.backgroundColor="white";
 
         return htmlToImage.toJpeg(document.getElementById(timeLineElementId), { quality: 0.95 })
         .then(function (dataUrl) {
 
-            var doc = new jsPDF('portrait', 'px', 'a4') as jsPDFWithPlugin;
+            var doc = new jsPDF as jsPDFWithPlugin;
             var positionY = 0;
             const marginX = 5;
             
@@ -35,23 +35,27 @@ export class jsPDFService {
             doc.addImage(img_logo, 'png', 20, 10, 29, 17);
             doc.setFont(undefined, 'bold');
             doc.setFontSize(15);
-            doc.text(this.translate.instant("land.diagnosed.timeline.Report"),(pdfPageWidth/2)-50, 17);
-
+            if(lang!='es'){
+                doc.text(this.translate.instant("land.diagnosed.timeline.Report"), 83, 17);
+            }else{
+                doc.text(this.translate.instant("land.diagnosed.timeline.Report"), 80, 17);
+            }
             doc.setFont(undefined, 'normal');
             doc.setFontSize(10);
-
-            this.writeHeader(doc, (pdfPageWidth/2)-20, 6, this.translate.instant("land.diagnosed.timeline.RegDate"));
+            this.writeHeader(doc, 95, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
 
             var actualDate = new Date();
             var dateHeader = this.getFormatDate(actualDate);
-            this.writeDataHeader(doc, (pdfPageWidth/2)-23, 16, dateHeader);
+            this.writeDataHeader(doc, 93, 7, dateHeader);
 
-           //Add QR
+            //Add QR
             var img_qr = new Image();
             img_qr.src = "https://dx29.ai/assets/img/elements/qr.png"
-            doc.addImage(img_qr, 'png', pdfPageWidth-50, 5, 32, 30);
+            doc.addImage(img_qr, 'png', 160, 5, 32, 30);
 
-            positionY += 55
+            this.newHeatherAndFooter(doc);
+
+            positionY += 35;
 
             // Doc image
             // this.timeLineImg(doc,dataUrl,timeLineElementId,positionY)
