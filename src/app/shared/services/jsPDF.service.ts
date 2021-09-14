@@ -340,7 +340,7 @@ export class jsPDFService {
         for (i = 1; i <= pageCount; i++) {
             doc.setPage(i);
             //footer page
-            doc.text(this.translate.instant("land.page") + i + '/' + pageCount, 97, 286);
+            doc.text(this.translate.instant("land.page")+ ' ' + i + '/' + pageCount, 97, 286);
         }
 
         // Save file
