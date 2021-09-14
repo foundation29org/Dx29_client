@@ -2352,6 +2352,7 @@
         "btn1":"Create",
         "btn2":"Continue & order symptoms",
         "btnRecalculate":"Recalculate timeline",
+        "Download":"Download data",
         "currentSymptom":"I still have it",
         "errorDates":"The end date cannot be earlier than the start date.",
         "exit":"Exit",

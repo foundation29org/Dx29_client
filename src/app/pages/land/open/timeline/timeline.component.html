@@ -15,9 +15,9 @@
       </button>
       <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right" (click)="exportTimeline()">
         <em class="mr-1 fa fa-download white"
-          title="{{'land.Download results' | translate }}" (click)="exportTimeline()"
+          title="{{'land.diagnosed.timeline.Download' | translate }}" (click)="exportTimeline()"
           style="cursor: pointer;"></em>
-          <span>{{'land.Download results' | translate }}</span>
+          <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
       </button>
       
     </div>
@@ -71,18 +71,18 @@
       <div class="col-md-12" id="mytimeline">
         <section *ngIf="!isEmptyObject(dictionaryTimeline)||!isEmptyObject(listTimelineNull)" id="vertical-timeline-left" class="timeline-left timeline-wrapper col-sm-10 col-12 offset-sm-1">
           <div *ngIf="!isEmptyObject(dictionaryTimeline)">
-            <div *ngFor="let year of dictionaryTimeline | keyvalue: keyAscOrder">
+            <div *ngFor="let dateItem of dictionaryTimeline | keyvalue: keyAscOrder">
               <ul class="timeline">
                 <li class="timeline-line"></li>
                 <li class="timeline-group">
                   <h5>
-                    <span class="badge badge-primary cursor-default">{{year.key}}</span>
+                    <span class="badge badge-primary cursor-default">{{dateItem.key}}</span>
                   </h5>
                 </li>
               </ul>
               <ul class="timeline">
                 <li class="timeline-line"></li>
-                <li *ngFor="let item of year.value | keyvalue: keyAscOrder" class="timeline-item">
+                <li *ngFor="let item of dateItem.value | keyvalue: keyAscOrder" class="timeline-item">
                     <div *ngIf="item.key!=null" class="timeline-badge">
                       <span data-toggle="tooltip" placement="right" [ngbTooltip]="item.key" class="bg-primary bg-lighten-4">
                         <i class="ft-calendar primary"></i>
@@ -119,7 +119,7 @@
             </li>
             <li class="timeline-item">
               <div class="timeline-badge">
-                <span data-toggle="tooltip" title="{{'land.diagnosed.symptoms.GoPrevious' | translate }}" placement="right" class="bg-primary bg-lighten-4">
+                <span data-toggle="tooltip" [ngbTooltip]="translate.instant('land.diagnosed.symptoms.GoPrevious')" placement="right" class="bg-primary bg-lighten-4">
                   <i class="ft-help-circle primary"></i>
                 </span>
               </div>
@@ -146,9 +146,9 @@
       <div class="col-md-12 center-elements mt-2">
         <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised" (click)="exportTimeline()">
           <em class="mr-1 fa fa-download white"
-            title="{{'land.Download results' | translate }}" (click)="exportTimeline()"
+            title="{{'land.diagnosed.timeline.Download' | translate }}" (click)="exportTimeline()"
             style="cursor: pointer;"></em>
-            <span>{{'land.Download results' | translate }}</span>
+            <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
         </button>
       </div>
     </div>

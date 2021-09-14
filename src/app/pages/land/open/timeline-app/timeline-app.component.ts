@@ -135,13 +135,15 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
             var newDate = this.listSymptoms[i].onsetdate
             if(newDate!= null){
                 var newYear = new Date(newDate).getFullYear()
-                if(this.dictionaryTimeline[newYear]==undefined){
-                    this.dictionaryTimeline[newYear] = {}
+                var newMonth = new Date(newDate).getUTCMonth()+1;
+                var newKey=newMonth+"-"+newYear
+                if(this.dictionaryTimeline[newKey]==undefined){
+                    this.dictionaryTimeline[newKey] = {}
                 }
-                if(this.dictionaryTimeline[newYear][newDate]==undefined){
-                    this.dictionaryTimeline[newYear][newDate] = []
+                if(this.dictionaryTimeline[newKey][newDate]==undefined){
+                    this.dictionaryTimeline[newKey][newDate] = []
                 }
-                this.dictionaryTimeline[newYear][newDate].push(this.listSymptoms[i])
+                this.dictionaryTimeline[newKey][newDate].push(this.listSymptoms[i])
                 for (var j = 0; j< this.listSymptoms.length;j++){
                     if (i!=j){
                         var compareOnsetDate = this.listSymptoms[j].onsetdate;
@@ -150,7 +152,7 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
                         if(isCurrentSymptom){
                             if(compareOnsetDate!=null){
                                 if(new Date(newDate).getTime()>new Date(compareOnsetDate).getTime()){
-                                    this.dictionaryTimeline[newYear][newDate].push(this.listSymptoms[j])
+                                    this.dictionaryTimeline[newKey][newDate].push(this.listSymptoms[j])
                                 }
                             }
                         }
@@ -158,7 +160,7 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
                             if(compareOnsetDate!=null){
                                 if(compareFinishDate!=null){
                                     if((new Date(newDate).getTime()>new Date(compareOnsetDate).getTime())&&(new Date(newDate).getTime()<new Date(compareFinishDate).getTime())){
-                                        this.dictionaryTimeline[newYear][newDate].push(this.listSymptoms[j])
+                                        this.dictionaryTimeline[newKey][newDate].push(this.listSymptoms[j])
                                     }
                                 }
                             }
@@ -170,9 +172,23 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
                 this.listTimelineNull.push(this.listSymptoms[i])
             }
         }
+        this.getFirstDate();
         this.showTimeLine = true;
     }
 
+    getFirstDate(){
+        var firstDate = new Date();
+        var symptomOnsetDateString = "";
+        for(var i=0; i<this.listSymptoms.length;i++){
+            var symptomOnsetDate = new Date(this.listSymptoms[i].onsetdate);
+            if(symptomOnsetDate.getTime()<firstDate.getTime()){
+                firstDate=symptomOnsetDate;
+                symptomOnsetDateString = this.listSymptoms[i].onsetdate;
+            }
+        }
+        this.dictionaryTimeline[symptomOnsetDateString]={}
+
+    }
     checkFinishDate(symptomIndex){
         if((this.listSymptoms[symptomIndex].onsetdate!=null)&&(this.listSymptoms[symptomIndex].onsetdate!=undefined)){
             if((this.listSymptoms[symptomIndex].finishdate!=null)&&(this.listSymptoms[symptomIndex].finishdate!=undefined)){
@@ -237,7 +253,7 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
             }
         }
     }
-
+    
     exportTimeline()
     {
         // Download and send event 
