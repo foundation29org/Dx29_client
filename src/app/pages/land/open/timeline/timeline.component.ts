@@ -53,10 +53,21 @@ export class TimelineComponent implements OnInit, OnDestroy {
         this.modifyFormSymtoms = false;
         this.showTimeLine = false;
         this.selectedInfoSymptom = null;
-        console.log(this.listSymptoms);
+        this.loadingTimeLine();
     }
 
     ngOnDestroy() {
+    }
+
+    loadingTimeLine(){
+        for (var i=0; i<this.listSymptoms.length;i++){
+            if((this.listSymptoms[i].onsetdate!=null)||(this.listSymptoms[i].onsetdate!=undefined)){
+                this.showTimeLine=true;
+            }
+        }
+        if(this.showTimeLine){
+            this.updateTimeline();
+        }
     }
 
     showMoreInfoSymptomPopup(symptom){
@@ -104,13 +115,15 @@ export class TimelineComponent implements OnInit, OnDestroy {
             var newDate = this.listSymptoms[i].onsetdate
             if(newDate!= null){
                 var newYear = new Date(newDate).getFullYear()
-                if(this.dictionaryTimeline[newYear]==undefined){
-                    this.dictionaryTimeline[newYear] = {}
+                var newMonth = new Date(newDate).getUTCMonth()+1;
+                var newKey=newMonth+"-"+newYear
+                if(this.dictionaryTimeline[newKey]==undefined){
+                    this.dictionaryTimeline[newKey] = {}
                 }
-                if(this.dictionaryTimeline[newYear][newDate]==undefined){
-                    this.dictionaryTimeline[newYear][newDate] = []
+                if(this.dictionaryTimeline[newKey][newDate]==undefined){
+                    this.dictionaryTimeline[newKey][newDate] = []
                 }
-                this.dictionaryTimeline[newYear][newDate].push(this.listSymptoms[i])
+                this.dictionaryTimeline[newKey][newDate].push(this.listSymptoms[i])
                 for (var j = 0; j< this.listSymptoms.length;j++){
                     if (i!=j){
                         var compareOnsetDate = this.listSymptoms[j].onsetdate;
@@ -119,7 +132,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
                         if(isCurrentSymptom){
                             if(compareOnsetDate!=null){
                                 if(new Date(newDate).getTime()>new Date(compareOnsetDate).getTime()){
-                                    this.dictionaryTimeline[newYear][newDate].push(this.listSymptoms[j])
+                                    this.dictionaryTimeline[newKey][newDate].push(this.listSymptoms[j])
                                 }
                             }
                         }
@@ -127,7 +140,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
                             if(compareOnsetDate!=null){
                                 if(compareFinishDate!=null){
                                     if((new Date(newDate).getTime()>new Date(compareOnsetDate).getTime())&&(new Date(newDate).getTime()<new Date(compareFinishDate).getTime())){
-                                        this.dictionaryTimeline[newYear][newDate].push(this.listSymptoms[j])
+                                        this.dictionaryTimeline[newKey][newDate].push(this.listSymptoms[j])
                                     }
                                 }
                             }
@@ -139,7 +152,22 @@ export class TimelineComponent implements OnInit, OnDestroy {
                 this.listTimelineNull.push(this.listSymptoms[i])
             }
         }
+        this.getFirstDate();
         this.showTimeLine = true;
+    }
+
+    getFirstDate(){
+        var firstDate = new Date();
+        var symptomOnsetDateString = "";
+        for(var i=0; i<this.listSymptoms.length;i++){
+            var symptomOnsetDate = new Date(this.listSymptoms[i].onsetdate);
+            if(symptomOnsetDate.getTime()<firstDate.getTime()){
+                firstDate=symptomOnsetDate;
+                symptomOnsetDateString = this.listSymptoms[i].onsetdate;
+            }
+        }
+        this.dictionaryTimeline[symptomOnsetDateString]={}
+
     }
 
     checkFinishDate(symptomIndex){

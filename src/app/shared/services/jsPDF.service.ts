@@ -13,7 +13,7 @@ interface jsPDFWithPlugin extends jsPDF {
 
 @Injectable()
 export class jsPDFService {
-    constructor(public translate: TranslateService,) { }
+    constructor(public translate: TranslateService) { }
     lang: string = '';
 
     generateTimelinePDF(timeLineElementId: string, listSymptoms): Promise<void>{
@@ -51,88 +51,115 @@ export class jsPDFService {
             img_qr.src = "https://dx29.ai/assets/img/elements/qr.png"
             doc.addImage(img_qr, 'png', pdfPageWidth-50, 5, 32, 30);
 
-            // Generate timeline image
-            var link = document.createElement('a');
-            link.download = 'Dx29_Timeline_' + actualDate + '.jpeg';
-            link.href = dataUrl;
-            document.getElementById(timeLineElementId).style.removeProperty("background-color");
+            positionY += 55
 
             // Doc image
-            var img = new Image()
-            img.src = dataUrl;
-            const imgProps = (<any>doc).getImageProperties(img);
-            
-            positionY += 55
-            var marginXimgDoc = 30;
-
-            positionY = this.newSectionDoc(doc,null, this.translate.instant("land.diagnosed.timeline.title"),null, positionY)
-            var marginheader = positionY;
-
-            var imgWidth = pdfPageWidth-marginXimgDoc;
-            var imgHeight = imgProps.height;
-            
-            if((imgHeight-pdfPageHeight)>0){
-                imgWidth = pdfPageWidth/2;
-                imgHeight = (imgProps.height/2);
-                marginXimgDoc = (pdfPageWidth/2)-(pdfPageWidth/4);
-            }
-
-            var heightLeft = imgHeight;
-
-            doc.addImage(img, 'JPG', marginXimgDoc, positionY, imgWidth, imgHeight, undefined, 'FAST');
-            this.newHeatherAndFooter(doc);
-
-            heightLeft -= (pdfPageHeight-marginheader);
-            while (heightLeft >= 0) {
-                positionY = (heightLeft - imgHeight); // top padding for other pages
-                heightLeft -= (pdfPageHeight);
-                doc.addPage();
-                doc.addImage(img, 'JPG', marginXimgDoc, positionY, imgWidth, imgHeight, undefined, 'FAST');
-                this.newHeatherAndFooter(doc);
-            }
+            // this.timeLineImg(doc,dataUrl,timeLineElementId,positionY)
 
             // Doc table
-            doc.addPage();
+            
+            //doc.addPage();
             this.newHeatherAndFooter(doc);
-            positionY=40;
-            positionY = this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Appendix1"), this.translate.instant("land.diagnosed.timeline.Symptoms"),this.translate.instant("land.diagnosed.timeline.Appendix1Desc"),positionY)
-
-            var bodyTable = []
-            for (var i = 0; i< listSymptoms.length;i++){
-                var name = listSymptoms[i].name
-                if(name==undefined){
-                    name = listSymptoms[i].id + "-" + this.translate.instant("phenotype.Deprecated")
-                }
-                var id = listSymptoms[i].id
-                var onsetdate = listSymptoms[i].onsetdate
-                if((onsetdate==undefined)||(onsetdate==null)){
-                    onsetdate="-"
-                }
-                var finishdate = listSymptoms[i].finishdate
-                if((finishdate==undefined)||(finishdate==null)){
-                    finishdate="-"
-                }
-                var notes = listSymptoms[i].notes
-                if((notes==undefined)||(notes==null)){
-                    notes="-"
-                }
-                bodyTable.push([name,id,onsetdate,finishdate,notes])
-                
-            }
-            doc.autoTable({
-                head: [[this.translate.instant("generics.Name"), "ID", this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"), this.translate.instant("generics.notes")]],
-                body: bodyTable,
-                startY: positionY,
-                didDrawPage: (data)=>{
-                    this.newHeatherAndFooter(doc);
-                }
-            }); 
-            doc.save('Dx29_Timeline_' + actualDate +'.pdf');
+            //positionY=40;
+            //positionY = this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Appendix1"), this.translate.instant("land.diagnosed.timeline.Symptoms"),this.translate.instant("land.diagnosed.timeline.Appendix1Desc"),positionY)
+            this.timelineTable(doc,positionY,listSymptoms);
+            
+            var date = this.getDate();
+            doc.save('Dx29_Timeline_' + date +'.pdf');
             
             return;
 
         }.bind(this));
     }
+
+    private timeLineImg(doc,dataUrl,timeLineElementId,positionY){
+        const marginX = 5;
+            
+        const pdfPageWidth = doc.internal.pageSize.getWidth() - 2 * marginX;
+        const pdfPageHeight = doc.internal.pageSize.getHeight()
+
+        var actualDate = new Date();
+
+        // Generate timeline image
+        var link = document.createElement('a');
+        link.download = 'Dx29_Timeline_' + actualDate + '.jpeg';
+        link.href = dataUrl;
+        document.getElementById(timeLineElementId).style.removeProperty("background-color");
+
+        // Doc image
+        var img = new Image()
+        img.src = dataUrl;
+        const imgProps = (<any>doc).getImageProperties(img);
+        
+        
+        var marginXimgDoc = 30;
+
+        positionY = this.newSectionDoc(doc,null, this.translate.instant("land.diagnosed.timeline.title"),null, positionY)
+        var marginheader = positionY;
+
+        var imgWidth = pdfPageWidth-marginXimgDoc;
+        var imgHeight = imgProps.height;
+        
+        if((imgHeight-pdfPageHeight)>0){
+            imgWidth = pdfPageWidth/2;
+            imgHeight = (imgProps.height/2);
+            marginXimgDoc = (pdfPageWidth/2)-(pdfPageWidth/4);
+        }
+
+        var heightLeft = imgHeight;
+
+        doc.addImage(img, 'JPG', marginXimgDoc, positionY, imgWidth, imgHeight, undefined, 'FAST');
+        this.newHeatherAndFooter(doc);
+
+        heightLeft -= (pdfPageHeight-marginheader);
+        while (heightLeft >= 0) {
+            positionY = (heightLeft - imgHeight); // top padding for other pages
+            heightLeft -= (pdfPageHeight);
+            doc.addPage();
+            doc.addImage(img, 'JPG', marginXimgDoc, positionY, imgWidth, imgHeight, undefined, 'FAST');
+            this.newHeatherAndFooter(doc);
+        }
+    }
+
+    private timelineTable(doc,positionY,listSymptoms){
+        var bodyTable = []
+        //Order symptoms by onsetdate
+        var listSymptomsSorted=listSymptoms.sort(this.keyAscOrder)
+        for (var i = 0; i< listSymptomsSorted.length;i++){
+            var name = listSymptomsSorted[i].name
+            if(name==undefined){
+                name = listSymptomsSorted[i].id + "-" + this.translate.instant("phenotype.Deprecated")
+            }
+            var id = listSymptomsSorted[i].id
+            var onsetdate = listSymptomsSorted[i].onsetdate
+            if((onsetdate==undefined)||(onsetdate==null)){
+                onsetdate="-"
+            }
+            var finishdate = listSymptomsSorted[i].finishdate
+            if((finishdate==undefined)||(finishdate==null)){
+                finishdate="-"
+            }
+            var notes = listSymptomsSorted[i].notes
+            if((notes==undefined)||(notes==null)){
+                notes="-"
+            }
+            bodyTable.push([name,id,onsetdate,finishdate,notes])
+            
+        }
+        doc.autoTable({
+            head: [[this.translate.instant("generics.Name"), "ID", this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"), this.translate.instant("generics.notes")]],
+            body: bodyTable,
+            startY: positionY,
+            didDrawPage: (data)=>{
+                this.newHeatherAndFooter(doc);
+            }
+        }); 
+    }
+
+    private keyAscOrder = ((a, b) => {
+        return new Date(a.onsetdate).getTime() > new Date(b.onsetdate).getTime() ? -1 : (new Date(b.onsetdate).getTime() > new Date(a.onsetdate).getTime() ? 1 : 0);
+    })
+
 
     private newSectionDoc(doc,sectionNumber,sectionTitle,sectionSubtitle,line){
         var title = sectionTitle;
@@ -172,7 +199,6 @@ export class jsPDFService {
 
     }
 
-
     private getFormatDate(date) {
         return date.getUTCFullYear() +
             '-' + this.pad(date.getUTCMonth() + 1) +
@@ -185,7 +211,6 @@ export class jsPDFService {
         }
         return number;
     }
-
     private checkIfNewPage(doc, lineText) {
         if (lineText < 274) {
             return lineText
@@ -197,7 +222,7 @@ export class jsPDFService {
             return lineText;
         }
     }
-    
+
     private writeTitleSection(doc, pos, lineText, text) {
         lineText = this.checkIfNewPage(doc, lineText);
         doc.setTextColor(117, 120, 125)
@@ -246,14 +271,14 @@ export class jsPDFService {
         doc.textWithLink(text, pos, lineText, { url: url });
         return lineText;
     }
-    
+
     private writeHeader(doc, pos, lineText, text) {
         doc.setTextColor(117, 120, 125)
         doc.setFont(undefined, 'normal');
         doc.setFontSize(9);
         doc.text(text, pos, lineText += 20);
     }
-    
+
     private writeDataHeader(doc, pos, lineText, text) {
         doc.setTextColor(0, 0, 0)
         doc.setFont(undefined, 'bold');
@@ -348,5 +373,5 @@ export class jsPDFService {
         doc.save('Dx29_Report_' + date + '.pdf');
 
     }
-    
+
 }
