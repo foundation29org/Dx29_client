@@ -23,7 +23,6 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import {DndDirective} from "app/shared/directives/dnd.directive";
-import {MatBadgeModule} from '@angular/material/badge';
 import { TimelineComponent } from './open/timeline/timeline.component';
 import { TimelineAppComponent } from './open/timeline-app/timeline-app.component';
 
@@ -42,7 +41,6 @@ import { TimelineAppComponent } from './open/timeline-app/timeline-app.component
         MatExpansionModule,
         MatSelectModule,
         MatRadioModule,
-        MatBadgeModule,
         NgApexchartsModule
     ],
     declarations: [

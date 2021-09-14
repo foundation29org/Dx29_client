@@ -53,14 +53,25 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        //this.modifyFormSymtoms = false;
-        //this.showTimeLine = false;
-        //console.log(this.listSymptoms);
-        //this.actualTemporalSymptomsIndex = 0;
-        //this.selectedInfoSymptom = null;
+        this.modifyFormSymtoms = false;
+        this.showTimeLine = false;
+        this.actualTemporalSymptomsIndex = 0;
+        this.selectedInfoSymptom = null;
+        this.loadingTimeLine();
     }
 
     ngOnDestroy() {
+    }
+
+    loadingTimeLine(){
+        for (var i=0; i<this.listSymptoms.length;i++){
+            if((this.listSymptoms[i].onsetdate!=null)||(this.listSymptoms[i].onsetdate!=undefined)){
+                this.showTimeLine=true;
+            }
+        }
+        if(this.showTimeLine){
+            this.updateTimeline();
+        }
     }
 
     showMoreInfoSymptomPopup(symptom){
