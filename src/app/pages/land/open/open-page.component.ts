@@ -23,6 +23,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.service';
 import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
 import { DialogService  } from 'app/shared/services/dialog.service';
+import {jsPDFService} from 'app/shared/services/jsPDF.service'
 
 //import { Observable } from 'rxjs/Observable';
 import {Observable, of, OperatorFunction} from 'rxjs';
@@ -98,7 +99,7 @@ export class SearchTermService {
     selector: 'app-open-page',
     templateUrl: './open-page.component.html',
     styleUrls: ['./open-page.component.scss'],
-    providers: [Apif29BioService, Apif29NcrService, ApiDx29ServerService, ApiExternalServices, SearchTermService],
+    providers: [Apif29BioService, Apif29NcrService, ApiDx29ServerService, ApiExternalServices, SearchTermService, jsPDFService],
 })
 
 export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -249,7 +250,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             })
         );*/
 
-    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService) {
+    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
 
         this.lang = sessionStorage.getItem('lang');
         this.selectedNoteSymptom = null;
@@ -1409,16 +1410,11 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     downloadSymptoms() {
-        var infoSymptoms = this.getPlainInfoSymptoms2();
-        if (infoSymptoms != "") {
-            infoSymptoms = infoSymptoms + "\n\n" + "Dx29.ai";
-            let link = document.createElement('a');
-            var actualDate = Date.now();
-            link.download = 'Dx29_Symptoms_' + actualDate + '.txt';
-            let blob = new Blob([infoSymptoms], { type: 'text/plain' });
-            link.href = URL.createObjectURL(blob);
-            link.click();
-            URL.revokeObjectURL(link.href);
+        var infoSymptoms = this.getCheckedSymptoms();
+        if (infoSymptoms.length!=0) {
+            var infoSymptoms = this.getCheckedSymptoms();
+            var infoDiseases = [];//this.getPlainInfoDiseases();
+            this.jsPDFService.generateResultsPDF(infoSymptoms, infoDiseases, this.lang)
         } else {
             Swal.fire(this.translate.instant("land.In order to download the symptoms"), '', "warning");
         }
@@ -1583,31 +1579,26 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             });
     }
 
-    downloadResults() {
-        var resul = "";
-        var infoSymptoms = this.getPlainInfoSymptoms2();
-        if (infoSymptoms != "") {
-            resul = this.translate.instant("diagnosis.Symptoms") + "\n" + infoSymptoms + "\n";
+    getCheckedSymptoms() {
+        var resCopy = [];
+        for (let i = 0; i < this.temporalSymptoms.length; i++) {
+            if (this.temporalSymptoms[i].checked) {
+                resCopy.push(this.temporalSymptoms[i]);
+            }
         }
-        var infoDiseases = this.getPlainInfoDiseases();
-        resul = resul + this.translate.instant("land.Diseases") + "\n" + infoDiseases + "\n\n\n" + "Dx29.ai";
-        let link = document.createElement('a');
-        var actualDate = Date.now();
-        link.download = 'Dx29_Results_' + actualDate + '.txt';
+        return resCopy;
+    }
 
-        let blob = new Blob([resul], { type: 'text/plain' });
-        link.href = URL.createObjectURL(blob);
-        link.click();
-        URL.revokeObjectURL(link.href);
+    downloadResults() {
+        var infoSymptoms = this.getCheckedSymptoms();
+        var infoDiseases = this.getPlainInfoDiseases();
+        this.jsPDFService.generateResultsPDF(infoSymptoms, infoDiseases, this.lang)
     }
 
     getPlainInfoDiseases() {
-        var resCopy = "";
+        var resCopy = [];
         for (let i = 0; i < this.topRelatedConditions.length; i++) {
-            resCopy = resCopy + this.topRelatedConditions[i].name + " (" + this.topRelatedConditions[i].id + ")";
-            if (i + 1 < this.topRelatedConditions.length) {
-                resCopy = resCopy + "\n";
-            }
+            resCopy.push({name: this.topRelatedConditions[i].name, id: this.topRelatedConditions[i].id});
         }
         return resCopy;
     }
