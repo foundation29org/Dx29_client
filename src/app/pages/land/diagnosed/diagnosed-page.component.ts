@@ -103,7 +103,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     resultTextNcr: string = '';
     selectedInfoSymptomIndex: number = -1;
     selectedNoteSymptom = null;
-    modalReference: NgbModalRef;
     temporalDiseases: any = [];
     indexListRelatedConditions: number = 8;
     showNumerRelatedConditions: number = 8;
@@ -192,43 +191,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
 
-    // Flag search
-    /*searchSymptom = (text$: Observable<string>) =>
-        text$.pipe(
-            debounceTime(200),
-            map(term => {
-                if (term.length < 2) {
-                    return [];
-                }
-                const searchResults = ((phenotypesinfo.filter(v => v.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").indexOf(term.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim()) > -1).slice(0, 100))).concat((phenotypesinfo.filter(v => v.id.toLowerCase().indexOf(term.toLowerCase().trim()) > -1).slice(0, 100)))
-                if (searchResults.length == 0) {
-                    this.showErrorMsg = true;
-
-                    if (!this.sendSympTerms) {
-                        //send text
-                        this.sendSympTerms = true;
-                        var params: any = {}
-                        params.uuid = this.myuuid;
-                        params.Term = term;
-                        params.Lang = sessionStorage.getItem('lang');
-                        var d = new Date(Date.now());
-                        var a = d.toString();
-                        params.Date = a;
-                        this.subscription.add(this.http.post('https://prod-112.westeurope.logic.azure.com:443/workflows/95df9b0148cf409f9a8f2b0853820beb/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OZyXnirC5JTHpc_MQ5IwqBugUqI853qek4o8qjNy7AA', params)
-                            .subscribe((res: any) => {
-                            }, (err) => {
-                            }));
-                    }
-
-                } else {
-                    this.sendSympTerms = false;
-                    this.showErrorMsg = false;
-                }
-                console.log(searchResults);
-                return searchResults.length > 0 ? searchResults : [{ name: this.translate.instant("land.We have not found anything"), desc: this.translate.instant("land.Please try a different search"), error: true }];
-            })
-        );*/
-
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public jsPDFService: jsPDFService) {
 
         this.lang = sessionStorage.getItem('lang');
@@ -280,7 +242,11 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-        if (this.modalReference4 != undefined) {
+        if(this.modalReference5 !=undefined){
+            this.modalReference5.close()
+            this.modalReference5 = undefined;
+            return false;
+        }else if (this.modalReference4 != undefined) {
             this.modalReference4.close();
             this.modalReference4 = undefined;
             return false;
@@ -292,13 +258,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             this.modalReference2.close();
             this.modalReference2 = undefined;
             return false;
-        }else if (this.modalReference != undefined) {
-            this.modalReference.close();
-            this.modalReference = undefined;
-            return false;
-        }else if(this.modalReference5 !=undefined){
-            this.modalReference5.close()
-            this.modalReference5 = undefined;
         }else{
             return true;
         }
