@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { CanDeactivateGuard } from 'app/shared/auth/can-deactivate-guard.service';
 
 import { LandPageComponent } from "./land/land-page.component";
-import { OpenPageComponent } from "./open/open-page.component";
+import { UndiagnosedPageComponent } from "./undiagnosed/undiagnosed-page.component";
+import { DiagnosedPageComponent } from "./diagnosed/diagnosed-page.component";
 import { ClinicianPageComponent } from "./clinician/clinician-page.component";
 import { DiagnosedPatientPageComponent } from "./diagnosedpatient/diagnosedpatient-page.component";
 import { UndiagnosedPatientPageComponent } from "./undiagnosedpatient/undiagnosedpatient-page.component";
@@ -25,10 +26,18 @@ const routes: Routes = [
         },
       },
       {
-        path: 'open',
-        component: OpenPageComponent,
+        path: 'undiagnosed',
+        component: UndiagnosedPageComponent,
         data: {
-          title: 'Dx29 open'
+          title: 'land.Undiagnosed'
+        },
+        canDeactivate: [CanDeactivateGuard]
+      },
+      {
+        path: 'diagnosed',
+        component: DiagnosedPageComponent,
+        data: {
+          title: 'land.Diagnosed'
         },
         canDeactivate: [CanDeactivateGuard]
       },

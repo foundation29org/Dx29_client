@@ -1,9 +1,5 @@
-import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
-import { Router, ActivatedRoute } from "@angular/router";
-import { NgForm } from '@angular/forms';
-import { HttpClient } from "@angular/common/http";
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs/Subscription';
 import { SearchService } from 'app/shared/services/search.service';
 import { v4 as uuidv4 } from 'uuid';
@@ -28,7 +24,7 @@ export class LandPageComponent implements OnInit,  OnDestroy {
     eventList: any = [];
     
 
-    constructor(private router: Router, private route: ActivatedRoute, public googleAnalyticsService: GoogleAnalyticsService, private searchService: SearchService, private eventsService: EventsService, private http: HttpClient, public translate: TranslateService, public toastr: ToastrService) {
+    constructor( public googleAnalyticsService: GoogleAnalyticsService, private searchService: SearchService, private eventsService: EventsService, public translate: TranslateService) {
 
         this.lang = sessionStorage.getItem('lang');
         this._startTime = Date.now();
@@ -38,8 +34,6 @@ export class LandPageComponent implements OnInit,  OnDestroy {
             this.myuuid = uuidv4();
             sessionStorage.setItem('uuid', this.myuuid);
         }
-        //this.lauchEvent("Init");
-
     }
 
     getElapsedSeconds() {
@@ -57,30 +51,14 @@ export class LandPageComponent implements OnInit,  OnDestroy {
         }
     }
 
-    @Output() directionEvent = new EventEmitter<Object>();
-
     ngOnInit() {
-        var param = this.router.parseUrl(this.router.url).queryParams;
-        if(param.role){
-            this.role = param.role;
-        }
-
         this.eventsService.on('changelang', function (lang) {
             this.lang = lang;
         }.bind(this));
-
     }
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
-    }
-
-    selectRole(role) {
-        this.role = role;
-    }
-
-    restartVars() {
-        this.role = '';
     }
 
 }
