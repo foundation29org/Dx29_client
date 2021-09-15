@@ -42,17 +42,21 @@ export class TimelineComponent implements OnInit, OnDestroy {
     showTimeLine = false;
     selectedInfoSymptom = null;
 
+    downloadingTimeline = false;
+
 
     constructor(public translate: TranslateService,  public toastr: ToastrService, public googleAnalyticsService: GoogleAnalyticsService, public jsPDFService: jsPDFService) {
         this.modifyFormSymtoms = false;
         this.showTimeLine = false;
         this.selectedInfoSymptom = null;
+        this.downloadingTimeline = false;
     }
 
     ngOnInit() {
         this.modifyFormSymtoms = false;
         this.showTimeLine = false;
         this.selectedInfoSymptom = null;
+        this.downloadingTimeline = false;
         this.loadingTimeLine();
     }
 
@@ -238,8 +242,12 @@ export class TimelineComponent implements OnInit, OnDestroy {
     exportTimeline()
     {
         // Download and send event 
-        this.finishEvent.emit(true);
-        this.jsPDFService.generateTimelinePDF('mytimeline', sessionStorage.getItem('lang'),this.listSymptoms)
+        this.downloadingTimeline = true;
+        this.jsPDFService.generateTimelinePDF('mytimeline', sessionStorage.getItem('lang'),this.listSymptoms).then(()=>{
+            this.downloadingTimeline = false;
+            this.finishEvent.emit(true);
+        })
+        
     }
     
 }

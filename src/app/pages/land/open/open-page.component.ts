@@ -2045,16 +2045,16 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.listOfFilteredDiseases = [];
         this.searchDiseaseField = '';
         this.infoOneDisease = {};
-        this.getPatientGroups();
+        //this.getPatientGroups();
         var lang = sessionStorage.getItem('lang');
-        var param = [this.actualInfoOneDisease.id];
+        var param = [this.actualInfoOneDisease];
         this.subscription.add(this.apif29BioService.getSymptomsOfDisease(lang, param, 0)
             .subscribe((res: any) => {
-                var info = res[this.actualInfoOneDisease.id];
+                var info = res[this.actualInfoOneDisease];
                 if (info == undefined) {
                     this.subscription.add(this.apif29BioService.getInfoOfDiseasesLang(param, lang)
                         .subscribe((res1: any) => {
-                            this.infoOneDisease = res1[this.actualInfoOneDisease.id];
+                            this.infoOneDisease = res1[this.actualInfoOneDisease];
                             if(this.infoOneDisease!=undefined){
                                 
                                 this.cleanxrefs();

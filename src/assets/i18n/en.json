@@ -2364,7 +2364,8 @@
         "RegDate":"Reg. date",
         "Appendix1":"Appendix 1",
         "Symptoms":"Síntomas",
-        "Appendix1Desc":"More detailed symptom information is presented here."
+        "Appendix1Desc":"More detailed symptom information is presented here.",
+        "WaitDownload":"Please wait, your timeline data is being downloaded."
       },
       "diseases":{
         "error1":"Sorry, we have no information about",

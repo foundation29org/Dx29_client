@@ -2365,7 +2365,8 @@
         "RegDate":"Fecha reg.",
         "Appendix1":"Anexo 1",
         "Symptoms":"Síntomas",
-        "Appendix1Desc":"Aqui se presenta de forma mas detallada la información de los síntomas."
+        "Appendix1Desc":"Aqui se presenta de forma mas detallada la información de los síntomas.",
+        "WaitDownload":"Por favor, espera se están descargando los datos de tu timeline."
       },
       "diseases":{
         "error1":"Lo sentimos, no tenemos información sobre",
