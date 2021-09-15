@@ -32,6 +32,7 @@ var themeColors = [$primary, $warning, $success, $danger, $info];
 export class TimelineAppComponent implements OnInit, OnDestroy {
     @Input() listSymptoms: any[];
     @Output() openModalSymptomInfo = new EventEmitter();
+    @Output() openModalSaveTimeLine = new EventEmitter();
     @Output() openModalTimelineHelp = new EventEmitter();
     @Output() backEvent = new EventEmitter();
     @Output() finishEvent = new EventEmitter();
@@ -257,7 +258,6 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
         }
     }
     
-
     exportTimeline()
     {
         // Download and send event 
@@ -266,7 +266,11 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
             this.downloadingTimeline = false;
             this.finishEvent.emit(true);
         })
-        
+    }
+
+    saveTimeline()
+    {
+        this.openModalSaveTimeLine.emit(true);
     }
    
 }

@@ -2355,6 +2355,7 @@
         "btn2":"Continuar y ordenar síntomas",
         "btnRecalculate":"Recalcular cronologia",
         "Download":"Descargar datos",
+        "SaveTimeline":"Guardar cronologia",
         "currentSymptom":"Sigo con ello",
         "errorDates":"La fecha fin no puede ser anterior a la inicial.",
         "exit":"Salir",
@@ -2366,7 +2367,10 @@
         "Appendix1":"Anexo 1",
         "Symptoms":"Síntomas",
         "Appendix1Desc":"Aqui se presenta de forma mas detallada la información de los síntomas.",
-        "WaitDownload":"Por favor, espera se están descargando los datos de tu timeline."
+        "WaitDownload":"Por favor, espera se están descargando los datos de tu timeline.",
+        "p1":"Si quieres guardar tu cronología para poder editarla, descargarla y/o compartirla con tu médico en cualquier momento, registrate en Dx29.",
+        "p2": "Nos hemos tomado la molestia de prepararte para tu nuevo rol, por lo tanto, <ins>tendrás en tu nuevo perfil todos los datos que has introducido </ins> para que tu despegue sea lo más cómodo posible.",
+        "p3":"Además de esto, Dx29 te dará otros poderes, que incluyen:"
       },
       "diseases":{
         "error1":"Lo sentimos, no tenemos información sobre",

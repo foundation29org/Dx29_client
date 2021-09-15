@@ -165,6 +165,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     modalReference3: NgbModalRef;
     modalReference4: NgbModalRef;
     modalReference5: NgbModalRef;
+    modalReference6: NgbModalRef;
     clinicalTrials: any = {};
 
     @ViewChild('f') donorDataForm: NgForm;
@@ -328,6 +329,9 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }else if(this.modalReference5 !=undefined){
             this.modalReference5.close()
             this.modalReference5 = undefined;
+        }else if(this.modalReference6!=undefined){
+            this.modalReference6.close();
+            this.modalReference6 = undefined;
         }else{
             if(this.activeRoute.indexOf("open;role=undiagnosed")!=-1 || this.activeRoute.indexOf("open;role=clinician")!=-1){
                 if(this.temporalSymptoms.length>0){
@@ -2149,7 +2153,6 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     
     showAttentionPanel(contentInfoAttention){
-        console.log(this.listSymptomsCheckedTimeline.length)
         if(this.listSymptomsCheckedTimeline.length>0) {
             let ngbModalOptions: NgbModalOptions = {
                 backdrop: 'static',
@@ -2649,6 +2652,67 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         else{
             this.sendSymtomsChecked();
+        }
+    }
+
+    openSaveTimeLine(contentSaveTimeline){
+        if(this.modalReference6==undefined){
+            let ngbModalOptions: NgbModalOptions = {
+                keyboard: false,
+                windowClass: 'ModalClass-lg'// xl, lg, sm
+            };
+            this.modalReference6 = this.modalService.open(contentSaveTimeline, ngbModalOptions);
+        }
+    }
+
+    closeSaveTimeLine(){
+        if(this.modalReference6!=undefined){
+            this.modalReference6.close();
+            this.modalReference6 = undefined;
+        }
+    }
+
+    registerToDx29V2Timeline(){
+        this.lauchEvent("Registration");
+        this.lauchEvent("Registration Power");
+        if (this.modalReference6 != undefined) {
+            this.modalReference6.close();
+            this.modalReference6 = undefined;
+        }
+        var listSymptoms=[]
+        for(var i =0; i < this.listSymptomsCheckedTimeline.length;i++){
+            var onsetdate = null;
+            if((this.listSymptomsCheckedTimeline[i].onsetdate!=undefined)&&(this.listSymptomsCheckedTimeline[i].onsetdate!=null)){
+                onsetdate = this.listSymptomsCheckedTimeline[i].onsetdate
+            }
+            var enddate = null;
+            if((this.listSymptomsCheckedTimeline[i].finishdate!=undefined)&&(this.listSymptomsCheckedTimeline[i].finishdate!=null)){
+                enddate = this.listSymptomsCheckedTimeline[i].finishdate
+            }
+            var isCurrentSymptom = null;
+            if((this.listSymptomsCheckedTimeline[i].isCurrentSymptom!=undefined)&&(this.listSymptomsCheckedTimeline[i].isCurrentSymptom!=null)){
+                isCurrentSymptom = this.listSymptomsCheckedTimeline[i].isCurrentSymptom
+            }
+            listSymptoms.push({"Id":this.listSymptomsCheckedTimeline[i].id,"Onsetdate":onsetdate,"Enddate":enddate,"Current":isCurrentSymptom})
+        }
+
+        var info = {
+            "Symptoms": listSymptoms
+        }
+        
+        if (this.listSymptomsCheckedTimeline.length > 0) {
+            this.subscription.add(this.apiDx29ServerService.createblobOpenDx29Timeline(info)
+                .subscribe((res: any) => {
+                    sessionStorage.removeItem('symptoms');
+                    sessionStorage.removeItem('uuid');
+                    if (res.message == 'Done') {
+                        window.location.href = environment.urlDxv2 + "/Identity/Account/Register?opendataTimeline=" + res.token;
+                    } else {
+                        window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
+                    }
+                }));
+        } else {
+            window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
         }
     }
 

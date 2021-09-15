@@ -160,13 +160,12 @@ export class jsPDFService {
             },
             willDrawCell:(data)=>{
                 if (data.cell.section === 'body' && data.column.index === 1) {
-                    console.log("willDrawCell")
-                    console.log(data)
                     var text = data.cell.text.toString()
                     data.cell.text = ""
                     doc.setTextColor(0, 133, 133)
                     var url = "https://hpo.jax.org/app/browse/term/" + text;
-                    doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+data.cell.styles.cellPadding), { url: url });
+                    doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), data.cell.y, { url: url });
+                    data.cell.styles.valign = 'middle';
                 }
             }
         }); 
