@@ -2706,7 +2706,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
                     sessionStorage.removeItem('symptoms');
                     sessionStorage.removeItem('uuid');
                     if (res.message == 'Done') {
-                        window.location.href = environment.urlDxv2 + "/Identity/Account/Register?opendataTimeline=" + res.token;
+                        window.location.href = environment.urlDxv2 + "/Identity/Account/Register?opendatatimeline=" + res.token;
                     } else {
                         window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
                     }
