@@ -327,7 +327,9 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             } else {
                 this.refLangs = "https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support";
             }
-            this.getInfoOneDisease();
+            if(this.actualInfoOneDisease.id!=undefined){
+                this.getInfoOneDisease();
+            }
             this.searchDiseaseField = '';
             this.listOfFilteredDiseases = [];
         }.bind(this));
@@ -345,6 +347,9 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         }
         if (this.subscriptionDiseasesNotFound) {
             this.subscriptionDiseasesNotFound.unsubscribe();
+        }
+        if (this.timeSubscription) {
+            this.timeSubscription.unsubscribe();
         }
         this.role = '';
     }

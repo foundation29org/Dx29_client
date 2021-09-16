@@ -413,6 +413,9 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         if (this.subscriptionDiseasesNotFound) {
             this.subscriptionDiseasesNotFound.unsubscribe();
         }
+        if (this.timeSubscription) {
+            this.timeSubscription.unsubscribe();
+        }
         this.role = '';
     }
 
