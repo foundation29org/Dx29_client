@@ -47,7 +47,7 @@
               <label for="isCurrentSymptom"class="ml-1"> {{'land.diagnosed.timeline.currentSymptom' | translate}} </label>
           </div>
           <div class="col-md-12 mt-1">
-              <input type="text" id="basicInput_{{i}}" placeholder="{{'generics.notes' | translate }}" class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)" (change)="updateTimeline()">
+              <input type="text" id="basicInput_{{i}}" maxlength=250 placeholder="{{'generics.notes' | translate }}" class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)" (change)="updateTimeline()">
           </div>
         </div>
         <div class="card-footer center-elements bt-n">

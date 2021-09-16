@@ -42,7 +42,7 @@ export class jsPDFService {
             }
             doc.setFont(undefined, 'normal');
             doc.setFontSize(10);
-            this.writeHeader(doc, 95, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
+            this.writeHeader(doc, 91, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
 
             var actualDate = new Date();
             var dateHeader = this.getFormatDate(actualDate);
@@ -127,6 +127,7 @@ export class jsPDFService {
 
     private timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo){
         var bodyTable = []
+        var notesBodyTable = {}
         for (var itemDate in dictionaryTimeline){
             for (var date in dictionaryTimeline[itemDate]){
                     for (var i=0;i<dictionaryTimeline[itemDate][date].length;i++){
@@ -143,11 +144,16 @@ export class jsPDFService {
                     if((finishdate==undefined)||(finishdate==null)){
                         finishdate="-"
                     }
+                    var duration="-"
+                    if(((onsetdate!=undefined)&&(onsetdate!=null))&&((finishdate!=undefined)&&(finishdate!=null))){
+                        console.log("Get duration")
+                        duration = this.dateDiff(onsetdate,finishdate)
+                    }
                     var notes = dictionaryTimeline[itemDate][date][i].notes
                     if((notes==undefined)||(notes==null)){
                         notes="-"
                     }
-                    var symptom = [name,id,onsetdate,finishdate,notes]
+                    var symptom = [name,duration,onsetdate,finishdate,id]
                     var foundInBodyTable = false;
                     for(var j=0;j<bodyTable.length;j++){
                         if(bodyTable[j].includes(id)){
@@ -156,10 +162,12 @@ export class jsPDFService {
                     }
                     if(!foundInBodyTable){
                         bodyTable.push(symptom)
+                        notesBodyTable[id]={"notes":notes}
                     }
                 }
             }
         }
+        bodyTable.reverse();
         for(var j=0;j<listSymptomsNullInfo.length;j++){
             var name2 = listSymptomsNullInfo[j].name
             if(name2==undefined){
@@ -168,8 +176,9 @@ export class jsPDFService {
             var id2 = listSymptomsNullInfo[j].id
             var onsetdate2 = "-";
             var finishdate2 = "-";
+            var duration2="-";
             var notes2 ="-";
-            var symptom2 = [name2,id2,onsetdate2,finishdate2,notes2]
+            var symptom2 = [name2,duration2,onsetdate2,finishdate2,id2,notes2]
             var foundInBodyTable = false;
             for(var k=0;k<bodyTable.length;k++){
                 if(bodyTable[k].includes(id2)){
@@ -178,12 +187,12 @@ export class jsPDFService {
             }
             if(!foundInBodyTable){
                 bodyTable.push(symptom2)
+                notesBodyTable[id2]={"notes":notes2}
             }
             
         }
-
         doc.autoTable({
-            head: [[this.translate.instant("generics.Name"), "ID", this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"), this.translate.instant("generics.notes")]],
+            head: [[this.translate.instant("generics.Name"),this.translate.instant("land.diagnosed.timeline.Duration"),this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"),"ID"]],
             body: bodyTable,
             startY: positionY,
             theme: 'plain',
@@ -191,22 +200,55 @@ export class jsPDFService {
                 this.newHeatherAndFooter(doc);
             },
             willDrawCell:(data)=>{
-                if (data.cell.section === 'body' && data.column.index === 1) {
-                    //console.log(data)
+                if (data.cell.section === 'body' && data.column.index === 4) {
                     var text = data.cell.text.toString()
                     data.cell.text = ""
                     doc.setTextColor(0, 133, 133)
                     var url = "https://hpo.jax.org/app/browse/term/" + text;
                     doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
-                    //console.log("---")
-
-                    //console.log(data)
-                    //console.log("*")
                 }
             }
         }); 
     }
 
+    dateDiff(d1, d2) {
+        var months=0;
+        var years=0;
+        months = (new Date(d2).getFullYear() - new Date(d1).getFullYear()) * 12;
+        months -= new Date(d1).getMonth();
+        months += new Date(d2).getMonth();
+        if(months>=12){
+            years = Math.floor(months/12)
+            months -=  years*12
+        }
+        var result="";
+        if((months>1)&&(years>1)){
+            result=years+" "+this.translate.instant("land.diagnosed.timeline.years")+" "+this.translate.instant("land.diagnosed.timeline.and")+" "+months+" "+this.translate.instant("land.diagnosed.timeline.months")
+        }
+        else if((months>1)&&(years==1)){
+            result=years+" "+this.translate.instant("land.diagnosed.timeline.year")+" "+this.translate.instant("land.diagnosed.timeline.and")+" "+months+" "+this.translate.instant("land.diagnosed.timeline.months")
+        }
+        else if((months>1)&&(years<1)){
+            result=months+" "+this.translate.instant("land.diagnosed.timeline.months")
+        }
+        else if((months==1)&&(years<1)){
+            result=months+" "+this.translate.instant("land.diagnosed.timeline.month")
+        }
+        else if((months<1)&&(years>1)){
+            result=years+" "+this.translate.instant("land.diagnosed.timeline.years")
+        }
+        else if((months<1)&&(years==1)){
+            result=years+" "+this.translate.instant("land.diagnosed.timeline.year")
+
+        }
+        else if((months<1)&&(years<1)){
+            result=this.translate.instant("land.diagnosed.timeline.Less than a month")
+        }
+        return result;
+    }
+
+
+    
     
 
 
@@ -362,7 +404,7 @@ export class jsPDFService {
         }
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
-        this.writeHeader(doc, 95, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
+        this.writeHeader(doc, 91, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
 
         var actualDate = new Date();
         var dateHeader = this.getFormatDate(actualDate);

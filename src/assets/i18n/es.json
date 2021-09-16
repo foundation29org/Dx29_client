@@ -2364,7 +2364,7 @@
         "ExitDiscard":"Todos los cambios que hayas hecho se descartarán.",
         "help":"Ayuda",
         "Report":"Informe cronológico",
-        "RegDate":"Fecha reg.",
+        "RegDate":"Fecha de expedición",
         "Appendix1":"Anexo 1",
         "Symptoms":"Síntomas",
         "Appendix1Desc":"Aqui se presenta de forma mas detallada la información de los síntomas.",
@@ -2373,7 +2373,14 @@
         "p2": "Nos hemos tomado la molestia de prepararte para tu nuevo rol, por lo tanto, <ins>tendrás en tu nuevo perfil todos los datos que has introducido </ins> para que tu despegue sea lo más cómodo posible.",
         "p3":"Además de esto, Dx29 te dará otros poderes, que incluyen:",
         "Whats":"¿Qué es esto?",
-        "WorkPC":"Para utilizar esta herramienta, de forma más sencilla,  recomendamos el uso de un ordenador"
+        "WorkPC":"Para utilizar esta herramienta, de forma más sencilla,  recomendamos el uso de un ordenador",
+        "Duration":"Duración",
+        "Less than a month":"Menos de un mes",
+        "month":"mes",
+        "months":"meses",
+        "year":"año",
+        "years":"años",
+        "and":"y"
       },
       "diseases":{
         "error1":"Lo sentimos, no tenemos información sobre",

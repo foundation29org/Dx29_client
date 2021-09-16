@@ -2363,7 +2363,7 @@
         "ExitDiscard":"Any changes you have made will be discarded.",
         "help":"Help",
         "Report":"Timeline report",
-        "RegDate":"Reg. date",
+        "RegDate":"Expedition date",
         "Appendix1":"Appendix 1",
         "Symptoms":"Síntomas",
         "Appendix1Desc":"More detailed symptom information is presented here.",
@@ -2372,7 +2372,14 @@
         "p2": "We have taken the trouble to prepare you for your new role, so <ins>you will have all the data you have entered in your new profile</ins> to make your take-off as comfortable as possible.",
         "p3": "In addition to this, Dx29 will give you a number of new powers, including:",
         "Whats":"What is this?",
-        "WorkPC":"To use this tool more easily, we recommend the use of a computer."
+        "WorkPC":"To use this tool more easily, we recommend the use of a computer.",
+        "Duration":"Duration",
+        "Less than a month":"Less than a month",
+        "month":"month",
+        "months":"months",
+        "year":"year",
+        "years":"years",
+        "and":"and"
       },
       "diseases":{
         "error1":"Sorry, we have no information about",
