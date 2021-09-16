@@ -2446,8 +2446,25 @@
     "p2.2": "Quiero información sobre una enfermedad"
   },
   "seo":{
-    "keywords": "diagnóstico, diagnosticar, enfermedad rara, síndrome, enfermedad, pronóstico, síntomas, HPO, epilepsia, crisis epiléptica, status epiléctico, convulsiones, retraso en el desarrollo, temblores, palpitaciones, tónica-clónica, mioclónica, pediatría, genética, neurología, extracción de síntomas, enfermedad genética",
-    "description": "Extracción y curado de síntomas HPO desde texto y documentos. IA que ayuda al diagnóstico de enfermedades raras. Totalmente gratuita para médicos y pacientes.",
-    "title": "Dx29: Extrae síntomas y ayuda al diagnóstico"
+    "home":{
+      "keywords": "diagnóstico, diagnosticar, enfermedad rara, síndrome, enfermedad, pronóstico, síntomas, HPO, epilepsia, crisis epiléptica, status epiléctico, convulsiones, retraso en el desarrollo, temblores, palpitaciones, tónica-clónica, mioclónica, pediatría, genética, neurología, extracción de síntomas, enfermedad genética",
+      "description": "Extracción y curado de síntomas HPO desde texto y documentos. IA que ayuda al diagnóstico de enfermedades raras. Totalmente gratuita para médicos y pacientes.",
+      "title": "Dx29: Extrae síntomas y ayuda al diagnóstico"
+    },
+    "physicians":{
+      "keywords": "Comprobador de síntomas, diagnostico genético virtual, diagnosticar enfermedades raras, síntomas de enfermedades raras, enfermedades raras",
+      "description": "Almacena los casos de tus pacientes y analiza la información genética de forma gratuita",
+      "title": "Médicos: Cree su cuenta gratuita"
+    },
+    "diagnosed":{
+      "keywords": "enfermedades raras, Ensayos clínicos, Grupos de pacientes, síntomas de síndrome, información sobre enfermedades raras",
+      "description": "Sus enfermedades raras: Síntomas, ensayos clínicos y grupos de pacientes",
+      "title": "Pacientes diagnosticados: Obtenga más información"
+    },
+    "undiagnosed":{
+      "keywords": "Comprobador de síntomas, diagnostico genético virtual, diagnosticar enfermedades raras, síntomas de enfermedades raras, enfermedades raras",
+      "description": "Autofenotipo, Diagnóstico, Comparte tu informe con tu médico",
+      "title": "Pacientes sin diagnosticar: Acelera tu Diagnóstico"
+    }
   }
 }

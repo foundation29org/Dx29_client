@@ -7,7 +7,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgApexchartsModule } from "ng-apexcharts";
 
 import { LandPageComponent } from "./land/land-page.component";
-import { OpenPageComponent } from "./open/open-page.component";
+import { UndiagnosedPageComponent } from "./undiagnosed/undiagnosed-page.component";
+import { DiagnosedPageComponent } from "./diagnosed/diagnosed-page.component";
 import { ClinicianPageComponent } from "./clinician/clinician-page.component";
 import { DiagnosedPatientPageComponent } from "./diagnosedpatient/diagnosedpatient-page.component";
 import { UndiagnosedPatientPageComponent } from "./undiagnosedpatient/undiagnosedpatient-page.component";
@@ -23,8 +24,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import {DndDirective} from "app/shared/directives/dnd.directive";
-import { TimelineComponent } from './open/timeline/timeline.component';
-import { TimelineAppComponent } from './open/timeline-app/timeline-app.component';
+import { TimelineComponent } from './diagnosed/timeline/timeline.component';
+import { TimelineAppComponent } from './diagnosed/timeline-app/timeline-app.component';
 
 @NgModule({
     exports: [
@@ -45,7 +46,8 @@ import { TimelineAppComponent } from './open/timeline-app/timeline-app.component
     ],
     declarations: [
         LandPageComponent,
-        OpenPageComponent,
+        UndiagnosedPageComponent,
+        DiagnosedPageComponent,
         TimelineComponent,
         TimelineAppComponent,
         ClinicianPageComponent,
