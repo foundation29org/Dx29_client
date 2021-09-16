@@ -244,7 +244,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     {
         // Download and send event 
         this.downloadingTimeline = true;
-        this.jsPDFService.generateTimelinePDF('mytimeline', sessionStorage.getItem('lang'),this.listSymptoms).then(()=>{
+        this.jsPDFService.generateTimelinePDF('mytimeline', sessionStorage.getItem('lang'),this.dictionaryTimeline,this.listTimelineNull).then(()=>{
             this.downloadingTimeline = false;
             this.finishEvent.emit(true);
         })

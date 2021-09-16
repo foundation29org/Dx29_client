@@ -2349,6 +2349,7 @@
       "timeline":{
         "title":"CRONOLOGIA",
         "t0":"Dx29 te ofrece la oportunidad de tener todo tu historial de síntomas organizado, en un solo documento y listo para compartir con tu médico. ¡No lo dejes pasar y create el tuyo!",
+        "t0-app":"¡No pierdas la oportunidad de crear tu informe cronológico de síntomas!",
         "t1":"Selecciona los síntomas",
         "t2":"Tómate el tiempo que necesites para añadir la información de cada uno de los síntomas y, automáticamente, podrás ir revisando como se organizan en la cronología.",
         "btn1":"Crear",
@@ -2370,7 +2371,9 @@
         "WaitDownload":"Por favor, espera se están descargando los datos de tu timeline.",
         "p1":"Si quieres guardar tu cronología para poder editarla, descargarla y/o compartirla con tu médico en cualquier momento, registrate en Dx29.",
         "p2": "Nos hemos tomado la molestia de prepararte para tu nuevo rol, por lo tanto, <ins>tendrás en tu nuevo perfil todos los datos que has introducido </ins> para que tu despegue sea lo más cómodo posible.",
-        "p3":"Además de esto, Dx29 te dará otros poderes, que incluyen:"
+        "p3":"Además de esto, Dx29 te dará otros poderes, que incluyen:",
+        "Whats":"¿Qué es esto?",
+        "WorkPC":"Para utilizar esta herramienta, de forma más sencilla,  recomendamos el uso de un ordenador"
       },
       "diseases":{
         "error1":"Lo sentimos, no tenemos información sobre",

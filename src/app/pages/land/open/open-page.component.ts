@@ -166,6 +166,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     modalReference4: NgbModalRef;
     modalReference5: NgbModalRef;
     modalReference6: NgbModalRef;
+    modalReference7: NgbModalRef;
     clinicalTrials: any = {};
 
     @ViewChild('f') donorDataForm: NgForm;
@@ -210,6 +211,8 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
     listSymptomsCheckedModified = false;
     donnorSet = false;
 
+    isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
+
 
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
@@ -253,6 +256,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
 
+        
         this.lang = sessionStorage.getItem('lang');
         this.selectedNoteSymptom = null;
         this.startCheckSymptoms = false;
@@ -333,6 +337,10 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }else if(this.modalReference6!=undefined){
             this.modalReference6.close();
             this.modalReference6 = undefined;
+            return false;
+        }else if(this.modalReference7!=undefined){
+            this.modalReference7.close();
+            this.modalReference7 = undefined;
             return false;
         }else{
             if(this.activeRoute.indexOf("open;role=undiagnosed")!=-1 || this.activeRoute.indexOf("open;role=clinician")!=-1){
@@ -2246,15 +2254,33 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }
     }
 
-
-    openTimelineAppHelp(contentTimelineAppHelp){
-        let ngbModalOptions: NgbModalOptions = {
-            keyboard: false,
-            windowClass: 'ModalClass-sm'// xl, lg, sm
-        };
-        this.modalReference5 = this.modalService.open(contentTimelineAppHelp, ngbModalOptions);
+    openTimelineAppHelp1(contentTimelineAppHelp1){
+        if(this.modalReference7==undefined){
+            let ngbModalOptions: NgbModalOptions = {
+                keyboard: false,
+                windowClass: 'ModalClass-sm'// xl, lg, sm
+            };
+            this.modalReference7 = this.modalService.open(contentTimelineAppHelp1, ngbModalOptions);
+        }
     }
-    closeTimelineAppHelp(){
+    closeTimelineAppHelp1(){
+        if(this.modalReference7!=undefined){
+            this.modalReference7.close();
+            this.modalReference7=undefined;
+        }
+    }
+
+    openTimelineAppHelp2(contentTimelineAppHelp2){
+        if(this.modalReference5==undefined){
+            let ngbModalOptions: NgbModalOptions = {
+                keyboard: false,
+                windowClass: 'ModalClass-sm'// xl, lg, sm
+            };
+            this.modalReference5 = this.modalService.open(contentTimelineAppHelp2, ngbModalOptions);
+        }
+        
+    }
+    closeTimelineAppHelp2(){
         if(this.modalReference5!=undefined){
             this.modalReference5.close();
             this.modalReference5=undefined;

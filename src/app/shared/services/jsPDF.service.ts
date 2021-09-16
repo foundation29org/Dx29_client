@@ -16,7 +16,7 @@ export class jsPDFService {
     constructor(public translate: TranslateService) { }
     lang: string = '';
 
-    generateTimelinePDF(timeLineElementId: string, lang, listSymptoms): Promise<void>{
+    generateTimelinePDF(timeLineElementId: string, lang, dictionaryTimeline, listSymptomsNullInfo): Promise<void>{
         document.getElementById(timeLineElementId).style.backgroundColor="white";
 
         return htmlToImage.toJpeg(document.getElementById(timeLineElementId), { quality: 0.95 })
@@ -66,7 +66,7 @@ export class jsPDFService {
             this.newHeatherAndFooter(doc);
             //positionY=40;
             //positionY = this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Appendix1"), this.translate.instant("land.diagnosed.timeline.Symptoms"),this.translate.instant("land.diagnosed.timeline.Appendix1Desc"),positionY)
-            this.timelineTable(doc,positionY,listSymptoms);
+            this.timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo);
             
             var date = this.getDate();
             doc.save('Dx29_Timeline_' + date +'.pdf');
@@ -125,31 +125,63 @@ export class jsPDFService {
         }
     }
 
-    private timelineTable(doc,positionY,listSymptoms){
+    private timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo){
         var bodyTable = []
-        //Order symptoms by onsetdate
-        var listSymptomsSorted=listSymptoms.sort(this.keyAscOrder)
-        for (var i = 0; i< listSymptomsSorted.length;i++){
-            var name = listSymptomsSorted[i].name
-            if(name==undefined){
-                name = listSymptomsSorted[i].id + "-" + this.translate.instant("phenotype.Deprecated")
+        for (var itemDate in dictionaryTimeline){
+            for (var date in dictionaryTimeline[itemDate]){
+                    for (var i=0;i<dictionaryTimeline[itemDate][date].length;i++){
+                        var name = dictionaryTimeline[itemDate][date][i].name
+                    if(name==undefined){
+                        name = dictionaryTimeline[itemDate][date][i].id + "-" + this.translate.instant("phenotype.Deprecated")
+                    }
+                    var id = dictionaryTimeline[itemDate][date][i].id
+                    var onsetdate = dictionaryTimeline[itemDate][date][i].onsetdate
+                    if((onsetdate==undefined)||(onsetdate==null)){
+                        onsetdate="-"
+                    }
+                    var finishdate = dictionaryTimeline[itemDate][date][i].finishdate
+                    if((finishdate==undefined)||(finishdate==null)){
+                        finishdate="-"
+                    }
+                    var notes = dictionaryTimeline[itemDate][date][i].notes
+                    if((notes==undefined)||(notes==null)){
+                        notes="-"
+                    }
+                    var symptom = [name,id,onsetdate,finishdate,notes]
+                    var foundInBodyTable = false;
+                    for(var j=0;j<bodyTable.length;j++){
+                        if(bodyTable[j].includes(id)){
+                            foundInBodyTable=true
+                        }
+                    }
+                    if(!foundInBodyTable){
+                        bodyTable.push(symptom)
+                    }
+                }
             }
-            var id = listSymptomsSorted[i].id
-            var onsetdate = listSymptomsSorted[i].onsetdate
-            if((onsetdate==undefined)||(onsetdate==null)){
-                onsetdate="-"
+        }
+        for(var j=0;j<listSymptomsNullInfo.length;j++){
+            var name2 = listSymptomsNullInfo[j].name
+            if(name2==undefined){
+                name2 = listSymptomsNullInfo[j].id + "-" + this.translate.instant("phenotype.Deprecated")
             }
-            var finishdate = listSymptomsSorted[i].finishdate
-            if((finishdate==undefined)||(finishdate==null)){
-                finishdate="-"
+            var id2 = listSymptomsNullInfo[j].id
+            var onsetdate2 = "-";
+            var finishdate2 = "-";
+            var notes2 ="-";
+            var symptom2 = [name2,id2,onsetdate2,finishdate2,notes2]
+            var foundInBodyTable = false;
+            for(var k=0;k<bodyTable.length;k++){
+                if(bodyTable[k].includes(id2)){
+                    foundInBodyTable=true
+                }
             }
-            var notes = listSymptomsSorted[i].notes
-            if((notes==undefined)||(notes==null)){
-                notes="-"
+            if(!foundInBodyTable){
+                bodyTable.push(symptom2)
             }
-            bodyTable.push([name,id,onsetdate,finishdate,notes])
             
         }
+
         doc.autoTable({
             head: [[this.translate.instant("generics.Name"), "ID", this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"), this.translate.instant("generics.notes")]],
             body: bodyTable,
@@ -160,20 +192,22 @@ export class jsPDFService {
             },
             willDrawCell:(data)=>{
                 if (data.cell.section === 'body' && data.column.index === 1) {
+                    //console.log(data)
                     var text = data.cell.text.toString()
                     data.cell.text = ""
                     doc.setTextColor(0, 133, 133)
                     var url = "https://hpo.jax.org/app/browse/term/" + text;
-                    doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), data.cell.y, { url: url });
-                    data.cell.styles.valign = 'middle';
+                    doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
+                    //console.log("---")
+
+                    //console.log(data)
+                    //console.log("*")
                 }
             }
         }); 
     }
 
-    private keyAscOrder = ((a, b) => {
-        return new Date(a.onsetdate).getTime() > new Date(b.onsetdate).getTime() ? -1 : (new Date(b.onsetdate).getTime() > new Date(a.onsetdate).getTime() ? 1 : 0);
-    })
+    
 
 
     private newSectionDoc(doc,sectionNumber,sectionTitle,sectionSubtitle,line){

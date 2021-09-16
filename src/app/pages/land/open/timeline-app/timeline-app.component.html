@@ -13,9 +13,9 @@
       <em *ngIf="showTimeLine" class="mr-2 fa fa-download info float-right"
           title="{{'land.diagnosed.timeline.Download' | translate }}" (click)="exportTimeline()"
           style="cursor: pointer;"></em>
-      <em class="mr-1 ft-save white"
+      <!--<em class="mr-1 ft-save white"
           title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="saveTimeline()"
-          style="cursor: pointer;"></em>
+          style="cursor: pointer;"></em>-->
     </div>
   </div>
   <div class="col-md-12 mt-1" *ngIf="!modifyFormSymtoms">
@@ -157,23 +157,23 @@
       </p>
     </div>
   </div>
-  <div class="col-md-12 mt-2">
-    <div class="col-md-6 center-elements">
+  <div class="col-md-12 mt-2 center-elements">
+    <!--<div class="col-md-6 center-elements">
       <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised" (click)="saveTimeline()">
         <em class="mr-1 ft-save white"
           title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="saveTimeline()"
           style="cursor: pointer;"></em>
           <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
       </button>
-    </div>
-    <div class="col-md-6 center-elements">
+    </div>-->
+    <!--<div class="col-md-6 center-elements">-->
       <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised" (click)="exportTimeline()">
         <em class="mr-1 fa fa-download white"
           title="{{'land.diagnosed.timeline.Download' | translate }}" (click)="exportTimeline()"
           style="cursor: pointer;"></em>
           <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
       </button>
-    </div>
+    <!--</div>-->
   </div>
 </div>
 

@@ -614,8 +614,16 @@
               </mat-expansion-panel-header>
               <div class="card-body">
                 <div class="col-md-12" *ngIf="(!startTimeline)&&(!startCheckSymptoms)">
-                  <div class="col-md-12">
-                    <p> {{'land.diagnosed.timeline.t0' | translate}}</p>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <em class="mr-1 ft-help-circle info float-right"
+                         title="{{'land.diagnosed.timeline.help' | translate}}" (click)="openTimelineAppHelp1(contentTimelineAppHelp1)"
+                         style="cursor: pointer;">
+                      </em>
+                    </div>
+                  </div>
+                  <div class="col-md-12 mt-1">
+                    <p> {{'land.diagnosed.timeline.t0-app' | translate}}</p>
                   </div>
                   <div class="col-md-12 center-elements">
                     <button type="button" class="btn btn-info btn-md btn-raised" (click)="startCheckSymptomsFunction();">
@@ -647,6 +655,9 @@
                   <div class="col-md-12">
                     <em class="mr-1 ft-x info float-right"
                       title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="endTimeLineFunction()"
+                      style="cursor: pointer;"></em>
+                    <em class="mr-1 ft-help-circle info float-right"
+                      title="{{'land.diagnosed.timeline.help' | translate}}" (click)="openTimelineAppHelp2(contentTimelineAppHelp2)"
                       style="cursor: pointer;"></em>
                   </div>
                   <div class="col-md-12 mt-1">
@@ -684,7 +695,7 @@
                     </button>
                   </div>
                 </div>
-                <timeline-app *ngIf="(startTimeline)&&(!startCheckSymptoms)" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (finishEvent)="checkDonnorState(contentInfoAttention)" (openModalTimelineHelp)="openTimelineAppHelp(contentTimelineAppHelp)" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline-app>
+                <timeline-app *ngIf="(startTimeline)&&(!startCheckSymptoms)" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (finishEvent)="checkDonnorState(contentInfoAttention)" (openModalTimelineHelp)="openTimelineAppHelp2(contentTimelineAppHelp2)" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline-app>
               </div>
             </mat-expansion-panel>
             <mat-expansion-panel *ngIf="infoWiki.length>0 || infoWikiGeneral.length>0">
@@ -1963,10 +1974,29 @@
   </div>
 </ng-template>
 
-<ng-template #contentTimelineAppHelp let-c="close" let-d="dismiss" appendTo="body">
+<ng-template #contentTimelineAppHelp1 let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-body content-wrapper p-2 border">
     <div class="p-2">
-      <button type="button" class="close" aria-label="Close" (click)="closeTimelineAppHelp()">
+      <button type="button" class="close" aria-label="Close" (click)="closeTimelineAppHelp1()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="align-self-center mb-0"><strong>{{'land.diagnosed.timeline.Whats' | translate}}</strong></h4>
+    </div>  
+    <div class="col-md-12">
+      <div class="col-md-12">
+        <p>{{'land.diagnosed.timeline.t0' | translate}}</p>
+      </div>
+      <div class="col-md-12 mt-1" *ngIf="isApp">
+        <p>** {{'land.diagnosed.timeline.WorkPC' | translate}}</p>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentTimelineAppHelp2 let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 border">
+    <div class="p-2">
+      <button type="button" class="close" aria-label="Close" (click)="closeTimelineAppHelp2()">
         <span aria-hidden="true">&times;</span>
       </button>
       <h4 class="align-self-center mb-0"><strong>{{'land.diagnosed.timeline.help' | translate }} </strong></h4>

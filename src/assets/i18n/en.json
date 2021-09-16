@@ -2348,6 +2348,7 @@
       "timeline":{
         "title":"TIMELINE",
         "t0":"Dx29 offers you the opportunity to have your entire symptom history organised, in one document and ready to share with your doctor. Don't miss out and create your own!",
+        "t0-app":"Don't miss the opportunity to create your chronological symptom report!",
         "t1":"Select symptoms",
         "t2":"Take as much time as you need to add the information for each symptom and you will automatically be able to see how they are organised in the timeline.",
         "btn1":"Create",
@@ -2369,7 +2370,9 @@
         "WaitDownload":"Please wait, your timeline data is being downloaded.",
         "p1": "If you want to save your timeline so you can edit it, download it and/or share it with your doctor at any time, please register in Dx29.",
         "p2": "We have taken the trouble to prepare you for your new role, so <ins>you will have all the data you have entered in your new profile</ins> to make your take-off as comfortable as possible.",
-        "p3": "In addition to this, Dx29 will give you a number of new powers, including:"
+        "p3": "In addition to this, Dx29 will give you a number of new powers, including:",
+        "Whats":"What is this?",
+        "WorkPC":"To use this tool more easily, we recommend the use of a computer."
       },
       "diseases":{
         "error1":"Sorry, we have no information about",
