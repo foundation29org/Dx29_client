@@ -329,9 +329,11 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }else if(this.modalReference5 !=undefined){
             this.modalReference5.close()
             this.modalReference5 = undefined;
+            return false;
         }else if(this.modalReference6!=undefined){
             this.modalReference6.close();
             this.modalReference6 = undefined;
+            return false;
         }else{
             if(this.activeRoute.indexOf("open;role=undiagnosed")!=-1 || this.activeRoute.indexOf("open;role=clinician")!=-1){
                 if(this.temporalSymptoms.length>0){
@@ -2693,7 +2695,7 @@ export class OpenPageComponent implements OnInit, OnDestroy, AfterViewInit {
             if((this.listSymptomsCheckedTimeline[i].isCurrentSymptom!=undefined)&&(this.listSymptomsCheckedTimeline[i].isCurrentSymptom!=null)){
                 isCurrentSymptom = this.listSymptomsCheckedTimeline[i].isCurrentSymptom
             }
-            listSymptoms.push({"Id":this.listSymptomsCheckedTimeline[i].id,"Onsetdate":onsetdate,"Enddate":enddate,"Current":isCurrentSymptom})
+            listSymptoms.push({"Id":this.listSymptomsCheckedTimeline[i].id,"OnsetDate":onsetdate,"EndDate":enddate,"IsCurrent":isCurrentSymptom})
         }
 
         var info = {
