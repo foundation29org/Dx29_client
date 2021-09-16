@@ -49,6 +49,7 @@ export class AppComponent implements OnInit, OnDestroy{
   hasLocalLang: boolean = false;
   actualScenarioHotjar:any = {lang: '', scenario: ''};
   tituloEvent: string = '';
+  role: string = '';
     //Set toastr container ref configuration for toastr positioning on screen
     constructor(private http: HttpClient, public toastr: ToastrService, private authGuard: AuthGuard, private authService: AuthService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title, public translate: TranslateService, angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics, private langService:LangService, private eventsService: EventsService, protected $hotjar: NgxHotjarService, private tokenService: TokenService, private meta: Meta) {
 
@@ -168,9 +169,9 @@ export class AppComponent implements OnInit, OnDestroy{
 
      ngOnInit(){
       this.meta.addTags([
-        {name: 'keywords', content: this.translate.instant("seo.keywords")},
-        {name: 'description', content: this.translate.instant("seo.description")},
-        {name: 'title', content: this.translate.instant("seo.title")},
+        {name: 'keywords', content: this.translate.instant("seo.home.keywords")},
+        {name: 'description', content: this.translate.instant("seo.home.description")},
+        {name: 'title', content: this.translate.instant("seo.home.title")},
         {name: 'robots', content: 'index, follow'}
       ]);
        
@@ -246,8 +247,19 @@ export class AppComponent implements OnInit, OnDestroy{
           }
         }
       })*/
-      this.router.events.subscribe( (event) =>{
+      this.router.events.subscribe( (event) =>{        
         if (event instanceof NavigationEnd ) {
+          var actualUrl = this.activatedRoute.snapshot['_routerState'].url;
+          if(actualUrl.indexOf("undiagnosed;role=")!=-1){
+            this.role = actualUrl.split("undiagnosed;role=")[1];
+          }else if(actualUrl.indexOf("undiagnosed")!=-1){
+            this.role = "undiagnosed";
+          }else if(actualUrl.indexOf('diagnosed')!=-1){
+            this.role = "diagnosed";
+          }else{
+            this.role = '';
+          }
+          
           if(this.authService.getLang()){
             this.launchHotjarTrigger(this.authService.getLang());
           }else if(sessionStorage.getItem('lang')!=undefined){
@@ -353,9 +365,28 @@ export class AppComponent implements OnInit, OnDestroy{
      }
 
      changeMeta(){
-      this.meta.updateTag({name: 'keywords', content: this.translate.instant("seo.keywords")});
-      this.meta.updateTag({name: 'description', content: this.translate.instant("seo.description")});
-      this.meta.updateTag({name: 'title', content: this.translate.instant("seo.title")});
+       var URLactual = window.location.href;
+       if(URLactual.indexOf("clinician")!=-1 || this.role=="physicians"){
+        this.meta.updateTag({name: 'keywords', content: this.translate.instant("seo.physicians.keywords")});
+        this.meta.updateTag({name: 'description', content: this.translate.instant("seo.physicians.description")});
+        this.meta.updateTag({name: 'title', content: this.translate.instant("seo.physicians.title")});
+       }else{
+        if(this.role=='' || this.role==undefined){
+          this.meta.updateTag({name: 'keywords', content: this.translate.instant("seo.home.keywords")});
+          this.meta.updateTag({name: 'description', content: this.translate.instant("seo.home.description")});
+          this.meta.updateTag({name: 'title', content: this.translate.instant("seo.home.title")});
+         }else if(this.role=="diagnosed"){
+          this.meta.updateTag({name: 'keywords', content: this.translate.instant("seo.diagnosed.keywords")});
+          this.meta.updateTag({name: 'description', content: this.translate.instant("seo.diagnosed.description")});
+          this.meta.updateTag({name: 'title', content: this.translate.instant("seo.diagnosed.title")});
+         }else if(this.role=="undiagnosed"){
+          this.meta.updateTag({name: 'keywords', content: this.translate.instant("seo.undiagnosed.keywords")});
+          this.meta.updateTag({name: 'description', content: this.translate.instant("seo.undiagnosed.description")});
+          this.meta.updateTag({name: 'title', content: this.translate.instant("seo.undiagnosed.title")});
+         }
+       }
+       
+      
      }
 
 

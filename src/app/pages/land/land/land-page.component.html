@@ -14,12 +14,12 @@
                   <div class="center-elements">
                     <div class="row">
                       <div class="col-12 col-md-6 mb-2 mb-md-0">
-                        <button [routerLink]="['/open', { role: 'undiagnosed'}]" (click)="lauchEvent('Role - Undiagnosed')" class="btn round btn-block mb-1 btn-outline-info h-80"
+                        <button [routerLink]="['/undiagnosed']" (click)="lauchEvent('Role - Undiagnosed')" class="btn round btn-block mb-1 btn-outline-info h-80"
                           type="button">{{'preland.p2.1' | translate }}
                         </button>
                       </div>
                       <div class="col-12 col-md-6 mb-2 mb-md-0">
-                        <button [routerLink]="['/open', { role: 'diagnosed'}]" (click)="lauchEvent('Role - Diagnosed');" type="button"
+                        <button [routerLink]="['/diagnosed']" (click)="lauchEvent('Role - Diagnosed');" type="button"
                           class="btn btn-outline-info round btn-block mb-1 h-80">{{'preland.p2.2' | translate }}
                         </button>
                       </div>
