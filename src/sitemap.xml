@@ -9,23 +9,23 @@
 
 <url>
   <loc>https://www.dx29.ai/</loc>
-  <lastmod>2021-09-15T11:06:38+00:00</lastmod>
+  <lastmod>2021-09-16T11:06:38+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://www.dx29.ai/open;role=undiagnosed</loc>
-  <lastmod>2021-09-15T11:06:38+00:00</lastmod>
+  <loc>https://www.dx29.ai/diagnosed</loc>
+  <lastmod>2021-09-16T11:06:38+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://www.dx29.ai/open;role=diagnosed</loc>
-  <lastmod>2021-09-15T11:06:38+00:00</lastmod>
+  <loc>https://www.dx29.ai/undiagnosed</loc>
+  <lastmod>2021-09-16T11:06:38+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://dx29.ai/clinician</loc>
-  <lastmod>2021-09-15T11:06:38+00:00</lastmod>
-  <priority>0.70</priority>
+  <loc>https://www.dx29.ai/undiagnosed;role=physicians</loc>
+  <lastmod>2021-09-16T11:06:38+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 
 

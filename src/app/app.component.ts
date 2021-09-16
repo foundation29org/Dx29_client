@@ -250,12 +250,16 @@ export class AppComponent implements OnInit, OnDestroy{
       this.router.events.subscribe( (event) =>{        
         if (event instanceof NavigationEnd ) {
           var actualUrl = this.activatedRoute.snapshot['_routerState'].url;
-          if(actualUrl.indexOf()!="diagnosed;role="){
-            this.role = actualUrl.split("diagnosed;role=")[1];
-          }
-          if(actualUrl.indexOf()!="undiagnosed;role="){
+          if(actualUrl.indexOf("undiagnosed;role=")!=-1){
             this.role = actualUrl.split("undiagnosed;role=")[1];
+          }else if(actualUrl.indexOf("undiagnosed")!=-1){
+            this.role = "undiagnosed";
+          }else if(actualUrl.indexOf('diagnosed')!=-1){
+            this.role = "diagnosed";
+          }else{
+            this.role = '';
           }
+          
           if(this.authService.getLang()){
             this.launchHotjarTrigger(this.authService.getLang());
           }else if(sessionStorage.getItem('lang')!=undefined){
@@ -371,11 +375,11 @@ export class AppComponent implements OnInit, OnDestroy{
           this.meta.updateTag({name: 'keywords', content: this.translate.instant("seo.home.keywords")});
           this.meta.updateTag({name: 'description', content: this.translate.instant("seo.home.description")});
           this.meta.updateTag({name: 'title', content: this.translate.instant("seo.home.title")});
-         }else if(this.role="diagnosed"){
+         }else if(this.role=="diagnosed"){
           this.meta.updateTag({name: 'keywords', content: this.translate.instant("seo.diagnosed.keywords")});
           this.meta.updateTag({name: 'description', content: this.translate.instant("seo.diagnosed.description")});
           this.meta.updateTag({name: 'title', content: this.translate.instant("seo.diagnosed.title")});
-         }else if(this.role="undiagnosed"){
+         }else if(this.role=="undiagnosed"){
           this.meta.updateTag({name: 'keywords', content: this.translate.instant("seo.undiagnosed.keywords")});
           this.meta.updateTag({name: 'description', content: this.translate.instant("seo.undiagnosed.description")});
           this.meta.updateTag({name: 'title', content: this.translate.instant("seo.undiagnosed.title")});
