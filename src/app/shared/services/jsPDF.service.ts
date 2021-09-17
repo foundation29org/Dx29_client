@@ -63,12 +63,13 @@ export class jsPDFService {
             // Doc table
             
             //doc.addPage();
-            this.newHeatherAndFooter(doc);
+            //this.newHeatherAndFooter(doc);
             //positionY=40;
             //positionY = this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Appendix1"), this.translate.instant("land.diagnosed.timeline.Symptoms"),this.translate.instant("land.diagnosed.timeline.Appendix1Desc"),positionY)
             this.timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo);
 
             doc.addPage();
+            this.newHeatherAndFooter(doc);
             positionY = this.drawTimeLine(doc,dictionaryTimeline, listSymptomsNullInfo);
             
             var date = this.getDate();
