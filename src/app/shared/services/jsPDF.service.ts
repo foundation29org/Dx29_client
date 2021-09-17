@@ -213,7 +213,6 @@ export class jsPDFService {
                 }
             }
         }
-        console.log(bodyTable)
 
         doc.autoTable({
             head: [[this.translate.instant("generics.Name"),this.translate.instant("land.diagnosed.timeline.Duration"),this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"),"ID"]],
@@ -224,6 +223,7 @@ export class jsPDFService {
                 this.newHeatherAndFooter(doc);
             },
             willDrawCell:(data)=>{
+                console.log(data.row)
                 if (data.cell.section === 'body' && data.column.index === 4) {
                     var text = data.cell.text.toString()
                     data.cell.text = ""
@@ -231,7 +231,8 @@ export class jsPDFService {
                     var url = "https://hpo.jax.org/app/browse/term/" + text;
                     doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
                 }
-            }
+            },
+            
         }); 
     }
 

@@ -88,9 +88,29 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
 
     // Order by ascending property key
     keyAscOrder = ((a, b) => {
-        return new Date(a.key).getTime() > new Date(b.key).getTime() ? -1 : (new Date(b.key).getTime() > new Date(a.key).getTime() ? 1 : 0);
+        var a_month=a.key.split("-"[0])
+        var a_year = a.key.split("-")[1]
+        var b_month=b.key.split("-")[0]
+        var b_year=b.key.split("-")[1]
+        if(new Date(a_year).getTime() > new Date(b_year).getTime()){
+            return -1;
+        }
+        else if(new Date(a_year).getTime() < new Date(b_year).getTime()){
+            return 1;
+        }
+        else{
+            if(new Date(a_month).getTime()>new Date(b_month).getTime()){
+                return -1;
+            }
+            else if(new Date(a_month).getTime() < new Date(b_month).getTime()){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
     })
-
+    
     isEmptyObject(obj){
         if (obj == undefined){
             return true;
