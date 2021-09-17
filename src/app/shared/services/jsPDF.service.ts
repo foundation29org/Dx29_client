@@ -31,7 +31,7 @@ export class jsPDFService {
 
             // Cabecera inicial
             var img_logo = new Image();
-            img_logo.src = "https://dx29.ai/assets/img/logo-Dx29.png"
+            img_logo.src = "assets/img/logo-Dx29.png"
             doc.addImage(img_logo, 'png', 20, 10, 29, 17);
             doc.setFont(undefined, 'bold');
             doc.setFontSize(15);
@@ -50,7 +50,7 @@ export class jsPDFService {
 
             //Add QR
             var img_qr = new Image();
-            img_qr.src = "https://dx29.ai/assets/img/elements/qr.png"
+            img_qr.src = "assets/img/elements/qr.png"
             doc.addImage(img_qr, 'png', 160, 5, 32, 30);
 
             this.newHeatherAndFooter(doc);
@@ -111,7 +111,7 @@ export class jsPDFService {
 
     private drawBoxTimeLine(doc, dateinfo,date, positionY){
         var calendarIcon = new Image();
-        calendarIcon.src = "http://localhost:4200/assets/img/pdf/ft-calendar.png"//https://dx29.ai/assets/img/pdf/ft-calendar.png
+        calendarIcon.src = "assets/img/pdf/ft-calendar.png"//https://dx29.ai/assets/img/pdf/ft-calendar.png
         doc.addImage(calendarIcon, 'png', 15, (positionY+4), 7, 7);
         var posInit = positionY;
         doc.setFillColor(255, 255, 255);
@@ -153,7 +153,7 @@ export class jsPDFService {
         positionY += 10;
         doc.setTextColor(0, 0, 0);
         var calendarIcon = new Image();
-        calendarIcon.src = "http://localhost:4200/assets/img/pdf/ft-help.png"//https://dx29.ai/assets/img/pdf/ft-help.png
+        calendarIcon.src = "assets/img/pdf/ft-help.png"//https://dx29.ai/assets/img/pdf/ft-help.png
         doc.addImage(calendarIcon, 'png', 15, (positionY+4), 7, 7);
         doc.setFillColor(255, 255, 255);
         doc.rect(25, (positionY+4), 100, ((5*(listSymptomsNullInfo.length)+5)), 'FD'); //Fill and Border
@@ -408,7 +408,7 @@ export class jsPDFService {
     private newHeatherAndFooter(doc){
         // Footer
         var logoHealth = new Image();
-        logoHealth.src = "https://dx29.ai/assets/img/logo-foundation-twentynine-footer.png"
+        logoHealth.src = "assets/img/logo-foundation-twentynine-footer.png"
         doc.addImage(logoHealth, 'png', 20, 280, 25, 10);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
@@ -520,7 +520,7 @@ export class jsPDFService {
 
         // Cabecera inicial
         var img_logo = new Image();
-        img_logo.src = "https://dx29.ai/assets/img/logo-Dx29.png"
+        img_logo.src = "assets/img/logo-Dx29.png"
         doc.addImage(img_logo, 'png', 20, 10, 29, 17);
         doc.setFont(undefined, 'bold');
         doc.setFontSize(15);
@@ -539,7 +539,7 @@ export class jsPDFService {
 
        //Add QR
         var img_qr = new Image();
-        img_qr.src = "https://dx29.ai/assets/img/elements/qr.png"
+        img_qr.src = "assets/img/elements/qr.png"
         doc.addImage(img_qr, 'png', 160, 5, 32, 30);
 
         this.newHeatherAndFooter(doc);
