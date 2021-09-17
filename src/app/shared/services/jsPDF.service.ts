@@ -132,7 +132,7 @@ export class jsPDFService {
                 doc.setTextColor(0, 0, 0)
                 posInit= posInit+1;
             }
-            var url = "https://hpo.jax.org/app/browse/term/" + dateinfo[i].name;
+            var url = "https://hpo.jax.org/app/browse/term/" + dateinfo[i].id;
             doc.setTextColor(51, 101, 138);
             doc.textWithLink(dateinfo[i].name, 30, posInit+= 5, { url: url });
         }
@@ -169,7 +169,7 @@ export class jsPDFService {
                 posInit= positionY+5;
             }
             console.log(posInit);
-            var url = "https://hpo.jax.org/app/browse/term/" + listSymptomsNullInfo[i].name;
+            var url = "https://hpo.jax.org/app/browse/term/" + listSymptomsNullInfo[i].id;
             doc.setTextColor(51, 101, 138);
             doc.textWithLink(listSymptomsNullInfo[i].name, 30, posInit+= 5, { url: url });
         }
