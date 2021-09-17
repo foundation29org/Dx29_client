@@ -249,7 +249,6 @@ export class jsPDFService {
                     }
                     var duration="-"
                     if(((onsetdate!=undefined)&&(onsetdate!=null))&&((finishdate!=undefined)&&(finishdate!=null))){
-                        console.log("Get duration")
                         duration = this.dateDiff(onsetdate,finishdate)
                     }
                     var notes = null;
@@ -257,10 +256,11 @@ export class jsPDFService {
                         notes = dictionaryTimeline[itemDate][date][i].notes
                     }
 
-                    var symptom = [name,duration,onsetdate,finishdate,id]
+                    var symptom = [{content:name,rowSpan:1},{content:duration,rowSpan:1},{content:onsetdate,rowSpan:1},{content:finishdate,rowSpan:1},{content:id,rowSpan:1}]
                     var foundInBodyTable = false;
+                    
                     for(var j=0;j<bodyTable.length;j++){
-                        if(bodyTable[j].includes(id)){
+                        if(bodyTable[j].content == (id)){
                             foundInBodyTable=true
                         }
                     }
@@ -292,10 +292,10 @@ export class jsPDFService {
                 notes2 = listSymptomsNullInfo[j].notes
             }
 
-            var symptom2 = [name2,duration2,onsetdate2,finishdate2,id2]
+            var symptom2 = [{content:name2,rowSpan:1},{content:duration2,rowSpan:1},{content:onsetdate2,rowSpan:1},{content:finishdate2,rowSpan:1},{content:id2,rowSpan:1}]
             var foundInBodyTable = false;
             for(var k=0;k<bodyTable.length;k++){
-                if(bodyTable[k].includes(id2)){
+                if(bodyTable[k].content == (id2)){
                     foundInBodyTable=true
                 }
             }
@@ -310,11 +310,12 @@ export class jsPDFService {
         // Add notes 
         for(var i = 0; i < bodyTable.length; i++){
             for(var j=0; j< bodyTable[i].length;j++){
-                if(Object.keys(notesBodyTable).includes(bodyTable[i][j])){
-                    bodyTable.splice(i+1,0,[this.translate.instant("generics.notes")+": "+ notesBodyTable[bodyTable[i][j]]])
+                if(Object.keys(notesBodyTable).includes(bodyTable[i][j].content)){
+                    bodyTable.splice(i+1,0,[{content:this.translate.instant("generics.notes")+": "+ notesBodyTable[bodyTable[i][j].content],rowSpan:5}])
                 }
             }
         }
+        console.log(bodyTable)
 
         doc.autoTable({
             head: [[this.translate.instant("generics.Name"),this.translate.instant("land.diagnosed.timeline.Duration"),this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"),"ID"]],
@@ -332,18 +333,7 @@ export class jsPDFService {
                     var url = "https://hpo.jax.org/app/browse/term/" + text;
                     doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
                 }
-                if(data.row.raw.length==1){
-                    doc.setFont(undefined,'italic');
-                    var mergeCell = data.row.cells[0]
-                    data.row.cells=[]
-                    data.row.cells.push(mergeCell)
-                    data.row.cells[0].rowSpan = 5
-                    data.row.cells[0].width = data.row.cells[0].contentWidth
-                    console.log(data.row)
-                    console.log(data)
-                    data.cell.width = data.cell.contentWidth
-                }
-            },
+            }
             
         }); 
     }
