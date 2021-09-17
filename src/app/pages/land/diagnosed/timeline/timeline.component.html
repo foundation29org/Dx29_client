@@ -1,6 +1,9 @@
 <div class="col-md-12">
   <div class="row">
     <div class="col-md-12">
+      <div class="col-md-6">
+        <p class="float-left" style="font-size: smaller;">** Si no sabes el día exacto de inicio o fin de un síntoma pon por ejemplo el primer día del mes.</p>
+      </div>
       <button type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right" (click)="backTimeline('true');">
         <em class="mr-1 ft-x white"
           title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="backTimeline('true')"
@@ -27,7 +30,7 @@
       </button>-->
       
     </div>
-    <div class="col-md-6 mt-1" *ngIf="!modifyFormSymtoms">
+    <div class="col-md-6" *ngIf="!modifyFormSymtoms">
         <table class="table mb-0 text-center d-none d-sm-block">
           <tbody style="width: 100%;display: inline-table;">
             <tr *ngFor="let symptom of listSymptoms ; let i = index">
@@ -62,10 +65,10 @@
           </tbody>
         </table>
     </div>
-    <div class="col-md-6 mt-1" *ngIf="modifyFormSymtoms">
+    <div class="col-md-6" *ngIf="modifyFormSymtoms">
       <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
     </div>
-    <div class="col-md-6 mt-1" *ngIf="!showTimeLine">
+    <div class="col-md-6" *ngIf="!showTimeLine">
       <div class="col-md-12">
         <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
       </div>
@@ -73,7 +76,7 @@
         <p>{{'land.diagnosed.timeline.t2' | translate}}</p>
       </div>
     </div>
-    <div class="col-md-6 mt-1" *ngIf="showTimeLine && !downloadingTimeline"> 
+    <div class="col-md-6" *ngIf="showTimeLine && !downloadingTimeline"> 
       <div class="col-md-12" id="mytimeline">
         <section *ngIf="!isEmptyObject(dictionaryTimeline)||!isEmptyObject(listTimelineNull)" id="vertical-timeline-left" class="timeline-left timeline-wrapper col-sm-10 col-12 offset-sm-1">
           <div *ngIf="!isEmptyObject(dictionaryTimeline)">
@@ -168,7 +171,7 @@
         <!--</div>-->
       </div>
     </div>
-    <div class="col-md-6 mt-2 center-elements" *ngIf="showTimeLine && downloadingTimeline">
+    <div class="col-md-6 mt-1 center-elements" *ngIf="showTimeLine && downloadingTimeline">
       <div class="col-md-12"> 
         <span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
       </div>

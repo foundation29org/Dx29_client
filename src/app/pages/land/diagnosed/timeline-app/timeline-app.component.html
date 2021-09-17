@@ -1,21 +1,26 @@
 <div class="col-md-12">
   <div class="row">
     <div class="col-md-12">
-      <em class="mr- ft-x info float-right"
+      <div class="col-md-6">
+        <p class="float-left" style="font-size: smaller;">** Si no sabes el día exacto de inicio o fin de un síntoma pon por ejemplo el primer día del mes.</p>
+      </div>
+      <div class="col-md-6">
+        <em class="mr- ft-x info float-right"
           title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="backTimeline('true')"
           style="cursor: pointer;"></em>
-      <em *ngIf="showTimeLine" class="mr-2 fa fa-refresh info float-right"
-          title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="backTimeline('false')"
-          style="cursor: pointer;"></em>
-      <em class="mr-2 ft-help-circle info float-right"
-          title="{{'land.diagnosed.timeline.help' | translate}}" (click)="openTimelineAppHelp()"
-          style="cursor: pointer;"></em>
-      <em *ngIf="showTimeLine" class="mr-2 fa fa-download info float-right"
-          title="{{'land.diagnosed.timeline.Download' | translate }}" (click)="exportTimeline()"
-          style="cursor: pointer;"></em>
-      <!--<em class="mr-1 ft-save white"
-          title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="saveTimeline()"
-          style="cursor: pointer;"></em>-->
+        <em *ngIf="showTimeLine" class="mr-2 fa fa-refresh info float-right"
+            title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="backTimeline('false')"
+            style="cursor: pointer;"></em>
+        <em class="mr-2 ft-help-circle info float-right"
+            title="{{'land.diagnosed.timeline.help' | translate}}" (click)="openTimelineAppHelp()"
+            style="cursor: pointer;"></em>
+        <em *ngIf="showTimeLine" class="mr-2 fa fa-download info float-right"
+            title="{{'land.diagnosed.timeline.Download' | translate }}" (click)="exportTimeline()"
+            style="cursor: pointer;"></em>
+        <!--<em class="mr-1 ft-save white"
+            title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="saveTimeline()"
+            style="cursor: pointer;"></em>-->
+      </div>
     </div>
   </div>
   <div class="col-md-12 mt-1" *ngIf="!modifyFormSymtoms">

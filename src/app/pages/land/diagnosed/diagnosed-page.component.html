@@ -146,13 +146,15 @@
                   </div>
                 </div>
                 <div class="col-md-12" *ngIf="(!startTimeline)&&(startCheckSymptoms)">
-                  <div class="col-md-12">
-                    <em class="mr-1 ft-x info float-right"
-                      title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="endTimeLineFunction()"
-                      style="cursor: pointer;"></em>
-                    <em class="mr-1 ft-help-circle info float-right"
-                      title="{{'land.diagnosed.timeline.help' | translate}}" (click)="openTimelineAppHelp2(contentTimelineAppHelp2)"
-                      style="cursor: pointer;"></em>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <em class="mr-1 ft-x info float-right"
+                        title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="endTimeLineFunctionWithConfirmation()"
+                        style="cursor: pointer;"></em>
+                      <em class="mr-1 ft-help-circle info float-right"
+                        title="{{'land.diagnosed.timeline.help' | translate}}" (click)="openTimelineAppHelp2(contentTimelineAppHelp2)"
+                        style="cursor: pointer;"></em>
+                    </div>
                   </div>
                   <div class="col-md-12 mt-1">
                     <p> {{'land.diagnosed.timeline.t1' | translate}}</p>
@@ -437,9 +439,9 @@
                 <div class="col-md-12" *ngIf="(!startTimeline)&&(startCheckSymptoms)">
                   <div class="row">
                     <div class="col-md-12">
-                      <button type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right" (click)="endTimeLineFunction()">
+                      <button type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right" (click)="endTimeLineFunctionWithConfirmation()">
                         <em class="mr-1 ft-x white"
-                          title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="endTimeLineFunction()"
+                          title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="endTimeLineFunctionWithConfirmation()"
                           style="cursor: pointer;"></em>
                         <span>{{'land.diagnosed.timeline.exit' | translate}}</span>
                       </button>

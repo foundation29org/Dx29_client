@@ -787,17 +787,37 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
 
-    openTimelineAppHelp(contentTimelineAppHelp){
-        let ngbModalOptions: NgbModalOptions = {
-            keyboard: false,
-            windowClass: 'ModalClass-sm'// xl, lg, sm
-        };
-        this.modalReference5 = this.modalService.open(contentTimelineAppHelp, ngbModalOptions);
+    openTimelineAppHelp1(contentTimelineAppHelp1){
+        if(this.modalReference5==undefined){
+            let ngbModalOptions: NgbModalOptions = {
+                keyboard: false,
+                windowClass: 'ModalClass-sm'// xl, lg, sm
+            };
+            this.modalReference5 = this.modalService.open(contentTimelineAppHelp1, ngbModalOptions);
+        }
+        
     }
-    closeTimelineAppHelp(){
+    closeTimelineAppHelp1(){
         if(this.modalReference5!=undefined){
             this.modalReference5.close();
             this.modalReference5=undefined;
+        }
+    }
+
+    openTimelineAppHelp2(contentTimelineAppHelp2){
+        if(this.modalReference7==undefined){
+            let ngbModalOptions: NgbModalOptions = {
+                keyboard: false,
+                windowClass: 'ModalClass-sm'// xl, lg, sm
+            };
+            this.modalReference7 = this.modalService.open(contentTimelineAppHelp2, ngbModalOptions);
+        }
+        
+    }
+    closeTimelineAppHelp2(){
+        if(this.modalReference7!=undefined){
+            this.modalReference7.close();
+            this.modalReference7=undefined;
         }
     }
 
@@ -1162,6 +1182,35 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         }
         this.startTimeline=false;
         this.endCheckSymptomsFunction();
+    }
+    
+    endTimeLineFunctionWithConfirmation(){
+        if(this.listSymptomsCheckedTimeline.length>0){
+            Swal.fire({
+                title: this.translate.instant("generics.Are you sure?"),
+                text: this.translate.instant("land.diagnosed.timeline.ExitDiscard"),
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#0CC27E',
+                cancelButtonColor: '#f9423a',
+                confirmButtonText: this.translate.instant("generics.Yes"),
+                cancelButtonText: this.translate.instant("generics.No"),
+                showLoaderOnConfirm: true,
+                allowOutsideClick: false,
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    this.listSymptomsCheckedTimeline=[];
+                    for (var i =0; i<this.infoOneDisease.symptoms.length;i++){
+                        if(this.infoOneDisease.symptoms[i].checked){
+                            this.infoOneDisease.symptoms[i].checked= false;
+                        }
+                    }
+                    this.startTimeline=false;
+                    this.endCheckSymptomsFunction();
+                }
+            })
+        }
     }
 
 
