@@ -740,7 +740,7 @@
     "title": "Síntomas",
     "subtitle": "Añade los síntomas del paciente.",
     "obsolete": "Este paciente contiene síntomas considerados como obsoletos. Se recomienda que los reemplaces por síntomas equivalentes actualizados.",
-    "manualinput": "Escribe un síntoma. Ej: no puede caminar",
+    "manualinput": "Escriba un síntoma, 1 a 1. Ej: no puede caminar",
     "searchdoc": "Buscar en un documento",
     "searchtext": "Buscar en un texto",
     "nosymptoms": "El paciente no tiene síntomas.",

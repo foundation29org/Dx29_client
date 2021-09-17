@@ -741,7 +741,7 @@
     "title": "Symptoms",
     "subtitle": "Include the patient symptoms.",
     "obsolete": "This patient has symptoms considered as obsolete. It is recommended that you replace them with equivalent and up to date symptoms.",
-    "manualinput": "Type a symptom. Ex: cannot walk",
+    "manualinput": "Type a symptom, 1 by 1. Ex: cannot walk",
     "searchdoc": "Search a document",
     "searchtext": "Search in text",
     "nosymptoms": "The patient does not have symptoms.",
