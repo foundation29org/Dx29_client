@@ -256,7 +256,7 @@ export class jsPDFService {
                         notes = dictionaryTimeline[itemDate][date][i].notes
                     }
 
-                    var symptom = [{content:name,rowSpan:1},{content:duration,rowSpan:1},{content:onsetdate,rowSpan:1},{content:finishdate,rowSpan:1},{content:id,rowSpan:1}]
+                    var symptom = [{content:name,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:duration,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:onsetdate,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:finishdate,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:id,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}}]
                     var foundInBodyTable = false;
                     
                     for(var j=0;j<bodyTable.length;j++){
@@ -292,7 +292,7 @@ export class jsPDFService {
                 notes2 = listSymptomsNullInfo[j].notes
             }
 
-            var symptom2 = [{content:name2,rowSpan:1},{content:duration2,rowSpan:1},{content:onsetdate2,rowSpan:1},{content:finishdate2,rowSpan:1},{content:id2,rowSpan:1}]
+            var symptom2 = [{content:name2,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:duration2,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:onsetdate2,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:finishdate2,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:id2,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}}]
             var foundInBodyTable = false;
             for(var k=0;k<bodyTable.length;k++){
                 if(bodyTable[k].content == (id2)){
@@ -310,8 +310,9 @@ export class jsPDFService {
         // Add notes 
         for(var i = 0; i < bodyTable.length; i++){
             for(var j=0; j< bodyTable[i].length;j++){
+                console.log(Object.keys(notesBodyTable).includes(bodyTable[i][j].content))
                 if(Object.keys(notesBodyTable).includes(bodyTable[i][j].content)){
-                    bodyTable.splice(i+1,0,[{content:this.translate.instant("generics.notes")+": "+ notesBodyTable[bodyTable[i][j].content],rowSpan:5}])
+                    bodyTable.splice(i+1,0,[{content:this.translate.instant("generics.notes")+": "+ notesBodyTable[bodyTable[i][j].content],colSpan:5,styles:{fontSize:10, fontStyle: 'italic'}}])
                 }
             }
         }
