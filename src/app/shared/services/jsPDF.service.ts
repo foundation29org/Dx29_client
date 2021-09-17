@@ -310,13 +310,11 @@ export class jsPDFService {
         // Add notes 
         for(var i = 0; i < bodyTable.length; i++){
             for(var j=0; j< bodyTable[i].length;j++){
-                console.log(Object.keys(notesBodyTable).includes(bodyTable[i][j].content))
                 if(Object.keys(notesBodyTable).includes(bodyTable[i][j].content)){
                     bodyTable.splice(i+1,0,[{content:this.translate.instant("generics.notes")+": "+ notesBodyTable[bodyTable[i][j].content],colSpan:5,styles:{fontSize:10, fontStyle: 'italic'}}])
                 }
             }
         }
-        console.log(bodyTable)
 
         doc.autoTable({
             head: [[this.translate.instant("generics.Name"),this.translate.instant("land.diagnosed.timeline.Duration"),this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"),"ID"]],

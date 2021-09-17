@@ -310,7 +310,6 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
         }
         else{
             Swal.fire('', this.translate.instant("land.diagnosed.timeline.errorExportPDF"), "error");
-
         }
     }
 
