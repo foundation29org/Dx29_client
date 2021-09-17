@@ -2358,6 +2358,7 @@
         "SaveTimeline":"Save timeline",
         "currentSymptom":"I still have it",
         "errorDates":"The end date cannot be earlier than the start date.",
+        "selectEndOrCurrent":"You must select end date for this symptom or check if you still have it",
         "exit":"Exit",
         "reset":"Reset",
         "ExitDiscard":"Any changes you have made will be discarded.",
@@ -2379,7 +2380,9 @@
         "months":"months",
         "year":"year",
         "years":"years",
-        "and":"and"
+        "and":"and",
+        "HelpDates":"If you do not know the exact onset or ending day of a symptom, give for example the first day of the month.",
+        "errorExportPDF":"There are errors in your timeline data, please check it and try again."
       },
       "diseases":{
         "error1":"Sorry, we have no information about",

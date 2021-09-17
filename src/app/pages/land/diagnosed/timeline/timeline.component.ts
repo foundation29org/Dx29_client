@@ -119,15 +119,22 @@ export class TimelineComponent implements OnInit, OnDestroy {
         this.listTimelineNull = []
 
         for (var i = 0; i< this.listSymptoms.length;i++){
-            if(this.listSymptoms[i].onsetdate==NaN){
+            if((this.listSymptoms[i].onsetdate==NaN)||(this.listSymptoms[i].onsetdate==undefined)){
                 this.listSymptoms[i].onsetdate = null
             }
-            if (this.listSymptoms[i].finishdate==NaN){
+            else if(this.listSymptoms[i].onsetdate.length==0){
+                this.listSymptoms[i].onsetdate = null
+            }
+            if ((this.listSymptoms[i].finishdate==NaN)||(this.listSymptoms[i].finishdate==undefined)){
+                this.listSymptoms[i].finishdate = null
+            }
+            else if(this.listSymptoms[i].finishdate.length==0){
                 this.listSymptoms[i].finishdate = null
             }
             if((this.listSymptoms[i].isCurrentSymptom!=null)||(this.listSymptoms[i].isCurrentSymptom!=undefined)){
                 this.modifyFormSymtoms = true;
                 this.listSymptoms[i].finishdate=null;
+                this.listSymptoms[i].selectEndOrCurrent = false;
                 this.modifyFormSymtoms = false;
             }
             else{
@@ -185,14 +192,24 @@ export class TimelineComponent implements OnInit, OnDestroy {
         var firstDate = new Date();
         var symptomOnsetDateString = "";
         for(var i=0; i<this.listSymptoms.length;i++){
-            var symptomOnsetDate = new Date(this.listSymptoms[i].onsetdate);
-            if(symptomOnsetDate.getTime()<firstDate.getTime()){
-                firstDate=symptomOnsetDate;
-                symptomOnsetDateString = this.listSymptoms[i].onsetdate;
+            if((this.listSymptoms[i].onsetdate==NaN)||(this.listSymptoms[i].onsetdate==undefined)){
+                this.listSymptoms[i].onsetdate = null
             }
+            else if(this.listSymptoms[i].onsetdate.length==0){
+                this.listSymptoms[i].onsetdate = null
+            }
+            if(this.listSymptoms[i].onsetdate!=null){
+                var symptomOnsetDate = new Date(this.listSymptoms[i].onsetdate);
+                if(symptomOnsetDate.getTime()<firstDate.getTime()){
+                    firstDate=symptomOnsetDate;
+                    symptomOnsetDateString = this.listSymptoms[i].onsetdate;
+                }
+            }
+            
         }
-        this.dictionaryTimeline[symptomOnsetDateString]={}
-
+        if(symptomOnsetDateString!=""){
+            this.dictionaryTimeline[symptomOnsetDateString]={}
+        }
     }
 
     checkFinishDate(symptomIndex){
@@ -206,6 +223,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
                 }
                 else{
                     this.listSymptoms[symptomIndex].invalidFinishdate = false;
+                    this.listSymptoms[symptomIndex].selectEndOrCurrent = false;
                 }
             }
         }
@@ -262,12 +280,35 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
     exportTimeline()
     {
+        var isValid= this.validateTimeline();
         // Download and send event 
-        this.downloadingTimeline = true;
-        this.jsPDFService.generateTimelinePDF('mytimeline', sessionStorage.getItem('lang'),this.dictionaryTimeline,this.listTimelineNull).then(()=>{
-            this.downloadingTimeline = false;
-            this.finishEvent.emit(true);
-        })
+        if(isValid){
+            this.downloadingTimeline = true;
+            this.jsPDFService.generateTimelinePDF('mytimeline', sessionStorage.getItem('lang'),this.dictionaryTimeline,this.listTimelineNull).then(()=>{
+                this.downloadingTimeline = false;
+                this.finishEvent.emit(true);
+            })
+        }
+        else{
+            Swal.fire('', this.translate.instant("land.diagnosed.timeline.errorExportPDF"), "error");
+        }
+        
+    }
+    validateTimeline(){
+        var isValid = true;
+        this.modifyFormSymtoms=true;
+        for(var i=0; i<this.listSymptoms.length;i++){
+            if((this.listSymptoms[i].onsetdate!=undefined)&&(this.listSymptoms[i].onsetdate!=null)){
+                if((this.listSymptoms[i].finishdate==null)||(this.listSymptoms[i].finishdate==undefined)){
+                    if((this.listSymptoms[i].isCurrentSymptom==undefined)||(this.listSymptoms[i].isCurrentSymptom==null)){
+                        this.listSymptoms[i].selectEndOrCurrent = true;
+                        isValid = false;
+                    }
+                }
+            }
+        }
+        this.modifyFormSymtoms=false;
+        return isValid;
     }
 
     saveTimeline()

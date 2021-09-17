@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="col-md-6">
-        <p class="float-left" style="font-size: smaller;">** Si no sabes el día exacto de inicio o fin de un síntoma pon por ejemplo el primer día del mes.</p>
+        <p class="float-left" style="font-size: smaller;">** {{'land.diagnosed.timeline.HelpDates' | translate }}</p>
       </div>
       <button type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right" (click)="backTimeline('true');">
         <em class="mr-1 ft-x white"
@@ -43,6 +43,9 @@
                       title="{{symptom.id}}">
                       <i class="ft-external-link"></i></a>
                   </span>
+                </div>
+                <div class="col-md-12" *ngIf="symptom.selectEndOrCurrent">
+                  <small class="text-left form-text danger" >{{'land.diagnosed.timeline.selectEndOrCurrent' | translate}}</small>
                 </div>
                 <div class="col-md-6 mt-3">
                   <label for="dateOnset"> {{'generics.Start Date' | translate }} </label>
