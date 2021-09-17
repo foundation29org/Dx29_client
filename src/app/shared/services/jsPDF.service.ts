@@ -121,7 +121,7 @@ export class jsPDFService {
         doc.setFont(undefined, 'bold');
         doc.setFontSize(10);
         doc.text(date, 30, posInit += 10);
-        doc.line(30, posInit+1, 100, posInit+1);
+        doc.line(30, posInit+1, 170, posInit+1);
         posInit= posInit+1;
         for (var i=0;i<dateinfo.length;i++){
             posInit = this.checkIfNewPage(doc, posInit);
@@ -157,14 +157,14 @@ export class jsPDFService {
         calendarIcon.src = "assets/img/pdf/ft-help.png"//https://dx29.ai/assets/img/pdf/ft-help.png
         doc.addImage(calendarIcon, 'png', 15, (positionY+4), 7, 7);
         doc.setFillColor(255, 255, 255);
-        doc.rect(25, (positionY+4), 100, ((5*(listSymptomsNullInfo.length)+5)), 'FD'); //Fill and Border
+        doc.rect(25, (positionY+4), 150, ((5*(listSymptomsNullInfo.length)+5)), 'FD'); //Fill and Border
         doc.setTextColor(0, 0, 0)
         posInit= positionY+5;
         for (var i=0;i<listSymptomsNullInfo.length;i++){
             posInit = this.checkIfNewPage(doc, posInit);
             if(posInit==20){
                 //is new page
-                doc.rect(25, (posInit+4), 100, ((5*(listSymptomsNullInfo.length)+5)), 'FD'); //Fill and Border
+                doc.rect(25, (posInit+4), 150, ((5*(listSymptomsNullInfo.length)+5)), 'FD'); //Fill and Border
                 doc.setTextColor(0, 0, 0)
                 posInit= positionY+5;
             }
