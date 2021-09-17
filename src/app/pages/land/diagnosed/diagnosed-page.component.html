@@ -404,7 +404,7 @@
                                     title="{{'generics.More information' | translate }} ({{symptom.id}})">
                                     <em class="fa fa-info w-13"></em>
                                   </button>
-                                  <span *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);" class="info">{{symptom.name}}</span>
+                                  <span *ngIf="symptom.name" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);" class="info">{{symptom.name}}</span>
                                   <span *ngIf="!symptom.name">
                                     {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                                       href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
@@ -459,7 +459,7 @@
                                     href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
                                     <em class="fa fa-check w-13"></em>
                                   </button>
-                                  <span *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);" class="info">{{symptom.name}}</span>
+                                  <span *ngIf="symptom.name" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);" class="info">{{symptom.name}}</span>
                                   <span *ngIf="!symptom.name">
                                     {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                                       href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
@@ -484,7 +484,7 @@
                         <div class="col-md-12">
                           <ul *ngFor="let symptomChecked of listSymptomsCheckedTimeline; let j = index">
                             <li *ngIf="symptomChecked.name">
-                              <span (click)="showMoreInfoSymptomPopup(j, contentInfoSymptomOneDisease);" class="info">{{symptomChecked.name}}</span>
+                              <span style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(j, contentInfoSymptomOneDisease);" class="info">{{symptomChecked.name}}</span>
                             </li>
                             <li *ngIf="!symptomChecked.name">
                               <span>

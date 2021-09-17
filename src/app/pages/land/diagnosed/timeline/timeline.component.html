@@ -36,7 +36,7 @@
             <tr *ngFor="let symptom of listSymptoms ; let i = index">
               <td class="row text-left">
                 <div class="col-md-12">
-                  <span *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(symptom);" class="info">{{symptom.name}}</span>
+                  <span *ngIf="symptom.name" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(symptom);" class="info">{{symptom.name}}</span>
                   <span *ngIf="!symptom.name">
                     {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                       href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"

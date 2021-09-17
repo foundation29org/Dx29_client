@@ -127,11 +127,11 @@ export class jsPDFService {
 
     private timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo){
         var bodyTable = []
-        var notesBodyTable = {}
+        var notesBodyTable={};
         for (var itemDate in dictionaryTimeline){
             for (var date in dictionaryTimeline[itemDate]){
-                    for (var i=0;i<dictionaryTimeline[itemDate][date].length;i++){
-                        var name = dictionaryTimeline[itemDate][date][i].name
+                for (var i=0;i<dictionaryTimeline[itemDate][date].length;i++){
+                    var name = dictionaryTimeline[itemDate][date][i].name
                     if(name==undefined){
                         name = dictionaryTimeline[itemDate][date][i].id + "-" + this.translate.instant("phenotype.Deprecated")
                     }
@@ -149,10 +149,12 @@ export class jsPDFService {
                         console.log("Get duration")
                         duration = this.dateDiff(onsetdate,finishdate)
                     }
-                    var notes = dictionaryTimeline[itemDate][date][i].notes
-                    if((notes==undefined)||(notes==null)){
-                        notes="-"
+
+                    var notes = null;
+                    if((dictionaryTimeline[itemDate][date][i].notes!=null)&&(dictionaryTimeline[itemDate][date][i].notes!=undefined)){
+                        notes = dictionaryTimeline[itemDate][date][i].notes
                     }
+
                     var symptom = [name,duration,onsetdate,finishdate,id]
                     var foundInBodyTable = false;
                     for(var j=0;j<bodyTable.length;j++){
@@ -162,13 +164,18 @@ export class jsPDFService {
                     }
                     if(!foundInBodyTable){
                         bodyTable.push(symptom)
-                        notesBodyTable[id]={"notes":notes}
+                        if(notes!=null){
+                            notesBodyTable[id]=notes;
+                        }
                     }
                 }
             }
         }
-        bodyTable.reverse();
+
+        bodyTable.reverse(); // Mas antiguos primero
+
         for(var j=0;j<listSymptomsNullInfo.length;j++){
+
             var name2 = listSymptomsNullInfo[j].name
             if(name2==undefined){
                 name2 = listSymptomsNullInfo[j].id + "-" + this.translate.instant("phenotype.Deprecated")
@@ -177,8 +184,13 @@ export class jsPDFService {
             var onsetdate2 = "-";
             var finishdate2 = "-";
             var duration2="-";
-            var notes2 ="-";
-            var symptom2 = [name2,duration2,onsetdate2,finishdate2,id2,notes2]
+
+            var notes2 = null;
+            if((listSymptomsNullInfo[j].notes!=null)&&(listSymptomsNullInfo[j].notes!=undefined)){
+                notes2 = listSymptomsNullInfo[j].notes
+            }
+
+            var symptom2 = [name2,duration2,onsetdate2,finishdate2,id2]
             var foundInBodyTable = false;
             for(var k=0;k<bodyTable.length;k++){
                 if(bodyTable[k].includes(id2)){
@@ -187,10 +199,22 @@ export class jsPDFService {
             }
             if(!foundInBodyTable){
                 bodyTable.push(symptom2)
-                notesBodyTable[id2]={"notes":notes2}
+                if(notes2!=null){
+                    notesBodyTable[id2]=notes2;
+                }
             }
-            
+        } // Despues los que no tienen info de fechas
+
+        // Add notes 
+        for(var i = 0; i < bodyTable.length; i++){
+            for(var j=0; j< bodyTable[i].length;j++){
+                if(Object.keys(notesBodyTable).includes(bodyTable[i][j])){
+                    bodyTable.splice(i+1,0,[notesBodyTable[bodyTable[i][j]]])
+                }
+            }
         }
+        console.log(bodyTable)
+
         doc.autoTable({
             head: [[this.translate.instant("generics.Name"),this.translate.instant("land.diagnosed.timeline.Duration"),this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"),"ID"]],
             body: bodyTable,
