@@ -67,6 +67,9 @@ export class jsPDFService {
             //positionY=40;
             //positionY = this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Appendix1"), this.translate.instant("land.diagnosed.timeline.Symptoms"),this.translate.instant("land.diagnosed.timeline.Appendix1Desc"),positionY)
             this.timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo);
+
+            doc.addPage();
+            positionY = this.drawTimeLine(doc,dictionaryTimeline, listSymptomsNullInfo);
             
             var date = this.getDate();
             doc.save('Dx29_Timeline_' + date +'.pdf');
@@ -74,6 +77,105 @@ export class jsPDFService {
             return;
 
         }.bind(this));
+    }
+
+    private drawTimeLine(doc, dictionaryTimeline, listSymptomsNullInfo){
+        //draw dictionaryTimeline
+        var positionY = 10;
+        for (var itemDate in dictionaryTimeline){
+            positionY = this.drawLabelTimeLine(doc, itemDate, positionY);
+            for (var date in dictionaryTimeline[itemDate]){
+                var lineHeight = (5*(dictionaryTimeline[itemDate][date].length)+45)+positionY;
+                doc.line(15, positionY-10, 15, lineHeight);
+                positionY = this.drawBoxTimeLine(doc, dictionaryTimeline[itemDate][date], date, positionY);
+            }
+        }
+        this.drawListSymptomsNullInfo(doc, listSymptomsNullInfo, positionY);
+
+        return positionY;
+    }
+
+    private drawLabelTimeLine(doc, itemDate, positionY){
+        var posInit = positionY;
+        doc.setFillColor(0,157,160);
+        doc.rect(15, positionY += 15, (itemDate.length*2)+3, 7, 'FD'); //Fill and Border
+        doc.setTextColor(255, 255, 255);
+        doc.setFont(undefined, 'bold');
+        doc.setFontSize(10);
+        positionY = this.checkIfNewPage(doc, positionY);
+        doc.text(itemDate, 17, posInit += 20);
+        positionY += 10;
+        doc.setTextColor(0, 0, 0)
+        return positionY;
+    }
+
+    private drawBoxTimeLine(doc, dateinfo,date, positionY){
+        var calendarIcon = new Image();
+        calendarIcon.src = "http://localhost:4200/assets/img/pdf/ft-calendar.png"//https://dx29.ai/assets/img/pdf/ft-calendar.png
+        doc.addImage(calendarIcon, 'png', 15, (positionY+4), 7, 7);
+        var posInit = positionY;
+        doc.setFillColor(255, 255, 255);
+        doc.rect(25, (positionY+4), 150, ((5*(dateinfo.length)+10)), 'FD'); //Fill and Border
+        doc.setTextColor(0, 0, 0)
+        doc.setFont(undefined, 'bold');
+        doc.setFontSize(10);
+        doc.text(date, 30, posInit += 10);
+        doc.line(30, posInit+1, 100, posInit+1);
+        posInit= posInit+1;
+        for (var i=0;i<dateinfo.length;i++){
+            posInit = this.checkIfNewPage(doc, posInit);
+            console.log(posInit);
+            if(posInit==20){
+                //is new page
+                doc.rect(25, (posInit+4), 150, ((5*(dateinfo.length)+10)), 'FD'); //Fill and Border
+                doc.setTextColor(0, 0, 0)
+                posInit= posInit+1;
+            }
+            var url = "https://hpo.jax.org/app/browse/term/" + dateinfo[i].name;
+            doc.setTextColor(51, 101, 138);
+            doc.textWithLink(dateinfo[i].name, 30, posInit+= 5, { url: url });
+        }
+        doc.setTextColor(0, 0, 0)
+        //doc.text(date, 15, positionY += 20);
+        positionY= posInit+ 5;
+        return positionY;
+    }
+
+    private drawListSymptomsNullInfo(doc, listSymptomsNullInfo, positionY){
+        var posInit = positionY;
+        doc.setFillColor(0,157,160);
+        doc.rect(15, positionY += 15, 53, 7, 'FD'); //Fill and Border
+        doc.setTextColor(255, 255, 255);
+        doc.setFont(undefined, 'bold');
+        doc.setFontSize(10);
+        positionY = this.checkIfNewPage(doc, positionY);
+        doc.text(this.translate.instant("land.diagnosed.symptoms.NoOnset"), 17, posInit += 20);
+        positionY += 10;
+        doc.setTextColor(0, 0, 0);
+        var calendarIcon = new Image();
+        calendarIcon.src = "http://localhost:4200/assets/img/pdf/ft-help.png"//https://dx29.ai/assets/img/pdf/ft-help.png
+        doc.addImage(calendarIcon, 'png', 15, (positionY+4), 7, 7);
+        doc.setFillColor(255, 255, 255);
+        doc.rect(25, (positionY+4), 100, ((5*(listSymptomsNullInfo.length)+5)), 'FD'); //Fill and Border
+        doc.setTextColor(0, 0, 0)
+        posInit= positionY+5;
+        for (var i=0;i<listSymptomsNullInfo.length;i++){
+            posInit = this.checkIfNewPage(doc, posInit);
+            if(posInit==20){
+                //is new page
+                doc.rect(25, (posInit+4), 100, ((5*(listSymptomsNullInfo.length)+5)), 'FD'); //Fill and Border
+                doc.setTextColor(0, 0, 0)
+                posInit= positionY+5;
+            }
+            console.log(posInit);
+            var url = "https://hpo.jax.org/app/browse/term/" + listSymptomsNullInfo[i].name;
+            doc.setTextColor(51, 101, 138);
+            doc.textWithLink(listSymptomsNullInfo[i].name, 30, posInit+= 5, { url: url });
+        }
+        doc.setTextColor(0, 0, 0)
+        //doc.text(date, 15, positionY += 20);
+        positionY= posInit+ 5;
+        return positionY;
     }
 
     private timeLineImg(doc,dataUrl,timeLineElementId,positionY){
@@ -328,7 +430,7 @@ export class jsPDFService {
         return number;
     }
     private checkIfNewPage(doc, lineText) {
-        if (lineText < 274) {
+        if (lineText < 270) {
             return lineText
         }
         else {
