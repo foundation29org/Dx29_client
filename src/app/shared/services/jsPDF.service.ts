@@ -149,7 +149,6 @@ export class jsPDFService {
                         console.log("Get duration")
                         duration = this.dateDiff(onsetdate,finishdate)
                     }
-
                     var notes = null;
                     if((dictionaryTimeline[itemDate][date][i].notes!=null)&&(dictionaryTimeline[itemDate][date][i].notes!=undefined)){
                         notes = dictionaryTimeline[itemDate][date][i].notes
@@ -209,7 +208,7 @@ export class jsPDFService {
         for(var i = 0; i < bodyTable.length; i++){
             for(var j=0; j< bodyTable[i].length;j++){
                 if(Object.keys(notesBodyTable).includes(bodyTable[i][j])){
-                    bodyTable.splice(i+1,0,[notesBodyTable[bodyTable[i][j]]])
+                    bodyTable.splice(i+1,0,[this.translate.instant("generics.notes")+": "+ notesBodyTable[bodyTable[i][j]]])
                 }
             }
         }
@@ -223,13 +222,23 @@ export class jsPDFService {
                 this.newHeatherAndFooter(doc);
             },
             willDrawCell:(data)=>{
-                console.log(data.row)
                 if (data.cell.section === 'body' && data.column.index === 4) {
                     var text = data.cell.text.toString()
                     data.cell.text = ""
                     doc.setTextColor(0, 133, 133)
                     var url = "https://hpo.jax.org/app/browse/term/" + text;
                     doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
+                }
+                if(data.row.raw.length==1){
+                    doc.setFont(undefined,'italic');
+                    var mergeCell = data.row.cells[0]
+                    data.row.cells=[]
+                    data.row.cells.push(mergeCell)
+                    data.row.cells[0].rowSpan = 5
+                    data.row.cells[0].width = data.row.cells[0].contentWidth
+                    console.log(data.row)
+                    console.log(data)
+                    data.cell.width = data.cell.contentWidth
                 }
             },
             
@@ -271,11 +280,6 @@ export class jsPDFService {
         }
         return result;
     }
-
-
-    
-    
-
 
     private newSectionDoc(doc,sectionNumber,sectionTitle,sectionSubtitle,line){
         var title = sectionTitle;

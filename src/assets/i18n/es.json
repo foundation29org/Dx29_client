@@ -2359,6 +2359,7 @@
         "SaveTimeline":"Guardar cronologia",
         "currentSymptom":"Sigo con ello",
         "errorDates":"La fecha fin no puede ser anterior a la inicial.",
+        "selectEndOrCurrent":"Selecciona una fecha fin o indica si todavía sigues con él",
         "exit":"Salir",
         "reset":"Borrar",
         "ExitDiscard":"Todos los cambios que hayas hecho se descartarán.",
@@ -2380,7 +2381,9 @@
         "months":"meses",
         "year":"año",
         "years":"años",
-        "and":"y"
+        "and":"y",
+        "HelpDates":"Si no sabes el día exacto de inicio o fin de un síntoma pon por ejemplo el primer día del mes.",
+        "errorExportPDF":"Hay errores en los datos de tu cronología, por favor revisalo e inténtalo de nuevo."
       },
       "diseases":{
         "error1":"Lo sentimos, no tenemos información sobre",
