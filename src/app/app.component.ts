@@ -65,6 +65,7 @@ export class AppComponent implements OnInit, OnDestroy{
         }
 
         this.loadLanguages();
+        this.loadCultures();
 
          if (this.isApp){
           document.addEventListener("deviceready", this.onDeviceReady.bind(this), false);
@@ -90,6 +91,12 @@ export class AppComponent implements OnInit, OnDestroy{
          }, (err) => {
            console.log(err);
          })
+    }
+
+    loadCultures(){
+      const browserCulture: string = this.translate.getBrowserCultureLang();
+      sessionStorage.setItem('culture', browserCulture);
+      
     }
 
     launchHotjarTrigger(lang){

@@ -5,6 +5,9 @@ import { CustomFormsModule } from 'ngx-custom-validators';
 import { LandPageRoutingModule } from "./land-page-routing.module";
 import { TranslateModule } from '@ngx-translate/core';
 import { NgApexchartsModule } from "ng-apexcharts";
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+
 
 import { LandPageComponent } from "./land/land-page.component";
 import { UndiagnosedPageComponent } from "./undiagnosed/undiagnosed-page.component";
@@ -29,7 +32,9 @@ import { TimelineAppComponent } from './diagnosed/timeline-app/timeline-app.comp
 
 @NgModule({
     exports: [
-        TranslateModule
+        TranslateModule,
+        MatDatepickerModule,
+        MatNativeDateModule 
     ],
     imports: [
         CommonModule,
@@ -42,7 +47,9 @@ import { TimelineAppComponent } from './diagnosed/timeline-app/timeline-app.comp
         MatExpansionModule,
         MatSelectModule,
         MatRadioModule,
-        NgApexchartsModule
+        NgApexchartsModule,
+        MatDatepickerModule,
+        MatNativeDateModule 
     ],
     declarations: [
         LandPageComponent,

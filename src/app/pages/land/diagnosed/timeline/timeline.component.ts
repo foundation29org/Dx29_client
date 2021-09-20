@@ -2,6 +2,8 @@ import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angu
 import Swal from 'sweetalert2';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { DateAdapter } from '@angular/material/core';
+import { DatePipe } from '@angular/common';
 
 import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.service';
 
@@ -43,10 +45,11 @@ export class TimelineComponent implements OnInit, OnDestroy {
     showTimeLine = false;
     selectedInfoSymptom = null;
 
-    constructor(public translate: TranslateService,  public toastr: ToastrService, public googleAnalyticsService: GoogleAnalyticsService, public jsPDFService: jsPDFService) {
+    constructor(public translate: TranslateService,  public toastr: ToastrService, public googleAnalyticsService: GoogleAnalyticsService, public jsPDFService: jsPDFService, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe) {
         this.modifyFormSymtoms = false;
         this.showTimeLine = false;
         this.selectedInfoSymptom = null;
+        this.dateAdapter.setLocale(sessionStorage.getItem('culture'));         
     }
 
     ngOnInit() {
@@ -110,6 +113,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
     updateTimeline(){
         this.showTimeLine = false;
+        this.modifyFormSymtoms = true;
         this.dictionaryTimeline = {}
         this.listTimelineNull = []
 
@@ -126,6 +130,16 @@ export class TimelineComponent implements OnInit, OnDestroy {
             else if(this.listSymptoms[i].finishdate.length==0){
                 this.listSymptoms[i].finishdate = null
             }
+
+            if(this.listSymptoms[i].onsetdate!=null){
+                this.listSymptoms[i].onsetdate=this.datePipe.transform(this.listSymptoms[i].onsetdate, 'yyyy-MM-dd')
+                this.listSymptoms[i].onsetdate=new Date(this.listSymptoms[i].onsetdate)
+            }
+            if(this.listSymptoms[i].finishdate!=null){
+                this.listSymptoms[i].finishdate=this.datePipe.transform(this.listSymptoms[i].finishdate, 'yyyy-MM-dd')
+                this.listSymptoms[i].finishdate=new Date(this.listSymptoms[i].finishdate)
+            }
+
             if((this.listSymptoms[i].isCurrentSymptom!=null)||(this.listSymptoms[i].isCurrentSymptom!=undefined)){
                 this.modifyFormSymtoms = true;
                 this.listSymptoms[i].finishdate=null;
@@ -138,36 +152,41 @@ export class TimelineComponent implements OnInit, OnDestroy {
                 }
             }
         }
+
         for (var i = 0; i< this.listSymptoms.length;i++){
-            var newDate = this.listSymptoms[i].onsetdate
-            if(newDate!= null){
-                var newYear = new Date(newDate).getFullYear()
-                var newMonth = new Date(newDate).getUTCMonth()+1;
+            if(this.listSymptoms[i].onsetdate!= null){
+                var newDate = this.listSymptoms[i].onsetdate;
+                var newYear = newDate.getFullYear()
+                var newMonth = newDate.getUTCMonth()+1;
                 var newKey=newMonth+"-"+newYear
+
                 if(this.dictionaryTimeline[newKey]==undefined){
                     this.dictionaryTimeline[newKey] = {}
                 }
-                if(this.dictionaryTimeline[newKey][newDate]==undefined){
-                    this.dictionaryTimeline[newKey][newDate] = []
+                if(this.dictionaryTimeline[newKey][this.datePipe.transform(newDate, 'yyyy-MM-dd')]==undefined){
+                    this.dictionaryTimeline[newKey][this.datePipe.transform(newDate, 'yyyy-MM-dd')] = []
                 }
-                this.dictionaryTimeline[newKey][newDate].push(this.listSymptoms[i])
+                this.dictionaryTimeline[newKey][this.datePipe.transform(newDate, 'yyyy-MM-dd')].push(this.listSymptoms[i])
                 for (var j = 0; j< this.listSymptoms.length;j++){
                     if (i!=j){
-                        var compareOnsetDate = this.listSymptoms[j].onsetdate;
-                        var compareFinishDate = this.listSymptoms[j].finishdate;
                         var isCurrentSymptom = this.listSymptoms[j].isCurrentSymptom;
                         if(isCurrentSymptom){
-                            if(compareOnsetDate!=null){
-                                if(new Date(newDate).getTime()>new Date(compareOnsetDate).getTime()){
-                                    this.dictionaryTimeline[newKey][newDate].push(this.listSymptoms[j])
+                            if(this.listSymptoms[j].onsetdate!=null){
+                                var compareOnsetDate1=this.datePipe.transform(this.listSymptoms[j].onsetdate, 'yyyy-MM-dd')
+                                var compareOnsetDate = new Date(compareOnsetDate1);
+                                if(newDate.getTime()>compareOnsetDate.getTime()){
+                                    this.dictionaryTimeline[newKey][this.datePipe.transform(newDate, 'yyyy-MM-dd')].push(this.listSymptoms[j])
                                 }
                             }
                         }
                         else{
-                            if(compareOnsetDate!=null){
+                            if(this.listSymptoms[j].onsetdate!=null){
+                                var compareOnsetDate1=this.datePipe.transform(this.listSymptoms[j].onsetdate, 'yyyy-MM-dd')
+                                var compareOnsetDate = new Date(compareOnsetDate1);
+                                var compareFinishDate = this.listSymptoms[j].finishdate;
                                 if(compareFinishDate!=null){
-                                    if((new Date(newDate).getTime()>new Date(compareOnsetDate).getTime())&&(new Date(newDate).getTime()<new Date(compareFinishDate).getTime())){
-                                        this.dictionaryTimeline[newKey][newDate].push(this.listSymptoms[j])
+                                    if((newDate.getTime()>compareOnsetDate.getTime())&&(newDate.getTime()<compareFinishDate.getTime())){
+                                        this.dictionaryTimeline[newKey][this.datePipe.transform(newDate, 'yyyy-MM-dd')].push(this.listSymptoms[j])
                                     }
                                 }
                             }
@@ -181,7 +200,9 @@ export class TimelineComponent implements OnInit, OnDestroy {
         }
         this.getFirstDate();
         this.showTimeLine = true;
+        this.modifyFormSymtoms = false;
     }
+
 
     getFirstDate(){
         var firstDate = new Date();
@@ -194,10 +215,11 @@ export class TimelineComponent implements OnInit, OnDestroy {
                 this.listSymptoms[i].onsetdate = null
             }
             if(this.listSymptoms[i].onsetdate!=null){
-                var symptomOnsetDate = new Date(this.listSymptoms[i].onsetdate);
+                var symptomOnsetDate1=this.datePipe.transform(this.listSymptoms[i].onsetdate, 'yyyy-MM-dd')
+                var symptomOnsetDate = new Date(symptomOnsetDate1);
                 if(symptomOnsetDate.getTime()<firstDate.getTime()){
                     firstDate=symptomOnsetDate;
-                    symptomOnsetDateString = this.listSymptoms[i].onsetdate;
+                    symptomOnsetDateString = this.datePipe.transform(this.listSymptoms[i].onsetdate, 'yyyy-MM-dd');
                 }
             }
             
@@ -210,11 +232,15 @@ export class TimelineComponent implements OnInit, OnDestroy {
     checkFinishDate(symptomIndex){
         if((this.listSymptoms[symptomIndex].onsetdate!=null)&&(this.listSymptoms[symptomIndex].onsetdate!=undefined)){
             if((this.listSymptoms[symptomIndex].finishdate!=null)&&(this.listSymptoms[symptomIndex].finishdate!=undefined)){
-                if(new Date(this.listSymptoms[symptomIndex].onsetdate).getTime() > new Date(this.listSymptoms[symptomIndex].finishdate).getTime()){
-                    this.modifyFormSymtoms = true;
+                var symptomOnsetDate1=this.datePipe.transform(this.listSymptoms[symptomIndex].onsetdate, 'yyyy-MM-dd')
+                var symptomOnsetDate = new Date(symptomOnsetDate1);
+
+                var symptomFinishDate1=this.datePipe.transform(this.listSymptoms[symptomIndex].finishdate, 'yyyy-MM-dd')
+                var symptomFinishDate = new Date(symptomFinishDate1);
+
+                if(symptomOnsetDate.getTime() > symptomFinishDate.getTime()){
                     this.listSymptoms[symptomIndex].finishdate = null;
                     this.listSymptoms[symptomIndex].invalidFinishdate = true;
-                    this.modifyFormSymtoms = false;
                 }
                 else{
                     this.listSymptoms[symptomIndex].invalidFinishdate = false;
