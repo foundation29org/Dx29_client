@@ -133,6 +133,7 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
     }
 
     updateTimeline(){
+        console.log("updateTimeline")
         this.showTimeLine = false;
         this.modifyFormSymtoms = true;
         this.dictionaryTimeline = {}
