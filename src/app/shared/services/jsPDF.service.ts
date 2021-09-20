@@ -50,6 +50,10 @@ export class jsPDFService {
         this.newHeatherAndFooter(doc);
         positionY += 35;
 
+        doc.text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's", 15, positionY += 15)
+        doc.text("standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make", 15, positionY += 5)
+        doc.text("a type specimen book. It has survived not only five centuries...", 15, positionY += 5)
+
         doc.setDrawColor(222,226,230);
         positionY = this.drawTimeLine(doc,dictionaryTimeline, listSymptomsNullInfo, positionY);
 
@@ -173,8 +177,16 @@ export class jsPDFService {
         doc.addImage(calendarIcon, 'png', 15, (positionY+4), 7, 7);
         doc.setFillColor(255, 255, 255);
         var heightRect = (5*(listSymptomsNullInfo.length)+5);
+        console.log(heightRect);
+        console.log(positionY);
+        console.log(posInit);
         if(heightRect+positionY>235){
-            heightRect = (235-(posInit))+30;
+            if(heightRect<33){
+                heightRect = (235-(posInit))+10;
+            }else{
+                heightRect = (235-(posInit))+33;
+            }
+            console.log(heightRect);
         }
         doc.rect(25, (positionY+4), 150, heightRect, 'FD'); //Fill and Border
         doc.setTextColor(0, 0, 0)

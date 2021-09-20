@@ -587,7 +587,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 if (result.value) {
                     this.loadingOneDisease = true;
                     this.selectedDiseaseIndex = index;
-                    this.actualInfoOneDisease = this.listOfFilteredDiseases[this.selectedDiseaseIndex].id;
+                    this.actualInfoOneDisease = this.listOfFilteredDiseases[this.selectedDiseaseIndex];
                     this.getInfoOneDisease();
                     this.startCheckSymptoms = false;
                     this.startTimeline = false;
@@ -626,14 +626,14 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                                 
                                 this.cleanxrefs();
                                 if (this.lang == 'es') {
-                                    this.loadNameDiseasesEn(this.infoOneDisease.id);
+                                    this.loadNameDiseasesEn(this.actualInfoOneDisease.id);
     
                                 } else {
-                                    this.getClinicalTrials(this.infoOneDisease.name);
+                                    this.getClinicalTrials(this.actualInfoOneDisease.name);
                                 }
     
                                 this.showEffects();
-                                this.getFromWiki(this.infoOneDisease.name);
+                                this.getFromWiki(this.actualInfoOneDisease.name);
                                 if(this.infoOneDisease.symptoms){
                                     for (var j = 0; i < this.infoOneDisease.symptoms.length; j++) {
                                         this.infoOneDisease.symptoms[j].checked = false;
@@ -642,12 +642,12 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                             }else{
                                 this.infoOneDisease = this.actualInfoOneDisease;
                                 if (this.lang == 'es') {
-                                    this.loadNameDiseasesEn(this.infoOneDisease.id);
+                                    this.loadNameDiseasesEn(this.actualInfoOneDisease.id);
     
                                 } else {
-                                    this.getClinicalTrials(this.infoOneDisease.name);
+                                    this.getClinicalTrials(this.actualInfoOneDisease.name);
                                 }
-                                this.getFromWiki(this.infoOneDisease.name);
+                                this.getFromWiki(this.actualInfoOneDisease.name);
                                 this.loadingOneDisease = false;
                                 this.showDisease = true;
                             }
@@ -675,12 +675,12 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                         this.getfrequenciesSelectedDisease(hposStrins);
                     }
                     if (this.lang == 'es') {
-                        this.loadNameDiseasesEn(this.infoOneDisease.id);
+                        this.loadNameDiseasesEn(this.actualInfoOneDisease.id);
 
                     } else {
-                        this.getClinicalTrials(this.infoOneDisease.name);
+                        this.getClinicalTrials(this.actualInfoOneDisease.name);
                     }
-                    this.getFromWiki(this.infoOneDisease.name);
+                    this.getFromWiki(this.actualInfoOneDisease.name);
                     if(this.infoOneDisease.symptoms){
                         for (var j = 0; i < this.infoOneDisease.symptoms.length; j++) {
                             this.infoOneDisease.symptoms[j].checked = false;
@@ -734,7 +734,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             var xrefs = this.cleanOrphas(this.infoOneDisease.xrefs)
             this.infoOneDisease.xrefs = xrefs;
         }
-        this.infoOneDisease.name = this.textTransform.transform(this.infoOneDisease.name);
+        this.infoOneDisease.name = this.textTransform.transform(this.actualInfoOneDisease.name);
         this.loadingOneDisease = false;
         this.showDisease = true;
     }
@@ -862,7 +862,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     listChecked[this.infoOneDisease.symptoms[i].id]={"onsetdate":this.infoOneDisease.symptoms[i].onsetdate,"finishdate":this.infoOneDisease.symptoms[i].finishdate,"isCurrentSymptom":this.infoOneDisease.symptoms[i].isCurrentSymptom,"notes":this.infoOneDisease.symptoms[i].notes}
                 }
             }
-            var infoChecked = { idClient: this.myuuid, diseaseId: this.infoOneDisease.id, xrefs: this.infoOneDisease.xrefs, symptoms: listChecked, email: this.email};
+            var infoChecked = { idClient: this.myuuid, diseaseId: this.actualInfoOneDisease.id, xrefs: this.infoOneDisease.xrefs, symptoms: listChecked, email: this.email};
             this.subscription.add(this.apiDx29ServerService.chekedSymptomsOpenDx29(infoChecked)
             .subscribe((res: any) => {
                     var info = { email: this.email, lang: this.lang};
@@ -888,7 +888,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                             }
                             this.lauchEvent('Diagnosed - Send Symptoms');
                             document.getElementById('step1').scrollIntoView(true);
-                            this.curatedLists.push({ id: this.infoOneDisease.id });
+                            this.curatedLists.push({ id: this.actualInfoOneDisease.id });
                             this.dontShowIntro = true;
                             this.sending = false;
                         }, (err) => {
@@ -979,7 +979,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     showEffects() {
-        var foundElement = this.searchService.search(this.curatedLists, 'id', this.infoOneDisease.id);
+        var foundElement = this.searchService.search(this.curatedLists, 'id', this.actualInfoOneDisease.id);
         if (foundElement) {
             this.showIntro = false;
         }
