@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import * as htmlToImage from 'html-to-image';
-
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
@@ -16,68 +14,56 @@ export class jsPDFService {
     constructor(public translate: TranslateService) { }
     lang: string = '';
 
-    generateTimelinePDF(timeLineElementId: string, lang, dictionaryTimeline, listSymptomsNullInfo): Promise<void>{
-        document.getElementById(timeLineElementId).style.backgroundColor="white";
+    generateTimelinePDF(lang, dictionaryTimeline, listSymptomsNullInfo){
+        var doc = new jsPDF as jsPDFWithPlugin;
+        var positionY = 0;
+        const marginX = 5;
+        
+        const pdfPageWidth = doc.internal.pageSize.getWidth() - 2 * marginX;
+        const pdfPageHeight = doc.internal.pageSize.getHeight()
 
-        return htmlToImage.toJpeg(document.getElementById(timeLineElementId), { quality: 0.95 })
-        .then(function (dataUrl) {
+        // Cabecera inicial
+        var img_logo = new Image();
+        img_logo.src = "assets/img/logo-Dx29.png"
+        doc.addImage(img_logo, 'png', 20, 10, 29, 17);
+        doc.setFont(undefined, 'bold');
+        doc.setFontSize(15);
+        if(lang!='es'){
+            doc.text(this.translate.instant("land.diagnosed.timeline.Report"), 83, 17);
+        }else{
+            doc.text(this.translate.instant("land.diagnosed.timeline.Report"), 80, 17);
+        }
+        doc.setFont(undefined, 'normal');
+        doc.setFontSize(10);
+        this.writeHeader(doc, 91, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
 
-            var doc = new jsPDF as jsPDFWithPlugin;
-            var positionY = 0;
-            const marginX = 5;
-            
-            const pdfPageWidth = doc.internal.pageSize.getWidth() - 2 * marginX;
-            const pdfPageHeight = doc.internal.pageSize.getHeight()
+        var actualDate = new Date();
+        var dateHeader = this.getFormatDate(actualDate);
+        this.writeDataHeader(doc, 93, 7, dateHeader);
 
-            // Cabecera inicial
-            var img_logo = new Image();
-            img_logo.src = "assets/img/logo-Dx29.png"
-            doc.addImage(img_logo, 'png', 20, 10, 29, 17);
-            doc.setFont(undefined, 'bold');
-            doc.setFontSize(15);
-            if(lang!='es'){
-                doc.text(this.translate.instant("land.diagnosed.timeline.Report"), 83, 17);
-            }else{
-                doc.text(this.translate.instant("land.diagnosed.timeline.Report"), 80, 17);
-            }
-            doc.setFont(undefined, 'normal');
-            doc.setFontSize(10);
-            this.writeHeader(doc, 91, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
+        //Add QR
+        var img_qr = new Image();
+        img_qr.src = "assets/img/elements/qr.png"
+        doc.addImage(img_qr, 'png', 160, 5, 32, 30);
 
-            var actualDate = new Date();
-            var dateHeader = this.getFormatDate(actualDate);
-            this.writeDataHeader(doc, 93, 7, dateHeader);
+        this.newHeatherAndFooter(doc);
+        positionY += 45;
 
-            //Add QR
-            var img_qr = new Image();
-            img_qr.src = "assets/img/elements/qr.png"
-            doc.addImage(img_qr, 'png', 160, 5, 32, 30);
+        // Doc table
+        //doc.addPage();
+        //this.newHeatherAndFooter(doc);
+        //positionY=40;
+        //positionY = this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Appendix1"), this.translate.instant("land.diagnosed.timeline.Symptoms"),this.translate.instant("land.diagnosed.timeline.Appendix1Desc"),positionY)
+        this.timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo);
 
-            this.newHeatherAndFooter(doc);
-
-            positionY += 45;
-
-            // Doc image
-            // this.timeLineImg(doc,dataUrl,timeLineElementId,positionY)
-
-            // Doc table
-            
-            //doc.addPage();
-            //this.newHeatherAndFooter(doc);
-            //positionY=40;
-            //positionY = this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Appendix1"), this.translate.instant("land.diagnosed.timeline.Symptoms"),this.translate.instant("land.diagnosed.timeline.Appendix1Desc"),positionY)
-            this.timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo);
-
-            doc.addPage();
-            this.newHeatherAndFooter(doc);
-            positionY = this.drawTimeLine(doc,dictionaryTimeline, listSymptomsNullInfo);
-            
-            var date = this.getDate();
-            doc.save('Dx29_Timeline_' + date +'.pdf');
-            
-            return;
-
-        }.bind(this));
+        doc.addPage();
+        this.newHeatherAndFooter(doc);
+        positionY = this.drawTimeLine(doc,dictionaryTimeline, listSymptomsNullInfo);
+        
+        var date = this.getDate();
+        doc.save('Dx29_Timeline_' + date +'.pdf');
+        
+        return;
     }
 
     private drawTimeLine(doc, dictionaryTimeline, listSymptomsNullInfo){
@@ -125,7 +111,6 @@ export class jsPDFService {
         posInit= posInit+1;
         for (var i=0;i<dateinfo.length;i++){
             posInit = this.checkIfNewPage(doc, posInit);
-            console.log(posInit);
             if(posInit==20){
                 //is new page
                 doc.rect(25, (posInit+4), 150, ((5*(dateinfo.length)+10)), 'FD'); //Fill and Border
@@ -168,7 +153,6 @@ export class jsPDFService {
                 doc.setTextColor(0, 0, 0)
                 posInit= positionY+5;
             }
-            console.log(posInit);
             var url = "https://hpo.jax.org/app/browse/term/" + listSymptomsNullInfo[i].id;
             doc.setTextColor(51, 101, 138);
             doc.textWithLink(listSymptomsNullInfo[i].name, 30, posInit+= 5, { url: url });
@@ -177,55 +161,6 @@ export class jsPDFService {
         //doc.text(date, 15, positionY += 20);
         positionY= posInit+ 5;
         return positionY;
-    }
-
-    private timeLineImg(doc,dataUrl,timeLineElementId,positionY){
-        const marginX = 5;
-            
-        const pdfPageWidth = doc.internal.pageSize.getWidth() - 2 * marginX;
-        const pdfPageHeight = doc.internal.pageSize.getHeight()
-
-        var actualDate = new Date();
-
-        // Generate timeline image
-        var link = document.createElement('a');
-        link.download = 'Dx29_Timeline_' + actualDate + '.jpeg';
-        link.href = dataUrl;
-        document.getElementById(timeLineElementId).style.removeProperty("background-color");
-
-        // Doc image
-        var img = new Image()
-        img.src = dataUrl;
-        const imgProps = (<any>doc).getImageProperties(img);
-        
-        
-        var marginXimgDoc = 30;
-
-        positionY = this.newSectionDoc(doc,null, this.translate.instant("land.diagnosed.timeline.title"),null, positionY)
-        var marginheader = positionY;
-
-        var imgWidth = pdfPageWidth-marginXimgDoc;
-        var imgHeight = imgProps.height;
-        
-        if((imgHeight-pdfPageHeight)>0){
-            imgWidth = pdfPageWidth/2;
-            imgHeight = (imgProps.height/2);
-            marginXimgDoc = (pdfPageWidth/2)-(pdfPageWidth/4);
-        }
-
-        var heightLeft = imgHeight;
-
-        doc.addImage(img, 'JPG', marginXimgDoc, positionY, imgWidth, imgHeight, undefined, 'FAST');
-        this.newHeatherAndFooter(doc);
-
-        heightLeft -= (pdfPageHeight-marginheader);
-        while (heightLeft >= 0) {
-            positionY = (heightLeft - imgHeight); // top padding for other pages
-            heightLeft -= (pdfPageHeight);
-            doc.addPage();
-            doc.addImage(img, 'JPG', marginXimgDoc, positionY, imgWidth, imgHeight, undefined, 'FAST');
-            this.newHeatherAndFooter(doc);
-        }
     }
 
     private timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo){

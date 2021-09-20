@@ -73,7 +73,7 @@
   <div class="col-md-12 mt-1" *ngIf="modifyFormSymtoms">
       <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
   </div>
-  <div class="col-md-12" *ngIf="showTimeLine && !downloadingTimeline" style="max-height: 450px; overflow-y: auto;">
+  <div class="col-md-12" *ngIf="showTimeLine" style="max-height: 450px; overflow-y: auto;">
     <div class="col-md-12">
       <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
     </div>
@@ -153,16 +153,6 @@
               </ul>
             </section>
         </div>
-    </div>
-  </div>
-  <div class="col-md-6 mt-1 center-elements" *ngIf="showTimeLine && downloadingTimeline">
-    <div class="col-md-12"> 
-      <span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
-    </div>
-    <div class="col-md-12 mt-2"> 
-      <p>
-        {{'land.diagnosed.timeline.WaitDownload' | translate }}
-      </p>
     </div>
   </div>
   <div class="col-md-12 mt-2 center-elements">

@@ -79,7 +79,7 @@
         <p>{{'land.diagnosed.timeline.t2' | translate}}</p>
       </div>
     </div>
-    <div class="col-md-6" *ngIf="showTimeLine && !downloadingTimeline"> 
+    <div class="col-md-6" *ngIf="showTimeLine"> 
       <div class="col-md-12" id="mytimeline">
         <section *ngIf="!isEmptyObject(dictionaryTimeline)||(listTimelineNull.length>0)" id="vertical-timeline-left" class="timeline-left timeline-wrapper col-sm-10 col-12 offset-sm-1">
           <div *ngIf="!isEmptyObject(dictionaryTimeline)">
@@ -172,16 +172,6 @@
               <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
           </button>
         <!--</div>-->
-      </div>
-    </div>
-    <div class="col-md-6 mt-1 center-elements" *ngIf="showTimeLine && downloadingTimeline">
-      <div class="col-md-12"> 
-        <span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
-      </div>
-      <div class="col-md-12 mt-2"> 
-        <p>
-          {{'land.diagnosed.timeline.WaitDownload' | translate }}
-        </p>
       </div>
     </div>
   </div>
