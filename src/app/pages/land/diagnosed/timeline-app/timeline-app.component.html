@@ -59,7 +59,7 @@
                 <label for="dateFinish"> {{'generics.End Date' | translate }} </label>
               </div>
               <div class="row">
-                <input  class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish"  matInput [matDatepicker]="pickerFinish" [(ngModel)]="symptom.finishdate" (dateInput) = "updateTimeline();" [disabled]="(!symptom.checked)||(symptom.isCurrentSymptom)||(symptom.onsetdate==undefined)">
+                <input  class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish"  matInput [matDatepicker]="pickerFinish" [(ngModel)]="symptom.finishdate" (dateInput)="updateTimeline();" [disabled]="(!symptom.checked)||(symptom.isCurrentSymptom)||(symptom.onsetdate==undefined)">
                 <mat-datepicker-toggle matSuffix [for]="pickerFinish"></mat-datepicker-toggle>
                 <mat-datepicker touchUi="(!symptom.checked)||(symptom.isCurrentSymptom)||(symptom.onsetdate==undefined)" #pickerFinish></mat-datepicker>
                 <small class="text-left form-text danger" *ngIf="symptom.invalidFinishdate">{{'land.diagnosed.timeline.errorDates' | translate}}</small>

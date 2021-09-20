@@ -133,11 +133,9 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
             if(this.listSymptoms[i].onsetdate!=null){
                 this.listSymptoms[i].onsetdate=this.datePipe.transform(this.listSymptoms[i].onsetdate, 'yyyy-MM-dd')
-                this.listSymptoms[i].onsetdate=new Date(this.listSymptoms[i].onsetdate)
             }
             if(this.listSymptoms[i].finishdate!=null){
                 this.listSymptoms[i].finishdate=this.datePipe.transform(this.listSymptoms[i].finishdate, 'yyyy-MM-dd')
-                this.listSymptoms[i].finishdate=new Date(this.listSymptoms[i].finishdate)
             }
 
             if((this.listSymptoms[i].isCurrentSymptom!=null)||(this.listSymptoms[i].isCurrentSymptom!=undefined)){
@@ -155,7 +153,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
         for (var i = 0; i< this.listSymptoms.length;i++){
             if(this.listSymptoms[i].onsetdate!= null){
-                var newDate = this.listSymptoms[i].onsetdate;
+                var newDate = new Date(this.listSymptoms[i].onsetdate);
                 var newYear = newDate.getFullYear()
                 var newMonth = newDate.getUTCMonth()+1;
                 var newKey=newMonth+"-"+newYear
@@ -183,7 +181,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
                             if(this.listSymptoms[j].onsetdate!=null){
                                 var compareOnsetDate1=this.datePipe.transform(this.listSymptoms[j].onsetdate, 'yyyy-MM-dd')
                                 var compareOnsetDate = new Date(compareOnsetDate1);
-                                var compareFinishDate = this.listSymptoms[j].finishdate;
+                                var compareFinishDate = new Date(this.listSymptoms[j].finishdate);
                                 if(compareFinishDate!=null){
                                     if((newDate.getTime()>compareOnsetDate.getTime())&&(newDate.getTime()<compareFinishDate.getTime())){
                                         this.dictionaryTimeline[newKey][this.datePipe.transform(newDate, 'yyyy-MM-dd')].push(this.listSymptoms[j])
@@ -198,6 +196,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
                 this.listTimelineNull.push(this.listSymptoms[i])
             }
         }
+        console.log(this.dictionaryTimeline)
         this.getFirstDate();
         this.showTimeLine = true;
         this.modifyFormSymtoms = false;
