@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, LOCALE_ID} from '@angular/core';
 import Swal from 'sweetalert2';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -22,12 +22,15 @@ var $primary = "#975AFF",
 
 var themeColors = [$primary, $warning, $success, $danger, $info];
 
+export function getCulture() {
+    return sessionStorage.getItem('culture');
+}
 
 @Component({
     selector: 'timeline-app',
     templateUrl: './timeline-app.component.html',
     styleUrls: ['./timeline-app.component.scss'],
-    providers: [jsPDFService]
+    providers: [jsPDFService, { provide: LOCALE_ID, useFactory: getCulture }]
 })
 
 
@@ -86,29 +89,40 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
         this.openModalTimelineHelp.emit(true);
     }
 
-    // Order by ascending property key
-    keyAscOrder = ((a, b) => {
+    // Order by descending key
+    keyDescOrder = ((a, b) => {
         var a_month=a.key.split("-"[0])
         var a_year = a.key.split("-")[1]
         var b_month=b.key.split("-")[0]
         var b_year=b.key.split("-")[1]
         if(new Date(a_year).getTime() > new Date(b_year).getTime()){
-            return -1;
+            return 1;
         }
         else if(new Date(a_year).getTime() < new Date(b_year).getTime()){
-            return 1;
+            return -1;
         }
         else{
             if(new Date(a_month).getTime()>new Date(b_month).getTime()){
-                return -1;
+                return 1;
             }
             else if(new Date(a_month).getTime() < new Date(b_month).getTime()){
-                return 1;
+                return -1;
             }
             else{
                 return 0;
             }
         }
+    })
+
+    // Order by descending value
+    valueDateDescOrder = ((a,b)=> {
+        if(new Date(a.key).getTime() > new Date(b.key).getTime()){
+            return -1;
+        }
+        else if(new Date(a.key).getTime() < new Date(b.key).getTime()){
+            return -1;
+        }
+        else return 0;
     })
 
     isEmptyObject(obj){
@@ -152,13 +166,6 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
                 this.listSymptoms[i].finishdate = null
             }
 
-            if(this.listSymptoms[i].onsetdate!=null){
-                this.listSymptoms[i].onsetdate=this.datePipe.transform(this.listSymptoms[i].onsetdate, 'yyyy-MM-dd')
-            }
-            if(this.listSymptoms[i].finishdate!=null){
-                this.listSymptoms[i].finishdate=this.datePipe.transform(this.listSymptoms[i].finishdate, 'yyyy-MM-dd')
-            }
-
             if((this.listSymptoms[i].isCurrentSymptom!=null)||(this.listSymptoms[i].isCurrentSymptom!=undefined)){
                 this.modifyFormSymtoms = true;
                 this.listSymptoms[i].finishdate=null;
@@ -174,38 +181,38 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
 
         for (var i = 0; i< this.listSymptoms.length;i++){
             if(this.listSymptoms[i].onsetdate!= null){
-                var newDate = new Date(this.listSymptoms[i].onsetdate);
+                var newDate = this.listSymptoms[i].onsetdate;            
                 var newYear = newDate.getFullYear()
-                var newMonth = newDate.getUTCMonth()+1;
+                var newMonth = newDate.toLocaleString('default', { month: 'short' });
                 var newKey=newMonth+"-"+newYear
 
                 if(this.dictionaryTimeline[newKey]==undefined){
                     this.dictionaryTimeline[newKey] = {}
                 }
-                if(this.dictionaryTimeline[newKey][this.datePipe.transform(newDate, 'yyyy-MM-dd')]==undefined){
-                    this.dictionaryTimeline[newKey][this.datePipe.transform(newDate, 'yyyy-MM-dd')] = []
+                if(this.dictionaryTimeline[newKey][this.datePipe.transform(newDate)]==undefined){
+                    this.dictionaryTimeline[newKey][this.datePipe.transform(newDate)] = []
                 }
-                this.dictionaryTimeline[newKey][this.datePipe.transform(newDate, 'yyyy-MM-dd')].push(this.listSymptoms[i])
+                this.dictionaryTimeline[newKey][this.datePipe.transform(newDate)].push(this.listSymptoms[i])
                 for (var j = 0; j< this.listSymptoms.length;j++){
                     if (i!=j){
                         var isCurrentSymptom = this.listSymptoms[j].isCurrentSymptom;
                         if(isCurrentSymptom){
                             if(this.listSymptoms[j].onsetdate!=null){
-                                var compareOnsetDate1=this.datePipe.transform(this.listSymptoms[j].onsetdate, 'yyyy-MM-dd')
-                                var compareOnsetDate = new Date(compareOnsetDate1);
+                                var compareOnsetDate = this.listSymptoms[j].onsetdate;
+
                                 if(newDate.getTime()>compareOnsetDate.getTime()){
-                                    this.dictionaryTimeline[newKey][this.datePipe.transform(newDate, 'yyyy-MM-dd')].push(this.listSymptoms[j])
+                                    this.dictionaryTimeline[newKey][this.datePipe.transform(newDate)].push(this.listSymptoms[j])
                                 }
                             }
                         }
                         else{
                             if(this.listSymptoms[j].onsetdate!=null){
-                                var compareOnsetDate1=this.datePipe.transform(this.listSymptoms[j].onsetdate, 'yyyy-MM-dd')
-                                var compareOnsetDate = new Date(compareOnsetDate1);
-                                var compareFinishDate = new Date(this.listSymptoms[j].finishdate);
+                                var compareOnsetDate = this.listSymptoms[j].onsetdate;
+                                var compareFinishDate =this.listSymptoms[j].finishdate;
+
                                 if(compareFinishDate!=null){
                                     if((newDate.getTime()>compareOnsetDate.getTime())&&(newDate.getTime()<compareFinishDate.getTime())){
-                                        this.dictionaryTimeline[newKey][this.datePipe.transform(newDate, 'yyyy-MM-dd')].push(this.listSymptoms[j])
+                                        this.dictionaryTimeline[newKey][this.datePipe.transform(newDate)].push(this.listSymptoms[j])
                                     }
                                 }
                             }
@@ -217,46 +224,15 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
                 this.listTimelineNull.push(this.listSymptoms[i])
             }
         }
-        this.getFirstDate();
         this.showTimeLine = true;
         this.modifyFormSymtoms = false;
-    }
-
-
-    getFirstDate(){
-        var firstDate = new Date();
-        var symptomOnsetDateString = "";
-        for(var i=0; i<this.listSymptoms.length;i++){
-            if((this.listSymptoms[i].onsetdate==NaN)||(this.listSymptoms[i].onsetdate==undefined)){
-                this.listSymptoms[i].onsetdate = null
-            }
-            else if(this.listSymptoms[i].onsetdate.length==0){
-                this.listSymptoms[i].onsetdate = null
-            }
-            if(this.listSymptoms[i].onsetdate!=null){
-                var symptomOnsetDate1=this.datePipe.transform(this.listSymptoms[i].onsetdate, 'yyyy-MM-dd')
-                var symptomOnsetDate = new Date(symptomOnsetDate1);
-                if(symptomOnsetDate.getTime()<firstDate.getTime()){
-                    firstDate=symptomOnsetDate;
-                    symptomOnsetDateString = this.datePipe.transform(this.listSymptoms[i].onsetdate, 'yyyy-MM-dd');
-                }
-            }
-            
-        }
-        if(symptomOnsetDateString!=""){
-            this.dictionaryTimeline[symptomOnsetDateString]={}
-        }
     }
 
     checkFinishDate(symptomIndex){
         if((this.listSymptoms[symptomIndex].onsetdate!=null)&&(this.listSymptoms[symptomIndex].onsetdate!=undefined)){
             if((this.listSymptoms[symptomIndex].finishdate!=null)&&(this.listSymptoms[symptomIndex].finishdate!=undefined)){
-                var symptomOnsetDate1=this.datePipe.transform(this.listSymptoms[symptomIndex].onsetdate, 'yyyy-MM-dd')
-                var symptomOnsetDate = new Date(symptomOnsetDate1);
-
-                var symptomFinishDate1=this.datePipe.transform(this.listSymptoms[symptomIndex].finishdate, 'yyyy-MM-dd')
-                var symptomFinishDate = new Date(symptomFinishDate1);
-
+                var symptomOnsetDate = this.listSymptoms[symptomIndex].onsetdate;
+                var symptomFinishDate = this.listSymptoms[symptomIndex].finishdate;
                 if(symptomOnsetDate.getTime() > symptomFinishDate.getTime()){
                     this.listSymptoms[symptomIndex].finishdate = null;
                     this.listSymptoms[symptomIndex].invalidFinishdate = true;
@@ -322,6 +298,7 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
         var isValid= this.validateTimeline();
         // Download and send event 
         if(isValid){
+            
             Swal.fire({
                 title: this.translate.instant("land.diagnosed.timeline.Download"),
                 html: '<div class="col-md-12"><span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span></div><div class="col-md-12 mt-2"> <p> '+this.translate.instant("land.diagnosed.timeline.WaitDownload")+'</p></div>',
@@ -357,7 +334,6 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
         this.modifyFormSymtoms=false;
         return isValid;
     }
-    
 
     saveTimeline()
     {

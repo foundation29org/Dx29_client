@@ -97,7 +97,7 @@
         <div id="mytimeline-app">
             <section *ngIf="!isEmptyObject(dictionaryTimeline)||(listTimelineNull.length>0)" id="vertical-timeline-left" class="timeline-left timeline-wrapper col-sm-10 col-12 offset-sm-1">
               <div *ngIf="!isEmptyObject(dictionaryTimeline)">
-                <div *ngFor="let dateItem of dictionaryTimeline | keyvalue: keyAscOrder">
+                <div *ngFor="let dateItem of dictionaryTimeline | keyvalue: keyDescOrder">
                   <ul class="timeline">
                     <li class="timeline-line"></li>
                     <li class="timeline-group">
@@ -108,7 +108,7 @@
                   </ul>
                   <ul class="timeline">
                     <li class="timeline-line"></li>
-                    <li *ngFor="let item of dateItem.value | keyvalue: keyAscOrder" class="timeline-item">
+                    <li *ngFor="let item of dateItem.value | keyvalue: valueDateDescOrder" class="timeline-item">
                         <div *ngIf="item.key!=null" class="timeline-badge">
                           <span data-toggle="tooltip" placement="right" [ngbTooltip]="item.key" class="bg-primary bg-lighten-4">
                             <i class="ft-calendar primary"></i>
