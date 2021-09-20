@@ -41,24 +41,23 @@ export class jsPDFService {
         var dateHeader = this.getFormatDate(actualDate);
         this.writeDataHeader(doc, 93, 7, dateHeader);
 
+
         //Add QR
         var img_qr = new Image();
         img_qr.src = "assets/img/elements/qr.png"
         doc.addImage(img_qr, 'png', 160, 5, 32, 30);
 
         this.newHeatherAndFooter(doc);
-        positionY += 45;
+        positionY += 35;
 
-        // Doc table
-        //doc.addPage();
-        //this.newHeatherAndFooter(doc);
-        //positionY=40;
-        //positionY = this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Appendix1"), this.translate.instant("land.diagnosed.timeline.Symptoms"),this.translate.instant("land.diagnosed.timeline.Appendix1Desc"),positionY)
-        this.timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo);
+        doc.setDrawColor(222,226,230);
+        positionY = this.drawTimeLine(doc,dictionaryTimeline, listSymptomsNullInfo, positionY);
 
         doc.addPage();
         this.newHeatherAndFooter(doc);
-        positionY = this.drawTimeLine(doc,dictionaryTimeline, listSymptomsNullInfo);
+        
+        positionY = 15;
+        this.timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo);
         
         var date = this.getDate();
         doc.save('Dx29_Timeline_' + date +'.pdf');
@@ -66,30 +65,40 @@ export class jsPDFService {
         return;
     }
 
-    private drawTimeLine(doc, dictionaryTimeline, listSymptomsNullInfo){
+    private drawTimeLine(doc, dictionaryTimeline, listSymptomsNullInfo, posY){
         //draw dictionaryTimeline
-        var positionY = 10;
-        for (var itemDate in dictionaryTimeline){
-            positionY = this.drawLabelTimeLine(doc, itemDate, positionY);
-            for (var date in dictionaryTimeline[itemDate]){
-                var lineHeight = (5*(dictionaryTimeline[itemDate][date].length)+45)+positionY;
-                doc.line(15, positionY-10, 15, lineHeight);
-                positionY = this.drawBoxTimeLine(doc, dictionaryTimeline[itemDate][date], date, positionY);
+        var positionY = posY;
+            for (var itemDate in dictionaryTimeline){
+                positionY = this.drawLabelTimeLine(doc, itemDate, positionY);
+                for (var date in dictionaryTimeline[itemDate]){
+                    var lineHeight = (5*(dictionaryTimeline[itemDate][date].length)+45)+positionY;
+                    doc.line(15, positionY-10, 15, lineHeight);
+                    positionY = this.drawBoxTimeLine(doc, dictionaryTimeline[itemDate][date], date, positionY);
+                }
             }
+        
+        if(listSymptomsNullInfo.length>0){
+            this.drawListSymptomsNullInfo(doc, listSymptomsNullInfo, positionY);
         }
-        this.drawListSymptomsNullInfo(doc, listSymptomsNullInfo, positionY);
+        
 
         return positionY;
     }
 
     private drawLabelTimeLine(doc, itemDate, positionY){
         var posInit = positionY;
+        positionY = this.checkIfNewPage2(doc, positionY+20);
+        if(positionY!=20){
+            positionY =posInit;
+        }else{
+            posInit = positionY;
+        }
         doc.setFillColor(0,157,160);
         doc.rect(15, positionY += 15, (itemDate.length*2)+3, 7, 'FD'); //Fill and Border
         doc.setTextColor(255, 255, 255);
         doc.setFont(undefined, 'bold');
         doc.setFontSize(10);
-        positionY = this.checkIfNewPage(doc, positionY);
+        
         doc.text(itemDate, 17, posInit += 20);
         positionY += 10;
         doc.setTextColor(0, 0, 0)
@@ -97,12 +106,29 @@ export class jsPDFService {
     }
 
     private drawBoxTimeLine(doc, dateinfo,date, positionY){
+        var posInit = positionY;
+        var posiblePos = positionY+((5*(dateinfo.length)+10));
+        if(posiblePos<270){
+            positionY = this.checkIfNewPage2(doc, posiblePos);
+            if(positionY!=20){
+                positionY =posInit;
+            }else{
+                posInit = positionY;
+            }
+        }else{
+            positionY =posInit;
+        }
+        
         var calendarIcon = new Image();
         calendarIcon.src = "assets/img/pdf/ft-calendar.png"//https://dx29.ai/assets/img/pdf/ft-calendar.png
         doc.addImage(calendarIcon, 'png', 15, (positionY+4), 7, 7);
-        var posInit = positionY;
+        
         doc.setFillColor(255, 255, 255);
-        doc.rect(25, (positionY+4), 150, ((5*(dateinfo.length)+10)), 'FD'); //Fill and Border
+        var heightRect = (5*(dateinfo.length)+10);
+        if(heightRect+positionY>235){
+            heightRect = (235-(posInit))+35;
+        }
+        doc.rect(25, (positionY+4), 150, heightRect, 'FD'); //Fill and Border
         doc.setTextColor(0, 0, 0)
         doc.setFont(undefined, 'bold');
         doc.setFontSize(10);
@@ -113,9 +139,13 @@ export class jsPDFService {
             posInit = this.checkIfNewPage(doc, posInit);
             if(posInit==20){
                 //is new page
-                doc.rect(25, (posInit+4), 150, ((5*(dateinfo.length)+10)), 'FD'); //Fill and Border
+                doc.setFillColor(255, 255, 255);
+                doc.rect(25, (posInit+4), 150, ((5*(dateinfo.length-i)+10)-5), 'FD'); //Fill and Border
                 doc.setTextColor(0, 0, 0)
-                posInit= posInit+1;
+                posInit= posInit+5;
+                doc.setFont(undefined, 'bold');
+                var lineHeight = (5*(dateinfo.length-i)+45)+positionY;
+                doc.line(15, 20, 15, lineHeight);
             }
             var url = "https://hpo.jax.org/app/browse/term/" + dateinfo[i].id;
             doc.setTextColor(51, 101, 138);
@@ -142,16 +172,22 @@ export class jsPDFService {
         calendarIcon.src = "assets/img/pdf/ft-help.png"//https://dx29.ai/assets/img/pdf/ft-help.png
         doc.addImage(calendarIcon, 'png', 15, (positionY+4), 7, 7);
         doc.setFillColor(255, 255, 255);
-        doc.rect(25, (positionY+4), 150, ((5*(listSymptomsNullInfo.length)+5)), 'FD'); //Fill and Border
+        var heightRect = (5*(listSymptomsNullInfo.length)+5);
+        if(heightRect+positionY>235){
+            heightRect = (235-(posInit))+30;
+        }
+        doc.rect(25, (positionY+4), 150, heightRect, 'FD'); //Fill and Border
         doc.setTextColor(0, 0, 0)
-        posInit= positionY+5;
+        posInit= posInit+10;
         for (var i=0;i<listSymptomsNullInfo.length;i++){
             posInit = this.checkIfNewPage(doc, posInit);
             if(posInit==20){
                 //is new page
-                doc.rect(25, (posInit+4), 150, ((5*(listSymptomsNullInfo.length)+5)), 'FD'); //Fill and Border
+                doc.setFillColor(255, 255, 255);
+                doc.rect(25, (posInit+4), 150, ((5*(listSymptomsNullInfo.length-i)+5)), 'FD'); //Fill and Border
                 doc.setTextColor(0, 0, 0)
-                posInit= positionY+5;
+                posInit= posInit+5;
+                doc.setFont(undefined, 'bold');
             }
             var url = "https://hpo.jax.org/app/browse/term/" + listSymptomsNullInfo[i].id;
             doc.setTextColor(51, 101, 138);
@@ -343,7 +379,7 @@ export class jsPDFService {
         doc.setFontSize(10);
         doc.setTextColor(0, 133, 133)
         doc.textWithLink("www.dx29.ai", 148, 286, { url: 'https://app.dx29.ai/Identity/Account/Register' });
-
+        doc.setTextColor(0, 0, 0);
     }
 
     private getFormatDate(date) {
@@ -359,6 +395,18 @@ export class jsPDFService {
         return number;
     }
     private checkIfNewPage(doc, lineText) {
+        if (lineText < 270) {
+            return lineText
+        }
+        else {
+            doc.addPage()
+            this.newHeatherAndFooter(doc)
+            lineText = 20;
+            return lineText;
+        }
+    }
+
+    private checkIfNewPage2(doc, lineText) {
         if (lineText < 270) {
             return lineText
         }
@@ -405,6 +453,7 @@ export class jsPDFService {
         doc.setFontSize(10);
         var url = "https://hpo.jax.org/app/browse/term/" + text;
         doc.textWithLink(text, pos, lineText, { url: url });
+        doc.setTextColor(0, 0, 0);
         return lineText;
     }
     
@@ -416,6 +465,7 @@ export class jsPDFService {
         var param = text.split(':');
         var url = "https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert=" + param[1] + "&lng=" + this.lang;
         doc.textWithLink(text, pos, lineText, { url: url });
+        doc.setTextColor(0, 0, 0);
         return lineText;
     }
 

@@ -396,7 +396,7 @@
                             <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
                               <td class="row text-left">
                                 <div class="col-md-12">
-                                  <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomDisease);"
+                                  <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
                                     class="btn-outline-info btn btn-sm mr-2 mb-0 btn-fab round"
                                     title="{{'generics.More information' | translate }} ({{symptom.id}})">
                                     <em class="fa fa-info w-13"></em>
