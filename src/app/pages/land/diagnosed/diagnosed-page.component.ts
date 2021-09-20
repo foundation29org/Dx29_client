@@ -32,6 +32,7 @@ import 'rxjs/add/operator/toPromise';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
 import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexYAxis, ApexGrid, ApexDataLabels, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexLegend, ApexPlotOptions, ApexFill, ApexMarkers, ApexTheme, ApexNonAxisChartSeries, ApexResponsive } from "ng-apexcharts";
 import { KeyValue } from '@angular/common';
+import { HostListener } from "@angular/core";
 
 
 export type ChartOptions = {
@@ -189,13 +190,27 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     listSymptomsCheckedModified = false;
     donnorSet = false;
 
-    isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
+    isApp: boolean = false;
+    scrWidth:any;
+    @HostListener('window:resize', ['$event'])
+    getScreenSize(event?) {
+          this.scrWidth = window.innerWidth;
+          console.log(this.scrWidth)
+          if(this.scrWidth< 575){
+            this.isApp=true;
+          }
+          else{
+            this.isApp=false;
+          }
+    }
 
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
 
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public jsPDFService: jsPDFService) {
 
+        this.getScreenSize();
+        
         this.lang = sessionStorage.getItem('lang');
         this.selectedNoteSymptom = null;
         this.startCheckSymptoms = false;

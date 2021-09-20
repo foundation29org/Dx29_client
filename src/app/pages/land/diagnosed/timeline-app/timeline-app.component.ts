@@ -2,6 +2,8 @@ import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angu
 import Swal from 'sweetalert2';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { DateAdapter } from '@angular/material/core';
+import { DatePipe } from '@angular/common';
 
 import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.service';
 
@@ -45,14 +47,13 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
     selectedInfoSymptom = null;
     actualTemporalSymptomsIndex = 0;
 
-    downloadingTimeline = false;
-
-    constructor(public translate: TranslateService,  public toastr: ToastrService, public googleAnalyticsService: GoogleAnalyticsService, public jsPDFService: jsPDFService) {
+    constructor(public translate: TranslateService,  public toastr: ToastrService, public googleAnalyticsService: GoogleAnalyticsService, public jsPDFService: jsPDFService, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe) {
         this.modifyFormSymtoms = false;
         this.showTimeLine = false;
         this.actualTemporalSymptomsIndex = 0;
         this.selectedInfoSymptom = null;
-        this.downloadingTimeline = false;
+        this.dateAdapter.setLocale(sessionStorage.getItem('culture'));         
+
     }
 
     ngOnInit() {
@@ -60,7 +61,6 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
         this.showTimeLine = false;
         this.actualTemporalSymptomsIndex = 0;
         this.selectedInfoSymptom = null;
-        this.downloadingTimeline = false;
         this.loadingTimeLine();
     }
 
@@ -133,7 +133,9 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
     }
 
     updateTimeline(){
+        console.log("updateTimeline")
         this.showTimeLine = false;
+        this.modifyFormSymtoms = true;
         this.dictionaryTimeline = {}
         this.listTimelineNull = []
 
@@ -150,6 +152,16 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
             else if(this.listSymptoms[i].finishdate.length==0){
                 this.listSymptoms[i].finishdate = null
             }
+
+            if(this.listSymptoms[i].onsetdate!=null){
+                this.listSymptoms[i].onsetdate=this.datePipe.transform(this.listSymptoms[i].onsetdate, 'yyyy-MM-dd')
+                this.listSymptoms[i].onsetdate=new Date(this.listSymptoms[i].onsetdate)
+            }
+            if(this.listSymptoms[i].finishdate!=null){
+                this.listSymptoms[i].finishdate=this.datePipe.transform(this.listSymptoms[i].finishdate, 'yyyy-MM-dd')
+                this.listSymptoms[i].finishdate=new Date(this.listSymptoms[i].finishdate)
+            }
+
             if((this.listSymptoms[i].isCurrentSymptom!=null)||(this.listSymptoms[i].isCurrentSymptom!=undefined)){
                 this.modifyFormSymtoms = true;
                 this.listSymptoms[i].finishdate=null;
@@ -162,36 +174,41 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
                 }
             }
         }
+
         for (var i = 0; i< this.listSymptoms.length;i++){
-            var newDate = this.listSymptoms[i].onsetdate
-            if(newDate!= null){
-                var newYear = new Date(newDate).getFullYear()
-                var newMonth = new Date(newDate).getUTCMonth()+1;
+            if(this.listSymptoms[i].onsetdate!= null){
+                var newDate = this.listSymptoms[i].onsetdate;
+                var newYear = newDate.getFullYear()
+                var newMonth = newDate.getUTCMonth()+1;
                 var newKey=newMonth+"-"+newYear
+
                 if(this.dictionaryTimeline[newKey]==undefined){
                     this.dictionaryTimeline[newKey] = {}
                 }
-                if(this.dictionaryTimeline[newKey][newDate]==undefined){
-                    this.dictionaryTimeline[newKey][newDate] = []
+                if(this.dictionaryTimeline[newKey][this.datePipe.transform(newDate, 'yyyy-MM-dd')]==undefined){
+                    this.dictionaryTimeline[newKey][this.datePipe.transform(newDate, 'yyyy-MM-dd')] = []
                 }
-                this.dictionaryTimeline[newKey][newDate].push(this.listSymptoms[i])
+                this.dictionaryTimeline[newKey][this.datePipe.transform(newDate, 'yyyy-MM-dd')].push(this.listSymptoms[i])
                 for (var j = 0; j< this.listSymptoms.length;j++){
                     if (i!=j){
-                        var compareOnsetDate = this.listSymptoms[j].onsetdate;
-                        var compareFinishDate = this.listSymptoms[j].finishdate;
                         var isCurrentSymptom = this.listSymptoms[j].isCurrentSymptom;
                         if(isCurrentSymptom){
-                            if(compareOnsetDate!=null){
-                                if(new Date(newDate).getTime()>new Date(compareOnsetDate).getTime()){
-                                    this.dictionaryTimeline[newKey][newDate].push(this.listSymptoms[j])
+                            if(this.listSymptoms[j].onsetdate!=null){
+                                var compareOnsetDate1=this.datePipe.transform(this.listSymptoms[j].onsetdate, 'yyyy-MM-dd')
+                                var compareOnsetDate = new Date(compareOnsetDate1);
+                                if(newDate.getTime()>compareOnsetDate.getTime()){
+                                    this.dictionaryTimeline[newKey][this.datePipe.transform(newDate, 'yyyy-MM-dd')].push(this.listSymptoms[j])
                                 }
                             }
                         }
                         else{
-                            if(compareOnsetDate!=null){
+                            if(this.listSymptoms[j].onsetdate!=null){
+                                var compareOnsetDate1=this.datePipe.transform(this.listSymptoms[j].onsetdate, 'yyyy-MM-dd')
+                                var compareOnsetDate = new Date(compareOnsetDate1);
+                                var compareFinishDate = this.listSymptoms[j].finishdate;
                                 if(compareFinishDate!=null){
-                                    if((new Date(newDate).getTime()>new Date(compareOnsetDate).getTime())&&(new Date(newDate).getTime()<new Date(compareFinishDate).getTime())){
-                                        this.dictionaryTimeline[newKey][newDate].push(this.listSymptoms[j])
+                                    if((newDate.getTime()>compareOnsetDate.getTime())&&(newDate.getTime()<compareFinishDate.getTime())){
+                                        this.dictionaryTimeline[newKey][this.datePipe.transform(newDate, 'yyyy-MM-dd')].push(this.listSymptoms[j])
                                     }
                                 }
                             }
@@ -205,7 +222,9 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
         }
         this.getFirstDate();
         this.showTimeLine = true;
+        this.modifyFormSymtoms = false;
     }
+
 
     getFirstDate(){
         var firstDate = new Date();
@@ -218,10 +237,11 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
                 this.listSymptoms[i].onsetdate = null
             }
             if(this.listSymptoms[i].onsetdate!=null){
-                var symptomOnsetDate = new Date(this.listSymptoms[i].onsetdate);
+                var symptomOnsetDate1=this.datePipe.transform(this.listSymptoms[i].onsetdate, 'yyyy-MM-dd')
+                var symptomOnsetDate = new Date(symptomOnsetDate1);
                 if(symptomOnsetDate.getTime()<firstDate.getTime()){
                     firstDate=symptomOnsetDate;
-                    symptomOnsetDateString = this.listSymptoms[i].onsetdate;
+                    symptomOnsetDateString = this.datePipe.transform(this.listSymptoms[i].onsetdate, 'yyyy-MM-dd');
                 }
             }
             
@@ -234,11 +254,15 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
     checkFinishDate(symptomIndex){
         if((this.listSymptoms[symptomIndex].onsetdate!=null)&&(this.listSymptoms[symptomIndex].onsetdate!=undefined)){
             if((this.listSymptoms[symptomIndex].finishdate!=null)&&(this.listSymptoms[symptomIndex].finishdate!=undefined)){
-                if(new Date(this.listSymptoms[symptomIndex].onsetdate).getTime() > new Date(this.listSymptoms[symptomIndex].finishdate).getTime()){
-                    this.modifyFormSymtoms = true;
+                var symptomOnsetDate1=this.datePipe.transform(this.listSymptoms[symptomIndex].onsetdate, 'yyyy-MM-dd')
+                var symptomOnsetDate = new Date(symptomOnsetDate1);
+
+                var symptomFinishDate1=this.datePipe.transform(this.listSymptoms[symptomIndex].finishdate, 'yyyy-MM-dd')
+                var symptomFinishDate = new Date(symptomFinishDate1);
+
+                if(symptomOnsetDate.getTime() > symptomFinishDate.getTime()){
                     this.listSymptoms[symptomIndex].finishdate = null;
                     this.listSymptoms[symptomIndex].invalidFinishdate = true;
-                    this.modifyFormSymtoms = false;
                 }
                 else{
                     this.listSymptoms[symptomIndex].invalidFinishdate = false;
@@ -296,21 +320,27 @@ export class TimelineAppComponent implements OnInit, OnDestroy {
             }
         }
     }
-    
     exportTimeline()
     {
         var isValid= this.validateTimeline();
         // Download and send event 
         if(isValid){
-            this.downloadingTimeline = true;
-            this.jsPDFService.generateTimelinePDF('mytimeline-app', sessionStorage.getItem('lang'),this.dictionaryTimeline,this.listTimelineNull).then(()=>{
-                this.downloadingTimeline = false;
-                this.finishEvent.emit(true);
-            })
+            Swal.fire({
+                title: this.translate.instant("land.diagnosed.timeline.Download"),
+                html: '<div class="col-md-12"><span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span></div><div class="col-md-12 mt-2"> <p> '+this.translate.instant("land.diagnosed.timeline.WaitDownload")+'</p></div>',
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen:function () {
+                    this.jsPDFService.generateTimelinePDF(sessionStorage.getItem('lang'),this.dictionaryTimeline,this.listTimelineNull);
+                    Swal.close();
+                    this.finishEvent.emit(true);
+                }.bind(this)
+            });
+            
         }
         else{
             Swal.fire('', this.translate.instant("land.diagnosed.timeline.errorExportPDF"), "error");
-
         }
     }
 

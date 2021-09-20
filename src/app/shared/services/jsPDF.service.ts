@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import * as htmlToImage from 'html-to-image';
-
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
@@ -16,73 +14,55 @@ export class jsPDFService {
     constructor(public translate: TranslateService) { }
     lang: string = '';
 
-    generateTimelinePDF(timeLineElementId: string, lang, dictionaryTimeline, listSymptomsNullInfo): Promise<void>{
-        document.getElementById(timeLineElementId).style.backgroundColor="white";
+    generateTimelinePDF(lang, dictionaryTimeline, listSymptomsNullInfo){
+        var doc = new jsPDF as jsPDFWithPlugin;
+        var positionY = 0;
+        const marginX = 5;
+        
+        const pdfPageWidth = doc.internal.pageSize.getWidth() - 2 * marginX;
+        const pdfPageHeight = doc.internal.pageSize.getHeight()
 
-        return htmlToImage.toJpeg(document.getElementById(timeLineElementId), { quality: 0.95 })
-        .then(function (dataUrl) {
+        // Cabecera inicial
+        var img_logo = new Image();
+        img_logo.src = "assets/img/logo-Dx29.png"
+        doc.addImage(img_logo, 'png', 20, 10, 29, 17);
+        doc.setFont(undefined, 'bold');
+        doc.setFontSize(15);
+        if(lang!='es'){
+            doc.text(this.translate.instant("land.diagnosed.timeline.Report"), 83, 17);
+        }else{
+            doc.text(this.translate.instant("land.diagnosed.timeline.Report"), 80, 17);
+        }
+        doc.setFont(undefined, 'normal');
+        doc.setFontSize(10);
+        this.writeHeader(doc, 91, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
 
-            var doc = new jsPDF as jsPDFWithPlugin;
-            var positionY = 0;
-            const marginX = 5;
-            
-            const pdfPageWidth = doc.internal.pageSize.getWidth() - 2 * marginX;
-            const pdfPageHeight = doc.internal.pageSize.getHeight()
+        var actualDate = new Date();
+        var dateHeader = this.getFormatDate(actualDate);
+        this.writeDataHeader(doc, 93, 7, dateHeader);
 
-            // Cabecera inicial
-            var img_logo = new Image();
-            img_logo.src = "assets/img/logo-Dx29.png"
-            doc.addImage(img_logo, 'png', 20, 10, 29, 17);
-            doc.setFont(undefined, 'bold');
-            doc.setFontSize(15);
-            if(lang!='es'){
-                doc.text(this.translate.instant("land.diagnosed.timeline.Report"), 83, 17);
-            }else{
-                doc.text(this.translate.instant("land.diagnosed.timeline.Report"), 80, 17);
-            }
-            doc.setFont(undefined, 'normal');
-            doc.setFontSize(10);
-            this.writeHeader(doc, 91, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
 
-            var actualDate = new Date();
-            var dateHeader = this.getFormatDate(actualDate);
-            this.writeDataHeader(doc, 93, 7, dateHeader);
+        //Add QR
+        var img_qr = new Image();
+        img_qr.src = "assets/img/elements/qr.png"
+        doc.addImage(img_qr, 'png', 160, 5, 32, 30);
 
-            //Add QR
-            var img_qr = new Image();
-            img_qr.src = "assets/img/elements/qr.png"
-            doc.addImage(img_qr, 'png', 160, 5, 32, 30);
+        this.newHeatherAndFooter(doc);
+        positionY += 35;
 
-            this.newHeatherAndFooter(doc);
+        doc.setDrawColor(222,226,230);
+        positionY = this.drawTimeLine(doc,dictionaryTimeline, listSymptomsNullInfo, positionY);
 
-            positionY += 35;
-
-            // Doc image
-            // this.timeLineImg(doc,dataUrl,timeLineElementId,positionY)
-
-            // Doc table
-            
-            //doc.addPage();
-            //this.newHeatherAndFooter(doc);
-            //positionY=40;
-            //positionY = this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Appendix1"), this.translate.instant("land.diagnosed.timeline.Symptoms"),this.translate.instant("land.diagnosed.timeline.Appendix1Desc"),positionY)
-            
-
-            doc.setDrawColor(222,226,230);
-            positionY = this.drawTimeLine(doc,dictionaryTimeline, listSymptomsNullInfo, positionY);
-
-            doc.addPage();
-            this.newHeatherAndFooter(doc);
-            
-            positionY = 15;
-            this.timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo);
-            
-            var date = this.getDate();
-            doc.save('Dx29_Timeline_' + date +'.pdf');
-            
-            return;
-
-        }.bind(this));
+        doc.addPage();
+        this.newHeatherAndFooter(doc);
+        
+        positionY = 15;
+        this.timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo);
+        
+        var date = this.getDate();
+        doc.save('Dx29_Timeline_' + date +'.pdf');
+        
+        return;
     }
 
     private drawTimeLine(doc, dictionaryTimeline, listSymptomsNullInfo, posY){
@@ -157,7 +137,6 @@ export class jsPDFService {
         posInit= posInit+1;
         for (var i=0;i<dateinfo.length;i++){
             posInit = this.checkIfNewPage(doc, posInit);
-            console.log(posInit);
             if(posInit==20){
                 //is new page
                 doc.setFillColor(255, 255, 255);
@@ -210,7 +189,6 @@ export class jsPDFService {
                 posInit= posInit+5;
                 doc.setFont(undefined, 'bold');
             }
-            console.log(posInit);
             var url = "https://hpo.jax.org/app/browse/term/" + listSymptomsNullInfo[i].id;
             doc.setTextColor(51, 101, 138);
             doc.textWithLink(listSymptomsNullInfo[i].name, 30, posInit+= 5, { url: url });
@@ -242,7 +220,6 @@ export class jsPDFService {
                     }
                     var duration="-"
                     if(((onsetdate!=undefined)&&(onsetdate!=null))&&((finishdate!=undefined)&&(finishdate!=null))){
-                        console.log("Get duration")
                         duration = this.dateDiff(onsetdate,finishdate)
                     }
                     var notes = null;
@@ -250,10 +227,11 @@ export class jsPDFService {
                         notes = dictionaryTimeline[itemDate][date][i].notes
                     }
 
-                    var symptom = [name,duration,onsetdate,finishdate,id]
+                    var symptom = [{content:name,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:duration,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:onsetdate,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:finishdate,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:id,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}}]
                     var foundInBodyTable = false;
+                    
                     for(var j=0;j<bodyTable.length;j++){
-                        if(bodyTable[j].includes(id)){
+                        if(bodyTable[j].content == (id)){
                             foundInBodyTable=true
                         }
                     }
@@ -285,10 +263,10 @@ export class jsPDFService {
                 notes2 = listSymptomsNullInfo[j].notes
             }
 
-            var symptom2 = [name2,duration2,onsetdate2,finishdate2,id2]
+            var symptom2 = [{content:name2,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:duration2,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:onsetdate2,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:finishdate2,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:id2,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}}]
             var foundInBodyTable = false;
             for(var k=0;k<bodyTable.length;k++){
-                if(bodyTable[k].includes(id2)){
+                if(bodyTable[k].content == (id2)){
                     foundInBodyTable=true
                 }
             }
@@ -303,8 +281,8 @@ export class jsPDFService {
         // Add notes 
         for(var i = 0; i < bodyTable.length; i++){
             for(var j=0; j< bodyTable[i].length;j++){
-                if(Object.keys(notesBodyTable).includes(bodyTable[i][j])){
-                    bodyTable.splice(i+1,0,[this.translate.instant("generics.notes")+": "+ notesBodyTable[bodyTable[i][j]]])
+                if(Object.keys(notesBodyTable).includes(bodyTable[i][j].content)){
+                    bodyTable.splice(i+1,0,[{content:this.translate.instant("generics.notes")+": "+ notesBodyTable[bodyTable[i][j].content],colSpan:5,styles:{fontSize:10, fontStyle: 'italic'}}])
                 }
             }
         }
@@ -325,18 +303,7 @@ export class jsPDFService {
                     var url = "https://hpo.jax.org/app/browse/term/" + text;
                     doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
                 }
-                if(data.row.raw.length==1){
-                    doc.setFont(undefined,'italic');
-                    var mergeCell = data.row.cells[0]
-                    data.row.cells=[]
-                    data.row.cells.push(mergeCell)
-                    data.row.cells[0].rowSpan = 5
-                    data.row.cells[0].width = data.row.cells[0].contentWidth
-                    console.log(data.row)
-                    console.log(data)
-                    data.cell.width = data.cell.contentWidth
-                }
-            },
+            }
             
         }); 
     }
