@@ -55,7 +55,7 @@
                         <label for="dateOnset"> {{'generics.Start Date' | translate }} </label>
                       </div>
                       <div class="row">
-                        <input class="form-control w-75 d-inline" id="dateOnset_{{i}}" name="dateOnset" matInput [matDatepicker]="pickerOnset" [(ngModel)]="symptom.onsetdate" (dateInput)="updateTimeline();">
+                        <input class="form-control w-75 d-inline" id="dateOnset_{{i}}" name="dateOnset" matInput [matDatepicker]="pickerOnset" [(ngModel)]="symptom.onsetdate" (dateInput)="updateTimeline()">
                         <mat-datepicker-toggle matSuffix [for]="pickerOnset"></mat-datepicker-toggle>
                         <mat-datepicker touchUi="true" #pickerOnset></mat-datepicker>
                       </div>
@@ -67,7 +67,7 @@
                         <label for="dateFinish"> {{'generics.End Date' | translate }} </label>
                       </div>
                       <div class="row">
-                        <input class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish"  matInput [matDatepicker]="pickerFinish" [(ngModel)]="symptom.finishdate" (dateInput)="updateTimeline();" [disabled]="(!symptom.checked)||(symptom.isCurrentSymptom)||(symptom.onsetdate==undefined)">
+                        <input class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish" matInput [matDatepicker]="pickerFinish" [(ngModel)]="symptom.finishdate" (dateInput)="updateTimeline();" [disabled]="(!symptom.checked)||(symptom.isCurrentSymptom)||(symptom.onsetdate==undefined)">
                         <mat-datepicker-toggle matSuffix [for]="pickerFinish"></mat-datepicker-toggle>
                         <mat-datepicker touchUi="(!symptom.checked)||(symptom.isCurrentSymptom)||(symptom.onsetdate==undefined)" #pickerFinish></mat-datepicker>
                         <small class="text-left form-text danger" *ngIf="symptom.invalidFinishdate">{{'land.diagnosed.timeline.errorDates' | translate}}</small>

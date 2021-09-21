@@ -64,7 +64,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
         this.actualTemporalSymptomsIndex = 0;
         this.loadingTimeLine();
     }
-    
+
     ngAfterContentChecked(){
         this.modifyFormSymtoms = false;
         this.showTimeLine = false;
@@ -172,11 +172,10 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
                 this.listSymptoms[i].finishdate = null
             }
 
-            if((this.listSymptoms[i].isCurrentSymptom!=null)||(this.listSymptoms[i].isCurrentSymptom!=undefined)){
-                this.modifyFormSymtoms = true;
-                this.listSymptoms[i].finishdate=null;
+            if(this.listSymptoms[i].isCurrentSymptom==true){
+                this.listSymptoms[i].finishdate=undefined;
                 this.listSymptoms[i].selectEndOrCurrent = false;
-                this.modifyFormSymtoms = false;
+                this.listSymptoms[i].invalidFinishdate = false;
             }
             else{
                 if((this.listSymptoms[i].finishdate!=null)&&(this.listSymptoms[i].finishdate!=undefined)){
@@ -236,17 +235,15 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
 
     checkFinishDate(symptomIndex){
         if((this.listSymptoms[symptomIndex].onsetdate!=null)&&(this.listSymptoms[symptomIndex].onsetdate!=undefined)){
-            if((this.listSymptoms[symptomIndex].finishdate!=null)&&(this.listSymptoms[symptomIndex].finishdate!=undefined)){
-                var symptomOnsetDate = this.listSymptoms[symptomIndex].onsetdate;
-                var symptomFinishDate = this.listSymptoms[symptomIndex].finishdate;
-                if(symptomOnsetDate.getTime() > symptomFinishDate.getTime()){
-                    this.listSymptoms[symptomIndex].finishdate = null;
-                    this.listSymptoms[symptomIndex].invalidFinishdate = true;
-                }
-                else{
-                    this.listSymptoms[symptomIndex].invalidFinishdate = false;
-                    this.listSymptoms[symptomIndex].selectEndOrCurrent = false;
-                }
+            var symptomOnsetDate = this.listSymptoms[symptomIndex].onsetdate;
+            var symptomFinishDate = this.listSymptoms[symptomIndex].finishdate;
+            if(symptomOnsetDate.getTime() > symptomFinishDate.getTime()){
+                this.listSymptoms[symptomIndex].finishdate = null;
+                this.listSymptoms[symptomIndex].invalidFinishdate = true;
+            }
+            else{
+                this.listSymptoms[symptomIndex].invalidFinishdate = false;
+                this.listSymptoms[symptomIndex].selectEndOrCurrent = false;
             }
         }
     }
@@ -331,7 +328,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
         for(var i=0; i<this.listSymptoms.length;i++){
             if((this.listSymptoms[i].onsetdate!=undefined)&&(this.listSymptoms[i].onsetdate!=null)){
                 if((this.listSymptoms[i].finishdate==null)||(this.listSymptoms[i].finishdate==undefined)){
-                    if((this.listSymptoms[i].isCurrentSymptom==undefined)||(this.listSymptoms[i].isCurrentSymptom==null)){
+                    if((this.listSymptoms[i].isCurrentSymptom==false)||(this.listSymptoms[i].isCurrentSymptom==undefined)||(this.listSymptoms[i].isCurrentSymptom==null)){
                         this.listSymptoms[i].selectEndOrCurrent = true;
                         isValid = false;
                     }
