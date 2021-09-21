@@ -100,6 +100,47 @@
             </div>
           </div>
           <mat-accordion class="d-block d-sm-none">
+            <mat-expansion-panel *ngIf="infoWiki.length>0 || infoWikiGeneral.length>0">
+              <mat-expansion-panel-header>
+                <mat-panel-title (click)="lauchEvent('Diagnosed - General');">
+                  {{'land.diagnosed.general.title' | translate }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="card-body">
+                <div *ngIf="!loadingArticle">
+                  <div class="col-md-12" *ngIf="viewArticle">
+                    <button type="button" class="pull-right btn btn-secondary btn-raised" (click)="backToList()">{{'generics.Back' | translate }}</button>
+                    <h1>{{actualArticle.title}}</h1>
+                    <!--<a (click)="backToList();">Return to the list of information found.</a>-->
+                  </div>
+                  <div class="col-md-12" *ngIf="infoWikiGeneral.length>0 && !viewArticle">
+                    <span class="text-muted">{{'land.diagnosed.general.We have found' | translate }} {{infoWikiGeneral.length}} {{'land.diagnosed.general.results for' | translate }} {{infoOneDisease.name}} ({{secondToResponse}} {{'land.diagnosed.general.Seconds' | translate }})</span>
+                    <p *ngFor="let part of infoWikiGeneral ; let k = index" class="mb-1">
+                      <span>
+                        <h5 class="mt-2 mb-0"><a (click)="goToArticle(part);" class="articleTitle">{{part.title}}</a></h5>
+                        <span class="" [innerHTML]="infoWikiGeneral[k].snippet"></span>
+                      </span>
+                    </p>
+                  </div>
+                  <div class="col-md-12" *ngIf="(infoWiki.length>0 && infoWikiGeneral.length>0 && viewArticle) || (infoWiki.length>0 && infoWikiGeneral.length==0)">
+                    <p *ngFor="let part of infoWiki ; let j = index" class="mb-1">
+                      <span *ngIf="part.content.length>0">
+                        <h4 class="mt-2"><strong>{{part.title}}</strong></h4>
+                        <span class="" *ngIf="part.title!='Enlaces externos' && part.title!='External links'">{{part.content}}</span>
+                        <span class="" *ngIf="part.title=='Enlaces externos' || part.title=='External links'">
+                          <span *ngFor="let url of part.urls ; let j = index">
+                            <a href="{{url}}" target="_blank" class="d-block">{{url}}</a>
+                          </span>
+                        </span>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <div *ngIf="loadingArticle" class="center-elements">
+                    <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+                </div>
+              </div>
+            </mat-expansion-panel>
             <mat-expansion-panel *ngIf="infoOneDisease.symptoms!=undefined">
               <mat-expansion-panel-header>
                 <mat-panel-title (click)="lauchEvent('Diagnosed - Symptoms');">
@@ -107,23 +148,7 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <div class="card-body">
-                <div class="col-md-12" *ngIf="(!startTimeline)&&(!startCheckSymptoms)">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <em class="mr-1 ft-help-circle info float-right"
-                         title="{{'land.diagnosed.timeline.help' | translate}}" (click)="openTimelineAppHelp1(contentTimelineAppHelp1)"
-                         style="cursor: pointer;">
-                      </em>
-                    </div>
-                  </div>
-                  <div class="col-md-12 mt-1">
-                    <p> {{'land.diagnosed.timeline.t0-app' | translate}}</p>
-                  </div>
-                  <div class="col-md-12 center-elements">
-                    <button type="button" class="btn btn-info btn-md btn-raised" (click)="startCheckSymptomsFunction();">
-                        <span>{{'land.diagnosed.timeline.btn1' | translate}}</span>
-                    </button>
-                  </div>
+                <div class="col-md-12">
                   <div class="col-md-12 mb-1">
                     <table class="table mb-0 text-center d-block d-sm-none">
                       <tbody style="overflow-x: hidden;">
@@ -143,6 +168,33 @@
                         </tr>
                       </tbody>
                     </table>
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel *ngIf="infoOneDisease.symptoms!=undefined">
+              <mat-expansion-panel-header>
+                <mat-panel-title (click)="lauchEvent('Diagnosed - Chronology');">
+                  {{'land.Chronology' | translate }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="card-body">
+                <div class="col-md-12" *ngIf="(!startTimeline)&&(!startCheckSymptoms)">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <em class="mr-1 ft-help-circle info float-right"
+                         title="{{'land.diagnosed.timeline.help' | translate}}" (click)="openTimelineAppHelp1(contentTimelineAppHelp1)"
+                         style="cursor: pointer;">
+                      </em>
+                    </div>
+                  </div>
+                  <div class="col-md-12 mt-1">
+                    <p> {{'land.diagnosed.timeline.t0-app' | translate}}</p>
+                  </div>
+                  <div class="col-md-12 center-elements">
+                    <button type="button" class="btn btn-info btn-md btn-raised" (click)="startCheckSymptomsFunction();">
+                        <span>{{'land.diagnosed.timeline.btn1' | translate}}</span>
+                    </button>
                   </div>
                 </div>
                 <div class="col-md-12" *ngIf="(!startTimeline)&&(startCheckSymptoms)">
@@ -189,47 +241,6 @@
                   </div>
                 </div>
                 <timeline *ngIf="(startTimeline)&&(!startCheckSymptoms)" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (finishEvent)="checkDonnorState(contentInfoAttention)" (openModalTimelineHelp)="openTimelineAppHelp2(contentTimelineAppHelp2)" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
-              </div>
-            </mat-expansion-panel>
-            <mat-expansion-panel *ngIf="infoWiki.length>0 || infoWikiGeneral.length>0">
-              <mat-expansion-panel-header>
-                <mat-panel-title (click)="lauchEvent('Diagnosed - General');">
-                  {{'land.diagnosed.general.title' | translate }}
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <div class="card-body">
-                <div *ngIf="!loadingArticle">
-                  <div class="col-md-12" *ngIf="viewArticle">
-                    <button type="button" class="pull-right btn btn-secondary btn-raised" (click)="backToList()">{{'generics.Back' | translate }}</button>
-                    <h1>{{actualArticle.title}}</h1>
-                    <!--<a (click)="backToList();">Return to the list of information found.</a>-->
-                  </div>
-                  <div class="col-md-12" *ngIf="infoWikiGeneral.length>0 && !viewArticle">
-                    <span class="text-muted">{{'land.diagnosed.general.We have found' | translate }} {{infoWikiGeneral.length}} {{'land.diagnosed.general.results for' | translate }} {{infoOneDisease.name}} ({{secondToResponse}} {{'land.diagnosed.general.Seconds' | translate }})</span>
-                    <p *ngFor="let part of infoWikiGeneral ; let k = index" class="mb-1">
-                      <span>
-                        <h5 class="mt-2 mb-0"><a (click)="goToArticle(part);" class="articleTitle">{{part.title}}</a></h5>
-                        <span class="" [innerHTML]="infoWikiGeneral[k].snippet"></span>
-                      </span>
-                    </p>
-                  </div>
-                  <div class="col-md-12" *ngIf="(infoWiki.length>0 && infoWikiGeneral.length>0 && viewArticle) || (infoWiki.length>0 && infoWikiGeneral.length==0)">
-                    <p *ngFor="let part of infoWiki ; let j = index" class="mb-1">
-                      <span *ngIf="part.content.length>0">
-                        <h4 class="mt-2"><strong>{{part.title}}</strong></h4>
-                        <span class="" *ngIf="part.title!='Enlaces externos' && part.title!='External links'">{{part.content}}</span>
-                        <span class="" *ngIf="part.title=='Enlaces externos' || part.title=='External links'">
-                          <span *ngFor="let url of part.urls ; let j = index">
-                            <a href="{{url}}" target="_blank" class="d-block">{{url}}</a>
-                          </span>
-                        </span>
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div *ngIf="loadingArticle" class="center-elements">
-                    <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
-                </div>
               </div>
             </mat-expansion-panel>
             <mat-expansion-panel *ngIf="clinicalTrials.length>0">
@@ -383,13 +394,51 @@
               </div>
             </mat-expansion-panel>
           </mat-accordion>
-          <ngb-tabset type="pills" id="exTab1" class="d-none d-sm-block">
+          <ngb-tabset type="pills" #tabRef="ngbTabset" class="d-none d-sm-block">
+            <ngb-tab *ngIf="infoWiki.length>0 || infoWikiGeneral.length>0" id="generaltab">
+              <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - General');backToList();">
+                {{'land.diagnosed.general.title' | translate }}</strong></ng-template>
+              <ng-template ngbTabContent>
+                <div *ngIf="!loadingArticle">
+                  <div class="col-md-12" *ngIf="viewArticle">
+                    <button type="button" class="pull-right btn btn-secondary btn-raised" (click)="backToList()">{{'generics.Back' | translate }}</button>
+                    <h1>{{actualArticle.title}}</h1>
+                    <!--<a (click)="backToList();">Return to the list of information found.</a>-->
+                  </div>
+                  <div class="col-md-12" *ngIf="infoWikiGeneral.length>0 && !viewArticle">
+                    <span class="text-muted">{{'land.diagnosed.general.We have found' | translate }} {{infoWikiGeneral.length}} {{'land.diagnosed.general.results for' | translate }} {{infoOneDisease.name}} ({{secondToResponse}} {{'land.diagnosed.general.Seconds' | translate }})</span>
+                    <p *ngFor="let part of infoWikiGeneral ; let k = index" class="mb-1">
+                      <span>
+                        <h5 class="mt-2 mb-0"><a (click)="goToArticle(part);" class="articleTitle">{{part.title}}</a></h5>
+                        <span class="" [innerHTML]="infoWikiGeneral[k].snippet"></span>
+                      </span>
+                    </p>
+                  </div>
+                  <div class="col-md-12" *ngIf="(infoWiki.length>0 && infoWikiGeneral.length>0 && viewArticle) || (infoWiki.length>0 && infoWikiGeneral.length==0)">
+                    <p *ngFor="let part of infoWiki ; let j = index" class="mb-1">
+                      <span *ngIf="part.content.length>0">
+                        <h4 class="mt-2"><strong>{{part.title}}</strong></h4>
+                        <span class="" *ngIf="part.title!='Enlaces externos' && part.title!='External links'">{{part.content}}</span>
+                        <span class="" *ngIf="part.title=='Enlaces externos' || part.title=='External links'">
+                          <span *ngFor="let url of part.urls ; let j = index">
+                            <a href="{{url}}" target="_blank" class="d-block">{{url}}</a>
+                          </span>
+                        </span>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <div *ngIf="loadingArticle" class="center-elements">
+                    <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+                </div>
+              </ng-template>
+            </ngb-tab>
             <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined">
               <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Symptoms');">{{'land.diagnosed.general.Symptoms' | translate }}</strong></ng-template>
               <ng-template ngbTabContent>
-                <div class="col-md-12" *ngIf="(!startTimeline)&&(!startCheckSymptoms)">
+                <div class="col-md-12">
                   <div class="row">
-                    <div class="col-md-6 mt-1">
+                    <div class="col-md-12 mt-1">
                       <div class="col-md-12">
                         <table class="table mb-0 text-center d-none d-sm-block">
                           <tbody style="width: 100%;display: inline-table;">
@@ -415,7 +464,16 @@
                         </table>
                       </div>
                     </div>
-                    <div class="col-md-6 mt-1">
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined">
+              <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Chronology');">{{'land.Chronology' | translate }}</strong></ng-template>
+              <ng-template ngbTabContent>
+                <div class="col-md-12" *ngIf="(!startTimeline)&&(!startCheckSymptoms)">
+                  <div class="row">
+                    <div class="col-md-12 mt-1">
                       <div class="col-md-12">
                         <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
                       </div>
@@ -503,44 +561,6 @@
                   </div>
                 </div>
                 <timeline *ngIf="(startTimeline)&&(!startCheckSymptoms)" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (finishEvent)="checkDonnorState(contentInfoAttention);" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
-              </ng-template>
-            </ngb-tab>
-            <ngb-tab *ngIf="infoWiki.length>0 || infoWikiGeneral.length>0">
-              <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - General');backToList();">
-                {{'land.diagnosed.general.title' | translate }}</strong></ng-template>
-              <ng-template ngbTabContent>
-                <div *ngIf="!loadingArticle">
-                  <div class="col-md-12" *ngIf="viewArticle">
-                    <button type="button" class="pull-right btn btn-secondary btn-raised" (click)="backToList()">{{'generics.Back' | translate }}</button>
-                    <h1>{{actualArticle.title}}</h1>
-                    <!--<a (click)="backToList();">Return to the list of information found.</a>-->
-                  </div>
-                  <div class="col-md-12" *ngIf="infoWikiGeneral.length>0 && !viewArticle">
-                    <span class="text-muted">{{'land.diagnosed.general.We have found' | translate }} {{infoWikiGeneral.length}} {{'land.diagnosed.general.results for' | translate }} {{infoOneDisease.name}} ({{secondToResponse}} {{'land.diagnosed.general.Seconds' | translate }})</span>
-                    <p *ngFor="let part of infoWikiGeneral ; let k = index" class="mb-1">
-                      <span>
-                        <h5 class="mt-2 mb-0"><a (click)="goToArticle(part);" class="articleTitle">{{part.title}}</a></h5>
-                        <span class="" [innerHTML]="infoWikiGeneral[k].snippet"></span>
-                      </span>
-                    </p>
-                  </div>
-                  <div class="col-md-12" *ngIf="(infoWiki.length>0 && infoWikiGeneral.length>0 && viewArticle) || (infoWiki.length>0 && infoWikiGeneral.length==0)">
-                    <p *ngFor="let part of infoWiki ; let j = index" class="mb-1">
-                      <span *ngIf="part.content.length>0">
-                        <h4 class="mt-2"><strong>{{part.title}}</strong></h4>
-                        <span class="" *ngIf="part.title!='Enlaces externos' && part.title!='External links'">{{part.content}}</span>
-                        <span class="" *ngIf="part.title=='Enlaces externos' || part.title=='External links'">
-                          <span *ngFor="let url of part.urls ; let j = index">
-                            <a href="{{url}}" target="_blank" class="d-block">{{url}}</a>
-                          </span>
-                        </span>
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div *ngIf="loadingArticle" class="center-elements">
-                    <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
-                </div>
               </ng-template>
             </ngb-tab>
             <ngb-tab *ngIf="clinicalTrials.length>0" >
@@ -1113,7 +1133,7 @@
         <p>** {{'land.diagnosed.timeline.WorkPC' | translate}}</p>
       </div>
     </div>
-    <div class="col-md-12 mt-1 mb-2">
+    <div class="col-md-12 mt-1 mb-2 center-elements">
       <img src='assets/img/land/diagnosed/timeline-doc.jpg' style="max-width: 100%;">
     </div>
   </div>

@@ -1081,7 +1081,24 @@
       <h4 class="align-self-center"><strong>{{'land.Chronology' | translate }}</strong></h4>
     </div>
     <div>
-      <timeline  [listSymptoms]="symptomsTimeLine" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+      <div class="col-md-12" *ngIf="(!startTimeline)">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="col-md-12">
+              <p> {{'land.diagnosed.timeline.t0' | translate}}</p>
+            </div>
+            <div class="col-md-12 center-elements mt-2">
+              <button type="button" class="btn btn-info btn-md btn-raised" (click)="startCheckSymptomsFunction();">
+                  <span>{{'land.diagnosed.timeline.btn1' | translate}}</span>
+              </button>
+            </div>
+            <div class="col-md-12 mt-2 center-elements">
+              <img src='assets/gif/land/diagnosed/timeline.gif' style="max-width: 100%;">
+            </div>
+          </div>
+        </div>
+      </div>
+      <timeline *ngIf="(startTimeline)" [listSymptoms]="symptomsTimeLine" (backEvent)="endTimeLineFunction()" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
     </div>
   </div>
 </ng-template>
@@ -1250,13 +1267,13 @@
     <div class="row col-md-12" class="p-2" *ngIf="selectedNoteSymptom.onsetdate!=null">
       <span>
         <h5><strong>{{'generics.Start Date' | translate }}</strong></h5>
-        <p class="mb-0">{{selectedNoteSymptom.onsetdate |date}} </p>
+        <p class="mb-0">{{selectedNoteSymptom.onsetdate | date}} </p>
       </span>
     </div>
     <div class="row col-md-12" class="p-2" *ngIf="selectedNoteSymptom.finishdate!=null">
       <span>
         <h5><strong>{{'generics.End Date' | translate }}</strong></h5>
-        <p class="mb-0">{{selectedNoteSymptom.finishdate |date}} </p>
+        <p class="mb-0">{{selectedNoteSymptom.finishdate | date}} </p>
       </span>
     </div>
     <div class="row col-md-12" class="p-2" *ngIf="(selectedNoteSymptom.onsetdate!=null)&&(selectedNoteSymptom.isCurrentSymptom)">
