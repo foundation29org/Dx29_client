@@ -18,12 +18,6 @@ export class jsPDFService {
     
 
     generateTimelinePDF(lang, dictionaryTimeline, listSymptomsNullInfo){
-
-        Object.keys(dictionaryTimeline).sort((a,b)=>this.keyDescOrder(a,b))
-        for (var itemDate in dictionaryTimeline){
-            Object.keys(itemDate).sort((a,b)=>this.valueDateDescOrder(a,b))
-        }
-        console.log(dictionaryTimeline)
         var doc = new jsPDF as jsPDFWithPlugin;
         var positionY = 0;
         const marginX = 5;
@@ -233,6 +227,7 @@ export class jsPDFService {
         var bodyTable = []
         var notesBodyTable={};
         for (var itemDate in dictionaryTimeline){
+            console.log(itemDate)
             for (var date in dictionaryTimeline[itemDate]){
                 for (var i=0;i<dictionaryTimeline[itemDate][date].length;i++){
                     var name = dictionaryTimeline[itemDate][date][i].name
@@ -278,7 +273,7 @@ export class jsPDFService {
                 }
             }
         }
-
+        console.log(bodyTable)
         //bodyTable.reverse(); // Mas antiguos primero
 
         
@@ -420,42 +415,6 @@ export class jsPDFService {
         }
         return result;
     }
-
-    // Order by descending key
-    keyDescOrder = ((a, b) => {
-        var a_month=a.split("-"[0])
-        var a_year = a.split("-")[1]
-        var b_month=b.split("-")[0]
-        var b_year=b.split("-")[1]
-        if(new Date(a_year).getTime() > new Date(b_year).getTime()){
-            return 1;
-        }
-        else if(new Date(a_year).getTime() < new Date(b_year).getTime()){
-            return -1;
-        }
-        else{
-            if(new Date(a_month).getTime()>new Date(b_month).getTime()){
-                return 1;
-            }
-            else if(new Date(a_month).getTime() < new Date(b_month).getTime()){
-                return -1;
-            }
-            else{
-                return 0;
-            }
-        }
-    })
-
-    // Order by descending value
-    valueDateDescOrder = ((a,b)=> {
-        if(new Date(a).getTime() > new Date(b).getTime()){
-            return -1;
-        }
-        else if(new Date(a).getTime() < new Date(b).getTime()){
-            return -1;
-        }
-        else return 0;
-    })
 
     private newSectionDoc(doc,sectionNumber,sectionTitle,sectionSubtitle,line){
         var title = sectionTitle;
