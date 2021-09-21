@@ -183,15 +183,16 @@ export class jsPDFService {
         if(positionY!=20){
             positionY =posInit;
         }else{
+            positionY-= 15;
             posInit = positionY;
         }
         doc.setFillColor(0,157,160);
-        doc.rect(15, positionY, 53, 7, 'FD'); //Fill and Border
+        doc.rect(15, positionY += 15, 53, 7, 'FD'); //Fill and Border
         doc.setTextColor(255, 255, 255);
         doc.setFont(undefined, 'bold');
         doc.setFontSize(10);
         positionY = this.checkIfNewPage(doc, positionY);
-        doc.text(this.translate.instant("land.diagnosed.symptoms.NoOnset"), 17, posInit += 5);
+        doc.text(this.translate.instant("land.diagnosed.symptoms.NoOnset"), 17, posInit += 20);
         positionY += 10;
         doc.setTextColor(0, 0, 0);
         var calendarIcon = new Image();
