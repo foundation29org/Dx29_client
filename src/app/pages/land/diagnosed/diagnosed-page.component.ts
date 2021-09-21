@@ -581,8 +581,8 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     showMoreInfoDiagnosePopup(index) {
         if((this.startCheckSymptoms||this.startTimeline)&&(this.listSymptomsCheckedTimeline.length>0)){
             Swal.fire({
-                title: this.translate.instant("land.Do you want to exit"),
-                text: this.translate.instant("land.loseprogress"),
+                title: this.translate.instant("generics.Are you sure?"),
+                text: this.translate.instant("land.diagnosed.timeline.ExitDiscard"),
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#0CC27E',
@@ -1050,8 +1050,8 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     closeDisease() {
         if((this.startCheckSymptoms||this.startTimeline)&&(this.listSymptomsCheckedTimeline.length>0)){
             Swal.fire({
-                title: this.translate.instant("land.Do you want to exit"),
-                text: this.translate.instant("land.loseprogress"),
+                title: this.translate.instant("generics.Are you sure?"),
+                text: this.translate.instant("land.diagnosed.timeline.ExitDiscard"),
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#0CC27E',
@@ -1191,6 +1191,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     }
     startCheckSymptomsFunction(){
         this.startCheckSymptoms = true;
+        this.scrollToTop();
     }
 
     endCheckSymptomsFunction(){
@@ -1201,6 +1202,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         if(this.listSymptomsCheckedTimeline.length>0) {
             this.endCheckSymptomsFunction();
             this.startTimeline=true;
+            this.scrollToTop();
         }
         else{
             Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
@@ -1330,6 +1332,10 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         } else {
             window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
         }
+    }
+
+    scrollToTop(){
+        window.scroll(0,0);
     }
 
 }

@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
+import { axisBottom } from 'd3-axis';
 
 interface jsPDFWithPlugin extends jsPDF {
   autoTable: (options: UserOptions) => jsPDF;
@@ -240,160 +241,166 @@ export class jsPDFService {
     }
 
     private timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo){
-        var bodyTable = []
-        var notesBodyTable={};
-        var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
-        for (var itemDateIndex in listItemDateKeys){
-            var itemDate = listItemDateKeys[itemDateIndex]
-            var listDateKeys= Object.keys(dictionaryTimeline[itemDate]).sort((a,b)=>{return this.valueDateDescOrder(a,b)})
-            for (var dateIndex in listDateKeys){
-                var date= listDateKeys[dateIndex]
-                for (var i=0;i<dictionaryTimeline[itemDate][date].length;i++){
-                    var name = dictionaryTimeline[itemDate][date][i].name
-                    if(name==undefined){
-                        name = dictionaryTimeline[itemDate][date][i].id + "-" + this.translate.instant("phenotype.Deprecated")
-                    }
-                    var id = dictionaryTimeline[itemDate][date][i].id
-                    var onsetdate = "-"
-                    if((dictionaryTimeline[itemDate][date][i].onsetdate!=undefined)&&(dictionaryTimeline[itemDate][date][i].onsetdate!=null)){
-                        onsetdate=this.datePipe.transform(dictionaryTimeline[itemDate][date][i].onsetdate)
-                    }
-                    var finishdate = "-"
-                    if((dictionaryTimeline[itemDate][date][i].finishdate!=undefined)&&(dictionaryTimeline[itemDate][date][i].finishdate!=null)){
-                        finishdate=this.datePipe.transform(dictionaryTimeline[itemDate][date][i].finishdate)
-                    }
-                    var duration="-"
-                    if(((onsetdate!="-")&&(finishdate!="-"))){
-                        duration = this.dateDiff(dictionaryTimeline[itemDate][date][i].onsetdate,dictionaryTimeline[itemDate][date][i].finishdate)
-                    }
-                    else if((onsetdate!="-")&&(dictionaryTimeline[itemDate][date][i].isCurrentSymptom)){
-                        duration = this.dateDiff(dictionaryTimeline[itemDate][date][i].onsetdate,new Date())
-                    }
-                    var notes = null;
-                    if((dictionaryTimeline[itemDate][date][i].notes!=null)&&(dictionaryTimeline[itemDate][date][i].notes!=undefined)){
-                        notes = dictionaryTimeline[itemDate][date][i].notes
-                    }
 
-                    var symptom = [{content:name,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:duration,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:onsetdate,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:finishdate,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:id,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}}]
-                    var foundInBodyTable = false;
-                    for(var j=0;j<bodyTable.length;j++){
-                        for (var k=0;k< bodyTable[j].length;k++){
-                            if(bodyTable[j][k].content == (id)){
-                                foundInBodyTable=true
+        var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
+        if(listItemDateKeys.length>0){
+            this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Appendix1"),this.translate.instant("land.diagnosed.timeline.Appendix1Title"),null,positionY)
+            positionY+=10
+            var bodyTable = []
+            var notesBodyTable={};
+            var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
+            for (var itemDateIndex in listItemDateKeys){
+                var itemDate = listItemDateKeys[itemDateIndex]
+                var listDateKeys= Object.keys(dictionaryTimeline[itemDate]).sort((a,b)=>{return this.valueDateDescOrder(a,b)})
+                for (var dateIndex in listDateKeys){
+                    var date= listDateKeys[dateIndex]
+                    for (var i=0;i<dictionaryTimeline[itemDate][date].length;i++){
+                        var name = dictionaryTimeline[itemDate][date][i].name
+                        if(name==undefined){
+                            name = dictionaryTimeline[itemDate][date][i].id + "-" + this.translate.instant("phenotype.Deprecated")
+                        }
+                        var id = dictionaryTimeline[itemDate][date][i].id
+                        var onsetdate = "-"
+                        if((dictionaryTimeline[itemDate][date][i].onsetdate!=undefined)&&(dictionaryTimeline[itemDate][date][i].onsetdate!=null)){
+                            onsetdate=this.datePipe.transform(dictionaryTimeline[itemDate][date][i].onsetdate)
+                        }
+                        var finishdate = "-"
+                        if((dictionaryTimeline[itemDate][date][i].finishdate!=undefined)&&(dictionaryTimeline[itemDate][date][i].finishdate!=null)){
+                            finishdate=this.datePipe.transform(dictionaryTimeline[itemDate][date][i].finishdate)
+                        }
+                        var duration="-"
+                        if(((onsetdate!="-")&&(finishdate!="-"))){
+                            duration = this.dateDiff(dictionaryTimeline[itemDate][date][i].onsetdate,dictionaryTimeline[itemDate][date][i].finishdate)
+                        }
+                        else if((onsetdate!="-")&&(dictionaryTimeline[itemDate][date][i].isCurrentSymptom)){
+                            duration = this.dateDiff(dictionaryTimeline[itemDate][date][i].onsetdate,new Date())
+                        }
+                        var notes = null;
+                        if((dictionaryTimeline[itemDate][date][i].notes!=null)&&(dictionaryTimeline[itemDate][date][i].notes!=undefined)){
+                            notes = dictionaryTimeline[itemDate][date][i].notes
+                        }
+
+                        var symptom = [{content:name,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:duration,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:onsetdate,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:finishdate,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:id,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}}]
+                        var foundInBodyTable = false;
+                        for(var j=0;j<bodyTable.length;j++){
+                            for (var k=0;k< bodyTable[j].length;k++){
+                                if(bodyTable[j][k].content == (id)){
+                                    foundInBodyTable=true
+                                }
+                            } 
+                        }
+                        if(!foundInBodyTable){
+                            bodyTable.push(symptom)
+                            if(notes!=null){
+                                notesBodyTable[id]=notes;
                             }
-                        } 
-                    }
-                    if(!foundInBodyTable){
-                        bodyTable.push(symptom)
-                        if(notes!=null){
-                            notesBodyTable[id]=notes;
                         }
                     }
                 }
             }
-        }
-        
-        // Despues los que no tienen info de fechas
-
-        // Add notes 
-        for(var i = 0; i < bodyTable.length; i++){
-            for(var j=0; j< bodyTable[i].length;j++){
-                if(Object.keys(notesBodyTable).includes(bodyTable[i][j].content)){
-                    bodyTable.splice(i+1,0,[{content:"\t"+ notesBodyTable[bodyTable[i][j].content],colSpan:5,styles:{fontSize:10, fontStyle: 'italic'}}])
-                }
-            }
-        }
-
-        let tableInfo  = null; 
-        doc.autoTable({
-            head: [[this.translate.instant("generics.Name"),this.translate.instant("land.diagnosed.timeline.Duration"),this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"),"ID"]],
-            body: bodyTable,
-            startY: positionY,
-            theme: 'plain',
-            didDrawPage: ()=>{
-                this.newHeatherAndFooter(doc);
-            },
-            willDrawCell:(data)=>{
-                if (data.cell.section === 'body' && data.column.index === 4) {
-                    var text = data.cell.text.toString()
-                    data.cell.text = ""
-                    doc.setTextColor(0, 133, 133)
-                    var url = "https://hpo.jax.org/app/browse/term/" + text;
-                    doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
-                }
-            },
-            didParseCell: (data)=>{
-                if(!tableInfo){
-                    tableInfo=data.table;
-                }
-            }
-            
-        }); 
-        positionY = tableInfo.finalY
-        
-        doc.text(this.translate.instant("land.diagnosed.symptoms.NoOnset"), 17, positionY += 35);
-
-        var bodyTable2 = []
-        var notesBodyTable2={};
-
-        for(var j=0;j<listSymptomsNullInfo.length;j++){
-
-            var name2 = listSymptomsNullInfo[j].name
-            if(name2==undefined){
-                name2 = listSymptomsNullInfo[j].id + "-" + this.translate.instant("phenotype.Deprecated")
-            }
-            var id2 = listSymptomsNullInfo[j].id
-            
-            var notes2 = null;
-            if((listSymptomsNullInfo[j].notes!=null)&&(listSymptomsNullInfo[j].notes!=undefined)){
-                notes2 = listSymptomsNullInfo[j].notes
-            }
-
-            var symptom2 = [{content:name2,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}},{content:id2,colSpan:1,styles:{fontSize:12, fontStyle: 'normal'}}]
-            var foundInBodyTable2 = false;
-            for(var j=0;j<bodyTable2.length;j++){
-                for (var k=0;k< bodyTable2[j].length;k++){
-                    if(bodyTable2[j][k].content == (id)){
-                        foundInBodyTable2=true
+            // Add notes 
+            for(var i = 0; i < bodyTable.length; i++){
+                for(var j=0; j< bodyTable[i].length;j++){
+                    if(Object.keys(notesBodyTable).includes(bodyTable[i][j].content)){
+                        bodyTable.splice(i+1,0,[{content:"\t"+ notesBodyTable[bodyTable[i][j].content],colSpan:5,styles:{fontSize:9, fontStyle: 'italic'}}])
                     }
-                } 
-            }
-            if(!foundInBodyTable2){
-                bodyTable2.push(symptom2)
-                if(notes2!=null){
-                    notesBodyTable2[id2]=notes2;
                 }
             }
-        }
 
-        // Add notes 
-        for(var i = 0; i < bodyTable2.length; i++){
-            for(var j=0; j< bodyTable2[i].length;j++){
-                if(Object.keys(notesBodyTable2).includes(bodyTable2[i][j].content)){
-                    bodyTable2.splice(i+1,0,[{content:"\t"+ notesBodyTable2[bodyTable2[i][j].content],colSpan:5,styles:{fontSize:10, fontStyle: 'italic'}}])
+            let tableInfo  = null; 
+            doc.autoTable({
+                head: [[this.translate.instant("generics.Name"),this.translate.instant("land.diagnosed.timeline.Duration"),this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"),"ID"]],
+                body: bodyTable,
+                startY: positionY,
+                theme: 'plain',
+                didDrawPage: ()=>{
+                    this.newHeatherAndFooter(doc);
+                },
+                willDrawCell:(data)=>{
+                    if (data.cell.section === 'body' && data.column.index === 4) {
+                        var text = data.cell.text.toString()
+                        data.cell.text = ""
+                        doc.setTextColor(0, 133, 133)
+                        var url = "https://hpo.jax.org/app/browse/term/" + text;
+                        doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
+                    }
+                },
+                didParseCell: (data)=>{
+                    if(!tableInfo){
+                        tableInfo=data.table;
+                    }
                 }
-            }
+                
+            }); 
+            positionY = tableInfo.finalY + 25
         }
+        
+        if(listSymptomsNullInfo.length>0){
+            this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Appendix2"),this.translate.instant("land.diagnosed.timeline.Appendix2Title"),null,positionY)
+            positionY+=10
+            var bodyTable2 = []
+            var notesBodyTable2={};
 
-        doc.autoTable({
-            head: [[this.translate.instant("generics.Name"),"ID"]],
-            body: bodyTable2,
-            startY: positionY,
-            theme: 'plain',
-            didDrawPage: ()=>{
-                this.newHeatherAndFooter(doc);
-            },
-            willDrawCell:(data)=>{
-                if (data.cell.section === 'body' && data.column.index === 1) {
-                    var text = data.cell.text.toString()
-                    data.cell.text = ""
-                    doc.setTextColor(0, 133, 133)
-                    var url = "https://hpo.jax.org/app/browse/term/" + text;
-                    doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
+            for(var j=0;j<listSymptomsNullInfo.length;j++){
+
+                var name2 = listSymptomsNullInfo[j].name
+                if(name2==undefined){
+                    name2 = listSymptomsNullInfo[j].id + "-" + this.translate.instant("phenotype.Deprecated")
+                }
+                var id2 = listSymptomsNullInfo[j].id
+                
+                var notes2 = null;
+                if((listSymptomsNullInfo[j].notes!=null)&&(listSymptomsNullInfo[j].notes!=undefined)){
+                    notes2 = listSymptomsNullInfo[j].notes
+                }
+
+                var symptom2 = [{content:name2,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:id2,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}}]
+                var foundInBodyTable2 = false;
+                for(var j=0;j<bodyTable2.length;j++){
+                    for (var k=0;k< bodyTable2[j].length;k++){
+                        if(bodyTable2[j][k].content == (id)){
+                            foundInBodyTable2=true
+                        }
+                    } 
+                }
+                if(!foundInBodyTable2){
+                    bodyTable2.push(symptom2)
+                    if(notes2!=null){
+                        notesBodyTable2[id2]=notes2;
+                    }
                 }
             }
-            
-        }); 
+
+            // Add notes 
+            for(var i = 0; i < bodyTable2.length; i++){
+                for(var j=0; j< bodyTable2[i].length;j++){
+                    if(Object.keys(notesBodyTable2).includes(bodyTable2[i][j].content)){
+                        bodyTable2.splice(i+1,0,[{content:"\t"+ notesBodyTable2[bodyTable2[i][j].content],colSpan:5,styles:{fontSize:9, fontStyle: 'italic'}}])
+                    }
+                }
+            }
+
+            doc.autoTable({
+                head: [[this.translate.instant("generics.Name"),"ID"]],
+                body: bodyTable2,
+                startY: positionY,
+                theme: 'plain',
+                didDrawPage: ()=>{
+                    this.newHeatherAndFooter(doc);
+                },
+                willDrawCell:(data)=>{
+                    if (data.cell.section === 'body' && data.column.index === 1) {
+                        var text = data.cell.text.toString()
+                        data.cell.text = ""
+                        doc.setTextColor(0, 133, 133)
+                        var url = "https://hpo.jax.org/app/browse/term/" + text;
+                        doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
+                    }
+                }
+                
+            }); 
+        }
+        
     }
 
     dateDiff(d1:Date, d2:Date) {
@@ -437,8 +444,7 @@ export class jsPDFService {
         if(sectionNumber!=null){
             title=sectionNumber+".- "+sectionTitle;
         }
-        var marginX = 30;
-        //doc.rect(5, doc.internal.pageSize.getWidth()-80, line, line+30); // empty square
+        var marginX = 10;
         doc.setTextColor(117, 120, 125)
         doc.setFont(undefined, 'bold');
         doc.setFontSize(12);
@@ -449,13 +455,11 @@ export class jsPDFService {
             var subtitle = sectionSubtitle;
             doc.setFont(undefined, 'italic');
             doc.setFontSize(12);
-            doc.text(marginX, line+10, subtitle);
+            doc.text(marginX, line, subtitle);
         }
         
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
-        
-        return line + 20
     }
 
     private newHeatherAndFooter(doc){
