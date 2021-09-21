@@ -28,7 +28,6 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import {DndDirective} from "app/shared/directives/dnd.directive";
 import { TimelineComponent } from './diagnosed/timeline/timeline.component';
-import { TimelineAppComponent } from './diagnosed/timeline-app/timeline-app.component';
 
 @NgModule({
     exports: [
@@ -56,7 +55,6 @@ import { TimelineAppComponent } from './diagnosed/timeline-app/timeline-app.comp
         UndiagnosedPageComponent,
         DiagnosedPageComponent,
         TimelineComponent,
-        TimelineAppComponent,
         ClinicianPageComponent,
         DiagnosedPatientPageComponent,
         UndiagnosedPatientPageComponent,

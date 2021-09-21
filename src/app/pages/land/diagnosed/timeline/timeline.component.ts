@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, LOCALE_ID } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, AfterContentChecked, Output, EventEmitter, LOCALE_ID } from '@angular/core';
 import Swal from 'sweetalert2';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -33,10 +33,11 @@ export function getCulture() {
 })
 
 
-export class TimelineComponent implements OnInit, OnDestroy {
+export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked {
     @Input() listSymptoms: any[];
     @Output() openModalSymptomInfo = new EventEmitter();
     @Output() openModalSaveTimeLine = new EventEmitter();
+    @Output() openModalTimelineHelp = new EventEmitter();
     @Output() backEvent = new EventEmitter();
     @Output() finishEvent = new EventEmitter();
 
@@ -46,10 +47,12 @@ export class TimelineComponent implements OnInit, OnDestroy {
     modifyFormSymtoms = false;
     showTimeLine = false;
     selectedInfoSymptom = null;
+    actualTemporalSymptomsIndex = 0;
 
     constructor(public translate: TranslateService,  public toastr: ToastrService, public googleAnalyticsService: GoogleAnalyticsService, public jsPDFService: jsPDFService, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe) {
         this.modifyFormSymtoms = false;
         this.showTimeLine = false;
+        this.actualTemporalSymptomsIndex = 0;
         this.selectedInfoSymptom = null;
         this.dateAdapter.setLocale(sessionStorage.getItem('lang'));  
     }
@@ -58,6 +61,15 @@ export class TimelineComponent implements OnInit, OnDestroy {
         this.modifyFormSymtoms = false;
         this.showTimeLine = false;
         this.selectedInfoSymptom = null;
+        this.actualTemporalSymptomsIndex = 0;
+        this.loadingTimeLine();
+    }
+    
+    ngAfterContentChecked(){
+        this.modifyFormSymtoms = false;
+        this.showTimeLine = false;
+        this.selectedInfoSymptom = null;
+        this.actualTemporalSymptomsIndex = 0;
         this.loadingTimeLine();
     }
 
@@ -77,6 +89,10 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
     showMoreInfoSymptomPopup(symptom){
         this.openModalSymptomInfo.emit(symptom);
+    }
+
+    openTimelineAppHelp(){
+        this.openModalTimelineHelp.emit(true);
     }
 
     // Order by descending key
@@ -122,6 +138,18 @@ export class TimelineComponent implements OnInit, OnDestroy {
         else{
             return (obj && (Object.keys(obj).length === 0));
         }
+    }
+
+    goPrevSymptom(){
+        this.modifyFormSymtoms = true;
+        this.actualTemporalSymptomsIndex--;
+        this.modifyFormSymtoms = false;
+    }
+
+    goNextSymptom(){
+        this.modifyFormSymtoms = true;
+        this.actualTemporalSymptomsIndex++;
+        this.modifyFormSymtoms = false;
     }
 
     updateTimeline(){
