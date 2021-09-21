@@ -23,7 +23,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.service';
 import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
 import { DialogService  } from 'app/shared/services/dialog.service';
-import {jsPDFService} from 'app/shared/services/jsPDF.service'
+import {jsPDFService} from 'app/shared/services/jsPDF.service';
+import {NgbTabset} from "@ng-bootstrap/ng-bootstrap";
 
 //import { Observable } from 'rxjs/Observable';
 import {Observable, of, OperatorFunction} from 'rxjs';
@@ -204,6 +205,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
+    @ViewChild('tabRef') ctdTabset : NgbTabset;
 
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public jsPDFService: jsPDFService) {
 
@@ -1123,6 +1125,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                             this.infoWiki[i].urls = urls;
                         }
                     }
+                    this.switchNgBTab('generaltab');
                 }else{
                     var t0 = performance.now()
                     var lang = sessionStorage.getItem('lang');
@@ -1136,6 +1139,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                                 this.infoWikiGeneral = res.query.search;
                                 var t1 = performance.now();
                                 this.secondToResponse = ((t1 - t0)/1000).toFixed(2);
+                                this.switchNgBTab('generaltab');
                             }
                             
                         }, (err) => {
@@ -1147,6 +1151,13 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 console.log(err);
             }));
     }
+
+    switchNgBTab(id: string) {
+        setTimeout(function () {
+            this.ctdTabset.select(id);
+        }.bind(this), 50);
+        
+      }
 
     goToArticle(article){
         this.actualArticle = article;
@@ -1233,6 +1244,15 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     this.endCheckSymptomsFunction();
                 }
             })
+        }else{
+            this.listSymptomsCheckedTimeline=[];
+            for (var i =0; i<this.infoOneDisease.symptoms.length;i++){
+                if(this.infoOneDisease.symptoms[i].checked){
+                    this.infoOneDisease.symptoms[i].checked= false;
+                }
+            }
+            this.startTimeline=false;
+            this.endCheckSymptomsFunction();
         }
     }
 

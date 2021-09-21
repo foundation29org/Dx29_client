@@ -177,6 +177,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
 
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
+    startTimeline = false;
 
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
 
@@ -1856,6 +1857,14 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             windowClass: 'ModalClass-sm'// xl, lg, sm
         };
         this.modalReference4 = this.modalService.open(contentInfoAndNotesSymptom, ngbModalOptions);
+    }
+
+    startCheckSymptomsFunction(){
+        this.startTimeline = true;
+    }
+
+    endTimeLineFunction(){
+        this.startTimeline=false;
     }
 
 }
