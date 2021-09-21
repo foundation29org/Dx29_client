@@ -1081,7 +1081,7 @@
       <h4 class="align-self-center"><strong>{{'land.Chronology' | translate }}</strong></h4>
     </div>
     <div>
-      <timeline  [listSymptoms]="symptomsTimeLine" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+      <timeline  [listSymptoms]="symptomsTimeLine" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
     </div>
   </div>
 </ng-template>
@@ -1222,6 +1222,82 @@
         <button class="mb-0 mt-2 btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2Timeline()">{{'land.swal.button' |
           translate }}</button>
       </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentInfoAndNotesSymptom let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 border">
+    <div class="p-2">
+      <button type="button" class="close" aria-label="Close" (click)="closeSymptom()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 *ngIf="selectedNoteSymptom.name" class="align-self-center mb-0"><strong>{{selectedNoteSymptom.name}}</strong></h4>
+      <span class="content-sub-header text-muted">{{selectedNoteSymptom.id}}<a class="ml-1"
+        href="https://hpo.jax.org/app/browse/term/{{selectedNoteSymptom.id}}"
+        target="_blank"
+        title=" {{selectedNoteSymptom.name}} ({{selectedNoteSymptom.id}}):">
+        <i class="ft-external-link"></i></a>
+      </span>
+      <h4 *ngIf="!selectedNoteSymptom.name"class="align-self-center mb-0"><strong>{{symptom.id}} ({{'phenotype.Deprecated' | translate}}) </strong>
+        <a class="ml-1"
+        href="https://hpo.jax.org/app/browse/term/{{selectedNoteSymptom.id}}"
+        target="_blank"
+        title=" {{selectedNoteSymptom.name}} ({{selectedNoteSymptom.id}}):">
+        <i class="ft-external-link"></i></a>
+      </h4>
+    </div>
+    <div class="row col-md-12" class="p-2" *ngIf="selectedNoteSymptom.onsetdate!=null">
+      <span>
+        <h5><strong>{{'generics.Start Date' | translate }}</strong></h5>
+        <p class="mb-0">{{selectedNoteSymptom.onsetdate |date}} </p>
+      </span>
+    </div>
+    <div class="row col-md-12" class="p-2" *ngIf="selectedNoteSymptom.finishdate!=null">
+      <span>
+        <h5><strong>{{'generics.End Date' | translate }}</strong></h5>
+        <p class="mb-0">{{selectedNoteSymptom.finishdate |date}} </p>
+      </span>
+    </div>
+    <div class="row col-md-12" class="p-2" *ngIf="(selectedNoteSymptom.onsetdate!=null)&&(selectedNoteSymptom.isCurrentSymptom)">
+      <span>
+        <h5><strong>{{'generics.End Date' | translate }}</strong></h5>
+        <p class="mb-0"> - </p>
+      </span>
+    </div>
+    <div class="row col-md-12" class="p-2" *ngIf="selectedNoteSymptom.notes!=null">
+      <span>
+        <h5><strong>{{'generics.notes' | translate }}</strong></h5>
+        <p class="mb-0">{{selectedNoteSymptom.notes}} </p>
+      </span>
+    </div>
+    <div class="row col-md-12" class="p-2">
+      <span *ngIf="selectedNoteSymptom.desc!=null">
+        <h5><strong>{{'generics.Description' | translate }}</strong></h5>
+        <p class="mb-0">{{selectedNoteSymptom.desc}} </p>
+      </span>
+      <span *ngIf="selectedNoteSymptom.desc==''">
+        <h5><strong>{{'generics.Description' | translate }}</strong></h5>
+        <p class="mb-0"> {{'symptomssection.No description' | translate }} </p>
+      </span>
+    </div>
+    <div *ngIf="selectedNoteSymptom.synonyms">
+      <div *ngIf="selectedNoteSymptom.synonyms.length" class="p-2">
+        <h5><strong>{{'generics.Synonyms' | translate }}</strong></h5>
+        <span *ngIf="selectedNoteSymptom.synonyms.length>0">
+          <p *ngFor="let synonym of selectedNoteSymptom.synonyms ; let j = index" class="mb-0">
+            <span>{{j+1}}. </span> <span>{{synonym.label}}</span>
+          </p>
+        </span>
+        <span *ngIf="selectedNoteSymptom.synonyms.length==0">
+          {{'symptomssection.No synonyms' | translate }}
+        </span>
+      </div>
+    </div>
+    <div *ngIf="!selectedNoteSymptom.synonyms">
+      <span>
+        {{'symptomssection.No synonyms' | translate }}
+      </span>
     </div>
   </div>
 </ng-template>

@@ -158,6 +158,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     modalReference6: NgbModalRef;
     email: string = '';
     nothingFoundSymptoms: boolean = false;
+    selectedNoteSymptom = null;
 
     //@ViewChild("inputTextArea") inputTextAreaElement: ElementRef;
     @ViewChild("inputManualSymptoms") inputTextAreaElement: ElementRef;
@@ -1845,6 +1846,16 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             this.modalReference6.close();
             this.modalReference6 = undefined;
         }
+    }
+
+    showMoreInfoAndNotesSymptomPopup(symptom, contentInfoAndNotesSymptom){
+        this.selectedNoteSymptom = symptom;
+        let ngbModalOptions: NgbModalOptions = {
+            backdrop: 'static',
+            keyboard: false,
+            windowClass: 'ModalClass-sm'// xl, lg, sm
+        };
+        this.modalReference4 = this.modalService.open(contentInfoAndNotesSymptom, ngbModalOptions);
     }
 
 }
