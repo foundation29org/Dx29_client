@@ -18,6 +18,7 @@ export class jsPDFService {
     
 
     generateTimelinePDF(lang, dictionaryTimeline, listSymptomsNullInfo){
+
         var doc = new jsPDF as jsPDFWithPlugin;
         var positionY = 0;
         const marginX = 5;
@@ -88,14 +89,18 @@ export class jsPDFService {
     private drawTimeLine(doc, dictionaryTimeline, listSymptomsNullInfo, posY){
         //draw dictionaryTimeline
         var positionY = posY;
-            for (var itemDate in dictionaryTimeline){
-                positionY = this.drawLabelTimeLine(doc, itemDate, positionY);
-                for (var date in dictionaryTimeline[itemDate]){
-                    var lineHeight = (5*(dictionaryTimeline[itemDate][date].length)+45)+positionY;
-                    doc.line(15, positionY-10, 15, lineHeight);
-                    positionY = this.drawBoxTimeLine(doc, dictionaryTimeline[itemDate][date], date, positionY);
-                }
+        var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
+        for (var itemDateIndex in listItemDateKeys){
+            var itemDate = listItemDateKeys[itemDateIndex]
+            positionY = this.drawLabelTimeLine(doc, itemDate, positionY);
+            var listDateKeys= Object.keys(dictionaryTimeline[itemDate]).sort((a,b)=>{return this.valueDateDescOrder(a,b)})
+            for (var dateIndex in listDateKeys){
+                var date = listDateKeys[dateIndex]
+                var lineHeight = (5*(dictionaryTimeline[itemDate][date].length)+45)+positionY;
+                doc.line(15, positionY-10, 15, lineHeight);
+                positionY = this.drawBoxTimeLine(doc, dictionaryTimeline[itemDate][date], date, positionY);
             }
+        }
         
         if(listSymptomsNullInfo.length>0){
             this.drawListSymptomsNullInfo(doc, listSymptomsNullInfo, positionY);
@@ -236,9 +241,12 @@ export class jsPDFService {
     private timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo){
         var bodyTable = []
         var notesBodyTable={};
-        for (var itemDate in dictionaryTimeline){
-            console.log(itemDate)
-            for (var date in dictionaryTimeline[itemDate]){
+        var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
+        for (var itemDateIndex in listItemDateKeys){
+            var itemDate = listItemDateKeys[itemDateIndex]
+            var listDateKeys= Object.keys(dictionaryTimeline[itemDate]).sort((a,b)=>{return this.valueDateDescOrder(a,b)})
+            for (var dateIndex in listDateKeys){
+                var date= listDateKeys[dateIndex]
                 for (var i=0;i<dictionaryTimeline[itemDate][date].length;i++){
                     var name = dictionaryTimeline[itemDate][date][i].name
                     if(name==undefined){
@@ -283,9 +291,6 @@ export class jsPDFService {
                 }
             }
         }
-        console.log(bodyTable)
-        //bodyTable.reverse(); // Mas antiguos primero
-
         
         // Despues los que no tienen info de fechas
 
@@ -658,5 +663,42 @@ export class jsPDFService {
         doc.save('Dx29_Report_' + date + '.pdf');
 
     }
+
+
+    // Order by descending key
+    keyDescOrder = ((a, b) => {
+        var a_month=a.split("-"[0])
+        var a_year = a.split("-")[1]
+        var b_month=b.split("-")[0]
+        var b_year=b.split("-")[1]
+        if(new Date(a_year).getTime() > new Date(b_year).getTime()){
+            return 1;
+        }
+        else if(new Date(a_year).getTime() < new Date(b_year).getTime()){
+            return -1;
+        }
+        else{
+            if(new Date(a_month).getTime()>new Date(b_month).getTime()){
+                return 1;
+            }
+            else if(new Date(a_month).getTime() < new Date(b_month).getTime()){
+                return -1;
+            }
+            else{
+                return 0;
+            }
+        }
+    })
+
+    // Order by descending value
+    valueDateDescOrder = ((a,b)=> {
+        if(new Date(a).getTime() > new Date(b).getTime()){
+            return -1;
+        }
+        else if(new Date(a).getTime() < new Date(b).getTime()){
+            return -1;
+        }
+        else return 0;
+    })
 
 }
