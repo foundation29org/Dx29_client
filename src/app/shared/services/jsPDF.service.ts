@@ -57,11 +57,11 @@ export class jsPDFService {
         doc.addImage(img_qr, 'png', 160, 5, 32, 30);
 
         this.newHeatherAndFooter(doc);
-        positionY += 35;
+        positionY += 25;
 
-        doc.text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's", 15, positionY += 15)
-        doc.text("standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make", 15, positionY += 5)
-        doc.text("a type specimen book. It has survived not only five centuries...", 15, positionY += 5)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle1"), 15, positionY += 15)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle2"), 15, positionY += 5)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle3"), 15, positionY += 5)
 
         doc.setDrawColor(222,226,230);
         positionY = this.drawTimeLine(doc,dictionaryTimeline, listSymptomsNullInfo, positionY);
@@ -71,6 +71,15 @@ export class jsPDFService {
         
         positionY = 15;
         this.timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo);
+        
+
+        var pageCount = doc.internal.pages.length; //Total Page Number
+        pageCount = pageCount-1;
+        for (var i = 1; i <= pageCount; i++) {
+            doc.setPage(i);
+            //footer page
+            doc.text(this.translate.instant("land.page")+ ' ' + i + '/' + pageCount, 97, 286);
+        }
         
         var date = this.getDate();
         doc.save('Dx29_Timeline_' + date +'.pdf');

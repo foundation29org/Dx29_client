@@ -2348,6 +2348,9 @@
       },
       "timeline":{
         "title":"CRONOLOGIA",
+        "subtitle1": "Este informe ha sido generado por la herramienta de fenotipado y diagnóstico Dx29, completamente desarrollada",
+        "subtitle2": "por Fundación 29, una organización sin ánimo de lucro que idea y crea herramientas para empoderar a los",
+        "subtitle3": "pacientes de enfermedades raras a usar sus datos médicos para su beneficio y el de la comunidad.",
         "t0":"Dx29 te ofrece la oportunidad de tener todo tu historial de síntomas organizado, en un solo documento y listo para compartir con tu médico. ¡No lo dejes pasar y create el tuyo!",
         "t0-app":"¡No pierdas la oportunidad de crear tu informe cronológico de síntomas!",
         "t1":"Selecciona los síntomas",
