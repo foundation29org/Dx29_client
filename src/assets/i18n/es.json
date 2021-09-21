@@ -2364,7 +2364,7 @@
         "btn1":"Crear",
         "btn2":"Continuar y ordenar síntomas",
         "btnRecalculate":"Recalcular cronologia",
-        "Download":"Descargar datos",
+        "Download":"Descargar",
         "SaveTimeline":"Guardar cronologia",
         "currentSymptom":"Sigo con ello",
         "errorDates":"La fecha fin no puede ser anterior a la inicial.",

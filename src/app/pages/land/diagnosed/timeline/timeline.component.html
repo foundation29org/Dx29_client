@@ -3,9 +3,6 @@
   <div class="col-md-12">
     <div class="row">
       <div class="col-md-12">
-        <div class="col-md-6">
-          <p class="float-left" style="font-size: smaller;">** {{'land.diagnosed.timeline.HelpDates' | translate }}</p>
-        </div>
         <button type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right" (click)="backTimeline('true');">
           <em class="mr-1 ft-x white"
             title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="backTimeline('true')"
@@ -55,7 +52,7 @@
                         <label for="dateOnset"> {{'generics.Start Date' | translate }} </label>
                       </div>
                       <div class="row">
-                        <input class="form-control w-75 d-inline" id="dateOnset_{{i}}" name="dateOnset" matInput [matDatepicker]="pickerOnset" [(ngModel)]="symptom.onsetdate" (dateInput)="updateTimeline()">
+                        <input class="form-control w-75 d-inline" id="dateOnset_{{i}}" name="dateOnset" matInput [max]="maxDate" [matDatepicker]="pickerOnset" [(ngModel)]="symptom.onsetdate" (dateInput)="updateTimeline()">
                         <mat-datepicker-toggle matSuffix [for]="pickerOnset"></mat-datepicker-toggle>
                         <mat-datepicker touchUi="true" #pickerOnset></mat-datepicker>
                       </div>
@@ -67,16 +64,19 @@
                         <label for="dateFinish"> {{'generics.End Date' | translate }} </label>
                       </div>
                       <div class="row">
-                        <input class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish" matInput [matDatepicker]="pickerFinish" [(ngModel)]="symptom.finishdate" (dateInput)="updateTimeline();" [disabled]="(!symptom.checked)||(symptom.isCurrentSymptom)||(symptom.onsetdate==undefined)">
+                        <input class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish" [max]="maxDate" matInput [matDatepicker]="pickerFinish" [(ngModel)]="symptom.finishdate" (dateInput)="updateTimeline();" [disabled]="(!symptom.checked)||(symptom.isCurrentSymptom)||(symptom.onsetdate==undefined)">
                         <mat-datepicker-toggle matSuffix [for]="pickerFinish"></mat-datepicker-toggle>
                         <mat-datepicker touchUi="(!symptom.checked)||(symptom.isCurrentSymptom)||(symptom.onsetdate==undefined)" #pickerFinish></mat-datepicker>
                         <small class="text-left form-text danger" *ngIf="symptom.invalidFinishdate">{{'land.diagnosed.timeline.errorDates' | translate}}</small>
                       </div>
                     </div>
                   </div>
+                  <div class="col-md-12">
+                    <p class="float-left" style="font-size: smaller;"> * {{'land.diagnosed.timeline.HelpDates' | translate }}</p>
+                  </div>
                   <div class="col-md-12 mt-2">
                     <mat-checkbox class="mt-1" name="isCurrentSymptom" [(ngModel)]="symptom.isCurrentSymptom" [disabled]="(!symptom.checked)||(symptom.onsetdate==undefined)" (change)="updateTimeline();"></mat-checkbox>
-                    <label for="isCurrentSymptom"class="ml-1"> {{'land.diagnosed.timeline.currentSymptom' | translate}} </label>
+                    <label for="isCurrentSymptom" class="ml-1"> {{'land.diagnosed.timeline.currentSymptom' | translate}} </label>
                   </div>
                   <div class="col-md-12 mt-2 mb-2">
                     <input type="text" id="basicInput_{{i}}" maxlength=250 placeholder="{{'generics.notes' | translate }}" class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)" (change)="updateTimeline()">
@@ -201,9 +201,6 @@
     <div class="row">
       <div class="col-md-12">
         <div class="col-md-6">
-          <p class="float-left" style="font-size: smaller;">** {{'land.diagnosed.timeline.HelpDates' | translate }}</p>
-        </div>
-        <div class="col-md-6">
           <em class="mr- ft-x info float-right"
             title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="backTimeline('true')"
             style="cursor: pointer;"></em>
@@ -246,7 +243,7 @@
                   <label for="dateOnset"> {{'generics.Start Date' | translate }} </label>
                 </div>
                 <div class="row">
-                  <input  class="form-control w-75 d-inline" id="dateOnset_{{i}}" name="dateOnset"  matInput [matDatepicker]="pickerOnset" [(ngModel)]="symptom.onsetdate" (dateInput)="updateTimeline();">
+                  <input  class="form-control w-75 d-inline" id="dateOnset_{{i}}" name="dateOnset"  [max]="maxDate" matInput [matDatepicker]="pickerOnset" [(ngModel)]="symptom.onsetdate" (dateInput)="updateTimeline();">
                   <mat-datepicker-toggle matSuffix [for]="pickerOnset"></mat-datepicker-toggle>
                   <mat-datepicker touchUi="true" #pickerOnset></mat-datepicker>
                 </div>
@@ -258,7 +255,7 @@
                   <label for="dateFinish"> {{'generics.End Date' | translate }} </label>
                 </div>
                 <div class="row">
-                  <input  class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish"  matInput [matDatepicker]="pickerFinish" [(ngModel)]="symptom.finishdate" (dateInput)="updateTimeline();" [disabled]="(!symptom.checked)||(symptom.isCurrentSymptom)||(symptom.onsetdate==undefined)">
+                  <input  class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish" [max]="maxDate" matInput [matDatepicker]="pickerFinish" [(ngModel)]="symptom.finishdate" (dateInput)="updateTimeline();" [disabled]="(!symptom.checked)||(symptom.isCurrentSymptom)||(symptom.onsetdate==undefined)">
                   <mat-datepicker-toggle matSuffix [for]="pickerFinish"></mat-datepicker-toggle>
                   <mat-datepicker touchUi="(!symptom.checked)||(symptom.isCurrentSymptom)||(symptom.onsetdate==undefined)" #pickerFinish></mat-datepicker>
                   <small class="text-left form-text danger" *ngIf="symptom.invalidFinishdate">{{'land.diagnosed.timeline.errorDates' | translate}}</small>
@@ -266,8 +263,11 @@
               </div>
             </div>
             <div class="col-md-12 mt-1">
+              <p class="float-left" style="font-size: smaller;"> * {{'land.diagnosed.timeline.HelpDates' | translate }}</p>
+            </div>
+            <div class="col-md-12 mt-1">
                 <mat-checkbox name="isCurrentSymptom" [(ngModel)]="symptom.isCurrentSymptom" [disabled]="(!symptom.checked)||(symptom.onsetdate==undefined)" (change)="updateTimeline()"></mat-checkbox>
-                <label for="isCurrentSymptom"class="ml-1"> {{'land.diagnosed.timeline.currentSymptom' | translate}} </label>
+                <label for="isCurrentSymptom" class="ml-1"> {{'land.diagnosed.timeline.currentSymptom' | translate}} </label>
             </div>
             <div class="col-md-12 mt-1">
                 <input type="text" id="basicInput_{{i}}" maxlength=250 placeholder="{{'generics.notes' | translate }}" class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)" (change)="updateTimeline()">

@@ -49,6 +49,8 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
     selectedInfoSymptom = null;
     actualTemporalSymptomsIndex = 0;
 
+    maxDate=new Date()
+
     constructor(public translate: TranslateService,  public toastr: ToastrService, public googleAnalyticsService: GoogleAnalyticsService, public jsPDFService: jsPDFService, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe) {
         this.modifyFormSymtoms = false;
         this.showTimeLine = false;
@@ -66,10 +68,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
     }
 
     ngAfterContentChecked(){
-        this.modifyFormSymtoms = false;
-        this.showTimeLine = false;
-        this.selectedInfoSymptom = null;
-        this.actualTemporalSymptomsIndex = 0;
         this.loadingTimeLine();
     }
 
