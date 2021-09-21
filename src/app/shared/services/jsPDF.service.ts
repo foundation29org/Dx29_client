@@ -53,9 +53,13 @@ export class jsPDFService {
         this.newHeatherAndFooter(doc);
         positionY += 25;
 
-        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle1"), 15, positionY += 15)
-        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle2"), 15, positionY += 5)
-        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle3"), 15, positionY += 5)
+        doc.setFontSize(9);
+        doc.setTextColor(117, 120, 125)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle1"), 10, positionY += 15)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle2"), 10, positionY += 5)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle3"), 10, positionY += 5)
+        doc.setTextColor(0, 0, 0)
+        doc.setFontSize(10);
 
         doc.setDrawColor(222,226,230);
         positionY = this.drawTimeLine(doc,dictionaryTimeline, listSymptomsNullInfo, positionY);
@@ -175,13 +179,19 @@ export class jsPDFService {
 
     private drawListSymptomsNullInfo(doc, listSymptomsNullInfo, positionY){
         var posInit = positionY;
+        positionY = this.checkIfNewPage2(doc, positionY+20);
+        if(positionY!=20){
+            positionY =posInit;
+        }else{
+            posInit = positionY;
+        }
         doc.setFillColor(0,157,160);
-        doc.rect(15, positionY += 15, 53, 7, 'FD'); //Fill and Border
+        doc.rect(15, positionY, 53, 7, 'FD'); //Fill and Border
         doc.setTextColor(255, 255, 255);
         doc.setFont(undefined, 'bold');
         doc.setFontSize(10);
         positionY = this.checkIfNewPage(doc, positionY);
-        doc.text(this.translate.instant("land.diagnosed.symptoms.NoOnset"), 17, posInit += 20);
+        doc.text(this.translate.instant("land.diagnosed.symptoms.NoOnset"), 17, posInit += 5);
         positionY += 10;
         doc.setTextColor(0, 0, 0);
         var calendarIcon = new Image();
@@ -595,8 +605,14 @@ export class jsPDFService {
 
         this.newHeatherAndFooter(doc);
 
-        lineText += 35;
-
+        lineText += 25;
+        doc.setFontSize(9);
+        doc.setTextColor(117, 120, 125)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle1"), 10, lineText += 15)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle2"), 10, lineText += 5)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle3"), 10, lineText += 5)
+        doc.setTextColor(0, 0, 0)
+        doc.setFontSize(10);
         //Symptoms
         const obj = infoSymptoms;
         lineText = this.writeTitleSection(doc, 10, lineText += 10, this.translate.instant("diagnosis.Symptoms"));
