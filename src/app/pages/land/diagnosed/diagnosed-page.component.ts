@@ -163,9 +163,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     nothingFoundSymptoms: boolean = false;
     private activeRoute: string;
 
-    //@ViewChild("inputTextArea") inputTextAreaElement: ElementRef;
-    @ViewChild("inputManualSymptoms") inputTextAreaElement: ElementRef;
-    @ViewChild("inputManualSymptoms") inputManualSymptomsElement: ElementRef;
+    @ViewChild("inputDisease") inputTextAreaElement: ElementRef;
 
     myuuid: string = uuidv4();
     eventList: any = [];
@@ -245,6 +243,14 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             this.myuuid = uuidv4();
             sessionStorage.setItem('uuid', this.myuuid);
         }
+
+        this.focusInputDisease();
+    }
+
+    focusInputDisease(){
+        setTimeout(function () {
+            this.inputTextAreaElement.nativeElement.focus();
+        }.bind(this), 200);
     }
 
     openModarRegister(type){
@@ -1061,6 +1067,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     this.startCheckSymptoms = false;
                     this.startTimeline = false;
                     this.listSymptomsCheckedTimeline = [];
+                    this.focusInputDisease();
                 }
               });
         }
@@ -1069,6 +1076,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             this.listOfFilteredDiseases = []
             this.showDisease = false;
             this.searchDiseaseField = '';
+            this.focusInputDisease();
         }
     }
 

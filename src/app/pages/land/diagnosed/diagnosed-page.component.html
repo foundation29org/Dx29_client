@@ -17,7 +17,7 @@
         <div class="offset-md-3 col-md-6 no-padding">
           <div class="position-relative">
             <i class="fas fa-search" (click)="onKey()"></i>
-            <input type="text" id="searchDiseaseField" class="ml-1 form-control data-hj-allow" name="searchDiseaseField" style="width: 93% !important;display: inline !important;"
+            <input type="text" #inputDisease id="searchDiseaseField" class="ml-1 form-control data-hj-allow" name="searchDiseaseField" style="width: 93% !important;display: inline !important;"
               [(ngModel)]="searchDiseaseField" (keyup)="onKey()" (paste)="onKey()"
               placeholder="{{'dashboardpatient.Search condition' | translate }}" (focusout)="focusOutFunctionDiseases()">
           </div>
@@ -1165,6 +1165,24 @@
           <button class="mt-2 btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2()">{{'land.swal.button' |
             translate }}</button>
             <p>{{'land.swal.p2' | translate }}</p>
+            <div class="row pb-2 pt-2">
+              <div class="offset-1 col-2">
+                <img class="w-reg-img-sm" src='assets/img/home/reg/timeline.png' />
+              </div>
+              <span class="col-9 text-left">
+                <p class="mb-0"><strong>{{'land.table.t13' | translate }}</strong></p>
+                <p class="d-block">{{'land.table.d13' | translate }}</p>
+              </span>
+            </div>
+            <div class="row pb-2 pt-2">
+              <div class="offset-1 col-2">
+                <img class="w-reg-img-sm" src='assets/img/home/reg/download.png' />
+              </div>
+              <span class="col-9 text-left">
+                <p class="mb-0"><strong>{{'land.table.t14' | translate }}</strong></p>
+                <p class="d-block">{{'land.table.d14' | translate }}</p>
+              </span>
+            </div>
           <div class="row pb-2 pt-2">
             <div class="offset-1 col-2">
               <img class="w-reg-img-sm" src='assets/img/home/reg/diskette.png' />
@@ -1176,29 +1194,11 @@
           </div>
           <div class="row pb-2 pt-2">
             <div class="offset-1 col-2">
-              <img class="w-reg-img-sm" src='assets/img/home/reg/archive.png' />
-            </div>
-            <span class="col-9 text-left">
-              <p class="mb-0"><strong>{{'land.table.t8' | translate }}</strong></p>
-              <p class="d-block">{{'land.table.d8' | translate }}</p>
-            </span>
-          </div>
-          <div class="row pb-2 pt-2">
-            <div class="offset-1 col-2">
               <img class="w-reg-img-sm" src='assets/img/home/reg/genetico.png' />
             </div>
             <span class="col-9 text-left">
               <p class="mb-0"><strong>{{'land.table.t9' | translate }}</strong></p>
               <p class="d-block">{{'land.table.d9' | translate }}</p>
-            </span>
-          </div>
-          <div class="row pb-2 pt-2">
-            <div class="offset-1 col-2">
-              <img class="w-reg-img-sm" src='assets/img/home/reg/equipo.png' />
-            </div>
-            <span class="col-9 text-left">
-              <p class="mb-0"><strong>{{'land.table.t10' | translate }}</strong></p>
-              <p class="d-block">{{'land.table.d10' | translate }}</p>
             </span>
           </div>
           <div class="row pb-2 pt-2">
@@ -1223,6 +1223,24 @@
         <div class="row reg-panel d-none d-sm-flex">
           <div class="col-sm-4 pb-3 pt-3">
             <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/timeline.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t13' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d13' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/download.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t14' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d14' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
               <img class="col w-reg-img-sm" src='assets/img/home/reg/diskette.png' />
             </div>
             <span class="w-reg" style="display: inline-block;">
@@ -1232,29 +1250,11 @@
           </div>
           <div class="col-sm-4 pb-3 pt-3">
             <div class="mb-2">
-              <img class="col w-reg-img-sm" src='assets/img/home/reg/archive.png' />
-            </div>
-            <span class="w-reg" style="display: inline-block;">
-              <span><strong>{{'land.table.t8' | translate }}</strong></span>
-              <span class="d-block">{{'land.table.d8' | translate }}</span>
-            </span>
-          </div>
-          <div class="col-sm-4 pb-3 pt-3">
-            <div class="mb-2">
               <img class="col w-reg-img-sm" src='assets/img/home/reg/genetico.png' />
             </div>
             <span class="w-reg" style="display: inline-block;">
               <span><strong>{{'land.table.t9' | translate }}</strong></span>
               <span class="d-block">{{'land.table.d9' | translate }}</span>
-            </span>
-          </div>
-          <div class="col-sm-4 pb-3 pt-3">
-            <div class="mb-2">
-              <img class="col w-reg-img-sm" src='assets/img/home/reg/equipo.png' />
-            </div>
-            <span class="w-reg" style="display: inline-block;">
-              <span><strong>{{'land.table.t10' | translate }}</strong></span>
-              <span class="d-block">{{'land.table.d10' | translate }}</span>
             </span>
           </div>
           <div class="col-sm-4 pb-3 pt-3">
