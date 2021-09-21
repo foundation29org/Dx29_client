@@ -6,7 +6,6 @@
   </ol>
 </nav>
 <section id="login" class="mt-2">
-  
   <div class="container-fluid pb-4">
     <div style="margin: auto;" style="margin: auto;">
       <div class="text-center p-2">
@@ -186,6 +185,8 @@
                   <th id="headerTable" style="border-top-style: none;">
                     <span class="icons-title-symptoms">{{'land.SelectSymptoms' | translate }}</span>
                     <span class="float-right icons-opt-symptoms">
+                      <em class="mt-1 fas fa-history grey mr-2" title="{{'land.Chronology' | translate }}"
+                      (click)="getTimeLine(contentTimeline)" style="cursor: pointer;"></em>
                     <em class="mt-1 fa fa-refresh grey  mr-2" title="{{'land.Start over' | translate }}"
                       (click)="restartInitVars()" style="cursor: pointer;"></em>
                       <em class="mt-1 fas fa-copy grey mr-2" title="{{'land.Copy symptoms' | translate }}"
@@ -1065,6 +1066,160 @@
           </div>
         </div>
         <button class="mb-0 mt-2 btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2()">{{'land.swal.button' |
+          translate }}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentTimeline let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 center-elements mb-3">
+    <div class="p-2">
+      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="align-self-center"><strong>{{'land.Chronology' | translate }}</strong></h4>
+    </div>
+    <div>
+      <timeline  [listSymptoms]="symptomsTimeLine" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+    </div>
+  </div>
+</ng-template>
+<ng-template #contentSaveTimeline let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 center-elements mb-3">
+    <div class="p-2">
+      <button type="button" class="close" aria-label="Close" (click)="closeSaveTimeLine()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="align-self-center"><strong>{{'land.swal.title' | translate }}</strong><span class="d-block"><strong>{{'land.swal.title2' | translate }}</strong></span></h4>
+    </div>
+    <div>
+      <div class="align-self-center">
+        <span>
+          <p [innerHTML]="'land.diagnosed.timeline.p1' | translate"></p>
+        </span>
+        <span>
+          <p [innerHTML]="'land.diagnosed.timeline.p2' | translate"></p>
+        </span>
+        <span>
+          <p [innerHTML]="'land.diagnosed.timeline.p3' | translate"></p>
+        </span>
+        <div class="row reg-panel d-block d-sm-none">
+          <button class="mt-2 btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2()">{{'land.swal.button' |
+            translate }}</button>
+            <p>{{'land.swal.p2' | translate }}</p>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/diskette.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t7' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d7' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/archive.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t8' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d8' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/genetico.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t9' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d9' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/equipo.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t10' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d10' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/share.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t11' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d11' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/refresh.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t12' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d12' | translate }}</p>
+            </span>
+          </div>
+        </div>
+        <div class="row reg-panel d-none d-sm-flex">
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/diskette.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t7' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d7' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/archive.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t8' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d8' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/genetico.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t9' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d9' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/equipo.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t10' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d10' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/share.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t11' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d11' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/refresh.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t12' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d12' | translate }}</span>
+            </span>
+          </div>
+        </div>
+        <button class="mb-0 mt-2 btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2Timeline()">{{'land.swal.button' |
           translate }}</button>
       </div>
     </div>

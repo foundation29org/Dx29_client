@@ -120,6 +120,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     langToExtract: string = '';
     resultSegmentation: any = {};
     temporalSymptoms: any = [];
+    symptomsTimeLine: any = [];
     resultTextNcr: string = '';
     selectedInfoSymptomIndex: number = -1;
     modalReference: NgbModalRef;
@@ -153,6 +154,8 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     callListOfSymptoms: boolean = false;
     modalReference3: NgbModalRef;
     modalReference4: NgbModalRef;
+    modalReferenceTimeLine: NgbModalRef;
+    modalReference6: NgbModalRef;
     email: string = '';
     nothingFoundSymptoms: boolean = false;
 
@@ -226,7 +229,15 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-        if (this.modalReference4 != undefined) {
+        if (this.modalReference6 != undefined) {
+            this.modalReference6.close();
+            this.modalReference6 = undefined;
+            return false;
+        }else if (this.modalReferenceTimeLine != undefined) {
+            this.modalReferenceTimeLine.close();
+            this.modalReferenceTimeLine = undefined;
+            return false;
+        }else if (this.modalReference4 != undefined) {
             this.modalReference4.close();
             this.modalReference4 = undefined;
             return false;
@@ -1804,8 +1815,36 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         }
     }
 
+    getTimeLine(contentTimeline){
+        this.symptomsTimeLine = this.getCheckedSymptoms();
+        if(this.symptomsTimeLine.length==0){
+            Swal.fire(this.translate.instant("land.To generate the chronology"), '', "warning");
+        }else{
+            let ngbModalOptions: NgbModalOptions = {
+                backdrop: 'static',
+                keyboard: false,
+                windowClass: 'ModalClass-lg'// xl, lg, sm
+            };
+            this.modalReferenceTimeLine = this.modalService.open(contentTimeline, ngbModalOptions);
+        }
+        
+    }
 
+    openSaveTimeLine(contentSaveTimeline){
+        if(this.modalReference6==undefined){
+            let ngbModalOptions: NgbModalOptions = {
+                keyboard: false,
+                windowClass: 'ModalClass-lg'// xl, lg, sm
+            };
+            this.modalReference6 = this.modalService.open(contentSaveTimeline, ngbModalOptions);
+        }
+    }
 
-    
+    closeSaveTimeLine(){
+        if(this.modalReference6!=undefined){
+            this.modalReference6.close();
+            this.modalReference6 = undefined;
+        }
+    }
 
 }
