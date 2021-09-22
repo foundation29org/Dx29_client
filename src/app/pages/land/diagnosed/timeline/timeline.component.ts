@@ -341,5 +341,10 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
     {
         this.openModalSaveTimeLine.emit(true);
     }
+
+    deleteSymptomTimeLine(index){
+        this.listSymptoms.splice(index, 1);
+        this.updateTimeline();
+    }
     
 }
