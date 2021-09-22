@@ -517,65 +517,68 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             }));
     }
 
-    onKey() {
-        this.nothingFoundDisease = false;
-        if(!((this.startCheckSymptoms||this.startTimeline)&&(this.listSymptomsCheckedTimeline.length>0))){
-            this.showDisease = false;
-        }
-        this.showIntro = true;
-        if (this.searchDiseaseField.trim().length > 3) {
-            if (this.subscriptionDiseasesCall) {
-                this.subscriptionDiseasesCall.unsubscribe();
-            }
-            if (this.subscriptionDiseasesNotFound) {
-                this.subscriptionDiseasesNotFound.unsubscribe();
-            }
-            this.callListOfDiseases = true;
-            var tempModelTimp = this.searchDiseaseField.trim();
-            var info = {
-                "text": tempModelTimp,
-                "lang": sessionStorage.getItem('lang')
-            }
-            this.subscriptionDiseasesCall= this.apiDx29ServerService.searchDiseases(info)
-                .subscribe((res: any) => {
-                    this.callListOfDiseases = false;
-                    if(res==null){
-                        this.nothingFoundDisease = true;
-                        this.listOfFilteredDiseases = [];
-                    }else{
-                        this.nothingFoundDisease = false;
-                        this.listOfFilteredDiseases = res;
-                        if(this.listOfFilteredDiseases.length == 0){
-                            this.nothingFoundDisease = true;
-                        }
-                        if (this.listOfFilteredDiseases.length == 0 && !this.sendTerms) {
-                            //send text
-                            this.sendSympTerms = true;
-                            var params: any = {}
-                            params.uuid = this.myuuid;
-                            params.Term = tempModelTimp;
-                            params.Lang = sessionStorage.getItem('lang');
-                            var d = new Date(Date.now());
-                            var a = d.toString();
-                            params.Date = a;
-                            this.subscription.add(this.http.post('https://prod-112.westeurope.logic.azure.com:443/workflows/95df9b0148cf409f9a8f2b0853820beb/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OZyXnirC5JTHpc_MQ5IwqBugUqI853qek4o8qjNy7AA', params)
-                                .subscribe((res: any) => {
-                                }, (err) => {
-                                }));
-                        }
-                    }
-                    
-                }, (err) => {
-                    console.log(err);
-                    this.nothingFoundDisease = false;
-                    this.callListOfDiseases = false;
-                });
-        } else {
-            this.callListOfDiseases = false;
-            this.listOfFilteredDiseases = [];
-            this.sendTerms = false;
-        }
+    onKey(event: KeyboardEvent) {
+        if(event.key ==='ArrowLeft' || event.key ==='ArrowUp' || event.key ==='ArrowRight' || event.key ==='ArrowDown'){
 
+        }else{
+            this.nothingFoundDisease = false;
+            if(!((this.startCheckSymptoms||this.startTimeline)&&(this.listSymptomsCheckedTimeline.length>0))){
+                this.showDisease = false;
+            }
+            this.showIntro = true;
+            if (this.searchDiseaseField.trim().length > 3) {
+                if (this.subscriptionDiseasesCall) {
+                    this.subscriptionDiseasesCall.unsubscribe();
+                }
+                if (this.subscriptionDiseasesNotFound) {
+                    this.subscriptionDiseasesNotFound.unsubscribe();
+                }
+                this.callListOfDiseases = true;
+                var tempModelTimp = this.searchDiseaseField.trim();
+                var info = {
+                    "text": tempModelTimp,
+                    "lang": sessionStorage.getItem('lang')
+                }
+                this.subscriptionDiseasesCall= this.apiDx29ServerService.searchDiseases(info)
+                    .subscribe((res: any) => {
+                        this.callListOfDiseases = false;
+                        if(res==null){
+                            this.nothingFoundDisease = true;
+                            this.listOfFilteredDiseases = [];
+                        }else{
+                            this.nothingFoundDisease = false;
+                            this.listOfFilteredDiseases = res;
+                            if(this.listOfFilteredDiseases.length == 0){
+                                this.nothingFoundDisease = true;
+                            }
+                            if (this.listOfFilteredDiseases.length == 0 && !this.sendTerms) {
+                                //send text
+                                this.sendSympTerms = true;
+                                var params: any = {}
+                                params.uuid = this.myuuid;
+                                params.Term = tempModelTimp;
+                                params.Lang = sessionStorage.getItem('lang');
+                                var d = new Date(Date.now());
+                                var a = d.toString();
+                                params.Date = a;
+                                this.subscription.add(this.http.post('https://prod-112.westeurope.logic.azure.com:443/workflows/95df9b0148cf409f9a8f2b0853820beb/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OZyXnirC5JTHpc_MQ5IwqBugUqI853qek4o8qjNy7AA', params)
+                                    .subscribe((res: any) => {
+                                    }, (err) => {
+                                    }));
+                            }
+                        }
+                        
+                    }, (err) => {
+                        console.log(err);
+                        this.nothingFoundDisease = false;
+                        this.callListOfDiseases = false;
+                    });
+            } else {
+                this.callListOfDiseases = false;
+                this.listOfFilteredDiseases = [];
+                this.sendTerms = false;
+            }
+        }
     }
 
     showMoreInfoDiagnosePopup(index) {

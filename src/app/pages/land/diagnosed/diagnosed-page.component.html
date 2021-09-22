@@ -16,9 +16,9 @@
       <div class="align-items-end justify-content-center">
         <div class="offset-md-3 col-md-6 no-padding">
           <div class="position-relative">
-            <i class="fas fa-search" (click)="onKey()"></i>
+            <i class="fas fa-search" (click)="onKey($event)"></i>
             <input type="text" #inputDisease id="searchDiseaseField" class="ml-1 form-control data-hj-allow" name="searchDiseaseField" style="width: 93% !important;display: inline !important;"
-              [(ngModel)]="searchDiseaseField" (keyup)="onKey()" (paste)="onKey()"
+              [(ngModel)]="searchDiseaseField" (keyup)="onKey($event)" (paste)="onKey($event)"
               placeholder="{{'dashboardpatient.Search condition' | translate }}" (focusout)="focusOutFunctionDiseases()">
           </div>
           <div>
