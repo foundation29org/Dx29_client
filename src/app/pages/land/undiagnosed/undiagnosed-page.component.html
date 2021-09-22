@@ -1098,7 +1098,7 @@
           </div>
         </div>
       </div>
-      <timeline *ngIf="(startTimeline)" [listSymptoms]="symptomsTimeLine" (backEvent)="endTimeLineFunction()" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+      <timeline *ngIf="(startTimeline)" section="undiagnosed" [listSymptoms]="symptomsTimeLine" (backEvent)="endTimeLineFunction()" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
     </div>
   </div>
 </ng-template>

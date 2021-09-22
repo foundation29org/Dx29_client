@@ -2457,7 +2457,8 @@
     "p1.2": "Soy un médico",
     "p2": "Empezar de nuevo",
     "p2.1": "Busco un diagnóstico",
-    "p2.2": "Quiero información sobre una enfermedad"
+    "p2.2": "Quiero información sobre una enfermedad",
+    "p3": "Añadir síntomas"
   },
   "seo":{
     "home":{

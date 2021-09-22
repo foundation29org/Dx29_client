@@ -240,7 +240,7 @@
                     </button>
                   </div>
                 </div>
-                <timeline *ngIf="(startTimeline)&&(!startCheckSymptoms)" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (finishEvent)="checkDonnorState(contentInfoAttention)" (openModalTimelineHelp)="openTimelineAppHelp2(contentTimelineAppHelp2)" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+                <timeline *ngIf="(startTimeline)&&(!startCheckSymptoms)" section="diagnosed" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent()" (finishEvent)="checkDonnorState(contentInfoAttention)" (openModalTimelineHelp)="openTimelineAppHelp2(contentTimelineAppHelp2)" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
               </div>
             </mat-expansion-panel>
             <mat-expansion-panel *ngIf="clinicalTrials.length>0">
@@ -560,7 +560,7 @@
                     </div>
                   </div>
                 </div>
-                <timeline *ngIf="(startTimeline)&&(!startCheckSymptoms)" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (finishEvent)="checkDonnorState(contentInfoAttention);" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+                <timeline *ngIf="(startTimeline)&&(!startCheckSymptoms)" section="diagnosed" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention);" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
               </ng-template>
             </ngb-tab>
             <ngb-tab *ngIf="clinicalTrials.length>0" >

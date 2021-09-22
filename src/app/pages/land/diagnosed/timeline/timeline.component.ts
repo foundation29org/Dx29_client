@@ -34,12 +34,14 @@ export function getCulture() {
 
 
 export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked {
+    @Input() section: string;
     @Input() listSymptoms: any[];
     @Output() openModalSymptomInfo = new EventEmitter();
     @Output() openModalSaveTimeLine = new EventEmitter();
     @Output() openModalTimelineHelp = new EventEmitter();
     @Output() backEvent = new EventEmitter();
     @Output() finishEvent = new EventEmitter();
+    @Output() addSymptomsEvent = new EventEmitter();
 
     private dictionaryTimeline: any;
     private listTimelineNull: any;
@@ -49,7 +51,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
     selectedInfoSymptom = null;
     actualTemporalSymptomsIndex = 0;
 
-    maxDate=new Date()
+    maxDate=new Date();
 
     constructor(public translate: TranslateService,  public toastr: ToastrService, public googleAnalyticsService: GoogleAnalyticsService, public jsPDFService: jsPDFService, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe) {
         this.modifyFormSymtoms = false;
@@ -345,6 +347,13 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
     deleteSymptomTimeLine(index){
         this.listSymptoms.splice(index, 1);
         this.updateTimeline();
+        if(this.listSymptoms.length==0){
+            this.addSymptomsEvent.emit({ listSymptoms:this.listSymptoms });
+        }
+    }
+
+    addSymptomTimeLine(){
+        this.addSymptomsEvent.emit({ listSymptoms:this.listSymptoms });
     }
     
 }
