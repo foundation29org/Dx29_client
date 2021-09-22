@@ -4,10 +4,10 @@
     <div class="row">
       <div class="col-md-12">
         <button type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right" (click)="backTimeline('true');">
-          <em class="mr-1 ft-x white"
-            title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="backTimeline('true')"
+          <em class="mr-1 fa-refresh white"
+            title="{{'preland.p2' | translate}}" (click)="backTimeline('true')"
             style="cursor: pointer;"></em>
-          <span>{{'land.diagnosed.timeline.exit' | translate}}</span>
+          <span>{{'preland.p2' | translate}}</span>
         </button>
         <button *ngIf="showTimeLine"type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right" (click)="backTimeline('false');">
           <em class="mr-1 fa fa-refresh white"
@@ -201,11 +201,11 @@
     <div class="row">
       <div class="col-md-12">
         <div class="col-md-6">
-          <em class="mr- ft-x info float-right"
-            title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="backTimeline('true')"
+          <em class="mr- fa fa-refresh info float-right"
+            title="{{'preland.p2' | translate}}" (click)="backTimeline('true')"
             style="cursor: pointer;"></em>
           <em *ngIf="showTimeLine" class="mr-2 fa fa-refresh info float-right"
-              title="{{'land.diagnosed.timeline.exit' | translate}}" (click)="backTimeline('false')"
+              title="{{'preland.p2' | translate}}" (click)="backTimeline('false')"
               style="cursor: pointer;"></em>
           <em class="mr-2 ft-help-circle info float-right"
               title="{{'land.diagnosed.timeline.help' | translate}}" (click)="openTimelineAppHelp()"
