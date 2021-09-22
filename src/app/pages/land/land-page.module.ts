@@ -5,6 +5,9 @@ import { CustomFormsModule } from 'ngx-custom-validators';
 import { LandPageRoutingModule } from "./land-page-routing.module";
 import { TranslateModule } from '@ngx-translate/core';
 import { NgApexchartsModule } from "ng-apexcharts";
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+
 
 import { LandPageComponent } from "./land/land-page.component";
 import { UndiagnosedPageComponent } from "./undiagnosed/undiagnosed-page.component";
@@ -24,13 +27,13 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import {DndDirective} from "app/shared/directives/dnd.directive";
-import {MatBadgeModule} from '@angular/material/badge';
 import { TimelineComponent } from './diagnosed/timeline/timeline.component';
-import { TimelineAppComponent } from './diagnosed/timeline-app/timeline-app.component';
 
 @NgModule({
     exports: [
-        TranslateModule
+        TranslateModule,
+        MatDatepickerModule,
+        MatNativeDateModule 
     ],
     imports: [
         CommonModule,
@@ -43,15 +46,15 @@ import { TimelineAppComponent } from './diagnosed/timeline-app/timeline-app.comp
         MatExpansionModule,
         MatSelectModule,
         MatRadioModule,
-        MatBadgeModule,
-        NgApexchartsModule
+        NgApexchartsModule,
+        MatDatepickerModule,
+        MatNativeDateModule 
     ],
     declarations: [
         LandPageComponent,
         UndiagnosedPageComponent,
         DiagnosedPageComponent,
         TimelineComponent,
-        TimelineAppComponent,
         ClinicianPageComponent,
         DiagnosedPatientPageComponent,
         UndiagnosedPatientPageComponent,
