@@ -2454,7 +2454,8 @@
     "p1.2": "I'm a physician",
     "p2": "Start again",
     "p2.1": "I'm looking for a diagnosis",
-    "p2.2": "I want information about a disease"
+    "p2.2": "I want information about a disease",
+    "p3": "Add symptoms"
   },
   "seo":{
     "home":{

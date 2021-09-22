@@ -1197,6 +1197,41 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     endCheckSymptomsFunction(){
         this.startCheckSymptoms = false;
     }
+
+    addSymptomsEvent($event){
+        console.log($event);
+        var listSymptoms = $event.listSymptoms;
+        for (var i =0; i<this.infoOneDisease.symptoms.length;i++){
+            if(this.infoOneDisease.symptoms[i].checked){
+                this.infoOneDisease.symptoms[i].checked= false;
+            }
+        }
+        if(listSymptoms.length>0){
+            for (var i =0; i<this.infoOneDisease.symptoms.length;i++){
+                for (var j =0; j<listSymptoms.length;j++){
+                    if(listSymptoms[j].id==this.infoOneDisease.symptoms[i].id){
+                        this.infoOneDisease.symptoms[i].checked= true;
+                    }
+                }
+            }
+
+            this.listSymptomsCheckedTimeline=[];
+            this.getNumberOfSymptomsDiseaseChecked();
+            if(this.numberOfSymtomsChecked>0){
+                this.listSymptomsCheckedModified = true;
+                for (var i =0; i<this.infoOneDisease.symptoms.length;i++){
+                    if(this.infoOneDisease.symptoms[i].checked){
+                        this.listSymptomsCheckedTimeline.push(this.infoOneDisease.symptoms[i]);
+                    }
+                }
+                this.listSymptomsCheckedModified = false;
+            }
+        }
+        
+
+        this.startTimeline=false;
+        this.startCheckSymptoms=true;
+    }
     
     startTimelineFunction(){
         if(this.listSymptomsCheckedTimeline.length>0) {

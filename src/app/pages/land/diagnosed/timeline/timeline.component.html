@@ -9,6 +9,12 @@
             style="cursor: pointer;"></em>
           <span>{{'preland.p2' | translate}}</span>
         </button>
+        <button *ngIf="section=='diagnosed'" type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right" (click)="addSymptomTimeLine();">
+          <em class="mr-1 fa fa-plus white"
+            title="{{'preland.p3' | translate}}" (click)="addSymptomTimeLine()"
+            style="cursor: pointer;"></em>
+          <span>{{'preland.p3' | translate}}</span>
+        </button>
         <!--<button *ngIf="showTimeLine"type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right" (click)="backTimeline('false');">
           <em class="mr-1 fa fa-refresh white"
             title="{{'land.diagnosed.timeline.reset' | translate}}" (click)="backTimeline('false')"
@@ -204,6 +210,9 @@
         <div class="col-md-6">
           <em class="mr- fa fa-refresh info float-right"
             title="{{'preland.p2' | translate}}" (click)="backTimeline('true')"
+            style="cursor: pointer;"></em>
+            <em *ngIf="section=='diagnosed'" class="mr-2 fa fa-plus info float-right"
+            title="{{'preland.p3' | translate}}" (click)="addSymptomTimeLine()"
             style="cursor: pointer;"></em>
           <!--<em *ngIf="showTimeLine" class="mr-2 fa fa-refresh info float-right"
               title="{{'preland.p2' | translate}}" (click)="backTimeline('false')"
