@@ -57,7 +57,6 @@
     "file-saver": "^2.0.2",
     "gulp": "4.0.2",
     "highcharts": "^8.0.4",
-    "html-to-image": "^1.7.0",
     "install": "^0.13.0",
     "intl": "1.2.5",
     "jquery": "^3.5.0",

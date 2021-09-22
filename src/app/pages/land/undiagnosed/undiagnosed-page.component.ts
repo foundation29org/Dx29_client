@@ -120,6 +120,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     langToExtract: string = '';
     resultSegmentation: any = {};
     temporalSymptoms: any = [];
+    symptomsTimeLine: any = [];
     resultTextNcr: string = '';
     selectedInfoSymptomIndex: number = -1;
     modalReference: NgbModalRef;
@@ -153,9 +154,11 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     callListOfSymptoms: boolean = false;
     modalReference3: NgbModalRef;
     modalReference4: NgbModalRef;
-
+    modalReferenceTimeLine: NgbModalRef;
+    modalReference6: NgbModalRef;
     email: string = '';
     nothingFoundSymptoms: boolean = false;
+    selectedNoteSymptom = null;
 
     //@ViewChild("inputTextArea") inputTextAreaElement: ElementRef;
     @ViewChild("inputManualSymptoms") inputTextAreaElement: ElementRef;
@@ -174,9 +177,11 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
 
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
+    startTimeline = false;
 
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
 
+        
         this.lang = sessionStorage.getItem('lang');
 
         this.originalLang = sessionStorage.getItem('lang');
@@ -226,7 +231,15 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-        if (this.modalReference4 != undefined) {
+        if (this.modalReference6 != undefined) {
+            this.modalReference6.close();
+            this.modalReference6 = undefined;
+            return false;
+        }else if (this.modalReferenceTimeLine != undefined) {
+            this.modalReferenceTimeLine.close();
+            this.modalReferenceTimeLine = undefined;
+            return false;
+        }else if (this.modalReference4 != undefined) {
             this.modalReference4.close();
             this.modalReference4 = undefined;
             return false;
@@ -972,7 +985,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             this.getNumberOfSymptomsChecked();
             this.showSwal(this.translate.instant("land.proposed diseases has been updated"));
         }
-        
+
     }
 
     sortBySimilarity() {
@@ -1804,6 +1817,54 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         }
     }
 
+    getTimeLine(contentTimeline){
+        this.symptomsTimeLine = this.getCheckedSymptoms();
+        if(this.symptomsTimeLine.length==0){
+            Swal.fire(this.translate.instant("land.To generate the chronology"), '', "warning");
+        }else{
+            let ngbModalOptions: NgbModalOptions = {
+                backdrop: 'static',
+                keyboard: false,
+                windowClass: 'ModalClass-lg'// xl, lg, sm
+            };
+            this.modalReferenceTimeLine = this.modalService.open(contentTimeline, ngbModalOptions);
+        }
+        
+    }
 
+    openSaveTimeLine(contentSaveTimeline){
+        if(this.modalReference6==undefined){
+            let ngbModalOptions: NgbModalOptions = {
+                keyboard: false,
+                windowClass: 'ModalClass-lg'// xl, lg, sm
+            };
+            this.modalReference6 = this.modalService.open(contentSaveTimeline, ngbModalOptions);
+        }
+    }
+
+    closeSaveTimeLine(){
+        if(this.modalReference6!=undefined){
+            this.modalReference6.close();
+            this.modalReference6 = undefined;
+        }
+    }
+
+    showMoreInfoAndNotesSymptomPopup(symptom, contentInfoAndNotesSymptom){
+        this.selectedNoteSymptom = symptom;
+        let ngbModalOptions: NgbModalOptions = {
+            backdrop: 'static',
+            keyboard: false,
+            windowClass: 'ModalClass-sm'// xl, lg, sm
+        };
+        this.modalReference4 = this.modalService.open(contentInfoAndNotesSymptom, ngbModalOptions);
+    }
+
+    startCheckSymptomsFunction(){
+        this.startTimeline = true;
+    }
+
+    endTimeLineFunction(){
+        this.startTimeline=false;
+    }
 
 }
