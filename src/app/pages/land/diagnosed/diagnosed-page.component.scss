@@ -766,6 +766,18 @@ body {
     .card-body{
       padding: 0rem;
     }
+
+    :host /deep/ .timeline-card .card-body{
+      padding: 0.5rem;
+    }
+
+    :host /deep/ .timeline-left .timeline-item {
+      padding: 0 0 0rem 3.2rem !important;
+    }
+
+    :host /deep/ .timeline-group{
+      margin: 0px;
+    }
     /*.container-fluid{
       padding-right: 0px !important;
       padding-left: 0px !important;

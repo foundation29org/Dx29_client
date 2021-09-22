@@ -81,6 +81,16 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
             if((this.listSymptoms[i].onsetdate!=null)||(this.listSymptoms[i].onsetdate!=undefined)){
                 this.showTimeLine=true;
             }
+            if(this.listSymptoms[i].finishdate ==undefined){
+                this.listSymptoms[i].isCurrentSymptom=true;
+            }else{
+                if(this.listSymptoms[i].finishdate == null){
+                    this.listSymptoms[i].isCurrentSymptom=true;
+                }else{
+                    this.listSymptoms[i].isCurrentSymptom=false;
+                }
+            }
+            
         }
         if(this.showTimeLine){
             this.updateTimeline();
@@ -166,10 +176,14 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
                 this.listSymptoms[i].onsetdate = null
             }
             if ((this.listSymptoms[i].finishdate==NaN)||(this.listSymptoms[i].finishdate==undefined)){
-                this.listSymptoms[i].finishdate = null
+                this.listSymptoms[i].finishdate = null;
+                this.listSymptoms[i].isCurrentSymptom==true;
             }
             else if(this.listSymptoms[i].finishdate.length==0){
-                this.listSymptoms[i].finishdate = null
+                this.listSymptoms[i].finishdate = null;
+                this.listSymptoms[i].isCurrentSymptom==true;
+            }else if(this.listSymptoms[i].finishdate.length>0){
+                this.listSymptoms[i].isCurrentSymptom==false;
             }
 
             if(this.listSymptoms[i].isCurrentSymptom==true){
@@ -229,9 +243,26 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
                 this.listTimelineNull.push(this.listSymptoms[i])
             }
         }
+        //console.log(this.listSymptoms);
         this.showTimeLine = true;
         this.modifyFormSymtoms = false;
     }
+
+    updateIsCurrentSymptom(index, value){
+        this.listSymptoms[index].finishdate = value;
+        if(value!=null){
+            this.checkFinishDate(index);
+            if(this.listSymptoms[index].invalidFinishdate){
+                this.listSymptoms[index].isCurrentSymptom=true;
+                this.listSymptoms[index].finishdate = null;
+            }else{
+                this.listSymptoms[index].isCurrentSymptom=false;
+            }
+        }else{
+            this.listSymptoms[index].isCurrentSymptom=true;
+        }
+    }
+    
 
     checkFinishDate(symptomIndex){
         if((this.listSymptoms[symptomIndex].onsetdate!=null)&&(this.listSymptoms[symptomIndex].onsetdate!=undefined)){
@@ -350,6 +381,14 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
         if(this.listSymptoms.length==0){
             this.addSymptomsEvent.emit({ listSymptoms:this.listSymptoms });
         }
+    }
+
+    showNotes(index){
+        this.listSymptoms[index].showNotes = true;
+    }
+
+    hideNotes(index){
+        this.listSymptoms[index].showNotes = false;
     }
 
     addSymptomTimeLine(){

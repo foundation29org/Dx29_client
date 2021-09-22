@@ -1864,7 +1864,52 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     endTimeLineFunction(){
-        this.startTimeline=false;
+        this.symptomsTimeLine = this.getCheckedSymptoms();
+        this.startTimeline = false;
+    }
+
+    registerToDx29V2Timeline(){
+        this.lauchEvent("Registration");
+        this.lauchEvent("Registration Power");
+        if (this.modalReference6 != undefined) {
+            this.modalReference6.close();
+            this.modalReference6 = undefined;
+        }
+        var listSymptoms=[]
+        for(var i =0; i < this.symptomsTimeLine.length;i++){
+            var onsetdate = null;
+            if((this.symptomsTimeLine[i].onsetdate!=undefined)&&(this.symptomsTimeLine[i].onsetdate!=null)){
+                onsetdate = this.symptomsTimeLine[i].onsetdate
+            }
+            var enddate = null;
+            if((this.symptomsTimeLine[i].finishdate!=undefined)&&(this.symptomsTimeLine[i].finishdate!=null)){
+                enddate = this.symptomsTimeLine[i].finishdate
+            }
+            var isCurrentSymptom = null;
+            if((this.symptomsTimeLine[i].isCurrentSymptom!=undefined)&&(this.symptomsTimeLine[i].isCurrentSymptom!=null)){
+                isCurrentSymptom = this.symptomsTimeLine[i].isCurrentSymptom
+            }
+            listSymptoms.push({"Id":this.symptomsTimeLine[i].id,"OnsetDate":onsetdate,"EndDate":enddate,"IsCurrent":isCurrentSymptom})
+        }
+
+        var info = {
+            "Symptoms": listSymptoms
+        }
+        
+        if (this.symptomsTimeLine.length > 0) {
+            this.subscription.add(this.apiDx29ServerService.createblobOpenDx29Timeline(info)
+                .subscribe((res: any) => {
+                    sessionStorage.removeItem('symptoms');
+                    sessionStorage.removeItem('uuid');
+                    if (res.message == 'Done') {
+                        window.location.href = environment.urlDxv2 + "/Identity/Account/Register?opendatatimeline=" + res.token;
+                    } else {
+                        window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
+                    }
+                }));
+        } else {
+            window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
+        }
     }
 
 }

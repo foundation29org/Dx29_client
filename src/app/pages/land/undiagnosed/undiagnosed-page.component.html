@@ -1078,15 +1078,16 @@
       <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
         <span aria-hidden="true">&times;</span>
       </button>
-      <h4 class="align-self-center"><strong>{{'land.Chronology' | translate }}</strong></h4>
+      <h4 class="align-self-center"><strong>{{'land.diagnosed.timeline.title' | translate}}</strong></h4>
+      <div class="col-md-12 text-left">
+        <p class="mb-0"> {{'land.diagnosed.timeline.t0' | translate}}</p>
+        <p> <a class="info" (click)="registerToDx29V2Timeline();" title="{{'land.diagnosed.timeline.Register' | translate}}"><ins>{{'land.diagnosed.timeline.Register' | translate}}</ins></a> {{'land.diagnosed.timeline.t0-reg' | translate}}</p>
+      </div>
     </div>
     <div>
       <div class="col-md-12" *ngIf="(!startTimeline)">
         <div class="row">
           <div class="col-md-12">
-            <div class="col-md-12">
-              <p> {{'land.diagnosed.timeline.t0' | translate}}</p>
-            </div>
             <div class="col-md-12 center-elements mt-2">
               <button type="button" class="btn btn-info btn-md btn-raised" (click)="startCheckSymptomsFunction();">
                   <span>{{'land.diagnosed.timeline.btn1' | translate}}</span>
@@ -1098,7 +1099,7 @@
           </div>
         </div>
       </div>
-      <timeline *ngIf="(startTimeline)" section="undiagnosed" [listSymptoms]="symptomsTimeLine" (backEvent)="endTimeLineFunction()" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+      <timeline *ngIf="(startTimeline)" section="undiagnosed" [listSymptoms]="symptomsTimeLine" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="endTimeLineFunction()" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
     </div>
   </div>
 </ng-template>

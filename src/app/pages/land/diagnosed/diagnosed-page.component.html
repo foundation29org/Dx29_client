@@ -179,19 +179,14 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <div class="card-body">
-                <div class="col-md-12" *ngIf="(!startTimeline)&&(!startCheckSymptoms)">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <em class="mr-1 ft-help-circle info float-right"
-                         title="{{'land.diagnosed.timeline.help' | translate}}" (click)="openTimelineAppHelp1(contentTimelineAppHelp1)"
-                         style="cursor: pointer;">
-                      </em>
-                    </div>
+                <div class="col-md-12">
+                  <div class="col-md-12">
+                    <p> {{'land.diagnosed.timeline.t0-app' | translate}} <em class="ml-1 mt-1 ft-help-circle info"
+                      title="{{'land.diagnosed.timeline.help' | translate}}" (click)="openTimelineAppHelp1(contentTimelineAppHelp1)"
+                      style="cursor: pointer;">
+                   </em></p>
                   </div>
-                  <div class="col-md-12 mt-1">
-                    <p> {{'land.diagnosed.timeline.t0-app' | translate}}</p>
-                  </div>
-                  <div class="col-md-12 center-elements">
+                  <div class="col-md-12 center-elements" *ngIf="(!startTimeline)&&(!startCheckSymptoms)">
                     <button type="button" class="btn btn-info btn-md btn-raised" (click)="startCheckSymptomsFunction();">
                         <span>{{'land.diagnosed.timeline.btn1' | translate}}</span>
                     </button>
@@ -240,7 +235,7 @@
                     </button>
                   </div>
                 </div>
-                <timeline *ngIf="(startTimeline)&&(!startCheckSymptoms)" section="diagnosed" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent()" (finishEvent)="checkDonnorState(contentInfoAttention)" (openModalTimelineHelp)="openTimelineAppHelp2(contentTimelineAppHelp2)" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+                <timeline *ngIf="(startTimeline)&&(!startCheckSymptoms)" section="diagnosed" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention)" (openModalTimelineHelp)="openTimelineAppHelp2(contentTimelineAppHelp2)" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
               </div>
             </mat-expansion-panel>
             <mat-expansion-panel *ngIf="clinicalTrials.length>0">
@@ -471,37 +466,39 @@
             <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined">
               <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Chronology');">{{'land.Chronology' | translate }}</strong></ng-template>
               <ng-template ngbTabContent>
-                <div class="col-md-12" *ngIf="(!startTimeline)&&(!startCheckSymptoms)">
+                <div class="col-md-12 mb-2">
                   <div class="row">
-                    <div class="col-md-12 mt-1">
-                      <div class="col-md-12">
-                        <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
+                    <div class="col-md-12 mt-2">
+                      <div>
+                        <h4><strong>{{'land.diagnosed.timeline.title' | translate}}</strong></h4>
+                        <p class="mb-0"> {{'land.diagnosed.timeline.t0' | translate}}
+                          <span> <a class="info" (click)="registerToDx29V2Timeline();" title="{{'land.diagnosed.timeline.Register' | translate}}"><ins>{{'land.diagnosed.timeline.Register' | translate}}</ins></a> {{'land.diagnosed.timeline.t0-reg' | translate}}</span>
+                        </p>
+                        
                       </div>
-                      <div class="col-md-12">
-                        <p> {{'land.diagnosed.timeline.t0' | translate}}</p>
-                      </div>
-                      <div class="col-md-12 center-elements mt-2">
-                        <button type="button" class="btn btn-info btn-md btn-raised" (click)="startCheckSymptomsFunction();">
-                            <span>{{'land.diagnosed.timeline.btn1' | translate}}</span>
-                        </button>
-                      </div>
-                      <div class="col-md-12 mt-2 center-elements">
-                        <img src='assets/gif/land/diagnosed/timeline.gif' style="max-width: 100%;">
+                      <div *ngIf="(!startTimeline)&&(!startCheckSymptoms)">
+                        <div class="col-md-12 center-elements mt-2">
+                          <button type="button" class="btn btn-info btn-md btn-raised" (click)="startCheckSymptomsFunction();">
+                              <span>{{'land.diagnosed.timeline.btn1' | translate}}</span>
+                          </button>
+                        </div>
+                        <div class="col-md-12 mt-2 center-elements">
+                          <img src='assets/gif/land/diagnosed/timeline.gif' style="max-width: 100%;">
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-12" *ngIf="(!startTimeline)&&(startCheckSymptoms)">
+                <div class="col-md-12 mt-2" *ngIf="(!startTimeline)&&(startCheckSymptoms)">
                   <div class="row">
-                    <div class="col-md-12">
-                      <button type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right" (click)="endTimeLineFunctionWithConfirmation()">
-                        <em class="mr-1 fa fa-refresh white"
-                          title="{{'preland.p2' | translate}}" (click)="endTimeLineFunctionWithConfirmation()"
-                          style="cursor: pointer;"></em>
-                        <span>{{'preland.p2' | translate}}</span>
-                      </button>
-                    </div>
                     <div class="col-md-6 mt-1">
+                      <div>
+                        <p> {{'land.diagnosed.timeline.t1' | translate}} 
+                          <span style="cursor: pointer;" class="ml-1" (click)="endTimeLineFunctionWithConfirmation()">
+                          <em class="mr-1 fa fa-refresh grey" title="{{'preland.p2' | translate}}"></em>
+                        </span>
+                      </p>
+                      </div>
                       <div class="col-md-12">
                         <table class="table mb-0 text-center d-none d-sm-block">
                           <tbody style="width: 100%;display: inline-table;">
@@ -529,15 +526,9 @@
                       </div>
                     </div>
                     <div class="col-md-6 mt-1">
-                      <div class="col-md-12">
-                        <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
-                      </div>
-                      <div class="col-md-12">
-                        <p> {{'land.diagnosed.timeline.t1' | translate}}</p>
-                      </div>
                       <div class="col-md-12 mt-2" *ngIf="!listSymptomsCheckedModified">
-                        <div class="col-md-12">
-                          <ul *ngFor="let symptomChecked of listSymptomsCheckedTimeline; let j = index">
+                        <div class="col-md-12 pt-2">
+                          <ul *ngFor="let symptomChecked of listSymptomsCheckedTimeline; let j = index" class="mb-0">
                             <li *ngIf="symptomChecked.name">
                               <span style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(j, contentInfoSymptomOneDisease);" class="info">{{symptomChecked.name}}</span>
                             </li>
