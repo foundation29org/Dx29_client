@@ -175,7 +175,7 @@
             <mat-expansion-panel *ngIf="infoOneDisease.symptoms!=undefined">
               <mat-expansion-panel-header>
                 <mat-panel-title (click)="lauchEvent('Diagnosed - Chronology');">
-                  {{'land.Chronology' | translate }}
+                  {{'land.Chronology' | translate }}<span class="ml-1 badge badge-pill badge-success mb-1 mr-2">{{'generics.New' | translate }}</span>
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <div class="card-body">
@@ -186,13 +186,8 @@
                       style="cursor: pointer;">
                    </em></p>
                   </div>
-                  <div class="col-md-12 center-elements" *ngIf="(!startTimeline)&&(!startCheckSymptoms)">
-                    <button type="button" class="btn btn-info btn-md btn-raised" (click)="startCheckSymptomsFunction();">
-                        <span>{{'land.diagnosed.timeline.btn1' | translate}}</span>
-                    </button>
-                  </div>
                 </div>
-                <div class="col-md-12" *ngIf="(!startTimeline)&&(startCheckSymptoms)">
+                <div class="col-md-12" *ngIf="!startTimeline">
                   <div class="row">
                     <div class="col-md-12">
                       <em class="mr-1 fa fa-refresh info float-right"
@@ -230,12 +225,12 @@
                     </table>
                   </div>
                   <div class="col-md-12 center-elements mt-2">
-                    <button type="button" class="btn btn-info btn-md btn-raised" (click)="startTimelineFunction();showAttentionPanel(contentInfoAttention);">
+                    <button type="button" class="btn btn-info btn-md btn-raised" (click)="startTimelineFunction();">
                         <span>{{'land.diagnosed.timeline.btn2' | translate}}</span>
                     </button>
                   </div>
                 </div>
-                <timeline *ngIf="(startTimeline)&&(!startCheckSymptoms)" section="diagnosed" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention)" (openModalTimelineHelp)="openTimelineAppHelp2(contentTimelineAppHelp2)" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+                <timeline *ngIf="startTimeline" section="diagnosed" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention)" (openModalTimelineHelp)="openTimelineAppHelp2(contentTimelineAppHelp2)" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
               </div>
             </mat-expansion-panel>
             <mat-expansion-panel *ngIf="clinicalTrials.length>0">
@@ -464,32 +459,24 @@
               </ng-template>
             </ngb-tab>
             <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined">
-              <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Chronology');">{{'land.Chronology' | translate }}</strong></ng-template>
+              <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Chronology');">{{'land.Chronology' | translate }}</strong><span class="ml-1 badge badge-pill badge-success mb-1 mr-2">{{'generics.New' | translate }}</span></ng-template>
               <ng-template ngbTabContent>
                 <div class="col-md-12 mb-2">
                   <div class="row">
                     <div class="col-md-12 mt-2">
                       <div>
                         <h4><strong>{{'land.diagnosed.timeline.title' | translate}}</strong></h4>
-                        <p class="mb-0"> {{'land.diagnosed.timeline.t0' | translate}}
-                          <span> <a class="info" (click)="registerToDx29V2Timeline();" title="{{'land.diagnosed.timeline.Register' | translate}}"><ins>{{'land.diagnosed.timeline.Register' | translate}}</ins></a> {{'land.diagnosed.timeline.t0-reg' | translate}}</span>
+                        <p class="mb-0"> {{'land.diagnosed.timeline.t0' | translate}} <i class="fas fa-ellipsis-v font-medium-3 info"></i></p>
+                        <p class="mb-0">
+                          <span> 
+                            <a class="info" (click)="registerToDx29V2Timeline();" title="{{'land.diagnosed.timeline.Register' | translate}}"><ins>{{'land.diagnosed.timeline.Register' | translate}}</ins></a> {{'land.diagnosed.timeline.t0-reg' | translate}}
+                          </span>
                         </p>
-                        
-                      </div>
-                      <div *ngIf="(!startTimeline)&&(!startCheckSymptoms)">
-                        <div class="col-md-12 center-elements mt-2">
-                          <button type="button" class="btn btn-info btn-md btn-raised" (click)="startCheckSymptomsFunction();">
-                              <span>{{'land.diagnosed.timeline.btn1' | translate}}</span>
-                          </button>
-                        </div>
-                        <div class="col-md-12 mt-2 center-elements">
-                          <img src='assets/gif/land/diagnosed/timeline.gif' style="max-width: 100%;">
-                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-12 mt-2" *ngIf="(!startTimeline)&&(startCheckSymptoms)">
+                <div class="col-md-12 mt-2" *ngIf="!startTimeline">
                   <div class="row">
                     <div class="col-md-6 mt-1">
                       <div>
@@ -544,14 +531,14 @@
                         </div>
                       </div>
                       <div class="col-md-12 mt-2 center-elements">
-                        <button type="button" class="btn btn-info btn-md btn-raised" (click)="startTimelineFunction();showAttentionPanel(contentInfoAttention);">
+                        <button type="button" class="btn btn-info btn-md btn-raised" (click)="startTimelineFunction();">
                             <span>{{'land.diagnosed.timeline.btn2' | translate}}</span>
                         </button>
                       </div>
                     </div>
                   </div>
                 </div>
-                <timeline *ngIf="(startTimeline)&&(!startCheckSymptoms)" section="diagnosed" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention);" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+                <timeline *ngIf="startTimeline" section="diagnosed" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention);" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
               </ng-template>
             </ngb-tab>
             <ngb-tab *ngIf="clinicalTrials.length>0" >
@@ -1118,14 +1105,11 @@
     </div>  
     <div class="col-md-12">
       <div class="col-md-12">
-        <p>{{'land.diagnosed.timeline.t0' | translate}}</p>
+        <p>{{'land.diagnosed.timeline.t0' | translate}} <i class="fas fa-ellipsis-v font-medium-3 info"></i></p>
       </div>
-      <div class="col-md-12 mt-1" *ngIf="isApp">
+      <div class="col-md-12 mt-1 d-block d-sm-none">
         <p>** {{'land.diagnosed.timeline.WorkPC' | translate}}</p>
       </div>
-    </div>
-    <div class="col-md-12 mt-1 mb-2 center-elements">
-      <img src='assets/gif/land/diagnosed/timeline-doc.gif' style="max-width: 100%;">
     </div>
   </div>
 </ng-template>
@@ -1144,9 +1128,6 @@
       </div>
       <div class="col-md-12">
         <p>{{'land.diagnosed.timeline.t2' | translate}}</p>
-      </div>
-      <div class="col-md-12 mt-2 center-elements">
-        <img src='assets/gif/land/diagnosed/timeline-app.gif' style="max-width: 100%;">
       </div>
     </div>
   </div>

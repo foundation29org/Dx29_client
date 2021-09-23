@@ -177,7 +177,6 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
 
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
-    startTimeline = false;
 
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
 
@@ -1311,26 +1310,26 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         this.openDiseases++;
         if(this.openDiseases>=3){
             this.openModarRegister('Click disease');
-        }else{
-            this.selectedInfoDiseaseIndex = diseaseIndex;
-            if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded) {
-                let ngbModalOptions: NgbModalOptions = {
-                    backdrop: 'static',
-                    keyboard: false,
-                    windowClass: 'ModalClass-lg'// xl, lg, sm
-                };
-                if (this.modalReference != undefined) {
-                    this.modalReference.close();
-                    this.modalReference = undefined;
-                }
-                this.modalReference = this.modalService.open(contentInfoDisease, ngbModalOptions);
+        }
+        
+        this.selectedInfoDiseaseIndex = diseaseIndex;
+        if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded) {
+            let ngbModalOptions: NgbModalOptions = {
+                backdrop: 'static',
+                keyboard: false,
+                windowClass: 'ModalClass-lg'// xl, lg, sm
+            };
+            if (this.modalReference != undefined) {
+                this.modalReference.close();
+                this.modalReference = undefined;
+            }
+            this.modalReference = this.modalService.open(contentInfoDisease, ngbModalOptions);
+        } else {
+            this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded = true;
+            if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].changed) {
+                this.getSymptomsOneDisease(this.topRelatedConditions[this.selectedInfoDiseaseIndex].id, contentInfoDisease);
             } else {
-                this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded = true;
-                if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].changed) {
-                    this.getSymptomsOneDisease(this.topRelatedConditions[this.selectedInfoDiseaseIndex].id, contentInfoDisease);
-                } else {
-                    this.callGetInfoDiseaseSymptomsJSON(contentInfoDisease);
-                }
+                this.callGetInfoDiseaseSymptomsJSON(contentInfoDisease);
             }
         }
         
@@ -1859,13 +1858,8 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         this.modalReference4 = this.modalService.open(contentInfoAndNotesSymptom, ngbModalOptions);
     }
 
-    startCheckSymptomsFunction(){
-        this.startTimeline = true;
-    }
-
     endTimeLineFunction(){
         this.symptomsTimeLine = this.getCheckedSymptoms();
-        this.startTimeline = false;
     }
 
     registerToDx29V2Timeline(){
@@ -1909,6 +1903,20 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                 }));
         } else {
             window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
+        }
+    }
+
+    closeTimeLine(){
+        if (this.modalReferenceTimeLine != undefined) {
+            this.modalReferenceTimeLine.close();
+            this.modalReferenceTimeLine = undefined;
+        }
+    }
+
+    closeRegisterPanel(){
+        if (this.modalReference3 != undefined) {
+            this.modalReference3.close();
+            this.modalReference3 = undefined;
         }
     }
 

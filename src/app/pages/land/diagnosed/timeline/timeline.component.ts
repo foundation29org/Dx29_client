@@ -5,9 +5,11 @@ import { ToastrService } from 'ngx-toastr';
 import { DateAdapter } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
 
+import { LocalizedDatePipe } from 'app/shared/services/localizedDatePipe.service';
 import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.service';
 
-import {jsPDFService} from 'app/shared/services/jsPDF.service'
+import {jsPDFService} from 'app/shared/services/jsPDF.service';
+import { HostListener } from "@angular/core";
 
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
@@ -53,12 +55,22 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
 
     maxDate=new Date();
 
-    constructor(public translate: TranslateService,  public toastr: ToastrService, public googleAnalyticsService: GoogleAnalyticsService, public jsPDFService: jsPDFService, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe) {
+    constructor(public translate: TranslateService,  public toastr: ToastrService, public googleAnalyticsService: GoogleAnalyticsService, public jsPDFService: jsPDFService, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe, private localizedDatePipe: LocalizedDatePipe) {
         this.modifyFormSymtoms = false;
         this.showTimeLine = false;
         this.actualTemporalSymptomsIndex = 0;
         this.selectedInfoSymptom = null;
         this.dateAdapter.setLocale(sessionStorage.getItem('lang'));  
+    }
+
+    @HostListener('window:resize', ['$event'])
+    getScreenSize(event?) {
+          var scrWidth = window.innerWidth;
+          if(scrWidth< 575){
+            this.loadingTimeLine();
+          }
+          else{
+          }
     }
 
     ngOnInit() {
@@ -70,7 +82,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
     }
 
     ngAfterContentChecked(){
-        this.loadingTimeLine();
+        //this.loadingTimeLine();
     }
 
     ngOnDestroy() {
@@ -107,10 +119,12 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
 
     // Order by descending key
     keyDescOrder = ((a, b) => {
-        var a_month=a.key.split("-"[0])
+        var a_month=a.key.split("-")[0]
         var a_year = a.key.split("-")[1]
         var b_month=b.key.split("-")[0]
         var b_year=b.key.split("-")[1]
+        a_month = this.getMonthFromString(a_month);
+        b_month = this.getMonthFromString(b_month);
         if(new Date(a_year).getTime() > new Date(b_year).getTime()){
             return 1;
         }
@@ -130,15 +144,77 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
         }
     })
 
+    getMonthFromString(mon){
+        var lang = sessionStorage.getItem('lang')
+        if(lang!='es'){
+            return new Date(Date.parse(mon +" 1, 2012")).getMonth()+1
+        }else{              
+              var meses = {
+                  "enero":"January",
+                  "febrero":"February",
+                  "marzo":"March",
+                  "abril":"April",
+                  "mayo":"May",
+                  "junio":"June",
+                  "julio":"July",
+                  "agosto":"August",
+                  "septiembre":"September",
+                  "octubre":"October",
+                  "noviembre":"November",
+                  "diciembre":"December"
+                };
+              var date = new Date(Date.parse(meses[mon] +" 1, 2012")).getMonth()+1;
+            return date;
+        }
+        
+     }
+
     // Order by descending value
     valueDateDescOrder = ((a,b)=> {
-        if(new Date(a.key).getTime() > new Date(b.key).getTime()){
+        var lang = sessionStorage.getItem('lang')
+        if(lang!='es'){
+            if(new Date(a.key).getTime() > new Date(b.key).getTime()){
+                return -1;
+            }
+            else if(new Date(a.key).getTime() < new Date(b.key).getTime()){
+                return -1;
+            }
+            else {
+                return 0;
+            } 
+        }else{
+            var meses = {
+                "enero":"January",
+                "febrero":"February",
+                "marzo":"March",
+                "abril":"April",
+                "mayo":"May",
+                "junio":"June",
+                "julio":"July",
+                "agosto":"August",
+                "septiembre":"September",
+                "octubre":"October",
+                "noviembre":"November",
+                "diciembre":"December"
+              };
+            
+            var akey = a.key.split(" ")[0]
+            var bkey = b.key.split(" ")[0]
+            
+            var par1 = meses[akey]+" "+a.key.split(" ")[1]+" "+a.key.split(" ")[2];
+            var par2 = meses[bkey]+" "+b.key.split(" ")[1]+" "+b.key.split(" ")[2];
+            if(new Date(par1).getTime() > new Date(par2).getTime()){
             return -1;
+            }
+            else if(new Date(par1).getTime() < new Date(par2).getTime()){
+                return -1;
+            }
+            else {
+                return 0;
+            } 
         }
-        else if(new Date(a.key).getTime() < new Date(b.key).getTime()){
-            return -1;
-        }
-        else return 0;
+        
+         
     })
 
     isEmptyObject(obj){
@@ -202,16 +278,22 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
             if(this.listSymptoms[i].onsetdate!= null){
                 var newDate = this.listSymptoms[i].onsetdate;            
                 var newYear = newDate.getFullYear()
-                var newMonth = newDate.toLocaleString('default', { month: 'short' });
+                var lang = sessionStorage.getItem('lang')
+                var localeLang = 'en-US';
+                if(lang=='es'){
+                    localeLang = 'es-ES'
+                }
+                var newMonth = newDate.toLocaleString(localeLang, { month: 'long' });
                 var newKey=newMonth+"-"+newYear
-
+                var key2temp = this.localizedDatePipe.transform(newDate,'MMMM d, y',sessionStorage.getItem('lang'))
+                //var key2temp = this.datePipe.transform(newDate, 'longDate');
                 if(this.dictionaryTimeline[newKey]==undefined){
                     this.dictionaryTimeline[newKey] = {}
                 }
-                if(this.dictionaryTimeline[newKey][this.datePipe.transform(newDate)]==undefined){
-                    this.dictionaryTimeline[newKey][this.datePipe.transform(newDate)] = []
+                if(this.dictionaryTimeline[newKey][key2temp]==undefined){
+                    this.dictionaryTimeline[newKey][key2temp] = []
                 }
-                this.dictionaryTimeline[newKey][this.datePipe.transform(newDate)].push(this.listSymptoms[i])
+                this.dictionaryTimeline[newKey][key2temp].push(this.listSymptoms[i])
                 for (var j = 0; j< this.listSymptoms.length;j++){
                     if (i!=j){
                         var isCurrentSymptom = this.listSymptoms[j].isCurrentSymptom;
@@ -220,7 +302,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
                                 var compareOnsetDate = this.listSymptoms[j].onsetdate;
 
                                 if(newDate.getTime()>compareOnsetDate.getTime()){
-                                    this.dictionaryTimeline[newKey][this.datePipe.transform(newDate)].push(this.listSymptoms[j])
+                                    this.dictionaryTimeline[newKey][key2temp].push(this.listSymptoms[j])
                                 }
                             }
                         }
@@ -231,7 +313,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
 
                                 if(compareFinishDate!=null){
                                     if((newDate.getTime()>compareOnsetDate.getTime())&&(newDate.getTime()<compareFinishDate.getTime())){
-                                        this.dictionaryTimeline[newKey][this.datePipe.transform(newDate)].push(this.listSymptoms[j])
+                                        this.dictionaryTimeline[newKey][key2temp].push(this.listSymptoms[j])
                                     }
                                 }
                             }
@@ -243,10 +325,49 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
                 this.listTimelineNull.push(this.listSymptoms[i])
             }
         }
-        //console.log(this.listSymptoms);
+
+        for(var key in this.dictionaryTimeline) {
+            var ordered = {};
+            Object.keys(this.dictionaryTimeline[key]).sort(function(a, b) {
+                var lang = sessionStorage.getItem('lang')
+                if(lang!='es'){
+                    return (this.dateConverter(a) - this.dateConverter(b));
+                }else{
+                    var meses = {
+                        "enero":"January",
+                        "febrero":"February",
+                        "marzo":"March",
+                        "abril":"April",
+                        "mayo":"May",
+                        "junio":"June",
+                        "julio":"July",
+                        "agosto":"August",
+                        "septiembre":"September",
+                        "octubre":"October",
+                        "noviembre":"November",
+                        "diciembre":"December"
+                      };
+                    
+                    var akey = a.split(" ")[0]
+                    var bkey = b.split(" ")[0]
+                    var par1 = meses[akey]+" "+a.split(" ")[1]+" "+a.split(" ")[2];
+                    var par2 = meses[bkey]+" "+b.split(" ")[1]+" "+b.split(" ")[2];
+                    return (this.dateConverter(par1) - this.dateConverter(par2));
+                }
+            
+            }.bind(this)).forEach(function(key2) {
+            ordered[key2] = this.dictionaryTimeline[key][key2];
+            }.bind(this));
+            this.dictionaryTimeline[key]=ordered;
+        }
+        
         this.showTimeLine = true;
         this.modifyFormSymtoms = false;
     }
+
+    dateConverter(date) {
+        return (new Date(date).getTime());
+      }
 
     updateIsCurrentSymptom(index, value){
         this.listSymptoms[index].finishdate = value;

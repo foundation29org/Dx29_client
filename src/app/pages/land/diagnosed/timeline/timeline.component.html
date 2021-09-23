@@ -8,7 +8,7 @@
             style="cursor: pointer;"></em>
           <span>{{'preland.p2' | translate}}</span>
         </button>
-        <button *ngIf="section=='diagnosed'" type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right"
+        <button type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right"
           (click)="addSymptomTimeLine();">
           <em class="mr-1 fa fa-plus white" title="{{'preland.p3' | translate}}" (click)="addSymptomTimeLine()"
             style="cursor: pointer;"></em>
@@ -40,13 +40,13 @@
             <tr *ngFor="let symptom of listSymptoms ; let i = index">
               <td class="row text-left">
                 <div class="col-md-12">
-                  <span *ngIf="symptom.name" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(symptom);"
-                    class="info">{{symptom.name}}</span>
-                  <span *ngIf="!symptom.name">
-                    {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                  <h5 *ngIf="symptom.name" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(symptom);"
+                    class="info d-inline"><strong>{{symptom.name}}</strong></h5>
+                  <h5 *ngIf="!symptom.name" class="d-inline">
+                    <strong>{{symptom.id}}</strong> ({{'phenotype.Deprecated' | translate}}) <a
                       href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
                       <i class="ft-external-link"></i></a>
-                  </span>
+                  </h5>
                   <span class="mt-1 nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right">
                     <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt{{j}}"
                       ngbDropdownToggle title="{{'generics.Options' | translate }}">
@@ -57,10 +57,7 @@
                         <span class="">{{'generics.Delete' | translate }}</span> <i class="ml-2 fa fa fa-trash danger"></i>
                       </a>
                       <a *ngIf="!symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="showNotes(i)">
-                        <span class="">{{'land.diagnosed.timeline.showNotes' | translate }}</span> <i class="ml-2 fa fa fa-eye info"></i>
-                      </a>
-                      <a *ngIf="symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="hideNotes(i)">
-                        <span class="">{{'land.diagnosed.timeline.hideNotes' | translate }}</span> <i class="ml-2 fa fa fa-eye-slash info"></i>
+                        <span class="">{{'land.diagnosed.timeline.showNotes' | translate }}</span> <i class="ml-2 fa fa-plus success"></i>
                       </a>
                     </div>
                   </span>
@@ -72,10 +69,7 @@
                 <div class="col-md-6 mt-1">
                   <div class="col-md-12">
                     <div class="row">
-                      <label for="dateOnset"> {{'generics.Start Date' | translate }} </label>
-                    </div>
-                    <div class="row">
-                      <input class="form-control w-75 d-inline" id="dateOnset_{{i}}" name="dateOnset" matInput
+                      <input class="form-control w-75 d-inline" id="dateOnset_{{i}}" name="dateOnset" matInput placeholder="{{'generics.Start Date' | translate }}"
                         [max]="maxDate" readonly [matDatepicker]="pickerOnset" [(ngModel)]="symptom.onsetdate"
                         (dateInput)="updateTimeline()">
                       <mat-datepicker-toggle matSuffix [for]="pickerOnset"></mat-datepicker-toggle>
@@ -86,10 +80,7 @@
                 <div class="col-md-6 mt-1">
                   <div class="col-md-12">
                     <div class="row">
-                      <label for="dateFinish"> {{'generics.End Date' | translate }} </label>
-                    </div>
-                    <div class="row">
-                      <input class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish"
+                      <input class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish" placeholder="{{'generics.End Date' | translate }}"
                         [min]="symptom.onsetdate" [max]="maxDate" readonly matInput [matDatepicker]="pickerFinish"
                         [(ngModel)]="symptom.finishdate" (dateInput)="updateTimeline();"
                         [disabled]="(!symptom.checked)||(symptom.onsetdate==undefined)"
@@ -106,10 +97,13 @@
                   <p class="float-left" style="font-size: smaller;"> * {{'land.diagnosed.timeline.HelpDates' | translate
                     }}</p>
                 </div>
-                <div class="col-md-12 mt-2 mb-2" *ngIf="symptom.showNotes">
-                  <input type="text" id="basicInput_{{i}}" maxlength=250 placeholder="{{'generics.notes' | translate }}"
+                <div class="col-md-12 mb-2" *ngIf="symptom.showNotes">
+                  <input type="text" id="basicInput_{{i}}" style="display: inline;width: 88%;" maxlength=250 placeholder="{{'generics.notes' | translate }}"
                     class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)"
                     (change)="updateTimeline()">
+                    <a href="javascript:;" (click)="hideNotes(i)">
+                      <i class="ml-2 fa fa-trash danger info"></i>
+                    </a>
                 </div>
               </td>
             </tr>
@@ -120,8 +114,8 @@
         <span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
       </div>
       <div class="col-md-6 mt-2" *ngIf="!showTimeLine">
-        <div class="col-md-12">
-          <p>{{'land.diagnosed.timeline.t2' | translate}}</p>
+        <div class="text-center">
+          <span>{{'land.diagnosed.timeline.displayed here' | translate}}</span>
         </div>
       </div>
       <div class="col-md-6 mt-2" *ngIf="showTimeLine">
@@ -237,7 +231,7 @@
         <div class="col-md-6">
           <em class="mr- fa fa-refresh info float-right" title="{{'preland.p2' | translate}}"
             (click)="backTimeline('true')" style="cursor: pointer;"></em>
-          <em *ngIf="section=='diagnosed'" class="mr-2 fa fa-plus info float-right" title="{{'preland.p3' | translate}}"
+          <em class="mr-2 fa fa-plus info float-right" title="{{'preland.p3' | translate}}"
             (click)="addSymptomTimeLine()" style="cursor: pointer;"></em>
           <!--<em *ngIf="showTimeLine" class="mr-2 fa fa-refresh info float-right"
               title="{{'preland.p2' | translate}}" (click)="backTimeline('false')"
@@ -257,14 +251,14 @@
         <div class="card bg-grey bg-lighten-3 box border mb-3" *ngIf="actualTemporalSymptomsIndex ==i">
           <div class="card-header">
             <strong>
-              <span *ngIf="symptom.name" class="info" style="cursor: pointer;"
-                (click)="showMoreInfoSymptomPopup(symptom);">{{symptom.name}}</span>
-              <span *ngIf="!symptom.name">
-                {{symptom.id}} ({{'phenotype.Deprecated' | translate}})
+              <h5 *ngIf="symptom.name" class="info d-inline" style="cursor: pointer;"
+                (click)="showMoreInfoSymptomPopup(symptom);"><strong>{{symptom.name}}</strong></h5>
+              <h5 *ngIf="!symptom.name" class="d-inline">
+                <strong>{{symptom.id}}</strong> ({{'phenotype.Deprecated' | translate}})
                 <a href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
                   <i class="ft-external-link"></i>
                 </a>
-              </span>
+              </h5>
               <span class="mt-1 nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right">
                 <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt{{j}}"
                   ngbDropdownToggle title="{{'generics.Options' | translate }}">
@@ -275,10 +269,7 @@
                     <span class="">{{'generics.Delete' | translate }}</span> <i class="ml-2 fa fa fa-trash danger"></i>
                   </a>
                   <a *ngIf="!symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="showNotes(i)">
-                    <span class="">{{'land.diagnosed.timeline.showNotes' | translate }}</span> <i class="ml-2 fa fa fa-eye info"></i>
-                  </a>
-                  <a *ngIf="symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="hideNotes(i)">
-                    <span class="">{{'land.diagnosed.timeline.hideNotes' | translate }}</span> <i class="ml-2 fa fa fa-eye-slash info"></i>
+                    <span class="">{{'land.diagnosed.timeline.showNotes' | translate }}</span> <i class="ml-2 fa fa-plus success"></i>
                   </a>
                 </div>
               </span>
@@ -292,10 +283,7 @@
             <div class="col-md-12 mt-1">
               <div class="col-md-12">
                 <div class="row">
-                  <label for="dateOnset"> {{'generics.Start Date' | translate }} </label>
-                </div>
-                <div class="row">
-                  <input class="form-control w-75 d-inline" id="dateOnset_{{i}}" name="dateOnset" [max]="maxDate"
+                  <input class="form-control w-75 d-inline" id="dateOnset_{{i}}" name="dateOnset" [max]="maxDate" placeholder="{{'generics.Start Date' | translate }}"
                     matInput readonly [matDatepicker]="pickerOnset" [(ngModel)]="symptom.onsetdate"
                     (dateInput)="updateTimeline();">
                   <mat-datepicker-toggle matSuffix [for]="pickerOnset"></mat-datepicker-toggle>
@@ -306,10 +294,7 @@
             <div class="col-md-12 mt-1">
               <div class="col-md-12">
                 <div class="row">
-                  <label for="dateFinish"> {{'generics.End Date' | translate }} </label>
-                </div>
-                <div class="row">
-                  <input class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish"
+                  <input class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish" placeholder="{{'generics.End Date' | translate }}"
                     [min]="symptom.onsetdate" readonly [max]="maxDate" matInput [matDatepicker]="pickerFinish"
                     [(ngModel)]="symptom.finishdate" (dateInput)="updateTimeline();"
                     [disabled]="(!symptom.checked)||(symptom.onsetdate==undefined)"
@@ -326,10 +311,13 @@
               <p class="float-left" style="font-size: smaller;"> * {{'land.diagnosed.timeline.HelpDates' | translate }}
               </p>
             </div>
-            <div class="col-md-12 mt-1" *ngIf="symptom.showNotes">
-              <input type="text" id="basicInput_{{i}}" maxlength=250 placeholder="{{'generics.notes' | translate }}"
+            <div class="col-md-12" *ngIf="symptom.showNotes">
+              <input type="text" style="display: inline;width: 88%;" id="basicInput_{{i}}" maxlength=250 placeholder="{{'generics.notes' | translate }}"
                 class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)"
                 (change)="updateTimeline()">
+                <a href="javascript:;" (click)="hideNotes(i)">
+                  <i class="ml-2 fa fa-trash danger info"></i>
+                </a>
             </div>
           </div>
           <div class="card-footer center-elements bt-n">

@@ -185,9 +185,12 @@
                   <th id="headerTable" style="border-top-style: none;">
                     <span class="icons-title-symptoms">{{'land.SelectSymptoms' | translate }}</span>
                     <span class="float-right icons-opt-symptoms">
-                      <em class="mt-1 fas fa-history grey mr-2" title="{{'land.Chronology' | translate }}"
-                      (click)="getTimeLine(contentTimeline)" style="cursor: pointer;"></em>
-                    <em class="mt-1 fa fa-refresh grey  mr-2" title="{{'land.Start over' | translate }}"
+                      <span class="mb-0 btn btn-info btn-raised btn-sm" title="{{'land.Chronology' | translate }}" (click)="getTimeLine(contentTimeline)" style="cursor: pointer;">{{'land.Chronology' | translate }}
+                        <span class="ml-1 badge badge-pill badge-success">{{'generics.New' | translate }}</span>
+                      </span>
+                      <!--<em class="mt-1 fas fa-history grey mr-2" title="{{'land.Chronology' | translate }}"
+                      (click)="getTimeLine(contentTimeline)" style="cursor: pointer;"></em>-->
+                    <em class="mt-1 fa fa-refresh grey ml-2 mr-2" title="{{'land.Start over' | translate }}"
                       (click)="restartInitVars()" style="cursor: pointer;"></em>
                       <em class="mt-1 fas fa-copy grey mr-2" title="{{'land.Copy symptoms' | translate }}"
                       (click)="copySymptoms()" style="cursor: pointer;"></em>
@@ -938,7 +941,7 @@
 <ng-template #contentToDx29V2 let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-body content-wrapper p-2 center-elements mb-3">
     <div class="p-2">
-      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+      <button type="button" class="close" aria-label="Close" (click)="closeRegisterPanel()">
         <span aria-hidden="true">&times;</span>
       </button>
       <h4 class="align-self-center"><strong>{{'land.swal.title' | translate }}</strong><span class="d-block"><strong>{{'land.swal.title2' | translate }}</strong></span></h4>
@@ -1075,31 +1078,18 @@
 <ng-template #contentTimeline let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-body content-wrapper p-2 center-elements mb-3">
     <div class="p-2">
-      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+      <button type="button" class="close" aria-label="Close" (click)="closeTimeLine()">
         <span aria-hidden="true">&times;</span>
       </button>
       <h4 class="align-self-center"><strong>{{'land.diagnosed.timeline.title' | translate}}</strong></h4>
       <div class="col-md-12 text-left">
-        <p class="mb-0"> {{'land.diagnosed.timeline.t0' | translate}}</p>
-        <p> <a class="info" (click)="registerToDx29V2Timeline();" title="{{'land.diagnosed.timeline.Register' | translate}}"><ins>{{'land.diagnosed.timeline.Register' | translate}}</ins></a> {{'land.diagnosed.timeline.t0-reg' | translate}}</p>
+        <p class="mb-0"> {{'land.diagnosed.timeline.t0' | translate}} <i class="fas fa-ellipsis-v font-medium-3 info"></i></p>
+        <span> <a class="info" (click)="registerToDx29V2Timeline();" title="{{'land.diagnosed.timeline.Register' | translate}}"><ins>{{'land.diagnosed.timeline.Register' | translate}}</ins></a> {{'land.diagnosed.timeline.t0-reg' | translate}}</span>
+        {{'land.diagnosed.timeline.t2' | translate}}
       </div>
     </div>
     <div>
-      <div class="col-md-12" *ngIf="(!startTimeline)">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="col-md-12 center-elements mt-2">
-              <button type="button" class="btn btn-info btn-md btn-raised" (click)="startCheckSymptomsFunction();">
-                  <span>{{'land.diagnosed.timeline.btn1' | translate}}</span>
-              </button>
-            </div>
-            <div class="col-md-12 mt-2 center-elements">
-              <img src='assets/gif/land/diagnosed/timeline.gif' style="max-width: 100%;">
-            </div>
-          </div>
-        </div>
-      </div>
-      <timeline *ngIf="(startTimeline)" section="undiagnosed" [listSymptoms]="symptomsTimeLine" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="endTimeLineFunction()" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+      <timeline section="undiagnosed" [listSymptoms]="symptomsTimeLine" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="closeTimeLine()" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
     </div>
   </div>
 </ng-template>
