@@ -1883,13 +1883,13 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             if((this.symptomsTimeLine[i].isCurrentSymptom!=undefined)&&(this.symptomsTimeLine[i].isCurrentSymptom!=null)){
                 isCurrentSymptom = this.symptomsTimeLine[i].isCurrentSymptom
             }
-            listSymptoms.push({"Id":this.symptomsTimeLine[i].id,"OnsetDate":onsetdate,"EndDate":enddate,"IsCurrent":isCurrentSymptom})
+            listSymptoms.push({"Id":this.symptomsTimeLine[i].id,"StartDate":onsetdate,"EndDate":enddate,"IsCurrent":isCurrentSymptom, "Notes": this.symptomsTimeLine[i].notes})
         }
 
         var info = {
             "Symptoms": listSymptoms
         }
-        
+
         if (this.symptomsTimeLine.length > 0) {
             this.subscription.add(this.apiDx29ServerService.createblobOpenDx29Timeline(info)
                 .subscribe((res: any) => {

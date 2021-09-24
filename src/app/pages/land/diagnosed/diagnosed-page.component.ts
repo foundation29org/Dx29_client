@@ -1311,7 +1311,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             if((this.listSymptomsCheckedTimeline[i].isCurrentSymptom!=undefined)&&(this.listSymptomsCheckedTimeline[i].isCurrentSymptom!=null)){
                 isCurrentSymptom = this.listSymptomsCheckedTimeline[i].isCurrentSymptom
             }
-            listSymptoms.push({"Id":this.listSymptomsCheckedTimeline[i].id,"OnsetDate":onsetdate,"EndDate":enddate,"IsCurrent":isCurrentSymptom})
+            listSymptoms.push({"Id":this.listSymptomsCheckedTimeline[i].id,"StartDate":onsetdate,"EndDate":enddate,"IsCurrent":isCurrentSymptom, "Notes": this.listSymptomsCheckedTimeline[i].notes})
         }
 
         var info = {

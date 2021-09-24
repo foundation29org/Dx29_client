@@ -114,7 +114,7 @@
         <span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
       </div>
       <div class="col-md-6 mt-2" *ngIf="!showTimeLine">
-        <div class="text-center p-3 font-medium-3" style="min-height: 450px;background: #eee;">
+        <div class="text-center p-3 font-medium-3 border" style="min-height: 450px;background: #eee;">
           <span>{{'land.diagnosed.timeline.displayed here' | translate}}</span>
         </div>
       </div>
@@ -203,21 +203,17 @@
           </section>
         </div>
         <div class="col-md-12 mt-2 center-elements">
-          <!--<div class="col-md-6 center-elements">
-            <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised" (click)="saveTimeline()">
+            <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised mr-1" (click)="saveTimeline()">
               <em class="mr-1 ft-save white"
                 title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="saveTimeline()"
                 style="cursor: pointer;"></em>
                 <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
             </button>
-          </div>-->
-          <!--<div class="col-md-6 center-elements">-->
-          <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised" (click)="exportTimeline()">
+          <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised ml-1" (click)="exportTimeline()">
             <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
               (click)="exportTimeline()" style="cursor: pointer;"></em>
             <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
           </button>
-          <!--</div>-->
         </div>
       </div>
     </div>
@@ -241,7 +237,7 @@
           <em *ngIf="showTimeLine" class="mr-2 fa fa-download info float-right"
             title="{{'land.diagnosed.timeline.Download' | translate }}" (click)="exportTimeline()"
             style="cursor: pointer;"></em>
-          <em class="mr-1 ft-save white" title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}"
+          <em class="mr-2 ft-save info float-right" title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}"
             (click)="saveTimeline()" style="cursor: pointer;"></em>
         </div>
       </div>
@@ -437,7 +433,13 @@
         </button>
       </div>-->
       <!--<div class="col-md-6 center-elements">-->
-      <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised" (click)="exportTimeline()">
+        <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised mr-1" (click)="saveTimeline()">
+          <em class="mr-1 ft-save white"
+            title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="saveTimeline()"
+            style="cursor: pointer;"></em>
+            <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
+        </button>
+      <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised ml-1" (click)="exportTimeline()">
         <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
           (click)="exportTimeline()" style="cursor: pointer;"></em>
         <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
