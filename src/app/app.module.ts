@@ -1,5 +1,8 @@
 import * as $ from 'jquery';
-import { NgModule } from '@angular/core';
+import { NgModule ,LOCALE_ID  } from '@angular/core';
+import es from '@angular/common/locales/es'
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(es);
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -31,6 +34,7 @@ import { DateService } from 'app/shared/services/date.service';
 import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
 import { HighlightSearch } from 'app/shared/services/search-filter-highlight.service';
 import { TextTransform } from 'app/shared/services/transform-text.service';
+import { LocalizedDatePipe } from 'app/shared/services/localizedDatePipe.service';
 import { SortService } from 'app/shared/services/sort.service';
 import { SearchService } from 'app/shared/services/search.service';
 import { EventsService } from 'app/shared/services/events.service';
@@ -58,7 +62,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 
   @NgModule({
-    declarations: [AppComponent, FullLayoutComponent, ContentLayoutComponent, LandPageLayoutComponent, SearchFilterPipe, HighlightSearch, TextTransform],
+    declarations: [AppComponent, FullLayoutComponent, ContentLayoutComponent, LandPageLayoutComponent, SearchFilterPipe, HighlightSearch, TextTransform, LocalizedDatePipe],
     imports: [
       CommonModule,
       BrowserAnimationsModule,
@@ -93,6 +97,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       SearchFilterPipe,
       HighlightSearch,
       TextTransform,
+      LocalizedDatePipe,
+      { provide: LOCALE_ID, useValue: 'es-ES' },
       SortService,
       SearchService,
       EventsService,

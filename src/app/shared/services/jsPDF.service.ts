@@ -206,16 +206,12 @@ export class jsPDFService {
         doc.addImage(calendarIcon, 'png', 15, (positionY+4), 7, 7);
         doc.setFillColor(255, 255, 255);
         var heightRect = (5*(listSymptomsNullInfo.length)+5);
-        console.log(heightRect);
-        console.log(positionY);
-        console.log(posInit);
         if(heightRect+positionY>235){
             if(heightRect<33){
                 heightRect = (235-(posInit))+10;
             }else{
                 heightRect = (235-(posInit))+33;
             }
-            console.log(heightRect);
         }
         doc.rect(25, (positionY+4), 150, heightRect, 'FD'); //Fill and Border
         doc.setTextColor(0, 0, 0)
