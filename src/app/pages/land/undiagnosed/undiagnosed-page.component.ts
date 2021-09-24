@@ -177,7 +177,6 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
 
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
-    startTimeline = false;
 
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
 
@@ -1311,26 +1310,26 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         this.openDiseases++;
         if(this.openDiseases>=3){
             this.openModarRegister('Click disease');
-        }else{
-            this.selectedInfoDiseaseIndex = diseaseIndex;
-            if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded) {
-                let ngbModalOptions: NgbModalOptions = {
-                    backdrop: 'static',
-                    keyboard: false,
-                    windowClass: 'ModalClass-lg'// xl, lg, sm
-                };
-                if (this.modalReference != undefined) {
-                    this.modalReference.close();
-                    this.modalReference = undefined;
-                }
-                this.modalReference = this.modalService.open(contentInfoDisease, ngbModalOptions);
+        }
+        
+        this.selectedInfoDiseaseIndex = diseaseIndex;
+        if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded) {
+            let ngbModalOptions: NgbModalOptions = {
+                backdrop: 'static',
+                keyboard: false,
+                windowClass: 'ModalClass-lg'// xl, lg, sm
+            };
+            if (this.modalReference != undefined) {
+                this.modalReference.close();
+                this.modalReference = undefined;
+            }
+            this.modalReference = this.modalService.open(contentInfoDisease, ngbModalOptions);
+        } else {
+            this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded = true;
+            if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].changed) {
+                this.getSymptomsOneDisease(this.topRelatedConditions[this.selectedInfoDiseaseIndex].id, contentInfoDisease);
             } else {
-                this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded = true;
-                if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].changed) {
-                    this.getSymptomsOneDisease(this.topRelatedConditions[this.selectedInfoDiseaseIndex].id, contentInfoDisease);
-                } else {
-                    this.callGetInfoDiseaseSymptomsJSON(contentInfoDisease);
-                }
+                this.callGetInfoDiseaseSymptomsJSON(contentInfoDisease);
             }
         }
         
@@ -1859,12 +1858,66 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         this.modalReference4 = this.modalService.open(contentInfoAndNotesSymptom, ngbModalOptions);
     }
 
-    startCheckSymptomsFunction(){
-        this.startTimeline = true;
+    endTimeLineFunction(){
+        this.symptomsTimeLine = this.getCheckedSymptoms();
     }
 
-    endTimeLineFunction(){
-        this.startTimeline=false;
+    registerToDx29V2Timeline(){
+        this.lauchEvent("Registration");
+        this.lauchEvent("Registration Power");
+        if (this.modalReference6 != undefined) {
+            this.modalReference6.close();
+            this.modalReference6 = undefined;
+        }
+        var listSymptoms=[]
+        for(var i =0; i < this.symptomsTimeLine.length;i++){
+            var onsetdate = null;
+            if((this.symptomsTimeLine[i].onsetdate!=undefined)&&(this.symptomsTimeLine[i].onsetdate!=null)){
+                onsetdate = this.symptomsTimeLine[i].onsetdate
+            }
+            var enddate = null;
+            if((this.symptomsTimeLine[i].finishdate!=undefined)&&(this.symptomsTimeLine[i].finishdate!=null)){
+                enddate = this.symptomsTimeLine[i].finishdate
+            }
+            var isCurrentSymptom = null;
+            if((this.symptomsTimeLine[i].isCurrentSymptom!=undefined)&&(this.symptomsTimeLine[i].isCurrentSymptom!=null)){
+                isCurrentSymptom = this.symptomsTimeLine[i].isCurrentSymptom
+            }
+            listSymptoms.push({"Id":this.symptomsTimeLine[i].id,"StartDate":onsetdate,"EndDate":enddate,"IsCurrent":isCurrentSymptom, "Notes": this.symptomsTimeLine[i].notes})
+        }
+
+        var info = {
+            "Symptoms": listSymptoms
+        }
+
+        if (this.symptomsTimeLine.length > 0) {
+            this.subscription.add(this.apiDx29ServerService.createblobOpenDx29Timeline(info)
+                .subscribe((res: any) => {
+                    sessionStorage.removeItem('symptoms');
+                    sessionStorage.removeItem('uuid');
+                    if (res.message == 'Done') {
+                        window.location.href = environment.urlDxv2 + "/Identity/Account/Register?opendatatimeline=" + res.token;
+                    } else {
+                        window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
+                    }
+                }));
+        } else {
+            window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
+        }
+    }
+
+    closeTimeLine(){
+        if (this.modalReferenceTimeLine != undefined) {
+            this.modalReferenceTimeLine.close();
+            this.modalReferenceTimeLine = undefined;
+        }
+    }
+
+    closeRegisterPanel(){
+        if (this.modalReference3 != undefined) {
+            this.modalReference3.close();
+            this.modalReference3 = undefined;
+        }
     }
 
 }
