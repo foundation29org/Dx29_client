@@ -114,12 +114,12 @@
         <span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
       </div>
       <div class="col-md-6 mt-2" *ngIf="!showTimeLine">
-        <div class="text-center">
+        <div class="text-center p-3 font-medium-3" style="min-height: 450px;background: #eee;">
           <span>{{'land.diagnosed.timeline.displayed here' | translate}}</span>
         </div>
       </div>
       <div class="col-md-6 mt-2" *ngIf="showTimeLine">
-        <div class="col-md-12" id="mytimeline">
+        <div class="col-md-12 border" id="mytimeline" style="background: #eee;">
           <section *ngIf="!isEmptyObject(dictionaryTimeline)||(listTimelineNull.length>0)" id="vertical-timeline-left"
             class="timeline-left timeline-wrapper col-sm-10 col-12 offset-sm-1">
             <div *ngIf="!isEmptyObject(dictionaryTimeline)">

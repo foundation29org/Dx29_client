@@ -16,7 +16,6 @@ export class LocalizedDatePipe implements PipeTransform {
         if(lang=='es'){
             localeLang = 'es-ES'
         }
-        console.log(this.translateService);
         const datePipe: DatePipe = new DatePipe(localeLang);
         return datePipe.transform(value, pattern);
       }
