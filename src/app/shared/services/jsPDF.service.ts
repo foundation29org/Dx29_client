@@ -90,24 +90,25 @@ export class jsPDFService {
     private drawTimeLine(doc, dictionaryTimeline, listSymptomsNullInfo, posY){
         //draw dictionaryTimeline
         var positionY = posY;
-        var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
-        for (var itemDateIndex in listItemDateKeys){
-            var itemDate = listItemDateKeys[itemDateIndex]
-            positionY = this.drawLabelTimeLine(doc, itemDate, positionY);
-            var listDateKeys= Object.keys(dictionaryTimeline[itemDate]).sort((a,b)=>{return this.valueDateDescOrder(a,b)})
-            for (var dateIndex in listDateKeys){
-                var date = listDateKeys[dateIndex]
-                var lineHeight = (5*(dictionaryTimeline[itemDate][date].length)+45)+positionY;
-                doc.line(15, positionY-10, 15, lineHeight);
-                positionY = this.drawBoxTimeLine(doc, dictionaryTimeline[itemDate][date], date, positionY);
+        if(dictionaryTimeline!=undefined){
+            var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
+            for (var itemDateIndex in listItemDateKeys){
+                var itemDate = listItemDateKeys[itemDateIndex]
+                positionY = this.drawLabelTimeLine(doc, itemDate, positionY);
+                var listDateKeys= Object.keys(dictionaryTimeline[itemDate]).sort((a,b)=>{return this.valueDateDescOrder(a,b)})
+                for (var dateIndex in listDateKeys){
+                    var date = listDateKeys[dateIndex]
+                    var lineHeight = (5*(dictionaryTimeline[itemDate][date].length)+45)+positionY;
+                    doc.line(15, positionY-10, 15, lineHeight);
+                    positionY = this.drawBoxTimeLine(doc, dictionaryTimeline[itemDate][date], date, positionY);
+                }
             }
         }
-        
-        if(listSymptomsNullInfo.length>0){
-            this.drawListSymptomsNullInfo(doc, listSymptomsNullInfo, positionY);
+        if(listSymptomsNullInfo!=undefined){
+            if(listSymptomsNullInfo.length>0){
+                this.drawListSymptomsNullInfo(doc, listSymptomsNullInfo, positionY);
+            }
         }
-        
-
         return positionY;
     }
 
@@ -237,98 +238,99 @@ export class jsPDFService {
     }
 
     private timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo){
-
-        var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
-        if(listItemDateKeys.length>0){
-            this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Appendix1"),this.translate.instant("land.diagnosed.timeline.Appendix1Title"),null,positionY)
-            positionY+=10
-            var bodyTable = []
-            var notesBodyTable={};
+        if(dictionaryTimeline!=undefined){
             var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
-            for (var itemDateIndex in listItemDateKeys){
-                var itemDate = listItemDateKeys[itemDateIndex]
-                var listDateKeys= Object.keys(dictionaryTimeline[itemDate]).sort((a,b)=>{return this.valueDateDescOrder(a,b)})
-                for (var dateIndex in listDateKeys){
-                    var date= listDateKeys[dateIndex]
-                    for (var i=0;i<dictionaryTimeline[itemDate][date].length;i++){
-                        var name = dictionaryTimeline[itemDate][date][i].name
-                        if(name==undefined){
-                            name = dictionaryTimeline[itemDate][date][i].id + "-" + this.translate.instant("phenotype.Deprecated")
-                        }
-                        var id = dictionaryTimeline[itemDate][date][i].id
-                        var onsetdate = "-"
-                        if((dictionaryTimeline[itemDate][date][i].onsetdate!=undefined)&&(dictionaryTimeline[itemDate][date][i].onsetdate!=null)){
-                            onsetdate=this.datePipe.transform(dictionaryTimeline[itemDate][date][i].onsetdate)
-                        }
-                        var finishdate = "-"
-                        if((dictionaryTimeline[itemDate][date][i].finishdate!=undefined)&&(dictionaryTimeline[itemDate][date][i].finishdate!=null)){
-                            finishdate=this.datePipe.transform(dictionaryTimeline[itemDate][date][i].finishdate)
-                        }
-                        var duration="-"
-                        if(((onsetdate!="-")&&(finishdate!="-"))){
-                            duration = this.dateDiff(dictionaryTimeline[itemDate][date][i].onsetdate,dictionaryTimeline[itemDate][date][i].finishdate)
-                        }
-                        else if((onsetdate!="-")&&(dictionaryTimeline[itemDate][date][i].isCurrentSymptom)){
-                            duration = this.dateDiff(dictionaryTimeline[itemDate][date][i].onsetdate,new Date())
-                        }
-                        var notes = null;
-                        if((dictionaryTimeline[itemDate][date][i].notes!=null)&&(dictionaryTimeline[itemDate][date][i].notes!=undefined)){
-                            notes = dictionaryTimeline[itemDate][date][i].notes
-                        }
-
-                        var symptom = [{content:name,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:duration,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:onsetdate,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:finishdate,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:id,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}}]
-                        var foundInBodyTable = false;
-                        for(var j=0;j<bodyTable.length;j++){
-                            for (var k=0;k< bodyTable[j].length;k++){
-                                if(bodyTable[j][k].content == (id)){
-                                    foundInBodyTable=true
+            if(listItemDateKeys.length>0){
+                this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Appendix1"),this.translate.instant("land.diagnosed.timeline.Appendix1Title"),null,positionY)
+                positionY+=10
+                var bodyTable = []
+                var notesBodyTable={};
+                var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
+                for (var itemDateIndex in listItemDateKeys){
+                    var itemDate = listItemDateKeys[itemDateIndex]
+                    var listDateKeys= Object.keys(dictionaryTimeline[itemDate]).sort((a,b)=>{return this.valueDateDescOrder(a,b)})
+                    for (var dateIndex in listDateKeys){
+                        var date= listDateKeys[dateIndex]
+                        for (var i=0;i<dictionaryTimeline[itemDate][date].length;i++){
+                            var name = dictionaryTimeline[itemDate][date][i].name
+                            if(name==undefined){
+                                name = dictionaryTimeline[itemDate][date][i].id + "-" + this.translate.instant("phenotype.Deprecated")
+                            }
+                            var id = dictionaryTimeline[itemDate][date][i].id
+                            var onsetdate = "-"
+                            if((dictionaryTimeline[itemDate][date][i].onsetdate!=undefined)&&(dictionaryTimeline[itemDate][date][i].onsetdate!=null)){
+                                onsetdate=this.datePipe.transform(dictionaryTimeline[itemDate][date][i].onsetdate)
+                            }
+                            var finishdate = "-"
+                            if((dictionaryTimeline[itemDate][date][i].finishdate!=undefined)&&(dictionaryTimeline[itemDate][date][i].finishdate!=null)){
+                                finishdate=this.datePipe.transform(dictionaryTimeline[itemDate][date][i].finishdate)
+                            }
+                            var duration="-"
+                            if(((onsetdate!="-")&&(finishdate!="-"))){
+                                duration = this.dateDiff(dictionaryTimeline[itemDate][date][i].onsetdate,dictionaryTimeline[itemDate][date][i].finishdate)
+                            }
+                            else if((onsetdate!="-")&&(dictionaryTimeline[itemDate][date][i].isCurrentSymptom)){
+                                duration = this.dateDiff(dictionaryTimeline[itemDate][date][i].onsetdate,new Date())
+                            }
+                            var notes = null;
+                            if((dictionaryTimeline[itemDate][date][i].notes!=null)&&(dictionaryTimeline[itemDate][date][i].notes!=undefined)){
+                                notes = dictionaryTimeline[itemDate][date][i].notes
+                            }
+    
+                            var symptom = [{content:name,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:duration,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:onsetdate,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:finishdate,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:id,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}}]
+                            var foundInBodyTable = false;
+                            for(var j=0;j<bodyTable.length;j++){
+                                for (var k=0;k< bodyTable[j].length;k++){
+                                    if(bodyTable[j][k].content == (id)){
+                                        foundInBodyTable=true
+                                    }
+                                } 
+                            }
+                            if(!foundInBodyTable){
+                                bodyTable.push(symptom)
+                                if(notes!=null){
+                                    notesBodyTable[id]=notes;
                                 }
-                            } 
-                        }
-                        if(!foundInBodyTable){
-                            bodyTable.push(symptom)
-                            if(notes!=null){
-                                notesBodyTable[id]=notes;
                             }
                         }
                     }
                 }
-            }
-            // Add notes 
-            for(var i = 0; i < bodyTable.length; i++){
-                for(var j=0; j< bodyTable[i].length;j++){
-                    if(Object.keys(notesBodyTable).includes(bodyTable[i][j].content)){
-                        bodyTable.splice(i+1,0,[{content:"\t"+ notesBodyTable[bodyTable[i][j].content],colSpan:5,styles:{fontSize:9, fontStyle: 'italic'}}])
+                // Add notes 
+                for(var i = 0; i < bodyTable.length; i++){
+                    for(var j=0; j< bodyTable[i].length;j++){
+                        if(Object.keys(notesBodyTable).includes(bodyTable[i][j].content)){
+                            bodyTable.splice(i+1,0,[{content:"\t"+ notesBodyTable[bodyTable[i][j].content],colSpan:5,styles:{fontSize:9, fontStyle: 'italic'}}])
+                        }
                     }
                 }
+    
+                let tableInfo  = null; 
+                doc.autoTable({
+                    head: [[this.translate.instant("generics.Name"),this.translate.instant("land.diagnosed.timeline.Duration"),this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"),"ID"]],
+                    body: bodyTable,
+                    startY: positionY,
+                    theme: 'plain',
+                    didDrawPage: ()=>{
+                        this.newHeatherAndFooter(doc);
+                    },
+                    willDrawCell:(data)=>{
+                        if (data.cell.section === 'body' && data.column.index === 4) {
+                            var text = data.cell.text.toString()
+                            data.cell.text = ""
+                            doc.setTextColor(0, 133, 133)
+                            var url = "https://hpo.jax.org/app/browse/term/" + text;
+                            doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
+                        }
+                    },
+                    didParseCell: (data)=>{
+                        if(!tableInfo){
+                            tableInfo=data.table;
+                        }
+                    }
+                    
+                }); 
+                positionY = tableInfo.finalY + 25
             }
-
-            let tableInfo  = null; 
-            doc.autoTable({
-                head: [[this.translate.instant("generics.Name"),this.translate.instant("land.diagnosed.timeline.Duration"),this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"),"ID"]],
-                body: bodyTable,
-                startY: positionY,
-                theme: 'plain',
-                didDrawPage: ()=>{
-                    this.newHeatherAndFooter(doc);
-                },
-                willDrawCell:(data)=>{
-                    if (data.cell.section === 'body' && data.column.index === 4) {
-                        var text = data.cell.text.toString()
-                        data.cell.text = ""
-                        doc.setTextColor(0, 133, 133)
-                        var url = "https://hpo.jax.org/app/browse/term/" + text;
-                        doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
-                    }
-                },
-                didParseCell: (data)=>{
-                    if(!tableInfo){
-                        tableInfo=data.table;
-                    }
-                }
-                
-            }); 
-            positionY = tableInfo.finalY + 25
         }
         
         if(listSymptomsNullInfo.length>0){

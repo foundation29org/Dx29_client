@@ -342,10 +342,17 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
     this.lauchEvent("Registration");
     this.lauchEvent("Registration Top btn");
     var info = JSON.parse(sessionStorage.getItem('symptoms'));
+    console.log(info);
     if (info != null) {
       if (info.Symptoms.length > 0) {
         console.log(info);
-        this.subscription.add(this.apiDx29ServerService.createblobOpenDx29(info)
+        var info2 = {
+          "Symptoms": []
+        }
+        for (var index in info.Symptoms) {
+          info2.Symptoms.push({"Id":info.Symptoms[index],"StartDate":null,"EndDate":null,"IsCurrent":false, "Notes": null});
+        }
+        this.subscription.add(this.apiDx29ServerService.createblobOpenDx29(info2)
           .subscribe((res: any) => {
             sessionStorage.removeItem('symptoms');
             sessionStorage.removeItem('uuid');

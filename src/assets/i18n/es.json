@@ -172,7 +172,7 @@
     "Option": "Opción",
     "View": "Ver",
     "New": "Nuevo",
-    "Back": "Volver",
+    "Back": "Atrás",
     "Start Date": "Fecha de inicio",
     "End Date": "Fecha fin",
     "Historical": "Histórico",
@@ -2337,7 +2337,7 @@
     },
     "diagnosed":{
       "general":{
-        "title": "General",
+        "title": "Más información",
         "Symptoms": "Síntomas",
         "Interested in the revolution": "¿Interesado en la revolución?",
         "msgSend": "Bienvenido a la rebelión, sabrás de nosotros",
@@ -2420,7 +2420,8 @@
         "Select the symptoms you have by": "Selecciona los síntomas que tienes",
         "clicking here": "pulsando aquí",
         "NoOnset":"Fecha de inicio desconocida",
-        "GoPrevious":"Completa la información de estos síntomas."
+        "GoPrevious":"Completa la información de estos síntomas.",
+        "These are the symptoms of your disease": "Estos son los síntomas de tu enfermedad, si no te representan, te ayudamos a completar tu historía"
       },
       "clinicalTrials":{
         "msgNoTrials": "Lo sentimos, en estos momentos no tenemos datos sobre ensayos clínicos para",

@@ -1,8 +1,6 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a (click)="selectRole();">{{'land.Home' | translate }}</a></li>
-    <li *ngIf="role!='undiagnosed'" class="breadcrumb-item active" aria-current="page">{{'land.Undiagnosed' | translate }}</li>
-    <li *ngIf="role=='clinician'" class="breadcrumb-item active" aria-current="page">{{'land.Physician' | translate }}</li>
+    <a (click)="selectRole();" class="black float-left"><i class="fa fa-angle-left" aria-hidden="true"></i> <ins class="ml-1">{{'generics.Back' | translate }}</ins></a>
   </ol>
 </nav>
 <section id="login" class="mt-2">

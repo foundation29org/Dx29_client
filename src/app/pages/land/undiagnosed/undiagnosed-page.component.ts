@@ -1715,7 +1715,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         }
         for (var index in this.temporalSymptoms) {
             if (this.temporalSymptoms[index].checked) {
-                info.Symptoms.push(this.temporalSymptoms[index].id);
+                info.Symptoms.push({"Id":this.temporalSymptoms[index].id,"StartDate":null,"EndDate":null,"IsCurrent":false, "Notes": null});
             }
         }
         if (info.Symptoms.length > 0) {
@@ -1891,12 +1891,12 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         }
 
         if (this.symptomsTimeLine.length > 0) {
-            this.subscription.add(this.apiDx29ServerService.createblobOpenDx29Timeline(info)
+            this.subscription.add(this.apiDx29ServerService.createblobOpenDx29(info)
                 .subscribe((res: any) => {
                     sessionStorage.removeItem('symptoms');
                     sessionStorage.removeItem('uuid');
                     if (res.message == 'Done') {
-                        window.location.href = environment.urlDxv2 + "/Identity/Account/Register?opendatatimeline=" + res.token;
+                        window.location.href = environment.urlDxv2 + "/Identity/Account/Register?opendata=" + res.token;
                     } else {
                         window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
                     }

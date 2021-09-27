@@ -2336,7 +2336,7 @@
     },
     "diagnosed":{
       "general":{
-        "title": "General",
+        "title": "More information",
         "Symptoms": "Symptoms",
         "Interested in the revolution": "Interested in the revolution?",
         "msgSend": "Welcome to the rebellion, you will know about us",
@@ -2417,7 +2417,8 @@
         "Select the symptoms you have by": "Select the symptoms you have by",
         "clicking here": "clicking here",
         "NoOnset":"Onset date unknown",
-        "GoPrevious":"Complete the information on these symptoms."
+        "GoPrevious":"Complete the information on these symptoms.",
+        "These are the symptoms of your disease": "These are the symptoms of your disease, if they do not represent you, we help you to complete your story"
       },
       "clinicalTrials":{
         "msgNoTrials": "Sorry, at this time we do not have clinical trial data for",
