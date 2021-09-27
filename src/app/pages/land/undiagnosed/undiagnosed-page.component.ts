@@ -1705,7 +1705,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
 
     registerToDx29V2() {
         this.lauchEvent("Registration");
-        this.lauchEvent("Registration Power");
+        this.lauchEvent("Registration Power Undiagnosed - Event");
         if (this.modalReference3 != undefined) {
             this.modalReference3.close();
             this.modalReference3 = undefined;
@@ -1868,7 +1868,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
 
     registerToDx29V2Timeline(){
         this.lauchEvent("Registration");
-        this.lauchEvent("Registration Power");
+        this.lauchEvent("Registration Power Undiagnosed - Timeline");
         if (this.modalReference6 != undefined) {
             this.modalReference6.close();
             this.modalReference6 = undefined;
@@ -1893,12 +1893,14 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                 var diferenciahorario=tempDateonsetdate.getTimezoneOffset();
                 tempDateonsetdate.setMinutes ( tempDateonsetdate.getMinutes() - diferenciahorario );
                 onsetdate = tempDateonsetdate.toUTCString();
+                onsetdate = new Date(Date.parse(onsetdate));
             }
-            if(this.symptomsTimeLine[i].enddate!=null){
-                var tempDateenddate = new Date(this.symptomsTimeLine[i].enddate)
+            if(this.symptomsTimeLine[i].finishdate!=null){
+                var tempDateenddate = new Date(this.symptomsTimeLine[i].finishdate)
                 var diferenciahorario=tempDateenddate.getTimezoneOffset();
                 tempDateenddate.setMinutes ( tempDateenddate.getMinutes() - diferenciahorario );
                 enddate = tempDateenddate.toUTCString();
+                enddate = new Date(Date.parse(enddate));
             }
             listSymptoms.push({"Id":this.symptomsTimeLine[i].id,"StartDate":onsetdate,"EndDate":enddate,"IsCurrent":isCurrentSymptom, "Notes": this.symptomsTimeLine[i].notes})
         }

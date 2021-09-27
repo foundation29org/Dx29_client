@@ -464,12 +464,14 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 var diferenciahorario=tempDateonsetdate.getTimezoneOffset();
                 tempDateonsetdate.setMinutes ( tempDateonsetdate.getMinutes() - diferenciahorario );
                 onsetdate = tempDateonsetdate.toUTCString();
+                onsetdate = new Date(Date.parse(onsetdate));
             }
-            if(this.listSymptomsCheckedTimeline[i].enddate!=null){
-                var tempDateenddate = new Date(this.listSymptomsCheckedTimeline[i].enddate)
+            if(this.listSymptomsCheckedTimeline[i].finishdate!=null){
+                var tempDateenddate = new Date(this.listSymptomsCheckedTimeline[i].finishdate)
                 var diferenciahorario=tempDateenddate.getTimezoneOffset();
                 tempDateenddate.setMinutes ( tempDateenddate.getMinutes() - diferenciahorario );
                 enddate = tempDateenddate.toUTCString();
+                enddate = new Date(Date.parse(enddate));
             }
 
             listSymptoms.push({"Id":this.listSymptomsCheckedTimeline[i].id,"StartDate":onsetdate,"EndDate":enddate,"IsCurrent":isCurrentSymptom, "Notes": this.listSymptomsCheckedTimeline[i].notes})
@@ -1120,6 +1122,9 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                         if(this.infoWiki[i].title=='Enlaces externos' || this.infoWiki[i].title=='External links'){
                             var urls = this.infoWiki[i].content.split("\n");
                             this.infoWiki[i].urls = urls;
+                        }else{
+                            /*var regex = /\[[0-9]+\]/;
+                            this.infoWiki[i].content.replaceAll(new RegExp(regex, "g"), "");*/
                         }
                     }
                     //this.switchNgBTab('generaltab');

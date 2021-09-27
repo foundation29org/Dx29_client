@@ -351,12 +351,15 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
             var diferenciahorario=tempDateStartDate.getTimezoneOffset();
             tempDateStartDate.setMinutes ( tempDateStartDate.getMinutes() - diferenciahorario );
             info.Symptoms[index].StartDate = tempDateStartDate.toUTCString();
+            info.Symptoms[index].StartDate = new Date(Date.parse(info.Symptoms[index].StartDate));
+            
           }
           if(info.Symptoms[index].EndDate!=null){
             var tempDateEndDate = new Date(info.Symptoms[index].EndDate)
             var diferenciahorario=tempDateEndDate.getTimezoneOffset();
             tempDateEndDate.setMinutes ( tempDateEndDate.getMinutes() - diferenciahorario );
             info.Symptoms[index].EndDate = tempDateEndDate.toUTCString();
+            info.Symptoms[index].EndDate = new Date(Date.parse(info.Symptoms[index].EndDate));
           }
           
         }

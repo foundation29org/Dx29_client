@@ -527,7 +527,7 @@
                     <p *ngFor="let part of infoWiki ; let j = index" class="mb-1">
                       <span *ngIf="part.content.length>0">
                         <h4 class="mt-2"><strong>{{part.title}}</strong></h4>
-                        <span class="" *ngIf="part.title!='Enlaces externos' && part.title!='External links'">{{part.content}}</span>
+                        <span class="" *ngIf="part.title!='Enlaces externos' && part.title!='External links'" style="margin-bottom: 2rem;white-space:pre-wrap;">{{part.content}}</span>
                         <span class="" *ngIf="part.title=='Enlaces externos' || part.title=='External links'">
                           <span *ngFor="let url of part.urls ; let j = index">
                             <a href="{{url}}" target="_blank" class="d-block">{{url}}</a>
