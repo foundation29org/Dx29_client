@@ -93,11 +93,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-12">
-                  <p class="float-left" style="font-size: smaller;"> * {{'land.diagnosed.timeline.HelpDates' | translate
-                    }}</p>
-                </div>
-                <div class="col-md-12 mb-2" *ngIf="symptom.showNotes">
+                <div class="col-md-12 mb-2 mt-1" *ngIf="symptom.showNotes">
                   <input type="text" id="basicInput_{{i}}" style="display: inline;width: 88%;" maxlength=250 placeholder="{{'generics.notes' | translate }}"
                     class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)"
                     (change)="updateTimeline()">
@@ -303,11 +299,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-12 mt-1">
-              <p class="float-left" style="font-size: smaller;"> * {{'land.diagnosed.timeline.HelpDates' | translate }}
-              </p>
-            </div>
-            <div class="col-md-12" *ngIf="symptom.showNotes">
+            <div class="col-md-12 mt-1" *ngIf="symptom.showNotes">
               <input type="text" style="display: inline;width: 88%;" id="basicInput_{{i}}" maxlength=250 placeholder="{{'generics.notes' | translate }}"
                 class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)"
                 (change)="updateTimeline()">

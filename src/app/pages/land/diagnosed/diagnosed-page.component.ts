@@ -1123,8 +1123,8 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                             var urls = this.infoWiki[i].content.split("\n");
                             this.infoWiki[i].urls = urls;
                         }else{
-                            /*var regex = /\[[0-9]+\]/;
-                            this.infoWiki[i].content.replaceAll(new RegExp(regex, "g"), "");*/
+                            var regex = /\[([0-9]+)\]​/;
+                            this.infoWiki[i].content = this.infoWiki[i].content.replaceAll(new RegExp(regex, "g"), "");
                         }
                     }
                     //this.switchNgBTab('generaltab');

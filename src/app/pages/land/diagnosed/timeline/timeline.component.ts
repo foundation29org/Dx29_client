@@ -36,7 +36,7 @@ export function getCulture() {
 
 
 export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked {
-    @Input() section: string;
+    @Input() disease: any = {};
     @Input() listSymptoms: any[];
     @Output() openModalSymptomInfo = new EventEmitter();
     @Output() openModalSaveTimeLine = new EventEmitter();
@@ -445,7 +445,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
                 allowOutsideClick: false,
                 showConfirmButton: false,
                 didOpen: function () {
-                    this.jsPDFService.generateTimelinePDF(sessionStorage.getItem('lang'), this.dictionaryTimeline, this.listTimelineNull);
+                    this.jsPDFService.generateTimelinePDF(sessionStorage.getItem('lang'), this.dictionaryTimeline, this.listTimelineNull, this.disease);
                     Swal.close();
                     this.finishEvent.emit(true);
                 }.bind(this)

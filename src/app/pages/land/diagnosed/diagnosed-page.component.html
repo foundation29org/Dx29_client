@@ -189,7 +189,7 @@
                     </button>
                   </div>
                 </div>
-                <timeline *ngIf="startTimeline" section="diagnosed" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention)" (openModalTimelineHelp)="openTimelineAppHelp2(contentTimelineAppHelp2)" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+                <timeline *ngIf="startTimeline" [disease]="actualInfoOneDisease" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention)" (openModalTimelineHelp)="openTimelineAppHelp2(contentTimelineAppHelp2)" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
               </div>
             </mat-expansion-panel>
             <mat-expansion-panel *ngIf="infoWiki.length>0 || infoWikiGeneral.length>0" [expanded]="step === 3" (opened)="setStep(3)">
@@ -216,9 +216,21 @@
                   </div>
                   <div class="col-md-12" *ngIf="(infoWiki.length>0 && infoWikiGeneral.length>0 && viewArticle) || (infoWiki.length>0 && infoWikiGeneral.length==0)">
                     <p *ngFor="let part of infoWiki ; let j = index" class="mb-1">
-                      <span *ngIf="part.content.length>0">
+                      <span>
                         <h4 class="mt-2"><strong>{{part.title}}</strong></h4>
-                        <span class="" *ngIf="part.title!='Enlaces externos' && part.title!='External links'">{{part.content}}</span>
+                        <span class="" *ngIf="part.title!='Enlaces externos' && part.title!='External links'" style="margin-bottom: 2rem;white-space:pre-line;">
+                          <span *ngIf="part.content.length>0">
+                            {{part.content}}
+                          </span>
+                          <span *ngIf="part.items">
+                            <span *ngFor="let item of part.items ; let listItem = index" class="mb-1">
+                              <h5 class="mt-2"><strong>{{item.title}}</strong></h5>
+                              <span *ngIf="item.content.length>0" style="margin-bottom: 2rem;white-space:pre-line;">
+                                {{item.content}}
+                              </span>
+                            </span>
+                          </span>
+                        </span>
                         <span class="" *ngIf="part.title=='Enlaces externos' || part.title=='External links'">
                           <span *ngFor="let url of part.urls ; let j = index">
                             <a href="{{url}}" target="_blank" class="d-block">{{url}}</a>
@@ -501,7 +513,7 @@
                     </div>
                   </div>
                 </div>
-                <timeline *ngIf="startTimeline" section="diagnosed" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention);" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+                <timeline *ngIf="startTimeline" [disease]="actualInfoOneDisease" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention);" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
               </ng-template>
             </ngb-tab>
             <ngb-tab *ngIf="infoWiki.length>0 || infoWikiGeneral.length>0" id="generaltab">
@@ -525,9 +537,21 @@
                   </div>
                   <div class="col-md-12" *ngIf="(infoWiki.length>0 && infoWikiGeneral.length>0 && viewArticle) || (infoWiki.length>0 && infoWikiGeneral.length==0)">
                     <p *ngFor="let part of infoWiki ; let j = index" class="mb-1">
-                      <span *ngIf="part.content.length>0">
+                      <span>
                         <h4 class="mt-2"><strong>{{part.title}}</strong></h4>
-                        <span class="" *ngIf="part.title!='Enlaces externos' && part.title!='External links'" style="margin-bottom: 2rem;white-space:pre-wrap;">{{part.content}}</span>
+                        <span class="" *ngIf="part.title!='Enlaces externos' && part.title!='External links'" style="margin-bottom: 2rem;white-space:pre-line;">
+                          <span *ngIf="part.content.length>0">
+                            {{part.content}}
+                          </span>
+                          <span *ngIf="part.items">
+                            <span *ngFor="let item of part.items ; let listItem = index" class="mb-1">
+                              <h5 class="mt-2"><strong>{{item.title}}</strong></h5>
+                              <span *ngIf="item.content.length>0" style="margin-bottom: 2rem;white-space:pre-line;">
+                                {{item.content}}
+                              </span>
+                            </span>
+                          </span>
+                        </span>
                         <span class="" *ngIf="part.title=='Enlaces externos' || part.title=='External links'">
                           <span *ngFor="let url of part.urls ; let j = index">
                             <a href="{{url}}" target="_blank" class="d-block">{{url}}</a>

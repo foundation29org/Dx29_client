@@ -18,7 +18,7 @@ export class jsPDFService {
     lang: string = '';
     
 
-    generateTimelinePDF(lang, dictionaryTimeline, listSymptomsNullInfo){
+    generateTimelinePDF(lang, dictionaryTimeline, listSymptomsNullInfo, disease){
 
         var doc = new jsPDF as jsPDFWithPlugin;
         var positionY = 0;
@@ -57,12 +57,26 @@ export class jsPDFService {
 
         doc.setFontSize(9);
         doc.setTextColor(117, 120, 125)
-        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle1"), 10, positionY += 15)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitlea"), 10, positionY += 15)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitleb"), 10, positionY += 5)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitlec"), 10, positionY += 5)
+        positionY += 5
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle1"), 10, positionY += 5)
         doc.text(this.translate.instant("land.diagnosed.timeline.subtitle2"), 10, positionY += 5)
         doc.text(this.translate.instant("land.diagnosed.timeline.subtitle3"), 10, positionY += 5)
         doc.setTextColor(0, 0, 0)
         doc.setFontSize(10);
 
+        if(disease.id!=undefined){
+            positionY += 10
+            doc.setFontSize(15);
+            doc.text(this.translate.instant("diagnosis.Previous Diagnosis"), 10, positionY += 5)
+            positionY += 5
+            doc.setFontSize(10);
+            positionY = this.writeText(doc, 10, positionY, disease.name);
+            console.log(disease.name.length);
+            positionY = this.writeLinkOrpha(doc, (disease.name.length*2)+10, positionY, (disease.id).toUpperCase());
+        }
         doc.setDrawColor(222,226,230);
         positionY = this.drawTimeLine(doc,dictionaryTimeline, listSymptomsNullInfo, positionY);
 
@@ -71,6 +85,11 @@ export class jsPDFService {
         
         positionY = 15;
         this.timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo);
+
+        doc.addPage();
+        this.newHeatherAndFooter(doc);
+        positionY = 15;
+        this.writeAboutUs(doc, positionY);
         
 
         var pageCount = doc.internal.pages.length; //Total Page Number
@@ -578,6 +597,26 @@ export class jsPDFService {
         return date.getUTCFullYear() + this.pad(date.getUTCMonth() + 1) + this.pad(date.getUTCDate()) + this.pad(date.getUTCHours()) + this.pad(date.getUTCMinutes()) + this.pad(date.getUTCSeconds());
     };
 
+    private writeAboutUs(doc,lineText){
+        doc.setFont(undefined, 'bold');
+        doc.text("Fundación 29 ", 10, lineText);
+        doc.setFont(undefined, 'normal');
+        doc.text("Somos una organización sin ánimo de lucro que diseña y crea herramientas para la gestión de los pacientes de", 10, lineText += 5);
+        doc.text("sus propios datos, revolucionando el diagnóstico y el manejo de las enfermedades raras. Damos el poder a los", 10, lineText += 5);
+        doc.text("pacientes y los médicos para que utilicen sus datos médicos en su beneficio y el de la comunidad. Creemos que", 10, lineText += 5);
+        doc.text("hay una forma mejor de hacer las cosas centrados en el paciente y sus datos.", 10, lineText += 5);
+        lineText += 10;
+        doc.text("Apúntate ya a la revolución en:", 10, lineText);
+        doc.setFillColor(249,66,58);
+        doc.rect(64, lineText-5, 17, 8, 'FD'); //Fill and Border
+        doc.setTextColor(255, 255, 255);
+        var url = "https://app.dx29.ai/Identity/Account/Register";
+        doc.textWithLink("Registro", 66, lineText, { url: url });
+        doc.setTextColor(0, 0, 0)
+        lineText += 5;
+        doc.text("Para cualquier duda o consulta contacta con nosotros en: info@foundation29.org", 10, lineText += 5);
+    }
+
     generateResultsPDF(infoSymptoms, infoDiseases, lang){
         this.lang = lang;
         const doc = new jsPDF();
@@ -616,7 +655,11 @@ export class jsPDFService {
         lineText += 25;
         doc.setFontSize(9);
         doc.setTextColor(117, 120, 125)
-        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle1"), 10, lineText += 15)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitlea"), 10, lineText += 15)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitleb"), 10, lineText += 5)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitlec"), 10, lineText += 5)
+        lineText += 5
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle1"), 10, lineText += 5)
         doc.text(this.translate.instant("land.diagnosed.timeline.subtitle2"), 10, lineText += 5)
         doc.text(this.translate.instant("land.diagnosed.timeline.subtitle3"), 10, lineText += 5)
         doc.setTextColor(0, 0, 0)
@@ -652,6 +695,9 @@ export class jsPDFService {
                 lineText += 7;
             }
         }
+
+        lineText = this.checkIfNewPage(doc, lineText);
+        this.writeAboutUs(doc, lineText);
         
         var pageCount = doc.internal.pages.length; //Total Page Number
         pageCount = pageCount-1;
