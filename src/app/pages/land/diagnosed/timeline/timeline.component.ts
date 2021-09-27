@@ -123,6 +123,19 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
         }
     }
 
+    saveSymptomsSession() {
+        if(this.listSymptoms.length){
+            console.log('saved');
+            var info = {
+                "Symptoms": []
+            }
+            for (var index in this.listSymptoms) {
+                info.Symptoms.push({"Id":this.listSymptoms[index].id,"StartDate":this.listSymptoms[index].onsetdate,"EndDate":this.listSymptoms[index].finishdate,"IsCurrent":this.listSymptoms[index].isCurrentSymptom, "Notes": this.listSymptoms[index].notes})
+            }
+            sessionStorage.setItem('symptoms', JSON.stringify(info));
+        }
+    }
+
     showMoreInfoSymptomPopup(symptom) {
         this.openModalSymptomInfo.emit(symptom);
     }
@@ -333,6 +346,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
 
         this.showTimeLine = true;
         this.modifyFormSymtoms = false;
+        this.saveSymptomsSession();
     }
 
     dateConverter(date) {

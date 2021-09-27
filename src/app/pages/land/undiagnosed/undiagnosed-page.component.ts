@@ -1710,6 +1710,10 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             this.modalReference3.close();
             this.modalReference3 = undefined;
         }
+        this.setSymptomsParams();
+    }
+
+    setSymptomsParams(){
         var info = {
             "Symptoms": []
         }
@@ -1744,7 +1748,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         }
         for (var index in this.temporalSymptoms) {
             if (this.temporalSymptoms[index].checked) {
-                info.Symptoms.push(this.temporalSymptoms[index].id);
+                info.Symptoms.push({"Id":this.temporalSymptoms[index].id,"StartDate":null,"EndDate":null,"IsCurrent":false, "Notes": null})
             }
         }
         sessionStorage.setItem('symptoms', JSON.stringify(info));
@@ -1883,13 +1887,25 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             if((this.symptomsTimeLine[i].isCurrentSymptom!=undefined)&&(this.symptomsTimeLine[i].isCurrentSymptom!=null)){
                 isCurrentSymptom = this.symptomsTimeLine[i].isCurrentSymptom
             }
+
+            if(this.symptomsTimeLine[i].onsetdate!=null){
+                var tempDateonsetdate = new Date(this.symptomsTimeLine[i].onsetdate)
+                var diferenciahorario=tempDateonsetdate.getTimezoneOffset();
+                tempDateonsetdate.setMinutes ( tempDateonsetdate.getMinutes() - diferenciahorario );
+                onsetdate = tempDateonsetdate.toUTCString();
+            }
+            if(this.symptomsTimeLine[i].enddate!=null){
+                var tempDateenddate = new Date(this.symptomsTimeLine[i].enddate)
+                var diferenciahorario=tempDateenddate.getTimezoneOffset();
+                tempDateenddate.setMinutes ( tempDateenddate.getMinutes() - diferenciahorario );
+                enddate = tempDateenddate.toUTCString();
+            }
             listSymptoms.push({"Id":this.symptomsTimeLine[i].id,"StartDate":onsetdate,"EndDate":enddate,"IsCurrent":isCurrentSymptom, "Notes": this.symptomsTimeLine[i].notes})
         }
 
         var info = {
             "Symptoms": listSymptoms
         }
-
         if (this.symptomsTimeLine.length > 0) {
             this.subscription.add(this.apiDx29ServerService.createblobOpenDx29(info)
                 .subscribe((res: any) => {

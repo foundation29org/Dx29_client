@@ -338,6 +338,11 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 this.listOfFilteredDiseases = [];
                 this.step = 0;
                 this.scrollToTop();
+                this.startTimeline = false;
+                this.listSymptomsCheckedTimeline = [];
+                this.listSymptomsCheckedModified = false;
+                this.donnorSet = false;
+                this.selectedNoteSymptom = null;
             }
             
         }.bind(this));
@@ -431,11 +436,15 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
     registerToDx29V2() {
         this.lauchEvent("Registration");
-        this.lauchEvent("Registration Power");
+        this.lauchEvent("Registration Power Diagnosed - Event");
         if (this.modalReference3 != undefined) {
             this.modalReference3.close();
             this.modalReference3 = undefined;
         }
+        this.setSymptomsParams();
+    }
+
+    setSymptomsParams(){
         var listSymptoms=[];
         for(var i =0; i < this.listSymptomsCheckedTimeline.length;i++){
             var onsetdate = null;
@@ -450,13 +459,25 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             if((this.listSymptomsCheckedTimeline[i].isCurrentSymptom!=undefined)&&(this.listSymptomsCheckedTimeline[i].isCurrentSymptom!=null)){
                 isCurrentSymptom = this.listSymptomsCheckedTimeline[i].isCurrentSymptom
             }
+            if(this.listSymptomsCheckedTimeline[i].onsetdate!=null){
+                var tempDateonsetdate = new Date(this.listSymptomsCheckedTimeline[i].onsetdate)
+                var diferenciahorario=tempDateonsetdate.getTimezoneOffset();
+                tempDateonsetdate.setMinutes ( tempDateonsetdate.getMinutes() - diferenciahorario );
+                onsetdate = tempDateonsetdate.toUTCString();
+            }
+            if(this.listSymptomsCheckedTimeline[i].enddate!=null){
+                var tempDateenddate = new Date(this.listSymptomsCheckedTimeline[i].enddate)
+                var diferenciahorario=tempDateenddate.getTimezoneOffset();
+                tempDateenddate.setMinutes ( tempDateenddate.getMinutes() - diferenciahorario );
+                enddate = tempDateenddate.toUTCString();
+            }
+
             listSymptoms.push({"Id":this.listSymptomsCheckedTimeline[i].id,"StartDate":onsetdate,"EndDate":enddate,"IsCurrent":isCurrentSymptom, "Notes": this.listSymptomsCheckedTimeline[i].notes})
         }
 
         var info = {
             "Symptoms": listSymptoms
         }
-        
         if (this.listSymptomsCheckedTimeline.length > 0) {
             this.subscription.add(this.apiDx29ServerService.createblobOpenDx29(info)
                 .subscribe((res: any) => {
@@ -1291,46 +1312,13 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
     registerToDx29V2Timeline(){
         this.lauchEvent("Registration");
-        this.lauchEvent("Registration Power");
+        this.lauchEvent("Registration Power Diagnosed - Timeline");
         if (this.modalReference6 != undefined) {
             this.modalReference6.close();
             this.modalReference6 = undefined;
         }
-        var listSymptoms=[];
-        for(var i =0; i < this.listSymptomsCheckedTimeline.length;i++){
-            var onsetdate = null;
-            if((this.listSymptomsCheckedTimeline[i].onsetdate!=undefined)&&(this.listSymptomsCheckedTimeline[i].onsetdate!=null)){
-                onsetdate = this.listSymptomsCheckedTimeline[i].onsetdate
-            }
-            var enddate = null;
-            if((this.listSymptomsCheckedTimeline[i].finishdate!=undefined)&&(this.listSymptomsCheckedTimeline[i].finishdate!=null)){
-                enddate = this.listSymptomsCheckedTimeline[i].finishdate
-            }
-            var isCurrentSymptom = null;
-            if((this.listSymptomsCheckedTimeline[i].isCurrentSymptom!=undefined)&&(this.listSymptomsCheckedTimeline[i].isCurrentSymptom!=null)){
-                isCurrentSymptom = this.listSymptomsCheckedTimeline[i].isCurrentSymptom
-            }
-            listSymptoms.push({"Id":this.listSymptomsCheckedTimeline[i].id,"StartDate":onsetdate,"EndDate":enddate,"IsCurrent":isCurrentSymptom, "Notes": this.listSymptomsCheckedTimeline[i].notes})
-        }
 
-        var info = {
-            "Symptoms": listSymptoms
-        }
-        
-        if (this.listSymptomsCheckedTimeline.length > 0) {
-            this.subscription.add(this.apiDx29ServerService.createblobOpenDx29(info)
-                .subscribe((res: any) => {
-                    sessionStorage.removeItem('symptoms');
-                    sessionStorage.removeItem('uuid');
-                    if (res.message == 'Done') {
-                        window.location.href = environment.urlDxv2 + "/Identity/Account/Register?opendata=" + res.token;
-                    } else {
-                        window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
-                    }
-                }));
-        } else {
-            window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
-        }
+        this.setSymptomsParams();
     }
 
     scrollToTop(){

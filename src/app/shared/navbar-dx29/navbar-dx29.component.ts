@@ -342,17 +342,25 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
     this.lauchEvent("Registration");
     this.lauchEvent("Registration Top btn");
     var info = JSON.parse(sessionStorage.getItem('symptoms'));
-    console.log(info);
+    
     if (info != null) {
       if (info.Symptoms.length > 0) {
-        console.log(info);
-        var info2 = {
-          "Symptoms": []
-        }
         for (var index in info.Symptoms) {
-          info2.Symptoms.push({"Id":info.Symptoms[index],"StartDate":null,"EndDate":null,"IsCurrent":false, "Notes": null});
+          if(info.Symptoms[index].StartDate!=null){
+            var tempDateStartDate = new Date(info.Symptoms[index].StartDate)
+            var diferenciahorario=tempDateStartDate.getTimezoneOffset();
+            tempDateStartDate.setMinutes ( tempDateStartDate.getMinutes() - diferenciahorario );
+            info.Symptoms[index].StartDate = tempDateStartDate.toUTCString();
+          }
+          if(info.Symptoms[index].EndDate!=null){
+            var tempDateEndDate = new Date(info.Symptoms[index].EndDate)
+            var diferenciahorario=tempDateEndDate.getTimezoneOffset();
+            tempDateEndDate.setMinutes ( tempDateEndDate.getMinutes() - diferenciahorario );
+            info.Symptoms[index].EndDate = tempDateEndDate.toUTCString();
+          }
+          
         }
-        this.subscription.add(this.apiDx29ServerService.createblobOpenDx29(info2)
+        this.subscription.add(this.apiDx29ServerService.createblobOpenDx29(info)
           .subscribe((res: any) => {
             sessionStorage.removeItem('symptoms');
             sessionStorage.removeItem('uuid');
