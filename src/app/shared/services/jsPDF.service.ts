@@ -849,7 +849,7 @@ export class jsPDFService {
         doc.setFontSize(10);
         //Symptoms
         const obj = infoSymptoms;
-        lineText = this.writeTitleSection(doc, 10, lineText += 10, this.translate.instant("diagnosis.Symptoms"));
+        this.newSectionDoc(doc,this.translate.instant("diagnosis.Symptoms"),'',null,lineText += 10)
         this.writeHeaderText(doc, 10, lineText += 7, this.translate.instant("generics.Name"));
         this.writeHeaderText(doc, 175, lineText, "Id");
         lineText += 5;
@@ -861,7 +861,7 @@ export class jsPDFService {
 
         //Diseases
         if(infoDiseases.length>0){
-            lineText = this.writeTitleSection(doc, 10, lineText += 10, this.translate.instant("diagnosis.Candidate diagnosis"));
+            this.newSectionDoc(doc,this.translate.instant("diagnosis.Candidate diagnosis"),'',null,lineText += 10)
             this.writeHeaderText(doc, 10, lineText += 7, this.translate.instant("generics.Name"));
             this.writeHeaderText(doc, 175, lineText, "Id");
             lineText += 5;
