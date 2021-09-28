@@ -434,6 +434,18 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         };
         this.modalReference4 = this.modalService.open(contentInfoSymptomNcr, ngbModalOptions);
     }
+
+    showMoreInfoSymptomPopupTimeline(symptomId, contentInfoSymptomNcr) {
+        this.ncrResultView = false;
+        var foundElementIndex = this.searchService.searchIndex(this.infoOneDisease.symptoms, 'id', symptomId);
+        this.selectedInfoSymptomIndex = foundElementIndex;
+        let ngbModalOptions: NgbModalOptions = {
+            keyboard: false,
+            windowClass: 'ModalClass-sm'// xl, lg, sm
+        };
+        this.modalReference4 = this.modalService.open(contentInfoSymptomNcr, ngbModalOptions);
+    }
+    
     showMoreInfoAndNotesSymptomPopup(symptom, contentInfoAndNotesSymptom){
         this.selectedNoteSymptom = symptom;
         let ngbModalOptions: NgbModalOptions = {

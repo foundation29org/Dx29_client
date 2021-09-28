@@ -519,7 +519,7 @@
                         <div class="col-md-12 pt-2">
                           <ul *ngFor="let symptomChecked of listSymptomsCheckedTimeline; let j = index" class="mb-0">
                             <li *ngIf="symptomChecked.name">
-                              <span style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(j, contentInfoSymptomOneDisease);" class="info">{{symptomChecked.name}}</span>
+                              <span style="cursor: pointer;" (click)="showMoreInfoSymptomPopupTimeline(symptomChecked.id, contentInfoSymptomOneDisease);" class="info">{{symptomChecked.name}}</span>
                             </li>
                             <li *ngIf="!symptomChecked.name">
                               <span>
