@@ -38,6 +38,7 @@ export function getCulture() {
 export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked {
     @Input() disease: any = {};
     @Input() listSymptoms: any[];
+    @Input() topRelatedConditions: any[];
     @Output() openModalSymptomInfo = new EventEmitter();
     @Output() openModalSaveTimeLine = new EventEmitter();
     @Output() openModalTimelineHelp = new EventEmitter();
@@ -49,6 +50,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
     private listTimelineNull: any;
 
     modifyFormSymtoms = false;
+    loadingPdf = false;
     showTimeLine = false;
     selectedInfoSymptom = null;
     actualTemporalSymptomsIndex = 0;
@@ -118,9 +120,10 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
             }
 
         }
-        if (this.showTimeLine) {
+        /*if (this.showTimeLine) {
             this.updateTimeline();
-        }
+        }*/
+        this.updateTimeline();
     }
 
     saveSymptomsSession() {
@@ -434,26 +437,29 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
     }
 
     exportTimeline() {
-        var isValid = this.validateTimeline();
-        // Download and send event 
-        if (isValid) {
-
-            Swal.fire({
-                title: this.translate.instant("land.diagnosed.timeline.Download"),
-                html: '<div class="col-md-12"><span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span></div><div class="col-md-12 mt-2"> <p> ' + this.translate.instant("land.diagnosed.timeline.WaitDownload") + '</p></div>',
-                allowEscapeKey: false,
-                allowOutsideClick: false,
-                showConfirmButton: false,
-                didOpen: function () {
-                    this.jsPDFService.generateTimelinePDF(sessionStorage.getItem('lang'), this.dictionaryTimeline, this.listTimelineNull, this.disease);
-                    Swal.close();
-                    this.finishEvent.emit(true);
-                }.bind(this)
-            });
-
-        }
-        else {
-            Swal.fire('', this.translate.instant("land.diagnosed.timeline.errorExportPDF"), "error");
+        if(!this.loadingPdf){
+            var isValid = this.validateTimeline();
+            // Download and send event 
+            if (isValid) {
+                this.loadingPdf = true;
+                Swal.fire({
+                    title: this.translate.instant("land.diagnosed.timeline.Download"),
+                    html: '<div class="col-md-12"><span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span></div><div class="col-md-12 mt-2"> <p> ' + this.translate.instant("land.diagnosed.timeline.WaitDownload") + '</p></div>',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: function () {
+                        this.jsPDFService.generateTimelinePDF(sessionStorage.getItem('lang'), this.dictionaryTimeline, this.listTimelineNull, this.disease, this.topRelatedConditions);
+                        Swal.close();
+                        this.loadingPdf = false;
+                        this.finishEvent.emit(true);
+                    }.bind(this)
+                });
+    
+            }
+            else {
+                Swal.fire('', this.translate.instant("land.diagnosed.timeline.errorExportPDF"), "error");
+            }
         }
     }
 
