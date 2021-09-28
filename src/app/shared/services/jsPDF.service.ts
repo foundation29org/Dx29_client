@@ -33,15 +33,15 @@ export class jsPDFService {
         doc.addImage(img_logo, 'png', 20, 10, 29, 17);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
-        if(lang=='es'){
-            this.writeHeader(doc, 89, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
-        }else{
-            this.writeHeader(doc, 93, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
-        }
         var actualDate = new Date();
         var dateHeader = this.getFormatDate(actualDate);
-        this.writeDataHeader(doc, 95, 7, dateHeader);
-
+        if(lang=='es'){
+            this.writeHeader(doc, 89, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
+            this.writeDataHeader(doc, 82, 7, dateHeader);
+        }else{
+            this.writeHeader(doc, 93, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
+            this.writeDataHeader(doc, 88, 7, dateHeader);
+        }
 
         //Add QR
         var img_qr = new Image();
@@ -130,7 +130,7 @@ export class jsPDFService {
 
         doc.setDrawColor(222,226,230);
         positionY -= 10;
-        this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Graphic chronology"),'',null,positionY)
+        this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Graphic chronology"),'',null,positionY);
         positionY = this.drawTimeLine(doc,dictionaryTimeline, listSymptomsNullInfo, positionY-= 10);
 
         positionY += 10;
@@ -324,6 +324,12 @@ export class jsPDFService {
 
     private timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo){
         this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Symptoms"),this.translate.instant("land.diagnosed.timeline.Appendix1Title"),null,positionY)
+        doc.setTextColor(117, 120, 125)
+        doc.setFontSize(9);
+        doc.text(this.translate.instant("land.diagnosed.timeline.Knowing the evolution1"), 16, positionY += 5);
+        doc.text(this.translate.instant("land.diagnosed.timeline.Knowing the evolution2"), 16, positionY += 5);
+        doc.setTextColor(0, 0, 0)
+        doc.setFontSize(10);
         positionY+=2;
         if(dictionaryTimeline!=undefined){
             var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
@@ -643,9 +649,11 @@ export class jsPDFService {
     }
 
     private getFormatDate(date) {
-        return date.getUTCFullYear() +
-            '-' + this.pad(date.getUTCMonth() + 1) +
-            '-' + this.pad(date.getUTCDate());
+        var localeLang = 'en-US';
+        if (this.lang == 'es') {
+            localeLang = 'es-ES'
+        }
+        return date.toLocaleString(localeLang, { month: 'long' , day: 'numeric', year: 'numeric'});
     }
 
     private pad(number) {
@@ -818,11 +826,15 @@ export class jsPDFService {
         doc.addImage(img_logo, 'png', 20, 10, 29, 17);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
-        this.writeHeader(doc, 91, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
-
         var actualDate = new Date();
         var dateHeader = this.getFormatDate(actualDate);
-        this.writeDataHeader(doc, 93, 7, dateHeader);
+        if(lang=='es'){
+            this.writeHeader(doc, 89, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
+            this.writeDataHeader(doc, 82, 7, dateHeader);
+        }else{
+            this.writeHeader(doc, 93, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
+            this.writeDataHeader(doc, 88, 7, dateHeader);
+        }
 
        //Add QR
         var img_qr = new Image();

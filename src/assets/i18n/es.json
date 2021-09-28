@@ -2409,7 +2409,9 @@
         "years":"años",
         "and":"y",
         "HelpDates":"Si no sabes el día exacto de inicio o fin de un síntoma pon por ejemplo el primer día del mes.",
-        "errorExportPDF":"Hay errores en los datos de tu cronología, por favor revisalo e inténtalo de nuevo."
+        "errorExportPDF":"Hay errores en los datos de tu cronología, por favor revisalo e inténtalo de nuevo.",
+        "Knowing the evolution1": "Conocer la evolución de tus síntomas ayuda a llegar a un diagnóstico preciso porque muchas veces esa es la diferencia entre",
+        "Knowing the evolution2": "dos enfermedades similares."
       },
       "diseases":{
         "error1":"Lo sentimos, no tenemos información sobre",

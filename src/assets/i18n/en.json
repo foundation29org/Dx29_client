@@ -2408,7 +2408,9 @@
         "years":"years",
         "and":"and",
         "HelpDates":"If you do not know the exact onset or ending day of a symptom, give for example the first day of the month.",
-        "errorExportPDF":"There are errors in your timeline data, please check it and try again."
+        "errorExportPDF":"There are errors in your timeline data, please check it and try again.",
+        "Knowing the evolution1": "Knowing the evolution of your symptoms helps to reach an accurate diagnosis because many times that is the difference between",
+        "Knowing the evolution2": "two similar diseases."
       },
       "diseases":{
         "error1":"Sorry, we have no information about",
