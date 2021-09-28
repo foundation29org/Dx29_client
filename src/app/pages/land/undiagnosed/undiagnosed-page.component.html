@@ -88,8 +88,7 @@
                         </table>
                       </div>
                       <div class="text-center mt-2">
-                        <button type="button" class="btn btn-lg btn-info btn-raised" (click)="directCalculate();"><em
-                            class="ml-1 mr-1 mt-1 mb-1 fas fa-play"></em></button>
+                        <button type="button" class="btn btn-lg btn-info btn-raised" (click)="directCalculate();">{{'land.Look for diseases' | translate }}</button>
                       </div>
                     </div>
 
@@ -111,7 +110,7 @@
                     <div class="text-center mt-2">
                       <button type="button" class="btn btn-lg btn-info btn-raised"
                         [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholderError') : getLiteral('land.Extract')"
-                        (click)="startExtractor();"><em class="ml-1 mr-1 mt-1 mb-1 fas fa-play fa-2x"></em></button>
+                        (click)="startExtractor();">{{'land.Look for symptoms' | translate }}</button>
                     </div>
                   </ng-template>
                 </ngb-tab>
@@ -180,7 +179,7 @@
               aria-label="extract HPO">
               <thead>
                 <tr>
-                  <th id="headerTable" style="border-top-style: none;">
+                  <th id="headerTable" style="border-top-style: none;padding-bottom: 4px;">
                     <span class="icons-title-symptoms">{{'land.SelectSymptoms' | translate }}</span>
                     <span class="float-right icons-opt-symptoms">
                       <span class="mb-0 btn btn-info btn-raised btn-sm" title="{{'land.Chronology' | translate }}" (click)="getTimeLine(contentTimeline)" style="cursor: pointer;">{{'land.Chronology' | translate }}
@@ -257,20 +256,26 @@
               </table>
             </div>
 
-            <span class="col-md-12 p-2 border-top footer-symtoms"
+            <span class="col-md-12 p-1 border-top footer-symtoms"
               [ngClass]="(temporalSymptoms.length==0)?'pos-abs':''">
               <span>
-                <span>
+                <!--<span>
                   {{'land.You have selected' | translate }} {{numberOfSymtomsChecked}} {{'land.symptom' | translate
                   }}<span *ngIf="numberOfSymtomsChecked!=1">s</span> {{'land.out of' | translate }}
                   {{temporalSymptoms.length}}
-                </span>
+                </span>-->
                 <span *ngIf="numberOfSymtomsChecked<minSymptoms && temporalSymptoms.length > 1" class="danger d-block">
                   {{'land.You must select at least' | translate }} {{minSymptoms}} {{'land.symptom' | translate }}s
                   {{'land.in order to continue' | translate }}
                 </span>
                 <span *ngIf="numberOfSymtomsChecked<minSymptoms && temporalSymptoms.length < 2" class="danger d-block">
                   {{'land.addMoreSymp' | translate }}
+                </span>
+                <span *ngIf="numberOfSymtomsChecked>=minSymptoms && temporalSymptoms.length >= 2">
+                  <span>{{'land.diagnosed.timeline.Knowing the evolution' | translate }}</span>
+                  <span class="ml-1 mb-0 btn btn-info btn-raised btn-sm" title="{{'land.Chronology' | translate }}" (click)="getTimeLine(contentTimeline)" style="cursor: pointer;">{{'land.Chronology' | translate }}
+                    <span class="ml-1 badge badge-pill badge-success">{{'generics.New' | translate }}</span>
+                  </span>
                 </span>
               </span>
             </span>
@@ -1080,8 +1085,10 @@
         <span aria-hidden="true">&times;</span>
       </button>
       <h4 class="align-self-center"><strong>{{'land.diagnosed.timeline.title' | translate}}</strong></h4>
-      <div class="col-md-12 text-left">
-        <p class="mb-0"> {{'land.diagnosed.timeline.t0' | translate}} <i class="fas fa-ellipsis-v font-medium-3 info"></i></p>
+      <div class="col-md-12 text-left mb-3 pb-2">
+        <p> {{'land.diagnosed.timeline.t0' | translate}} <i class="fas fa-ellipsis-v font-medium-3 info"></i></p>
+        <p> {{'land.diagnosed.timeline.t0-p1' | translate}}</p>
+        <p> {{'land.diagnosed.timeline.t0-p2' | translate}}</p>
         <span> <a class="info" (click)="registerToDx29V2Timeline();" title="{{'land.diagnosed.timeline.Register' | translate}}"><ins>{{'land.diagnosed.timeline.Register' | translate}}</ins></a> {{'land.diagnosed.timeline.t0-reg' | translate}}</span>
         {{'land.diagnosed.timeline.t2' | translate}}
       </div>

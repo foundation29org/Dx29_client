@@ -54,6 +54,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
     showTimeLine = false;
     selectedInfoSymptom = null;
     actualTemporalSymptomsIndex = 0;
+    symptomsWithoutDates = 0;
 
     maxDate = new Date();
     meses: any = {
@@ -244,13 +245,16 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
         this.modifyFormSymtoms = true;
         this.dictionaryTimeline = {}
         this.listTimelineNull = []
-
+        this.symptomsWithoutDates = 0;
         for (var i = 0; i < this.listSymptoms.length; i++) {
+            console.log(this.listSymptoms[i].onsetdate );
             if ((this.listSymptoms[i].onsetdate == NaN) || (this.listSymptoms[i].onsetdate == undefined)) {
-                this.listSymptoms[i].onsetdate = null
+                this.listSymptoms[i].onsetdate = null;
+                this.symptomsWithoutDates++
             }
             else if (this.listSymptoms[i].onsetdate.length == 0) {
                 this.listSymptoms[i].onsetdate = null
+                this.symptomsWithoutDates++
             }
             if ((this.listSymptoms[i].finishdate == NaN) || (this.listSymptoms[i].finishdate == undefined)) {
                 this.listSymptoms[i].finishdate = null;

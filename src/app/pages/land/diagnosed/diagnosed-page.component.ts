@@ -76,11 +76,29 @@ declare global {
     }
 }*/
 
+@Injectable()
+export class SearchTermService {
+  constructor(private apiDx29ServerService: ApiDx29ServerService) {}
+
+  search(term: string) {
+    if (term === '') {
+        return of([]);
+      }
+      var info = {
+          "text": term,
+          "lang": sessionStorage.getItem('lang')
+      }
+      return this.apiDx29ServerService.searchSymptoms(info).pipe(
+        map(response => response)
+      );
+  }
+}
+
 @Component({
     selector: 'app-diagnosed-page',
     templateUrl: './diagnosed-page.component.html',
     styleUrls: ['./diagnosed-page.component.scss'],
-    providers: [Apif29BioService, Apif29NcrService, ApiDx29ServerService, ApiExternalServices, jsPDFService],
+    providers: [Apif29BioService, Apif29NcrService, ApiDx29ServerService, ApiExternalServices, SearchTermService, jsPDFService],
 })
 
 export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -190,7 +208,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     optionSymptomAdded: string = "textarea";
     @ViewChild('tabRef') ctdTabset : NgbTabset;
 
-    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public jsPDFService: jsPDFService) {
+    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
         
         this.lang = sessionStorage.getItem('lang');
         this.selectedNoteSymptom = null;
@@ -367,6 +385,33 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         this.role = '';
     }
 
+    selected($e) {
+        $e.preventDefault();
+        if (!$e.item.error) {
+            var symptom = $e.item;
+            var foundElement = this.searchService.search(this.infoOneDisease.symptoms, 'id', symptom.id);
+            if (!foundElement) {
+                console.log(symptom);
+                this.infoOneDisease.symptoms.push({ id: symptom.id, name: symptom.name, new: true, checked: true, percentile: -1, inputType: 'manual', importance: '1', polarity: '0', synonyms: symptom.synonyms, desc: symptom.desc });
+                //this.infoOneDisease.symptoms.sort(this.sortService.GetSortOrder("name"));
+                this.listSymptomsCheckedTimeline.push({ id: symptom.id, name: symptom.name, new: true, checked: true, percentile: -1, inputType: 'manual', importance: '1', polarity: '0', synonyms: symptom.synonyms, desc: symptom.desc });
+                this.getNumberOfSymptomsDiseaseChecked();
+                this.optionSymptomAdded = "Manual";
+                this.lauchEvent("Symptoms");
+            } else {
+                var foundElementIndex = this.searchService.searchIndex(this.infoOneDisease.symptoms, 'id', symptom.id);
+                if (!this.infoOneDisease.symptoms[foundElementIndex].checked) {
+                    this.infoOneDisease.symptoms[foundElementIndex].checked = true;
+                    this.listSymptomsCheckedTimeline.push(this.infoOneDisease.symptoms[foundElementIndex]);
+                }
+                //this.toastr.warning(this.translate.instant("generics.Name")+': '+symptom.name, this.translate.instant("phenotype.You already had the symptom"));
+            }
+            console.log(this.listSymptomsCheckedTimeline);
+            console.log(this.infoOneDisease.symptoms);
+        }
+        this.modelTemp = '';
+    }
+
     showSwal(text){
         Swal.fire({
             icon: 'success',
@@ -500,6 +545,22 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         //this.role = role;
         this.router.navigate(['/']);
     }
+
+    searchSymptoms: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => this.callListOfSymptoms = true),
+      switchMap(term =>
+        this.searchTermService.search(term).pipe(
+          tap(() => this.nothingFoundSymptoms = false),
+          catchError(() => {
+            this.nothingFoundSymptoms = true;
+            return of([]);
+          }))
+      ),
+      tap(() => this.callListOfSymptoms = false)
+    )
 
     loadNameDiseasesEn(id) {
 
@@ -1228,6 +1289,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     }
     
     startTimelineFunction(){
+        console.log(this.listSymptomsCheckedTimeline);
         if(this.listSymptomsCheckedTimeline.length>0) {
             this.startTimeline=true;
             //this.scrollToTop();

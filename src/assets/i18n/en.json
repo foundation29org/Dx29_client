@@ -2276,6 +2276,8 @@
       "Inaccurate patients": "Realistic patients"
     },
     "Text": "Text",
+    "Look for diseases": "Look for diseases",
+    "Look for symptoms": "Look for symptoms",
     "Documents": "Reports",
     "Quick search": "Search",
     "Drag and drop file here": "Drag and drop file here",
@@ -2352,7 +2354,7 @@
         "results for": "results for"
       },
       "timeline":{
-        "title":"Your own story",
+        "title":"Tell us the story of your illness",
         "subtitlea": "In this report, the Dx29 user describes the patient's symptoms with the aim of improving patient-physician communication.",
         "subtitleb": "It is recommended to take the report to the next medical visit so that both the patient and the physician can help to further",
         "subtitlec": "refine the contents.",
@@ -2365,7 +2367,9 @@
         "footer4": "",
         "footer5": "Join the revolution now at:",
         "footer6": "For any questions or queries, please contact us at",
-        "t0":"Add symptoms to your own story. You can then print it and take it to your doctor to provide a clear view of who you are. You can add notes on the option symbol",
+        "t0":"Organize your symptoms in a chronology. This is very important so that you and your doctor can have a clear vision of your case. The dates do not need to be exact. If you can't remember the day a symptom started, just write down the first day of the month or an approximate month. If you have comments about a symptom, add a note at",
+        "t0-p1": "This data can improve your disease management and also the disease databases to help other patients like you on their diagnostic odyssey.",
+        "t0-p2": "Don't lose your progress. Remember that you can download this data to share it with your doctor or colleagues.",
         "Register": "Register",
         "t0-reg": "to save your work.",
         "t0-app":"Don't miss the opportunity to create your chronological symptom report!",
@@ -2409,8 +2413,11 @@
         "and":"and",
         "HelpDates":"If you do not know the exact onset or ending day of a symptom, give for example the first day of the month.",
         "errorExportPDF":"There are errors in your timeline data, please check it and try again.",
+        "Knowing the evolution": "Knowing the evolution of your symptoms helps to reach an accurate diagnosis because many times that is the difference between two similar diseases.",
         "Knowing the evolution1": "Knowing the evolution of your symptoms helps to reach an accurate diagnosis because many times that is the difference between",
-        "Knowing the evolution2": "two similar diseases."
+        "Knowing the evolution2": "two similar diseases.",
+        "There are undated symptoms1": "There are undated symptoms",
+        "There are undated symptoms2": "Select the dates to appear in your story"
       },
       "diseases":{
         "error1":"Sorry, we have no information about",
@@ -2430,7 +2437,8 @@
         "clicking here": "clicking here",
         "NoOnset":"Onset date unknown",
         "GoPrevious":"Complete the information on these symptoms.",
-        "These are the symptoms of your disease": "These are the symptoms of your disease, if they do not represent you, we help you to complete your story"
+        "These are the symptoms of your disease": "These are the symptoms that are commonly associated with your disease. Do you identify with them?",
+        "goToChrono": "Each patient is different and should have a treatment adapted to their story. Start telling yours by creating your own symptom timeline"
       },
       "clinicalTrials":{
         "msgNoTrials": "Sorry, at this time we do not have clinical trial data for",
@@ -2463,16 +2471,16 @@
     }
   },
   "preland":{
-    "t1": "Diagnostic aid for <span class='danger'>physicians</span> and <span class='danger'>patients</span>",
-    "t2": "Dx29 is a free application that allows patients and physicians to speed up the process of diagnosing <strong>rare diseases</strong>.",
+    "t1": "Do you have a rare disease? Start telling your story",
+    "t2": "Every patient has a story that needs to be heard. We help you to tell yours, and <strong>get a personalized report with all your symptoms.</strong>. This is the beginning of the rare disease revolution. What is your goal?",
     "t3": "We apply artificial intelligence to help deduce accurate diagnoses from the patient symptoms and from their genetic information, if available.",
     "t4": "Try the functionality here and register to harness its full potential.",
     "p1": "First, let us know who you are:",
     "p1.1": "I'm a patient",
     "p1.2": "I'm a physician",
     "p2": "Start again",
-    "p2.1": "I'm looking for a diagnosis",
-    "p2.2": "I want information about a disease",
+    "p2.1": "I want a diagnosis",
+    "p2.2": "I want to know more about my disease",
     "p3": "Add symptoms"
   },
   "seo":{

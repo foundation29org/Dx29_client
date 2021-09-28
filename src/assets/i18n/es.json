@@ -2277,6 +2277,8 @@
       "Inaccurate patients": "Pacientes realistas"
     },
     "Text": "Texto",
+    "Look for diseases": "Buscar enfermedades",
+    "Look for symptoms": "Buscar síntomas",
     "Documents": "Informes",
     "Quick search": "Buscar",
     "Drag and drop file here": "Arrastre y suelte el archivo aquí",
@@ -2353,7 +2355,7 @@
         "results for": "resultados para"
       },
       "timeline":{
-        "title":"Tu propia historia",
+        "title":"Cuéntanos la historia de tu enfermedad",
         "subtitlea": "En este informe, el usuario de Dx29 describe los síntomas del paciente con el objetivo de mejorar la comunicación médico-paciente.",
         "subtitleb": "Se recomienda llevar el informe a la siguiente visita médica para que tanto el paciente como el médico ayuden a precisar más los",
         "subtitlec": "contenidos.",
@@ -2366,7 +2368,9 @@
         "footer4": "y sus datos.",
         "footer5": "Apúntate ya a la revolución en:",
         "footer6": "Para cualquier duda o consulta contacta con nosotros en",
-        "t0":"Añade síntomas a tu propia historia. A continuación, puede imprimirla y llevarla a su médico para tener una visión clara de quién es usted. Puedes añadir notas en el símbolo de la opción",
+        "t0":"Organiza tus síntomas en una cronología. Esto es muy importante para que tú y tu médico podáis tener una visión clara de tu caso. No es necesario que las fechas sean exactas. Si no recuerdas el día en el que un síntoma empezó, anota el primer día del mes o el mes aproximado. Si tienes algún comentario sobre un síntoma, añade una nota en",
+        "t0-p1": "Estos datos pueden mejorar el tratamiento que recibes y también las bases de datos de tu enfermedad, ayudando otros pacientes como tú en su odisea de diagnóstico.",
+        "t0-p2": "No pierdas tu progreso. Recuerda que puedes descargar estos datos para compartirlos con tu médico o compañeros.",
         "Register": "Registrate",
         "t0-reg": "para guardar tu trabajo.",
         "t0-app":"¡No pierdas la oportunidad de crear tu informe cronológico de síntomas!",
@@ -2410,8 +2414,11 @@
         "and":"y",
         "HelpDates":"Si no sabes el día exacto de inicio o fin de un síntoma pon por ejemplo el primer día del mes.",
         "errorExportPDF":"Hay errores en los datos de tu cronología, por favor revisalo e inténtalo de nuevo.",
+        "Knowing the evolution": "Conocer la evolución de tus síntomas ayuda a llegar a un diagnóstico preciso porque muchas veces esa es la diferencia entre dos enfermedades similares.",
         "Knowing the evolution1": "Conocer la evolución de tus síntomas ayuda a llegar a un diagnóstico preciso porque muchas veces esa es la diferencia entre",
-        "Knowing the evolution2": "dos enfermedades similares."
+        "Knowing the evolution2": "dos enfermedades similares.",
+        "There are undated symptoms1": "Hay síntomas sin fecha",
+        "There are undated symptoms2": "Seleccione las fechas para que aparezcan en tu historia."
       },
       "diseases":{
         "error1":"Lo sentimos, no tenemos información sobre",
@@ -2433,7 +2440,8 @@
         "clicking here": "pulsando aquí",
         "NoOnset":"Fecha de inicio desconocida",
         "GoPrevious":"Completa la información de estos síntomas.",
-        "These are the symptoms of your disease": "Estos son los síntomas de tu enfermedad, si no te representan, te ayudamos a completar tu historía"
+        "These are the symptoms of your disease": "Estos son los síntomas que se asocian comúnmente a tu enfermedad. ¿Te sientes identificados con ellos?",
+        "goToChrono": "Cada paciente es distinto y debe tener un tratamiento adaptado a su historia. Empieza a contar tu historia creando tu propia cronología de síntomas"
       },
       "clinicalTrials":{
         "msgNoTrials": "Lo sentimos, en estos momentos no tenemos datos sobre ensayos clínicos para",
@@ -2466,16 +2474,16 @@
     }
   },
   "preland":{
-    "t1": "Ayuda al diagnóstico para <span class='danger'>médicos</span> y <span class='danger'>pacientes</span>",
-    "t2": "Dx29 es una aplicación gratuita que permite a pacientes y médicos acelerar el proceso de diagnóstico de <strong>enfermedades raras.</strong>",
+    "t1": "¿Tienes una enfermedad rara? Empieza a contar tu historia",
+    "t2": "Cada paciente tiene una historia que debe ser escuchada. Te ayudamos a que cuentes la tuya, y obtengas un <strong>informe personalizado con todos tus síntomas.</strong> Este es el principio de la revolución en las enfermedades raras. ¿Cuál es tu objetivo?",
     "t3": "Aplicamos inteligencia artificial para ayudar a deducir diagnósticos precisos de los síntomas del paciente y de su información genética, si estuviera disponible.",
     "t4": "Prueba aquí la funcionalidad y regístrate para aprovechar todo su potencial.",
     "p1": "Primero, dinos quién eres:",
     "p1.1": "Soy un paciente",
     "p1.2": "Soy un médico",
     "p2": "Empezar de nuevo",
-    "p2.1": "Busco un diagnóstico",
-    "p2.2": "Quiero información sobre una enfermedad",
+    "p2.1": "Quiero un diagnóstico",
+    "p2.2": "Quiero saber más sobre mi enfermedad",
     "p3": "Añadir síntomas"
   },
   "seo":{

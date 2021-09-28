@@ -105,7 +105,8 @@
                   {{'land.diagnosed.general.Symptoms' | translate }}
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <p class="ml-2 mr-2">{{'land.diagnosed.symptoms.These are the symptoms of your disease' | translate }}<a class="ml-1" (click)="setStep(2)">{{'land.here' | translate }}</a></p>
+              <p class="ml-2 mb-0 mr-2">{{'land.diagnosed.symptoms.These are the symptoms of your disease' | translate }}</p>
+              <p class="ml-2 mr-2">{{'land.diagnosed.symptoms.goToChrono' | translate }}<a class="ml-1" (click)="setStep(2)">{{'land.here' | translate }}</a></p>
               <div class="card-body">
                 <div class="col-md-12">
                   <div class="col-md-12 mb-1">
@@ -400,7 +401,8 @@
             <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined">
               <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Symptoms');">{{'land.diagnosed.general.Symptoms' | translate }}</strong></ng-template>
               <ng-template ngbTabContent>
-                <p class="ml-2 mr-2">{{'land.diagnosed.symptoms.These are the symptoms of your disease' | translate }}<a class="ml-1" (click)="switchNgBTab('chronologytab')">{{'land.here' | translate }}</a></p>
+                <p class="ml-2 mb-0 mr-2">{{'land.diagnosed.symptoms.These are the symptoms of your disease' | translate }}</p>
+                <p class="ml-2 mr-2">{{'land.diagnosed.symptoms.goToChrono' | translate }}<a class="ml-1" (click)="switchNgBTab('chronologytab')">{{'land.here' | translate }}</a></p>
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-md-12 mt-1">
@@ -436,13 +438,15 @@
             <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined" id="chronologytab">
               <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Chronology');">{{'land.Chronology' | translate }}</strong><span class="ml-1 badge badge-pill badge-success mb-1 mr-2">{{'generics.New' | translate }}</span></ng-template>
               <ng-template ngbTabContent>
-                <div class="col-md-12 mb-2">
+                <div class="col-md-12 mb-3 pb-2">
                   <div class="row">
                     <div class="col-md-12 mt-2">
                       <div>
                         <h4><strong>{{'land.diagnosed.timeline.title' | translate}}</strong></h4>
-                        <p class="mb-0"> {{'land.diagnosed.timeline.t0' | translate}} <i class="fas fa-ellipsis-v font-medium-3 info"></i></p>
-                        <p class="mb-0">
+                        <p> {{'land.diagnosed.timeline.t0' | translate}} <i class="fas fa-ellipsis-v font-medium-3 info"></i></p>
+                        <p> {{'land.diagnosed.timeline.t0-p1' | translate}}</p>
+                        <p> {{'land.diagnosed.timeline.t0-p2' | translate}}</p>
+                        <p>
                           <span> 
                             <a class="info" (click)="registerToDx29V2Timeline();" title="{{'land.diagnosed.timeline.Register' | translate}}"><ins>{{'land.diagnosed.timeline.Register' | translate}}</ins></a> {{'land.diagnosed.timeline.t0-reg' | translate}}
                           </span>
@@ -460,6 +464,29 @@
                           <em class="mr-1 fa fa-refresh grey" title="{{'preland.p2' | translate}}"></em>
                         </span>
                       </p>
+                      </div>
+                      <div>
+                        <ng-template #rt let-r="result" let-t="term">
+                          <strong title="{{r.name}}">{{ r.name}}</strong>
+                          <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
+                            slice:0:140)+'...':(r.desc) }}</span>
+                        </ng-template>
+                        <div style="padding-bottom: 0.5rem !important;">
+                          <span class="d-none d-sm-inline ml-1 mr-2"><i class="fa fa-plus success"></i></span>
+                          <input #input type="text"
+                            #inputManualSymptoms class="form-control ml-1 inputSearch d-inline data-hj-allow" [(ngModel)]="modelTemp"
+                            [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
+                            placeholder="{{'symptomssection.manualinput' | translate }}"
+                            (selectItem)="selected($event)"/>
+                            <div class="center-elements" *ngIf="callListOfSymptoms">
+                              <em class="fa fa-spinner fa-spin fa-3x fa-fw info"></em>
+                            </div>
+                            <span *ngIf="nothingFoundSymptoms">
+                              <span *ngIf="(modelTemp).trim().length>3">
+                                <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
+                              </span>
+                            </span>
+                        </div>
                       </div>
                       <div class="col-md-12">
                         <table class="table mb-0 text-center d-none d-sm-block">
@@ -1131,6 +1158,8 @@
     <div class="col-md-12">
       <div class="col-md-12">
         <p>{{'land.diagnosed.timeline.t0' | translate}} <i class="fas fa-ellipsis-v font-medium-3 info"></i></p>
+        <p> {{'land.diagnosed.timeline.t0-p1' | translate}}</p>
+        <p> {{'land.diagnosed.timeline.t0-p2' | translate}}</p>
       </div>
       <div class="col-md-12 mt-1 d-block d-sm-none">
         <p>** {{'land.diagnosed.timeline.WorkPC' | translate}}</p>
