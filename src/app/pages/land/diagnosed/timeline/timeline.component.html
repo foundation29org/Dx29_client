@@ -54,10 +54,16 @@
                     </a>
                     <div ngbDropdownMenu aria-labelledby="dropdownSympt{{j}}" class="dropdown">
                       <a class="dropdown-item py-1" href="javascript:;" (click)="deleteSymptomTimeLine(i)">
-                        <span class="">{{'generics.Delete' | translate }}</span> <i class="ml-2 fa fa fa-trash danger"></i>
+                        <i class="fa fa fa-trash danger"></i><span class="ml-2">{{'land.diagnosed.timeline.Delete symptom' | translate }}</span>
                       </a>
                       <a *ngIf="!symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="showNotes(i)">
-                        <span class="">{{'land.diagnosed.timeline.showNotes' | translate }}</span> <i class="ml-2 fa fa-plus success"></i>
+                        <i class="fas fa-sticky-note success"></i><span class="ml-2">{{'land.diagnosed.timeline.showNotes' | translate }}</span>
+                      </a>
+                      <a *ngIf="symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="hideNotes(i)">
+                        <i class="fas fa-sticky-note danger"></i><span class="ml-2">{{'land.diagnosed.timeline.hideNotes' | translate }}</span>
+                      </a>
+                      <a *ngIf="symptom.onsetdate || symptom.finishdate" class="dropdown-item py-1" href="javascript:;" (click)="clearDates(i)">
+                        <i class="far fa-calendar-times danger"></i><span class="ml-2">{{'land.diagnosed.timeline.Delete dates' | translate }}</span>
                       </a>
                     </div>
                   </span>
@@ -97,9 +103,6 @@
                   <input type="text" id="basicInput_{{i}}" style="display: inline;width: 88%;" maxlength=250 placeholder="{{'generics.notes' | translate }}"
                     class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)"
                     (change)="updateTimeline()">
-                    <a href="javascript:;" (click)="hideNotes(i)">
-                      <i class="ml-2 fa fa-trash danger info"></i>
-                    </a>
                 </div>
               </td>
             </tr>
@@ -262,10 +265,16 @@
                 </a>
                 <div ngbDropdownMenu aria-labelledby="dropdownSympt{{j}}" class="dropdown">
                   <a class="dropdown-item py-1" href="javascript:;" (click)="deleteSymptomTimeLine(i)">
-                    <span class="">{{'generics.Delete' | translate }}</span> <i class="ml-2 fa fa fa-trash danger"></i>
+                    <i class="fa fa fa-trash danger"></i><span class="ml-2">{{'land.diagnosed.timeline.Delete symptom' | translate }}</span>
                   </a>
                   <a *ngIf="!symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="showNotes(i)">
-                    <span class="">{{'land.diagnosed.timeline.showNotes' | translate }}</span> <i class="ml-2 fa fa-plus success"></i>
+                    <i class="fas fa-sticky-note success"></i><span class="ml-2">{{'land.diagnosed.timeline.showNotes' | translate }}</span>
+                  </a>
+                  <a *ngIf="symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="hideNotes(i)">
+                    <i class="fas fa-sticky-note danger"></i><span class="ml-2">{{'land.diagnosed.timeline.hideNotes' | translate }}</span>
+                  </a>
+                  <a *ngIf="symptom.onsetdate || symptom.finishdate" class="dropdown-item py-1" href="javascript:;" (click)="clearDates(i)">
+                    <i class="far fa-calendar-times danger"></i><span class="ml-2">{{'land.diagnosed.timeline.Delete dates' | translate }}</span>
                   </a>
                 </div>
               </span>
@@ -307,9 +316,6 @@
               <input type="text" style="display: inline;width: 88%;" id="basicInput_{{i}}" maxlength=250 placeholder="{{'generics.notes' | translate }}"
                 class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)"
                 (change)="updateTimeline()">
-                <a href="javascript:;" (click)="hideNotes(i)">
-                  <i class="ml-2 fa fa-trash danger info"></i>
-                </a>
             </div>
           </div>
           <div class="card-footer center-elements bt-n">
@@ -329,8 +335,8 @@
     <div class="col-md-12 mt-1" *ngIf="modifyFormSymtoms">
       <span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
     </div>
-    <span *ngIf="symptomsWithoutDates>0" class="danger text-left d-block">{{'land.diagnosed.timeline.There are undated symptoms1' | translate}}</span>
-    <span *ngIf="symptomsWithoutDates>0" class="danger text-left d-block">{{'land.diagnosed.timeline.There are undated symptoms2' | translate}}</span>
+    <span *ngIf="symptomsWithoutDates>0" class="col-md-12 danger text-left d-block">{{'land.diagnosed.timeline.There are undated symptoms1' | translate}}</span>
+    <span *ngIf="symptomsWithoutDates>0" class="col-md-12 danger text-left d-block">{{'land.diagnosed.timeline.There are undated symptoms2' | translate}}</span>
     <div *ngIf="showTimeLine" style="max-height: 450px;">
       <div class="pt-2 col-md-12">
         <h4><strong>{{'land.diagnosed.timeline.title' | translate}}</strong></h4>

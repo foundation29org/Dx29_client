@@ -158,6 +158,29 @@
                   <div class="col-md-12 mt-1">
                     <p> {{'land.diagnosed.timeline.t1' | translate}}</p>
                   </div>
+                  <div>
+                    <ng-template #rt let-r="result" let-t="term">
+                      <strong title="{{r.name}}">{{ r.name}}</strong>
+                      <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
+                        slice:0:140)+'...':(r.desc) }}</span>
+                    </ng-template>
+                    <div style="padding-bottom: 0.5rem !important;">
+                      <span class="ml-1 mr-2"><i class="fa fa-plus success"></i></span>
+                      <input #input type="text"
+                        #inputManualSymptoms class="form-control ml-1 inputSearch d-inline data-hj-allow" style="width: 88%;" [(ngModel)]="modelTemp"
+                        [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
+                        placeholder="{{'symptomssection.manualinput' | translate }}"
+                        (selectItem)="selected($event)"/>
+                        <div class="center-elements" *ngIf="callListOfSymptoms">
+                          <em class="fa fa-spinner fa-spin fa-3x fa-fw info"></em>
+                        </div>
+                        <span *ngIf="nothingFoundSymptoms">
+                          <span *ngIf="(modelTemp).trim().length>3">
+                            <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
+                          </span>
+                        </span>
+                    </div>
+                  </div>
                   <div class="col-md-12">
                     <table class="table mb-0 text-center d-block d-sm-none">
                       <tbody style="overflow-x: hidden;">

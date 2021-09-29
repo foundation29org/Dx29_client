@@ -513,6 +513,12 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
         this.listSymptoms[index].showNotes = false;
     }
 
+    clearDates(index) {
+        this.listSymptoms[index].onsetdate = null;
+        this.listSymptoms[index].finishdate = null;
+        this.updateTimeline();
+    }
+
     addSymptomTimeLine() {
         this.addSymptomsEvent.emit({ listSymptoms: this.listSymptoms });
     }
