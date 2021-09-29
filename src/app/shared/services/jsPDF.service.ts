@@ -290,9 +290,10 @@ export class jsPDFService {
                 heightRect = (235-(posInit))+33;
             }
         }
-        console.log(heightRect);
         if(heightRect>250){
             heightRect = 250;
+        }else if(heightRect<10){
+            heightRect = 10;
         }
         doc.rect(25, (positionY+4), 150, heightRect, 'FD'); //Fill and Border
         doc.setTextColor(0, 0, 0)
@@ -306,6 +307,8 @@ export class jsPDFService {
                 console.log(heightRect2);
                 if(heightRect2>250){
                     heightRect2 = 250;
+                }else if(heightRect2<10){
+                    heightRect2 = 10;
                 }
                 doc.rect(25, (posInit+4), 150, heightRect2, 'FD'); //Fill and Border
                 doc.setTextColor(0, 0, 0)
