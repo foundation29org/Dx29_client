@@ -2386,6 +2386,8 @@
         "selectEndOrCurrent":"You must select end date for this symptom or check if you still have it",
         "showNotes": "Add note",
         "hideNotes": "Delete note",
+        "Delete dates": "Delete dates",
+        "Delete symptom": "Delete symptom",
         "exit":"Exit",
         "reset":"Reset",
         "ExitDiscard":"Any changes you have made will be discarded.",
