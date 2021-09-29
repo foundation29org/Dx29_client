@@ -26,12 +26,12 @@
             (click)="exportTimeline()" style="cursor: pointer;"></em>
           <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
         </button>
-        <!--<button *ngIf="showTimeLine" type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right"
+        <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right"
           (click)="saveTimeline()">
           <em class="mr-1 ft-save white" title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}"
             (click)="saveTimeline()" style="cursor: pointer;"></em>
           <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
-        </button>-->
+        </button>
 
       </div>
       <div class="col-md-6 mt-2" *ngIf="!modifyFormSymtoms">
@@ -93,11 +93,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-12">
-                  <p class="float-left" style="font-size: smaller;"> * {{'land.diagnosed.timeline.HelpDates' | translate
-                    }}</p>
-                </div>
-                <div class="col-md-12 mb-2" *ngIf="symptom.showNotes">
+                <div class="col-md-12 mb-2 mt-1" *ngIf="symptom.showNotes">
                   <input type="text" id="basicInput_{{i}}" style="display: inline;width: 88%;" maxlength=250 placeholder="{{'generics.notes' | translate }}"
                     class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)"
                     (change)="updateTimeline()">
@@ -114,11 +110,15 @@
         <span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
       </div>
       <div class="col-md-6 mt-2" *ngIf="!showTimeLine">
+        <span *ngIf="symptomsWithoutDates>0" class="danger text-left d-block">{{'land.diagnosed.timeline.There are undated symptoms1' | translate}}</span>
+        <span *ngIf="symptomsWithoutDates>0" class="danger text-left d-block">{{'land.diagnosed.timeline.There are undated symptoms2' | translate}}</span>
         <div class="text-center p-3 font-medium-3 border" style="min-height: 450px;background: #eee;">
           <span>{{'land.diagnosed.timeline.displayed here' | translate}}</span>
         </div>
       </div>
       <div class="col-md-6 mt-2" *ngIf="showTimeLine">
+        <span *ngIf="symptomsWithoutDates>0" class="danger text-left d-block">{{'land.diagnosed.timeline.There are undated symptoms1' | translate}}</span>
+        <span *ngIf="symptomsWithoutDates>0" class="danger text-left d-block">{{'land.diagnosed.timeline.There are undated symptoms2' | translate}}</span>
         <div class="col-md-12 border" id="mytimeline" style="background: #eee;">
           <section *ngIf="!isEmptyObject(dictionaryTimeline)||(listTimelineNull.length>0)" id="vertical-timeline-left"
             class="timeline-left timeline-wrapper col-sm-10 col-12 offset-sm-1">
@@ -203,12 +203,12 @@
           </section>
         </div>
         <div class="col-md-12 mt-2 center-elements">
-            <!--<button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised mr-1" (click)="saveTimeline()">
+            <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised mr-1" (click)="saveTimeline()">
               <em class="mr-1 ft-save white"
                 title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="saveTimeline()"
                 style="cursor: pointer;"></em>
                 <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
-            </button>-->
+            </button>
           <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised ml-1" (click)="exportTimeline()">
             <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
               (click)="exportTimeline()" style="cursor: pointer;"></em>
@@ -221,7 +221,7 @@
 </div>
 <!-- Vista movil -->
 <div class="d-block d-sm-none">
-  <div class="col-md-12">
+  <div>
     <div class="row">
       <div class="col-md-12">
         <div class="col-md-6">
@@ -237,8 +237,8 @@
           <em *ngIf="showTimeLine" class="mr-2 fa fa-download info float-right"
             title="{{'land.diagnosed.timeline.Download' | translate }}" (click)="exportTimeline()"
             style="cursor: pointer;"></em>
-          <!--<em class="mr-2 ft-save info float-right" title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}"
-            (click)="saveTimeline()" style="cursor: pointer;"></em>-->
+          <em class="mr-2 ft-save info float-right" title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}"
+            (click)="saveTimeline()" style="cursor: pointer;"></em>
         </div>
       </div>
     </div>
@@ -303,11 +303,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-12 mt-1">
-              <p class="float-left" style="font-size: smaller;"> * {{'land.diagnosed.timeline.HelpDates' | translate }}
-              </p>
-            </div>
-            <div class="col-md-12" *ngIf="symptom.showNotes">
+            <div class="col-md-12 mt-1" *ngIf="symptom.showNotes">
               <input type="text" style="display: inline;width: 88%;" id="basicInput_{{i}}" maxlength=250 placeholder="{{'generics.notes' | translate }}"
                 class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)"
                 (change)="updateTimeline()">
@@ -333,6 +329,8 @@
     <div class="col-md-12 mt-1" *ngIf="modifyFormSymtoms">
       <span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
     </div>
+    <span *ngIf="symptomsWithoutDates>0" class="danger text-left d-block">{{'land.diagnosed.timeline.There are undated symptoms1' | translate}}</span>
+    <span *ngIf="symptomsWithoutDates>0" class="danger text-left d-block">{{'land.diagnosed.timeline.There are undated symptoms2' | translate}}</span>
     <div *ngIf="showTimeLine" style="max-height: 450px;">
       <div class="pt-2 col-md-12">
         <h4><strong>{{'land.diagnosed.timeline.title' | translate}}</strong></h4>
@@ -343,7 +341,7 @@
             class="timeline-left timeline-wrapper col-sm-10 col-12 offset-sm-1">
             <div *ngIf="!isEmptyObject(dictionaryTimeline)">
               <div *ngFor="let dateItem of dictionaryTimeline | keyvalue: keyDescOrder">
-                <ul class="timeline">
+                <ul class="timeline p-2">
                   <li class="timeline-line"></li>
                   <li class="timeline-group">
                     <h5>
@@ -351,7 +349,7 @@
                     </h5>
                   </li>
                 </ul>
-                <ul class="timeline">
+                <ul class="timeline p-2">
                   <li class="timeline-line"></li>
                   <li *ngFor="let item of dateItem.value | keyvalue: valueDateDescOrder" class="timeline-item">
                     <div *ngIf="item.key!=null" class="timeline-badge">
@@ -385,7 +383,7 @@
               </div>
             </div>
             <div *ngIf="!isEmptyObject(dictionaryTimeline)&&(listTimelineNull.length>0)" class="col-md-12 mt-2"></div>
-            <ul class="timeline" *ngIf="listTimelineNull.length>0">
+            <ul class="timeline p-2" *ngIf="listTimelineNull.length>0">
               <li class="timeline-group">
                 <h5>
                   <span class="badge badge-primary cursor-default"> {{'land.diagnosed.symptoms.NoOnset' | translate }}
@@ -424,12 +422,12 @@
       </div>
     </div>
     <div class="col-md-12 mt-2 center-elements">
-        <!--<button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised mr-1" (click)="saveTimeline()">
+        <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised mr-1" (click)="saveTimeline()">
           <em class="mr-1 ft-save white"
             title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="saveTimeline()"
             style="cursor: pointer;"></em>
             <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
-        </button>-->
+        </button>
       <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised ml-1" (click)="exportTimeline()">
         <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
           (click)="exportTimeline()" style="cursor: pointer;"></em>

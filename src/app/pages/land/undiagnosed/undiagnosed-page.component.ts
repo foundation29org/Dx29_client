@@ -1705,17 +1705,21 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
 
     registerToDx29V2() {
         this.lauchEvent("Registration");
-        this.lauchEvent("Registration Power");
+        this.lauchEvent("Registration Power Undiagnosed - Event");
         if (this.modalReference3 != undefined) {
             this.modalReference3.close();
             this.modalReference3 = undefined;
         }
+        this.setSymptomsParams();
+    }
+
+    setSymptomsParams(){
         var info = {
             "Symptoms": []
         }
         for (var index in this.temporalSymptoms) {
             if (this.temporalSymptoms[index].checked) {
-                info.Symptoms.push(this.temporalSymptoms[index].id);
+                info.Symptoms.push({"Id":this.temporalSymptoms[index].id,"StartDate":null,"EndDate":null,"IsCurrent":false, "Notes": null});
             }
         }
         if (info.Symptoms.length > 0) {
@@ -1744,7 +1748,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         }
         for (var index in this.temporalSymptoms) {
             if (this.temporalSymptoms[index].checked) {
-                info.Symptoms.push(this.temporalSymptoms[index].id);
+                info.Symptoms.push({"Id":this.temporalSymptoms[index].id,"StartDate":null,"EndDate":null,"IsCurrent":false, "Notes": null})
             }
         }
         sessionStorage.setItem('symptoms', JSON.stringify(info));
@@ -1864,7 +1868,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
 
     registerToDx29V2Timeline(){
         this.lauchEvent("Registration");
-        this.lauchEvent("Registration Power");
+        this.lauchEvent("Registration Power Undiagnosed - Timeline");
         if (this.modalReference6 != undefined) {
             this.modalReference6.close();
             this.modalReference6 = undefined;
@@ -1883,20 +1887,34 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             if((this.symptomsTimeLine[i].isCurrentSymptom!=undefined)&&(this.symptomsTimeLine[i].isCurrentSymptom!=null)){
                 isCurrentSymptom = this.symptomsTimeLine[i].isCurrentSymptom
             }
+
+            if(this.symptomsTimeLine[i].onsetdate!=null){
+                var tempDateonsetdate = new Date(this.symptomsTimeLine[i].onsetdate)
+                var diferenciahorario=tempDateonsetdate.getTimezoneOffset();
+                tempDateonsetdate.setMinutes ( tempDateonsetdate.getMinutes() - diferenciahorario );
+                onsetdate = tempDateonsetdate.toUTCString();
+                onsetdate = new Date(Date.parse(onsetdate));
+            }
+            if(this.symptomsTimeLine[i].finishdate!=null){
+                var tempDateenddate = new Date(this.symptomsTimeLine[i].finishdate)
+                var diferenciahorario=tempDateenddate.getTimezoneOffset();
+                tempDateenddate.setMinutes ( tempDateenddate.getMinutes() - diferenciahorario );
+                enddate = tempDateenddate.toUTCString();
+                enddate = new Date(Date.parse(enddate));
+            }
             listSymptoms.push({"Id":this.symptomsTimeLine[i].id,"StartDate":onsetdate,"EndDate":enddate,"IsCurrent":isCurrentSymptom, "Notes": this.symptomsTimeLine[i].notes})
         }
 
         var info = {
             "Symptoms": listSymptoms
         }
-
         if (this.symptomsTimeLine.length > 0) {
-            this.subscription.add(this.apiDx29ServerService.createblobOpenDx29Timeline(info)
+            this.subscription.add(this.apiDx29ServerService.createblobOpenDx29(info)
                 .subscribe((res: any) => {
                     sessionStorage.removeItem('symptoms');
                     sessionStorage.removeItem('uuid');
                     if (res.message == 'Done') {
-                        window.location.href = environment.urlDxv2 + "/Identity/Account/Register?opendatatimeline=" + res.token;
+                        window.location.href = environment.urlDxv2 + "/Identity/Account/Register?opendata=" + res.token;
                     } else {
                         window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
                     }

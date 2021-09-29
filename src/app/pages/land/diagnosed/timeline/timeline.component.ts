@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 
 import { LocalizedDatePipe } from 'app/shared/services/localizedDatePipe.service';
 import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.service';
+import { SearchService } from 'app/shared/services/search.service';
 
 import { jsPDFService } from 'app/shared/services/jsPDF.service';
 import { HostListener } from "@angular/core";
@@ -36,8 +37,9 @@ export function getCulture() {
 
 
 export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked {
-    @Input() section: string;
+    @Input() disease: any = {};
     @Input() listSymptoms: any[];
+    @Input() topRelatedConditions: any[];
     @Output() openModalSymptomInfo = new EventEmitter();
     @Output() openModalSaveTimeLine = new EventEmitter();
     @Output() openModalTimelineHelp = new EventEmitter();
@@ -49,9 +51,11 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
     private listTimelineNull: any;
 
     modifyFormSymtoms = false;
+    loadingPdf = false;
     showTimeLine = false;
     selectedInfoSymptom = null;
     actualTemporalSymptomsIndex = 0;
+    symptomsWithoutDates = 0;
 
     maxDate = new Date();
     meses: any = {
@@ -69,7 +73,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
         "diciembre": "December"
     };
 
-    constructor(public translate: TranslateService, public toastr: ToastrService, public googleAnalyticsService: GoogleAnalyticsService, public jsPDFService: jsPDFService, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe, private localizedDatePipe: LocalizedDatePipe) {
+    constructor(public translate: TranslateService, public toastr: ToastrService, public googleAnalyticsService: GoogleAnalyticsService, public jsPDFService: jsPDFService, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe, private localizedDatePipe: LocalizedDatePipe, private searchService: SearchService) {
         this.modifyFormSymtoms = false;
         this.showTimeLine = false;
         this.actualTemporalSymptomsIndex = 0;
@@ -118,8 +122,21 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
             }
 
         }
-        if (this.showTimeLine) {
+        /*if (this.showTimeLine) {
             this.updateTimeline();
+        }*/
+        this.updateTimeline();
+    }
+
+    saveSymptomsSession() {
+        if(this.listSymptoms.length){
+            var info = {
+                "Symptoms": []
+            }
+            for (var index in this.listSymptoms) {
+                info.Symptoms.push({"Id":this.listSymptoms[index].id,"StartDate":this.listSymptoms[index].onsetdate,"EndDate":this.listSymptoms[index].finishdate,"IsCurrent":this.listSymptoms[index].isCurrentSymptom, "Notes": this.listSymptoms[index].notes})
+            }
+            sessionStorage.setItem('symptoms', JSON.stringify(info));
         }
     }
 
@@ -228,13 +245,15 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
         this.modifyFormSymtoms = true;
         this.dictionaryTimeline = {}
         this.listTimelineNull = []
-
+        this.symptomsWithoutDates = 0;
         for (var i = 0; i < this.listSymptoms.length; i++) {
             if ((this.listSymptoms[i].onsetdate == NaN) || (this.listSymptoms[i].onsetdate == undefined)) {
-                this.listSymptoms[i].onsetdate = null
+                this.listSymptoms[i].onsetdate = null;
+                this.symptomsWithoutDates++
             }
             else if (this.listSymptoms[i].onsetdate.length == 0) {
                 this.listSymptoms[i].onsetdate = null
+                this.symptomsWithoutDates++
             }
             if ((this.listSymptoms[i].finishdate == NaN) || (this.listSymptoms[i].finishdate == undefined)) {
                 this.listSymptoms[i].finishdate = null;
@@ -278,7 +297,11 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
                 if (this.dictionaryTimeline[newKey][key2temp] == undefined) {
                     this.dictionaryTimeline[newKey][key2temp] = []
                 }
-                this.dictionaryTimeline[newKey][key2temp].push(this.listSymptoms[i])
+                var foundElement = this.searchService.search(this.dictionaryTimeline[newKey][key2temp], 'id', this.listSymptoms[i].id);
+                if(!foundElement){
+                    this.dictionaryTimeline[newKey][key2temp].push(this.listSymptoms[i])
+                }
+                
                 for (var j = 0; j < this.listSymptoms.length; j++) {
                     if (i != j) {
                         var isCurrentSymptom = this.listSymptoms[j].isCurrentSymptom;
@@ -287,7 +310,10 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
                                 var compareOnsetDate = this.listSymptoms[j].onsetdate;
 
                                 if (newDate.getTime() > compareOnsetDate.getTime()) {
-                                    this.dictionaryTimeline[newKey][key2temp].push(this.listSymptoms[j])
+                                    var foundElement2 = this.searchService.search(this.dictionaryTimeline[newKey][key2temp], 'id', this.listSymptoms[j].id);
+                                    if(!foundElement2){
+                                        this.dictionaryTimeline[newKey][key2temp].push(this.listSymptoms[j])
+                                    }
                                 }
                             }
                         }
@@ -298,7 +324,10 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
 
                                 if (compareFinishDate != null) {
                                     if ((newDate.getTime() > compareOnsetDate.getTime()) && (newDate.getTime() < compareFinishDate.getTime())) {
-                                        this.dictionaryTimeline[newKey][key2temp].push(this.listSymptoms[j])
+                                        var foundElement2 = this.searchService.search(this.dictionaryTimeline[newKey][key2temp], 'id', this.listSymptoms[j].id);
+                                        if(!foundElement2){
+                                            this.dictionaryTimeline[newKey][key2temp].push(this.listSymptoms[j])
+                                        }
                                     }
                                 }
                             }
@@ -333,6 +362,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
 
         this.showTimeLine = true;
         this.modifyFormSymtoms = false;
+        this.saveSymptomsSession();
     }
 
     dateConverter(date) {
@@ -420,26 +450,29 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
     }
 
     exportTimeline() {
-        var isValid = this.validateTimeline();
-        // Download and send event 
-        if (isValid) {
-
-            Swal.fire({
-                title: this.translate.instant("land.diagnosed.timeline.Download"),
-                html: '<div class="col-md-12"><span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span></div><div class="col-md-12 mt-2"> <p> ' + this.translate.instant("land.diagnosed.timeline.WaitDownload") + '</p></div>',
-                allowEscapeKey: false,
-                allowOutsideClick: false,
-                showConfirmButton: false,
-                didOpen: function () {
-                    this.jsPDFService.generateTimelinePDF(sessionStorage.getItem('lang'), this.dictionaryTimeline, this.listTimelineNull);
-                    Swal.close();
-                    this.finishEvent.emit(true);
-                }.bind(this)
-            });
-
-        }
-        else {
-            Swal.fire('', this.translate.instant("land.diagnosed.timeline.errorExportPDF"), "error");
+        if(!this.loadingPdf){
+            var isValid = this.validateTimeline();
+            // Download and send event 
+            if (isValid) {
+                this.loadingPdf = true;
+                Swal.fire({
+                    title: this.translate.instant("land.diagnosed.timeline.Download"),
+                    html: '<div class="col-md-12"><span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span></div><div class="col-md-12 mt-2"> <p> ' + this.translate.instant("land.diagnosed.timeline.WaitDownload") + '</p></div>',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: function () {
+                        this.jsPDFService.generateTimelinePDF(sessionStorage.getItem('lang'), this.dictionaryTimeline, this.listTimelineNull, this.disease, this.topRelatedConditions);
+                        Swal.close();
+                        this.loadingPdf = false;
+                        this.finishEvent.emit(true);
+                    }.bind(this)
+                });
+    
+            }
+            else {
+                Swal.fire('', this.translate.instant("land.diagnosed.timeline.errorExportPDF"), "error");
+            }
         }
     }
 

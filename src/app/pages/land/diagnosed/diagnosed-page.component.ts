@@ -76,11 +76,29 @@ declare global {
     }
 }*/
 
+@Injectable()
+export class SearchTermService {
+  constructor(private apiDx29ServerService: ApiDx29ServerService) {}
+
+  search(term: string) {
+    if (term === '') {
+        return of([]);
+      }
+      var info = {
+          "text": term,
+          "lang": sessionStorage.getItem('lang')
+      }
+      return this.apiDx29ServerService.searchSymptoms(info).pipe(
+        map(response => response)
+      );
+  }
+}
+
 @Component({
     selector: 'app-diagnosed-page',
     templateUrl: './diagnosed-page.component.html',
     styleUrls: ['./diagnosed-page.component.scss'],
-    providers: [Apif29BioService, Apif29NcrService, ApiDx29ServerService, ApiExternalServices, jsPDFService],
+    providers: [Apif29BioService, Apif29NcrService, ApiDx29ServerService, ApiExternalServices, SearchTermService, jsPDFService],
 })
 
 export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -111,7 +129,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     loadingCalculate: boolean = false;
     isFirstCalculate: boolean = true;
     lang: string = 'en';
-    originalLang: string = 'en';
     selectedInfoDiseaseIndex: number = -1;
     totalDiseasesLeft: number = -1;
     numberOfSymtomsChecked: number = 0;
@@ -122,7 +139,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     failSegmentation: boolean = false;
     lineChartIdealOptions: Partial<ChartOptions>;
     lineChartRuidoOptions: Partial<ChartOptions>;
-    refLangs: string = "https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support";
     lucky: boolean = false;
     showErrorMsg: boolean = false;
     modelTemp: any;
@@ -186,12 +202,13 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     listSymptomsCheckedTimeline: any = []
     listSymptomsCheckedModified = false;
     donnorSet = false;
+    step = 0;
 
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
     @ViewChild('tabRef') ctdTabset : NgbTabset;
 
-    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public jsPDFService: jsPDFService) {
+    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
         
         this.lang = sessionStorage.getItem('lang');
         this.selectedNoteSymptom = null;
@@ -199,13 +216,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         this.listSymptomsCheckedTimeline = [];
         this.listSymptomsCheckedModified = false;
         this.donnorSet = false;
-
-        this.originalLang = sessionStorage.getItem('lang');
-        if (this.lang == 'es') {
-            this.refLangs = "https://docs.microsoft.com/es-es/azure/cognitive-services/translator/language-support";
-        } else {
-            this.refLangs = "https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support";
-        }
 
         this.loadFilesLang();
 
@@ -229,6 +239,10 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
         this.focusInputDisease();
     }
+
+    setStep(index: number) {
+        this.step = index;
+      }
 
     focusInputDisease(){
         setTimeout(function () {
@@ -332,29 +346,23 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         this.listSymptomsCheckedModified = false;
         this.donnorSet = false;
 
-        /*this.subscription.add(this.route.params.subscribe(params => {
-            if (params['role'] != undefined) {
-                this.role = params['role'];
-                if (this.role == 'undiagnosed' || this.role == 'clinician') {
-                    this.focusTextArea();
-                }
-            } else {
-                this.router.navigate(['/']);
-            }
-        }));*/
-
         this.eventsService.on('changelang', function (lang) {
-            this.lang = lang;
-            if (this.lang == 'es') {
-                this.refLangs = "https://docs.microsoft.com/es-es/azure/cognitive-services/translator/language-support";
-            } else {
-                this.refLangs = "https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support";
+            if(lang!=this.lang){
+                this.lang = lang;
+                this.showDisease = false;
+                this.infoOneDisease = {};
+                this.actualInfoOneDisease = {};
+                this.searchDiseaseField = '';
+                this.listOfFilteredDiseases = [];
+                this.step = 0;
+                this.scrollToTop();
+                this.startTimeline = false;
+                this.listSymptomsCheckedTimeline = [];
+                this.listSymptomsCheckedModified = false;
+                this.donnorSet = false;
+                this.selectedNoteSymptom = null;
             }
-            if(this.actualInfoOneDisease.id!=undefined){
-                this.getInfoOneDisease();
-            }
-            this.searchDiseaseField = '';
-            this.listOfFilteredDiseases = [];
+            
         }.bind(this));
     }
 
@@ -375,6 +383,33 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             this.timeSubscription.unsubscribe();
         }
         this.role = '';
+    }
+
+    selected($e) {
+        $e.preventDefault();
+        if (!$e.item.error) {
+            var symptom = $e.item;
+            var foundElement = this.searchService.search(this.infoOneDisease.symptoms, 'id', symptom.id);
+            if (!foundElement) {
+                console.log(symptom);
+                this.infoOneDisease.symptoms.push({ id: symptom.id, name: symptom.name, new: true, checked: true, percentile: -1, inputType: 'manual', importance: '1', polarity: '0', synonyms: symptom.synonyms, desc: symptom.desc });
+                //this.infoOneDisease.symptoms.sort(this.sortService.GetSortOrder("name"));
+                this.listSymptomsCheckedTimeline.push({ id: symptom.id, name: symptom.name, new: true, checked: true, percentile: -1, inputType: 'manual', importance: '1', polarity: '0', synonyms: symptom.synonyms, desc: symptom.desc });
+                this.getNumberOfSymptomsDiseaseChecked();
+                this.optionSymptomAdded = "Manual";
+                this.lauchEvent("Symptoms");
+            } else {
+                var foundElementIndex = this.searchService.searchIndex(this.infoOneDisease.symptoms, 'id', symptom.id);
+                if (!this.infoOneDisease.symptoms[foundElementIndex].checked) {
+                    this.infoOneDisease.symptoms[foundElementIndex].checked = true;
+                    this.listSymptomsCheckedTimeline.push(this.infoOneDisease.symptoms[foundElementIndex]);
+                }
+                //this.toastr.warning(this.translate.instant("generics.Name")+': '+symptom.name, this.translate.instant("phenotype.You already had the symptom"));
+            }
+            console.log(this.listSymptomsCheckedTimeline);
+            console.log(this.infoOneDisease.symptoms);
+        }
+        this.modelTemp = '';
     }
 
     showSwal(text){
@@ -399,6 +434,18 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         };
         this.modalReference4 = this.modalService.open(contentInfoSymptomNcr, ngbModalOptions);
     }
+
+    showMoreInfoSymptomPopupTimeline(symptomId, contentInfoSymptomNcr) {
+        this.ncrResultView = false;
+        var foundElementIndex = this.searchService.searchIndex(this.infoOneDisease.symptoms, 'id', symptomId);
+        this.selectedInfoSymptomIndex = foundElementIndex;
+        let ngbModalOptions: NgbModalOptions = {
+            keyboard: false,
+            windowClass: 'ModalClass-sm'// xl, lg, sm
+        };
+        this.modalReference4 = this.modalService.open(contentInfoSymptomNcr, ngbModalOptions);
+    }
+    
     showMoreInfoAndNotesSymptomPopup(symptom, contentInfoAndNotesSymptom){
         this.selectedNoteSymptom = symptom;
         let ngbModalOptions: NgbModalOptions = {
@@ -446,20 +493,51 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
     registerToDx29V2() {
         this.lauchEvent("Registration");
-        this.lauchEvent("Registration Power");
+        this.lauchEvent("Registration Power Diagnosed - Event");
         if (this.modalReference3 != undefined) {
             this.modalReference3.close();
             this.modalReference3 = undefined;
         }
-        var info = {
-            "Symptoms": []
-        }
-        for (var index in this.temporalSymptoms) {
-            if (this.temporalSymptoms[index].checked) {
-                info.Symptoms.push(this.temporalSymptoms[index].id);
+        this.setSymptomsParams();
+    }
+
+    setSymptomsParams(){
+        var listSymptoms=[];
+        for(var i =0; i < this.listSymptomsCheckedTimeline.length;i++){
+            var onsetdate = null;
+            if((this.listSymptomsCheckedTimeline[i].onsetdate!=undefined)&&(this.listSymptomsCheckedTimeline[i].onsetdate!=null)){
+                onsetdate = this.listSymptomsCheckedTimeline[i].onsetdate
             }
+            var enddate = null;
+            if((this.listSymptomsCheckedTimeline[i].finishdate!=undefined)&&(this.listSymptomsCheckedTimeline[i].finishdate!=null)){
+                enddate = this.listSymptomsCheckedTimeline[i].finishdate
+            }
+            var isCurrentSymptom = null;
+            if((this.listSymptomsCheckedTimeline[i].isCurrentSymptom!=undefined)&&(this.listSymptomsCheckedTimeline[i].isCurrentSymptom!=null)){
+                isCurrentSymptom = this.listSymptomsCheckedTimeline[i].isCurrentSymptom
+            }
+            if(this.listSymptomsCheckedTimeline[i].onsetdate!=null){
+                var tempDateonsetdate = new Date(this.listSymptomsCheckedTimeline[i].onsetdate)
+                var diferenciahorario=tempDateonsetdate.getTimezoneOffset();
+                tempDateonsetdate.setMinutes ( tempDateonsetdate.getMinutes() - diferenciahorario );
+                onsetdate = tempDateonsetdate.toUTCString();
+                onsetdate = new Date(Date.parse(onsetdate));
+            }
+            if(this.listSymptomsCheckedTimeline[i].finishdate!=null){
+                var tempDateenddate = new Date(this.listSymptomsCheckedTimeline[i].finishdate)
+                var diferenciahorario=tempDateenddate.getTimezoneOffset();
+                tempDateenddate.setMinutes ( tempDateenddate.getMinutes() - diferenciahorario );
+                enddate = tempDateenddate.toUTCString();
+                enddate = new Date(Date.parse(enddate));
+            }
+
+            listSymptoms.push({"Id":this.listSymptomsCheckedTimeline[i].id,"StartDate":onsetdate,"EndDate":enddate,"IsCurrent":isCurrentSymptom, "Notes": this.listSymptomsCheckedTimeline[i].notes})
         }
-        if (info.Symptoms.length > 0) {
+
+        var info = {
+            "Symptoms": listSymptoms
+        }
+        if (this.listSymptomsCheckedTimeline.length > 0) {
             this.subscription.add(this.apiDx29ServerService.createblobOpenDx29(info)
                 .subscribe((res: any) => {
                     sessionStorage.removeItem('symptoms');
@@ -475,10 +553,26 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         }
     }
 
-    selectRole(role) {
+    selectRole() {
         //this.role = role;
         this.router.navigate(['/']);
     }
+
+    searchSymptoms: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => this.callListOfSymptoms = true),
+      switchMap(term =>
+        this.searchTermService.search(term).pipe(
+          tap(() => this.nothingFoundSymptoms = false),
+          catchError(() => {
+            this.nothingFoundSymptoms = true;
+            return of([]);
+          }))
+      ),
+      tap(() => this.callListOfSymptoms = false)
+    )
 
     loadNameDiseasesEn(id) {
 
@@ -1101,9 +1195,12 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                         if(this.infoWiki[i].title=='Enlaces externos' || this.infoWiki[i].title=='External links'){
                             var urls = this.infoWiki[i].content.split("\n");
                             this.infoWiki[i].urls = urls;
+                        }else{
+                            var regex = /\[([0-9]+)\]​/;
+                            this.infoWiki[i].content = this.infoWiki[i].content.replaceAll(new RegExp(regex, "g"), "");
                         }
                     }
-                    this.switchNgBTab('generaltab');
+                    //this.switchNgBTab('generaltab');
                 }else{
                     var t0 = performance.now()
                     var lang = sessionStorage.getItem('lang');
@@ -1117,7 +1214,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                                 this.infoWikiGeneral = res.query.search;
                                 var t1 = performance.now();
                                 this.secondToResponse = ((t1 - t0)/1000).toFixed(2);
-                                this.switchNgBTab('generaltab');
+                                //this.switchNgBTab('generaltab');
                             }
                             
                         }, (err) => {
@@ -1132,6 +1229,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
     switchNgBTab(id: string) {
         setTimeout(function () {
+            console.log(id);
             this.ctdTabset.select(id);
         }.bind(this), 50);
         
@@ -1266,7 +1364,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 keyboard: false,
                 windowClass: 'ModalClass-sm'// xl, lg, sm
             };
-            this.modalReference2 = this.modalService.open(contentInfoAttention, ngbModalOptions);
+            //this.modalReference2 = this.modalService.open(contentInfoAttention, ngbModalOptions);
         }
         else{
             this.sendSymtomsChecked();
@@ -1292,46 +1390,13 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
     registerToDx29V2Timeline(){
         this.lauchEvent("Registration");
-        this.lauchEvent("Registration Power");
+        this.lauchEvent("Registration Power Diagnosed - Timeline");
         if (this.modalReference6 != undefined) {
             this.modalReference6.close();
             this.modalReference6 = undefined;
         }
-        var listSymptoms=[]
-        for(var i =0; i < this.listSymptomsCheckedTimeline.length;i++){
-            var onsetdate = null;
-            if((this.listSymptomsCheckedTimeline[i].onsetdate!=undefined)&&(this.listSymptomsCheckedTimeline[i].onsetdate!=null)){
-                onsetdate = this.listSymptomsCheckedTimeline[i].onsetdate
-            }
-            var enddate = null;
-            if((this.listSymptomsCheckedTimeline[i].finishdate!=undefined)&&(this.listSymptomsCheckedTimeline[i].finishdate!=null)){
-                enddate = this.listSymptomsCheckedTimeline[i].finishdate
-            }
-            var isCurrentSymptom = null;
-            if((this.listSymptomsCheckedTimeline[i].isCurrentSymptom!=undefined)&&(this.listSymptomsCheckedTimeline[i].isCurrentSymptom!=null)){
-                isCurrentSymptom = this.listSymptomsCheckedTimeline[i].isCurrentSymptom
-            }
-            listSymptoms.push({"Id":this.listSymptomsCheckedTimeline[i].id,"StartDate":onsetdate,"EndDate":enddate,"IsCurrent":isCurrentSymptom, "Notes": this.listSymptomsCheckedTimeline[i].notes})
-        }
 
-        var info = {
-            "Symptoms": listSymptoms
-        }
-        
-        if (this.listSymptomsCheckedTimeline.length > 0) {
-            this.subscription.add(this.apiDx29ServerService.createblobOpenDx29Timeline(info)
-                .subscribe((res: any) => {
-                    sessionStorage.removeItem('symptoms');
-                    sessionStorage.removeItem('uuid');
-                    if (res.message == 'Done') {
-                        window.location.href = environment.urlDxv2 + "/Identity/Account/Register?opendatatimeline=" + res.token;
-                    } else {
-                        window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
-                    }
-                }));
-        } else {
-            window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
-        }
+        this.setSymptomsParams();
     }
 
     scrollToTop(){

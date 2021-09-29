@@ -18,8 +18,8 @@ export class jsPDFService {
     lang: string = '';
     
 
-    generateTimelinePDF(lang, dictionaryTimeline, listSymptomsNullInfo){
-
+    generateTimelinePDF(lang, dictionaryTimeline, listSymptomsNullInfo, disease, topRelatedConditions){
+        this.lang = lang;
         var doc = new jsPDF as jsPDFWithPlugin;
         var positionY = 0;
         const marginX = 5;
@@ -31,21 +31,17 @@ export class jsPDFService {
         var img_logo = new Image();
         img_logo.src = "assets/img/logo-Dx29.png"
         doc.addImage(img_logo, 'png', 20, 10, 29, 17);
-        doc.setFont(undefined, 'bold');
-        doc.setFontSize(15);
-        if(lang!='es'){
-            doc.text(this.translate.instant("land.diagnosed.timeline.Report"), 83, 17);
-        }else{
-            doc.text(this.translate.instant("land.diagnosed.timeline.Report"), 80, 17);
-        }
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
-        this.writeHeader(doc, 91, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
-
         var actualDate = new Date();
         var dateHeader = this.getFormatDate(actualDate);
-        this.writeDataHeader(doc, 93, 7, dateHeader);
-
+        if(lang=='es'){
+            this.writeHeader(doc, 89, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
+            this.writeDataHeader(doc, 82, 7, dateHeader);
+        }else{
+            this.writeHeader(doc, 93, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
+            this.writeDataHeader(doc, 88, 7, dateHeader);
+        }
 
         //Add QR
         var img_qr = new Image();
@@ -55,22 +51,94 @@ export class jsPDFService {
         this.newHeatherAndFooter(doc);
         positionY += 25;
 
+        doc.setFont(undefined, 'bold');
+        doc.setFontSize(15);
+        doc.text(this.translate.instant("land.diagnosed.timeline.Report"), 10, positionY+= 15);
+        doc.setFont(undefined, 'normal');
         doc.setFontSize(9);
         doc.setTextColor(117, 120, 125)
-        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle1"), 10, positionY += 15)
+        doc.setFillColor(255, 255, 255);
+        if(lang=='es'){
+            doc.rect(8, positionY+5, 192, 38, 'FD'); //Fill and Border
+        }else{
+            doc.rect(8, positionY+5, 181, 38, 'FD'); //Fill and Border
+        }
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitlea"), 10, positionY += 10)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitleb"), 10, positionY += 5)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitlec"), 10, positionY += 5)
+        positionY += 5
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle1"), 10, positionY += 5)
         doc.text(this.translate.instant("land.diagnosed.timeline.subtitle2"), 10, positionY += 5)
         doc.text(this.translate.instant("land.diagnosed.timeline.subtitle3"), 10, positionY += 5)
         doc.setTextColor(0, 0, 0)
         doc.setFontSize(10);
+        positionY += 5
+        if(disease.id!=undefined){
+            positionY += 10
+            //doc.setFontSize(15);
+            this.newSectionDoc(doc,this.translate.instant("diagnosis.Previous Diagnosis"),'',null,positionY)
+            //doc.text(this.translate.instant("diagnosis.Previous Diagnosis"), 10, positionY += 5)
+            positionY += 7
+            //doc.setFontSize(10);
+            positionY = this.writeText(doc, 16, positionY, disease.name);
+            positionY = this.writeLinkOrpha(doc, (disease.name.length*2)+16, positionY, (disease.id).toUpperCase());
+            doc.setFontSize(9);
+            doc.setTextColor(117, 120, 125)
+            var chunkDescr= this.chunkSubstr(disease.desc, 120)
+            for (var i = 0; i < chunkDescr.length; i++) {
+                if(chunkDescr[i+1]!=undefined){
+                    if(chunkDescr[i+1].charAt(0)!=' '){
+                        doc.text(chunkDescr[i]+"-", 16, positionY+= 5);
+                    }else{
+                        doc.text(chunkDescr[i], 16, positionY+= 5);
+                    }
+                }else{
+                    doc.text(chunkDescr[i], 16, positionY+= 5);
+                }
+                
+                //positionY = this.writeText(doc, 16, positionY+= 5, chunkDescr[i]);
+            }
+            doc.setTextColor(0, 0, 0)
+            doc.setFontSize(10);
+        }else{
+            //topRelatedConditions
+            //Diseases
+            if(topRelatedConditions.length>0){
+                this.newSectionDoc(doc,this.translate.instant("diagnosis.Candidate diagnosis"),'',null,positionY += 10)
+                this.writeHeaderText(doc, 16, positionY += 7, this.translate.instant("generics.Name"));
+                this.writeHeaderText(doc, 175, positionY, "Id");
+                positionY += 7;
+                for (var i = 0; i < topRelatedConditions.length; i++) {
+                    if(topRelatedConditions[i].name.length>99){
+                        positionY = this.writeText(doc, 16, positionY, topRelatedConditions[i].name.substr(0,99));
+                        positionY = this.writeLinkOrpha(doc, 175, positionY, (topRelatedConditions[i].id).toUpperCase());
+                        positionY = positionY+5;
+                        positionY = this.writeText(doc, 16, positionY, topRelatedConditions[i].name.substr(100));
+                    }else{
+                        positionY = this.writeText(doc, 16, positionY, topRelatedConditions[i].name);
+                        positionY = this.writeLinkOrpha(doc, 175, positionY, (topRelatedConditions[i].id).toUpperCase());
+                    }
+                    positionY += 7;
+                }
+            }
+        }
+        
+        
+        positionY += 10;
+        positionY = this.timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo);
 
         doc.setDrawColor(222,226,230);
-        positionY = this.drawTimeLine(doc,dictionaryTimeline, listSymptomsNullInfo, positionY);
-
-        doc.addPage();
-        this.newHeatherAndFooter(doc);
+        if(listSymptomsNullInfo.length>0){
+            positionY += 10;
+        }else{
+            positionY += 5;
+        }
         
-        positionY = 15;
-        this.timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo);
+        this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Graphic chronology"),'',null,positionY);
+        positionY = this.drawTimeLine(doc,dictionaryTimeline, listSymptomsNullInfo, positionY-= 10);
+
+        positionY += 10;
+        this.writeAboutUs(doc, positionY);
         
 
         var pageCount = doc.internal.pages.length; //Total Page Number
@@ -78,7 +146,7 @@ export class jsPDFService {
         for (var i = 1; i <= pageCount; i++) {
             doc.setPage(i);
             //footer page
-            doc.text(this.translate.instant("land.page")+ ' ' + i + '/' + pageCount, 97, 286);
+            doc.text(this.translate.instant("land.page")+ ' ' + i + '/' + pageCount, 97, 290);
         }
         
         var date = this.getDate();
@@ -87,27 +155,39 @@ export class jsPDFService {
         return;
     }
 
+    private chunkSubstr(str, size) {
+        const numChunks = Math.ceil(str.length / size)
+        const chunks = new Array(numChunks)
+      
+        for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+          chunks[i] = str.substr(o, size)
+        }
+      
+        return chunks
+      }
+
     private drawTimeLine(doc, dictionaryTimeline, listSymptomsNullInfo, posY){
         //draw dictionaryTimeline
         var positionY = posY;
-        var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
-        for (var itemDateIndex in listItemDateKeys){
-            var itemDate = listItemDateKeys[itemDateIndex]
-            positionY = this.drawLabelTimeLine(doc, itemDate, positionY);
-            var listDateKeys= Object.keys(dictionaryTimeline[itemDate]).sort((a,b)=>{return this.valueDateDescOrder(a,b)})
-            for (var dateIndex in listDateKeys){
-                var date = listDateKeys[dateIndex]
-                var lineHeight = (5*(dictionaryTimeline[itemDate][date].length)+45)+positionY;
-                doc.line(15, positionY-10, 15, lineHeight);
-                positionY = this.drawBoxTimeLine(doc, dictionaryTimeline[itemDate][date], date, positionY);
+        if(dictionaryTimeline!=undefined){
+            var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
+            for (var itemDateIndex in listItemDateKeys){
+                var itemDate = listItemDateKeys[itemDateIndex]
+                positionY = this.drawLabelTimeLine(doc, itemDate, positionY);
+                var listDateKeys= Object.keys(dictionaryTimeline[itemDate]).sort((a,b)=>{return this.valueDateDescOrder(a,b)})
+                for (var dateIndex in listDateKeys){
+                    var date = listDateKeys[dateIndex]
+                    var lineHeight = (5*(dictionaryTimeline[itemDate][date].length)+45)+positionY;
+                    doc.line(15, positionY-10, 15, lineHeight);
+                    positionY = this.drawBoxTimeLine(doc, dictionaryTimeline[itemDate][date], date, positionY);
+                }
             }
         }
-        
-        if(listSymptomsNullInfo.length>0){
-            this.drawListSymptomsNullInfo(doc, listSymptomsNullInfo, positionY);
+        if(listSymptomsNullInfo!=undefined){
+            if(listSymptomsNullInfo.length>0){
+                positionY = this.drawListSymptomsNullInfo(doc, listSymptomsNullInfo, positionY);
+            }
         }
-        
-
         return positionY;
     }
 
@@ -166,7 +246,8 @@ export class jsPDFService {
             if(posInit==20){
                 //is new page
                 doc.setFillColor(255, 255, 255);
-                doc.rect(25, (posInit+4), 150, ((5*(dateinfo.length-i)+10)-5), 'FD'); //Fill and Border
+                var heightRect2 = ((5*(dateinfo.length-i)+10)-5);
+                doc.rect(25, (posInit+4), 150, heightRect2, 'FD'); //Fill and Border
                 doc.setTextColor(0, 0, 0)
                 posInit= posInit+5;
                 doc.setFont(undefined, 'bold');
@@ -213,6 +294,11 @@ export class jsPDFService {
                 heightRect = (235-(posInit))+33;
             }
         }
+        if(heightRect>250){
+            heightRect = 250;
+        }else if(heightRect<10){
+            heightRect = 10;
+        }
         doc.rect(25, (positionY+4), 150, heightRect, 'FD'); //Fill and Border
         doc.setTextColor(0, 0, 0)
         posInit= posInit+10;
@@ -221,7 +307,13 @@ export class jsPDFService {
             if(posInit==20){
                 //is new page
                 doc.setFillColor(255, 255, 255);
-                doc.rect(25, (posInit+4), 150, ((5*(listSymptomsNullInfo.length-i)+5)), 'FD'); //Fill and Border
+                var heightRect2 = ((5*(listSymptomsNullInfo.length-i)+5));
+                if(heightRect2>250){
+                    heightRect2 = 250;
+                }else if(heightRect2<10){
+                    heightRect2 = 10;
+                }
+                doc.rect(25, (posInit+4), 150, heightRect2, 'FD'); //Fill and Border
                 doc.setTextColor(0, 0, 0)
                 posInit= posInit+5;
                 doc.setFont(undefined, 'bold');
@@ -237,103 +329,116 @@ export class jsPDFService {
     }
 
     private timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo){
-
-        var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
-        if(listItemDateKeys.length>0){
-            this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Appendix1"),this.translate.instant("land.diagnosed.timeline.Appendix1Title"),null,positionY)
-            positionY+=10
-            var bodyTable = []
-            var notesBodyTable={};
+        this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Symptoms"),this.translate.instant("land.diagnosed.timeline.Appendix1Title"),null,positionY)
+        doc.setTextColor(117, 120, 125)
+        doc.setFontSize(9);
+        doc.text(this.translate.instant("land.diagnosed.timeline.Knowing the evolution1"), 16, positionY += 5);
+        doc.text(this.translate.instant("land.diagnosed.timeline.Knowing the evolution2"), 16, positionY += 5);
+        doc.setTextColor(0, 0, 0)
+        doc.setFontSize(10);
+        positionY+=2;
+        if(dictionaryTimeline!=undefined){
             var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
-            for (var itemDateIndex in listItemDateKeys){
-                var itemDate = listItemDateKeys[itemDateIndex]
-                var listDateKeys= Object.keys(dictionaryTimeline[itemDate]).sort((a,b)=>{return this.valueDateDescOrder(a,b)})
-                for (var dateIndex in listDateKeys){
-                    var date= listDateKeys[dateIndex]
-                    for (var i=0;i<dictionaryTimeline[itemDate][date].length;i++){
-                        var name = dictionaryTimeline[itemDate][date][i].name
-                        if(name==undefined){
-                            name = dictionaryTimeline[itemDate][date][i].id + "-" + this.translate.instant("phenotype.Deprecated")
-                        }
-                        var id = dictionaryTimeline[itemDate][date][i].id
-                        var onsetdate = "-"
-                        if((dictionaryTimeline[itemDate][date][i].onsetdate!=undefined)&&(dictionaryTimeline[itemDate][date][i].onsetdate!=null)){
-                            onsetdate=this.datePipe.transform(dictionaryTimeline[itemDate][date][i].onsetdate)
-                        }
-                        var finishdate = "-"
-                        if((dictionaryTimeline[itemDate][date][i].finishdate!=undefined)&&(dictionaryTimeline[itemDate][date][i].finishdate!=null)){
-                            finishdate=this.datePipe.transform(dictionaryTimeline[itemDate][date][i].finishdate)
-                        }
-                        var duration="-"
-                        if(((onsetdate!="-")&&(finishdate!="-"))){
-                            duration = this.dateDiff(dictionaryTimeline[itemDate][date][i].onsetdate,dictionaryTimeline[itemDate][date][i].finishdate)
-                        }
-                        else if((onsetdate!="-")&&(dictionaryTimeline[itemDate][date][i].isCurrentSymptom)){
-                            duration = this.dateDiff(dictionaryTimeline[itemDate][date][i].onsetdate,new Date())
-                        }
-                        var notes = null;
-                        if((dictionaryTimeline[itemDate][date][i].notes!=null)&&(dictionaryTimeline[itemDate][date][i].notes!=undefined)){
-                            notes = dictionaryTimeline[itemDate][date][i].notes
-                        }
-
-                        var symptom = [{content:name,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:duration,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:onsetdate,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:finishdate,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:id,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}}]
-                        var foundInBodyTable = false;
-                        for(var j=0;j<bodyTable.length;j++){
-                            for (var k=0;k< bodyTable[j].length;k++){
-                                if(bodyTable[j][k].content == (id)){
-                                    foundInBodyTable=true
+            if(listItemDateKeys.length>0){
+                var bodyTable = []
+                var notesBodyTable={};
+                var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
+                for (var itemDateIndex in listItemDateKeys){
+                    var itemDate = listItemDateKeys[itemDateIndex]
+                    var listDateKeys= Object.keys(dictionaryTimeline[itemDate]).sort((a,b)=>{return this.valueDateDescOrder(a,b)})
+                    for (var dateIndex in listDateKeys){
+                        var date= listDateKeys[dateIndex]
+                        for (var i=0;i<dictionaryTimeline[itemDate][date].length;i++){
+                            var name = dictionaryTimeline[itemDate][date][i].name
+                            if(name==undefined){
+                                name = dictionaryTimeline[itemDate][date][i].id + "-" + this.translate.instant("phenotype.Deprecated")
+                            }
+                            var id = dictionaryTimeline[itemDate][date][i].id
+                            var onsetdate = "-"
+                            if((dictionaryTimeline[itemDate][date][i].onsetdate!=undefined)&&(dictionaryTimeline[itemDate][date][i].onsetdate!=null)){
+                                onsetdate=this.datePipe.transform(dictionaryTimeline[itemDate][date][i].onsetdate)
+                            }
+                            var finishdate = "-"
+                            if((dictionaryTimeline[itemDate][date][i].finishdate!=undefined)&&(dictionaryTimeline[itemDate][date][i].finishdate!=null)){
+                                finishdate=this.datePipe.transform(dictionaryTimeline[itemDate][date][i].finishdate)
+                            }
+                            var duration="-"
+                            if(((onsetdate!="-")&&(finishdate!="-"))){
+                                duration = this.dateDiff(dictionaryTimeline[itemDate][date][i].onsetdate,dictionaryTimeline[itemDate][date][i].finishdate)
+                            }
+                            else if((onsetdate!="-")&&(dictionaryTimeline[itemDate][date][i].isCurrentSymptom)){
+                                duration = this.dateDiff(dictionaryTimeline[itemDate][date][i].onsetdate,new Date())
+                            }
+                            var notes = null;
+                            if((dictionaryTimeline[itemDate][date][i].notes!=null)&&(dictionaryTimeline[itemDate][date][i].notes!=undefined)){
+                                notes = dictionaryTimeline[itemDate][date][i].notes
+                            }
+    
+                            var symptom = [{content:name,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:duration,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:onsetdate,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:finishdate,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:id,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}}]
+                            var foundInBodyTable = false;
+                            for(var j=0;j<bodyTable.length;j++){
+                                for (var k=0;k< bodyTable[j].length;k++){
+                                    if(bodyTable[j][k].content == (id)){
+                                        foundInBodyTable=true
+                                    }
+                                } 
+                            }
+                            if(!foundInBodyTable){
+                                bodyTable.push(symptom)
+                                if(notes!=null){
+                                    notesBodyTable[id]=notes;
                                 }
-                            } 
-                        }
-                        if(!foundInBodyTable){
-                            bodyTable.push(symptom)
-                            if(notes!=null){
-                                notesBodyTable[id]=notes;
                             }
                         }
                     }
                 }
-            }
-            // Add notes 
-            for(var i = 0; i < bodyTable.length; i++){
-                for(var j=0; j< bodyTable[i].length;j++){
-                    if(Object.keys(notesBodyTable).includes(bodyTable[i][j].content)){
-                        bodyTable.splice(i+1,0,[{content:"\t"+ notesBodyTable[bodyTable[i][j].content],colSpan:5,styles:{fontSize:9, fontStyle: 'italic'}}])
+                // Add notes 
+                for(var i = 0; i < bodyTable.length; i++){
+                    for(var j=0; j< bodyTable[i].length;j++){
+                        if(Object.keys(notesBodyTable).includes(bodyTable[i][j].content)){
+                            bodyTable.splice(i+1,0,[{content:"\t"+ notesBodyTable[bodyTable[i][j].content],colSpan:5,styles:{fontSize:9, fontStyle: 'italic'}}])
+                        }
                     }
                 }
+    
+                let tableInfo  = null; 
+                doc.autoTable({
+                    columnStyles: {
+                        0: {cellWidth: 90},
+                        1: {cellWidth: 20},
+                        2: {cellWidth: 20},
+                        3: {cellWidth: 20},
+                        4: {cellWidth: 30},
+                        // etc
+                      },
+                    head: [[this.translate.instant("generics.Name"),this.translate.instant("land.diagnosed.timeline.Duration"),this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"),"ID"]],
+                    body: bodyTable,
+                    startY: positionY,
+                    theme: 'plain',
+                    didDrawPage: ()=>{
+                        this.newHeatherAndFooter(doc);
+                    },
+                    willDrawCell:(data)=>{
+                        if (data.cell.section === 'body' && data.column.index === 4) {
+                            var text = data.cell.text.toString()
+                            data.cell.text = ""
+                            doc.setTextColor(51, 101, 138)
+                            var url = "https://hpo.jax.org/app/browse/term/" + text;
+                            doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
+                        }
+                    },
+                    didParseCell: (data)=>{
+                        if(!tableInfo){
+                            tableInfo=data.table;
+                        }
+                    }
+                    
+                }); 
+                positionY = tableInfo.finalY;
             }
-
-            let tableInfo  = null; 
-            doc.autoTable({
-                head: [[this.translate.instant("generics.Name"),this.translate.instant("land.diagnosed.timeline.Duration"),this.translate.instant("generics.Start Date"), this.translate.instant("generics.End Date"),"ID"]],
-                body: bodyTable,
-                startY: positionY,
-                theme: 'plain',
-                didDrawPage: ()=>{
-                    this.newHeatherAndFooter(doc);
-                },
-                willDrawCell:(data)=>{
-                    if (data.cell.section === 'body' && data.column.index === 4) {
-                        var text = data.cell.text.toString()
-                        data.cell.text = ""
-                        doc.setTextColor(0, 133, 133)
-                        var url = "https://hpo.jax.org/app/browse/term/" + text;
-                        doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
-                    }
-                },
-                didParseCell: (data)=>{
-                    if(!tableInfo){
-                        tableInfo=data.table;
-                    }
-                }
-                
-            }); 
-            positionY = tableInfo.finalY + 25
         }
         
         if(listSymptomsNullInfo.length>0){
-            this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Appendix2"),this.translate.instant("land.diagnosed.timeline.Appendix2Title"),null,positionY)
-            positionY+=10
             var bodyTable2 = []
             var notesBodyTable2={};
 
@@ -349,8 +454,14 @@ export class jsPDFService {
                 if((listSymptomsNullInfo[j].notes!=null)&&(listSymptomsNullInfo[j].notes!=undefined)){
                     notes2 = listSymptomsNullInfo[j].notes
                 }
-
                 var symptom2 = [{content:name2,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:id2,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}}]
+                if(dictionaryTimeline!=undefined){
+                    var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
+                    if(listItemDateKeys.length>0){
+                        symptom2 = [{content:name2,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:'-',colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:'-',colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:'-',colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}},{content:id2,colSpan:1,styles:{fontSize:10, fontStyle: 'normal'}}]
+                    }
+                }
+                
                 var foundInBodyTable2 = false;
                 for(var j=0;j<bodyTable2.length;j++){
                     for (var k=0;k< bodyTable2[j].length;k++){
@@ -376,27 +487,98 @@ export class jsPDFService {
                 }
             }
 
-            doc.autoTable({
-                head: [[this.translate.instant("generics.Name"),"ID"]],
-                body: bodyTable2,
-                startY: positionY,
-                theme: 'plain',
-                didDrawPage: ()=>{
-                    this.newHeatherAndFooter(doc);
-                },
-                willDrawCell:(data)=>{
-                    if (data.cell.section === 'body' && data.column.index === 1) {
-                        var text = data.cell.text.toString()
-                        data.cell.text = ""
-                        doc.setTextColor(0, 133, 133)
-                        var url = "https://hpo.jax.org/app/browse/term/" + text;
-                        doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
-                    }
+            let tableInfo2  = null; 
+
+            if(dictionaryTimeline!=undefined){
+                var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
+                if(listItemDateKeys.length>0){
+                    doc.autoTable({
+                        columnStyles: {
+                            0: {cellWidth: 90},
+                            1: {cellWidth: 20},
+                            2: {cellWidth: 20},
+                            3: {cellWidth: 20},
+                            4: {cellWidth: 30},
+                            // etc
+                          },
+                        body: bodyTable2,
+                        startY: positionY,
+                        theme: 'plain',
+                        didDrawPage: ()=>{
+                            this.newHeatherAndFooter(doc);
+                        },
+                        willDrawCell:(data)=>{
+                            if (data.cell.section === 'body' && data.column.index === 4) {
+                                var text = data.cell.text.toString()
+                                data.cell.text = ""
+                                doc.setTextColor(51, 101, 138)
+                                var url = "https://hpo.jax.org/app/browse/term/" + text;
+                                doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
+                            }
+                        },
+                        didParseCell: (data)=>{
+                            if(!tableInfo2){
+                                tableInfo2=data.table;
+                            }
+                        }
+                        
+                    });
+                }else{
+                    doc.autoTable({
+                        head: [[this.translate.instant("generics.Name"),"ID"]],
+                        body: bodyTable2,
+                        startY: positionY,
+                        theme: 'plain',
+                        didDrawPage: ()=>{
+                            this.newHeatherAndFooter(doc);
+                        },
+                        willDrawCell:(data)=>{
+                            if (data.cell.section === 'body' && data.column.index === 1) {
+                                var text = data.cell.text.toString()
+                                data.cell.text = ""
+                                doc.setTextColor(51, 101, 138)
+                                var url = "https://hpo.jax.org/app/browse/term/" + text;
+                                doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
+                            }
+                        },
+                        didParseCell: (data)=>{
+                            if(!tableInfo2){
+                                tableInfo2=data.table;
+                            }
+                        }
+                        
+                    });
                 }
-                
-            }); 
+            }else{
+                doc.autoTable({
+                    head: [[this.translate.instant("generics.Name"),"ID"]],
+                    body: bodyTable2,
+                    startY: positionY,
+                    theme: 'plain',
+                    didDrawPage: ()=>{
+                        this.newHeatherAndFooter(doc);
+                    },
+                    willDrawCell:(data)=>{
+                        if (data.cell.section === 'body' && data.column.index === 1) {
+                            var text = data.cell.text.toString()
+                            data.cell.text = ""
+                            doc.setTextColor(51, 101, 138)
+                            var url = "https://hpo.jax.org/app/browse/term/" + text;
+                            doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
+                        }
+                    },
+                    didParseCell: (data)=>{
+                        if(!tableInfo2){
+                            tableInfo2=data.table;
+                        }
+                    }
+                    
+                });
+            }
+            
+            positionY = tableInfo2.finalY
         }
-        
+        return positionY;
     }
 
     dateDiff(d1:Date, d2:Date) {
@@ -436,17 +618,19 @@ export class jsPDFService {
     }
 
     private newSectionDoc(doc,sectionNumber,sectionTitle,sectionSubtitle,line){
+        line = this.checkIfNewPage(doc, line);
         var title = sectionTitle;
         if(sectionNumber!=null){
-            title=sectionNumber+".- "+sectionTitle;
+            title=sectionNumber+sectionTitle;
         }
         var marginX = 10;
-        doc.setTextColor(117, 120, 125)
+        //doc.setTextColor(117, 120, 125)
+        doc.setTextColor(0, 0, 0)
         doc.setFont(undefined, 'bold');
         doc.setFontSize(12);
         doc.text(marginX, line, title);
         
-        doc.setTextColor(0, 0, 0)
+        //doc.setTextColor(0, 0, 0)
         if(sectionSubtitle!=null){
             var subtitle = sectionSubtitle;
             doc.setFont(undefined, 'italic');
@@ -462,18 +646,20 @@ export class jsPDFService {
         // Footer
         var logoHealth = new Image();
         logoHealth.src = "assets/img/logo-foundation-twentynine-footer.png"
-        doc.addImage(logoHealth, 'png', 20, 280, 25, 10);
+        doc.addImage(logoHealth, 'png', 20, 284, 25, 10);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
-        doc.setTextColor(0, 133, 133)
-        doc.textWithLink("www.dx29.ai", 148, 286, { url: 'https://app.dx29.ai/Identity/Account/Register' });
+        doc.setTextColor(51, 101, 138)
+        doc.textWithLink("www.dx29.ai", 148, 290, { url: 'https://app.dx29.ai/Identity/Account/Register' });
         doc.setTextColor(0, 0, 0);
     }
 
     private getFormatDate(date) {
-        return date.getUTCFullYear() +
-            '-' + this.pad(date.getUTCMonth() + 1) +
-            '-' + this.pad(date.getUTCDate());
+        var localeLang = 'en-US';
+        if (this.lang == 'es') {
+            localeLang = 'es-ES'
+        }
+        return date.toLocaleString(localeLang, { month: 'long' , day: 'numeric', year: 'numeric'});
     }
 
     private pad(number) {
@@ -518,9 +704,9 @@ export class jsPDFService {
     
     private writeHeaderText(doc, pos, lineText, text) {
         lineText = this.checkIfNewPage(doc, lineText);
-        doc.setTextColor(117, 120, 125)
-        doc.setFont(undefined, 'normal');
-        doc.setFontSize(9);
+        //doc.setTextColor(117, 120, 125)
+        doc.setFont(undefined, 'bold');
+        doc.setFontSize(10);
         doc.text(text, pos, lineText);
         return lineText;
     }
@@ -536,7 +722,7 @@ export class jsPDFService {
     
     private writeLinkHP(doc, pos, lineText, text) {
         lineText = this.checkIfNewPage(doc, lineText);
-        doc.setTextColor(0, 133, 133)
+        doc.setTextColor(51, 101, 138)
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
         var url = "https://hpo.jax.org/app/browse/term/" + text;
@@ -547,7 +733,7 @@ export class jsPDFService {
     
     private writeLinkOrpha(doc, pos, lineText, text) {
         lineText = this.checkIfNewPage(doc, lineText);
-        doc.setTextColor(0, 133, 133)
+        doc.setTextColor(51, 101, 138)
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
         var param = text.split(':');
@@ -576,6 +762,61 @@ export class jsPDFService {
         return date.getUTCFullYear() + this.pad(date.getUTCMonth() + 1) + this.pad(date.getUTCDate()) + this.pad(date.getUTCHours()) + this.pad(date.getUTCMinutes()) + this.pad(date.getUTCSeconds());
     };
 
+    private writeAboutUs(doc,lineText){
+        lineText = this.checkIfNewPage(doc, lineText);
+        doc.setFont(undefined, 'bold');
+        doc.text(this.translate.instant("generics.Foundation 29"), 10, lineText);
+        this.writelinePreFooter(doc, this.translate.instant("land.diagnosed.timeline.footer1"), lineText += 5);
+        lineText = this.checkIfNewPage(doc, lineText);
+        this.writelinePreFooter(doc, this.translate.instant("land.diagnosed.timeline.footer2"), lineText += 5);
+        lineText = this.checkIfNewPage(doc, lineText);
+        this.writelinePreFooter(doc, this.translate.instant("land.diagnosed.timeline.footer3"), lineText += 5);
+        if(this.lang =='es'){
+            lineText = this.checkIfNewPage(doc, lineText);
+            this.writelinePreFooter(doc, this.translate.instant("land.diagnosed.timeline.footer4"), lineText += 5);
+        }
+        lineText = this.checkIfNewPage(doc, lineText);
+        lineText += 10;
+        lineText = this.checkIfNewPage(doc, lineText);
+        this.writelinePreFooter(doc, this.translate.instant("land.diagnosed.timeline.footer5"), lineText);
+        doc.setFillColor(249,66,58);
+        if(this.lang=='en'){
+            doc.rect(52, lineText-5, 17, 8, 'FD'); //Fill and Border
+        }else{
+            doc.rect(57, lineText-5, 17, 8, 'FD'); //Fill and Border
+        }
+        
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(10);
+        var url = "https://app.dx29.ai/Identity/Account/Register";
+        if(this.lang=='en'){
+            doc.textWithLink(this.translate.instant("menu.Register"), 54, lineText, { url: url });
+        }else{
+            doc.textWithLink(this.translate.instant("menu.Register"), 59, lineText, { url: url });
+        }
+        
+        lineText = this.checkIfNewPage(doc, lineText);
+        doc.setTextColor(0, 0, 0)
+        lineText += 5;
+        doc.setFontSize(9);
+        doc.setTextColor(117, 120, 125)
+        doc.text(this.translate.instant("land.diagnosed.timeline.footer6"), 10, lineText += 5);
+        doc.setTextColor(51, 101, 138)
+        var url = "mailto:info@foundation29.org";
+        doc.textWithLink("info@foundation29.org", (((this.translate.instant("land.diagnosed.timeline.footer6")).length*2)-18), lineText, { url: url });
+        lineText = this.checkIfNewPage(doc, lineText);
+        doc.setTextColor(0, 0, 0);
+    }
+
+    writelinePreFooter(doc, text, lineText){
+        doc.setFontSize(9);
+        doc.setTextColor(117, 120, 125)
+        doc.setFont(undefined, 'normal');
+        doc.text(text, 10, lineText);
+        doc.setFontSize(10);
+        doc.setTextColor(0, 0, 0);
+    }
+
     generateResultsPDF(infoSymptoms, infoDiseases, lang){
         this.lang = lang;
         const doc = new jsPDF();
@@ -589,20 +830,17 @@ export class jsPDFService {
         var img_logo = new Image();
         img_logo.src = "assets/img/logo-Dx29.png"
         doc.addImage(img_logo, 'png', 20, 10, 29, 17);
-        doc.setFont(undefined, 'bold');
-        doc.setFontSize(15);
-        if(lang!='es'){
-            doc.text(this.translate.instant("land.diagnosed.timeline.Report"), 83, 17);
-        }else{
-            doc.text(this.translate.instant("land.diagnosed.timeline.Report"), 80, 17);
-        }
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
-        this.writeHeader(doc, 91, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
-
         var actualDate = new Date();
         var dateHeader = this.getFormatDate(actualDate);
-        this.writeDataHeader(doc, 93, 7, dateHeader);
+        if(lang=='es'){
+            this.writeHeader(doc, 89, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
+            this.writeDataHeader(doc, 82, 7, dateHeader);
+        }else{
+            this.writeHeader(doc, 93, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
+            this.writeDataHeader(doc, 88, 7, dateHeader);
+        }
 
        //Add QR
         var img_qr = new Image();
@@ -612,16 +850,24 @@ export class jsPDFService {
         this.newHeatherAndFooter(doc);
 
         lineText += 25;
+        doc.setFont(undefined, 'bold');
+        doc.setFontSize(15);
+        doc.text(this.translate.instant("land.diagnosed.timeline.Report"), 10, lineText += 15);
+        doc.setFont(undefined, 'normal');
         doc.setFontSize(9);
         doc.setTextColor(117, 120, 125)
-        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle1"), 10, lineText += 15)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitlea"), 10, lineText += 5)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitleb"), 10, lineText += 5)
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitlec"), 10, lineText += 5)
+        lineText += 5
+        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle1"), 10, lineText += 5)
         doc.text(this.translate.instant("land.diagnosed.timeline.subtitle2"), 10, lineText += 5)
         doc.text(this.translate.instant("land.diagnosed.timeline.subtitle3"), 10, lineText += 5)
         doc.setTextColor(0, 0, 0)
         doc.setFontSize(10);
         //Symptoms
         const obj = infoSymptoms;
-        lineText = this.writeTitleSection(doc, 10, lineText += 10, this.translate.instant("diagnosis.Symptoms"));
+        this.newSectionDoc(doc,this.translate.instant("diagnosis.Symptoms"),'',null,lineText += 10)
         this.writeHeaderText(doc, 10, lineText += 7, this.translate.instant("generics.Name"));
         this.writeHeaderText(doc, 175, lineText, "Id");
         lineText += 5;
@@ -633,7 +879,7 @@ export class jsPDFService {
 
         //Diseases
         if(infoDiseases.length>0){
-            lineText = this.writeTitleSection(doc, 10, lineText += 10, this.translate.instant("land.Diseases"));
+            this.newSectionDoc(doc,this.translate.instant("diagnosis.Candidate diagnosis"),'',null,lineText += 10)
             this.writeHeaderText(doc, 10, lineText += 7, this.translate.instant("generics.Name"));
             this.writeHeaderText(doc, 175, lineText, "Id");
             lineText += 5;
@@ -650,6 +896,9 @@ export class jsPDFService {
                 lineText += 7;
             }
         }
+
+        lineText += 10;
+        this.writeAboutUs(doc, lineText);
         
         var pageCount = doc.internal.pages.length; //Total Page Number
         pageCount = pageCount-1;

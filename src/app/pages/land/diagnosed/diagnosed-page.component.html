@@ -1,7 +1,6 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a (click)="selectRole('');">{{'land.Home' | translate }}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{'land.Diagnosed' | translate }}</li>
+    <a (click)="selectRole();" class="black float-left"><i class="fa fa-angle-left" aria-hidden="true"></i> <ins class="ml-1">{{'generics.Back' | translate }}</ins></a>
   </ol>
 </nav>
 <section id="login" class="mt-2">
@@ -100,53 +99,14 @@
             </div>
           </div>
           <mat-accordion class="d-block d-sm-none">
-            <mat-expansion-panel *ngIf="infoWiki.length>0 || infoWikiGeneral.length>0">
-              <mat-expansion-panel-header>
-                <mat-panel-title (click)="lauchEvent('Diagnosed - General');">
-                  {{'land.diagnosed.general.title' | translate }}
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <div class="card-body">
-                <div *ngIf="!loadingArticle">
-                  <div class="col-md-12" *ngIf="viewArticle">
-                    <button type="button" class="pull-right btn btn-secondary btn-raised" (click)="backToList()">{{'generics.Back' | translate }}</button>
-                    <h1>{{actualArticle.title}}</h1>
-                    <!--<a (click)="backToList();">Return to the list of information found.</a>-->
-                  </div>
-                  <div class="col-md-12" *ngIf="infoWikiGeneral.length>0 && !viewArticle">
-                    <span class="text-muted">{{'land.diagnosed.general.We have found' | translate }} {{infoWikiGeneral.length}} {{'land.diagnosed.general.results for' | translate }} {{infoOneDisease.name}} ({{secondToResponse}} {{'land.diagnosed.general.Seconds' | translate }})</span>
-                    <p *ngFor="let part of infoWikiGeneral ; let k = index" class="mb-1">
-                      <span>
-                        <h5 class="mt-2 mb-0"><a (click)="goToArticle(part);" class="articleTitle">{{part.title}}</a></h5>
-                        <span class="" [innerHTML]="infoWikiGeneral[k].snippet"></span>
-                      </span>
-                    </p>
-                  </div>
-                  <div class="col-md-12" *ngIf="(infoWiki.length>0 && infoWikiGeneral.length>0 && viewArticle) || (infoWiki.length>0 && infoWikiGeneral.length==0)">
-                    <p *ngFor="let part of infoWiki ; let j = index" class="mb-1">
-                      <span *ngIf="part.content.length>0">
-                        <h4 class="mt-2"><strong>{{part.title}}</strong></h4>
-                        <span class="" *ngIf="part.title!='Enlaces externos' && part.title!='External links'">{{part.content}}</span>
-                        <span class="" *ngIf="part.title=='Enlaces externos' || part.title=='External links'">
-                          <span *ngFor="let url of part.urls ; let j = index">
-                            <a href="{{url}}" target="_blank" class="d-block">{{url}}</a>
-                          </span>
-                        </span>
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div *ngIf="loadingArticle" class="center-elements">
-                    <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
-                </div>
-              </div>
-            </mat-expansion-panel>
-            <mat-expansion-panel *ngIf="infoOneDisease.symptoms!=undefined">
+            <mat-expansion-panel *ngIf="infoOneDisease.symptoms!=undefined" [expanded]="step === 1" (opened)="setStep(1)">
               <mat-expansion-panel-header>
                 <mat-panel-title (click)="lauchEvent('Diagnosed - Symptoms');">
                   {{'land.diagnosed.general.Symptoms' | translate }}
                 </mat-panel-title>
               </mat-expansion-panel-header>
+              <p class="ml-2 mb-0 mr-2">{{'land.diagnosed.symptoms.These are the symptoms of your disease' | translate }}</p>
+              <p class="ml-2 mr-2">{{'land.diagnosed.symptoms.goToChrono' | translate }}<a class="ml-1" (click)="setStep(2)">{{'land.here' | translate }}</a></p>
               <div class="card-body">
                 <div class="col-md-12">
                   <div class="col-md-12 mb-1">
@@ -172,7 +132,7 @@
                 </div>
               </div>
             </mat-expansion-panel>
-            <mat-expansion-panel *ngIf="infoOneDisease.symptoms!=undefined">
+            <mat-expansion-panel *ngIf="infoOneDisease.symptoms!=undefined" [expanded]="step === 2" (opened)="setStep(2)">
               <mat-expansion-panel-header>
                 <mat-panel-title (click)="lauchEvent('Diagnosed - Chronology');">
                   {{'land.Chronology' | translate }}<span class="ml-1 badge badge-pill badge-success mb-1 mr-2">{{'generics.New' | translate }}</span>
@@ -230,10 +190,63 @@
                     </button>
                   </div>
                 </div>
-                <timeline *ngIf="startTimeline" section="diagnosed" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention)" (openModalTimelineHelp)="openTimelineAppHelp2(contentTimelineAppHelp2)" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+                <timeline *ngIf="startTimeline" [disease]="actualInfoOneDisease" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention)" (openModalTimelineHelp)="openTimelineAppHelp2(contentTimelineAppHelp2)" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
               </div>
             </mat-expansion-panel>
-            <mat-expansion-panel *ngIf="clinicalTrials.length>0">
+            <mat-expansion-panel *ngIf="infoWiki.length>0 || infoWikiGeneral.length>0" [expanded]="step === 3" (opened)="setStep(3)">
+              <mat-expansion-panel-header>
+                <mat-panel-title (click)="lauchEvent('Diagnosed - General');">
+                  {{'land.diagnosed.general.title' | translate }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="card-body">
+                <div *ngIf="!loadingArticle">
+                  <div class="col-md-12" *ngIf="viewArticle">
+                    <button type="button" class="pull-right btn btn-secondary btn-raised" (click)="backToList()">{{'generics.Back' | translate }}</button>
+                    <h1>{{actualArticle.title}}</h1>
+                    <!--<a (click)="backToList();">Return to the list of information found.</a>-->
+                  </div>
+                  <div class="col-md-12" *ngIf="infoWikiGeneral.length>0 && !viewArticle">
+                    <span class="text-muted">{{'land.diagnosed.general.We have found' | translate }} {{infoWikiGeneral.length}} {{'land.diagnosed.general.results for' | translate }} {{infoOneDisease.name}} ({{secondToResponse}} {{'land.diagnosed.general.Seconds' | translate }})</span>
+                    <p *ngFor="let part of infoWikiGeneral ; let k = index" class="mb-1">
+                      <span>
+                        <h5 class="mt-2 mb-0"><a (click)="goToArticle(part);" class="articleTitle">{{part.title}}</a></h5>
+                        <span class="" [innerHTML]="infoWikiGeneral[k].snippet"></span>
+                      </span>
+                    </p>
+                  </div>
+                  <div class="col-md-12" *ngIf="(infoWiki.length>0 && infoWikiGeneral.length>0 && viewArticle) || (infoWiki.length>0 && infoWikiGeneral.length==0)">
+                    <p *ngFor="let part of infoWiki ; let j = index" class="mb-1">
+                      <span>
+                        <h4 class="mt-2"><strong>{{part.title}}</strong></h4>
+                        <span class="" *ngIf="part.title!='Enlaces externos' && part.title!='External links'" style="margin-bottom: 2rem;white-space:pre-line;">
+                          <span *ngIf="part.content.length>0">
+                            {{part.content}}
+                          </span>
+                          <span *ngIf="part.items">
+                            <span *ngFor="let item of part.items ; let listItem = index" class="mb-1">
+                              <h5 class="mt-2"><strong>{{item.title}}</strong></h5>
+                              <span *ngIf="item.content.length>0" style="margin-bottom: 2rem;white-space:pre-line;">
+                                {{item.content}}
+                              </span>
+                            </span>
+                          </span>
+                        </span>
+                        <span class="" *ngIf="part.title=='Enlaces externos' || part.title=='External links'">
+                          <span *ngFor="let url of part.urls ; let j = index">
+                            <a href="{{url}}" target="_blank" class="d-block">{{url}}</a>
+                          </span>
+                        </span>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <div *ngIf="loadingArticle" class="center-elements">
+                    <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel *ngIf="clinicalTrials.length>0" [expanded]="step === 4" (opened)="setStep(4)">
               <mat-expansion-panel-header>
                 <mat-panel-title (click)="lauchEvent('Diagnosed - Clinical Trials');">
                   {{'land.diagnosed.general.Clinical trials' | translate }}
@@ -283,7 +296,7 @@
                 </div>
               </div>
             </mat-expansion-panel>
-            <mat-expansion-panel>
+            <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)">
               <mat-expansion-panel-header>
                 <mat-panel-title (click)="lauchEvent('Diagnosed - Patient Groups');">
                   {{'land.diagnosed.general.Patient groups' | translate }}
@@ -326,7 +339,7 @@
                 </div>
               </div>
             </mat-expansion-panel>
-            <mat-expansion-panel>
+            <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)">
               <mat-expansion-panel-header>
                 <mat-panel-title (click)="lauchEvent('Diagnosed - Donate your data');">
                   {{'land.diagnosed.general.Donate your data' | translate }}
@@ -385,47 +398,11 @@
             </mat-expansion-panel>
           </mat-accordion>
           <ngb-tabset type="pills" #tabRef="ngbTabset" class="d-none d-sm-block">
-            <ngb-tab *ngIf="infoWiki.length>0 || infoWikiGeneral.length>0" id="generaltab">
-              <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - General');backToList();">
-                {{'land.diagnosed.general.title' | translate }}</strong></ng-template>
-              <ng-template ngbTabContent>
-                <div *ngIf="!loadingArticle">
-                  <div class="col-md-12" *ngIf="viewArticle">
-                    <button type="button" class="pull-right btn btn-secondary btn-raised" (click)="backToList()">{{'generics.Back' | translate }}</button>
-                    <h1>{{actualArticle.title}}</h1>
-                    <!--<a (click)="backToList();">Return to the list of information found.</a>-->
-                  </div>
-                  <div class="col-md-12" *ngIf="infoWikiGeneral.length>0 && !viewArticle">
-                    <span class="text-muted">{{'land.diagnosed.general.We have found' | translate }} {{infoWikiGeneral.length}} {{'land.diagnosed.general.results for' | translate }} {{infoOneDisease.name}} ({{secondToResponse}} {{'land.diagnosed.general.Seconds' | translate }})</span>
-                    <p *ngFor="let part of infoWikiGeneral ; let k = index" class="mb-1">
-                      <span>
-                        <h5 class="mt-2 mb-0"><a (click)="goToArticle(part);" class="articleTitle">{{part.title}}</a></h5>
-                        <span class="" [innerHTML]="infoWikiGeneral[k].snippet"></span>
-                      </span>
-                    </p>
-                  </div>
-                  <div class="col-md-12" *ngIf="(infoWiki.length>0 && infoWikiGeneral.length>0 && viewArticle) || (infoWiki.length>0 && infoWikiGeneral.length==0)">
-                    <p *ngFor="let part of infoWiki ; let j = index" class="mb-1">
-                      <span *ngIf="part.content.length>0">
-                        <h4 class="mt-2"><strong>{{part.title}}</strong></h4>
-                        <span class="" *ngIf="part.title!='Enlaces externos' && part.title!='External links'">{{part.content}}</span>
-                        <span class="" *ngIf="part.title=='Enlaces externos' || part.title=='External links'">
-                          <span *ngFor="let url of part.urls ; let j = index">
-                            <a href="{{url}}" target="_blank" class="d-block">{{url}}</a>
-                          </span>
-                        </span>
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div *ngIf="loadingArticle" class="center-elements">
-                    <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
-                </div>
-              </ng-template>
-            </ngb-tab>
             <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined">
               <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Symptoms');">{{'land.diagnosed.general.Symptoms' | translate }}</strong></ng-template>
               <ng-template ngbTabContent>
+                <p class="ml-2 mb-0 mr-2">{{'land.diagnosed.symptoms.These are the symptoms of your disease' | translate }}</p>
+                <p class="ml-2 mr-2">{{'land.diagnosed.symptoms.goToChrono' | translate }}<a class="ml-1" (click)="switchNgBTab('chronologytab')">{{'land.here' | translate }}</a></p>
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-md-12 mt-1">
@@ -458,16 +435,18 @@
                 </div>
               </ng-template>
             </ngb-tab>
-            <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined">
+            <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined" id="chronologytab">
               <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Chronology');">{{'land.Chronology' | translate }}</strong><span class="ml-1 badge badge-pill badge-success mb-1 mr-2">{{'generics.New' | translate }}</span></ng-template>
               <ng-template ngbTabContent>
-                <div class="col-md-12 mb-2">
+                <div class="col-md-12 mb-3 pb-2">
                   <div class="row">
                     <div class="col-md-12 mt-2">
                       <div>
                         <h4><strong>{{'land.diagnosed.timeline.title' | translate}}</strong></h4>
-                        <p class="mb-0"> {{'land.diagnosed.timeline.t0' | translate}} <i class="fas fa-ellipsis-v font-medium-3 info"></i></p>
-                        <p class="mb-0">
+                        <p> {{'land.diagnosed.timeline.t0' | translate}} <i class="fas fa-ellipsis-v font-medium-3 info"></i></p>
+                        <p> {{'land.diagnosed.timeline.t0-p1' | translate}}</p>
+                        <p> {{'land.diagnosed.timeline.t0-p2' | translate}}</p>
+                        <p>
                           <span> 
                             <a class="info" (click)="registerToDx29V2Timeline();" title="{{'land.diagnosed.timeline.Register' | translate}}"><ins>{{'land.diagnosed.timeline.Register' | translate}}</ins></a> {{'land.diagnosed.timeline.t0-reg' | translate}}
                           </span>
@@ -485,6 +464,29 @@
                           <em class="mr-1 fa fa-refresh grey" title="{{'preland.p2' | translate}}"></em>
                         </span>
                       </p>
+                      </div>
+                      <div>
+                        <ng-template #rt let-r="result" let-t="term">
+                          <strong title="{{r.name}}">{{ r.name}}</strong>
+                          <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
+                            slice:0:140)+'...':(r.desc) }}</span>
+                        </ng-template>
+                        <div style="padding-bottom: 0.5rem !important;">
+                          <span class="d-none d-sm-inline ml-1 mr-2"><i class="fa fa-plus success"></i></span>
+                          <input #input type="text"
+                            #inputManualSymptoms class="form-control ml-1 inputSearch d-inline data-hj-allow" [(ngModel)]="modelTemp"
+                            [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
+                            placeholder="{{'symptomssection.manualinput' | translate }}"
+                            (selectItem)="selected($event)"/>
+                            <div class="center-elements" *ngIf="callListOfSymptoms">
+                              <em class="fa fa-spinner fa-spin fa-3x fa-fw info"></em>
+                            </div>
+                            <span *ngIf="nothingFoundSymptoms">
+                              <span *ngIf="(modelTemp).trim().length>3">
+                                <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
+                              </span>
+                            </span>
+                        </div>
                       </div>
                       <div class="col-md-12">
                         <table class="table mb-0 text-center d-none d-sm-block">
@@ -517,7 +519,7 @@
                         <div class="col-md-12 pt-2">
                           <ul *ngFor="let symptomChecked of listSymptomsCheckedTimeline; let j = index" class="mb-0">
                             <li *ngIf="symptomChecked.name">
-                              <span style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(j, contentInfoSymptomOneDisease);" class="info">{{symptomChecked.name}}</span>
+                              <span style="cursor: pointer;" (click)="showMoreInfoSymptomPopupTimeline(symptomChecked.id, contentInfoSymptomOneDisease);" class="info">{{symptomChecked.name}}</span>
                             </li>
                             <li *ngIf="!symptomChecked.name">
                               <span>
@@ -538,7 +540,57 @@
                     </div>
                   </div>
                 </div>
-                <timeline *ngIf="startTimeline" section="diagnosed" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention);" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+                <timeline *ngIf="startTimeline" [disease]="actualInfoOneDisease" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention);" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab *ngIf="infoWiki.length>0 || infoWikiGeneral.length>0" id="generaltab">
+              <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - General');backToList();">
+                {{'land.diagnosed.general.title' | translate }}</strong></ng-template>
+              <ng-template ngbTabContent>
+                <div *ngIf="!loadingArticle">
+                  <div class="col-md-12" *ngIf="viewArticle">
+                    <button type="button" class="pull-right btn btn-secondary btn-raised" (click)="backToList()">{{'generics.Back' | translate }}</button>
+                    <h1>{{actualArticle.title}}</h1>
+                    <!--<a (click)="backToList();">Return to the list of information found.</a>-->
+                  </div>
+                  <div class="col-md-12" *ngIf="infoWikiGeneral.length>0 && !viewArticle">
+                    <span class="text-muted">{{'land.diagnosed.general.We have found' | translate }} {{infoWikiGeneral.length}} {{'land.diagnosed.general.results for' | translate }} {{infoOneDisease.name}} ({{secondToResponse}} {{'land.diagnosed.general.Seconds' | translate }})</span>
+                    <p *ngFor="let part of infoWikiGeneral ; let k = index" class="mb-1">
+                      <span>
+                        <h5 class="mt-2 mb-0"><a (click)="goToArticle(part);" class="articleTitle">{{part.title}}</a></h5>
+                        <span class="" [innerHTML]="infoWikiGeneral[k].snippet"></span>
+                      </span>
+                    </p>
+                  </div>
+                  <div class="col-md-12" *ngIf="(infoWiki.length>0 && infoWikiGeneral.length>0 && viewArticle) || (infoWiki.length>0 && infoWikiGeneral.length==0)">
+                    <p *ngFor="let part of infoWiki ; let j = index" class="mb-1">
+                      <span>
+                        <h4 class="mt-2"><strong>{{part.title}}</strong></h4>
+                        <span class="" *ngIf="part.title!='Enlaces externos' && part.title!='External links'" style="margin-bottom: 2rem;white-space:pre-line;">
+                          <span *ngIf="part.content.length>0">
+                            {{part.content}}
+                          </span>
+                          <span *ngIf="part.items">
+                            <span *ngFor="let item of part.items ; let listItem = index" class="mb-1">
+                              <h5 class="mt-2"><strong>{{item.title}}</strong></h5>
+                              <span *ngIf="item.content.length>0" style="margin-bottom: 2rem;white-space:pre-line;">
+                                {{item.content}}
+                              </span>
+                            </span>
+                          </span>
+                        </span>
+                        <span class="" *ngIf="part.title=='Enlaces externos' || part.title=='External links'">
+                          <span *ngFor="let url of part.urls ; let j = index">
+                            <a href="{{url}}" target="_blank" class="d-block">{{url}}</a>
+                          </span>
+                        </span>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <div *ngIf="loadingArticle" class="center-elements">
+                    <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+                </div>
               </ng-template>
             </ngb-tab>
             <ngb-tab *ngIf="clinicalTrials.length>0" >
@@ -912,16 +964,16 @@
             <span>{{j+1}}. </span> <span>{{synonym.label}}</span>
           </p>
         </span>
-        <span *ngIf="infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms.length==0">
+        <!--<span *ngIf="infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms.length==0">
           {{'symptomssection.No synonyms' | translate }}
-        </span>
+        </span>-->
       </div>
     </div>
-    <div *ngIf="!infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms">
+    <!--<div *ngIf="!infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms">
       <span>
         {{'symptomssection.No synonyms' | translate }}
       </span>
-    </div>
+    </div>-->
   </div>
 </ng-template>
 
@@ -1106,6 +1158,8 @@
     <div class="col-md-12">
       <div class="col-md-12">
         <p>{{'land.diagnosed.timeline.t0' | translate}} <i class="fas fa-ellipsis-v font-medium-3 info"></i></p>
+        <p> {{'land.diagnosed.timeline.t0-p1' | translate}}</p>
+        <p> {{'land.diagnosed.timeline.t0-p2' | translate}}</p>
       </div>
       <div class="col-md-12 mt-1 d-block d-sm-none">
         <p>** {{'land.diagnosed.timeline.WorkPC' | translate}}</p>
