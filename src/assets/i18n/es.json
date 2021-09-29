@@ -382,7 +382,7 @@
     "frequent symptoms": "Síntomas frecuentes",
     "My symptoms": "Mis síntomas",
     "No symptoms": "Sin síntomas",
-    "Symptom added": "Sintoma añadido",
+    "Symptom added": "Síntoma añadido",
     "You already had the symptom": "Ya tienes el síntoma",
     "symptoms": "síntomas",
     "No symptoms found": "No se encontraron síntomas",
@@ -1580,7 +1580,7 @@
     "swalbuttonNoSymptoms":"Ok, entiendo.",
     "symptomstoWorkspace": "Debe agregrar al menos un síntoma para poder acceder al área de trabajo",
     "conditiontoWorkspace": "You have to select a condition in order to access the workspace.",
-    "noSymptomstoshow": "Lo sentimos, no tenemos sintomas que mostrarle",
+    "noSymptomstoshow": "Lo sentimos, no tenemos síntomas que mostrarle",
     "No text has been detected in the file": "No se ha detectado ningún texto en el archivo."
   },
   "welcome":{
@@ -1862,7 +1862,7 @@
       "msg2": "nuevos síntomas.",
       "msg3": "En total, hemos identificado",
       "msg4": "síntomas que ya se han añadido a tu perfil.",
-      "msg5": "Aquí tienes un resumen de todos los sintomas, por si quieres revisarlos una última vez o retirar alguno:",
+      "msg5": "Aquí tienes un resumen de todos los síntomas, por si quieres revisarlos una última vez o retirar alguno:",
       "msg6": "Con esto, hemos completado tu fenotipo. En la siguiente fase agregraremos tu información genética.",
       "btn1": "Continuar",
       "btn2": "Continuar"
@@ -1904,7 +1904,7 @@
     "step4-0":{
       "msg1": "¡Enhorabuena! Has completado todo el proceso en Dx29.",
       "msg2": "A continuación podrás ver el informe completo que se genera con la información que hemos recogido en todo el proceso, y que podrás volver a ver, descargar o compartir cuando quieras a traves de la sección 'mi perfil'",
-      "msg3": "Recuerda que podras agregrar mas informes médicos, sintomas o pruebas genéticas cuando quieras para ampliar el informe en cualquier momento.",
+      "msg3": "Recuerda que podras agregrar mas informes médicos, síntomas o pruebas genéticas cuando quieras para ampliar el informe en cualquier momento.",
       "btn1": "Continuar"
     },
     "step4-1":{
@@ -2224,7 +2224,7 @@
     "This was just an appetizer": "Esto solo ha sido un aperitivo. Regístrate para acceder a la funcionalidad completa, ¡es gratis!",
     "Where did we get this symptom from": "¿De donde hemos extraido este síntoma?",
     "The symptom was added manually": "Añadió el síntoma de forma manual",
-    "See more information about the symptom": "Ver más información del sintoma",
+    "See more information about the symptom": "Ver más información del síntoma",
     "here": "aquí",
     "Symptom by symptom comparison": "Comparación síntoma por síntoma",
     "Table showing": "La tabla muestra los síntomas del paciente y los síntomas presentes en el caso de referencia.",
@@ -2387,6 +2387,8 @@
         "selectEndOrCurrent":"Selecciona una fecha fin o indica si todavía sigues con él",
         "showNotes": "Añadir nota",
         "hideNotes": "Eliminar nota",
+        "Delete dates": "Eliminar fechas",
+        "Delete symptom": "Eliminar síntoma",
         "exit":"Salir",
         "reset":"Borrar",
         "ExitDiscard":"Todos los cambios que hayas hecho se descartarán.",
