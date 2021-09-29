@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 
 import { LocalizedDatePipe } from 'app/shared/services/localizedDatePipe.service';
 import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.service';
+import { SearchService } from 'app/shared/services/search.service';
 
 import { jsPDFService } from 'app/shared/services/jsPDF.service';
 import { HostListener } from "@angular/core";
@@ -72,7 +73,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
         "diciembre": "December"
     };
 
-    constructor(public translate: TranslateService, public toastr: ToastrService, public googleAnalyticsService: GoogleAnalyticsService, public jsPDFService: jsPDFService, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe, private localizedDatePipe: LocalizedDatePipe) {
+    constructor(public translate: TranslateService, public toastr: ToastrService, public googleAnalyticsService: GoogleAnalyticsService, public jsPDFService: jsPDFService, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe, private localizedDatePipe: LocalizedDatePipe, private searchService: SearchService) {
         this.modifyFormSymtoms = false;
         this.showTimeLine = false;
         this.actualTemporalSymptomsIndex = 0;
@@ -129,7 +130,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
 
     saveSymptomsSession() {
         if(this.listSymptoms.length){
-            console.log('saved');
             var info = {
                 "Symptoms": []
             }
@@ -247,7 +247,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
         this.listTimelineNull = []
         this.symptomsWithoutDates = 0;
         for (var i = 0; i < this.listSymptoms.length; i++) {
-            console.log(this.listSymptoms[i].onsetdate );
             if ((this.listSymptoms[i].onsetdate == NaN) || (this.listSymptoms[i].onsetdate == undefined)) {
                 this.listSymptoms[i].onsetdate = null;
                 this.symptomsWithoutDates++
@@ -298,7 +297,11 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
                 if (this.dictionaryTimeline[newKey][key2temp] == undefined) {
                     this.dictionaryTimeline[newKey][key2temp] = []
                 }
-                this.dictionaryTimeline[newKey][key2temp].push(this.listSymptoms[i])
+                var foundElement = this.searchService.search(this.dictionaryTimeline[newKey][key2temp], 'id', this.listSymptoms[i].id);
+                if(!foundElement){
+                    this.dictionaryTimeline[newKey][key2temp].push(this.listSymptoms[i])
+                }
+                
                 for (var j = 0; j < this.listSymptoms.length; j++) {
                     if (i != j) {
                         var isCurrentSymptom = this.listSymptoms[j].isCurrentSymptom;
@@ -307,7 +310,10 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
                                 var compareOnsetDate = this.listSymptoms[j].onsetdate;
 
                                 if (newDate.getTime() > compareOnsetDate.getTime()) {
-                                    this.dictionaryTimeline[newKey][key2temp].push(this.listSymptoms[j])
+                                    var foundElement2 = this.searchService.search(this.dictionaryTimeline[newKey][key2temp], 'id', this.listSymptoms[j].id);
+                                    if(!foundElement2){
+                                        this.dictionaryTimeline[newKey][key2temp].push(this.listSymptoms[j])
+                                    }
                                 }
                             }
                         }
@@ -318,7 +324,10 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
 
                                 if (compareFinishDate != null) {
                                     if ((newDate.getTime() > compareOnsetDate.getTime()) && (newDate.getTime() < compareFinishDate.getTime())) {
-                                        this.dictionaryTimeline[newKey][key2temp].push(this.listSymptoms[j])
+                                        var foundElement2 = this.searchService.search(this.dictionaryTimeline[newKey][key2temp], 'id', this.listSymptoms[j].id);
+                                        if(!foundElement2){
+                                            this.dictionaryTimeline[newKey][key2temp].push(this.listSymptoms[j])
+                                        }
                                     }
                                 }
                             }

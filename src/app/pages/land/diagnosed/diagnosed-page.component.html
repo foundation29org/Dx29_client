@@ -964,16 +964,16 @@
             <span>{{j+1}}. </span> <span>{{synonym.label}}</span>
           </p>
         </span>
-        <span *ngIf="infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms.length==0">
+        <!--<span *ngIf="infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms.length==0">
           {{'symptomssection.No synonyms' | translate }}
-        </span>
+        </span>-->
       </div>
     </div>
-    <div *ngIf="!infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms">
+    <!--<div *ngIf="!infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms">
       <span>
         {{'symptomssection.No synonyms' | translate }}
       </span>
-    </div>
+    </div>-->
   </div>
 </ng-template>
 

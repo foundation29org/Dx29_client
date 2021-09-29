@@ -1301,7 +1301,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     }
     
     startTimelineFunction(){
-        console.log(this.listSymptomsCheckedTimeline);
         if(this.listSymptomsCheckedTimeline.length>0) {
             this.startTimeline=true;
             //this.scrollToTop();
@@ -1365,7 +1364,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 keyboard: false,
                 windowClass: 'ModalClass-sm'// xl, lg, sm
             };
-            this.modalReference2 = this.modalService.open(contentInfoAttention, ngbModalOptions);
+            //this.modalReference2 = this.modalService.open(contentInfoAttention, ngbModalOptions);
         }
         else{
             this.sendSymtomsChecked();

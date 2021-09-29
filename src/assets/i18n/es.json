@@ -2475,7 +2475,8 @@
   },
   "preland":{
     "t1": "¿Tienes una enfermedad rara? Empieza a contar tu historia",
-    "t2": "Cada paciente tiene una historia que debe ser escuchada. Te ayudamos a que cuentes la tuya, y obtengas un <strong>informe personalizado con todos tus síntomas.</strong> Este es el principio de la revolución en las enfermedades raras. ¿Cuál es tu objetivo?",
+    "t2": "Cada paciente tiene una historia que debe ser escuchada. Te ayudamos a que cuentes la tuya, y obtengas un <strong>informe personalizado con todos tus síntomas.</strong> Este es el principio de la revolución en las enfermedades raras.",
+    "t2_q": "¿Cuál es tu objetivo?",
     "t3": "Aplicamos inteligencia artificial para ayudar a deducir diagnósticos precisos de los síntomas del paciente y de su información genética, si estuviera disponible.",
     "t4": "Prueba aquí la funcionalidad y regístrate para aprovechar todo su potencial.",
     "p1": "Primero, dinos quién eres:",

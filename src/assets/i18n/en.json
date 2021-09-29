@@ -2354,7 +2354,7 @@
         "results for": "results for"
       },
       "timeline":{
-        "title":"Tell us the story of your illness",
+        "title":"Tell us the story of your disease",
         "subtitlea": "In this report, the Dx29 user describes the patient's symptoms with the aim of improving patient-physician communication.",
         "subtitleb": "It is recommended to take the report to the next medical visit so that both the patient and the physician can help to further",
         "subtitlec": "refine the contents.",
@@ -2472,7 +2472,8 @@
   },
   "preland":{
     "t1": "Do you have a rare disease? Start telling your story",
-    "t2": "Every patient has a story that needs to be heard. We help you to tell yours, and <strong>get a personalized report with all your symptoms.</strong>. This is the beginning of the rare disease revolution. What is your goal?",
+    "t2": "Every patient has a story that needs to be heard. We help you to tell yours, and <strong>get a personalized report with all your symptoms.</strong> This is the beginning of the rare disease revolution.",
+    "t2_q": "What is your goal?",
     "t3": "We apply artificial intelligence to help deduce accurate diagnoses from the patient symptoms and from their genetic information, if available.",
     "t4": "Try the functionality here and register to harness its full potential.",
     "p1": "First, let us know who you are:",

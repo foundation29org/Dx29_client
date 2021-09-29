@@ -1,10 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/Subscription';
 import { SearchService } from 'app/shared/services/search.service';
 import { v4 as uuidv4 } from 'uuid';
 import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.service';
-import { EventsService } from 'app/shared/services/events.service';
 
 declare let gtag: any;
 
@@ -14,19 +13,16 @@ declare let gtag: any;
     styleUrls: ['./land-page.component.scss'],
 })
 
-export class LandPageComponent implements OnInit,  OnDestroy {
+export class LandPageComponent implements OnDestroy {
 
     private subscription: Subscription = new Subscription();
-    lang: string = 'en';
     _startTime: any;
     role: string = '';
     myuuid: string = uuidv4();
     eventList: any = [];
     
 
-    constructor( public googleAnalyticsService: GoogleAnalyticsService, private searchService: SearchService, private eventsService: EventsService, public translate: TranslateService) {
-
-        this.lang = sessionStorage.getItem('lang');
+    constructor( public googleAnalyticsService: GoogleAnalyticsService, private searchService: SearchService, public translate: TranslateService) {
         this._startTime = Date.now();
         if(sessionStorage.getItem('uuid')!=null){
             this.myuuid = sessionStorage.getItem('uuid');
@@ -49,12 +45,6 @@ export class LandPageComponent implements OnInit,  OnDestroy {
             this.eventList.push({name:category});
             gtag('event',this.myuuid,{"event_category":category, "event_label": secs});
         }
-    }
-
-    ngOnInit() {
-        this.eventsService.on('changelang', function (lang) {
-            this.lang = lang;
-        }.bind(this));
     }
 
     ngOnDestroy() {

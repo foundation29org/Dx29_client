@@ -80,7 +80,6 @@ export class jsPDFService {
             //doc.text(this.translate.instant("diagnosis.Previous Diagnosis"), 10, positionY += 5)
             positionY += 7
             //doc.setFontSize(10);
-            console.log(disease);
             positionY = this.writeText(doc, 16, positionY, disease.name);
             positionY = this.writeLinkOrpha(doc, (disease.name.length*2)+16, positionY, (disease.id).toUpperCase());
             doc.setFontSize(9);
@@ -129,7 +128,12 @@ export class jsPDFService {
         positionY = this.timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo);
 
         doc.setDrawColor(222,226,230);
-        positionY -= 10;
+        if(listSymptomsNullInfo.length>0){
+            positionY += 10;
+        }else{
+            positionY += 5;
+        }
+        
         this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Graphic chronology"),'',null,positionY);
         positionY = this.drawTimeLine(doc,dictionaryTimeline, listSymptomsNullInfo, positionY-= 10);
 
@@ -304,7 +308,6 @@ export class jsPDFService {
                 //is new page
                 doc.setFillColor(255, 255, 255);
                 var heightRect2 = ((5*(listSymptomsNullInfo.length-i)+5));
-                console.log(heightRect2);
                 if(heightRect2>250){
                     heightRect2 = 250;
                 }else if(heightRect2<10){
@@ -573,7 +576,7 @@ export class jsPDFService {
                 });
             }
             
-            positionY = tableInfo2.finalY + 25
+            positionY = tableInfo2.finalY
         }
         return positionY;
     }
