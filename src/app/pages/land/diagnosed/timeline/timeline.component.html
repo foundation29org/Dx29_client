@@ -76,7 +76,7 @@
                   <div class="col-md-12">
                     <div class="row">
                       <input class="form-control w-75 d-inline" id="dateOnset_{{i}}" name="dateOnset" matInput placeholder="{{'generics.Start Date' | translate }}"
-                        [max]="maxDate" readonly [matDatepicker]="pickerOnset" [(ngModel)]="symptom.onsetdate"
+                        [max]="maxDate" readonly [matDatepicker]="pickerOnset" (click)="pickerOnset.open()" [(ngModel)]="symptom.onsetdate"
                         (dateInput)="updateTimeline()">
                       <mat-datepicker-toggle matSuffix [for]="pickerOnset"></mat-datepicker-toggle>
                       <mat-datepicker touchUi="true" #pickerOnset></mat-datepicker>
@@ -87,7 +87,7 @@
                   <div class="col-md-12">
                     <div class="row">
                       <input class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish" placeholder="{{'generics.End Date' | translate }}"
-                        [min]="symptom.onsetdate" [max]="maxDate" readonly matInput [matDatepicker]="pickerFinish"
+                        [min]="symptom.onsetdate" [max]="maxDate" readonly matInput [matDatepicker]="pickerFinish" (click)="pickerFinish.open()"
                         [(ngModel)]="symptom.finishdate" (dateInput)="updateTimeline();"
                         [disabled]="(!symptom.checked)||(symptom.onsetdate==undefined)"
                         (ngModelChange)="updateIsCurrentSymptom(i, symptom.finishdate);">
@@ -289,7 +289,7 @@
               <div class="col-md-12">
                 <div class="row">
                   <input class="form-control w-75 d-inline" id="dateOnset_{{i}}" name="dateOnset" [max]="maxDate" placeholder="{{'generics.Start Date' | translate }}"
-                    matInput readonly [matDatepicker]="pickerOnset" [(ngModel)]="symptom.onsetdate"
+                    matInput readonly [matDatepicker]="pickerOnset" (click)="pickerOnset.open()" [(ngModel)]="symptom.onsetdate"
                     (dateInput)="updateTimeline();">
                   <mat-datepicker-toggle matSuffix [for]="pickerOnset"></mat-datepicker-toggle>
                   <mat-datepicker touchUi="true" #pickerOnset></mat-datepicker>
@@ -300,7 +300,7 @@
               <div class="col-md-12">
                 <div class="row">
                   <input class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish" placeholder="{{'generics.End Date' | translate }}"
-                    [min]="symptom.onsetdate" readonly [max]="maxDate" matInput [matDatepicker]="pickerFinish"
+                    [min]="symptom.onsetdate" readonly [max]="maxDate" matInput [matDatepicker]="pickerFinish" (click)="pickerFinish.open()"
                     [(ngModel)]="symptom.finishdate" (dateInput)="updateTimeline();"
                     [disabled]="(!symptom.checked)||(symptom.onsetdate==undefined)"
                     (ngModelChange)="updateIsCurrentSymptom(i, symptom.finishdate);">
