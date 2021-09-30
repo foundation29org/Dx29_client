@@ -1,6 +1,6 @@
 .background-img{
   min-height: 76vh !important;
-  background-image: url("assets/img/home/background.jpg");
+  background-image: url("assets/img/home/background3.jpg");
   background-position: center center;
   background-size: cover;
 }
@@ -9,12 +9,35 @@
   background-image: linear-gradient(45deg, #68aab842, #FFF) !important;
 }
 
-.card{
-  background-color: #fffc !important;
-}
-
 .h-80{
   height: 80px;
+}
+
+.hr-custom{
+  background-color: #f9423a; 
+  height: 3px; 
+  border: 0;
+  width: 30%;
+}
+
+p{
+  font-size: 1.1rem;
+}
+
+.btn-white.btn-raised, .btn-white.btn-fab {
+  background-color: #fff !important;
+  color: #000 !important;
+  border-color: #fff;
+  width: 200px;
+  box-shadow: 0.05rem 0.1rem 0.1rem 0.1rem rgba(166, 166, 166, 0.18);
+  border: 1px solid #dee2e6 !important;
+  border-radius: 1rem;
+}
+
+.btn-white:hover {
+  color: #212529 !important;
+  background-color: #ededed !important;
+  border-color: #fff !important;
 }
 
   @media ( max-width: 575px ){
@@ -28,8 +51,8 @@
     .card-body{
       padding: 0rem;
     }
-    .card h1.card-title{
-      font-size: 1rem;
+    .card-title{
+      font-size: 1.2rem;
     }
     p {
       font-size: 0.9rem;

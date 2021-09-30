@@ -1,37 +1,31 @@
 <section>
   <div class="row auth-height full-height-vh m-0 grid-hover background-img">
-    <div class="col-12 d-flex align-items-center justify-content-center">
-      <div class="card overflow-hidden">
-        <div class="card-content gradient-custom">
-          <div class="card-body" style="max-width: 600px;">
+    <div class="col-12 d-flex justify-content-center">
+          <div class="mt-4 card-body" style="max-width: 1200px;">
             <div class="row m-0">
               <div class="col-lg-12 justify-content-center align-items-center text-center" style="padding-top: 1.5rem;padding-right: 1.5rem;padding-left: 1.5rem;">
-                <h1 class="card-title" [innerHTML]="'preland.t1' | translate" style="text-transform: none;"></h1>
+                <h1 class="card-title text-bold-500">
+                  {{'preland.t1' | translate }}
+                  <hr class="hr-custom">
+                </h1>
+                
                 <p class="mt-3" [innerHTML]="'preland.t2' | translate"></p>
               </div>
               <div class="col-lg-12 col-md-12 py-2">
                 <h4 class="text-center">{{'preland.t2_q' | translate }}</h4>
                 <div class="col-md-12">
-                  <div class="center-elements">
-                    <div class="row">
-                      <div class="col-12 col-md-6 mb-2 mb-md-0">
-                        <button [routerLink]="['/undiagnosed']" (click)="lauchEvent('Role - Undiagnosed')" class="btn round btn-block mb-1 btn-outline-info h-80"
-                          type="button">{{'preland.p2.1' | translate }}
+                  <div class="pt-2 center-elements">
+                    <button [routerLink]="['/undiagnosed']" (click)="lauchEvent('Role - Undiagnosed')" class="mt-2 mr-2 ml-2 btn btn-white btn-raised round mb-1 h-80"
+                          type="button"><strong>{{'preland.p2.1' | translate }}</strong>
                         </button>
-                      </div>
-                      <div class="col-12 col-md-6 mb-2 mb-md-0">
                         <button [routerLink]="['/diagnosed']" (click)="lauchEvent('Role - Diagnosed');" type="button"
-                          class="btn btn-outline-info round btn-block mb-1 h-80">{{'preland.p2.2' | translate }}
+                          class="mt-2 mr-2 ml-2 btn btn-white btn-raised round mb-1 h-80"><strong>{{'preland.p2.2' | translate }}</strong>
                         </button>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
