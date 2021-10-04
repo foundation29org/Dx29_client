@@ -30,8 +30,29 @@ import {Observable, of, OperatorFunction} from 'rxjs';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
+import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexYAxis, ApexGrid, ApexDataLabels, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexLegend, ApexPlotOptions, ApexFill, ApexMarkers, ApexTheme, ApexNonAxisChartSeries, ApexResponsive } from "ng-apexcharts";
 import { KeyValue } from '@angular/common';
 
+
+export type ChartOptions = {
+    series: ApexAxisChartSeries | ApexNonAxisChartSeries;
+    colors: string[],
+    chart: ApexChart;
+    xaxis: ApexXAxis;
+    yaxis: ApexYAxis | ApexYAxis[],
+    title: ApexTitleSubtitle;
+    dataLabels: ApexDataLabels,
+    stroke: ApexStroke,
+    grid: ApexGrid,
+    legend?: ApexLegend,
+    tooltip?: ApexTooltip,
+    plotOptions?: ApexPlotOptions,
+    labels?: string[],
+    fill: ApexFill,
+    markers?: ApexMarkers,
+    theme: ApexTheme,
+    responsive: ApexResponsive[]
+};
 
 var $primary = "#975AFF",
     $success = "#40C057",
@@ -81,7 +102,7 @@ export class SearchTermService {
     providers: [Apif29BioService, Apif29NcrService, ApiDx29ServerService, ApiExternalServices, SearchTermService, jsPDFService],
 })
 
-export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit {
+export class UndiagnosedPageComponent2 implements OnInit, OnDestroy, AfterViewInit {
 
     private subscription: Subscription = new Subscription();
     private subscriptionDiseasesCall: Subscription = new Subscription();
@@ -120,6 +141,9 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     showButtonScroll: boolean = false;
     failAnnotate_batch: boolean = false;
     failSegmentation: boolean = false;
+    lineChartIdealOptions: Partial<ChartOptions>;
+    lineChartRuidoOptions: Partial<ChartOptions>;
+    refLangs: string = "https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support";
     lucky: boolean = false;
     showErrorMsg: boolean = false;
     modelTemp: any;
@@ -149,15 +173,10 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     openDiseases:number = 0;
     timeoutWait: number = 2000;
 
+
+
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
-
-    steps = [
-        { stepIndex: 1, isComplete: false, title: "Introduce y ordena tus síntomas"},
-        { stepIndex: 2, isComplete: false, title: "Recibe tu cronología"},
-        { stepIndex: 3, isComplete: false , title: "Explora enfermedades"}
-      ];
-    currentStep: any = {};
 
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
 
@@ -165,6 +184,11 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         this.lang = sessionStorage.getItem('lang');
 
         this.originalLang = sessionStorage.getItem('lang');
+        if (this.lang == 'es') {
+            this.refLangs = "https://docs.microsoft.com/es-es/azure/cognitive-services/translator/language-support";
+        } else {
+            this.refLangs = "https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support";
+        }
 
         $.getScript("./assets/js/docs/jszip-utils.js").done(function (script, textStatus) {
             //console.log("finished loading and running jszip-utils.js. with a status of" + textStatus);
@@ -191,21 +215,8 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             this.myuuid = uuidv4();
             sessionStorage.setItem('uuid', this.myuuid);
         }
-
-        this.currentStep = this.steps[0];
-        console.log(this.currentStep);
     }
 
-    goNext(){
-        var foundElementIndex = this.searchService.searchIndex(this.steps, 'stepIndex', this.currentStep.stepIndex);
-        this.currentStep= this.steps[foundElementIndex+1];
-    }
-
-    goPrevious(){
-        var foundElementIndex = this.searchService.searchIndex(this.steps, 'stepIndex', this.currentStep.stepIndex);
-        this.currentStep= this.steps[foundElementIndex-1];
-    }
-    
     openModarRegister(type){
         var titleEvent = "OpenModalRegister - " + type;
         this.lauchEvent(titleEvent);
@@ -278,10 +289,103 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         }
     }
 
+    initGraphs() {
+        var dataIdeal = [80.4, 85.6, 88, 89.2, 90.1, 90.6, 90.9, 91.3, 91.6, 91.9, 92.2, 92.3, 92.6, 92.7, 92.9, 93, 93.3, 93.4, 93.5, 93.6, 93.7, 93.8, 93.8, 93.8, 93.9, 93.9, 94, 94.1, 94.1, 94.1, 94.2, 94.2, 94.3, 94.3, 94.3, 94.3, 94.3, 94.4, 94.4, 94.4, 94.5, 94.5, 94.5, 94.5, 94.5, 94.5, 94.5, 94.6, 94.6, 94.6];
+
+        this.lineChartIdealOptions = {
+            chart: {
+                height: 350,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                }
+            },
+            colors: themeColors,
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            series: [{
+                name: this.translate.instant("land.InfoDx29.Percentage of success of the disease"),
+                data: dataIdeal,
+            }],
+            grid: {
+                row: {
+                    colors: ['#F5F5F5', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            xaxis: {
+                tickAmount: 10,
+                title: {
+                    text: this.translate.instant("land.InfoDx29.Position of the disease"),
+                },
+            },
+            yaxis: {
+                tickAmount: 5,
+            }
+        }
+
+        var dataRuido = [19.9, 27.8, 34.3, 38.5, 41.4, 44, 46.1, 47.8, 49.5, 51.1, 52.7, 53.7, 54.9, 56, 56.9, 57.7, 58.4, 59, 59.9, 60.7, 61.4, 61.9, 62.5, 63.1, 63.6, 64.1, 64.6, 65, 65.5, 65.7, 66.1, 66.4, 66.9, 67.3, 67.6, 68.1, 68.5, 69, 69.4, 69.8, 70.2, 70.7, 71, 71.2, 71.6, 71.8, 72.2, 72.4, 72.8, 73];
+        this.lineChartRuidoOptions = {
+            chart: {
+                height: 350,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                }
+            },
+            colors: themeColors,
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            series: [{
+                name: this.translate.instant("land.InfoDx29.Percentage of success of the disease"),
+                data: dataRuido,
+            }],
+            grid: {
+                row: {
+                    colors: ['#F5F5F5', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            xaxis: {
+                tickAmount: 10,
+                title: {
+                    text: this.translate.instant("land.InfoDx29.Position of the disease"),
+                },
+            },
+            yaxis: {
+                tickAmount: 5,
+            }
+        }
+    }
+
     ngOnInit() {
+
+        /*this.subscription.add(this.route.params.subscribe(params => {
+            if (params['role'] != undefined) {
+                this.role = params['role'];
+                if (this.role == 'undiagnosed' || this.role == 'clinician') {
+                    this.focusTextArea();
+                }
+            } else {
+                this.router.navigate(['/']);
+            }
+        }));*/
 
         this.eventsService.on('changelang', function (lang) {
             this.lang = lang;
+            if (this.lang == 'es') {
+                this.refLangs = "https://docs.microsoft.com/es-es/azure/cognitive-services/translator/language-support";
+            } else {
+                this.refLangs = "https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support";
+            }
             this.modelTemp = '';
             if (this.temporalSymptoms.length > 0 && this.originalLang != lang) {
                 Swal.fire({
@@ -1547,6 +1651,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
 
     showInfoDx29(contentInfoDx29) {
         this.lauchEvent("ShowInfoDx29");
+        this.initGraphs();
         let ngbModalOptions: NgbModalOptions = {
             backdrop: 'static',
             keyboard: false,

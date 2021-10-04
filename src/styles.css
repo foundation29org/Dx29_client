@@ -14,6 +14,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: "Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
+p{
+  font-size: 1.1rem;
+}
+
 footer{
   margin-top: 1em;
 }
@@ -21,6 +25,18 @@ footer{
 body {
   /* Disables pull-to-refresh but allows overscroll glow effects. */
   overscroll-behavior-y: contain;
+  background-color: #fff;
+}
+
+.color-footer{
+  background-color: #ededed;
+}
+
+.hr-custom{
+  background-color: #f9423a; 
+  height: 3px; 
+  border: 0;
+  width: 30%;
 }
 
 
