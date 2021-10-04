@@ -130,7 +130,6 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     callListOfSymptoms: boolean = false;
     modalReference3: NgbModalRef;
     modalReference4: NgbModalRef;
-    modalReferenceTimeLine: NgbModalRef;
     modalReference6: NgbModalRef;
     email: string = '';
     nothingFoundSymptoms: boolean = false;
@@ -197,8 +196,22 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     goNext(){
-        var foundElementIndex = this.searchService.searchIndex(this.steps, 'stepIndex', this.currentStep.stepIndex);
-        this.currentStep= this.steps[foundElementIndex+1];
+        var isNext = false;
+        if(this.currentStep.stepIndex==1){
+            this.symptomsTimeLine = this.getCheckedSymptoms();
+            if(this.symptomsTimeLine.length==0){
+                Swal.fire(this.translate.instant("land.To generate the chronology"), '', "warning");
+            }else{
+                isNext=true;
+            }
+        }else{
+            isNext=true;
+        }
+        if(isNext){
+            var foundElementIndex = this.searchService.searchIndex(this.steps, 'stepIndex', this.currentStep.stepIndex);
+            this.currentStep= this.steps[foundElementIndex+1];
+        }
+        
     }
 
     goPrevious(){
@@ -222,10 +235,6 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         if (this.modalReference6 != undefined) {
             this.modalReference6.close();
             this.modalReference6 = undefined;
-            return false;
-        }else if (this.modalReferenceTimeLine != undefined) {
-            this.modalReferenceTimeLine.close();
-            this.modalReferenceTimeLine = undefined;
             return false;
         }else if (this.modalReference4 != undefined) {
             this.modalReference4.close();
@@ -345,7 +354,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                 }
                 //this.toastr.warning(this.translate.instant("generics.Name")+': '+symptom.name, this.translate.instant("phenotype.You already had the symptom"));
             }
-            this.getNumberOfSymptomsChecked();
+            this.getNumberOfSymptomsChecked(false);
         }
         this.modelTemp = '';
     }
@@ -711,7 +720,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             if (this.temporalSymptoms.length == 0) {
                 this.inputManualSymptomsElement.nativeElement.focus();
             }
-            this.getNumberOfSymptomsChecked();
+            this.getNumberOfSymptomsChecked(false);
             /*var showSwalSelSymptoms = localStorage.getItem('showSwalSelSymptoms');
             if (showSwalSelSymptoms != 'false') {
                 if(this.temporalSymptoms.length==0){
@@ -877,7 +886,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             this.modalReference = undefined;
         }
         if(this.reloadDiseases){
-            this.getNumberOfSymptomsChecked();
+            this.getNumberOfSymptomsChecked(true);
             this.showSwal(this.translate.instant("land.proposed diseases has been updated"));
         }
 
@@ -955,7 +964,10 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
 
     changeStateSymptom(index, state) {
         this.temporalSymptoms[index].checked = state;
-        this.getNumberOfSymptomsChecked();
+        this.getNumberOfSymptomsChecked(false);
+        if(!state){
+            this.deleteSymptom(this.temporalSymptoms[index], index);
+        } 
     }
 
     checkSymptoms() {
@@ -970,7 +982,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         this.lucky = !this.lucky;
     }
 
-    getNumberOfSymptomsChecked() {
+    getNumberOfSymptomsChecked(recalculate) {
         this.reloadDiseases = false;
         this.numberOfSymtomsChecked = 0;
         for (var i = 0; i < this.temporalSymptoms.length; i++) {
@@ -978,7 +990,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                 this.numberOfSymtomsChecked++;
             }
         }
-        if (this.numberOfSymtomsChecked >= this.minSymptoms && this.temporalDiseases.length > 0) {
+        if (this.numberOfSymtomsChecked >= this.minSymptoms && this.temporalDiseases.length > 0 && recalculate) {
             this.calculate();
         } else if (this.numberOfSymtomsChecked < this.minSymptoms) {
             this.topRelatedConditions = [];
@@ -1067,12 +1079,16 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                 this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
                 this.loadingCalculate = false;
                 this.lauchEvent("Diseases");
-                if(this.isFirstCalculate){
-                    this.toastr.success('', this.translate.instant("land.The list of proposed diseases is now available"));
-                }else{
-                    this.toastr.success('', this.translate.instant("land.The list of proposed diseases has been updated"));
+                if(this.currentStep.stepIndex==3){
+                    if(this.isFirstCalculate){
+                        this.toastr.success('', this.translate.instant("land.The list of proposed diseases is now available"));
+                    }else{
+                        this.toastr.success('', this.translate.instant("land.The list of proposed diseases has been updated"));
+                    }
                 }
+                
                 this.isFirstCalculate=false;
+                this.goNext();
                 this.saveSymptomsSession();
             }, (err) => {
                 console.log(err);
@@ -1715,21 +1731,6 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         }
     }
 
-    getTimeLine(contentTimeline){
-        this.symptomsTimeLine = this.getCheckedSymptoms();
-        if(this.symptomsTimeLine.length==0){
-            Swal.fire(this.translate.instant("land.To generate the chronology"), '', "warning");
-        }else{
-            let ngbModalOptions: NgbModalOptions = {
-                backdrop: 'static',
-                keyboard: false,
-                windowClass: 'ModalClass-lg'// xl, lg, sm
-            };
-            this.modalReferenceTimeLine = this.modalService.open(contentTimeline, ngbModalOptions);
-        }
-        
-    }
-
     openSaveTimeLine(contentSaveTimeline){
         if(this.modalReference6==undefined){
             let ngbModalOptions: NgbModalOptions = {
@@ -1755,10 +1756,6 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             windowClass: 'ModalClass-sm'// xl, lg, sm
         };
         this.modalReference4 = this.modalService.open(contentInfoAndNotesSymptom, ngbModalOptions);
-    }
-
-    endTimeLineFunction(){
-        this.symptomsTimeLine = this.getCheckedSymptoms();
     }
 
     registerToDx29V2Timeline(){
@@ -1816,13 +1813,6 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                 }));
         } else {
             window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
-        }
-    }
-
-    closeTimeLine(){
-        if (this.modalReferenceTimeLine != undefined) {
-            this.modalReferenceTimeLine.close();
-            this.modalReferenceTimeLine = undefined;
         }
     }
 

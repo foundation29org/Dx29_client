@@ -39,6 +39,20 @@ body {
   width: 30%;
 }
 
+.secondary{
+  color:#b0b6bb;
+}
+
+.badge-secondary {
+  color: #fff;
+  background-color: #b0b6bb;
+}
+
+.btn-secondary {
+  color: #fff;
+  background-color: #b0b6bb;
+  border-color: #b0b6bb;
+}
 
 .fijado{
   position: sticky;
@@ -113,15 +127,15 @@ body {
 }
 
 .textExtractedNcr > a > b{
-  background-color: #33658A;
+  background-color: #f9423a;
 }
 .textExtractedNcr >  b{
-  background-color: #33658A;
+  background-color: #f9423a;
 }
 mark{
   text-decoration: underline;
-  -webkit-text-decoration-color: #33658A; /* Safari */  
-  text-decoration-color: #33658A;
+  -webkit-text-decoration-color: #f9423a; /* Safari */  
+  text-decoration-color: #f9423a;
   background-color: #FFF;
   text-decoration-thickness: 3px;
 }

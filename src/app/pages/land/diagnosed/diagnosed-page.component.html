@@ -190,7 +190,7 @@
                               <strong>
                                 <button (click)="changeStateSymptomDisease(i);"
                                     class="btn btn-sm mr-2 mb-0 btn-fab round white"
-                                    [ngClass]="(symptom.checked==true)?'btn-info':'btn-secondary '"
+                                    [ngClass]="(symptom.checked==true)?'btn-primary':'btn-secondary '"
                                     href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
                                     <em class="fa fa-check w-13"></em>
                                 </button>
@@ -208,7 +208,7 @@
                     </table>
                   </div>
                   <div class="col-md-12 center-elements mt-2">
-                    <button type="button" class="btn btn-info btn-md btn-raised" (click)="startTimelineFunction();">
+                    <button type="button" class="btn btn-primary btn-md btn-raised" (click)="startTimelineFunction();">
                         <span>{{'land.diagnosed.timeline.btn2' | translate}}</span>
                     </button>
                   </div>
@@ -409,8 +409,8 @@
                     </div>
                     <div *ngIf="!sending" class="center-elements mt-3">
                       <div *ngIf="f.valid;then formValid else formError"></div>
-                      <ng-template #formValid><button class="btn btn-outline-info" (click)="onSubmitDonorData();lauchEvent('Diagnosed - Submit Donate your data');"> {{'support.Send' | translate }}</button></ng-template>
-                      <ng-template #formError><button class="btn btn-outline-info" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
+                      <ng-template #formValid><button class="btn btn-outline-primary" (click)="onSubmitDonorData();lauchEvent('Diagnosed - Submit Donate your data');"> {{'support.Send' | translate }}</button></ng-template>
+                      <ng-template #formError><button class="btn btn-outline-primary" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
                     </div>
                     <div class="form-actions center-elements" *ngIf="sending">
                         <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
@@ -436,7 +436,7 @@
                               <td class="row text-left">
                                 <div class="col-md-12">
                                   <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
-                                    class="btn-outline-info btn btn-sm mr-2 mb-0 btn-fab round"
+                                    class="btn-outline-primary btn btn-sm mr-2 mb-0 btn-fab round"
                                     title="{{'generics.More information' | translate }} ({{symptom.id}})">
                                     <em class="fa fa-info w-13"></em>
                                   </button>
@@ -519,7 +519,7 @@
                                 <div class="col-md-12">
                                   <button (click)="changeStateSymptomDisease(i);"
                                     class="btn btn-sm mr-2 mb-0 btn-fab round white"
-                                    [ngClass]="(symptom.checked==true)?'btn-info':'btn-secondary '"
+                                    [ngClass]="(symptom.checked==true)?'btn-primary':'btn-secondary '"
                                     href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
                                     <em class="fa fa-check w-13"></em>
                                   </button>
@@ -556,7 +556,7 @@
                         </div>
                       </div>
                       <div class="col-md-12 mt-2 center-elements">
-                        <button type="button" class="btn btn-info btn-md btn-raised" (click)="startTimelineFunction();">
+                        <button type="button" class="btn btn-primary btn-md btn-raised" (click)="startTimelineFunction();">
                             <span>{{'land.diagnosed.timeline.btn2' | translate}}</span>
                         </button>
                       </div>
@@ -745,8 +745,8 @@
                     </div>
                     <div *ngIf="!sending" class="center-elements mt-3">
                       <div *ngIf="f.valid;then formValid else formError"></div>
-                      <ng-template #formValid><button class="btn btn-outline-info" (click)="onSubmitDonorData();lauchEvent('Diagnosed - Submit Donate your data');"> {{'support.Send' | translate }}</button></ng-template>
-                      <ng-template #formError><button class="btn btn-outline-info" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
+                      <ng-template #formValid><button class="btn btn-outline-primary" (click)="onSubmitDonorData();lauchEvent('Diagnosed - Submit Donate your data');"> {{'support.Send' | translate }}</button></ng-template>
+                      <ng-template #formError><button class="btn btn-outline-primary" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
                     </div>
                     <div class="form-actions center-elements" *ngIf="sending">
                         <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
@@ -1032,8 +1032,8 @@
             </div>
             <div *ngIf="!sending" class="center-elements ml-2 mt-2">
               <div *ngIf="f.valid;then formValid else formError"></div>
-              <ng-template #formValid><button class="btn btn-outline-info mb-0" (click)="sendSymtomsChecked(contentInfoSendSymptoms);lauchEvent('Diagnosed - Submit Revolution');"> {{'support.Send' | translate }}</button></ng-template>
-              <ng-template #formError><button class="btn btn-outline-info mb-0" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
+              <ng-template #formValid><button class="btn btn-outline-primary mb-0" (click)="sendSymtomsChecked(contentInfoSendSymptoms);lauchEvent('Diagnosed - Submit Revolution');"> {{'support.Send' | translate }}</button></ng-template>
+              <ng-template #formError><button class="btn btn-outline-primary mb-0" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
               <span class="d-block font-small-3 pb-2 info" style="cursor: pointer;" (click)="letsGo();">{{'land.diagnosed.symptoms.btn2' | translate }}</span>
             </div>
             <div class="form-actions" *ngIf="sending">
@@ -1083,8 +1083,8 @@
         </div>
         <div *ngIf="!sending" class="mt-2">
           <div *ngIf="f.valid;then formValid else formError"></div>
-          <ng-template #formValid><button class="btn btn-outline-info" (click)="onSubmitRevolution();lauchEvent('Diagnosed - Submit Revolution');"> {{'support.Send' | translate }}</button></ng-template>
-          <ng-template #formError><button class="btn btn-outline-info" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
+          <ng-template #formValid><button class="btn btn-outline-primary" (click)="onSubmitRevolution();lauchEvent('Diagnosed - Submit Revolution');"> {{'support.Send' | translate }}</button></ng-template>
+          <ng-template #formError><button class="btn btn-outline-primary" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
         </div>
         <div class="form-actions" *ngIf="sending">
             <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>

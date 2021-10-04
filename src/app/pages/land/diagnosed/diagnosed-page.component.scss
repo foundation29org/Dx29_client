@@ -30,7 +30,7 @@
 }
 
 .articleTitle:hover {
-  color: #33658A;
+  color: #f9423a;
   text-decoration: underline;
 }
 
@@ -101,19 +101,19 @@
 
 /* Provide sufficient contrast against white background */
 a {
-    color: #33658A;
+    color: #f9423a;
 }
 
 .btn-primary {
     color: #fff;
-    background-color: #33658A;
-    border-color: #33658A;
+    background-color: #f9423a;
+    border-color: #f9423a;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
-    background-color: #33658A;
-    border-color: #33658A;
+    background-color: #f9423a;
+    border-color: #f9423a;
 }
 
 /* Sticky footer styles
@@ -386,18 +386,22 @@ body {
   }
 
   ::ng-deep  .swal2-styled.swal2-confirm:focus {
-    box-shadow: 0 0 0 3px #1696ac;
+    box-shadow: 0 0 0 3px #ffb2b2;
+}
+
+::ng-deep  .swal2-styled.swal2-cancel:focus {
+  box-shadow: 0 0 0 3px #ccc;
 }
 
 .form-control:focus{
-  border-color: #33658A !important;
-  box-shadow: 0 0 0 0.2rem #33658A5E;
+  border-color: #f9423a !important;
+  box-shadow: 0 0 0 0.2rem #f9423a5E;
 }
 
 :host /deep/ .dropdown-item.active, .dropdown-item:active {
     color: #fff;
     text-decoration: none;
-    background-color: #33658A !important;
+    background-color: #f9423a !important;
 }
 
 .btn-sm, .btn-group-sm > .btn {
@@ -410,13 +414,13 @@ body {
  }
 
  .nav-tabs .nav-link.active {
-  border-bottom: 2px solid #33658A !important;
+  border-bottom: 2px solid #f9423a !important;
   background-color: transparent !important;
   border-color: transparent !important;
 }
 
 :host /deep/ a{
-  color: #33658A;
+  color: #f9423a;
 }
 
 :host /deep/ .nav-tabs {
