@@ -97,7 +97,7 @@
                 <span *ngIf="i<(infoOneDisease.xrefs.length-1)"> </span>
               </span>
             </span>
-            <a id="inittabs"></a>
+            <a id="inittabs" class="akey"></a>
             <div class="offset-sm-1 col-sm-10 offset-md-2 col-md-8 offset-lg-3 col-lg-6 pb-3">
               <p>{{infoOneDisease.desc}}</p>
             </div>
@@ -424,7 +424,7 @@
                   </div>
                 </mat-expansion-panel>
               </mat-accordion>
-              <ngb-tabset type="pills" #tabRef="ngbTabset" class="border shadow d-none d-sm-block text-left">
+              <ngb-tabset type="pills" id="tabspills" #tabRef="ngbTabset" class="border shadow d-none d-sm-block text-left">
                 <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined" id="tab0">
                   <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Symptoms');">{{'land.diagnosed.general.Symptoms' | translate }}</strong></ng-template>
                   <ng-template ngbTabContent>
@@ -819,7 +819,7 @@
                   </ng-template>
                 </ngb-tab>
               </ngb-tabset>
-              <div class="mt-2">
+              <div class="mt-2" *ngIf="showButtonScroll">
                 <button type="button" class="float-right btn btn-primary btn-raised" (click)="goTopTabs()"><i class="ft-arrow-up fa-2x"></i></button>
               </div>
             </div>

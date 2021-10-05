@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, Injectable } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, Injectable  } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
 import { environment } from 'environments/environment';
@@ -104,6 +104,7 @@ export class SearchTermService {
 export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private subscription: Subscription = new Subscription();
+    private eventSubscription: Subscription = new Subscription();
     private subscriptionDiseasesCall: Subscription = new Subscription();
     private subscriptionDiseasesNotFound: Subscription = new Subscription();
     private timeSubscription: Subscription = new Subscription();
@@ -371,6 +372,19 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             }
             
         }.bind(this));
+
+        this.eventSubscription = Observable.fromEvent(window, "scroll").subscribe(e => {
+            if($('#tabspills')){
+                console.log($('#tabspills').height())
+                if($('#tabspills').height()>700){
+                    this.showButtonScroll = true;
+                }else{
+                    this.showButtonScroll = false;
+                }
+            }
+            //console.log(window.innerHeight);
+        });
+        
     }
 
     ngAfterViewInit() {
@@ -379,6 +393,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
+        this.eventSubscription.unsubscribe();
 
         if (this.subscriptionDiseasesCall) {
             this.subscriptionDiseasesCall.unsubscribe();
