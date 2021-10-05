@@ -1,13 +1,5 @@
-@import "../../../../../assets/sass/scss/bootstrap/timeline-vertical";
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
-.timeline-item {
-  padding: 0 0 0rem 3.2rem !important;
-}
-.timeline-group{
-  padding: 0px 0 !important;
-  margin: 0px 0 !important;
-}
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 :host /deep/ .nav-pills{
   background: #eee;
@@ -191,6 +183,70 @@ body {
     color: blue;
 }
 
+/* Custom
+-------------------------------------------------- */
+/*
+.section h1 {
+    font-family: suisse,sans-serif;
+    font-size: 48px;
+    font-weight: 600;
+}
+
+.section h2 {
+    font-family: suisse,sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+}
+
+.section p {
+    font-family: suisse,sans-serif;
+    font-size: 22px;
+    font-weight: normal;
+}
+
+.section1 h1 {
+    font-family: suisse,sans-serif;
+    font-size: 48px;
+    font-weight: 600;
+}
+
+.section1 p {
+    font-family: suisse,sans-serif;
+    font-size: 22px;
+    font-weight: normal;
+}
+
+.section2 {
+    height: 100%;
+    min-height: 100%;
+}
+
+    .section2 h3 {
+        font-family: suisse,sans-serif;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .section2 p {
+        font-family: suisse,sans-serif;
+        font-size: 18px;
+        font-weight: normal;
+    }
+
+    .section2 button {
+        width: 220px;
+        word-wrap: break-word;
+        line-height: 1.25;
+    }
+
+        .section2 button.btn-link {
+            color: black;
+            text-decoration: underline;
+            line-height: 1.25;
+            font-size: 20px;
+            font-weight: 600;
+        }
+*/
 .donate p {
     font-family: suisse,sans-serif;
     font-size: 20px;
@@ -231,17 +287,18 @@ img.logo {
 body {
     --table-width: 100%; /* Or any value, this will change dinamically */
   }
-  
+  tbody {
+    display:block;
+    max-height:270px;
+    min-height:270px;
+    overflow-y:auto;
+  }
   thead, tbody tr {
     display:table;
     width: 100%;
     table-layout:fixed;
   }
 
-  hr{
-    border-color: #f9423a;
-  }
-  
   .tr-auto{
     table-layout:auto !important;
   }
@@ -626,11 +683,6 @@ body {
 
   @media ( max-width: 575px ){
 
-    .timeline{
-      padding: 0px 0 !important;
-      margin: 0px 0 !important;
-    }
-
     .box-panels{
       margin-bottom: 2.25rem !important;
     }
@@ -684,7 +736,7 @@ body {
       min-height: 73px;
       background-color: #f5f5f5;
     }
-
+    
     .no-line-height{
       line-height: 0.5rem;
     }
@@ -700,8 +752,8 @@ body {
       padding-right: 0px;
     }
 
-    .timeline-left {
-      padding: 0px !important;
+    .w-reg-img-sm{
+      max-width: 4em;
     }
   }
 
@@ -713,6 +765,18 @@ body {
 
     .card-body{
       padding: 0rem;
+    }
+
+    :host /deep/ .timeline-card .card-body{
+      padding: 0.5rem;
+    }
+
+    :host /deep/ .timeline-left .timeline-item {
+      padding: 0 0 0rem 3.2rem !important;
+    }
+
+    :host /deep/ .timeline-group{
+      margin: 0px;
     }
     /*.container-fluid{
       padding-right: 0px !important;

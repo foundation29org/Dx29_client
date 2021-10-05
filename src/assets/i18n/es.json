@@ -1302,7 +1302,8 @@
     "My tribe": "Mi tribu",
     "Do you have a diagnosis?": "¿Tienes un diagnóstico?",
     "Write your condition": "Introduce tu enfermedad",
-    "titleSearchCondition": "¿Qué diagnóstico de enfermedad rara tienes?",
+    "titleSearchCondition": "Cuéntanos tu enfermedad",
+    "subtitleSearchCondition": "Para iniciar este viaje, selecciona tu enfermedad",
     "Search condition": "Escribe el nombre de tu enfermedad",
     "Select condition": "Selecciona condición",
     "Conditions": "Condiciones",
@@ -2222,6 +2223,8 @@
     "There are": "Quedan",
     "remaining not shown in the table": "sin mostrar en la tabla.",
     "What now": "¿Y ahora que?",
+    "msgwhat1": "Probablemente nunca hayas tenido tu información tan organizada. Es probable que tus médicos tampoco. Descárgate un informe y llévaselo a tus médicos. Por un lado, quizás haya errores en la información que habría que subsanar. Por otro lado, os ayudará a alcanzar un diagnóstico más rápidamente.",
+    "msgwhat2": "¡Cuidado! Si cierras esta ventana sin <strong>registrarte</strong> perderás tu progreso.",
     "This was just an appetizer": "Esto solo ha sido un aperitivo. Regístrate para acceder a la funcionalidad completa, ¡es gratis!",
     "Where did we get this symptom from": "¿De donde hemos extraido este síntoma?",
     "The symptom was added manually": "Añadió el síntoma de forma manual",
@@ -2282,10 +2285,11 @@
     "Look for symptoms": "Buscar síntomas",
     "Documents": "Informes",
     "Quick search": "Buscar",
-    "Drag and drop file here": "Arrastre y suelte el archivo aquí",
+    "Drag and drop file here": "Arrastre y suelte un informe aquí",
     "or": "o",
     "Browse for file": "Busque el archivo",
     "Accepted files": "Ficheros aceptados: pdf, docx, imágenes",
+    "descripReports": "Entendemos que estos datos son muy sensibles. Si no te registras todos los datos se borran al cerrar esta ventana.",
     "table":{
       "t1": "Introducción de texto",
       "d1": "Pegado, escrito, fotografía o archivo",
@@ -2421,7 +2425,10 @@
         "Knowing the evolution1": "Conocer la evolución de tus síntomas ayuda a llegar a un diagnóstico preciso porque muchas veces esa es la diferencia entre",
         "Knowing the evolution2": "dos enfermedades similares.",
         "There are undated symptoms1": "Hay síntomas sin fecha",
-        "There are undated symptoms2": "Seleccione las fechas para que aparezcan en tu historia."
+        "There are undated symptoms2": "Seleccione las fechas para que aparezcan en tu historia.",
+        "msValidationChrono1": "Faltan {{value}} síntomas por incluir en tu cronología",
+        "msValidationChrono2": "Do you want to continue?",
+        "msValidationChrono3": "You have not entered symptoms in your chronology"
       },
       "diseases":{
         "error1":"Lo sentimos, no tenemos información sobre",

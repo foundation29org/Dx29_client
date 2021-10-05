@@ -158,6 +158,9 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
       ];
     currentStep: any = {};
 
+    paramsTimeLine: any = {};
+    loadingPdf: boolean = false;
+
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
 
         
@@ -204,8 +207,53 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             }else{
                 isNext=true;
             }
-        }else{
-            isNext=true;
+        }else if(this.currentStep.stepIndex==2){
+            var tamanoWithDate= Object.keys(this.paramsTimeLine.dictionaryTimeline).length;
+            var tamanoWithOutDate= this.paramsTimeLine.listTimelineNull.length;
+            if(tamanoWithDate==0){
+                Swal.fire({
+                    title: this.translate.instant("land.diagnosed.timeline.msValidationChrono3"),
+                    text: this.translate.instant("land.diagnosed.timeline.msValidationChrono2"),
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#0CC27E',
+                    cancelButtonColor: '#f9423a',
+                    confirmButtonText: this.translate.instant("generics.Yes"),
+                    cancelButtonText: this.translate.instant("generics.No"),
+                    showLoaderOnConfirm: true,
+                    allowOutsideClick: false,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        var foundElementIndex = this.searchService.searchIndex(this.steps, 'stepIndex', this.currentStep.stepIndex);
+                        this.currentStep= this.steps[foundElementIndex+1];
+                    }
+                });
+            }else if(tamanoWithOutDate>0){
+                Swal.fire({
+                    title: this.translate.instant("land.diagnosed.timeline.msValidationChrono1",{
+                        value: tamanoWithOutDate
+                      }),
+                    text: this.translate.instant("land.diagnosed.timeline.msValidationChrono2"),
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#0CC27E',
+                    cancelButtonColor: '#f9423a',
+                    confirmButtonText: this.translate.instant("generics.Yes"),
+                    cancelButtonText: this.translate.instant("generics.No"),
+                    showLoaderOnConfirm: true,
+                    allowOutsideClick: false,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        var foundElementIndex = this.searchService.searchIndex(this.steps, 'stepIndex', this.currentStep.stepIndex);
+                        this.currentStep= this.steps[foundElementIndex+1];
+                    }
+                });
+            }else{
+                isNext=true;
+            }
+            
         }
         if(isNext){
             var foundElementIndex = this.searchService.searchIndex(this.steps, 'stepIndex', this.currentStep.stepIndex);
@@ -1823,4 +1871,27 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         }
     }
 
+    getParamsTimeLine(info){
+        console.log(info);
+        this.paramsTimeLine = info;
+    }
+
+
+    exportTimeline(){
+        if(!this.loadingPdf){
+            this.loadingPdf = true;
+                Swal.fire({
+                    title: this.translate.instant("land.diagnosed.timeline.Download"),
+                    html: '<div class="col-md-12"><span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span></div><div class="col-md-12 mt-2"> <p> ' + this.translate.instant("land.diagnosed.timeline.WaitDownload") + '</p></div>',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: function () {
+                        this.jsPDFService.generateTimelinePDF(this.paramsTimeLine.lang, this.paramsTimeLine.dictionaryTimeline, this.paramsTimeLine.listTimelineNull, this.paramsTimeLine.disease, this.paramsTimeLine.topRelatedConditions);
+                        Swal.close();
+                        this.loadingPdf = false;
+                    }.bind(this)
+                });
+        }
+    }
 }

@@ -56,7 +56,7 @@
                     placeholder="{{'symptomssection.manualinput' | translate }}"
                     (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
                     <div class="center-elements" *ngIf="callListOfSymptoms">
-                      <em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em>
+                      <em class="fa fa-spinner fa-spin fa-3x fa-fw secondary"></em>
                     </div>
                     <span *ngIf="nothingFoundSymptoms">
                       <span *ngIf="(modelTemp).trim().length>3">
@@ -156,8 +156,10 @@
                 <label class="btn btn-primary btn-raised"
                   style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
                   for="fileDropRef">{{'land.Browse for file' | translate }}</label>
-                <span class="mt-2 d-block text-muted">{{'land.Accepted files' | translate }}</span>
+                <h3 class="mt-2 d-block">{{'land.Accepted files' | translate }}</h3>
+                <span class="mt-2 ml-2 font-small-3 text-muted">{{'land.descripReports' | translate }}</span>
               </div>
+              
               <!--<mat-checkbox
                   class="example-margin mt-0" name="lucky" [(ngModel)]="lucky">
                 <label (click)="changeLucky()" style="cursor: pointer;">
@@ -177,7 +179,7 @@
       <span class="d-block pt-2 center-elements font-medium-3">{{'land.The symptoms found will be shown here' |
         translate }}</span>
       <span *ngIf="substepExtract!='0' && substepExtract!='4'" class="d-block pt-2 center-elements">
-        <em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em>
+        <em class="fa fa-spinner fa-spin fa-3x fa-fw secondary"></em>
         <span class="d-block overlay-text col-md-12 font-medium-3 mt-2">{{'land.Calculating' | translate
           }}...</span>
         <span class="d-block font-medium-3 mt-1 pb-2">{{'land.pleaseWait' | translate }}</span>
@@ -216,7 +218,7 @@
             placeholder="{{'symptomssection.manualinput' | translate }}"
             (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
             <div class="center-elements" *ngIf="callListOfSymptoms">
-              <em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em>
+              <em class="fa fa-spinner fa-spin fa-3x fa-fw secondary"></em>
             </div>
             <span *ngIf="nothingFoundSymptoms">
               <span *ngIf="(modelTemp).trim().length>3">
@@ -275,7 +277,7 @@
             {{'land.addMoreSymp' | translate }}
           </span>
           <button *ngIf="!loadingCalculate" type="button" class="mt-2 mr-2 btn btn-secondary btn-raised float-right" (click)="calculate()" [class.cursor-not-allowed]="currentStep.stepIndex==3" [disabled]="currentStep.stepIndex==3" [ngClass]="(currentStep.stepIndex<3)?'btn btn-primary btn-raised':'btn btn-secondary btn-raised'">{{'generics.Next' | translate }}</button>
-          <em *ngIf="loadingCalculate" class="fa fa-spinner fa-spin fa-3x fa-fw primary mt-2 mr-2 float-right"></em>
+          <em *ngIf="loadingCalculate" class="fa fa-spinner fa-spin fa-3x fa-fw secondary mt-2 mr-2 float-right"></em>
         </span>
       </span>
     </div>
@@ -283,13 +285,14 @@
 </section>
 <section *ngIf="currentStep.stepIndex == 2" class="step-section offset-sm-1 col-sm-10 offset-md-2 col-md-8 offset-lg-3 col-lg-6">
   <span class="card mt-0 mb-0 shadow rounded-lg border p-2" style="min-height: 48vh;">
+    <p> {{'land.diagnosed.timeline.t0' | translate}} <i class="fas fa-ellipsis-v font-medium-3 secondary"></i></p>
     <span *ngIf="topRelatedConditions.length==0">
       <div class="center-elements">
-        <em class="fa fa-spinner fa-spin fa-3x fa-fw primary" style="position: absolute;top: 45%;left: 47%;"></em>
+        <em class="fa fa-spinner fa-spin fa-3x fa-fw secondary" style="position: absolute;top: 45%;left: 47%;"></em>
       </div>
     </span>
     <span *ngIf="topRelatedConditions.length>0">
-      <timeline [listSymptoms]="symptomsTimeLine" [topRelatedConditions]="topRelatedConditions" (addSymptomsEvent)="goPrevious()" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+      <timeline [listSymptoms]="symptomsTimeLine" [topRelatedConditions]="topRelatedConditions" (exportParamsEvent)="getParamsTimeLine($event)" (addSymptomsEvent)="goPrevious()" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
     </span>
   </span>
   <span class="col-md-12 p-1 footer-symtoms shadow rounded-lg border" *ngIf="topRelatedConditions.length>0">
@@ -312,7 +315,7 @@
             </div>
           </div>
           <div *ngIf="loadingCalculate && substepExtract!='0'" class="col-md-12 align-self-center center-elements">
-            <em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em>
+            <em class="fa fa-spinner fa-spin fa-3x fa-fw secondary"></em>
             <p class="d-block overlay-text col-md-12 font-medium-3 mt-2">{{'land.Calculating' | translate }}...</p>
             <p class="d-block font-medium-3 mt-1">{{'land.pleaseWait2' | translate }}
             </p>
@@ -381,6 +384,29 @@
     <button type="button" class="mt-2 ml-2 btn btn-secondary btn-raised float-left" (click)="goPrevious()" [class.cursor-not-allowed]="currentStep.stepIndex==1" [disabled]="currentStep.stepIndex==1" [ngClass]="(currentStep.stepIndex!=1)?'btn-primary':'btn-secondary'">{{'generics.Previous' | translate }}</button>
     <button type="button" class="mt-2 mr-2 btn btn-secondary btn-raised float-right" (click)="goNext()" [class.cursor-not-allowed]="currentStep.stepIndex==3" [disabled]="currentStep.stepIndex==3" [ngClass]="(currentStep.stepIndex<3)?'btn-primary':'btn-secondary'">{{'generics.Next' | translate }}</button>
   </span>
+
+  <div class="mt-3 card mt-0 mb-0 shadow rounded-lg border">
+    <div class="p-2 col-md-12 center-elements">
+      <div class="section2 mt-2">
+        <h3>{{'land.What now' | translate }}</h3>
+        <p [innerHTML]="'land.msgwhat1' | translate"></p>
+        <p [innerHTML]="'land.msgwhat2' | translate"></p>
+        <div class="p-2">
+          <button type="button" class="btn btn-primary btn-md btn-raised mr-1" (click)="registerToDx29V2Timeline()">
+            <em class="mr-1 ft-save white"
+              title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="registerToDx29V2Timeline()"
+              style="cursor: pointer;"></em>
+              <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
+          </button>
+        <button type="button" class="btn btn-primary btn-md btn-raised ml-1" (click)="exportTimeline()">
+          <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
+            (click)="exportTimeline()" style="cursor: pointer;"></em>
+          <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
+        </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 <ng-template #contentInfoSymptomNcr let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-header" id="idHeader">

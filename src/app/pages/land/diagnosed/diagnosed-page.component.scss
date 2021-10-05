@@ -5,6 +5,20 @@
   background: #eee;
 }
 
+.background-img{
+  margin-top: -7px !important;
+  background-image: url("assets/img/home/background2.jpg");
+  background-position: center center;
+  background-size: auto;
+  display: block;
+  position: absolute;
+  width: 100%;
+  width: -moz-available;          /* For Mozzila */
+  width: -webkit-fill-available;  /* For Chrome */
+  width: stretch;
+  height: 600px;
+}
+
 .dropdown-toggle::after {
   display:none;
 }
@@ -53,13 +67,6 @@
 :host /deep/ #exTab1 .tab-content {
   background-color: #f4f4f4;
   padding-bottom: 1rem !important;
-}
-
-.background-img{
-  min-height: 76vh !important;
-  background-image: url("assets/img/home/background.jpg");
-  background-position: center center;
-  background-size: cover;
 }
 
 .titleneon {
@@ -279,6 +286,11 @@ img.logo {
 ::placeholder {
     font-size: 22px;
 }
+
+input[type="text"]::placeholder {  
+  text-align: center; 
+}
+
 .pos-abs{
   position: absolute;
   bottom: 0px;
@@ -297,6 +309,10 @@ body {
     display:table;
     width: 100%;
     table-layout:fixed;
+  }
+
+  .fa-1_7x{
+    font-size: 1.7em;
   }
 
   .tr-auto{
@@ -680,6 +696,13 @@ body {
       display: block; 
     }
   }*/
+
+  @media (max-width: 700px) {
+    .card-title{
+      display: inline-block;
+      margin-top: 0.75rem !important;
+    }
+  }
 
   @media ( max-width: 575px ){
 

@@ -1301,7 +1301,8 @@
     "My map": "My map",
     "My tribe": "My tribe",
     "Do you have a diagnosis?": "Do you have a diagnosis?",
-    "titleSearchCondition": "What is your rare disease diagnosis?",
+    "titleSearchCondition": "Tell us about your disease",
+    "subtitleSearchCondition": "To start this journey, we simply need you to search for your disease in the space and select it from the drop-down",
     "Write your condition": "Write your condition",
     "Search condition": "Type the name of your condition",
     "Condition": "Condition",
@@ -2221,6 +2222,8 @@
     "There are": "There are",
     "remaining not shown in the table": "remaining not shown in the table.",
     "What now": "What now?",
+    "msgwhat1": "You have probably never had your information so organized. Your doctors probably don't either. Download a report and take it to your doctors. On the one hand, there may be errors in the information that needs to be corrected. On the other hand, it will help you reach a diagnosis faster.",
+    "msgwhat2": "Caution! If you close this window without <strong>registering</strong>, you will lose your progress.",
     "This was just an appetizer": "This was just an appetizer. Register to access the full functionality, it's free!",
     "Where did we get this symptom from": "Where did we get this symptom from?",
     "The symptom was added manually": "The symptom was added manually",
@@ -2281,10 +2284,11 @@
     "Look for symptoms": "Look for symptoms",
     "Documents": "Reports",
     "Quick search": "Search",
-    "Drag and drop file here": "Drag and drop file here",
+    "Drag and drop file here": "Drag and drop a report here",
     "or": "or",
     "Browse for file": "Browse for file",
     "Accepted files": "Accepted files: pdf, docx, images",
+    "descripReports": "We understand that these data are very sensitive. If you do not register, all the data will be deleted when you close this window.",
     "table":{
       "t1": "Entering Text",
       "d1": "Pasted, written, photograph or file",
@@ -2420,7 +2424,10 @@
         "Knowing the evolution1": "Knowing the evolution of your symptoms helps to reach an accurate diagnosis because many times that is the difference between",
         "Knowing the evolution2": "two similar diseases.",
         "There are undated symptoms1": "There are undated symptoms",
-        "There are undated symptoms2": "Select the dates to appear in your story"
+        "There are undated symptoms2": "Select the dates to appear in your story",
+        "msValidationChrono1": "There are {{value}} more symptoms to be included in your chronology",
+        "msValidationChrono2": "Do you want to continue?",
+        "msValidationChrono3": "You have not entered symptoms in your chronology"
       },
       "diseases":{
         "error1":"Sorry, we have no information about",

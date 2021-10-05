@@ -1,0 +1,1355 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <a (click)="selectRole();" class="black float-left"><i class="fa fa-angle-left" aria-hidden="true"></i> <ins class="ml-1">{{'generics.Back' | translate }}</ins></a>
+  </ol>
+</nav>
+<section id="login" class="mt-2">
+  <div class="container-fluid pb-4">
+    <div style="margin: auto;" style="margin: auto;">
+      <div class="text-center pt-2">
+        <div class="section">
+          <h4 class="d-block d-sm-none">{{'dashboardpatient.titleSearchCondition' | translate }}</h4>
+          <h2 class="d-none d-sm-block">{{'dashboardpatient.titleSearchCondition' | translate }}</h2>
+        </div>
+      </div>
+      <div class="align-items-end justify-content-center">
+        <div class="offset-md-3 col-md-6 no-padding">
+          <div class="position-relative">
+            <i class="fas fa-search" (click)="onKey($event)"></i>
+            <input type="text" #inputDisease id="searchDiseaseField" class="ml-1 form-control data-hj-allow" name="searchDiseaseField" style="width: 93% !important;display: inline !important;"
+              [(ngModel)]="searchDiseaseField" (keyup)="onKey($event)" (paste)="onKey($event)"
+              placeholder="{{'dashboardpatient.Search condition' | translate }}" (focusout)="focusOutFunctionDiseases()">
+          </div>
+          <div>
+            <div class="center-elements" *ngIf="callListOfDiseases">
+              <em class="fa fa-spinner fa-spin fa-3x fa-fw info"></em>
+            </div>
+            <div class="form-group" *ngIf="!callListOfDiseases">
+              <span *ngIf="listOfFilteredDiseases.length>0">
+                <div class="table-cont">
+                  <table class="table mb-0 bg-white" aria-labelledby="rare disease">
+                    <tbody class="tableList">
+                      <tr *ngFor="let disease of listOfFilteredDiseases ; let i = index" class="d-flex">
+                        <td class="col-md-12 dropdown-item" id="{{disease.id}}"
+                          (click)="showMoreInfoDiagnosePopup(i);lauchEvent('Diagnosed - Select Disease');" style="cursor: pointer;"
+                          title="{{'generics.More information' | translate }} ({{disease.id}})">
+                          <span *ngIf="disease.source!='synonyms'">{{disease.name}}</span>
+                          <span *ngIf="disease.source=='synonyms'"> {{disease.itemCompared}} ({{'generics.Synonyms' | translate}}: {{disease.name}})</span>
+                          <!--<span>{{disease.name}}</span>-->
+                          <!--<span class="custom-bold ml-1"><strong>{{disease.name}}</strong></span>
+                          <span *ngIf="disease.synonyms.length>0">
+                            <span class="d-block">Synonyms:</span>
+                            <span *ngFor="let synonym of disease.synonyms ; let j = index" class="d-block">
+                              {{synonym}}
+                            </span>
+                          </span>-->
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </span>
+              <span *ngIf="nothingFoundDisease">
+                <span *ngIf="(searchDiseaseField).trim().length>3">
+                  <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="loadingOneDisease" class="form-actions center-elements">
+      <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+  </div>
+  <div *ngIf="showDisease && !loadingOneDisease">
+      <a id="step1"></a>
+      <div class="modal-body content-wrapper p-2 border offset-xl-2 col-xl-8 offset-md-1 col-md-10" style="background-color: #fffc !important;">
+        <div class="p-2">
+          <div>
+            <button type="button" class="close" aria-label="Close" (click)="closeDisease()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="align-self-center mb-0"><strong>{{infoOneDisease.name}}</strong></h4>
+            <span class="content-sub-header text-muted" *ngIf="infoOneDisease.xrefs==undefined">{{ infoOneDisease.id }}</span>
+            <span class="content-sub-header text-muted" *ngIf="infoOneDisease.xrefs!=undefined">
+              <span *ngIf="infoOneDisease.xrefs.length>0">{{ infoOneDisease.xrefs[0].name}}:{{
+                infoOneDisease.xrefs[0].id}}</span>
+              <span *ngIf="infoOneDisease.xrefs.length==0">{{ infoOneDisease.id }}</span>
+            </span>
+            <span *ngIf="infoOneDisease.xrefs!=undefined" class="ml-1">
+              <span *ngFor="let xref of infoOneDisease.xrefs ; let i = index">
+                <a *ngIf="xref.name=='Orphanet'" class="info"
+                  href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert={{xref.id}}&lng={{lang}}" target="_blank"
+                  title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
+                <a *ngIf="xref.name=='OMIM'" class="info" href="https://omim.org/entry/{{xref.id}}" target="_blank"
+                  title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
+                <span *ngIf="i<(infoOneDisease.xrefs.length-1)"> </span>
+              </span>
+            </span>
+            <div class="mt-2 row">
+              <span class="col-md-12">
+                <p>{{infoOneDisease.desc}}</p> 
+                <!--<p *ngIf="showAllDescrip">{{infoOneDisease.desc}}</p> 
+                <p *ngIf="!showAllDescrip" class="d-block" title="{{infoOneDisease.desc}}">{{ (infoOneDisease.desc.length>120)? (infoOneDisease.desc | slice:0:120)+'...':(infoOneDisease.desc) }}
+                  <a *ngIf="!showAllDescrip && infoOneDisease.desc.length>140" class="info" style="cursor: pointer;" (click)='showAllDesc();'>{{'generics.Read more' | translate }}</a>
+                </p>-->
+              </span>          
+            </div>
+          </div>
+          <mat-accordion class="d-block d-sm-none">
+            <mat-expansion-panel *ngIf="infoOneDisease.symptoms!=undefined" [expanded]="step === 1" (opened)="setStep(1)">
+              <mat-expansion-panel-header>
+                <mat-panel-title (click)="lauchEvent('Diagnosed - Symptoms');">
+                  {{'land.diagnosed.general.Symptoms' | translate }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p class="ml-2 mb-0 mr-2">{{'land.diagnosed.symptoms.These are the symptoms of your disease' | translate }}</p>
+              <p class="ml-2 mr-2">{{'land.diagnosed.symptoms.goToChrono' | translate }}<a class="ml-1" (click)="setStep(2)">{{'land.here' | translate }}</a></p>
+              <div class="card-body">
+                <div class="col-md-12">
+                  <div class="col-md-12 mb-1">
+                    <table class="table mb-0 text-center d-block d-sm-none">
+                      <tbody style="overflow-x: hidden;">
+                        <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="text-left">
+                          <td class="row pb-0" style="padding: 0.4rem;">
+                            <div class="col-md-12">
+                              <strong>
+                                <span *ngIf="symptom.name" class="info" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{symptom.name}}</span>
+                                <span *ngIf="!symptom.name">
+                                  {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                                    href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
+                                    title="{{symptom.id}}">
+                                    <i class="ft-external-link"></i></a></span>
+                              </strong>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel *ngIf="infoOneDisease.symptoms!=undefined" [expanded]="step === 2" (opened)="setStep(2)">
+              <mat-expansion-panel-header>
+                <mat-panel-title (click)="lauchEvent('Diagnosed - Chronology');">
+                  {{'land.Chronology' | translate }}<span class="ml-1 badge badge-pill badge-success mb-1 mr-2">{{'generics.New' | translate }}</span>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="card-body">
+                <div class="col-md-12">
+                  <div class="col-md-12">
+                    <p> {{'land.diagnosed.timeline.t0-app' | translate}} <em class="ml-1 mt-1 ft-help-circle info"
+                      title="{{'land.diagnosed.timeline.help' | translate}}" (click)="openTimelineAppHelp1(contentTimelineAppHelp1)"
+                      style="cursor: pointer;">
+                   </em></p>
+                  </div>
+                </div>
+                <div class="col-md-12" *ngIf="!startTimeline">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <em class="mr-1 fa fa-refresh info float-right"
+                        title="{{'preland.p2' | translate}}" (click)="endTimeLineFunctionWithConfirmation()"
+                        style="cursor: pointer;"></em>
+                    </div>
+                  </div>
+                  <div class="col-md-12 mt-1">
+                    <p> {{'land.diagnosed.timeline.t1' | translate}}</p>
+                  </div>
+                  <div>
+                    <ng-template #rt let-r="result" let-t="term">
+                      <strong title="{{r.name}}">{{ r.name}}</strong>
+                      <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
+                        slice:0:140)+'...':(r.desc) }}</span>
+                    </ng-template>
+                    <div style="padding-bottom: 0.5rem !important;">
+                      <span class="ml-1 mr-2"><i class="fa fa-plus success"></i></span>
+                      <input #input type="text"
+                        #inputManualSymptoms class="form-control ml-1 inputSearch d-inline data-hj-allow" style="width: 88%;" [(ngModel)]="modelTemp"
+                        [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
+                        placeholder="{{'symptomssection.manualinput' | translate }}"
+                        (selectItem)="selected($event)"/>
+                        <div class="center-elements" *ngIf="callListOfSymptoms">
+                          <em class="fa fa-spinner fa-spin fa-3x fa-fw info"></em>
+                        </div>
+                        <span *ngIf="nothingFoundSymptoms">
+                          <span *ngIf="(modelTemp).trim().length>3">
+                            <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
+                          </span>
+                        </span>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <table class="table mb-0 text-center d-block d-sm-none">
+                      <tbody style="overflow-x: hidden;">
+                        <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="text-left">
+                          <td class="row pb-0" style="padding: 0.4rem;">
+                            <div class="col-md-12 mb-1">
+                              <strong>
+                                <button (click)="changeStateSymptomDisease(i);"
+                                    class="btn btn-sm mr-2 mb-0 btn-fab round white"
+                                    [ngClass]="(symptom.checked==true)?'btn-primary':'btn-secondary '"
+                                    href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
+                                    <em class="fa fa-check w-13"></em>
+                                </button>
+                                <span *ngIf="symptom.name" class="info" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{symptom.name}}</span>
+                                <span *ngIf="!symptom.name">
+                                  {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                                    href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
+                                    title="{{symptom.id}}">
+                                    <i class="ft-external-link"></i></a></span>
+                              </strong>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-12 center-elements mt-2">
+                    <button type="button" class="btn btn-primary btn-md btn-raised" (click)="startTimelineFunction();">
+                        <span>{{'land.diagnosed.timeline.btn2' | translate}}</span>
+                    </button>
+                  </div>
+                </div>
+                <timeline *ngIf="startTimeline" [disease]="actualInfoOneDisease" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention)" (openModalTimelineHelp)="openTimelineAppHelp2(contentTimelineAppHelp2)" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel *ngIf="infoWiki.length>0 || infoWikiGeneral.length>0" [expanded]="step === 3" (opened)="setStep(3)">
+              <mat-expansion-panel-header>
+                <mat-panel-title (click)="lauchEvent('Diagnosed - General');">
+                  {{'land.diagnosed.general.title' | translate }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="card-body">
+                <div *ngIf="!loadingArticle">
+                  <div class="col-md-12" *ngIf="viewArticle">
+                    <button type="button" class="pull-right btn btn-secondary btn-raised" (click)="backToList()">{{'generics.Back' | translate }}</button>
+                    <h1>{{actualArticle.title}}</h1>
+                    <!--<a (click)="backToList();">Return to the list of information found.</a>-->
+                  </div>
+                  <div class="col-md-12" *ngIf="infoWikiGeneral.length>0 && !viewArticle">
+                    <span class="text-muted">{{'land.diagnosed.general.We have found' | translate }} {{infoWikiGeneral.length}} {{'land.diagnosed.general.results for' | translate }} {{infoOneDisease.name}} ({{secondToResponse}} {{'land.diagnosed.general.Seconds' | translate }})</span>
+                    <p *ngFor="let part of infoWikiGeneral ; let k = index" class="mb-1">
+                      <span>
+                        <h5 class="mt-2 mb-0"><a (click)="goToArticle(part);" class="articleTitle">{{part.title}}</a></h5>
+                        <span class="" [innerHTML]="infoWikiGeneral[k].snippet"></span>
+                      </span>
+                    </p>
+                  </div>
+                  <div class="col-md-12" *ngIf="(infoWiki.length>0 && infoWikiGeneral.length>0 && viewArticle) || (infoWiki.length>0 && infoWikiGeneral.length==0)">
+                    <p *ngFor="let part of infoWiki ; let j = index" class="mb-1">
+                      <span>
+                        <h4 class="mt-2"><strong>{{part.title}}</strong></h4>
+                        <span class="" *ngIf="part.title!='Enlaces externos' && part.title!='External links'" style="margin-bottom: 2rem;white-space:pre-line;">
+                          <span *ngIf="part.content.length>0">
+                            {{part.content}}
+                          </span>
+                          <span *ngIf="part.items">
+                            <span *ngFor="let item of part.items ; let listItem = index" class="mb-1">
+                              <h5 class="mt-2"><strong>{{item.title}}</strong></h5>
+                              <span *ngIf="item.content.length>0" style="margin-bottom: 2rem;white-space:pre-line;">
+                                {{item.content}}
+                              </span>
+                            </span>
+                          </span>
+                        </span>
+                        <span class="" *ngIf="part.title=='Enlaces externos' || part.title=='External links'">
+                          <span *ngFor="let url of part.urls ; let j = index">
+                            <a href="{{url}}" target="_blank" class="d-block">{{url}}</a>
+                          </span>
+                        </span>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <div *ngIf="loadingArticle" class="center-elements">
+                    <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel *ngIf="clinicalTrials.length>0" [expanded]="step === 4" (opened)="setStep(4)">
+              <mat-expansion-panel-header>
+                <mat-panel-title (click)="lauchEvent('Diagnosed - Clinical Trials');">
+                  {{'land.diagnosed.general.Clinical trials' | translate }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="card-body">
+                <div *ngIf="clinicalTrials.length>0" class="col-md-12">
+                  <div *ngFor="let studie of clinicalTrials ; let i = index">
+                    <span class="d-block"><strong>Id</strong></span>
+                    <p class="d-block mb-0">{{studie.Study.ProtocolSection.IdentificationModule.NCTId}}
+                      <a class="ml-1"
+                        href="https://clinicaltrials.gov/ct2/show/{{studie.Study.ProtocolSection.IdentificationModule.NCTId}}"
+                        target="_blank"
+                        title="{{studie.Study.ProtocolSection.IdentificationModule.NCTId}}">
+                        <i class="ft-external-link"></i></a>
+                    </p>
+                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.OrgFullName' | translate }}</strong></span>
+                    <p class="d-block mb-0">{{studie.Study.ProtocolSection.IdentificationModule.Organization.OrgFullName}}</p>
+      
+                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.BriefTitle' | translate }}</strong></span>
+                    <p class="d-block mb-0">{{studie.Study.ProtocolSection.IdentificationModule.BriefTitle}}</p>
+      
+                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.StudyFirstSubmitDate' | translate }}</strong></span>
+                    <p class="d-block mb-0">{{studie.Study.ProtocolSection.StatusModule.StudyFirstSubmitDate}}</p>
+                    <span *ngIf="studie.Study.ProtocolSection.SponsorCollaboratorsModule.ResponsibleParty.ResponsiblePartyInvestigatorFullName">
+                      <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.ResponsiblePartyInvestigatorFullName' | translate }}</strong></span>
+                      <p class="d-block mb-0">{{studie.Study.ProtocolSection.SponsorCollaboratorsModule.ResponsibleParty.ResponsiblePartyInvestigatorFullName}}</p>
+                    </span>
+                    
+                    <span *ngIf="studie.Study.ProtocolSection.ContactsLocationsModule.listCountriesCleaned!=undefined">
+                      <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.LocationCountry' | translate }}</strong></span>
+                      <p class="d-block mb-0" *ngFor="let location of studie.Study.ProtocolSection.ContactsLocationsModule.listCountriesCleaned ; let j = index">{{location.LocationCountry}}</p>
+                    </span>
+                    <span *ngIf="studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList!=undefined">
+                      <span *ngIf="studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList.CentralContact.length>0">
+                        <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.Contact' | translate }}</strong></span>
+                        <p class="d-block mb-0" *ngFor="let contact of studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList.CentralContact ; let k = index">{{contact.CentralContactName}} <<a href='mailto:{{contact.CentralContactEMail}}'>{{contact.CentralContactEMail}}</a>></p>
+                      </span>
+                    </span>
+                    
+                    <hr *ngIf="i<clinicalTrials.length-1" width="100%" size="20" color="#b0b6bb">
+                  </div>
+                  
+                </div>
+                <div *ngIf="clinicalTrials.length==0" class="col-md-12">
+                  <p>{{'land.diagnosed.clinicalTrials.msgNoTrials' | translate }} {{infoOneDisease.name}}</p>
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)">
+              <mat-expansion-panel-header>
+                <mat-panel-title (click)="lauchEvent('Diagnosed - Patient Groups');">
+                  {{'land.diagnosed.general.Patient groups' | translate }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="card-body">
+                <div class="col-md-12">
+                  <div *ngIf="loadingPatientGroups" class="center-elements">
+                    <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+                  </div>
+                  <span *ngIf="!loadingPatientGroups">
+                    <span *ngIf="patientGroups.length==0">
+                      <p>{{'land.diagnosed.PatientGroups.title1' | translate }}</p>
+                      <p>{{'land.diagnosed.PatientGroups.title2' | translate }}</p>
+                    </span>
+                    <span *ngIf="patientGroups.length>0">
+                      <div *ngFor="let patientGroup of patientGroups ; let i = index">
+                        <span class="d-block"><strong>{{'generics.Name' | translate }}</strong></span>
+                        <p class="d-block mb-0">{{patientGroup.Name}}</p>
+                        
+                        <span class="d-block mt-1"><strong>{{'personalinfo.Country' | translate }}</strong></span>
+                        <p class="d-block mb-0">{{patientGroup.Country.Name.__text}}</p>
+
+                        <span class="d-block mt-1"><strong>{{'generics.Lang' | translate }}</strong></span>
+                        <p class="d-block mb-0">{{patientGroup.LanguageOfName}}</p>
+
+                        <span class="d-block mt-1"><strong>{{'land.diagnosed.PatientGroups.Website' | translate }}</strong></span>
+                        <p class="d-block mb-0">
+                          <a
+                            href="{{patientGroup.Url}}"
+                            target="_blank"
+                            title="{{patientGroup.Name}}">{{patientGroup.Url}} 
+                            <i class="ft-external-link"></i></a>
+                        </p>
+
+                        <hr *ngIf="i<patientGroups.length-1" width="100%" size="20" color="#b0b6bb">
+                      </div>
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)">
+              <mat-expansion-panel-header>
+                <mat-panel-title (click)="lauchEvent('Diagnosed - Donate your data');">
+                  {{'land.diagnosed.general.Donate your data' | translate }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="card-body">
+                <div class="col-md-6">
+                  <form class="form" #f="ngForm">
+                    <div class="form-body row">
+                      <div class="col-md-12">
+                        <label for="Answers">{{'land.diagnosed.DonorData.question' | translate }}</label>
+                        <mat-select class="form-control" id="Answers" name="Answers" multiple [(ngModel)]="formOpen.Answers">
+                          <mat-option value="Know more">{{'land.diagnosed.DonorData.op1' | translate }}</mat-option>
+                          <mat-option value="Find patients">{{'land.diagnosed.DonorData.op2' | translate }}</mat-option>
+                          <mat-option value="Help other patients">{{'land.diagnosed.DonorData.op3' | translate }}</mat-option>
+                        </mat-select>
+                      </div>
+                      <div class="col-md-12 mt-3">
+                        <label for="Free">{{'land.diagnosed.DonorData.free' | translate }}</label>
+                        <textarea name="Free" class="form-control" [(ngModel)]="formOpen.Free" name="Free"></textarea>
+                      </div>
+                      
+                      <div class="col-md-12 mt-3">
+                        <div class="form-group">
+                        <label>{{'generics.Email' | translate }}*</label>
+                        <div>
+                          <input class="col-md-12 form-control" type="email" id="Email" name="Email" ngModel required #Email="ngModel" email name="Email" [(ngModel)]="formOpen.Email">
+                          <small class="form-text text-muted danger" *ngIf="!Email.valid && showErrorForm">{{'generics.entervalidemail' | translate }}</small>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mt-1">
+                      <p>{{'know-me.Consent' | translate }}</p>
+                    </div>
+                    <div>
+                      <mat-checkbox
+                          class="example-margin" style="position: absolute; margin-top: 2px;" name="terms2" required ngModel #terms2="ngModel" id="terms2" [(ngModel)]="formOpen.terms2">
+                      </mat-checkbox>
+                      <span class="ml-3" (click)="checkConsent()" style="cursor: pointer;">
+                        {{'know-me.CheckConsent' | translate }}
+                      </span>
+                       <small class="form-text text-muted danger" *ngIf="!terms2.valid && showErrorForm">{{'gtp.mandatoryConsent' | translate }}</small>
+                    </div>
+                    <div *ngIf="!sending" class="center-elements mt-3">
+                      <div *ngIf="f.valid;then formValid else formError"></div>
+                      <ng-template #formValid><button class="btn btn-outline-primary" (click)="onSubmitDonorData();lauchEvent('Diagnosed - Submit Donate your data');"> {{'support.Send' | translate }}</button></ng-template>
+                      <ng-template #formError><button class="btn btn-outline-primary" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
+                    </div>
+                    <div class="form-actions center-elements" *ngIf="sending">
+                        <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <ngb-tabset type="pills" #tabRef="ngbTabset" class="d-none d-sm-block">
+            <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined">
+              <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Symptoms');">{{'land.diagnosed.general.Symptoms' | translate }}</strong></ng-template>
+              <ng-template ngbTabContent>
+                <p class="ml-2 mb-0 mr-2">{{'land.diagnosed.symptoms.These are the symptoms of your disease' | translate }}</p>
+                <p class="ml-2 mr-2">{{'land.diagnosed.symptoms.goToChrono' | translate }}<a class="ml-1" (click)="switchNgBTab('chronologytab')">{{'land.here' | translate }}</a></p>
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12 mt-1">
+                      <div class="col-md-12">
+                        <table class="table mb-0 text-center d-none d-sm-block">
+                          <tbody style="width: 100%;display: inline-table;">
+                            <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
+                              <td class="row text-left">
+                                <div class="col-md-12">
+                                  <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
+                                    class="btn-outline-primary btn btn-sm mr-2 mb-0 btn-fab round"
+                                    title="{{'generics.More information' | translate }} ({{symptom.id}})">
+                                    <em class="fa fa-info w-13"></em>
+                                  </button>
+                                  <span *ngIf="symptom.name" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);" class="info">{{symptom.name}}</span>
+                                  <span *ngIf="!symptom.name">
+                                    {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                                      href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
+                                      title="{{symptom.id}}">
+                                      <i class="ft-external-link"></i></a>
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined" id="chronologytab">
+              <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Chronology');">{{'land.Chronology' | translate }}</strong><span class="ml-1 badge badge-pill badge-success mb-1 mr-2">{{'generics.New' | translate }}</span></ng-template>
+              <ng-template ngbTabContent>
+                <div class="col-md-12 mb-3 pb-2">
+                  <div class="row">
+                    <div class="col-md-12 mt-2">
+                      <div>
+                        <h4><strong>{{'land.diagnosed.timeline.title' | translate}}</strong></h4>
+                        <p> {{'land.diagnosed.timeline.t0' | translate}} <i class="fas fa-ellipsis-v font-medium-3 info"></i></p>
+                        <p> {{'land.diagnosed.timeline.t0-p1' | translate}}</p>
+                        <p> {{'land.diagnosed.timeline.t0-p2' | translate}}</p>
+                        <p>
+                          <span> 
+                            <a class="info" (click)="registerToDx29V2Timeline();" title="{{'land.diagnosed.timeline.Register' | translate}}"><ins>{{'land.diagnosed.timeline.Register' | translate}}</ins></a> {{'land.diagnosed.timeline.t0-reg' | translate}}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 mt-2" *ngIf="!startTimeline">
+                  <div class="row">
+                    <div class="col-md-6 mt-1">
+                      <div>
+                        <p> {{'land.diagnosed.timeline.t1' | translate}} 
+                          <span style="cursor: pointer;" class="ml-1" (click)="endTimeLineFunctionWithConfirmation()">
+                          <em class="mr-1 fa fa-refresh grey" title="{{'preland.p2' | translate}}"></em>
+                        </span>
+                      </p>
+                      </div>
+                      <div>
+                        <ng-template #rt let-r="result" let-t="term">
+                          <strong title="{{r.name}}">{{ r.name}}</strong>
+                          <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
+                            slice:0:140)+'...':(r.desc) }}</span>
+                        </ng-template>
+                        <div style="padding-bottom: 0.5rem !important;">
+                          <span class="d-none d-sm-inline ml-1 mr-2"><i class="fa fa-plus success"></i></span>
+                          <input #input type="text"
+                            #inputManualSymptoms class="form-control ml-1 inputSearch d-inline data-hj-allow" [(ngModel)]="modelTemp"
+                            [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
+                            placeholder="{{'symptomssection.manualinput' | translate }}"
+                            (selectItem)="selected($event)"/>
+                            <div class="center-elements" *ngIf="callListOfSymptoms">
+                              <em class="fa fa-spinner fa-spin fa-3x fa-fw info"></em>
+                            </div>
+                            <span *ngIf="nothingFoundSymptoms">
+                              <span *ngIf="(modelTemp).trim().length>3">
+                                <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
+                              </span>
+                            </span>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <table class="table mb-0 text-center d-none d-sm-block">
+                          <tbody style="width: 100%;display: inline-table;">
+                            <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
+                              <td class="row text-left">
+                                <div class="col-md-12">
+                                  <button (click)="changeStateSymptomDisease(i);"
+                                    class="btn btn-sm mr-2 mb-0 btn-fab round white"
+                                    [ngClass]="(symptom.checked==true)?'btn-primary':'btn-secondary '"
+                                    href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
+                                    <em class="fa fa-check w-13"></em>
+                                  </button>
+                                  <span *ngIf="symptom.name" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);" class="info">{{symptom.name}}</span>
+                                  <span *ngIf="!symptom.name">
+                                    {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                                      href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
+                                      title="{{symptom.id}}">
+                                      <i class="ft-external-link"></i></a>
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mt-1">
+                      <div class="col-md-12 mt-2" *ngIf="!listSymptomsCheckedModified">
+                        <div class="col-md-12 pt-2">
+                          <ul *ngFor="let symptomChecked of listSymptomsCheckedTimeline; let j = index" class="mb-0">
+                            <li *ngIf="symptomChecked.name">
+                              <span style="cursor: pointer;" (click)="showMoreInfoSymptomPopupTimeline(symptomChecked.id, contentInfoSymptomOneDisease);" class="info">{{symptomChecked.name}}</span>
+                            </li>
+                            <li *ngIf="!symptomChecked.name">
+                              <span>
+                                {{symptomChecked.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                                  href="https://hpo.jax.org/app/browse/term/{{symptomChecked.id}}" target="_blank"
+                                  title="{{symptomChecked.id}}">
+                                  <i class="ft-external-link"></i></a>
+                              </span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="col-md-12 mt-2 center-elements">
+                        <button type="button" class="btn btn-primary btn-md btn-raised" (click)="startTimelineFunction();">
+                            <span>{{'land.diagnosed.timeline.btn2' | translate}}</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <timeline *ngIf="startTimeline" [disease]="actualInfoOneDisease" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention);" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab *ngIf="infoWiki.length>0 || infoWikiGeneral.length>0" id="generaltab">
+              <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - General');backToList();">
+                {{'land.diagnosed.general.title' | translate }}</strong></ng-template>
+              <ng-template ngbTabContent>
+                <div *ngIf="!loadingArticle">
+                  <div class="col-md-12" *ngIf="viewArticle">
+                    <button type="button" class="pull-right btn btn-secondary btn-raised" (click)="backToList()">{{'generics.Back' | translate }}</button>
+                    <h1>{{actualArticle.title}}</h1>
+                    <!--<a (click)="backToList();">Return to the list of information found.</a>-->
+                  </div>
+                  <div class="col-md-12" *ngIf="infoWikiGeneral.length>0 && !viewArticle">
+                    <span class="text-muted">{{'land.diagnosed.general.We have found' | translate }} {{infoWikiGeneral.length}} {{'land.diagnosed.general.results for' | translate }} {{infoOneDisease.name}} ({{secondToResponse}} {{'land.diagnosed.general.Seconds' | translate }})</span>
+                    <p *ngFor="let part of infoWikiGeneral ; let k = index" class="mb-1">
+                      <span>
+                        <h5 class="mt-2 mb-0"><a (click)="goToArticle(part);" class="articleTitle">{{part.title}}</a></h5>
+                        <span class="" [innerHTML]="infoWikiGeneral[k].snippet"></span>
+                      </span>
+                    </p>
+                  </div>
+                  <div class="col-md-12" *ngIf="(infoWiki.length>0 && infoWikiGeneral.length>0 && viewArticle) || (infoWiki.length>0 && infoWikiGeneral.length==0)">
+                    <p *ngFor="let part of infoWiki ; let j = index" class="mb-1">
+                      <span>
+                        <h4 class="mt-2"><strong>{{part.title}}</strong></h4>
+                        <span class="" *ngIf="part.title!='Enlaces externos' && part.title!='External links'" style="margin-bottom: 2rem;white-space:pre-line;">
+                          <span *ngIf="part.content.length>0">
+                            {{part.content}}
+                          </span>
+                          <span *ngIf="part.items">
+                            <span *ngFor="let item of part.items ; let listItem = index" class="mb-1">
+                              <h5 class="mt-2"><strong>{{item.title}}</strong></h5>
+                              <span *ngIf="item.content.length>0" style="margin-bottom: 2rem;white-space:pre-line;">
+                                {{item.content}}
+                              </span>
+                            </span>
+                          </span>
+                        </span>
+                        <span class="" *ngIf="part.title=='Enlaces externos' || part.title=='External links'">
+                          <span *ngFor="let url of part.urls ; let j = index">
+                            <a href="{{url}}" target="_blank" class="d-block">{{url}}</a>
+                          </span>
+                        </span>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <div *ngIf="loadingArticle" class="center-elements">
+                    <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab *ngIf="clinicalTrials.length>0" >
+              <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Clinical Trials');">{{'land.diagnosed.general.Clinical trials' | translate }}</strong></ng-template>
+              <ng-template ngbTabContent>
+                <div *ngIf="clinicalTrials.length>0" class="col-md-12">
+                  <div *ngFor="let studie of clinicalTrials ; let i = index">
+                    <span class="d-block"><strong>Id</strong></span>
+                    <p class="d-block mb-0">{{studie.Study.ProtocolSection.IdentificationModule.NCTId}}
+                      <a class="ml-1"
+                        href="https://clinicaltrials.gov/ct2/show/{{studie.Study.ProtocolSection.IdentificationModule.NCTId}}"
+                        target="_blank"
+                        title="{{studie.Study.ProtocolSection.IdentificationModule.NCTId}}">
+                        <i class="ft-external-link"></i></a>
+                    </p>
+                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.OrgFullName' | translate }}</strong></span>
+                    <p class="d-block mb-0">{{studie.Study.ProtocolSection.IdentificationModule.Organization.OrgFullName}}</p>
+      
+                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.BriefTitle' | translate }}</strong></span>
+                    <p class="d-block mb-0">{{studie.Study.ProtocolSection.IdentificationModule.BriefTitle}}</p>
+      
+                    <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.StudyFirstSubmitDate' | translate }}</strong></span>
+                    <p class="d-block mb-0">{{studie.Study.ProtocolSection.StatusModule.StudyFirstSubmitDate}}</p>
+                    <span *ngIf="studie.Study.ProtocolSection.SponsorCollaboratorsModule.ResponsibleParty.ResponsiblePartyInvestigatorFullName">
+                      <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.ResponsiblePartyInvestigatorFullName' | translate }}</strong></span>
+                      <p class="d-block mb-0">{{studie.Study.ProtocolSection.SponsorCollaboratorsModule.ResponsibleParty.ResponsiblePartyInvestigatorFullName}}</p>
+                    </span>
+                    
+                    <span *ngIf="studie.Study.ProtocolSection.ContactsLocationsModule.listCountriesCleaned!=undefined">
+                      <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.LocationCountry' | translate }}</strong></span>
+                      <p class="d-block mb-0" *ngFor="let location of studie.Study.ProtocolSection.ContactsLocationsModule.listCountriesCleaned ; let j = index">{{location.LocationCountry}}</p>
+                    </span>
+                    <span *ngIf="studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList!=undefined">
+                      <span *ngIf="studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList.CentralContact.length>0">
+                        <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.Contact' | translate }}</strong></span>
+                        <p class="d-block mb-0" *ngFor="let contact of studie.Study.ProtocolSection.ContactsLocationsModule.CentralContactList.CentralContact ; let k = index">{{contact.CentralContactName}} <<a href='mailto:{{contact.CentralContactEMail}}'>{{contact.CentralContactEMail}}</a>></p>
+                      </span>
+                    </span>
+                    
+                    <hr *ngIf="i<clinicalTrials.length-1" width="100%" size="20" color="#b0b6bb">
+                  </div>
+                  
+                </div>
+                <div *ngIf="clinicalTrials.length==0" class="col-md-12">
+                  <p>{{'land.diagnosed.clinicalTrials.msgNoTrials' | translate }} {{infoOneDisease.name}}</p>
+                </div>
+      
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+              <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Patient Groups');">{{'land.diagnosed.general.Patient groups' | translate }}</strong></ng-template>
+              <ng-template ngbTabContent>
+                <div class="col-md-12">
+                  <div *ngIf="loadingPatientGroups" class="center-elements">
+                    <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+                  </div>
+                  <span *ngIf="!loadingPatientGroups">
+                    <span *ngIf="patientGroups.length==0">
+                      <p>{{'land.diagnosed.PatientGroups.title1' | translate }}</p>
+                      <p>{{'land.diagnosed.PatientGroups.title2' | translate }}</p>
+                    </span>
+                    <span *ngIf="patientGroups.length>0">
+                      <div *ngFor="let patientGroup of patientGroups ; let i = index">
+                        <span class="d-block"><strong>{{'generics.Name' | translate }}</strong></span>
+                        <p class="d-block mb-0">{{patientGroup.Name}}</p>
+                        
+                        <span class="d-block mt-1"><strong>{{'personalinfo.Country' | translate }}</strong></span>
+                        <p class="d-block mb-0">{{patientGroup.Country.Name.__text}}</p>
+
+                        <span class="d-block mt-1"><strong>{{'generics.Lang' | translate }}</strong></span>
+                        <p class="d-block mb-0">{{patientGroup.LanguageOfName}}</p>
+
+                        <span class="d-block mt-1"><strong>{{'land.diagnosed.PatientGroups.Website' | translate }}</strong></span>
+                        <p class="d-block mb-0">
+                          <a
+                            href="{{patientGroup.Url}}"
+                            target="_blank"
+                            title="{{patientGroup.Name}}">{{patientGroup.Url}} 
+                            <i class="ft-external-link"></i></a>
+                        </p>
+
+                        <hr *ngIf="i<patientGroups.length-1" width="100%" size="20" color="#b0b6bb">
+                      </div>
+                    </span>
+                  </span>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+              <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Donate your data');">{{'land.diagnosed.general.Donate your data' | translate }}</strong></ng-template>
+              <ng-template ngbTabContent>
+                <div class="col-md-6">
+                  <form class="form" #f="ngForm">
+                    <div class="form-body row">
+                      <div class="col-md-12">
+                        <label for="Answers">{{'land.diagnosed.DonorData.question' | translate }}</label>
+                        <mat-select class="form-control" id="Answers" name="Answers" multiple [(ngModel)]="formOpen.Answers">
+                          <mat-option value="Know more">{{'land.diagnosed.DonorData.op1' | translate }}</mat-option>
+                          <mat-option value="Find patients">{{'land.diagnosed.DonorData.op2' | translate }}</mat-option>
+                          <mat-option value="Help other patients">{{'land.diagnosed.DonorData.op3' | translate }}</mat-option>
+                        </mat-select>
+                      </div>
+                      <div class="col-md-12 mt-3">
+                        <label for="Free">{{'land.diagnosed.DonorData.free' | translate }}</label>
+                        <textarea name="Free" class="form-control" [(ngModel)]="formOpen.Free" name="Free"></textarea>
+                      </div>
+                      
+                      <div class="col-md-12 mt-3">
+                        <div class="form-group">
+                        <label>{{'generics.Email' | translate }}*</label>
+                        <div>
+                          <input class="col-md-12 form-control data-hj-allow" type="email" id="Email" name="Email" ngModel required #Email="ngModel" email name="Email" [(ngModel)]="formOpen.Email">
+                          <small class="form-text text-muted danger" *ngIf="!Email.valid && showErrorForm">{{'generics.entervalidemail' | translate }}</small>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mt-1">
+                      <p>{{'know-me.Consent' | translate }}</p>
+                    </div>
+                    <div>
+                      <mat-checkbox
+                          class="example-margin" style="position: absolute; margin-top: 2px;" name="terms2" required ngModel #terms2="ngModel" id="terms2" [(ngModel)]="formOpen.terms2">
+                      </mat-checkbox>
+                      <span class="ml-3" (click)="checkConsent()" style="cursor: pointer;">
+                        {{'know-me.CheckConsent' | translate }}
+                      </span>
+                       <small class="form-text text-muted danger" *ngIf="!terms2.valid && showErrorForm">{{'gtp.mandatoryConsent' | translate }}</small>
+                    </div>
+                    <div *ngIf="!sending" class="center-elements mt-3">
+                      <div *ngIf="f.valid;then formValid else formError"></div>
+                      <ng-template #formValid><button class="btn btn-outline-primary" (click)="onSubmitDonorData();lauchEvent('Diagnosed - Submit Donate your data');"> {{'support.Send' | translate }}</button></ng-template>
+                      <ng-template #formError><button class="btn btn-outline-primary" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
+                    </div>
+                    <div class="form-actions center-elements" *ngIf="sending">
+                        <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+                    </div>
+                  </form>
+                </div>
+      
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+        </div>
+      </div>
+  </div>
+</section>
+
+<ng-template #contentInfoDx29 let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-header" id="idHeader">
+    <div class="content-header text-left">
+      <h4>{{'land.InfoDx29.title' | translate }}</h4>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body content-wrapper p-2">
+    <p>
+      {{'land.InfoDx29.p1' | translate }}
+    </p>
+    <p>
+      {{'land.InfoDx29.p3' | translate }}
+    </p>
+    <ol>
+      <li [innerHTML]="'land.InfoDx29.p5' | translate"></li>
+      <li>{{'land.InfoDx29.p8' | translate }}</li>
+      <li>{{'land.InfoDx29.p9' | translate }}</li>
+    </ol>
+    <p><strong>{{'land.InfoDx29.Ideal patients' | translate }}</strong></p>
+    <p>
+      {{'land.InfoDx29.p11' | translate }}
+    </p>
+    <div class="mb-4">
+      <apx-chart [series]="lineChartIdealOptions.series" [colors]="lineChartIdealOptions.colors"
+        [chart]="lineChartIdealOptions.chart" [xaxis]="lineChartIdealOptions.xaxis"
+        [yaxis]="lineChartIdealOptions.yaxis" [title]="lineChartIdealOptions.title"
+        [dataLabels]="lineChartIdealOptions.dataLabels" [stroke]="lineChartIdealOptions.stroke"
+        [grid]="lineChartIdealOptions.grid" [tooltip]="lineChartIdealOptions.tooltip"
+        [plotOptions]="lineChartIdealOptions.plotOptions" [fill]="lineChartIdealOptions.fill"
+        [legend]="lineChartIdealOptions.legend" [labels]="lineChartIdealOptions.labels"
+        [markers]="lineChartIdealOptions.markers" [theme]="lineChartIdealOptions.theme"
+        [responsive]="lineChartIdealOptions.responsive"></apx-chart>
+    </div>
+    <p><strong>{{'land.InfoDx29.Inaccurate patients' | translate }}</strong></p>
+    <p>
+      {{'land.InfoDx29.p12' | translate }}
+    </p>
+    <div class="mb-4">
+      <apx-chart [series]="lineChartRuidoOptions.series" [colors]="lineChartRuidoOptions.colors"
+        [chart]="lineChartRuidoOptions.chart" [xaxis]="lineChartRuidoOptions.xaxis"
+        [yaxis]="lineChartRuidoOptions.yaxis" [title]="lineChartRuidoOptions.title"
+        [dataLabels]="lineChartRuidoOptions.dataLabels" [stroke]="lineChartRuidoOptions.stroke"
+        [grid]="lineChartRuidoOptions.grid" [tooltip]="lineChartRuidoOptions.tooltip"
+        [plotOptions]="lineChartRuidoOptions.plotOptions" [fill]="lineChartRuidoOptions.fill"
+        [legend]="lineChartRuidoOptions.legend" [labels]="lineChartRuidoOptions.labels"
+        [markers]="lineChartRuidoOptions.markers" [theme]="lineChartRuidoOptions.theme"
+        [responsive]="lineChartRuidoOptions.responsive"></apx-chart>
+    </div>
+    <p>
+      {{'land.InfoDx29.p13' | translate }}
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #contentToDx29V2 let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 center-elements mb-3">
+    <div class="p-2">
+      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="align-self-center"><strong>{{'land.swal.title' | translate }}</strong><span class="d-block"><strong>{{'land.swal.title2' | translate }}</strong></span></h4>
+    </div>
+    <div>
+      <div class="align-self-center">
+        <span>
+          <span *ngIf="temporalSymptoms.length>0">
+            <p [innerHTML]="'land.swal.p1' | translate"></p>
+          </span>
+        </span>
+        <div class="row reg-panel d-block d-sm-none">
+          <button class="mt-2 btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2()">{{'land.swal.button' |
+            translate }}</button>
+            <p>{{'land.swal.p2' | translate }}</p>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/diskette.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t7' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d7' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/archive.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t8' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d8' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/genetico.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t9' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d9' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/equipo.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t10' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d10' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/share.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t11' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d11' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/refresh.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t12' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d12' | translate }}</p>
+            </span>
+          </div>
+        </div>
+        <div class="row reg-panel d-none d-sm-flex">
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/diskette.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t7' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d7' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/archive.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t8' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d8' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/genetico.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t9' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d9' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/equipo.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t10' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d10' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/share.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t11' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d11' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/refresh.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t12' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d12' | translate }}</span>
+            </span>
+          </div>
+        </div>
+        <button class="mb-0 mt-2 btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2()">{{'land.swal.button' |
+          translate }}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentInfoSymptomOneDisease let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 border">
+    <div class="p-2">
+      <button type="button" class="close" aria-label="Close" (click)="closeSymptom()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="align-self-center mb-0"><strong>{{infoOneDisease.symptoms[selectedInfoSymptomIndex].name }}</strong></h4>
+      <span class="content-sub-header text-muted">{{infoOneDisease.symptoms[selectedInfoSymptomIndex].id}}<a class="ml-1"
+        href="https://hpo.jax.org/app/browse/term/{{infoOneDisease.symptoms[selectedInfoSymptomIndex].id}}"
+        target="_blank"
+        title=" {{infoOneDisease.symptoms[selectedInfoSymptomIndex].name}} ({{infoOneDisease.symptoms[selectedInfoSymptomIndex].id}}):">
+        <i class="ft-external-link"></i></a></span>
+    </div>
+    <div class="row col-md-12" class="p-2">
+      <span *ngIf="infoOneDisease.symptoms[selectedInfoSymptomIndex].desc!=null">
+        <h5><strong>{{'generics.Description' | translate }}</strong></h5>
+        <p class="mb-0">{{infoOneDisease.symptoms[selectedInfoSymptomIndex].desc}} </p>
+      </span>
+      <span *ngIf="infoOneDisease.symptoms[selectedInfoSymptomIndex].desc==''">
+        <h5><strong>{{'generics.Description' | translate }}</strong></h5>
+        <p class="mb-0"> {{'symptomssection.No description' | translate }} </p>
+      </span>
+    </div>
+    <div *ngIf="infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms">
+      <div *ngIf="infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms.length" class="p-2">
+        <h5><strong>{{'generics.Synonyms' | translate }}</strong></h5>
+        <span *ngIf="infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms.length>0">
+          <p *ngFor="let synonym of infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms ; let j = index" class="mb-0">
+            <span>{{j+1}}. </span> <span>{{synonym.label}}</span>
+          </p>
+        </span>
+        <!--<span *ngIf="infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms.length==0">
+          {{'symptomssection.No synonyms' | translate }}
+        </span>-->
+      </div>
+    </div>
+    <!--<div *ngIf="!infoOneDisease.symptoms[selectedInfoSymptomIndex].synonyms">
+      <span>
+        {{'symptomssection.No synonyms' | translate }}
+      </span>
+    </div>-->
+  </div>
+</ng-template>
+
+<ng-template #contentInfoAttention let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 center-elements mb-3">
+    <div class="p-2">
+      <button type="button" class="close" aria-label="Close" (click)="letsGo()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="align-self-center mb-0"><strong>{{'land.diagnosed.DonorData.t1' | translate }} </strong></h4>
+    </div>
+    <div>
+      <div class="offset-xl-2 col-xl-8 offset-md-1 col-md-10 pt-2">
+        <div class="row" >
+          <div class="mt-2 col-md-12">
+            <p>
+              {{'land.diagnosed.DonorData.p1' | translate }} 
+            </p>
+            <p>
+              {{'land.diagnosed.DonorData.p2' | translate }}
+            </p>
+            <p>
+              {{'land.diagnosed.DonorData.p3' | translate }}
+            </p>
+            <p>
+              {{'land.diagnosed.DonorData.p4' | translate }}
+            </p>
+          </div>
+          <form class="form mt-2 col-md-12" #f="ngForm">
+            <div class="">
+              <input class="col-md-12 form-control" type="email" id="Email" name="Email" placeholder="{{'generics.Email' | translate }}" ngModel required #Email="ngModel" email name="Email" [(ngModel)]="email">
+              <small class="pr-0 pl-0 col-md-6 text-left form-text danger" *ngIf="!Email.valid && showErrorForm">{{'generics.entervalidemail' | translate }}</small>
+            </div>
+            <div *ngIf="!sending" class="center-elements ml-2 mt-2">
+              <div *ngIf="f.valid;then formValid else formError"></div>
+              <ng-template #formValid><button class="btn btn-outline-primary mb-0" (click)="sendSymtomsChecked(contentInfoSendSymptoms);lauchEvent('Diagnosed - Submit Revolution');"> {{'support.Send' | translate }}</button></ng-template>
+              <ng-template #formError><button class="btn btn-outline-primary mb-0" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
+              <span class="d-block font-small-3 pb-2 info" style="cursor: pointer;" (click)="letsGo();">{{'land.diagnosed.symptoms.btn2' | translate }}</span>
+            </div>
+            <div class="form-actions" *ngIf="sending">
+                <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentInfoSendSymptoms let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 border">
+    <div class="p-2">
+      <button type="button" class="close" aria-label="Close" (click)="closeInfoSendSymptoms()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="align-self-center mb-0"><strong>{{'land.diagnosed.DonorData.title' | translate }}</strong></h4>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+        <img class="col mt-1" style="max-width: 300px;" src='assets/img/home/kid.jpg' />
+      </div>
+      <div class="col-md-7 align-self-center">
+        <span class="text-left">
+          <p>
+            {{'land.diagnosed.DonorData.p1' | translate }} 
+          </p>
+          <p>
+            {{'land.diagnosed.DonorData.p2' | translate }}
+          </p>
+          <p>
+            {{'land.diagnosed.DonorData.p3' | translate }}
+          </p>
+        </span>
+      </div>
+    </div>
+    <div class="p-2">
+      <p>
+        <strong>{{'land.diagnosed.DonorData.p4' | translate }}</strong>
+      </p>
+      <form class="form" #f="ngForm">
+        <div class="">
+          <input class="col-md-6 form-control" type="email" id="Email" name="Email" placeholder="{{'generics.Email' | translate }}" ngModel required #Email="ngModel" email name="Email" [(ngModel)]="email">
+          <small class="pr-0 pl-0 col-md-6 form-text danger" *ngIf="!Email.valid && showErrorForm">{{'generics.entervalidemail' | translate }}</small>
+        </div>
+        <div *ngIf="!sending" class="mt-2">
+          <div *ngIf="f.valid;then formValid else formError"></div>
+          <ng-template #formValid><button class="btn btn-outline-primary" (click)="onSubmitRevolution();lauchEvent('Diagnosed - Submit Revolution');"> {{'support.Send' | translate }}</button></ng-template>
+          <ng-template #formError><button class="btn btn-outline-primary" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
+        </div>
+        <div class="form-actions" *ngIf="sending">
+            <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentInfoAndNotesSymptom let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 border">
+    <div class="p-2">
+      <button type="button" class="close" aria-label="Close" (click)="closeSymptom()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 *ngIf="selectedNoteSymptom.name" class="align-self-center mb-0"><strong>{{selectedNoteSymptom.name}}</strong></h4>
+      <span class="content-sub-header text-muted">{{selectedNoteSymptom.id}}<a class="ml-1"
+        href="https://hpo.jax.org/app/browse/term/{{selectedNoteSymptom.id}}"
+        target="_blank"
+        title=" {{selectedNoteSymptom.name}} ({{selectedNoteSymptom.id}}):">
+        <i class="ft-external-link"></i></a>
+      </span>
+      <h4 *ngIf="!selectedNoteSymptom.name"class="align-self-center mb-0"><strong>{{symptom.id}} ({{'phenotype.Deprecated' | translate}}) </strong>
+        <a class="ml-1"
+        href="https://hpo.jax.org/app/browse/term/{{selectedNoteSymptom.id}}"
+        target="_blank"
+        title=" {{selectedNoteSymptom.name}} ({{selectedNoteSymptom.id}}):">
+        <i class="ft-external-link"></i></a>
+      </h4>
+    </div>
+    <div class="row col-md-12" class="p-2" *ngIf="selectedNoteSymptom.onsetdate!=null">
+      <span>
+        <h5><strong>{{'generics.Start Date' | translate }}</strong></h5>
+        <p class="mb-0">{{selectedNoteSymptom.onsetdate | date}} </p>
+      </span>
+    </div>
+    <div class="row col-md-12" class="p-2" *ngIf="selectedNoteSymptom.finishdate!=null">
+      <span>
+        <h5><strong>{{'generics.End Date' | translate }}</strong></h5>
+        <p class="mb-0">{{selectedNoteSymptom.finishdate | date}} </p>
+      </span>
+    </div>
+    <div class="row col-md-12" class="p-2" *ngIf="(selectedNoteSymptom.onsetdate!=null)&&(selectedNoteSymptom.isCurrentSymptom)">
+      <span>
+        <h5><strong>{{'generics.End Date' | translate }}</strong></h5>
+        <p class="mb-0"> - </p>
+      </span>
+    </div>
+    <div class="row col-md-12" class="p-2" *ngIf="selectedNoteSymptom.notes!=null">
+      <span>
+        <h5><strong>{{'generics.notes' | translate }}</strong></h5>
+        <p class="mb-0">{{selectedNoteSymptom.notes}} </p>
+      </span>
+    </div>
+    <div class="row col-md-12" class="p-2">
+      <span *ngIf="selectedNoteSymptom.desc!=null">
+        <h5><strong>{{'generics.Description' | translate }}</strong></h5>
+        <p class="mb-0">{{selectedNoteSymptom.desc}} </p>
+      </span>
+      <span *ngIf="selectedNoteSymptom.desc==''">
+        <h5><strong>{{'generics.Description' | translate }}</strong></h5>
+        <p class="mb-0"> {{'symptomssection.No description' | translate }} </p>
+      </span>
+    </div>
+    <div *ngIf="selectedNoteSymptom.synonyms">
+      <div *ngIf="selectedNoteSymptom.synonyms.length" class="p-2">
+        <h5><strong>{{'generics.Synonyms' | translate }}</strong></h5>
+        <span *ngIf="selectedNoteSymptom.synonyms.length>0">
+          <p *ngFor="let synonym of selectedNoteSymptom.synonyms ; let j = index" class="mb-0">
+            <span>{{j+1}}. </span> <span>{{synonym.label}}</span>
+          </p>
+        </span>
+        <span *ngIf="selectedNoteSymptom.synonyms.length==0">
+          {{'symptomssection.No synonyms' | translate }}
+        </span>
+      </div>
+    </div>
+    <div *ngIf="!selectedNoteSymptom.synonyms">
+      <span>
+        {{'symptomssection.No synonyms' | translate }}
+      </span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentTimelineAppHelp1 let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 border">
+    <div class="p-2">
+      <button type="button" class="close" aria-label="Close" (click)="closeTimelineAppHelp1()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="align-self-center mb-0"><strong>{{'land.diagnosed.timeline.Whats' | translate}}</strong></h4>
+    </div>  
+    <div class="col-md-12">
+      <div class="col-md-12">
+        <p>{{'land.diagnosed.timeline.t0' | translate}} <i class="fas fa-ellipsis-v font-medium-3 info"></i></p>
+        <p> {{'land.diagnosed.timeline.t0-p1' | translate}}</p>
+        <p> {{'land.diagnosed.timeline.t0-p2' | translate}}</p>
+      </div>
+      <div class="col-md-12 mt-1 d-block d-sm-none">
+        <p>** {{'land.diagnosed.timeline.WorkPC' | translate}}</p>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentTimelineAppHelp2 let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 border">
+    <div class="p-2">
+      <button type="button" class="close" aria-label="Close" (click)="closeTimelineAppHelp2()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="align-self-center mb-0"><strong>{{'land.diagnosed.timeline.help' | translate }} </strong></h4>
+    </div>  
+    <div class="row">
+      <div class="col-md-12">
+        <span class="info">{{'land.diagnosed.timeline.title' | translate}}</span>
+      </div>
+      <div class="col-md-12">
+        <p>{{'land.diagnosed.timeline.t2' | translate}}</p>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #contentSaveTimeline let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-body content-wrapper p-2 center-elements mb-3">
+    <div class="p-2">
+      <button type="button" class="close" aria-label="Close" (click)="closeSaveTimeLine()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="align-self-center"><strong>{{'land.swal.title' | translate }}</strong><span class="d-block"><strong>{{'land.swal.title2' | translate }}</strong></span></h4>
+    </div>
+    <div>
+      <div class="align-self-center">
+        <span>
+          <p [innerHTML]="'land.diagnosed.timeline.p1' | translate"></p>
+        </span>
+        <span>
+          <p [innerHTML]="'land.diagnosed.timeline.p2' | translate"></p>
+        </span>
+        <span>
+          <p [innerHTML]="'land.diagnosed.timeline.p3' | translate"></p>
+        </span>
+        <div class="row reg-panel d-block d-sm-none">
+          <button class="mt-2 btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2()">{{'land.swal.button' |
+            translate }}</button>
+            <p>{{'land.swal.p2' | translate }}</p>
+            <div class="row pb-2 pt-2">
+              <div class="offset-1 col-2">
+                <img class="w-reg-img-sm" src='assets/img/home/reg/timeline.png' />
+              </div>
+              <span class="col-9 text-left">
+                <p class="mb-0"><strong>{{'land.table.t13' | translate }}</strong></p>
+                <p class="d-block">{{'land.table.d13' | translate }}</p>
+              </span>
+            </div>
+            <div class="row pb-2 pt-2">
+              <div class="offset-1 col-2">
+                <img class="w-reg-img-sm" src='assets/img/home/reg/download.png' />
+              </div>
+              <span class="col-9 text-left">
+                <p class="mb-0"><strong>{{'land.table.t14' | translate }}</strong></p>
+                <p class="d-block">{{'land.table.d14' | translate }}</p>
+              </span>
+            </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/diskette.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t7' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d7' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/genetico.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t9' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d9' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/share.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t11' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d11' | translate }}</p>
+            </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img-sm" src='assets/img/home/reg/refresh.png' />
+            </div>
+            <span class="col-9 text-left">
+              <p class="mb-0"><strong>{{'land.table.t12' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d12' | translate }}</p>
+            </span>
+          </div>
+        </div>
+        <div class="row reg-panel d-none d-sm-flex">
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/timeline.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t13' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d13' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/download.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t14' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d14' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/diskette.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t7' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d7' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/genetico.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t9' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d9' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/share.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t11' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d11' | translate }}</span>
+            </span>
+          </div>
+          <div class="col-sm-4 pb-3 pt-3">
+            <div class="mb-2">
+              <img class="col w-reg-img-sm" src='assets/img/home/reg/refresh.png' />
+            </div>
+            <span class="w-reg" style="display: inline-block;">
+              <span><strong>{{'land.table.t12' | translate }}</strong></span>
+              <span class="d-block">{{'land.table.d12' | translate }}</span>
+            </span>
+          </div>
+        </div>
+        <button class="mb-0 mt-2 btn btn-danger btn-raised btn-navbar" (click)="registerToDx29V2Timeline()">{{'land.swal.button' |
+          translate }}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+    
+<button id="openModalRegister" [hidden]="true" (click)="registerToDx29Swal(contentToDx29V2)">.</button>

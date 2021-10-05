@@ -101,7 +101,7 @@ export class SearchTermService {
     providers: [Apif29BioService, Apif29NcrService, ApiDx29ServerService, ApiExternalServices, SearchTermService, jsPDFService],
 })
 
-export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit {
+export class DiagnosedPageComponent2 implements OnInit, OnDestroy, AfterViewInit {
 
     private subscription: Subscription = new Subscription();
     private subscriptionDiseasesCall: Subscription = new Subscription();
@@ -208,13 +208,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     optionSymptomAdded: string = "textarea";
     @ViewChild('tabRef') ctdTabset : NgbTabset;
 
-    steps = [
-        { stepIndex: 1, isComplete: false, title: "Search disease"},
-        { stepIndex: 2, isComplete: false, title: "Info disease"}
-      ];
-
-    currentStep: any = {};
-
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
         
         this.lang = sessionStorage.getItem('lang');
@@ -243,7 +236,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             this.myuuid = uuidv4();
             sessionStorage.setItem('uuid', this.myuuid);
         }
-        this.currentStep = this.steps[0];
+
         this.focusInputDisease();
     }
 
@@ -562,12 +555,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
     selectRole() {
         //this.role = role;
-        if(this.currentStep.stepIndex==1){
-            this.router.navigate(['/']);
-        }else if(this.currentStep.stepIndex==2){
-            this.goToStep(0);
-        }
-        
+        this.router.navigate(['/']);
     }
 
     searchSymptoms: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
@@ -705,7 +693,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     getInfoOneDisease() {
-        this.goToStep(1);
         this.listOfFilteredDiseases = [];
         this.searchDiseaseField = '';
         this.infoOneDisease = {};
@@ -1384,7 +1371,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     openSaveTimeLine(contentSaveTimeline){
-        //this.registerToDx29V2Timeline();
         if(this.modalReference6==undefined){
             let ngbModalOptions: NgbModalOptions = {
                 keyboard: false,
@@ -1414,14 +1400,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
     scrollToTop(){
         window.scroll(0,0);
-    }
-
-    goToStep(index){
-        this.currentStep= this.steps[index];
-    }
-
-    goTopTabs(){
-        document.getElementById('inittabs').scrollIntoView(true);
     }
 
 }

@@ -46,6 +46,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
     @Output() backEvent = new EventEmitter();
     @Output() finishEvent = new EventEmitter();
     @Output() addSymptomsEvent = new EventEmitter();
+    @Output() exportParamsEvent = new EventEmitter();
 
     private dictionaryTimeline: any;
     private listTimelineNull: any;
@@ -79,9 +80,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
         this.actualTemporalSymptomsIndex = 0;
         this.selectedInfoSymptom = null;
         this.dateAdapter.setLocale(sessionStorage.getItem('lang'));
-        console.log(this.topRelatedConditions);
-        console.log(this.listSymptoms);
-        console.log(this.disease);
     }
 
     @HostListener('window:resize', ['$event'])
@@ -366,6 +364,12 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
         this.showTimeLine = true;
         this.modifyFormSymtoms = false;
         this.saveSymptomsSession();
+        this.exportParamsComponent();
+    }
+
+    exportParamsComponent(){
+        var info = {lang: sessionStorage.getItem('lang'), dictionaryTimeline: this.dictionaryTimeline, listTimelineNull: this.listTimelineNull, disease: this.disease, topRelatedConditions: this.topRelatedConditions};
+        this.exportParamsEvent.emit(info);
     }
 
     dateConverter(date) {
