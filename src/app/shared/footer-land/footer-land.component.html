@@ -5,8 +5,6 @@
         <nav>
           <a href="https://www.foundation29.org" target="_blank"><img class=""
               src='assets/img/logo-foundation-twentynine-footer.png' /></a>
-              <span class="btn-about"><a class="btn btn-danger ml-3 btn-raised mb-0 btn-navbar"
-                (click)="showAboutUs(contentAboutUs);lauchEvent('who we are - Footer');">{{'land.aboutUs.title' | translate }}</a></span>
           <p class="ptm mb-0 mt-2">© 2021 {{'generics.Foundation 29' | translate }}</p>
           <p>info@foundation29.org</p>
         </nav>
@@ -85,26 +83,3 @@
     </div>
   </div>
 </div>
-<ng-template #contentAboutUs let-c="close" let-d="dismiss" appendTo="body">
-  <div class="modal-body content-wrapper p-2 center-elements mb-3">
-    <div class="p-2">
-      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="row col-md-12">
-      <div class="col-md-5 d-none d-sm-none d-md-block">
-        <img class="col-md-12 mt-1" src='assets/img/home/kid.jpg' />
-      </div>
-      <div class="col-md-7">
-        <span class="text-left">
-          <h4><strong>{{'land.aboutUs.title' | translate }}</strong></h4>
-          <p>{{'land.aboutUs.p1' | translate }}</p>
-          <p>{{'land.aboutUs.p2' | translate }}</p>
-          <a class="btn btn-primary btn-raised btn-navbar" href="https://www.foundation29.org"
-            target="_blank">{{'land.aboutUs.btn1' | translate }}</a>
-        </span>
-      </div>
-    </div>
-  </div>
-</ng-template>

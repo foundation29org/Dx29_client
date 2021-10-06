@@ -1,10 +1,6 @@
 
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
-:host /deep/ .nav-pills{
-  background: #eee;
-}
-
 .background-img{
   margin-top: -7px !important;
   background-image: url("assets/img/home/background2.jpg");
@@ -17,6 +13,12 @@
   width: -webkit-fill-available;  /* For Chrome */
   width: stretch;
   height: 600px;
+}
+
+.nav-item{
+  background-color: grey;
+  padding-right: 0.2em;
+  padding-left: 0.2em;
 }
 
 .dropdown-toggle::after {
@@ -117,11 +119,36 @@ a {
     border-color: #f9423a;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-    color: #fff;
-    background-color: #f9423a;
-    border-color: #f9423a;
+/*:host /deep/ .nav-pills{
+  background: #eee;
+}*/
+:host /deep/ .tab-content{
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid #dee2e6 !important;
+  border-top-width: 0px !important;
 }
+
+::ng-deep .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #616161 !important;
+  background-color: #fff !important;
+  //border-color: #f9423a !important;
+  border: 1px solid #dfdfdf !important;
+  border-bottom-width: 1px;
+  border-bottom-width: 0px !important;
+}
+
+::ng-deep .nav-pills .nav-link {
+  border-radius: 1.25rem 1.25rem 0rem 0rem;
+  margin-right: 0.4em;
+}
+
+::ng-deep .nav-pills .nav-link, .nav-pills .show > .nav-link {
+  color: #fff !important;
+  background-color: #f9423a !important;
+  
+  border-color: #f9423a !important;
+}
+
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -287,7 +314,7 @@ img.logo {
     font-size: 22px;
 }
 
-input[type="text"]::placeholder {  
+.fielddisease::placeholder {  
   text-align: center; 
 }
 
@@ -410,14 +437,14 @@ body {
 }
 
 .form-control:focus{
-  border-color: #f9423a !important;
-  box-shadow: 0 0 0 0.2rem #f9423a5E;
+  border-color: #a1a09a !important;
+  box-shadow: 0 0 0 0.2rem #a1a09a3b;
 }
 
 :host /deep/ .dropdown-item.active, .dropdown-item:active {
-    color: #fff;
-    text-decoration: none;
-    background-color: #f9423a !important;
+  color: #fff;
+  text-decoration: none;
+  background-color: #a1a09a !important;
 }
 
 .btn-sm, .btn-group-sm > .btn {
@@ -433,10 +460,6 @@ body {
   border-bottom: 2px solid #f9423a !important;
   background-color: transparent !important;
   border-color: transparent !important;
-}
-
-:host /deep/ a{
-  color: #f9423a;
 }
 
 :host /deep/ .nav-tabs {
@@ -628,12 +651,12 @@ body {
   width: 91%
 }
 
-@media ( max-width: 1600px ){
+::ng-deep ngb-typeahead-window.dropdown-menu {
+  width:87%;
+ }
 
-  ::ng-deep ngb-typeahead-window.dropdown-menu {
-   width:88vw;
-  }
-
+ ::ng-deep .dropdown-item {
+  white-space: normal !important;
 }
 
 @media ( max-width: 1199px ){
@@ -661,18 +684,6 @@ body {
     .mrbox{
       margin-right: 0rem !important;
     }
-
-    ::ng-deep .dropdown-item {
-      white-space: normal !important;
-  }
-
-}
-
-@media ( max-width: 960px ){
-
-  ::ng-deep ngb-typeahead-window.dropdown-menu {
-   width:88vw;
-  }
 
 }
 
@@ -730,9 +741,6 @@ body {
       padding-top: 0rem !important;
     }
 
-    ::ng-deep ngb-typeahead-window.dropdown-menu {
-      width:93vw;
-    }
     .inputSearch{
       width: 93vw;
       margin-left: 0rem !important;

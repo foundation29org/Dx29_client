@@ -333,15 +333,11 @@ body {
   overflow-y: auto;
  }
 
- .nav-tabs .nav-link.active {
+ /*.nav-tabs .nav-link.active {
   border-bottom: 2px solid #f9423a !important;
   background-color: transparent !important;
   border-color: transparent !important;
-}
-
-:host /deep/ a{
-  color: #f9423a;
-}
+}*/
 
 :host /deep/ .nav-tabs {
   border-color: transparent !important;

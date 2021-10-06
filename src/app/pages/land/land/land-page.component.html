@@ -13,7 +13,7 @@
               </div>
               <div class="col-lg-12 col-md-12 py-2">
                 <h4 class="text-center">{{'preland.t2_q' | translate }}</h4>
-                <div class="col-md-12">
+                <div class="col-md-12" style="z-index: 2;">
                   <div class="pt-2 center-elements">
                     <button [routerLink]="['/undiagnosed']" (click)="lauchEvent('Role - Undiagnosed')" class="mt-2 mr-2 ml-2 btn btn-white btn-raised round mb-1 h-80"
                           type="button"><strong>{{'preland.p2.1' | translate }}</strong>
@@ -24,8 +24,85 @@
                   </div>
                 </div>
               </div>
+              <div class="">
+                <img class="img-1 d-none d-sm-block" src="assets/img/land/checks.png" />
+              </div>
             </div>
           </div>
+    </div>
+  </div>
+</section>
+<section style="padding-bottom: 70px !important;">
+  <div class="col-12 d-flex justify-content-center">
+    <img class="img-2 " src="assets/img/land/road.png" />
+    <div class="card-body" style="max-width: 1200px;">
+      <div class="row m-0">
+        <div class="col-lg-12 justify-content-center align-items-center text-center" style="padding-top: 1.5rem;padding-right: 1.5rem;padding-left: 1.5rem;">
+          <h1 class="card-title text-bold-500">
+            ¿Qué es Dx29?
+            <hr class="hr-custom">
+          </h1>
+          <span class="row" style="background: #ffffffe8;">
+            <p>{{'land.aboutUs.p1' | translate }}</p>
+            <p>{{'land.aboutUs.p2' | translate }}</p>
+          </span>
+          
+        </div>
+        <div class="col-lg-12 col-md-12 py-2">
+          <div class="col-md-12">
+            <div class="center-elements">
+              <button href="https://www.foundation29.org" target="_blank" (click)="lauchEvent('Role - Undiagnosed')" class="mt-2 mr-2 ml-2 btn btn-primary btn-raised mb-1"
+                    type="button"><strong>Quienes somos</strong>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+</section>
+
+<section style="padding-bottom: 70px !important;">
+  <div class="col-12 d-flex justify-content-center">
+    <div class="card-body" style="max-width: 1200px;">
+      <div class="row m-0">
+        <div class="col-lg-12 justify-content-center align-items-center text-center" style="padding-top: 1.5rem;padding-right: 1.5rem;padding-left: 1.5rem;">
+          <h1 class="card-title text-bold-500">
+            Ventajas de registrarse con nosotros
+            <hr class="hr-custom">
+          </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="">
+    <img class="p-3" style="width: 100%;" src="assets/img/land/sample.jpg" />
+  </div>
+</section>
+
+<section style="padding-bottom: 30px !important;">
+  <img class="img-3" src="assets/img/land/last.jpg" />
+  <div class="col-12 d-flex justify-content-center">
+    <div class="card-body" style="max-width: 1200px;">
+      <div class="row m-0">
+        <div class="col-lg-12 justify-content-center align-items-center text-center" style="padding-top: 1.5rem;padding-right: 1.5rem;padding-left: 1.5rem;">
+          <h1 class="card-title text-bold-500">
+            Nos avalan
+            <hr class="hr-custom">
+          </h1>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  <div class="col-12 justify-content-center">
+    <div class="row center-elements">
+      <div class="col-6 col-sm-3 mb-3" *ngFor="let item of [].constructor(12) ; let i = index">
+        <span >
+          <img src="https://pixinvent.com/apex-angular-4-bootstrap-admin-template/demo-3/assets/img/portrait/small/avatar-s-{{i+1}}.png" alt="Avatar" width="55" class="avatar">
+          <span class="d-block">Cliente {{i+1}} </span>
+        </span>
+      </div>
     </div>
   </div>
 </section>

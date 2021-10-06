@@ -412,10 +412,6 @@ body {
   border-color: transparent !important;
 }
 
-:host /deep/ a{
-  color: #f9423a;
-}
-
 :host /deep/ .nav-tabs {
   border-color: transparent !important;
 }
@@ -616,6 +612,10 @@ body {
   width:87%;
  }
 
+ ::ng-deep .dropdown-item {
+  white-space: normal !important;
+}
+
 @media ( max-width: 1199px ){
 
   .offset-xl-1 {
@@ -640,11 +640,7 @@ body {
 
     .mrbox{
       margin-right: 0rem !important;
-    }
-
-    ::ng-deep .dropdown-item {
-      white-space: normal !important;
-  }
+    } 
 
 }
 
@@ -662,12 +658,32 @@ body {
     display: inline-block;
     margin-top: 0.75rem !important;
   }
+
+  .form-steps-container{
+    margin-left: 2rem;
+  }
+}
+
+@media (max-width: 670px) {
+  .form-steps-container{
+    margin-left: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .form-steps-container{
+    margin-left: 0rem;
+  }
 }
 
 @media ( max-width: 575px ){
-    
+
   .form-steps-container{
-    margin-left: 2rem;
+    margin-left: -1rem;
+  }
+
+  .step-divider{
+    width: 80px !important;
   }
 
   .box-panels{

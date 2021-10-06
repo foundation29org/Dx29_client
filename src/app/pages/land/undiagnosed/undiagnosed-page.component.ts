@@ -151,11 +151,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     formatter1 = (x: { name: string }) => x.name;
     optionSymptomAdded: string = "textarea";
 
-    steps = [
-        { stepIndex: 1, isComplete: false, title: "Introduce y ordena tus síntomas"},
-        { stepIndex: 2, isComplete: false, title: "Recibe tu cronología"},
-        { stepIndex: 3, isComplete: false , title: "Explora enfermedades"}
-      ];
+    steps = [];
     currentStep: any = {};
 
     paramsTimeLine: any = {};
@@ -194,6 +190,13 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             sessionStorage.setItem('uuid', this.myuuid);
         }
 
+        this.steps = [
+            { stepIndex: 1, isComplete: false, title: this.translate.instant("land.step1")},
+            { stepIndex: 2, isComplete: false, title: this.translate.instant("land.step2")},
+            { stepIndex: 3, isComplete: false , title: this.translate.instant("land.step3")},
+            { stepIndex: 4, isComplete: false , title: this.translate.instant("land.step4")}
+          ];
+
         this.currentStep = this.steps[0];
         console.log(this.currentStep);
     }
@@ -227,6 +230,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                     if (result.value) {
                         var foundElementIndex = this.searchService.searchIndex(this.steps, 'stepIndex', this.currentStep.stepIndex);
                         this.currentStep= this.steps[foundElementIndex+1];
+                        document.getElementById('initsteps').scrollIntoView(true);
                     }
                 });
             }else if(tamanoWithOutDate>0){
@@ -248,16 +252,20 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                     if (result.value) {
                         var foundElementIndex = this.searchService.searchIndex(this.steps, 'stepIndex', this.currentStep.stepIndex);
                         this.currentStep= this.steps[foundElementIndex+1];
+                        document.getElementById('initsteps').scrollIntoView(true);
                     }
                 });
             }else{
                 isNext=true;
             }
             
+        }else if(this.currentStep.stepIndex==3){
+            isNext=true;
         }
         if(isNext){
             var foundElementIndex = this.searchService.searchIndex(this.steps, 'stepIndex', this.currentStep.stepIndex);
             this.currentStep= this.steps[foundElementIndex+1];
+            document.getElementById('initsteps').scrollIntoView(true);
         }
         
     }
@@ -265,6 +273,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     goPrevious(){
         var foundElementIndex = this.searchService.searchIndex(this.steps, 'stepIndex', this.currentStep.stepIndex);
         this.currentStep= this.steps[foundElementIndex-1];
+        document.getElementById('initsteps').scrollIntoView(true);
     }
     
     openModarRegister(type){
@@ -336,7 +345,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     ngOnInit() {
-
+        this.loadTranslations();
         this.eventsService.on('changelang', function (lang) {
             this.lang = lang;
             this.modelTemp = '';
@@ -364,6 +373,21 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             }
         }.bind(this));
     }
+
+    loadTranslations(){
+        this.translate.get('land.step1').subscribe((res: string) => {
+            this.steps[0].title=res;
+        });
+        this.translate.get('land.step2').subscribe((res: string) => {
+            this.steps[1].title=res;
+        });
+        this.translate.get('land.step3').subscribe((res: string) => {
+            this.steps[2].title=res;
+        });
+        this.translate.get('land.step4').subscribe((res: string) => {
+            this.steps[3].title=res;
+        });
+      }
 
     ngAfterViewInit() {
         //this.focusTextArea();

@@ -22,13 +22,13 @@
             <tr *ngFor="let symptom of listSymptoms ; let i = index">
               <td class="row text-left">
                 <div class="col-md-12">
-                  <h5 *ngIf="symptom.name" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(symptom);"
-                    class="primary d-inline"><strong>{{symptom.name}}</strong></h5>
-                  <h5 *ngIf="!symptom.name" class="d-inline">
-                    <strong>{{symptom.id}}</strong> ({{'phenotype.Deprecated' | translate}}) <a
+                  <p *ngIf="symptom.name" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(symptom);"
+                    class="d-inline">{{symptom.name}}</p>
+                  <p *ngIf="!symptom.name" class="d-inline">
+                    {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                       href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
                       <i class="ft-external-link"></i></a>
-                  </h5>
+                  </p>
                   <span class="mt-1 nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right">
                     <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt{{j}}"
                       ngbDropdownToggle title="{{'generics.Options' | translate }}">
@@ -130,7 +130,7 @@
                           <span class="card-title mb-0">{{item.key}}</span>
                           <hr class="mt-0 mb-2">
                           <div *ngFor="let symptom of item.value;">
-                            <span *ngIf="symptom.name" class="secondary" style="cursor: pointer;"
+                            <span *ngIf="symptom.name" style="cursor: pointer;"
                               title="{{'generics.More information' | translate }} ({{symptom.id}})"
                               (click)="showMoreInfoSymptomPopup(symptom)">{{symptom.name}}</span>
                             <span *ngIf="!symptom.name">
@@ -167,7 +167,7 @@
                   <div class="card-content">
                     <div class="card-body">
                       <div *ngFor="let symptom of listTimelineNull">
-                        <span *ngIf="symptom.name" class="secondary" style="cursor: pointer;"
+                        <span *ngIf="symptom.name" style="cursor: pointer;"
                           title="{{'generics.More information' | translate }} ({{symptom.id}})"
                           (click)="showMoreInfoSymptomPopup(symptom)">{{symptom.name}}</span>
                         <span *ngIf="!symptom.name">
@@ -221,14 +221,14 @@
         <div class="card bg-grey bg-lighten-3 box border mb-3" *ngIf="actualTemporalSymptomsIndex ==i">
           <div class="card-header">
             <strong>
-              <h5 *ngIf="symptom.name" class="primary d-inline" style="cursor: pointer;"
-                (click)="showMoreInfoSymptomPopup(symptom);"><strong>{{symptom.name}}</strong></h5>
-              <h5 *ngIf="!symptom.name" class="d-inline">
-                <strong>{{symptom.id}}</strong> ({{'phenotype.Deprecated' | translate}})
+              <p *ngIf="symptom.name" class="d-inline" style="cursor: pointer;"
+                (click)="showMoreInfoSymptomPopup(symptom);">{{symptom.name}}</p>
+              <p *ngIf="!symptom.name" class="d-inline">
+                {{symptom.id}} ({{'phenotype.Deprecated' | translate}})
                 <a href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
                   <i class="ft-external-link"></i>
                 </a>
-              </h5>
+              </p>
               <span class="mt-1 nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right">
                 <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt{{j}}"
                   ngbDropdownToggle title="{{'generics.Options' | translate }}">
@@ -339,7 +339,7 @@
                           <span class="card-title mb-0">{{item.key}}</span>
                           <hr class="mt-0 mb-2">
                           <div *ngFor="let symptom of item.value;">
-                            <span *ngIf="symptom.name" class="secondary" style="cursor: pointer;"
+                            <span *ngIf="symptom.name" style="cursor: pointer;"
                               title="{{'generics.More information' | translate }} ({{symptom.id}})"
                               (click)="showMoreInfoSymptomPopup(symptom)">{{symptom.name}}</span>
                             <span *ngIf="!symptom.name">
@@ -376,7 +376,7 @@
                   <div class="card-content">
                     <div class="card-body mr-1" style="padding: 1.5rem !important;">
                       <div *ngFor="let symptom of listTimelineNull">
-                        <span *ngIf="symptom.name" class="secondary" style="cursor: pointer;"
+                        <span *ngIf="symptom.name" style="cursor: pointer;"
                           title="{{'generics.More information' | translate }} ({{symptom.id}})"
                           (click)="showMoreInfoSymptomPopup(symptom)">{{symptom.name}}</span>
                         <span *ngIf="!symptom.name">
