@@ -34,6 +34,10 @@ body {
   margin-top: 0.175rem !important;
 }
 
+.btn-raised {
+  border-radius: 1rem;
+}
+
 .nav-tabs .nav-link.active {
   color: #f9423a;
 }
@@ -229,6 +233,11 @@ mark{
     position: absolute;
     right: 15%;
     margin-top: 0.175rem !important;
+  }
+
+  .none-laterals-m{
+    padding-right: 0px !important;
+    padding-left: 0px !important;
   }
 }
 

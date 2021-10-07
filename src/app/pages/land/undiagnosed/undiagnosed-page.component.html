@@ -400,9 +400,9 @@
         <p [innerHTML]="'land.msgwhat1' | translate"></p>
         <p [innerHTML]="'land.msgwhat2' | translate"></p>
         <div class="p-2">
-          <button type="button" class="btn btn-primary btn-md btn-raised mr-1" (click)="registerToDx29V2Timeline()">
+          <button type="button" class="btn btn-primary btn-md btn-raised mr-1" (click)="openSaveTimeLine(contentSaveTimeline)">
             <em class="mr-1 ft-save white"
-              title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="registerToDx29V2Timeline()"
+              title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="openSaveTimeLine(contentSaveTimeline)"
               style="cursor: pointer;"></em>
               <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
           </button>

@@ -1,7 +1,7 @@
 <span class="background-img"></span>
 <section *ngIf="currentStep.stepIndex == 1">
   <div class="mt-2 row m-0">
-    <div class="col-12">
+    <div class="col-12 none-laterals-m">
           <div class="card-body">
             <div class="row m-0">
               <div class="mt-2 col-lg-12 justify-content-center align-items-center text-center">
@@ -72,7 +72,7 @@
       <span><i class="fa fa-spinner fa-spin fa-3x fa-fw secondary"></i></span>
     </div>
   </div>
-  <div class="col-12" *ngIf="!loadingOneDisease">
+  <div class="col-12 none-laterals-m" *ngIf="!loadingOneDisease">
     <div class="card-body">
       <div class="row m-0">
         <div class="mt-2 col-lg-12 justify-content-center align-items-center text-center">
@@ -145,77 +145,324 @@
                   <div class="card-body">
                     <div>
                       <div class="col-md-12">
-                        <p> {{'land.diagnosed.timeline.t0-app' | translate}} <em class="ml-1 mt-1 ft-help-circle info"
-                          title="{{'land.diagnosed.timeline.help' | translate}}" (click)="openTimelineAppHelp1(contentTimelineAppHelp1)"
-                          style="cursor: pointer;">
-                        </em></p>
+                        <h4><strong>{{'land.diagnosed.timeline.title' | translate}}</strong></h4>
+                        <p> {{'land.diagnosed.timeline.t0' | translate}} <i class="fas fa-ellipsis-v font-medium-3 info"></i></p>
+                        <p> {{'land.diagnosed.timeline.t0-p1' | translate}}</p>
+                        <p> {{'land.diagnosed.timeline.t0-p2' | translate}}</p>
+                        <p>
+                          <span> 
+                            <a class="info" (click)="registerToDx29V2Timeline();" title="{{'land.diagnosed.timeline.Register' | translate}}"><ins>{{'land.diagnosed.timeline.Register' | translate}}</ins></a> {{'land.diagnosed.timeline.t0-reg' | translate}}
+                          </span>
+                        </p>
                       </div>
-                    </div>
-                    <div *ngIf="!startTimeline">
                       <div class="row">
-                        <div class="col-md-12">
-                          <em class="mr-1 fa fa-refresh info float-right"
-                            title="{{'preland.p2' | translate}}" (click)="endTimeLineFunctionWithConfirmation()"
-                            style="cursor: pointer;"></em>
-                        </div>
-                      </div>
-                      <div class="col-md-12 mt-1">
-                        <p> {{'land.diagnosed.timeline.t1' | translate}}</p>
-                      </div>
-                      <div>
-                        <ng-template #rt let-r="result" let-t="term">
-                          <strong title="{{r.name}}">{{ r.name}}</strong>
-                          <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
-                            slice:0:140)+'...':(r.desc) }}</span>
-                        </ng-template>
-                        <div style="padding-bottom: 0.5rem !important;">
-                          <span class="ml-1 mr-2"><i class="fa fa-plus success"></i></span>
-                          <input #input type="text"
-                            #inputManualSymptoms class="form-control ml-1 inputSearch d-inline data-hj-allow" style="width: 88%;" [(ngModel)]="modelTemp"
-                            [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
-                            placeholder="{{'symptomssection.manualinput' | translate }}"
-                            (selectItem)="selected($event)"/>
-                            <em *ngIf="callListOfSymptoms" class="fa fa-spinner fa-spin fa-2x fa-fw secondary spinner-absolute"></em>
-                            <span *ngIf="nothingFoundSymptoms">
-                              <span *ngIf="(modelTemp).trim().length>3">
-                                <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
-                              </span>
+                        <a id="initsteps"></a>
+                        <div class="col-md-12 align-items-center text-center">
+                          <div class="form-steps-container">
+                            <span *ngFor="let step of stepsTimeLine; let i = index;" class="forstep">
+                                <div [ngClass]="{ 'step-complete': step.isComplete, 'step-incomplete': !step.isComplete, 'step-current': (currentStepTimeLine)?.stepIndex >= step.stepIndex,  'step-bubble-prev': (currentStepTimeLine)?.stepIndex >= step.stepIndex,  'step-bubble-next': (currentStepTimeLine)?.stepIndex < step.stepIndex}"
+                                    class="step-bubble">{{ step.stepIndex }}</div>
+                                <div *ngIf="i < (stepsTimeLine)?.length - 1" class="step-divider" [ngClass]="((i < (stepsTimeLine)?.length - 1) && step.stepIndex>=currentStepTimeLine.stepIndex)?'step-divider-prev':'step-divider-next'"></div>
+                                <span class="step-title mt-2">{{step.title}} </span>
                             </span>
+                          </div>
                         </div>
                       </div>
-                      <div class="col-md-12">
-                        <table class="table mb-0 text-center d-block d-sm-none">
-                          <tbody style="overflow-x: hidden;">
-                            <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="text-left">
-                              <td class="row pb-0" style="padding: 0.4rem;">
-                                <div class="col-md-12 mb-1">
-                                  <span>
-                                    <button (click)="changeStateSymptomDisease(i);"
-                                        class="btn btn-sm mr-2 mb-0 btn-fab round white"
-                                        [ngClass]="(symptom.checked==true)?'btn-success':'btn-secondary '"
-                                        href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
-                                        <em class="fa fa-check w-13"></em>
-                                    </button>
-                                    <span *ngIf="symptom.name" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{symptom.name}}</span>
-                                    <span *ngIf="!symptom.name">
-                                      {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
-                                        href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
-                                        title="{{symptom.id}}">
-                                        <i class="ft-external-link"></i></a></span>
+                      <div *ngIf="currentStepTimeLine.stepIndex == 1" class="step-section offset-sm-1 col-sm-10 offset-md-2 col-md-8">
+                        <div *ngIf="substepExtract=='0'"
+                          class="mb-2 shadow rounded-lg light-background border box-panels">
+                          <div class="row pt-2">
+                            <div class="col-md-12">
+                              <ngb-tabset justify="justified">
+                                <ngb-tab>
+                                  <ng-template ngbTabTitle>
+                                    <span>
+                                      <i class="fas fa-search" aria-hidden="true"></i>
+                                      <span class="d-none d-sm-inline ml-1">{{'land.Quick search' | translate }}</span>
+                                      <span class="d-block d-sm-none no-line-height">{{'land.Quick search' | translate }}</span>
+                                    </span>
+                                  </ng-template>
+                                  <ng-template ngbTabContent>
+                                    <div>
+                                      <ng-template #rt let-r="result" let-t="term">
+                                        <strong title="{{r.name}}">{{ r.name}}</strong>
+                                        <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
+                                          slice:0:140)+'...':(r.desc) }}</span>
+                                      </ng-template>
+                                      <div style="padding-bottom: 1rem !important;">
+                                        <span class="d-none d-sm-inline ml-2 mr-2"><i class="fas fa-search"></i></span>
+                                        <input #input type="text"
+                                          #inputManualSymptoms class="form-control ml-1 inputSearch2 d-inline data-hj-allow" [(ngModel)]="modelTemp"
+                                          [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
+                                          placeholder="{{'symptomssection.manualinput' | translate }}"
+                                          (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
+                                          <em *ngIf="callListOfSymptoms" class="fa fa-spinner fa-spin fa-2x fa-fw secondary spinner-absolute"></em>
+                                          <span *ngIf="nothingFoundSymptoms">
+                                            <span *ngIf="(modelTemp).trim().length>3">
+                                              <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
+                                            </span>
+                                          </span>
+                                      </div>
+                                    </div>
+                                    <div *ngIf="infoOneDisease.symptoms.length>0">
+                                      <div class="table-cont">
+                                        <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
+                                          aria-labelledby="HPO">
+                                          <tbody>
+                                            <tr *ngFor="let hpo of infoOneDisease.symptoms ; let i = index">
+                                              <td>
+                                                <span>
+                                                  <span class="float-right ml-1">
+                                                    <button (click)="changeStateSymptom(i, true)"
+                                                      class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                                                      [ngClass]="(hpo.checked==true)?'btn-success':'btn-secondary'"
+                                                      href="javascript:void(0)" title="{{'phenotype.Click to check it' | translate }}">
+                                                      <em class="fa fa-check w-13"></em>
+                                                    </button>
+                                                    <button (click)="changeStateSymptom(i, false)"
+                                                      class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                                                      [ngClass]="(hpo.checked==false)?'btn-primary':'btn-secondary'"
+                                                      href="javascript:void(0)"
+                                                      title="{{'phenotype.Click to uncheck it' | translate }}">
+                                                      <em class="fa fa-times w-13"></em>
+                                                    </button>
+                                                  </span>
+                                                  <span>
+                                                    <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
+                                                      class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                                      title="{{'generics.More information' | translate }} ({{hpo.id}})">
+                                                      <em class="fa fa-info w-13"></em>
+                                                    </button>
+                                                    <span class="ml-1 custom-bold pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{hpo.name}}</span>
+                                                  </span>
+                                                </span>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </div>
+                                    <div *ngIf="infoOneDisease.symptoms.length==0">
+                                      <tbody></tbody>
+                                    </div>
+                                    <div class="col-md-12 p-1 border-top footer-symtoms">
+                                      <button type="button" class="btn btn-primary btn-raised float-right mt-2 mr-2" (click)="directCalculate();">{{'generics.Next' | translate }}</button>
+                                    </div>
+
+                                  </ng-template>
+                                </ngb-tab>
+                                <ngb-tab>
+                                  <ng-template ngbTabTitle>
+                                    <span>
+                                      <i class="fa fa-language" aria-hidden="true"></i>
+                                      <span class="d-none d-sm-inline ml-1">{{'land.Text' | translate }}</span>
+                                      <span class="d-block d-sm-none no-line-height">{{'land.Text' | translate }}</span>
+                                    </span>
+                                  </ng-template>
+                                  <ng-template ngbTabContent>
+                                    <div class="p-2">
+                                      <textarea #inputTextArea class="form-control data-hj-allow" style="height:30vh;" [(ngModel)]="medicalText"
+                                        name="medicalText" placeholder="{{'land.placeholder' | translate }}"></textarea>
+                                    </div>
+                                    <div class="text-center mt-2">
+                                      <button type="button" class="btn btn-lg btn-primary btn-raised"
+                                        [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholderError') : getLiteral('land.Extract')"
+                                        (click)="startExtractor();">{{'land.Look for symptoms' | translate }}</button>
+                                    </div>
+                                  </ng-template>
+                                </ngb-tab>
+                                <ngb-tab>
+                                  <ng-template ngbTabTitle>
+                                    <span>
+                                      <i class="fas fa-file"></i> 
+                                      <span class="d-none d-sm-inline ml-1">{{'land.Documents' | translate}}</span>
+                                      <span class="d-block d-sm-none no-line-height">{{'land.Documents' | translate}}</span>
+                                    </span>
+                                    </ng-template>
+                                  <ng-template ngbTabContent>
+                                    <div class="container-custom" appDnd (fileDropped)="onFileDropped($event)">
+                                      <input type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
+                                        accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
+                                      <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="arrow-alt-from-bottom"
+                                        role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
+                                        class="secondary svg-inline--fa fa-arrow-alt-from-bottom fa-w-12 fa-fw fa-2x">
+                                        <path fill="currentColor"
+                                          d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48z"
+                                          class=""></path>
+                                      </svg>
+                                      <h3 class="mt-2">{{'land.Drag and drop file here' | translate }}</h3>
+                                      <h3>{{'land.or' | translate }}</h3>
+                                      <label class="btn btn-primary btn-raised"
+                                        style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
+                                        for="fileDropRef">{{'land.Browse for file' | translate }}</label>
+                                      <h3 class="mt-2 d-block">{{'land.Accepted files' | translate }}</h3>
+                                      <span class="mt-2 ml-2 font-small-3 text-muted">{{'land.descripReports' | translate }}</span>
+                                    </div>
+                                  </ng-template>
+                                </ngb-tab>
+                              </ngb-tabset>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngIf="substepExtract!='0'"
+                          class="mb-2 shadow rounded-lg light-background border"
+                          [ngClass]="(substepExtract!='4')?'d-flex':''">
+                          <div *ngIf="substepExtract!='4'" class="mr-2 section w-100  mb-2 align-self-center">
+                            <span class="d-block pt-2 center-elements font-medium-3">{{'land.The symptoms found will be shown here' |
+                              translate }}</span>
+                            <span *ngIf="substepExtract!='0' && substepExtract!='4'" class="d-block pt-2 center-elements">
+                              <em class="fa fa-spinner fa-spin fa-3x fa-fw secondary"></em>
+                              <span class="d-block overlay-text col-md-12 font-medium-3 mt-2">{{'land.Calculating' | translate
+                                }}...</span>
+                              <span class="d-block font-medium-3 mt-1 pb-2">{{'land.pleaseWait' | translate }}</span>
+                            </span>
+                          </div>
+                          <div *ngIf="substepExtract=='4'" class="section maintxt">
+                            <table class="col-md-12 table mb-0" [ngClass]="(infoOneDisease.symptoms.length>0)?'border-bottom':''"
+                              aria-label="extract HPO">
+                              <thead>
+                                <tr>
+                                  <th id="headerTable" style="border-top-style: none;padding-bottom: 4px;">
+                                    <span class="icons-title-symptoms">{{'land.SelectSymptoms' | translate }}</span>
+                                    <span class="float-right icons-opt-symptoms">
+                                    <em class="mt-1 fa fa-refresh grey ml-2 mr-2" title="{{'land.Start over' | translate }}"
+                                      (click)="restartInitVars()" style="cursor: pointer;"></em>
+                                      <em class="mt-1 fas fa-copy grey mr-2" title="{{'land.Copy symptoms' | translate }}"
+                                      (click)="copySymptoms()" style="cursor: pointer;"></em>
+                                      <em class="mt-1 fa fa-download grey mr-2"
+                                      title="{{'land.Download symptoms' | translate }}" (click)="downloadSymptoms()"
+                                      style="cursor: pointer;"></em>
+                                    </span>
+                                  </th>
+                                </tr>
+                              </thead>
+                              <caption class="ml-2 text-muted d-block caption-symptoms">
+                                <ng-template #rt let-r="result" let-t="term">
+                                  <strong title="{{r.name}}">{{ r.name}}</strong>
+                                  <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
+                                    slice:0:140)+'...':(r.desc) }}</span>
+                                </ng-template>
+                                <div style="padding-top: 0.5rem !important;">
+                                  <span class="d-none d-sm-inline ml-2 mr-2"><i class="fas fa-search"></i></span>
+                                  <input #input type="text"
+                                  #inputManualSymptoms class="form-control ml-1 inputSearch d-inline data-hj-allow" [(ngModel)]="modelTemp"
+                                  [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
+                                  placeholder="{{'symptomssection.manualinput' | translate }}"
+                                  (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
+                                  <em *ngIf="callListOfSymptoms" class="fa fa-spinner fa-spin fa-2x fa-fw secondary spinner-absolute"></em>
+                                  <span *ngIf="nothingFoundSymptoms">
+                                    <span *ngIf="(modelTemp).trim().length>3">
+                                      <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
+                                    </span>
                                   </span>
                                 </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                              </caption>
+                            </table>
+                            <div class="table-cont">
+                              <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white" aria-labelledby="HPO">
+                                <tbody>
+                                  <tr *ngFor="let hpo of infoOneDisease.symptoms ; let i = index">
+                                    <td>
+                                      <span>
+                                        <span class="float-right ml-1">
+                                          <button (click)="changeStateSymptom(i, true)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                                            [ngClass]="(hpo.checked==true)?'btn-success':'btn-secondary '" href="javascript:void(0)"
+                                            title="{{'phenotype.Click to check it' | translate }}">
+                                            <em class="fa fa-check w-13"></em>
+                                          </button>
+                                          <button (click)="changeStateSymptom(i, false)"
+                                            class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                                            [ngClass]="(hpo.checked==false)?'btn-primary':'btn-secondary'" href="javascript:void(0)"
+                                            title="{{'phenotype.Click to uncheck it' | translate }}">
+                                            <em class="fa fa-times w-13"></em>
+                                          </button>
+                                        </span>
+                                        <span>
+                                          <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
+                                            class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                            title="{{'generics.More information' | translate }} ({{hpo.id}})">
+                                            <em class="fa fa-info w-13"></em>
+                                          </button>
+                                          <span class="ml-1 custom-bold pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{hpo.name}}</span>
+                                        </span>
+                                      </span>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+
+                            <span class="col-md-12 p-1 border-top footer-symtoms">
+                              <span>
+                                <span *ngIf="numberOfSymtomsChecked<minSymptoms && infoOneDisease.symptoms.length > 1" class="danger d-inline">
+                                  {{'land.You must select at least' | translate }} {{minSymptoms}} {{'land.symptom' | translate }}s
+                                  {{'land.in order to continue' | translate }}
+                                </span>
+                                <span *ngIf="numberOfSymtomsChecked<minSymptoms && infoOneDisease.symptoms.length < 2" class="danger d-inline">
+                                  {{'land.addMoreSymp' | translate }}
+                                </span>
+                                <button *ngIf="!loadingCalculate" type="button" class="mt-2 mr-2 btn btn-secondary btn-raised float-right" (click)="goNext()" [class.cursor-not-allowed]="currentStep.stepIndex==3" [disabled]="currentStep.stepIndex==3" [ngClass]="(currentStep.stepIndex<3)?'btn btn-primary btn-raised':'btn btn-secondary btn-raised'">{{'generics.Next' | translate }}</button>
+                                <em *ngIf="loadingCalculate" class="fa fa-spinner fa-spin fa-3x fa-fw secondary mt-2 mr-2 float-right"></em>
+                              </span>
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                      <div class="col-md-12 center-elements mt-2">
-                        <button type="button" class="btn btn-primary btn-md btn-raised" (click)="startTimelineFunction();">
-                            <span>{{'land.diagnosed.timeline.btn2' | translate}}</span>
-                        </button>
+                      <div *ngIf="currentStepTimeLine.stepIndex == 2" class="step-section offset-sm-1 col-sm-10 offset-md-2 col-md-8">
+                        <span class="card mt-0 mb-0 shadow rounded-lg border p-2" style="min-height: 38vh;">
+                          <table class="col-md-12 table mb-0 bg-white" aria-labelledby="get diagnosis">
+                            <thead>
+                              <tr>
+                                <th id="headerTable" style="border-top-style: none;padding: 0rem;">
+                                  <span>{{'land.diagnosed.timeline.titlet0' | translate}}</span>
+                                  <span class="text-muted d-block" style="font-weight: initial;">
+                                    <span>{{'land.diagnosed.timeline.t0' | translate}}</span>
+                                  </span>
+                                </th>
+                              </tr>
+                            </thead>
+                          </table>
+                          <timeline *ngIf="startTimeline" [disease]="actualInfoOneDisease" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (exportParamsEvent)="getParamsTimeLine($event)" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention);" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+                        </span>
+                        <span class="col-md-12 p-1 footer-symtoms shadow rounded-lg border">
+                          <button type="button" class="mt-2 ml-2 btn btn-secondary btn-raised float-left" (click)="goPrevious()" [class.cursor-not-allowed]="currentStepTimeLine.stepIndex==1" [disabled]="currentStepTimeLine.stepIndex==1" [ngClass]="(currentStepTimeLine.stepIndex!=1)?'btn-primary':'btn-secondary'">{{'generics.Previous' | translate }}</button>
+                          <button type="button" class="mt-2 mr-2 btn btn-secondary btn-raised float-right" (click)="goNext()" [class.cursor-not-allowed]="currentStepTimeLine.stepIndex==3" [disabled]="currentStepTimeLine.stepIndex==3" [ngClass]="(currentStepTimeLine.stepIndex<3)?'btn-primary':'btn-secondary'">{{'generics.Next' | translate }}</button>
+                        </span>
+                      </div>
+                      <div *ngIf="currentStepTimeLine.stepIndex == 3" class="step-section offset-sm-1 col-sm-10 offset-md-2 col-md-8">
+                        <div class="mt-3 mt-0 mb-0 shadow rounded-lg border">
+                          <div class="p-2 col-md-12 center-elements">
+                            <div class="mt-4">
+                              <h3><strong>{{'land.Completed0' | translate }}</strong></h3>
+                              <p>{{'land.Completed1' | translate }}</p>
+                              <p>{{'land.Completed2' | translate }}</p>
+                              <p>{{'land.Completed3' | translate }}</p>
+                            </div>
+                            <div class="mt-4">
+                              <h3><strong>{{'land.What now' | translate }}</strong></h3>
+                              <p [innerHTML]="'land.msgwhat1' | translate"></p>
+                              <p [innerHTML]="'land.msgwhat2' | translate"></p>
+                              <div class="p-2">
+                                <button type="button" class="btn btn-primary btn-md btn-raised mr-1" (click)="openSaveTimeLine(contentSaveTimeline)">
+                                  <em class="mr-1 ft-save white"
+                                    title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="openSaveTimeLine(contentSaveTimeline)"
+                                    style="cursor: pointer;"></em>
+                                    <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
+                                </button>
+                              <button type="button" class="btn btn-primary btn-md btn-raised ml-1" (click)="exportTimeline()">
+                                <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
+                                  (click)="exportTimeline()" style="cursor: pointer;"></em>
+                                <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
+                              </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <span class="col-md-12 p-1 footer-symtoms shadow rounded-lg border">
+                          <button type="button" class="mt-2 ml-2 btn btn-secondary btn-raised float-left" (click)="goPrevious()" [class.cursor-not-allowed]="currentStepTimeLine.stepIndex==1" [disabled]="currentStepTimeLine.stepIndex==1" [ngClass]="(currentStepTimeLine.stepIndex!=1)?'btn-primary':'btn-secondary'">{{'generics.Previous' | translate }}</button>
+                        </span>
                       </div>
                     </div>
-                    <timeline *ngIf="startTimeline" [disease]="actualInfoOneDisease" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention)" (openModalTimelineHelp)="openTimelineAppHelp2(contentTimelineAppHelp2)" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
                   </div>
                 </mat-expansion-panel>
                 <mat-expansion-panel *ngIf="infoWiki.length>0 || infoWikiGeneral.length>0" [expanded]="step === 3" (opened)="setStep(3)">
@@ -490,28 +737,7 @@
                               </span>
                             </span>
                                 
-                            <!--<table class="table mb-0 text-center d-none d-sm-block">
-                              <tbody style="width: 100%;display: inline-table;">
-                                <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
-                                  <td class="row text-left">
-                                    <div class="col-md-12">
-                                      <button *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
-                                        class="btn-outline-primary btn btn-sm mr-2 mb-0 btn-fab round"
-                                        title="{{'generics.More information' | translate }} ({{symptom.id}})">
-                                        <em class="fa fa-info w-13"></em>
-                                      </button>
-                                      <span *ngIf="symptom.name" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);" class="secondary">{{symptom.name}}</span>
-                                      <span *ngIf="!symptom.name">
-                                        {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
-                                          href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
-                                          title="{{symptom.id}}">
-                                          <i class="ft-external-link"></i></a>
-                                      </span>
-                                    </div>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>-->
+                            
                           </div>
                         </div>
                       </div>
@@ -534,94 +760,317 @@
                                 <a class="info" (click)="registerToDx29V2Timeline();" title="{{'land.diagnosed.timeline.Register' | translate}}"><ins>{{'land.diagnosed.timeline.Register' | translate}}</ins></a> {{'land.diagnosed.timeline.t0-reg' | translate}}
                               </span>
                             </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-12 mt-2" *ngIf="!startTimeline">
-                      <div class="row">
-                        <div class="col-md-6 mt-1">
-                          <div>
-                            <p> {{'land.diagnosed.timeline.t1' | translate}} 
-                              <span style="cursor: pointer;" class="ml-1" (click)="endTimeLineFunctionWithConfirmation()">
-                              <em class="mr-1 fa fa-refresh grey" title="{{'preland.p2' | translate}}"></em>
-                            </span>
-                          </p>
-                          </div>
-                          <div>
-                            <ng-template #rt let-r="result" let-t="term">
-                              <strong title="{{r.name}}">{{ r.name}}</strong>
-                              <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
-                                slice:0:140)+'...':(r.desc) }}</span>
-                            </ng-template>
-                            <div style="padding-bottom: 0.5rem !important;">
-                              <span class="d-none d-sm-inline ml-1 mr-2"><i class="fa fa-plus success"></i></span>
-                              <input #input type="text"
-                                #inputManualSymptoms class="form-control ml-1 inputSearch d-inline data-hj-allow" [(ngModel)]="modelTemp"
-                                [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
-                                placeholder="{{'symptomssection.manualinput' | translate }}"
-                                (selectItem)="selected($event)"/>
-                                <em *ngIf="callListOfSymptoms" class="fa fa-spinner fa-spin fa-2x fa-fw secondary spinner-absolute"></em>
-                                <span *ngIf="nothingFoundSymptoms">
-                                  <span *ngIf="(modelTemp).trim().length>3">
-                                    <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
+                            <div class="row">
+                              <a id="initsteps"></a>
+                              <div class="col-md-12 align-items-center text-center">
+                                <div class="form-steps-container">
+                                  <span *ngFor="let step of stepsTimeLine; let i = index;" class="forstep">
+                                      <div [ngClass]="{ 'step-complete': step.isComplete, 'step-incomplete': !step.isComplete, 'step-current': (currentStepTimeLine)?.stepIndex >= step.stepIndex,  'step-bubble-prev': (currentStepTimeLine)?.stepIndex >= step.stepIndex,  'step-bubble-next': (currentStepTimeLine)?.stepIndex < step.stepIndex}"
+                                          class="step-bubble">{{ step.stepIndex }}</div>
+                                      <div *ngIf="i < (stepsTimeLine)?.length - 1" class="step-divider" [ngClass]="((i < (stepsTimeLine)?.length - 1) && step.stepIndex>=currentStepTimeLine.stepIndex)?'step-divider-prev':'step-divider-next'"></div>
+                                      <span class="step-title mt-2">{{step.title}} </span>
                                   </span>
-                                </span>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                          <div class="col-md-12">
-                            <table class="table mb-0 text-center d-none d-sm-block">
-                              <tbody style="width: 100%;display: inline-table;">
-                                <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
-                                  <td class="row text-left">
-                                    <div class="col-md-12">
-                                      <button (click)="changeStateSymptomDisease(i);"
-                                        class="btn btn-sm mr-2 mb-0 btn-fab round white"
-                                        [ngClass]="(symptom.checked==true)?'btn-success':'btn-secondary '"
-                                        href="javascript:void(0)" [attr.title]="(symptom.checked==true) ? getLiteral('phenotype.Click to uncheck it') : getLiteral('phenotype.Click to check it')">
-                                        <em class="fa fa-check w-13"></em>
-                                      </button>
-                                      <span *ngIf="symptom.name" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{symptom.name}}</span>
-                                      <span *ngIf="!symptom.name">
-                                        {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
-                                          href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
-                                          title="{{symptom.id}}">
-                                          <i class="ft-external-link"></i></a>
+                            <div *ngIf="currentStepTimeLine.stepIndex == 1" class="step-section col-sm-12 offset-lg-2 col-lg-8">
+                              <div *ngIf="substepExtract=='0'"
+                                class="mb-2 shadow rounded-lg light-background border box-panels">
+                                <div class="row pt-2">
+                                  <div class="col-md-12">
+                                    <ngb-tabset justify="justified">
+                                      <ngb-tab>
+                                        <ng-template ngbTabTitle>
+                                          <span>
+                                            <i class="fas fa-search" aria-hidden="true"></i>
+                                            <span class="d-none d-sm-inline ml-1">{{'land.Quick search' | translate }}</span>
+                                            <span class="d-block d-sm-none no-line-height">{{'land.Quick search' | translate }}</span>
+                                          </span>
+                                        </ng-template>
+                                        <ng-template ngbTabContent>
+                                          <div>
+                                            <ng-template #rt let-r="result" let-t="term">
+                                              <strong title="{{r.name}}">{{ r.name}}</strong>
+                                              <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
+                                                slice:0:140)+'...':(r.desc) }}</span>
+                                            </ng-template>
+                                            <div style="padding-bottom: 1rem !important;">
+                                              <span class="d-none d-sm-inline ml-2 mr-2"><i class="fas fa-search"></i></span>
+                                              <input #input type="text"
+                                                #inputManualSymptoms class="form-control ml-1 inputSearch2 d-inline data-hj-allow" [(ngModel)]="modelTemp"
+                                                [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
+                                                placeholder="{{'symptomssection.manualinput' | translate }}"
+                                                (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
+                                                <em *ngIf="callListOfSymptoms" class="fa fa-spinner fa-spin fa-2x fa-fw secondary spinner-absolute"></em>
+                                                <span *ngIf="nothingFoundSymptoms">
+                                                  <span *ngIf="(modelTemp).trim().length>3">
+                                                    <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
+                                                  </span>
+                                                </span>
+                                            </div>
+                                          </div>
+                                          <div *ngIf="infoOneDisease.symptoms.length>0">
+                                            <div class="table-cont">
+                                              <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
+                                                aria-labelledby="HPO">
+                                                <tbody>
+                                                  <tr *ngFor="let hpo of infoOneDisease.symptoms ; let i = index">
+                                                    <td>
+                                                      <span>
+                                                        <span class="float-right ml-1">
+                                                          <button (click)="changeStateSymptom(i, true)"
+                                                            class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                                                            [ngClass]="(hpo.checked==true)?'btn-success':'btn-secondary'"
+                                                            href="javascript:void(0)" title="{{'phenotype.Click to check it' | translate }}">
+                                                            <em class="fa fa-check w-13"></em>
+                                                          </button>
+                                                          <button (click)="changeStateSymptom(i, false)"
+                                                            class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                                                            [ngClass]="(hpo.checked==false)?'btn-primary':'btn-secondary'"
+                                                            href="javascript:void(0)"
+                                                            title="{{'phenotype.Click to uncheck it' | translate }}">
+                                                            <em class="fa fa-times w-13"></em>
+                                                          </button>
+                                                        </span>
+                                                        <span>
+                                                          <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
+                                                            class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                                            title="{{'generics.More information' | translate }} ({{hpo.id}})">
+                                                            <em class="fa fa-info w-13"></em>
+                                                          </button>
+                                                          <span class="ml-1 custom-bold pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{hpo.name}}</span>
+                                                        </span>
+                                                      </span>
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                            </div>
+                                          </div>
+                                          <div *ngIf="infoOneDisease.symptoms.length==0">
+                                            <tbody></tbody>
+                                          </div>
+                                          <div class="col-md-12 p-1 border-top footer-symtoms">
+                                            <button type="button" class="btn btn-primary btn-raised float-right mt-2 mr-2" (click)="directCalculate();">{{'generics.Next' | translate }}</button>
+                                          </div>
+
+                                        </ng-template>
+                                      </ngb-tab>
+                                      <ngb-tab>
+                                        <ng-template ngbTabTitle>
+                                          <span>
+                                            <i class="fa fa-language" aria-hidden="true"></i>
+                                            <span class="d-none d-sm-inline ml-1">{{'land.Text' | translate }}</span>
+                                            <span class="d-block d-sm-none no-line-height">{{'land.Text' | translate }}</span>
+                                          </span>
+                                        </ng-template>
+                                        <ng-template ngbTabContent>
+                                          <div class="p-2">
+                                            <textarea #inputTextArea class="form-control data-hj-allow" style="height:30vh;" [(ngModel)]="medicalText"
+                                              name="medicalText" placeholder="{{'land.placeholder' | translate }}"></textarea>
+                                          </div>
+                                          <div class="text-center mt-2">
+                                            <button type="button" class="btn btn-lg btn-primary btn-raised"
+                                              [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholderError') : getLiteral('land.Extract')"
+                                              (click)="startExtractor();">{{'land.Look for symptoms' | translate }}</button>
+                                          </div>
+                                        </ng-template>
+                                      </ngb-tab>
+                                      <ngb-tab>
+                                        <ng-template ngbTabTitle>
+                                          <span>
+                                            <i class="fas fa-file"></i> 
+                                            <span class="d-none d-sm-inline ml-1">{{'land.Documents' | translate}}</span>
+                                            <span class="d-block d-sm-none no-line-height">{{'land.Documents' | translate}}</span>
+                                          </span>
+                                          </ng-template>
+                                        <ng-template ngbTabContent>
+                                          <div class="container-custom" appDnd (fileDropped)="onFileDropped($event)">
+                                            <input type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
+                                              accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
+                                            <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="arrow-alt-from-bottom"
+                                              role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
+                                              class="secondary svg-inline--fa fa-arrow-alt-from-bottom fa-w-12 fa-fw fa-2x">
+                                              <path fill="currentColor"
+                                                d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48z"
+                                                class=""></path>
+                                            </svg>
+                                            <h3 class="mt-2">{{'land.Drag and drop file here' | translate }}</h3>
+                                            <h3>{{'land.or' | translate }}</h3>
+                                            <label class="btn btn-primary btn-raised"
+                                              style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
+                                              for="fileDropRef">{{'land.Browse for file' | translate }}</label>
+                                            <h3 class="mt-2 d-block">{{'land.Accepted files' | translate }}</h3>
+                                            <span class="mt-2 ml-2 font-small-3 text-muted">{{'land.descripReports' | translate }}</span>
+                                          </div>
+                                        </ng-template>
+                                      </ngb-tab>
+                                    </ngb-tabset>
+                                  </div>
+                                </div>
+                              </div>
+                              <div *ngIf="substepExtract!='0'"
+                                class="mb-2 shadow rounded-lg light-background border"
+                                [ngClass]="(substepExtract!='4')?'d-flex':''">
+                                <div *ngIf="substepExtract!='4'" class="mr-2 section w-100  mb-2 align-self-center">
+                                  <span class="d-block pt-2 center-elements font-medium-3">{{'land.The symptoms found will be shown here' |
+                                    translate }}</span>
+                                  <span *ngIf="substepExtract!='0' && substepExtract!='4'" class="d-block pt-2 center-elements">
+                                    <em class="fa fa-spinner fa-spin fa-3x fa-fw secondary"></em>
+                                    <span class="d-block overlay-text col-md-12 font-medium-3 mt-2">{{'land.Calculating' | translate
+                                      }}...</span>
+                                    <span class="d-block font-medium-3 mt-1 pb-2">{{'land.pleaseWait' | translate }}</span>
+                                  </span>
+                                </div>
+                                <div *ngIf="substepExtract=='4'" class="section maintxt">
+                                  <table class="col-md-12 table mb-0" [ngClass]="(infoOneDisease.symptoms.length>0)?'border-bottom':''"
+                                    aria-label="extract HPO">
+                                    <thead>
+                                      <tr>
+                                        <th id="headerTable" style="border-top-style: none;padding-bottom: 4px;">
+                                          <span class="icons-title-symptoms">{{'land.SelectSymptoms' | translate }}</span>
+                                          <span class="float-right icons-opt-symptoms">
+                                          <em class="mt-1 fa fa-refresh grey ml-2 mr-2" title="{{'land.Start over' | translate }}"
+                                            (click)="restartInitVars()" style="cursor: pointer;"></em>
+                                            <em class="mt-1 fas fa-copy grey mr-2" title="{{'land.Copy symptoms' | translate }}"
+                                            (click)="copySymptoms()" style="cursor: pointer;"></em>
+                                            <em class="mt-1 fa fa-download grey mr-2"
+                                            title="{{'land.Download symptoms' | translate }}" (click)="downloadSymptoms()"
+                                            style="cursor: pointer;"></em>
+                                          </span>
+                                        </th>
+                                      </tr>
+                                    </thead>
+                                    <caption class="ml-2 text-muted d-block caption-symptoms">
+                                      <ng-template #rt let-r="result" let-t="term">
+                                        <strong title="{{r.name}}">{{ r.name}}</strong>
+                                        <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
+                                          slice:0:140)+'...':(r.desc) }}</span>
+                                      </ng-template>
+                                      <div style="padding-top: 0.5rem !important;">
+                                        <span class="d-none d-sm-inline ml-2 mr-2"><i class="fas fa-search"></i></span>
+                                        <input #input type="text"
+                                        #inputManualSymptoms class="form-control ml-1 inputSearch d-inline data-hj-allow" [(ngModel)]="modelTemp"
+                                        [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
+                                        placeholder="{{'symptomssection.manualinput' | translate }}"
+                                        (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
+                                        <em *ngIf="callListOfSymptoms" class="fa fa-spinner fa-spin fa-2x fa-fw secondary spinner-absolute"></em>
+                                        <span *ngIf="nothingFoundSymptoms">
+                                          <span *ngIf="(modelTemp).trim().length>3">
+                                            <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
+                                          </span>
+                                        </span>
+                                      </div>
+                                    </caption>
+                                  </table>
+                                  <div class="table-cont">
+                                    <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white" aria-labelledby="HPO">
+                                      <tbody>
+                                        <tr *ngFor="let hpo of infoOneDisease.symptoms ; let i = index">
+                                          <td>
+                                            <span>
+                                              <span class="float-right ml-1">
+                                                <button (click)="changeStateSymptom(i, true)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                                                  [ngClass]="(hpo.checked==true)?'btn-success':'btn-secondary '" href="javascript:void(0)"
+                                                  title="{{'phenotype.Click to check it' | translate }}">
+                                                  <em class="fa fa-check w-13"></em>
+                                                </button>
+                                                <button (click)="changeStateSymptom(i, false)"
+                                                  class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                                                  [ngClass]="(hpo.checked==false)?'btn-primary':'btn-secondary'" href="javascript:void(0)"
+                                                  title="{{'phenotype.Click to uncheck it' | translate }}">
+                                                  <em class="fa fa-times w-13"></em>
+                                                </button>
+                                              </span>
+                                              <span>
+                                                <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
+                                                  class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                                  title="{{'generics.More information' | translate }} ({{hpo.id}})">
+                                                  <em class="fa fa-info w-13"></em>
+                                                </button>
+                                                <span class="ml-1 custom-bold pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{hpo.name}}</span>
+                                              </span>
+                                            </span>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+
+                                  <span class="col-md-12 p-1 border-top footer-symtoms">
+                                    <span>
+                                      <span *ngIf="numberOfSymtomsChecked<minSymptoms && infoOneDisease.symptoms.length > 1" class="danger d-inline">
+                                        {{'land.You must select at least' | translate }} {{minSymptoms}} {{'land.symptom' | translate }}s
+                                        {{'land.in order to continue' | translate }}
                                       </span>
-                                    </div>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                        <div class="col-md-6 mt-1">
-                          <div class="col-md-12 mt-2" *ngIf="!listSymptomsCheckedModified">
-                            <div class="col-md-12 pt-2">
-                              <ul *ngFor="let symptomChecked of listSymptomsCheckedTimeline; let j = index" class="mb-0">
-                                <li *ngIf="symptomChecked.name">
-                                  <span style="cursor: pointer;" (click)="showMoreInfoSymptomPopupTimeline(symptomChecked.id, contentInfoSymptomOneDisease);">{{symptomChecked.name}}</span>
-                                </li>
-                                <li *ngIf="!symptomChecked.name">
-                                  <span>
-                                    {{symptomChecked.id}} ({{'phenotype.Deprecated' | translate}}) <a
-                                      href="https://hpo.jax.org/app/browse/term/{{symptomChecked.id}}" target="_blank"
-                                      title="{{symptomChecked.id}}">
-                                      <i class="ft-external-link"></i></a>
+                                      <span *ngIf="numberOfSymtomsChecked<minSymptoms && infoOneDisease.symptoms.length < 2" class="danger d-inline">
+                                        {{'land.addMoreSymp' | translate }}
+                                      </span>
+                                      <button *ngIf="!loadingCalculate" type="button" class="mt-2 mr-2 btn btn-secondary btn-raised float-right" (click)="goNext()" [class.cursor-not-allowed]="currentStep.stepIndex==3" [disabled]="currentStep.stepIndex==3" [ngClass]="(currentStep.stepIndex<3)?'btn btn-primary btn-raised':'btn btn-secondary btn-raised'">{{'generics.Next' | translate }}</button>
+                                      <em *ngIf="loadingCalculate" class="fa fa-spinner fa-spin fa-3x fa-fw secondary mt-2 mr-2 float-right"></em>
+                                    </span>
                                   </span>
-                                </li>
-                              </ul>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                          <div class="col-md-12 mt-2 center-elements">
-                            <button type="button" class="btn btn-primary btn-md btn-raised" (click)="startTimelineFunction();">
-                                <span>{{'land.diagnosed.timeline.btn2' | translate}}</span>
-                            </button>
+                            <div *ngIf="currentStepTimeLine.stepIndex == 2" class="step-section col-sm-12 offset-lg-2 col-lg-8">
+                              <span class="card mt-0 mb-0 shadow rounded-lg border p-2" style="min-height: 38vh;">
+                                <table class="col-md-12 table mb-0 bg-white" aria-labelledby="get diagnosis">
+                                  <thead>
+                                    <tr>
+                                      <th id="headerTable" style="border-top-style: none;padding: 0rem;">
+                                        <span>{{'land.diagnosed.timeline.titlet0' | translate}}</span>
+                                        <span class="text-muted d-block" style="font-weight: initial;">
+                                          <span>{{'land.diagnosed.timeline.t0' | translate}}</span>
+                                        </span>
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                </table>
+                                <timeline *ngIf="startTimeline" [disease]="actualInfoOneDisease" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (exportParamsEvent)="getParamsTimeLine($event)" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention);" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
+                              </span>
+                              <span class="col-md-12 p-1 footer-symtoms shadow rounded-lg border">
+                                <button type="button" class="mt-2 ml-2 btn btn-secondary btn-raised float-left" (click)="goPrevious()" [class.cursor-not-allowed]="currentStepTimeLine.stepIndex==1" [disabled]="currentStepTimeLine.stepIndex==1" [ngClass]="(currentStepTimeLine.stepIndex!=1)?'btn-primary':'btn-secondary'">{{'generics.Previous' | translate }}</button>
+                                <button type="button" class="mt-2 mr-2 btn btn-secondary btn-raised float-right" (click)="goNext()" [class.cursor-not-allowed]="currentStepTimeLine.stepIndex==3" [disabled]="currentStepTimeLine.stepIndex==3" [ngClass]="(currentStepTimeLine.stepIndex<3)?'btn-primary':'btn-secondary'">{{'generics.Next' | translate }}</button>
+                              </span>
+                            </div>
+                            <div *ngIf="currentStepTimeLine.stepIndex == 3" class="step-section col-sm-12 offset-lg-2 col-lg-8">
+                              <div class="mt-3 mt-0 mb-0 shadow rounded-lg border">
+                                <div class="p-2 col-md-12 center-elements">
+                                  <div class="mt-4">
+                                    <h3><strong>{{'land.Completed0' | translate }}</strong></h3>
+                                    <p>{{'land.Completed1' | translate }}</p>
+                                    <p>{{'land.Completed2' | translate }}</p>
+                                    <p>{{'land.Completed3' | translate }}</p>
+                                  </div>
+                                  <div class="mt-4">
+                                    <h3><strong>{{'land.What now' | translate }}</strong></h3>
+                                    <p [innerHTML]="'land.msgwhat1' | translate"></p>
+                                    <p [innerHTML]="'land.msgwhat2' | translate"></p>
+                                    <div class="p-2">
+                                      <button type="button" class="btn btn-primary btn-md btn-raised mr-1" (click)="openSaveTimeLine(contentSaveTimeline)">
+                                        <em class="mr-1 ft-save white"
+                                          title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="openSaveTimeLine(contentSaveTimeline)"
+                                          style="cursor: pointer;"></em>
+                                          <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
+                                      </button>
+                                    <button type="button" class="btn btn-primary btn-md btn-raised ml-1" (click)="exportTimeline()">
+                                      <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
+                                        (click)="exportTimeline()" style="cursor: pointer;"></em>
+                                      <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
+                                    </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <span class="col-md-12 p-1 footer-symtoms shadow rounded-lg border">
+                                <button type="button" class="mt-2 ml-2 btn btn-secondary btn-raised float-left" (click)="goPrevious()" [class.cursor-not-allowed]="currentStepTimeLine.stepIndex==1" [disabled]="currentStepTimeLine.stepIndex==1" [ngClass]="(currentStepTimeLine.stepIndex!=1)?'btn-primary':'btn-secondary'">{{'generics.Previous' | translate }}</button>
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <timeline *ngIf="startTimeline" [disease]="actualInfoOneDisease" [listSymptoms]="listSymptomsCheckedTimeline" (backEvent)="endTimeLineFunction()" (addSymptomsEvent)="addSymptomsEvent($event)" (finishEvent)="checkDonnorState(contentInfoAttention);" (openModalSymptomInfo)="showMoreInfoAndNotesSymptomPopup($event, contentInfoAndNotesSymptom)" (openModalSaveTimeLine)="openSaveTimeLine(contentSaveTimeline)"></timeline>
                   </ng-template>
                 </ngb-tab>
                 <ngb-tab *ngIf="infoWiki.length>0 || infoWikiGeneral.length>0" id="tab2">
@@ -887,7 +1336,7 @@
 <ng-template #contentToDx29V2 let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-body content-wrapper p-2 center-elements mb-3">
     <div class="p-2">
-      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+      <button type="button" class="close" aria-label="Close" (click)="closeRegisterPanel();">
         <span aria-hidden="true">&times;</span>
       </button>
       <h4 class="align-self-center"><strong>{{'land.swal.title' | translate }}</strong><span class="d-block"><strong>{{'land.swal.title2' | translate }}</strong></span></h4>
@@ -895,7 +1344,7 @@
     <div>
       <div class="align-self-center">
         <span>
-          <span *ngIf="temporalSymptoms.length>0">
+          <span *ngIf="infoOneDisease.symptoms.length>0">
             <p [innerHTML]="'land.swal.p1' | translate"></p>
           </span>
         </span>

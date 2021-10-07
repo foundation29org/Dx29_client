@@ -2,20 +2,6 @@
 <div class="d-none d-sm-block">
   <div class="col-md-12">
     <div class="row">
-      <div class="col-md-12" *ngIf="disease.id">
-        <button *ngIf="showTimeLine" type="button" class="btn btn-primary btn-sm btn-raised mr-2 float-right"
-          (click)="exportTimeline()">
-          <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
-            (click)="exportTimeline()" style="cursor: pointer;"></em>
-          <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
-        </button>
-        <button *ngIf="showTimeLine" type="button" class="btn btn-primary btn-sm btn-raised mr-2 float-right"
-          (click)="saveTimeline()">
-          <em class="mr-1 ft-save white" title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}"
-            (click)="saveTimeline()" style="cursor: pointer;"></em>
-          <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
-        </button>
-      </div>
       <div class="col-md-12 mt-2" *ngIf="!modifyFormSymtoms">
         <table class="table mb-0 text-center d-none d-sm-block">
           <tbody style="width: 100%;display: inline-table;">
@@ -185,19 +171,6 @@
             </ul>
           </section>
         </div>
-        <div class="col-md-12 mt-2 center-elements" *ngIf="disease.id">
-            <button *ngIf="showTimeLine" type="button" class="btn btn-primary btn-md btn-raised mr-1" (click)="saveTimeline()">
-              <em class="mr-1 ft-save white"
-                title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="saveTimeline()"
-                style="cursor: pointer;"></em>
-                <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
-            </button>
-          <button *ngIf="showTimeLine" type="button" class="btn btn-primary btn-md btn-raised ml-1" (click)="exportTimeline()">
-            <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
-              (click)="exportTimeline()" style="cursor: pointer;"></em>
-            <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
-          </button>
-        </div>
       </div>
     </div>
   </div>
@@ -205,17 +178,6 @@
 <!-- Vista movil -->
 <div class="d-block d-sm-none">
   <div>
-    <div class="row" *ngIf="disease.id">
-      <div class="col-md-12">
-        <div class="col-md-6">
-          <em *ngIf="showTimeLine" class="mr-2 fa fa-download primary float-right"
-            title="{{'land.diagnosed.timeline.Download' | translate }}" (click)="exportTimeline()"
-            style="cursor: pointer;"></em>
-          <em class="mr-2 ft-save primary float-right" title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}"
-            (click)="saveTimeline()" style="cursor: pointer;"></em>
-        </div>
-      </div>
-    </div>
     <div class="mt-1" *ngIf="!modifyFormSymtoms">
       <div class="w-100" *ngFor="let symptom of listSymptoms ; let i = index">
         <div class="card bg-grey bg-lighten-3 box border mb-3" *ngIf="actualTemporalSymptomsIndex ==i">
@@ -395,19 +357,6 @@
           </section>
         </div>
       </div>
-    </div>
-    <div class="col-md-12 mt-2 center-elements" *ngIf="disease.id">
-        <button *ngIf="showTimeLine" type="button" class="btn btn-primary btn-md btn-raised mr-1" (click)="saveTimeline()">
-          <em class="mr-1 ft-save white"
-            title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="saveTimeline()"
-            style="cursor: pointer;"></em>
-            <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
-        </button>
-      <button *ngIf="showTimeLine" type="button" class="btn btn-primary btn-md btn-raised ml-1" (click)="exportTimeline()">
-        <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
-          (click)="exportTimeline()" style="cursor: pointer;"></em>
-        <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
-      </button>
     </div>
   </div>
 </div>

@@ -763,14 +763,12 @@ body {
 }
 
 @media ( max-width: 484px ){
-    
-  .form-steps-container{
-    margin-left: 0rem;
-  }
 
   .form-steps-container{
     display: inline-block;
+    margin-left: 0rem;
   }
+  
   .step-divider{
     display: none;
   }

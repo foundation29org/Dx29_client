@@ -1,6 +1,83 @@
 
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
+.step-section{
+  margin-bottom: 100px;
+}
+
+.form-steps-container {
+  display: inline-flex;
+  justify-content: space-between;
+  padding: 20px;
+  margin-left: 60px;
+}
+
+.step-bubble-next{
+  padding: 8px;
+  border: 3px solid #a1a09a;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: #a1a09a;
+  font-size: 1em;
+  cursor: pointer;
+  user-select: none;
+} 
+
+.step-bubble-prev{
+  padding: 8px;
+  border: 3px solid #f9423a;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: #f9423a;
+  font-size: 1em;
+  cursor: pointer;
+  user-select: none;
+} 
+
+.step-divider-prev {
+  height: 2px;
+  background: #a1a09a;
+  width: 100px;
+  margin-top: -10px;
+  margin-left: 35px;
+  padding-left: 1em;
+  margin-right: 15px;
+}
+
+.step-divider-next {
+  height: 2px;
+  background: #f9423a;
+  width: 100px;
+  margin-top: -10px;
+  margin-left: 35px;
+  padding-left: 1em;
+  margin-right: 15px;
+}
+
+.step-current, .step-complete {
+  background: #f9423a;
+  color: white;
+}
+
+.step-incomplete {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.step-title{
+  margin-left: -60px;
+  width: 140px;
+  display: block;
+}
+
 .background-img{
   margin-top: -7px !important;
   background-image: url("assets/img/home/background2.jpg");
@@ -38,9 +115,11 @@
 }
 
 .footer-symtoms{
-  min-height: 69px;
+  display: block !important;
+  min-height: 75px;
   background-color: #f5f5f5;
 }
+
 .pointer{
   cursor: pointer; 
 }
@@ -138,7 +217,7 @@ a {
 }
 
 ::ng-deep .nav-pills .nav-link {
-  border-radius: 1.25rem 1.25rem 0rem 0rem;
+  border-radius: 1rem 1rem 0rem 0rem;
   margin-right: 0.4em;
 }
 
@@ -365,12 +444,12 @@ body {
 
   .light-background{
     background-color: #ffffff !important;
-    min-height: 458px;
+    //min-height: 458px;
   }
 
   .gray-background{
     background-color: #ededed00 !important;
-    min-height: 458px;
+    //min-height: 458px;
   }
 
   /*.loadingPanel{
@@ -648,7 +727,13 @@ body {
   }
 }
 .inputSearch{
-  width: 91%
+  width: 91%;
+  margin-left: 0rem !important;
+}
+
+.inputSearch2{
+  width: 91%;
+  margin-left: 0rem !important;
 }
 
 ::ng-deep ngb-typeahead-window.dropdown-menu {
@@ -713,10 +798,27 @@ body {
       display: inline-block;
       margin-top: 0.75rem !important;
     }
+
+    .form-steps-container{
+      margin-left: 1rem;
+    }
+
+    .step-divider{
+      width: 80px !important;
+    }
+
+    .step-title{
+      font-size: 0.7rem !important;
+    }
+
   }
 
   @media ( max-width: 575px ){
 
+    .form-steps-container{
+      margin-left: 2rem;
+    }
+    
     .box-panels{
       margin-bottom: 2.25rem !important;
     }
@@ -742,9 +844,15 @@ body {
     }
 
     .inputSearch{
-      width: 93vw;
+      width: 87vw;
       margin-left: 0rem !important;
     }
+  
+    .inputSearch2{
+      width: 55vw;
+      margin-left: 1rem !important;
+    }
+    
     ::ng-deep ngb-typeahead-window.dropdown-menu {
       font-size: 0.8rem !important;
      }
@@ -786,8 +894,52 @@ body {
     .w-reg-img-sm{
       max-width: 4em;
     }
+
+    .step-section{
+      margin-bottom: 0px;
+    }
   }
 
+  @media ( max-width: 530px ){
+
+    .form-steps-container{
+      margin-left: 1.2rem;
+    }
+  }
+
+  @media ( max-width: 516px ){
+
+    .form-steps-container{
+      margin-left: 0.1rem;
+    }
+  }
+
+  @media ( max-width: 484px ){
+
+    .form-steps-container{
+      display: inline-block;
+      margin-left: 0rem;
+    }
+    
+    .step-divider{
+      display: none;
+    }
+    .step-title{
+      margin-bottom: 0.75rem !important;
+      margin-top: 0.1rem !important;
+      display: inline;
+      margin-left: 1em;
+      width: auto;
+    }
+  
+    .step-bubble{
+      display: inline-flex !important;
+    }
+  
+    .forstep{
+      display: flex;
+    }
+  }
 
   @media ( max-width: 449px ){
     :host /deep/ .nav-pills{
