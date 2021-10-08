@@ -269,9 +269,6 @@
       <span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
     </div>
     <div *ngIf="showTimeLine">
-      <div class="pt-2 col-md-12">
-        <h4><strong>{{'land.diagnosed.timeline.title' | translate}}</strong></h4>
-      </div>
       <div>
         <div id="mytimeline-app" class="p-2" style="background: #eee;">
           <section *ngIf="!isEmptyObject(dictionaryTimeline)||(listTimelineNull.length>0)" id="vertical-timeline-left"

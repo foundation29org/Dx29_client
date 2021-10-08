@@ -165,7 +165,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     modalReference4: NgbModalRef;
     modalReference5: NgbModalRef;
     modalReference6: NgbModalRef;
-    modalReference7: NgbModalRef;
     clinicalTrials: any = {};
 
     @ViewChild('f') donorDataForm: NgForm;
@@ -309,10 +308,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             this.modalReference6.close();
             this.modalReference6 = undefined;
             return false;
-        }else if(this.modalReference7!=undefined){
-            this.modalReference7.close();
-            this.modalReference7 = undefined;
-            return false;
         }
         else{
             if((this.startTimeline)&&(this.listSymptomsCheckedTimeline.length>0)){
@@ -386,6 +381,10 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 this.listSymptomsCheckedModified = false;
                 this.donnorSet = false;
                 this.selectedNoteSymptom = null;
+                this.loadTranslations();
+                this.currentStep = this.steps[0];
+                this.focusInputDisease();
+                this.currentStepTimeLine = this.stepsTimeLine[0];
             }
             
         }.bind(this));
@@ -393,7 +392,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         this.eventSubscription = Observable.fromEvent(window, "scroll").subscribe(e => {
             if($('#tabspills')){
                 console.log($('#tabspills').height())
-                if($('#tabspills').height()>700){
+                if($('#tabspills').height()>720){
                     this.showButtonScroll = true;
                 }else{
                     this.showButtonScroll = false;
@@ -401,7 +400,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             }
             //console.log(window.innerHeight);
         });
-        this.loadTranslations();
+        
 
         this.stepsTimeLine = [
             { stepIndex: 1, isComplete: false, title: this.translate.instant("land.step1")},
@@ -410,6 +409,8 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
           ];
 
         this.currentStepTimeLine = this.stepsTimeLine[0];
+
+        this.loadTranslations();
         
     }
 
@@ -758,6 +759,9 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     getInfoOneDisease() {
+        var nameEvent = 'Diagnosed - Select Disease - '+ this.actualInfoOneDisease.id;
+        //this.focusOutFunctionDiseases();
+        this.lauchEvent(nameEvent);
         this.currentStepTimeLine = this.stepsTimeLine[0];
         this.symptomsCopy = [];
         this.goToStep(1);
@@ -921,8 +925,8 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             });
     }
 
-    changeStateSymptom(index, state) {
-        this.infoOneDisease.symptoms[index].checked = state;
+    changeStateSymptom(index) {
+        this.infoOneDisease.symptoms[index].checked = !this.infoOneDisease.symptoms[index].checked;
         this.listSymptomsCheckedTimeline=[];
         this.getNumberOfSymptomsDiseaseChecked();
         if(this.numberOfSymtomsChecked>0){
@@ -935,9 +939,9 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             this.listSymptomsCheckedModified = false;
         }
 
-        if(!state){
+        /*if(!state){
             this.deleteSymptom(this.infoOneDisease.symptoms[index]);
-        }
+        }*/
     }
 
     deleteSymptom(symptom){
@@ -969,6 +973,17 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
           if (result.value) {
             this.infoOneDisease.symptoms.splice(index, 1);
             this.lauchEvent("Delete symptoms");
+            this.listSymptomsCheckedTimeline=[];
+            this.getNumberOfSymptomsDiseaseChecked();
+            if(this.numberOfSymtomsChecked>0){
+                this.listSymptomsCheckedModified = true;
+                for (var i =0; i<this.infoOneDisease.symptoms.length;i++){
+                    if(this.infoOneDisease.symptoms[i].checked){
+                        this.listSymptomsCheckedTimeline.push(this.infoOneDisease.symptoms[i]);
+                    }
+                }
+                this.listSymptomsCheckedModified = false;
+            }
           }
         });
   
@@ -1020,23 +1035,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         if(this.modalReference5!=undefined){
             this.modalReference5.close();
             this.modalReference5=undefined;
-        }
-    }
-
-    openTimelineAppHelp2(contentTimelineAppHelp2){
-        if(this.modalReference7==undefined){
-            let ngbModalOptions: NgbModalOptions = {
-                keyboard: false,
-                windowClass: 'ModalClass-sm'// xl, lg, sm
-            };
-            this.modalReference7 = this.modalService.open(contentTimelineAppHelp2, ngbModalOptions);
-        }
-        
-    }
-    closeTimelineAppHelp2(){
-        if(this.modalReference7!=undefined){
-            this.modalReference7.close();
-            this.modalReference7=undefined;
         }
     }
 
@@ -1277,7 +1275,8 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     focusOutFunctionDiseases(){
-        if (this.searchDiseaseField.trim().length > 3 && this.listOfFilteredDiseases.length==0 && !this.callListOfDiseases) {
+        //if (this.searchDiseaseField.trim().length > 3 && this.listOfFilteredDiseases.length==0 && !this.callListOfDiseases) {
+        if (this.searchDiseaseField.trim().length > 3 && !this.callListOfDiseases) {
             //send text
             var tempModelTimp = this.searchDiseaseField.trim();
             this.sendTerms = true;
@@ -1669,7 +1668,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             if(this.medicalText.length>5){
                 this.startExtractor();
             }else{
-                Swal.fire(this.translate.instant("land.addMoreSymp"), this.translate.instant("land.remember"), "error");
+                Swal.fire(this.translate.instant("land.addMoreSympPopup"), this.translate.instant("land.remember"), "error");
                 this.loadingCalculate = false;
             }  
         }
@@ -1973,7 +1972,10 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     showSwalSelectSymptoms() {
-        var showSwalSelSymptoms = localStorage.getItem('showSwalSelSymptoms');
+        if (this.infoOneDisease.symptoms.length == 0) {
+            this.inputManualSymptomsElement.nativeElement.focus();
+        }
+        /*var showSwalSelSymptoms = localStorage.getItem('showSwalSelSymptoms');
         if (showSwalSelSymptoms != 'false') {
             Swal.fire({
                 icon: 'warning',
@@ -1993,7 +1995,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     this.inputManualSymptomsElement.nativeElement.focus();
                 }
             })
-        }
+        }*/
 
     }
 

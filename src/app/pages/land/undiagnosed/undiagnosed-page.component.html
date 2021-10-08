@@ -4,7 +4,9 @@
           <div class="card-body">
             <div class="row m-0">
               <div class="col-lg-12 justify-content-center align-items-center text-center">
-                <a (click)="selectRole();" class="black text-left font-small-3 d-block"><i class="fa fa-angle-left" aria-hidden="true"></i> <ins class="ml-1">{{'generics.Back' | translate }}</ins></a>
+                <span class="d-block text-left">
+                  <a (click)="selectRole();" class="black font-small-3"><i class="fa fa-angle-left" aria-hidden="true"></i> <ins class="ml-1">{{'generics.Back' | translate }}</ins></a>
+                </span>     
                 <h1 class="card-title mb-0 text-bold-500">
                   <span>{{'land.title' | translate }}</span>
                   <hr class="hr-custom">
@@ -17,7 +19,10 @@
                 <div class="form-steps-container">
                   <span *ngFor="let step of steps; let i = index;" class="forstep">
                       <div [ngClass]="{ 'step-complete': step.isComplete, 'step-incomplete': !step.isComplete, 'step-current': (currentStep)?.stepIndex >= step.stepIndex,  'step-bubble-prev': (currentStep)?.stepIndex >= step.stepIndex,  'step-bubble-next': (currentStep)?.stepIndex < step.stepIndex}"
-                          class="step-bubble">{{ step.stepIndex }}</div>
+                          class="step-bubble">
+                          <span *ngIf="i < (steps)?.length - 1">{{ step.stepIndex }}</span>
+                          <span *ngIf="i == (steps)?.length - 1"><em class="fa fa-check"></em></span>
+                        </div>
                       <div *ngIf="i < (steps)?.length - 1" class="step-divider" [ngClass]="((i < (steps)?.length - 1) && step.stepIndex>=currentStep.stepIndex)?'step-divider-prev':'step-divider-next'"></div>
                       <span class="step-title mt-2">{{step.title}} </span>
                   </span>
@@ -73,25 +78,24 @@
                         <td>
                           <span>
                             <span class="float-right ml-1">
-                              <button (click)="changeStateSymptom(i, true)"
-                                class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                                [ngClass]="(hpo.checked==true)?'btn-success':'btn-secondary'"
-                                href="javascript:void(0)" title="{{'phenotype.Click to check it' | translate }}">
-                                <em class="fa fa-check w-13"></em>
-                              </button>
-                              <button (click)="changeStateSymptom(i, false)"
-                                class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                                [ngClass]="(hpo.checked==false)?'btn-primary':'btn-secondary'"
-                                href="javascript:void(0)"
-                                title="{{'phenotype.Click to uncheck it' | translate }}">
-                                <em class="fa fa-times w-13"></em>
-                              </button>
-                            </span>
-                            <span>
                               <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
                                 class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
                                 title="{{'generics.More information' | translate }} ({{hpo.id}})">
                                 <em class="fa fa-info w-13"></em>
+                              </button>
+                              <button (click)="deleteSymptom(hpo, i)"
+                                class="btn btn-sm mr-1 mb-0 btn-fab round btn-outline-danger"
+                                href="javascript:void(0)"
+                                title="{{'generics.Delete' | translate }}">
+                                <em class="fa fa-trash w-13"></em>
+                              </button>
+                            </span>
+                            <span>
+                              <button (click)="changeStateSymptom(i)"
+                                class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                                [ngClass]="(hpo.checked==true)?'btn-success':'btn-secondary'"
+                                href="javascript:void(0)" title="{{'phenotype.Click to check it' | translate }}">
+                                <em class="fa fa-check w-13"></em>
                               </button>
                               <span class="ml-1 custom-bold pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">{{hpo.name}}</span>
                             </span>
@@ -232,23 +236,24 @@
               <td>
                 <span>
                   <span class="float-right ml-1">
-                    <button (click)="changeStateSymptom(i, true)" class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                      [ngClass]="(hpo.checked==true)?'btn-success':'btn-secondary '" href="javascript:void(0)"
-                      title="{{'phenotype.Click to check it' | translate }}">
-                      <em class="fa fa-check w-13"></em>
-                    </button>
-                    <button (click)="changeStateSymptom(i, false)"
-                      class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                      [ngClass]="(hpo.checked==false)?'btn-primary':'btn-secondary'" href="javascript:void(0)"
-                      title="{{'phenotype.Click to uncheck it' | translate }}">
-                      <em class="fa fa-times w-13"></em>
-                    </button>
-                  </span>
-                  <span>
                     <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
                       class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
                       title="{{'generics.More information' | translate }} ({{hpo.id}})">
                       <em class="fa fa-info w-13"></em>
+                    </button>
+                    <button (click)="deleteSymptom(hpo, i)"
+                      class="btn btn-sm mr-1 mb-0 btn-fab round btn-outline-danger"
+                      href="javascript:void(0)"
+                      title="{{'generics.Delete' | translate }}">
+                      <em class="fa fa-trash w-13"></em>
+                    </button>
+                  </span>
+                  <span>
+                    <button (click)="changeStateSymptom(i)"
+                      class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                      [ngClass]="(hpo.checked==true)?'btn-success':'btn-secondary'"
+                      href="javascript:void(0)" title="{{'phenotype.Click to check it' | translate }}">
+                      <em class="fa fa-check w-13"></em>
                     </button>
                     <span class="ml-1 custom-bold pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">{{hpo.name}}</span>
                   </span>
@@ -334,19 +339,19 @@
                 <thead>
                   <tr>
                     <th id="headerTable" style="border-top-style: none;">
-                      <em class="mt-1 fa fa-download grey float-right mr-2"
-                        title="{{'land.Download results' | translate }}" (click)="downloadResults()"
-                        style="cursor: pointer;"></em>
-                      <em class="mt-1 fas fa-share-alt grey float-right mr-2"
-                        title="{{'land.Send results' | translate }}" (click)="sendEmail()"
-                        style="cursor: pointer;"></em>
-                      <em class="mt-1 fa fa-refresh grey float-right mr-2"
-                        title="{{'Recalculate diseases' | translate }}" (click)="calculate()"
-                        style="cursor: pointer;"></em>
-                      <span>{{'land.step3' | translate }}</span>
-                      <!--<span class="text-muted d-block" style="font-weight: initial;">
-                        <span>{{'land.DescDiseases' | translate }}</span>
-                      </span>-->
+                      <span class="d-block">
+                        <span>{{'land.step3' | translate }}</span>
+                        <span class="float-right">
+                          <em class="mt-1 fas fa-copy grey mr-2" title="{{'land.Copy results' | translate }}"
+                          (click)="copyResults()" style="cursor: pointer;"></em>
+                          <em class="mt-1 fa fa-download grey mr-2"
+                          title="{{'land.Download results' | translate }}" (click)="downloadResults()"
+                          style="cursor: pointer;"></em>
+                        </span>
+                      </span>
+                      <span class="text-muted d-block" style="font-weight: initial;">
+                        <span>{{'land.step3descript' | translate }}</span>
+                      </span>
                     </th>
                   </tr>
                 </thead>
@@ -355,24 +360,33 @@
                 <table class="table mb-0 bg-white" aria-labelledby="rare disease">
                   <tbody>
                     <tr *ngFor="let disease of topRelatedConditions ; let i = index" class="d-flex">
-                      <td class="col-md-12" id="{{disease.id}}"
-                        (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);lauchEvent('ShowMoreInfoDiseasePopup');"
-                        style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{disease.id}})">
-                        <span class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round">
+                      <td class="col-md-12" id="{{disease.id}}">
+                        <span class="float-right ml-1">
+                          <button (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);lauchEvent('ShowMoreInfoDiseasePopup');"
+                          class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                          title="{{'generics.More information' | translate }} ({{disease.id}})">
                           <em class="fa fa-info w-13"></em>
+                        </button>
+                          <button (click)="deleteDisease(disease, i)"
+                                  class="btn btn-sm mr-1 mb-0 btn-fab round btn-outline-danger"
+                                  href="javascript:void(0)"
+                                  title="{{'generics.Delete' | translate }}">
+                                  <em class="fa fa-trash w-13"></em>
+                                </button>
                         </span>
-                        <span class="custom-bold ml-1">{{disease.name}}</span>
+                        <span class="custom-bold ml-1" (click)="showMoreInfoDiseasePopup(i, contentInfoDisease);lauchEvent('ShowMoreInfoDiseasePopup');"
+                        style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{disease.id}})">{{disease.name}}</span>
                       </td>
                     </tr>
                     <tr
-                      *ngIf="temporalDiseases.length>showNumerRelatedConditions && indexListRelatedConditions<temporalDiseases.length"
+                      *ngIf="(temporalDiseases.length>showNumerRelatedConditions && indexListRelatedConditions<temporalDiseases.length) && (indexListRelatedConditions<24)"
                       class="col-md-12 text-center">
-                      <a href="javascript:;" class="border-top center-elements pt-2 mb-0" (click)="loadMore()"
+                      <a href="javascript:;" class="border-top center-elements pt-2 pb-2" (click)="loadMore()"
                         style="display: block;">
                         <span>{{'land.Load more diseases' | translate }}</span>
                       </a>
-                      <span class="d-block font-small-3 pb-2">{{'land.There are' | translate }} {{totalDiseasesLeft}}
-                        {{'land.remaining not shown in the table' | translate }}</span>
+                      <!--<span class="d-block font-small-3 pb-2">{{'land.There are' | translate }} {{totalDiseasesLeft}}
+                        {{'land.remaining not shown in the table' | translate }}</span>-->
                     </tr>
                   </tbody>
                 </table>
@@ -392,13 +406,11 @@
       <div class="mt-4">
         <h3><strong>{{'land.Completed0' | translate }}</strong></h3>
         <p>{{'land.Completed1' | translate }}</p>
-        <p>{{'land.Completed2' | translate }}</p>
-        <p>{{'land.Completed3' | translate }}</p>
       </div>
+      <hr class="mt-4 hr-custom-secondary">
       <div class="mt-4">
         <h3><strong>{{'land.What now' | translate }}</strong></h3>
         <p [innerHTML]="'land.msgwhat1' | translate"></p>
-        <p [innerHTML]="'land.msgwhat2' | translate"></p>
         <div class="p-2">
           <button type="button" class="btn btn-primary btn-md btn-raised mr-1" (click)="openSaveTimeLine(contentSaveTimeline)">
             <em class="mr-1 ft-save white"
@@ -406,11 +418,16 @@
               style="cursor: pointer;"></em>
               <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
           </button>
-        <button type="button" class="btn btn-primary btn-md btn-raised ml-1" (click)="exportTimeline()">
-          <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
-            (click)="exportTimeline()" style="cursor: pointer;"></em>
-          <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
-        </button>
+          <button type="button" class="btn btn-primary btn-md btn-raised ml-1" (click)="exportTimeline()">
+            <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
+              (click)="exportTimeline()" style="cursor: pointer;"></em>
+            <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
+          </button>
+          <button type="button" class="btn btn-primary btn-md btn-raised ml-1" (click)="sendEmail()">
+            <em class="mr-1 fa fa-download white" title="{{'land.Send results' | translate }}"
+              (click)="sendEmail()" style="cursor: pointer;"></em>
+            <span>{{'land.Send results' | translate }}</span>
+          </button>
         </div>
       </div>
     </div>

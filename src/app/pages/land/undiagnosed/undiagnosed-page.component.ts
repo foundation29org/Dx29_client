@@ -944,9 +944,12 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         }).then((result) => {
           if (result.value) {
             this.temporalSymptoms.splice(index, 1);
-            this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[index2].hasPatient = false;
+            if(this.topRelatedConditions[this.selectedInfoDiseaseIndex]!=undefined){
+                this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[index2].hasPatient = false;
+            }
             this.reloadDiseases = true;
             this.lauchEvent("Delete symptoms");
+            this.getNumberOfSymptomsChecked(false);
           }
         });
   
@@ -1010,7 +1013,10 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     showSwalSelectSymptoms() {
-        var showSwalSelSymptoms = localStorage.getItem('showSwalSelSymptoms');
+        if (this.temporalSymptoms.length == 0) {
+            this.inputManualSymptomsElement.nativeElement.focus();
+        }
+        /*var showSwalSelSymptoms = localStorage.getItem('showSwalSelSymptoms');
         if (showSwalSelSymptoms != 'false') {
             Swal.fire({
                 icon: 'warning',
@@ -1030,16 +1036,16 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                     this.inputManualSymptomsElement.nativeElement.focus();
                 }
             })
-        }
+        }*/
 
     }
 
-    changeStateSymptom(index, state) {
-        this.temporalSymptoms[index].checked = state;
+    changeStateSymptom(index) {
+        this.temporalSymptoms[index].checked = !this.temporalSymptoms[index].checked;
         this.getNumberOfSymptomsChecked(false);
-        if(!state){
+        /*if(!state){
             this.deleteSymptom(this.temporalSymptoms[index], index);
-        } 
+        }*/
     }
 
     checkSymptoms() {
@@ -1116,7 +1122,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                 }));
         } else {
             if (this.temporalSymptoms.length < this.minSymptoms) {
-                Swal.fire(this.translate.instant("land.addMoreSymp"), this.translate.instant("land.remember"), "error");
+                Swal.fire(this.translate.instant("land.addMoreSympPopup"), this.translate.instant("land.remember"), "error");
                 this.loadingCalculate = false;
             } else {
                 Swal.fire(this.translate.instant("land.You need to select more symptoms"), this.translate.instant("land.remember"), "error");
@@ -1208,8 +1214,14 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
 
 
     loadMore() {
+        var initIndexListRelatedConditions = this.indexListRelatedConditions;
         this.indexListRelatedConditions = this.indexListRelatedConditions + this.showNumerRelatedConditions;
-        this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
+        //this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
+        var temp = this.temporalDiseases.slice(initIndexListRelatedConditions, this.indexListRelatedConditions);
+        for(var i=0;i<temp.length;i++){
+            this.topRelatedConditions.push(temp[i]);
+        }
+        
         if(this.topRelatedConditions.length>16){
             this.openModarRegister('Load More');
         }
@@ -1318,6 +1330,40 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         }
         
     }
+
+    deleteDisease(disease, index2){
+        var index = -1;
+        var found = false;
+        for(var i=0;i<this.topRelatedConditions.length;i++)
+          {
+            if(disease.id==this.topRelatedConditions[i].id){
+              index= i;
+              found = true;
+              this.confirmDeleteDisease(index, index2);
+            }
+          }
+    }
+
+    confirmDeleteDisease(index, index2){
+        Swal.fire({
+            title: this.translate.instant("generics.Are you sure delete")+" "+this.topRelatedConditions[index].name+" ?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#0CC27E',
+            cancelButtonColor: '#f9423a',
+            confirmButtonText: this.translate.instant("generics.Accept"),
+            cancelButtonText: this.translate.instant("generics.Cancel"),
+            showLoaderOnConfirm: true,
+            allowOutsideClick: false,
+            reverseButtons:true
+        }).then((result) => {
+          if (result.value) {
+            this.topRelatedConditions.splice(index, 1);
+            this.lauchEvent("Delete disease");
+          }
+        });
+  
+      }
 
     getSymptomsOneDisease(id, contentInfoDisease) {
         //get symtoms
@@ -1459,6 +1505,44 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         return resCopy;
     }
 
+    copyResults() {
+        var finalReport = "";
+        var infoSymptoms = this.getPlainInfoSymptoms();
+        var infoDiseases = this.getPlainInfoDiseases2();
+        if (infoSymptoms != "") {
+            finalReport= this.translate.instant("land.diagnosed.general.Symptoms")+ "\n" + infoSymptoms;
+            if(infoDiseases != ""){
+                finalReport = finalReport+ "\n \n" +this.translate.instant("diagnosis.Proposed diagnoses")+ "\n"+ infoDiseases;
+            }
+            this.clipboard.copy(finalReport);
+            Swal.fire({
+                icon: 'success',
+                html: this.translate.instant("land.Results copied to the clipboard"),
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false
+            })
+            setTimeout(function () {
+                Swal.close();
+            }, 2000);
+            this.lauchEvent("Copy results");
+
+        } else {
+            Swal.fire(this.translate.instant("land.To be able to copy the symptoms"), '', "warning");
+        }
+    }
+
+    getPlainInfoDiseases2() {
+        var resCopy = "";
+        for (let i = 0; i < this.topRelatedConditions.length; i++) {
+            resCopy = resCopy + this.topRelatedConditions[i].name + " - " + this.topRelatedConditions[i].id;
+            if (i + 1 < this.topRelatedConditions.length) {
+                resCopy = resCopy + "\n";
+            }
+        }
+        return resCopy;
+    }
+
     downloadResults() {
         var infoSymptoms = this.getCheckedSymptoms();
         var infoDiseases = this.getPlainInfoDiseases();
@@ -1477,7 +1561,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         var resCopy = "";
         for (let i = 0; i < this.temporalSymptoms.length; i++) {
             if (this.temporalSymptoms[i].checked) {
-                resCopy = resCopy + this.temporalSymptoms[i].id + " - " + this.temporalSymptoms[i].name;
+                resCopy = resCopy + this.temporalSymptoms[i].name + " - " + '<a href="https://hpo.jax.org/app/browse/term/'+this.temporalSymptoms[i].id+'">'+this.temporalSymptoms[i].id+'</a>';
                 if (i + 1 < this.temporalSymptoms.length) {
                     resCopy = resCopy + " <br> ";
                 }
@@ -1489,7 +1573,8 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     getPlainInfoDiseasesEmail() {
         var resCopy = "";
         for (let i = 0; i < this.topRelatedConditions.length; i++) {
-            resCopy = resCopy + this.topRelatedConditions[i].name + " (" + this.topRelatedConditions[i].id + ")";
+            var value = this.topRelatedConditions[i].id.split(':');
+            resCopy = resCopy + this.topRelatedConditions[i].name + " (" + '<a href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert='+value[1]+'&lng='+this.lang+'">'+this.topRelatedConditions[i].id+'</a>'+ ")";
             if (i + 1 < this.topRelatedConditions.length) {
                 resCopy = resCopy + " <br> ";
             }
@@ -1517,7 +1602,10 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                     cancelButtonText: this.translate.instant("generics.Cancel"),
                     showCancelButton: true
                 }).then(function (message) {
-                    var info = { email: email.value, msg: message.value, symptoms: infoSymptoms, diseases: infoDiseases, lang: this.lang };
+                    var actualDate = new Date();
+                    var dateHeader = this.getFormatDate(actualDate);
+
+                    var info = { email: email.value, msg: message.value, symptoms: infoSymptoms, diseases: infoDiseases, lang: this.lang, dateHeader: dateHeader };
                     this.subscription.add(this.apiDx29ServerService.sendEmailResults(info)
                         .subscribe((res: any) => {
                             Swal.fire({
@@ -1530,6 +1618,15 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             }
         }.bind(this))
     }
+
+    getFormatDate(date) {
+        var localeLang = 'en-US';
+        if (this.lang == 'es') {
+            localeLang = 'es-ES'
+        }
+        var optionsdate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleString(localeLang, optionsdate);
+      }
 
     getLiteral(literal) {
         return this.translate.instant(literal);
@@ -1751,7 +1848,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             if(this.medicalText.length>5){
                 this.startExtractor();
             }else{
-                Swal.fire(this.translate.instant("land.addMoreSymp"), this.translate.instant("land.remember"), "error");
+                Swal.fire(this.translate.instant("land.addMoreSympPopup"), this.translate.instant("land.remember"), "error");
                 this.loadingCalculate = false;
             }  
         }

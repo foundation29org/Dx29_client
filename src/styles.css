@@ -65,6 +65,13 @@ body {
   width: 30%;
 }
 
+.hr-custom-secondary{
+  background-color: #b0b6bb; 
+  height: 3px; 
+  border: 0;
+  width: 30%;
+}
+
 .secondary{
   color:#b0b6bb;
 }
