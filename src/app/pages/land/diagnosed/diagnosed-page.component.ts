@@ -760,7 +760,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
     getInfoOneDisease() {
         var nameEvent = 'Diagnosed - Select Disease - '+ this.actualInfoOneDisease.id;
-        //this.focusOutFunctionDiseases();
+        this.focusOutFunctionDiseases();
         this.lauchEvent(nameEvent);
         this.currentStepTimeLine = this.stepsTimeLine[0];
         this.symptomsCopy = [];
@@ -1284,6 +1284,11 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             params.uuid = this.myuuid;
             params.Term = tempModelTimp;
             params.Lang = sessionStorage.getItem('lang');
+            params.Found = "No";
+            if(this.listOfFilteredDiseases.length>0){
+                params.Found = "Yes";
+            }
+
             var d = new Date(Date.now());
             var a = d.toString();
             params.Date = a;
