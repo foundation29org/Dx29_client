@@ -38,26 +38,4 @@
         </div>
     </div>
 </nav>
-<ng-template #contentAboutUs let-c="close" let-d="dismiss" appendTo="body">
-  <div class="modal-body content-wrapper p-2 center-elements mb-3">
-    <div class="p-2">
-      <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="row col-md-12">
-      <div class="col-md-5 d-none d-sm-none d-md-block">
-        <img class="col-md-12 mt-1" src='assets/img/home/kid.jpg' />
-      </div>
-      <div class="col-md-7">
-        <span class="text-left">
-          <h4><strong>{{'land.aboutUs.title' | translate }}</strong></h4>
-          <p>{{'land.aboutUs.p1' | translate }}</p>
-          <p>{{'land.aboutUs.p2' | translate }}</p>
-          <a class="btn btn-primary btn-raised btn-navbar" href="https://www.foundation29.org" target="_blank">{{'land.aboutUs.btn1' | translate }}</a>
-        </span>
-      </div>
-    </div>
-  </div>
-</ng-template>
 <!-- Navbar (Header) Ends -->

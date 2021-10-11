@@ -2185,7 +2185,7 @@
     "step1": "Enter your symptoms",
     "step2": "Create your timeline",
     "step3": "Explore diseases",
-    "step3descript": "These disease match your symptoms. This is a list of suggestions for informational purposes only.",
+    "step3descript": "These diseases match your symptoms. This is a list of suggestions for informational purposes only",
     "step4": "Completed",
     "title": "Tell your story to reach a diagnosis",
     "subtitle": "We are going to help you walk your path by building a timeline of your symptoms and looking for diseases that fit in with it. There are 3 easy steps:",
@@ -2230,6 +2230,7 @@
     "remaining not shown in the table": "remaining not shown in the table.",
     "Completed0": "Congratulations!",
     "Completed1": "You have finished your story. Knowing the evolution of your symptoms helps reaching a diagnosis because that may be the difference between two similar diseases.",
+    "Completed2": "You have finished your story. Knowing the evolution of your symptoms helps manage your disease and sharing this information helps other patients like you on their diagnostic odyssey.",
     "What now": "What now?",
     "msgwhat1": "Take this information to your doctors by downloading a report. Caution! If you close this window without <strong>registering</strong> the data will be removed.",
     "This was just an appetizer": "This was just an appetizer. Register to access the full functionality, it's free!",
@@ -2270,7 +2271,7 @@
     "click here": "IS HERE",
     "If you want to know how Dx29": "If you want to know how Dx29 works and the accuracy of its results click",
     "you have to select": "Great! Now you have to select the symptoms, this allows you to eliminate errors and be accurate in your diagnosis, it is a very important step in helping your patient. You have to select between 5 and 10 “guiding symptoms”. The guiding symptoms are the ones that you consider characterize your patient and that your clinical eye tells you are important.",
-    "remember": "Remember, To be accurate in diagnosis, You have to select between 5 and 10 “guiding symptoms”. The guiding symptoms are the ones that you consider characterize your patient and that your clinical eye tells you are important.",
+    "remember": "The minimum number of symptoms is 2. We recommend adding at least 5.",
     "Do not show this message again": "Do not show this message again",
     "When you have selected them": "When you have selected them you have to click on the “View suggested diseases” button.",
     "InfoDx29":{
@@ -2345,10 +2346,11 @@
     "add the symptoms manually": "Add manually",
     "try again": "Try again",
     "aboutUs":{
-      "title": "Who are we?",
+      "title": "What is Dx29?",
       "p2": "We create technologies that enable a radical change in their capabilities as users and in the entire medical ecosystem. Dx29 tests the applicability of cutting-edge predictive models in the patient/physician interface to accelerate rare disease diagnosis",
       "p1": "We are a not-for-profit foundation. We work for a medicine in which empowered patients take control of their health through their data and work with physicians and institutions to improve their well-being and that of others.",
-      "btn1": "Visit the Foundation 29 website"
+      "btn1": "Visit the Foundation 29 website",
+      "Who are we": "Who are we?"
     },
     "diagnosed":{
       "general":{
@@ -2363,6 +2365,7 @@
         "Clinical trials": "Clinical trials",
         "Patient groups": "Patient groups",
         "Donate your data": "How can we help you?",
+        "Donate your data-xl": "How can we help you?",
         "Seconds": "seconds",
         "We have found": "We have found",
         "results for": "results for"
@@ -2459,7 +2462,7 @@
         "GoPrevious":"Complete the information on these symptoms.",
         "These are the symptoms of your disease": "These are the symptoms that are commonly associated with your disease.",
         "Do you identify with them?": "Do you identify with them?",
-        "I want to create the chronology": "Quiero crear la cronología",
+        "I want to create the chronology": "I want to create the chronology",
         "goToChrono": "Each patient is different and should have a treatment adapted to their story. Start telling yours by creating your own symptom timeline."
       },
       "clinicalTrials":{
@@ -2504,7 +2507,8 @@
     "p2": "Start again",
     "p2.1": "I want a diagnosis",
     "p2.2": "I want to know more about my disease",
-    "p3": "Add symptoms"
+    "p3": "Add symptoms",
+    "t5": "Our ecosystem"
   },
   "seo":{
     "home":{

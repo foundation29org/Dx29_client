@@ -2186,7 +2186,7 @@
     "step1": "Introduce tus síntomas",
     "step2": "Crea tu cronología",
     "step3": "Explora enfermedades",
-    "step3descript": "Estas enfermedades coinciden con sus síntomas. Esta es una lista de sugerencias solamente con fines informativos.",
+    "step3descript": "Estas enfermedades coinciden con tus síntomas. Esta es una lista de sugerencias solamente con fines informativos.",
     "step4": "Completado",
     "title": "Cuenta tu historia para alcanzar un diagnóstico",
     "subtitle": "Vamos a ayudarte a recorrer tu camino construyendo una cronología de tus síntomas y buscando enfermedades que encajen con ella. Hay 3 sencillos pasos:",
@@ -2231,6 +2231,7 @@
     "remaining not shown in the table": "sin mostrar en la tabla.",
     "Completed0": "¡Enhorabuena!",
     "Completed1": "Has terminado tu historia. Conocer la evolución de tus síntomas ayuda a llegar a un diagnóstico porque esa puede ser la diferencia entre dos enfermedades similares.",
+    "Completed2": "Has terminado tu historia. Conocer la evolución de tus síntomas ayuda a gestionar tu enfermedad y compartir esta información ayuda a otros pacientes como tú en su odisea diagnóstica.",
     "What now": "¿Y ahora que?",
     "msgwhat1": "Lleve esta información a sus médicos descargando un informe. Precaución. Si cierra esta ventana sin <strong>registrarte</strong>, los datos serán eliminados.",
     "This was just an appetizer": "Esto solo ha sido un aperitivo. Regístrate para acceder a la funcionalidad completa, ¡es gratis!",
@@ -2271,7 +2272,7 @@
     "click here": "ESTÁ AQUÍ",
     "If you want to know how Dx29": "Si quieres saber como funciona Dx29 y la precisión de sus resultados pulsa",
     "you have to select": "¡Estupendo! Ahora tiene que seleccionar los síntomas, para eliminar errores y ser precisos en el diagnóstico, es un paso muy importante para ayudar a tu paciente. Tienes que seleccionar entre 5 y 10 “síntomas guía”. Los síntomas guía son los que consideras que caracterizan a tu paciente y que tu ojo clínico te dice que son importantes.",
-    "remember": "Recuerda, para ser precisos en el diagnóstico, tienes que seleccionar entre 5 y 10 “síntomas guía”. Los síntomas guía son los que consideras que caracterizan a tu paciente y que tu ojo clínico te dice que son importantes.",
+    "remember": "El número mínimo de síntomas es 2. Se recomienda añadir al menos 5.",
     "Do not show this message again": "No volver a mostrar este mensaje",
     "When you have selected them": "Cuando los hayas seleccionados tienes que hacer clic en el botón “Ver enfermedades propuestas”.",
     "InfoDx29":{
@@ -2346,10 +2347,11 @@
     "add the symptoms manually": "Añadir manualmente",
     "try again": "Intentarlo de nuevo",
     "aboutUs":{
-      "title": "¿Quiénes somos?",
+      "title": "¿Qué es Dx29?",
       "p2": "Creamos tecnologías que permiten un cambio radical en sus capacidades como usuarios y en todo el ecosistema médico. Dx29 investiga la aplicación de modelos predictivos en la interfaz del paciente y sus médicos para acelerar el diagnóstico de enfermedades raras.",
       "p1": "Somos una fundación sin ánimo de lucro. Trabajamos por una medicina en la que pacientes empoderados toman el control de su salud a través de sus datos y trabajan con médicos e instituciones para mejorar su bienestar y el de los demás.",
-      "btn1": "Visitar la página web de Foundation 29"
+      "btn1": "Visitar la página web de Foundation 29",
+      "Who are we": "¿Quiénes somos?"
     },
     "diagnosed":{
       "general":{
@@ -2364,6 +2366,7 @@
         "Clinical trials": "Ensayos clínicos",
         "Patient groups": "Grupos de pacientes",
         "Donate your data": "¿Cómo podemos ayudarte?",
+        "Donate your data-xl": "¿Cómo ayudarte?",
         "Seconds": "segundos",
         "We have found": "Hemos encontrado",
         "results for": "resultados para"
@@ -2462,7 +2465,7 @@
         "GoPrevious":"Completa la información de estos síntomas.",
         "These are the symptoms of your disease": "Estos son los síntomas que se asocian comúnmente a tu enfermedad.",
         "Do you identify with them?": "¿Te sientes identificados con ellos?",
-        "I want to create the chronology": "I want to create the chronology",
+        "I want to create the chronology": "Quiero crear la cronología",
         "goToChrono": "Cada paciente es distinto y debe tener un tratamiento adaptado a su historia. Empieza a contar tu historia creando tu propia cronología de síntomas."
       },
       "clinicalTrials":{
@@ -2507,7 +2510,8 @@
     "p2": "Empezar de nuevo",
     "p2.1": "Quiero un diagnóstico",
     "p2.2": "Quiero saber más sobre mi enfermedad",
-    "p3": "Añadir síntomas"
+    "p3": "Añadir síntomas",
+    "t5": "Nuestro ecosistema"
   },
   "seo":{
     "home":{

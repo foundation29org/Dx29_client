@@ -136,7 +136,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     selectedInfoDiseaseIndex: number = -1;
     totalDiseasesLeft: number = -1;
     numberOfSymtomsChecked: number = 0;
-    minSymptoms: number = 2;
+    minSymptoms: number = 1;
     @ViewChild('input') inputEl;
     showButtonScroll: boolean = false;
     failAnnotate_batch: boolean = false;
@@ -222,7 +222,8 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     currentStepTimeLine: any = {};
     paramsTimeLine: any = {};
     loadingPdf: boolean = false;
-    symptomsCopy: any = []
+    symptomsCopy: any = [];
+    identifyValue: string = '';
 
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
         
@@ -620,6 +621,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             this.router.navigate(['/']);
         }else if(this.currentStep.stepIndex==2){
             this.goToStep(0);
+            this.focusInputDisease();
         }
         
     }
@@ -733,7 +735,8 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 confirmButtonText: this.translate.instant("generics.Yes"),
                 cancelButtonText: this.translate.instant("generics.No, cancel"),
                 showLoaderOnConfirm: true,
-                allowOutsideClick: false
+                allowOutsideClick: false,
+                reverseButtons: true
               }).then(result => {
                 if (result.value) {
                     this.loadingOneDisease = true;
@@ -766,6 +769,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         this.symptomsCopy = [];
         this.goToStep(1);
         this.listOfFilteredDiseases = [];
+        this.identifyValue = '';
         this.searchDiseaseField = '';
         this.infoOneDisease = {};
         this.getPatientGroups();
@@ -1252,7 +1256,8 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 confirmButtonText: this.translate.instant("generics.Yes"),
                 cancelButtonText: this.translate.instant("generics.No, cancel"),
                 showLoaderOnConfirm: true,
-                allowOutsideClick: false
+                allowOutsideClick: false,
+                reverseButtons: true
               }).then(result => {
                 if (result.value) {
                     this.showIntro = true;
@@ -1658,6 +1663,8 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     }));
             
         }
+        this.modelTemp = '';
+        this.callListOfSymptoms = false;
     }
 
     directCalculate() {
@@ -1673,7 +1680,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             if(this.medicalText.length>5){
                 this.startExtractor();
             }else{
-                Swal.fire(this.translate.instant("land.addMoreSympPopup"), this.translate.instant("land.remember"), "error");
+                Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
                 this.loadingCalculate = false;
             }  
         }
@@ -2270,6 +2277,98 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 resCopy.push(this.infoOneDisease.symptoms[i]);
             }
         }
+        return resCopy;
+    }
+
+    sendIdentifySymptoms(para){
+        this.identifyValue = para;
+        console.log(para);
+        this.sending = true;
+        this.formOpen.Email = (this.formOpen.Email).toLowerCase();
+        var params: any = {};
+        params.Answer = para;
+        params.Disease = this.actualInfoOneDisease.id + ", " +this.actualInfoOneDisease.name;
+        params.uuid = this.myuuid;
+        params.Lang = sessionStorage.getItem('lang');
+        var d = new Date(Date.now());
+        var a = d.toString();
+        params.Date = a;
+        console.log(params);
+        this.subscription.add(this.http.post('https://prod-172.westeurope.logic.azure.com:443/workflows/e180fab9f19b438292832f43ada1c878/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=aXlHmQmCwQEolQ4dTSx1NLOfqsIoSis0cMLgphLJPu8', params)
+            .subscribe((res: any) => {
+                this.sending = false;
+                Swal.fire('', this.translate.instant("dashboardpatient.You have completed all the steps"), "success");
+            }, (err) => {
+                console.log(err);
+                this.sending = false;
+                this.toastr.error('', this.translate.instant("generics.error try again"));
+            }));
+    }
+
+    sendEmail() {
+        var infoSymptoms = this.getPlainInfoSymptomsEmail();
+        var infoDisease = this.getPlainInfoDiseasesEmail();
+
+        Swal.fire({
+            title: this.translate.instant("land.Enter email address"),
+            input: 'email',
+            confirmButtonText: this.translate.instant("land.Next"),
+            cancelButtonText: this.translate.instant("generics.Cancel"),
+            showCancelButton: true,
+            reverseButtons: true
+        }).then(function (email) {
+            if (email.value) {
+                Swal.fire({
+                    input: 'textarea',
+                    inputLabel: this.translate.instant("land.Message"),
+                    inputPlaceholder: this.translate.instant("land.Type your message here"),
+                    confirmButtonText: this.translate.instant("land.Send"),
+                    cancelButtonText: this.translate.instant("generics.Cancel"),
+                    showCancelButton: true,
+                    reverseButtons: true
+                }).then(function (message) {
+                    var actualDate = new Date();
+                    var dateHeader = this.getFormatDate(actualDate);
+
+                    var info = { email: email.value, msg: message.value, symptoms: infoSymptoms, disease: infoDisease, lang: this.lang, dateHeader: dateHeader };
+                    this.subscription.add(this.apiDx29ServerService.sendEmailResultsDiagnosed(info)
+                        .subscribe((res: any) => {
+                            Swal.fire({
+                                icon: 'success',
+                                html: this.translate.instant("land.Email sent to") + ' ' + email.value
+                            })
+                        }));
+                }.bind(this))
+            } else {
+            }
+        }.bind(this))
+    }
+
+    getFormatDate(date) {
+        var localeLang = 'en-US';
+        if (this.lang == 'es') {
+            localeLang = 'es-ES'
+        }
+        var optionsdate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleString(localeLang, optionsdate);
+      }
+
+    getPlainInfoSymptomsEmail() {
+        var resCopy = "";
+        for (let i = 0; i < this.infoOneDisease.symptoms.length; i++) {
+            if (this.infoOneDisease.symptoms[i].checked) {
+                resCopy = resCopy + this.infoOneDisease.symptoms[i].name + " - " + '<a href="https://hpo.jax.org/app/browse/term/'+this.infoOneDisease.symptoms[i].id+'">'+this.infoOneDisease.symptoms[i].id+'</a>';
+                if (i + 1 < this.infoOneDisease.symptoms.length) {
+                    resCopy = resCopy + " <br> ";
+                }
+            }
+        }
+        return resCopy;
+    }
+
+    getPlainInfoDiseasesEmail() {
+        var value = this.actualInfoOneDisease.id.split(':');
+        var resCopy = this.actualInfoOneDisease.name + " - " + '<a href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert='+value[1]+'&lng='+this.lang+'">'+this.actualInfoOneDisease.id+'</a>';
         return resCopy;
     }
 

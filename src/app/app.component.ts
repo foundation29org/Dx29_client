@@ -156,7 +156,8 @@ export class AppComponent implements OnInit, OnDestroy{
              confirmButtonText: this.translate.instant("generics.Yes"),
              cancelButtonText: this.translate.instant("generics.No, cancel"),
              showLoaderOnConfirm: true,
-             allowOutsideClick: false
+             allowOutsideClick: false,
+             reverseButtons: true
          }).then((result) => {
            if (result.value) {
              navigator.app.exitApp();
@@ -224,7 +225,8 @@ export class AppComponent implements OnInit, OnDestroy{
                      confirmButtonColor: '#0CC27E',
                      confirmButtonText: 'OK',
                      showLoaderOnConfirm: true,
-                     allowOutsideClick: false
+                     allowOutsideClick: false,
+                     reverseButtons: true
                  }).then((result) => {
                    if (result.value) {
                      location.reload();

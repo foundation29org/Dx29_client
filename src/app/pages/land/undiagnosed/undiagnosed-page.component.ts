@@ -1122,10 +1122,10 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                 }));
         } else {
             if (this.temporalSymptoms.length < this.minSymptoms) {
-                Swal.fire(this.translate.instant("land.addMoreSympPopup"), this.translate.instant("land.remember"), "error");
+                Swal.fire('', this.translate.instant("land.remember"), "error");
                 this.loadingCalculate = false;
             } else {
-                Swal.fire(this.translate.instant("land.You need to select more symptoms"), this.translate.instant("land.remember"), "error");
+                Swal.fire('', this.translate.instant("land.remember"), "error");
                 this.loadingCalculate = false;
             }
 
@@ -1574,7 +1574,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         var resCopy = "";
         for (let i = 0; i < this.topRelatedConditions.length; i++) {
             var value = this.topRelatedConditions[i].id.split(':');
-            resCopy = resCopy + this.topRelatedConditions[i].name + " (" + '<a href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert='+value[1]+'&lng='+this.lang+'">'+this.topRelatedConditions[i].id+'</a>'+ ")";
+            resCopy = resCopy + this.topRelatedConditions[i].name + " - " + '<a href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert='+value[1]+'&lng='+this.lang+'">'+this.topRelatedConditions[i].id+'</a>';
             if (i + 1 < this.topRelatedConditions.length) {
                 resCopy = resCopy + " <br> ";
             }
@@ -1591,7 +1591,8 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             input: 'email',
             confirmButtonText: this.translate.instant("land.Next"),
             cancelButtonText: this.translate.instant("generics.Cancel"),
-            showCancelButton: true
+            showCancelButton: true,
+            reverseButtons: true
         }).then(function (email) {
             if (email.value) {
                 Swal.fire({
@@ -1600,13 +1601,14 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                     inputPlaceholder: this.translate.instant("land.Type your message here"),
                     confirmButtonText: this.translate.instant("land.Send"),
                     cancelButtonText: this.translate.instant("generics.Cancel"),
-                    showCancelButton: true
+                    showCancelButton: true,
+                    reverseButtons: true
                 }).then(function (message) {
                     var actualDate = new Date();
                     var dateHeader = this.getFormatDate(actualDate);
 
                     var info = { email: email.value, msg: message.value, symptoms: infoSymptoms, diseases: infoDiseases, lang: this.lang, dateHeader: dateHeader };
-                    this.subscription.add(this.apiDx29ServerService.sendEmailResults(info)
+                    this.subscription.add(this.apiDx29ServerService.sendEmailResultsUndiagnosed(info)
                         .subscribe((res: any) => {
                             Swal.fire({
                                 icon: 'success',
@@ -1848,7 +1850,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             if(this.medicalText.length>5){
                 this.startExtractor();
             }else{
-                Swal.fire(this.translate.instant("land.addMoreSympPopup"), this.translate.instant("land.remember"), "error");
+                Swal.fire('', this.translate.instant("land.remember"), "error");
                 this.loadingCalculate = false;
             }  
         }
@@ -1898,6 +1900,8 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                     }));
             
         }
+        this.modelTemp = '';
+        this.callListOfSymptoms = false;
     }
 
     openSaveTimeLine(contentSaveTimeline){

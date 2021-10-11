@@ -72,6 +72,13 @@ body {
   width: 30%;
 }
 
+.btn-active-primary {
+  color: #fff;
+  background-color: #f81e15;
+  border-color: #f71309;
+  box-shadow: 0 0 0 0.2rem rgba(250, 94, 88, 0.5);
+}
+
 .secondary{
   color:#b0b6bb;
 }
