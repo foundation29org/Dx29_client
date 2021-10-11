@@ -1,4 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
+import { environment } from 'environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/Subscription';
 import { SearchService } from 'app/shared/services/search.service';
@@ -49,6 +50,12 @@ export class LandPageComponent implements OnDestroy {
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
+    }
+
+    registerToDx29(){
+        this.lauchEvent("Registration");
+        this.lauchEvent("Registration Home - Event");
+        window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
     }
 
 }

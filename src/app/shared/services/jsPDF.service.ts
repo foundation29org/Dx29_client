@@ -224,7 +224,10 @@ export class jsPDFService {
         }else{
             positionY =posInit;
         }
-        
+        positionY = this.checkIfNewPage2(doc, positionY);
+        if(positionY == 20){
+            posInit = positionY;
+        }
         var calendarIcon = new Image();
         calendarIcon.src = "assets/img/pdf/ft-calendar.png"//https://dx29.ai/assets/img/pdf/ft-calendar.png
         doc.addImage(calendarIcon, 'png', 15, (positionY+4), 7, 7);
@@ -288,6 +291,10 @@ export class jsPDFService {
         doc.setFillColor(255, 255, 255);
         var heightRect = (5*(listSymptomsNullInfo.length)+5);
         if(heightRect+positionY>235){
+            heightRect = (235-(posInit))+35;
+        }
+        
+        /*if(heightRect+positionY>235){
             if(heightRect<33){
                 heightRect = (235-(posInit))+10;
             }else{
@@ -298,7 +305,7 @@ export class jsPDFService {
             heightRect = 250;
         }else if(heightRect<10){
             heightRect = 10;
-        }
+        }*/
         doc.rect(25, (positionY+4), 150, heightRect, 'FD'); //Fill and Border
         doc.setTextColor(0, 0, 0)
         posInit= posInit+10;
@@ -804,7 +811,7 @@ export class jsPDFService {
         doc.setTextColor(51, 101, 138)
         var url = "mailto:info@foundation29.org";
         doc.textWithLink("info@foundation29.org", (((this.translate.instant("land.diagnosed.timeline.footer6")).length*2)-18), lineText, { url: url });
-        lineText = this.checkIfNewPage(doc, lineText);
+        //lineText = this.checkIfNewPage(doc, lineText);
         doc.setTextColor(0, 0, 0);
     }
 

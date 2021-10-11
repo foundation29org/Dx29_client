@@ -2300,12 +2300,12 @@
     "Accepted files": "Accepted files: pdf, docx, images",
     "descripReports": "We understand that these data are very sensitive. If you do not register, all the data will be deleted when you close this window.",
     "table":{
-      "t1": "Entering Text",
-      "d1": "Pasted, written, photograph or file",
-      "t2": "Symptoms Extraction",
-      "d2": "The tool recognizes text in all languages",
-      "t3": "Symptom Validation",
-      "d3": "Accept or reject extracted symptoms",
+      "t1": "Store your Data and Re-analyse",
+      "d1": "Store, edit, update and analyse your data multiple times for free.",
+      "t2": "Multiple Cases and Sharing",
+      "d2": "Share your case and manage more than one case if you are a Physician.",
+      "t3": "Use your Genetic Data",
+      "d3": "Upload, store and analyse your genetic data files and improve your diagnosis.",
       "t4": "Candidate Diseases",
       "d4": "List of possible diseases with the validated symptoms",
       "t5": "Download Results",
@@ -2508,7 +2508,9 @@
     "p2.1": "I want a diagnosis",
     "p2.2": "I want to know more about my disease",
     "p3": "Add symptoms",
-    "t5": "Our ecosystem"
+    "t4title": "Advantages of registering in Dx29",
+    "t5": "Our ecosystem",
+    "t6": "Awards"
   },
   "seo":{
     "home":{

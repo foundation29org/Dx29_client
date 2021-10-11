@@ -2301,12 +2301,12 @@
     "Accepted files": "Ficheros aceptados: pdf, docx, imágenes",
     "descripReports": "Entendemos que estos datos son muy sensibles. Si no te registras todos los datos se borran al cerrar esta ventana.",
     "table":{
-      "t1": "Introducción de texto",
-      "d1": "Pegado, escrito, fotografía o archivo",
-      "t2": "Extracción de síntomas",
-      "d2": "La herramienta reconoce texto en todos los idiomas",
-      "t3": "Validación de síntomas",
-      "d3": "Acepta o rechaza los síntomas extraídos",
+      "t1": "Guarda tus datos y reanaliza",
+      "d1": "Almacena, edita, actualiza y analiza tus datos múltiples veces de forma gratuita.",
+      "t2": "Múltiples casos y uso compartido",
+      "d2": "Comparte tu caso y gestiona más de un caso si eres médico.",
+      "t3": "Utiliza tus datos genéticos",
+      "d3": "Sube, almacena y analiza tus archivos de datos genéticos y mejora tu diagnóstico.",
       "t4": "Enfermedades candidatas",
       "d4": "Lista de posibles enfermedades con lo síntomas validados",
       "t5": "Descarga de resultados",
@@ -2511,7 +2511,9 @@
     "p2.1": "Quiero un diagnóstico",
     "p2.2": "Quiero saber más sobre mi enfermedad",
     "p3": "Añadir síntomas",
-    "t5": "Nuestro ecosistema"
+    "t4title": "Ventajas de registrarse en Dx29",
+    "t5": "Nuestro ecosistema",
+    "t6": "Premios"
   },
   "seo":{
     "home":{
