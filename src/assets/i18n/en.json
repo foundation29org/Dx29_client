@@ -2347,8 +2347,8 @@
     "try again": "Try again",
     "aboutUs":{
       "title": "What is Dx29?",
-      "p2": "We create technologies that enable a radical change in their capabilities as users and in the entire medical ecosystem. Dx29 tests the applicability of cutting-edge predictive models in the patient/physician interface to accelerate rare disease diagnosis",
-      "p1": "We are a not-for-profit foundation. We work for a medicine in which empowered patients take control of their health through their data and work with physicians and institutions to improve their well-being and that of others.",
+      "p2": "If you already have a diagnosis, you will be able to generate your medical history and also keep up to date with clinical trials and patient groups of your disease.",
+      "p1": "Opens source and free software for analysis and management of your symptoms, creation and sharing of your medical history and help to reach a diagnosis.",
       "btn1": "Visit the Foundation 29 website",
       "Who are we": "Who are we?"
     },

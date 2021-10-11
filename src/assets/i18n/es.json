@@ -2348,8 +2348,8 @@
     "try again": "Intentarlo de nuevo",
     "aboutUs":{
       "title": "¿Qué es Dx29?",
-      "p2": "Creamos tecnologías que permiten un cambio radical en sus capacidades como usuarios y en todo el ecosistema médico. Dx29 investiga la aplicación de modelos predictivos en la interfaz del paciente y sus médicos para acelerar el diagnóstico de enfermedades raras.",
-      "p1": "Somos una fundación sin ánimo de lucro. Trabajamos por una medicina en la que pacientes empoderados toman el control de su salud a través de sus datos y trabajan con médicos e instituciones para mejorar su bienestar y el de los demás.",
+      "p2": "Si ya tienes un diagnóstico, podrás generar tu historial médico y además estar al día de ensayos clínicos y grupos de pacientes de tu enfermedad.",
+      "p1": "Software libre y gratuito para análisis y ordenación de tus síntomas, crear y compartir tu historial médico y ayuda para alcanzar un diagnóstico.",
       "btn1": "Visitar la página web de Foundation 29",
       "Who are we": "¿Quiénes somos?"
     },
