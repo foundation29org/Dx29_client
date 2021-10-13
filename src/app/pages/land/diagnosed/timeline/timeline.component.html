@@ -2,68 +2,36 @@
 <div class="d-none d-sm-block">
   <div class="col-md-12">
     <div class="row">
-      <div class="col-md-12">
-        <button type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right" (click)="backTimeline('true');">
-          <em class="mr-1 fa fa-refresh white" title="{{'preland.p2' | translate}}" (click)="backTimeline('true')"
-            style="cursor: pointer;"></em>
-          <span>{{'preland.p2' | translate}}</span>
-        </button>
-        <button type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right"
-          (click)="addSymptomTimeLine();">
-          <em class="mr-1 fa fa-plus white" title="{{'preland.p3' | translate}}" (click)="addSymptomTimeLine()"
-            style="cursor: pointer;"></em>
-          <span>{{'preland.p3' | translate}}</span>
-        </button>
-        <!--<button *ngIf="showTimeLine"type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right" (click)="backTimeline('false');">
-          <em class="mr-1 fa fa-refresh white"
-            title="{{'land.diagnosed.timeline.reset' | translate}}" (click)="backTimeline('false')"
-            style="cursor: pointer;"></em>
-          <span>{{'land.diagnosed.timeline.reset' | translate}}</span>
-        </button>-->
-        <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right"
-          (click)="exportTimeline()">
-          <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
-            (click)="exportTimeline()" style="cursor: pointer;"></em>
-          <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
-        </button>
-        <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-sm btn-raised mr-2 float-right"
-          (click)="saveTimeline()">
-          <em class="mr-1 ft-save white" title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}"
-            (click)="saveTimeline()" style="cursor: pointer;"></em>
-          <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
-        </button>
-
-      </div>
-      <div class="col-md-6 mt-2" *ngIf="!modifyFormSymtoms">
+      <div class="col-md-12 mt-2" *ngIf="!modifyFormSymtoms">
         <table class="table mb-0 text-center d-none d-sm-block">
           <tbody style="width: 100%;display: inline-table;">
             <tr *ngFor="let symptom of listSymptoms ; let i = index">
               <td class="row text-left">
                 <div class="col-md-12">
-                  <h5 *ngIf="symptom.name" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(symptom);"
-                    class="info d-inline"><strong>{{symptom.name}}</strong></h5>
-                  <h5 *ngIf="!symptom.name" class="d-inline">
-                    <strong>{{symptom.id}}</strong> ({{'phenotype.Deprecated' | translate}}) <a
+                  <p *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(symptom);"
+                  class="d-inline-block" style="cursor: pointer; width: 85%;">{{symptom.name}}</p>
+                  <p *ngIf="!symptom.name" class="d-inline">
+                    {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                       href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
                       <i class="ft-external-link"></i></a>
-                  </h5>
+                  </p>
                   <span class="mt-1 nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right">
                     <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt{{j}}"
                       ngbDropdownToggle title="{{'generics.Options' | translate }}">
-                      <i class="fas fa-ellipsis-v font-medium-3 info"></i>
+                      <i class="fas fa-ellipsis-v font-medium-3 secondary"></i>
                     </a>
                     <div ngbDropdownMenu aria-labelledby="dropdownSympt{{j}}" class="dropdown">
                       <a class="dropdown-item py-1" href="javascript:;" (click)="deleteSymptomTimeLine(i)">
-                        <i class="fa fa fa-trash danger"></i><span class="ml-2">{{'land.diagnosed.timeline.Delete symptom' | translate }}</span>
+                        <i class="fa fa fa-trash danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.Delete symptom' | translate }}</span>
                       </a>
                       <a *ngIf="!symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="showNotes(i)">
-                        <i class="fas fa-sticky-note success"></i><span class="ml-2">{{'land.diagnosed.timeline.showNotes' | translate }}</span>
+                        <i class="fas fa-sticky-note success"></i><span class="ml-2 black">{{'land.diagnosed.timeline.showNotes' | translate }}</span>
                       </a>
                       <a *ngIf="symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="hideNotes(i)">
-                        <i class="fas fa-sticky-note danger"></i><span class="ml-2">{{'land.diagnosed.timeline.hideNotes' | translate }}</span>
+                        <i class="fas fa-sticky-note danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.hideNotes' | translate }}</span>
                       </a>
                       <a *ngIf="symptom.onsetdate || symptom.finishdate" class="dropdown-item py-1" href="javascript:;" (click)="clearDates(i)">
-                        <i class="far fa-calendar-times danger"></i><span class="ml-2">{{'land.diagnosed.timeline.Delete dates' | translate }}</span>
+                        <i class="far fa-calendar-times danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.Delete dates' | translate }}</span>
                       </a>
                     </div>
                   </span>
@@ -72,7 +40,7 @@
                   <small class="text-left form-text danger">{{'land.diagnosed.timeline.selectEndOrCurrent' |
                     translate}}</small>
                 </div>
-                <div class="col-md-6 mt-1">
+                <div class="col-lg-6 mt-1">
                   <div class="col-md-12">
                     <div class="row">
                       <input class="form-control w-75 d-inline" id="dateOnset_{{i}}" name="dateOnset" matInput placeholder="{{'generics.Start Date' | translate }}"
@@ -83,7 +51,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6 mt-1">
+                <div class="col-lg-6 mt-1">
                   <div class="col-md-12">
                     <div class="row">
                       <input class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish" placeholder="{{'generics.End Date' | translate }}"
@@ -109,20 +77,18 @@
           </tbody>
         </table>
       </div>
-      <div class="col-md-6 mt-2" *ngIf="modifyFormSymtoms">
+      <div class="col-md-12 mt-2" *ngIf="modifyFormSymtoms">
         <span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
       </div>
-      <div class="col-md-6 mt-2" *ngIf="!showTimeLine">
+      <div class="col-sm-12 mt-2" *ngIf="!showTimeLine">
         <span *ngIf="symptomsWithoutDates>0" class="danger text-left d-block">{{'land.diagnosed.timeline.There are undated symptoms1' | translate}}</span>
         <span *ngIf="symptomsWithoutDates>0" class="danger text-left d-block">{{'land.diagnosed.timeline.There are undated symptoms2' | translate}}</span>
         <div class="text-center p-3 font-medium-3 border" style="min-height: 450px;background: #eee;">
           <span>{{'land.diagnosed.timeline.displayed here' | translate}}</span>
         </div>
       </div>
-      <div class="col-md-6 mt-2" *ngIf="showTimeLine">
-        <span *ngIf="symptomsWithoutDates>0" class="danger text-left d-block">{{'land.diagnosed.timeline.There are undated symptoms1' | translate}}</span>
-        <span *ngIf="symptomsWithoutDates>0" class="danger text-left d-block">{{'land.diagnosed.timeline.There are undated symptoms2' | translate}}</span>
-        <div class="col-md-12 border" id="mytimeline" style="background: #eee;">
+      <div class="col-sm-12 mt-2" *ngIf="showTimeLine">
+        <div class="col-md-12 border mt-2" id="mytimeline" style="background: #eee;">
           <section *ngIf="!isEmptyObject(dictionaryTimeline)||(listTimelineNull.length>0)" id="vertical-timeline-left"
             class="timeline-left timeline-wrapper col-sm-10 col-12 offset-sm-1">
             <div *ngIf="!isEmptyObject(dictionaryTimeline)">
@@ -131,7 +97,7 @@
                   <li class="timeline-line"></li>
                   <li class="timeline-group">
                     <h5>
-                      <span class="badge badge-primary cursor-default">{{dateItem.key}}</span>
+                      <span class="badge badge-secondary cursor-default">{{dateItem.key}}</span>
                     </h5>
                   </li>
                 </ul>
@@ -150,7 +116,7 @@
                           <span class="card-title mb-0">{{item.key}}</span>
                           <hr class="mt-0 mb-2">
                           <div *ngFor="let symptom of item.value;">
-                            <span *ngIf="symptom.name" class="info" style="cursor: pointer;"
+                            <span *ngIf="symptom.name" style="cursor: pointer;"
                               title="{{'generics.More information' | translate }} ({{symptom.id}})"
                               (click)="showMoreInfoSymptomPopup(symptom)">{{symptom.name}}</span>
                             <span *ngIf="!symptom.name">
@@ -172,7 +138,7 @@
             <ul class="timeline" *ngIf="listTimelineNull.length>0">
               <li class="timeline-group">
                 <h5>
-                  <span class="badge badge-primary cursor-default"> {{'land.diagnosed.symptoms.NoOnset' | translate }}
+                  <span class="badge badge-secondary cursor-default"> {{'land.diagnosed.symptoms.NoOnset' | translate }}
                   </span>
                 </h5>
               </li>
@@ -187,7 +153,7 @@
                   <div class="card-content">
                     <div class="card-body">
                       <div *ngFor="let symptom of listTimelineNull">
-                        <span *ngIf="symptom.name" class="info" style="cursor: pointer;"
+                        <span *ngIf="symptom.name" style="cursor: pointer;"
                           title="{{'generics.More information' | translate }} ({{symptom.id}})"
                           (click)="showMoreInfoSymptomPopup(symptom)">{{symptom.name}}</span>
                         <span *ngIf="!symptom.name">
@@ -205,19 +171,6 @@
             </ul>
           </section>
         </div>
-        <div class="col-md-12 mt-2 center-elements">
-            <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised mr-1" (click)="saveTimeline()">
-              <em class="mr-1 ft-save white"
-                title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="saveTimeline()"
-                style="cursor: pointer;"></em>
-                <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
-            </button>
-          <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised ml-1" (click)="exportTimeline()">
-            <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
-              (click)="exportTimeline()" style="cursor: pointer;"></em>
-            <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
-          </button>
-        </div>
       </div>
     </div>
   </div>
@@ -225,69 +178,49 @@
 <!-- Vista movil -->
 <div class="d-block d-sm-none">
   <div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="col-md-6">
-          <em class="mr- fa fa-refresh info float-right" title="{{'preland.p2' | translate}}"
-            (click)="backTimeline('true')" style="cursor: pointer;"></em>
-          <em class="mr-2 fa fa-plus info float-right" title="{{'preland.p3' | translate}}"
-            (click)="addSymptomTimeLine()" style="cursor: pointer;"></em>
-          <!--<em *ngIf="showTimeLine" class="mr-2 fa fa-refresh info float-right"
-              title="{{'preland.p2' | translate}}" (click)="backTimeline('false')"
-              style="cursor: pointer;"></em>-->
-          <em class="mr-2 ft-help-circle info float-right" title="{{'land.diagnosed.timeline.help' | translate}}"
-            (click)="openTimelineAppHelp()" style="cursor: pointer;"></em>
-          <em *ngIf="showTimeLine" class="mr-2 fa fa-download info float-right"
-            title="{{'land.diagnosed.timeline.Download' | translate }}" (click)="exportTimeline()"
-            style="cursor: pointer;"></em>
-          <em class="mr-2 ft-save info float-right" title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}"
-            (click)="saveTimeline()" style="cursor: pointer;"></em>
-        </div>
-      </div>
-    </div>
     <div class="mt-1" *ngIf="!modifyFormSymtoms">
       <div class="w-100" *ngFor="let symptom of listSymptoms ; let i = index">
         <div class="card bg-grey bg-lighten-3 box border mb-3" *ngIf="actualTemporalSymptomsIndex ==i">
           <div class="card-header">
             <strong>
-              <h5 *ngIf="symptom.name" class="info d-inline" style="cursor: pointer;"
-                (click)="showMoreInfoSymptomPopup(symptom);"><strong>{{symptom.name}}</strong></h5>
-              <h5 *ngIf="!symptom.name" class="d-inline">
-                <strong>{{symptom.id}}</strong> ({{'phenotype.Deprecated' | translate}})
+              <p *ngIf="symptom.name" class="d-inline-block" style="cursor: pointer; width: 80%;"
+                (click)="showMoreInfoSymptomPopup(symptom);">{{symptom.name}}</p>
+              <p *ngIf="!symptom.name" class="d-inline-block">
+                {{symptom.id}} ({{'phenotype.Deprecated' | translate}})
                 <a href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
                   <i class="ft-external-link"></i>
                 </a>
-              </h5>
+              </p>
               <span class="mt-1 nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right">
                 <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt{{j}}"
                   ngbDropdownToggle title="{{'generics.Options' | translate }}">
-                  <i class="fas fa-ellipsis-v font-medium-3 info"></i>
+                  <i class="fas fa-ellipsis-v font-medium-3 secondary"></i>
                 </a>
                 <div ngbDropdownMenu aria-labelledby="dropdownSympt{{j}}" class="dropdown">
                   <a class="dropdown-item py-1" href="javascript:;" (click)="deleteSymptomTimeLine(i)">
-                    <i class="fa fa fa-trash danger"></i><span class="ml-2">{{'land.diagnosed.timeline.Delete symptom' | translate }}</span>
+                    <i class="fa fa fa-trash danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.Delete symptom' | translate }}</span>
                   </a>
                   <a *ngIf="!symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="showNotes(i)">
-                    <i class="fas fa-sticky-note success"></i><span class="ml-2">{{'land.diagnosed.timeline.showNotes' | translate }}</span>
+                    <i class="fas fa-sticky-note success"></i><span class="ml-2 black">{{'land.diagnosed.timeline.showNotes' | translate }}</span>
                   </a>
                   <a *ngIf="symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="hideNotes(i)">
-                    <i class="fas fa-sticky-note danger"></i><span class="ml-2">{{'land.diagnosed.timeline.hideNotes' | translate }}</span>
+                    <i class="fas fa-sticky-note danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.hideNotes' | translate }}</span>
                   </a>
                   <a *ngIf="symptom.onsetdate || symptom.finishdate" class="dropdown-item py-1" href="javascript:;" (click)="clearDates(i)">
-                    <i class="far fa-calendar-times danger"></i><span class="ml-2">{{'land.diagnosed.timeline.Delete dates' | translate }}</span>
+                    <i class="far fa-calendar-times danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.Delete dates' | translate }}</span>
                   </a>
                 </div>
               </span>
             </strong>
           </div>
-          <div class="card-body mt-1">
-            <div class="col-md-12" *ngIf="symptom.selectEndOrCurrent">
+          <div class="center-elements mt-1">
+            <div class="" *ngIf="symptom.selectEndOrCurrent">
               <small class="text-left form-text danger">{{'land.diagnosed.timeline.selectEndOrCurrent' |
                 translate}}</small>
             </div>
-            <div class="col-md-12 mt-1">
-              <div class="col-md-12">
-                <div class="row">
+            <div class="mt-1">
+              <div class="">
+                <div class="">
                   <input class="form-control w-75 d-inline" id="dateOnset_{{i}}" name="dateOnset" [max]="maxDate" placeholder="{{'generics.Start Date' | translate }}"
                     matInput readonly [matDatepicker]="pickerOnset" (click)="pickerOnset.open()" [(ngModel)]="symptom.onsetdate"
                     (dateInput)="updateTimeline();">
@@ -296,9 +229,9 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-12 mt-1">
-              <div class="col-md-12">
-                <div class="row">
+            <div class="mt-1">
+              <div class="">
+                <div class="">
                   <input class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish" placeholder="{{'generics.End Date' | translate }}"
                     [min]="symptom.onsetdate" readonly [max]="maxDate" matInput [matDatepicker]="pickerFinish" (click)="pickerFinish.open()"
                     [(ngModel)]="symptom.finishdate" (dateInput)="updateTimeline();"
@@ -312,21 +245,21 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-12 mt-1" *ngIf="symptom.showNotes">
+            <div class="p-1 mt-1" *ngIf="symptom.showNotes">
               <input type="text" style="display: inline;width: 88%;" id="basicInput_{{i}}" maxlength=250 placeholder="{{'generics.notes' | translate }}"
                 class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)"
                 (change)="updateTimeline()">
             </div>
           </div>
           <div class="card-footer center-elements bt-n">
-            <span *ngIf="(actualTemporalSymptomsIndex>0)" style="cursor: pointer;" class="float-left info mt-1"
+            <span *ngIf="(actualTemporalSymptomsIndex>0)" style="cursor: pointer;" class="float-left primary mt-1"
               (click)="goPrevSymptom();">
-              <em style="font-size: 1.3em;" class="ft-chevron-left info"></em>
+              <em style="font-size: 1.3em;" class="ft-chevron-left primary"></em>
             </span>
-            <span class="info mt-1">{{actualTemporalSymptomsIndex+1}} / {{listSymptoms.length}}</span>
+            <span class="primary mt-1">{{actualTemporalSymptomsIndex+1}} / {{listSymptoms.length}}</span>
             <span *ngIf="actualTemporalSymptomsIndex<listSymptoms.length-1" style="cursor: pointer;"
-              class="float-right info mt-1" (click)="goNextSymptom();">
-              <em style="font-size: 1.3em;" class="ft-chevron-right info"></em>
+              class="float-right primary mt-1" (click)="goNextSymptom();">
+              <em style="font-size: 1.3em;" class="ft-chevron-right primary"></em>
             </span>
           </div>
         </div>
@@ -335,14 +268,9 @@
     <div class="col-md-12 mt-1" *ngIf="modifyFormSymtoms">
       <span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
     </div>
-    <span *ngIf="symptomsWithoutDates>0" class="col-md-12 danger text-left d-block">{{'land.diagnosed.timeline.There are undated symptoms1' | translate}}</span>
-    <span *ngIf="symptomsWithoutDates>0" class="col-md-12 danger text-left d-block">{{'land.diagnosed.timeline.There are undated symptoms2' | translate}}</span>
-    <div *ngIf="showTimeLine" style="max-height: 450px;">
-      <div class="pt-2 col-md-12">
-        <h4><strong>{{'land.diagnosed.timeline.title' | translate}}</strong></h4>
-      </div>
-      <div style="max-height: 450px;overflow-y: auto;">
-        <div id="mytimeline-app" class="p-2">
+    <div *ngIf="showTimeLine">
+      <div>
+        <div id="mytimeline-app" class="p-2" style="background: #eee;">
           <section *ngIf="!isEmptyObject(dictionaryTimeline)||(listTimelineNull.length>0)" id="vertical-timeline-left"
             class="timeline-left timeline-wrapper col-sm-10 col-12 offset-sm-1">
             <div *ngIf="!isEmptyObject(dictionaryTimeline)">
@@ -351,7 +279,7 @@
                   <li class="timeline-line"></li>
                   <li class="timeline-group">
                     <h5>
-                      <span class="badge badge-primary cursor-default">{{dateItem.key}}</span>
+                      <span class="badge badge-secondary cursor-default">{{dateItem.key}}</span>
                     </h5>
                   </li>
                 </ul>
@@ -366,11 +294,11 @@
                     </div>
                     <div *ngIf="item.key!=null" class="timeline-card card shadow-z-1">
                       <div class="card-content">
-                        <div class="card-body">
+                        <div class="card-body mr-1" style="padding: 1.5rem !important;">
                           <span class="card-title mb-0">{{item.key}}</span>
                           <hr class="mt-0 mb-2">
                           <div *ngFor="let symptom of item.value;">
-                            <span *ngIf="symptom.name" class="info" style="cursor: pointer;"
+                            <span *ngIf="symptom.name" style="cursor: pointer;"
                               title="{{'generics.More information' | translate }} ({{symptom.id}})"
                               (click)="showMoreInfoSymptomPopup(symptom)">{{symptom.name}}</span>
                             <span *ngIf="!symptom.name">
@@ -392,7 +320,7 @@
             <ul class="timeline p-2" *ngIf="listTimelineNull.length>0">
               <li class="timeline-group">
                 <h5>
-                  <span class="badge badge-primary cursor-default"> {{'land.diagnosed.symptoms.NoOnset' | translate }}
+                  <span class="badge badge-secondary cursor-default"> {{'land.diagnosed.symptoms.NoOnset' | translate }}
                   </span>
                 </h5>
               </li>
@@ -405,9 +333,9 @@
                 </div>
                 <div class="timeline-card card shadow-z-1">
                   <div class="card-content">
-                    <div class="card-body">
+                    <div class="card-body mr-1" style="padding: 1.5rem !important;">
                       <div *ngFor="let symptom of listTimelineNull">
-                        <span *ngIf="symptom.name" class="info" style="cursor: pointer;"
+                        <span *ngIf="symptom.name" style="cursor: pointer;"
                           title="{{'generics.More information' | translate }} ({{symptom.id}})"
                           (click)="showMoreInfoSymptomPopup(symptom)">{{symptom.name}}</span>
                         <span *ngIf="!symptom.name">
@@ -426,19 +354,6 @@
           </section>
         </div>
       </div>
-    </div>
-    <div class="col-md-12 mt-2 center-elements">
-        <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised mr-1" (click)="saveTimeline()">
-          <em class="mr-1 ft-save white"
-            title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="saveTimeline()"
-            style="cursor: pointer;"></em>
-            <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
-        </button>
-      <button *ngIf="showTimeLine" type="button" class="btn btn-info btn-md btn-raised ml-1" (click)="exportTimeline()">
-        <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
-          (click)="exportTimeline()" style="cursor: pointer;"></em>
-        <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
-      </button>
     </div>
   </div>
 </div>

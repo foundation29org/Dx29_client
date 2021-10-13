@@ -14,6 +14,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: "Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
+p{
+  font-size: 1.1rem;
+}
+
 footer{
   margin-top: 1em;
 }
@@ -21,8 +25,74 @@ footer{
 body {
   /* Disables pull-to-refresh but allows overscroll glow effects. */
   overscroll-behavior-y: contain;
+  background-color: #fff;
 }
 
+.spinner-absolute{
+  position: absolute;
+  right: 6%;
+  margin-top: 0.175rem !important;
+}
+
+.btn-raised {
+  border-radius: 1rem;
+}
+
+.nav-tabs .nav-link.active {
+  color: #f9423a;
+}
+
+:host /deep/ a{
+  color: #f9423a;
+}
+
+.btn-outline-secondary:hover {
+  color: #ffffff;
+}
+
+.nav-tabs .nav-link {
+  color: #495057;
+}
+
+.color-footer{
+  background-color: #ededed;
+}
+
+.hr-custom{
+  background-color: #f9423a; 
+  height: 3px; 
+  border: 0;
+  width: 30%;
+}
+
+.hr-custom-secondary{
+  background-color: #b0b6bb; 
+  height: 3px; 
+  border: 0;
+  width: 30%;
+}
+
+.btn-active-primary {
+  color: #fff;
+  background-color: #f81e15;
+  border-color: #f71309;
+  box-shadow: 0 0 0 0.2rem rgba(250, 94, 88, 0.5);
+}
+
+.secondary{
+  color:#b0b6bb;
+}
+
+.badge-secondary {
+  color: #fff;
+  background-color: #b0b6bb;
+}
+
+.btn-secondary {
+  color: #fff;
+  background-color: #b0b6bb;
+  border-color: #b0b6bb;
+}
 
 .fijado{
   position: sticky;
@@ -97,15 +167,15 @@ body {
 }
 
 .textExtractedNcr > a > b{
-  background-color: #33658A;
+  background-color: #f9423a;
 }
 .textExtractedNcr >  b{
-  background-color: #33658A;
+  background-color: #f9423a;
 }
 mark{
   text-decoration: underline;
-  -webkit-text-decoration-color: #33658A; /* Safari */  
-  text-decoration-color: #33658A;
+  -webkit-text-decoration-color: #f9423a; /* Safari */  
+  text-decoration-color: #f9423a;
   background-color: #FFF;
   text-decoration-thickness: 3px;
 }
@@ -171,6 +241,17 @@ mark{
 
   .btn{
     font-size: 0.9rem;
+  }
+
+  .spinner-absolute{
+    position: absolute;
+    right: 15%;
+    margin-top: 0.175rem !important;
+  }
+
+  .none-laterals-m{
+    padding-right: 0px !important;
+    padding-left: 0px !important;
   }
 }
 

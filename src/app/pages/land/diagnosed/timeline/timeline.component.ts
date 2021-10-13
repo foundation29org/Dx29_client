@@ -46,6 +46,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
     @Output() backEvent = new EventEmitter();
     @Output() finishEvent = new EventEmitter();
     @Output() addSymptomsEvent = new EventEmitter();
+    @Output() exportParamsEvent = new EventEmitter();
 
     private dictionaryTimeline: any;
     private listTimelineNull: any;
@@ -363,6 +364,12 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
         this.showTimeLine = true;
         this.modifyFormSymtoms = false;
         this.saveSymptomsSession();
+        this.exportParamsComponent();
+    }
+
+    exportParamsComponent(){
+        var info = {lang: sessionStorage.getItem('lang'), dictionaryTimeline: this.dictionaryTimeline, listTimelineNull: this.listTimelineNull, disease: this.disease, topRelatedConditions: this.topRelatedConditions};
+        this.exportParamsEvent.emit(info);
     }
 
     dateConverter(date) {
@@ -398,38 +405,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
                 this.listSymptoms[symptomIndex].selectEndOrCurrent = false;
             }
         }
-    }
-
-    backTimeline(exit) {
-        Swal.fire({
-            title: this.translate.instant("generics.Are you sure?"),
-            text: this.translate.instant("land.diagnosed.timeline.ExitDiscard"),
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#0CC27E',
-            cancelButtonColor: '#f9423a',
-            confirmButtonText: this.translate.instant("generics.Yes"),
-            cancelButtonText: this.translate.instant("generics.No"),
-            showLoaderOnConfirm: true,
-            allowOutsideClick: false,
-            reverseButtons: true
-        }).then((result) => {
-            if (result.value) {
-                this.modifyFormSymtoms = true;
-                this.resetTimeline();
-                this.dictionaryTimeline = {}
-                this.listTimelineNull = []
-                this.showTimeLine = false;
-                this.selectedInfoSymptom = null;
-                this.modifyFormSymtoms = false;
-
-                if (exit == 'true') {
-                    // Send event Form deleted
-                    this.backEvent.emit(true);
-                }
-
-            }
-        })
     }
 
     resetTimeline() {

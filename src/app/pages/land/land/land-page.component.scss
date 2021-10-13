@@ -1,26 +1,123 @@
 .background-img{
   min-height: 76vh !important;
-  background-image: url("assets/img/home/background.jpg");
+  background-image: url("assets/img/home/background2.jpg");
   background-position: center center;
   background-size: cover;
+}
+
+.img-1{
+  position: absolute;
+  left: 60%;
+  top: 45%;
+  max-width: 100%;
+  max-width: -moz-available;          /* For Mozzila */
+  max-width: -webkit-fill-available;  /* For Chrome */
+  max-width: stretch;
+}
+
+.img-2{
+  position: absolute;
+  width: 80%;
+}
+
+.img-3{
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  z-index: -1;
+}
+
+.avatar{
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
 }
 
 .gradient-custom{
   background-image: linear-gradient(45deg, #68aab842, #FFF) !important;
 }
 
-.card{
-  background-color: #fffc !important;
-}
-
 .h-80{
   height: 80px;
 }
 
+.btn-white.btn-raised, .btn-white.btn-fab {
+  background-color: #fff !important;
+  color: #000 !important;
+  border-color: #fff;
+  width: 200px;
+  box-shadow: 0.05rem 0.1rem 0.1rem 0.1rem rgba(166, 166, 166, 0.18);
+  border: 1px solid #dee2e6 !important;
+  border-radius: 1rem;
+}
+
+.btn-white:hover {
+  color: #212529 !important;
+  background-color: #ededed !important;
+  border-color: #fff !important;
+}
+
+.btn-primary.btn-raised{
+  border-radius: 1rem;
+  height: 50px;
+}
+
+.w-reg{
+  max-width: 300px;
+}
+
+.w-reg-img{
+  max-width: 125px;
+}
+
+.img-logos{
+  align-content: center;
+  align-items: center;
+}
+
+.img-responsive{
+  max-height: 80px;
+    opacity: 0.5;
+    filter: brightness( 100% ) contrast( 100% ) saturate( 0% ) blur( 0px ) hue-rotate( 0deg );
+    max-width: 100%;
+    max-width: -moz-available;          /* For Mozzila */
+    max-width: -webkit-fill-available;  /* For Chrome */
+    max-width: stretch;
+}
+
+.pad-logos{
+  padding: 2.25rem !important;
+}
+
+
+.img-responsive:hover{
+  opacity: 1;
+  filter: brightness( 100% ) contrast( 100% ) saturate( 100% ) blur( 0px ) hue-rotate( 0deg );
+}
+
+.responsive2{
+    max-height: 100px;
+    max-width: 100%;
+    max-width: -moz-available;          /* For Mozzila */
+    max-width: -webkit-fill-available;  /* For Chrome */
+    max-width: stretch;
+}
+
   @media ( max-width: 575px ){
+    .pad-logos{
+      padding: 0rem !important;
+    }
     
     .full-height-vh{
       height:auto !important;
+    }
+
+    .reg-panel{
+      padding-right: 0px;
+    }
+
+    .w-reg-img{
+      max-width: 4em;
     }
   }
 
@@ -28,8 +125,8 @@
     .card-body{
       padding: 0rem;
     }
-    .card h1.card-title{
-      font-size: 1rem;
+    .card-title{
+      font-size: 1.2rem;
     }
     p {
       font-size: 0.9rem;
