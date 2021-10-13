@@ -16,6 +16,20 @@ export class jsPDFService {
     constructor(public translate: TranslateService, private datePipe: DatePipe) {
     }
     lang: string = '';
+    meses: any = {
+        "enero": "January",
+        "febrero": "February",
+        "marzo": "March",
+        "abril": "April",
+        "mayo": "May",
+        "junio": "June",
+        "julio": "July",
+        "agosto": "August",
+        "septiembre": "September",
+        "octubre": "October",
+        "noviembre": "November",
+        "diciembre": "December"
+    };
     
 
     generateTimelinePDF(lang, dictionaryTimeline, listSymptomsNullInfo, disease, topRelatedConditions){
@@ -133,7 +147,7 @@ export class jsPDFService {
         }else{
             positionY += 5;
         }
-        
+        positionY = this.checkIfNewPage(doc, positionY);
         this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Graphic chronology"),'',null,positionY);
         positionY = this.drawTimeLine(doc,dictionaryTimeline, listSymptomsNullInfo, positionY-= 10);
 
@@ -233,10 +247,23 @@ export class jsPDFService {
         doc.addImage(calendarIcon, 'png', 15, (positionY+4), 7, 7);
         
         doc.setFillColor(255, 255, 255);
-        var heightRect = (5*(dateinfo.length)+10);
-        if(heightRect+positionY>235){
+        var heightRect = (5*(dateinfo.length)+8);
+        /*if(heightRect+positionY>235){
             heightRect = (235-(posInit))+35;
+        }*/
+        if(posInit+10<270){
+            if(heightRect+positionY>235){
+                if(heightRect<33){
+                    //heightRect = (235-(posInit))+10;
+                }else{
+                    heightRect = (235-(posInit))+35;
+                }
+                
+            }
+        }else{
+            heightRect = 10;
         }
+        
         doc.rect(25, (positionY+4), 150, heightRect, 'FD'); //Fill and Border
         doc.setTextColor(0, 0, 0)
         doc.setFont(undefined, 'bold');
@@ -254,7 +281,7 @@ export class jsPDFService {
                 doc.setTextColor(0, 0, 0)
                 posInit= posInit+5;
                 doc.setFont(undefined, 'bold');
-                var lineHeight = (5*(dateinfo.length-i)+45)+positionY;
+                var lineHeight = (5*(dateinfo.length-i)+12)+posInit;
                 doc.line(15, 20, 15, lineHeight);
             }
             var url = "https://hpo.jax.org/app/browse/term/" + dateinfo[i].id;
@@ -291,9 +318,13 @@ export class jsPDFService {
         doc.setFillColor(255, 255, 255);
         var heightRect = (5*(listSymptomsNullInfo.length)+5);
         if(heightRect+positionY>235){
-            heightRect = (235-(posInit))+35;
+            if(heightRect<33){
+                //heightRect = (235-(posInit))+10;
+            }else{
+                heightRect = (235-(posInit))+35;
+            }
+            
         }
-        
         /*if(heightRect+positionY>235){
             if(heightRect<33){
                 heightRect = (235-(posInit))+10;
@@ -924,10 +955,12 @@ export class jsPDFService {
 
     // Order by descending key
     keyDescOrder = ((a, b) => {
-        var a_month=a.split("-"[0])
+        var a_month=a.split("-")[0]
         var a_year = a.split("-")[1]
         var b_month=b.split("-")[0]
         var b_year=b.split("-")[1]
+        a_month = this.getMonthFromString(a_month);
+        b_month = this.getMonthFromString(b_month);
         if(new Date(a_year).getTime() > new Date(b_year).getTime()){
             return 1;
         }
@@ -935,7 +968,7 @@ export class jsPDFService {
             return -1;
         }
         else{
-            if(new Date(a_month).getTime()>new Date(b_month).getTime()){
+            if(new Date(a_month).getTime() > new Date(b_month).getTime()){
                 return 1;
             }
             else if(new Date(a_month).getTime() < new Date(b_month).getTime()){
@@ -946,6 +979,16 @@ export class jsPDFService {
             }
         }
     })
+
+    getMonthFromString(mon) {
+        if (this.lang != 'es') {
+            return new Date(Date.parse(mon + " 1, 2012")).getMonth() + 1
+        } else {
+            var date = new Date(Date.parse(this.meses[mon] + " 1, 2012")).getMonth() + 1;
+            return date;
+        }
+
+    }
 
     // Order by descending value
     valueDateDescOrder = ((a,b)=> {

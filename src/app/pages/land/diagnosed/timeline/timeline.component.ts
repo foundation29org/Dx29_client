@@ -142,7 +142,6 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
     }
 
     showMoreInfoSymptomPopup(symptom) {
-        console.log(symptom);
         this.openModalSymptomInfo.emit(symptom);
     }
 
