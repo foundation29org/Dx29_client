@@ -366,6 +366,9 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                     if (result.value) {
                         this.originalLang = lang;
                         this.restartInitVars();
+                        this.loadTranslations();
+                        this.currentStep = this.steps[0];
+                        this.focusTextArea();
                     } else {
 
                     }
@@ -1122,10 +1125,10 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                 }));
         } else {
             if (this.temporalSymptoms.length < this.minSymptoms) {
-                Swal.fire('', this.translate.instant("land.remember"), "error");
+                Swal.fire(this.translate.instant("land.remembertitle"), this.translate.instant("land.remember"), "error");
                 this.loadingCalculate = false;
             } else {
-                Swal.fire('', this.translate.instant("land.remember"), "error");
+                Swal.fire(this.translate.instant("land.remembertitle"), this.translate.instant("land.remember"), "error");
                 this.loadingCalculate = false;
             }
 
@@ -1499,6 +1502,9 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         var resCopy = [];
         for (let i = 0; i < this.temporalSymptoms.length; i++) {
             if (this.temporalSymptoms[i].checked) {
+                if(this.temporalSymptoms[i].def!=null){
+                    this.temporalSymptoms[i].desc = this.temporalSymptoms[i].def;
+                }
                 resCopy.push(this.temporalSymptoms[i]);
             }
         }
@@ -1850,7 +1856,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             if(this.medicalText.length>5){
                 this.startExtractor();
             }else{
-                Swal.fire('', this.translate.instant("land.remember"), "error");
+                Swal.fire(this.translate.instant("land.remembertitle"), this.translate.instant("land.remember"), "error");
                 this.loadingCalculate = false;
             }  
         }

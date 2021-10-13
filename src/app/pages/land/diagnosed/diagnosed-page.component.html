@@ -3,6 +3,11 @@
   <div class="mt-2 row m-0">
     <div class="col-12 none-laterals-m">
           <div class="card-body">
+            <ngb-alert type="warning" class="mb-2" [dismissible]="false" *ngIf="lang=='es'">
+              <div class="center-elements">
+                <span class="white" [innerHTML]="'InfoSystem.Spanishtranslations2' | translate"></span>
+              </div>
+            </ngb-alert>
             <div class="row m-0">
               <div class="mt-2 col-lg-12 justify-content-center align-items-center text-center">
                 <span class="d-block text-left">
@@ -76,6 +81,11 @@
   </div>
   <div class="col-12 none-laterals-m" *ngIf="!loadingOneDisease">
     <div class="card-body">
+      <ngb-alert type="warning" class="mb-2" [dismissible]="false" *ngIf="lang=='es'">
+        <div class="center-elements">
+          <span class="white" [innerHTML]="'InfoSystem.Spanishtranslations2' | translate"></span>
+        </div>
+      </ngb-alert>
       <div class="row m-0">
         <div class="mt-2 col-lg-12 justify-content-center align-items-center text-center">
           <span class="d-block text-left">

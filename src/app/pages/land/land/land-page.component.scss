@@ -24,6 +24,7 @@
   position: absolute;
   width: 100%;
   bottom: 0px;
+  z-index: -1;
 }
 
 .avatar{
@@ -62,11 +63,11 @@
 }
 
 .w-reg{
-  max-width: 150px;
+  max-width: 300px;
 }
 
 .w-reg-img{
-  max-width: 150px;
+  max-width: 125px;
 }
 
 .img-logos{
@@ -75,7 +76,7 @@
 }
 
 .img-responsive{
-  max-height: 100px;
+  max-height: 80px;
     opacity: 0.5;
     filter: brightness( 100% ) contrast( 100% ) saturate( 0% ) blur( 0px ) hue-rotate( 0deg );
     max-width: 100%;

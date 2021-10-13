@@ -340,6 +340,9 @@ export class AppComponent implements OnInit, OnDestroy{
              var titulo= this.translate.instant(this.tituloEvent);
              this.titleService.setTitle(titulo);
              sessionStorage.setItem('lang', lang);
+             /*if(lang=='es'){
+              this.toastr.warning('', this.translate.instant("InfoSystem.Spanishtranslations"));
+             }*/
              this.changeMeta();
          })();
 

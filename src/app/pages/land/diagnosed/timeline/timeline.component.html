@@ -8,8 +8,8 @@
             <tr *ngFor="let symptom of listSymptoms ; let i = index">
               <td class="row text-left">
                 <div class="col-md-12">
-                  <p *ngIf="symptom.name" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(symptom);"
-                    class="d-inline">{{symptom.name}}</p>
+                  <p *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(symptom);"
+                  class="d-inline-block" style="cursor: pointer; width: 85%;">{{symptom.name}}</p>
                   <p *ngIf="!symptom.name" class="d-inline">
                     {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                       href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
@@ -40,7 +40,7 @@
                   <small class="text-left form-text danger">{{'land.diagnosed.timeline.selectEndOrCurrent' |
                     translate}}</small>
                 </div>
-                <div class="col-md-6 mt-1">
+                <div class="col-lg-6 mt-1">
                   <div class="col-md-12">
                     <div class="row">
                       <input class="form-control w-75 d-inline" id="dateOnset_{{i}}" name="dateOnset" matInput placeholder="{{'generics.Start Date' | translate }}"
@@ -51,7 +51,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6 mt-1">
+                <div class="col-lg-6 mt-1">
                   <div class="col-md-12">
                     <div class="row">
                       <input class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish" placeholder="{{'generics.End Date' | translate }}"
@@ -183,9 +183,9 @@
         <div class="card bg-grey bg-lighten-3 box border mb-3" *ngIf="actualTemporalSymptomsIndex ==i">
           <div class="card-header">
             <strong>
-              <p *ngIf="symptom.name" class="d-inline" style="cursor: pointer;"
+              <p *ngIf="symptom.name" class="d-inline-block" style="cursor: pointer; width: 80%;"
                 (click)="showMoreInfoSymptomPopup(symptom);">{{symptom.name}}</p>
-              <p *ngIf="!symptom.name" class="d-inline">
+              <p *ngIf="!symptom.name" class="d-inline-block">
                 {{symptom.id}} ({{'phenotype.Deprecated' | translate}})
                 <a href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
                   <i class="ft-external-link"></i>
@@ -213,14 +213,14 @@
               </span>
             </strong>
           </div>
-          <div class="card-body mt-1">
-            <div class="col-md-12" *ngIf="symptom.selectEndOrCurrent">
+          <div class="center-elements mt-1">
+            <div class="" *ngIf="symptom.selectEndOrCurrent">
               <small class="text-left form-text danger">{{'land.diagnosed.timeline.selectEndOrCurrent' |
                 translate}}</small>
             </div>
-            <div class="col-md-12 mt-1">
-              <div class="col-md-12">
-                <div class="row">
+            <div class="mt-1">
+              <div class="">
+                <div class="">
                   <input class="form-control w-75 d-inline" id="dateOnset_{{i}}" name="dateOnset" [max]="maxDate" placeholder="{{'generics.Start Date' | translate }}"
                     matInput readonly [matDatepicker]="pickerOnset" (click)="pickerOnset.open()" [(ngModel)]="symptom.onsetdate"
                     (dateInput)="updateTimeline();">
@@ -229,9 +229,9 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-12 mt-1">
-              <div class="col-md-12">
-                <div class="row">
+            <div class="mt-1">
+              <div class="">
+                <div class="">
                   <input class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish" placeholder="{{'generics.End Date' | translate }}"
                     [min]="symptom.onsetdate" readonly [max]="maxDate" matInput [matDatepicker]="pickerFinish" (click)="pickerFinish.open()"
                     [(ngModel)]="symptom.finishdate" (dateInput)="updateTimeline();"
@@ -245,7 +245,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-12 mt-1" *ngIf="symptom.showNotes">
+            <div class="p-1 mt-1" *ngIf="symptom.showNotes">
               <input type="text" style="display: inline;width: 88%;" id="basicInput_{{i}}" maxlength=250 placeholder="{{'generics.notes' | translate }}"
                 class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)"
                 (change)="updateTimeline()">

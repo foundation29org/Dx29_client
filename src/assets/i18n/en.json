@@ -1339,7 +1339,7 @@
     "You have registered on Dx29": "You have succesfully registered. Enter the symptoms to get the second heart",
     "You have introduced your symptoms": "You have introduced your symptoms. Share to get the third heart.",
     "You have shared your data with a a clinician": "You have shared the platform. Enter your symptoms to get the second heart.",
-    "You have completed all the steps": "You have completed all the steps. You made a great contribution to the rare disease community. Thank you!",
+    "You have completed all the steps": "Congratulations! You made a great contribution to the rare disease community. Thank you!",
     "Show previous result": "Show previous result",
     "Apparitions": "Apparitions",
     "Select/deselect": "Select/deselect",
@@ -1982,7 +1982,8 @@
     "SubtitleNewVersion1": "Dx29 will undergo maintenance between",
     "SubtitleNewVersion2": "on the",
     "SubtitleNewVersion3": "Please, avoid using Dx29. Changes may not be saved during this period.",
-    "Spanishtranslations": "Spanish translations are being tested"
+    "Spanishtranslations": "Spanish translations are being tested",
+    "Spanishtranslations2": "Spanish translations are being tested. Si ves algo raro, escribe a <a href='mailto:support@foundation29.org'>support@foundation29.org</a>"
   },
   "gtp":{
     "formMsgAlreadyRegistered": "You are already registered in the program with that email. Write to juntoshaciaeldiagnostico@foundation29.org if you want to modify the request.",
@@ -2271,7 +2272,8 @@
     "click here": "IS HERE",
     "If you want to know how Dx29": "If you want to know how Dx29 works and the accuracy of its results click",
     "you have to select": "Great! Now you have to select the symptoms, this allows you to eliminate errors and be accurate in your diagnosis, it is a very important step in helping your patient. You have to select between 5 and 10 “guiding symptoms”. The guiding symptoms are the ones that you consider characterize your patient and that your clinical eye tells you are important.",
-    "remember": "The minimum number of symptoms is 2. We recommend adding at least 5.",
+    "remembertitle": "The minimum number of symptoms is 2",
+    "remember": "We recommend adding at least 5.",
     "Do not show this message again": "Do not show this message again",
     "When you have selected them": "When you have selected them you have to click on the “View suggested diseases” button.",
     "InfoDx29":{
@@ -2300,8 +2302,8 @@
     "Accepted files": "Accepted files: pdf, docx, images",
     "descripReports": "We understand that these data are very sensitive. If you do not register, all the data will be deleted when you close this window.",
     "table":{
-      "t1": "Store your Data and Re-analyse",
-      "d1": "Store, edit, update and analyse your data multiple times for free.",
+      "t1": "Store your Medical History and Re-analyse",
+      "d1": "Arrange, store, edit and analyse your data chronologically multiple times for free.",
       "t2": "Multiple Cases and Sharing",
       "d2": "Share your case and manage more than one case if you are a Physician.",
       "t3": "Use your Genetic Data",
@@ -2462,7 +2464,7 @@
         "GoPrevious":"Complete the information on these symptoms.",
         "These are the symptoms of your disease": "These are the symptoms that are commonly associated with your disease.",
         "Do you identify with them?": "Do you identify with them?",
-        "I want to create the chronology": "I want to create the chronology",
+        "I want to create the chronology": "Create my symptom timeline",
         "goToChrono": "Each patient is different and should have a treatment adapted to their story. Start telling yours by creating your own symptom timeline."
       },
       "clinicalTrials":{

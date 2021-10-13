@@ -1983,7 +1983,8 @@
     "SubtitleNewVersion1": "Dx29 estará en mantenimiento entre las",
     "SubtitleNewVersion2": "del",
     "SubtitleNewVersion3": "Por favor, evita usar Dx29. Los cambios no pueden ser guardados durante este período.",
-    "Spanishtranslations": "Las traducciones en español están en pruebas"
+    "Spanishtranslations": "Algunas traducciones en español son automáticas. Si ves algo raro, escribe a support@foundation29.org",
+    "Spanishtranslations2": "Algunas traducciones en español son automáticas. Si ves algo raro, escribe a <a href='mailto:support@foundation29.org'>support@foundation29.org</a>"
   },
   "gtp":{
     "formMsgAlreadyRegistered": "Ya está registrado en el programa con ese email. Escribe a juntoshaciaeldiagnostico@foundation29.org si quiere modificar la solicitud.",
@@ -2272,7 +2273,8 @@
     "click here": "ESTÁ AQUÍ",
     "If you want to know how Dx29": "Si quieres saber como funciona Dx29 y la precisión de sus resultados pulsa",
     "you have to select": "¡Estupendo! Ahora tiene que seleccionar los síntomas, para eliminar errores y ser precisos en el diagnóstico, es un paso muy importante para ayudar a tu paciente. Tienes que seleccionar entre 5 y 10 “síntomas guía”. Los síntomas guía son los que consideras que caracterizan a tu paciente y que tu ojo clínico te dice que son importantes.",
-    "remember": "El número mínimo de síntomas es 2. Se recomienda añadir al menos 5.",
+    "remembertitle": "El número mínimo de síntomas es 2",
+    "remember": "Se recomienda añadir al menos 5.",
     "Do not show this message again": "No volver a mostrar este mensaje",
     "When you have selected them": "Cuando los hayas seleccionados tienes que hacer clic en el botón “Ver enfermedades propuestas”.",
     "InfoDx29":{
@@ -2301,9 +2303,9 @@
     "Accepted files": "Ficheros aceptados: pdf, docx, imágenes",
     "descripReports": "Entendemos que estos datos son muy sensibles. Si no te registras todos los datos se borran al cerrar esta ventana.",
     "table":{
-      "t1": "Guarda tus datos y reanaliza",
-      "d1": "Almacena, edita, actualiza y analiza tus datos múltiples veces de forma gratuita.",
-      "t2": "Múltiples casos y uso compartido",
+      "t1": "Guarda tus historial médico y reanaliza",
+      "d1": "Ordena, almacena, edita y analiza tus datos con cronología múltiples veces de forma gratuita.",
+      "t2": "Múltiples casos y uso compartido ",
       "d2": "Comparte tu caso y gestiona más de un caso si eres médico.",
       "t3": "Utiliza tus datos genéticos",
       "d3": "Sube, almacena y analiza tus archivos de datos genéticos y mejora tu diagnóstico.",
@@ -2465,7 +2467,7 @@
         "GoPrevious":"Completa la información de estos síntomas.",
         "These are the symptoms of your disease": "Estos son los síntomas que se asocian comúnmente a tu enfermedad.",
         "Do you identify with them?": "¿Te sientes identificados con ellos?",
-        "I want to create the chronology": "Quiero crear la cronología",
+        "I want to create the chronology": "Crear mi cronología de los síntomas",
         "goToChrono": "Cada paciente es distinto y debe tener un tratamiento adaptado a su historia. Empieza a contar tu historia creando tu propia cronología de síntomas."
       },
       "clinicalTrials":{
