@@ -25,6 +25,20 @@
   font-size: 1em;
   cursor: pointer;
   user-select: none;
+}
+
+.step-bubble-final{
+  padding: 8px;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: #a1a09a;
+  font-size: 1em;
+  cursor: pointer;
+  user-select: none;
 } 
 
 .step-bubble-prev{
@@ -65,6 +79,16 @@
 .step-current, .step-complete {
   background: #f9423a;
   color: white;
+}
+
+.step-final{
+  background: none;
+  color: #41db4a;
+  border: none;
+}
+
+.margin-bubble-final{
+  margin-left: 0.2rem;
 }
 
 .step-incomplete {
@@ -533,6 +557,7 @@ body {
 ::ng-deep ngb-typeahead-window.dropdown-menu {
   max-height: 300px;
   overflow-y: auto;
+  width:87%;
  }
 
  .nav-tabs .nav-link.active {
@@ -736,10 +761,6 @@ body {
   margin-left: 0rem !important;
 }
 
-::ng-deep ngb-typeahead-window.dropdown-menu {
-  width:87%;
- }
-
  ::ng-deep .dropdown-item {
   white-space: normal !important;
 }
@@ -919,6 +940,10 @@ body {
     .form-steps-container{
       display: inline-block;
       margin-left: 0rem;
+    }
+
+    .margin-step-title{
+      margin-left: 1.2em !important;
     }
     
     .step-divider{

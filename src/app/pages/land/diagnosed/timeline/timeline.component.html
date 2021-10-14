@@ -21,9 +21,9 @@
                       <i class="fas fa-ellipsis-v font-medium-3 secondary"></i>
                     </a>
                     <div ngbDropdownMenu aria-labelledby="dropdownSympt{{j}}" class="dropdown">
-                      <a class="dropdown-item py-1" href="javascript:;" (click)="deleteSymptomTimeLine(i)">
+                      <!--<a class="dropdown-item py-1" href="javascript:;" (click)="deleteSymptomTimeLine(i)">
                         <i class="fa fa fa-trash danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.Delete symptom' | translate }}</span>
-                      </a>
+                      </a>-->
                       <a *ngIf="!symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="showNotes(i)">
                         <i class="fas fa-sticky-note success"></i><span class="ml-2 black">{{'land.diagnosed.timeline.showNotes' | translate }}</span>
                       </a>
@@ -197,9 +197,9 @@
                   <i class="fas fa-ellipsis-v font-medium-3 secondary"></i>
                 </a>
                 <div ngbDropdownMenu aria-labelledby="dropdownSympt{{j}}" class="dropdown">
-                  <a class="dropdown-item py-1" href="javascript:;" (click)="deleteSymptomTimeLine(i)">
+                  <!--<a class="dropdown-item py-1" href="javascript:;" (click)="deleteSymptomTimeLine(i)">
                     <i class="fa fa fa-trash danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.Delete symptom' | translate }}</span>
-                  </a>
+                  </a>-->
                   <a *ngIf="!symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="showNotes(i)">
                     <i class="fas fa-sticky-note success"></i><span class="ml-2 black">{{'land.diagnosed.timeline.showNotes' | translate }}</span>
                   </a>

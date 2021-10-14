@@ -51,7 +51,7 @@
         <div class="col-lg-12 col-md-12 py-2">
           <div class="col-md-12">
             <div class="center-elements">
-              <button href="https://www.foundation29.org" target="_blank" (click)="lauchEvent('Role - Undiagnosed')" class="mt-2 mr-2 ml-2 btn btn-primary btn-raised mb-1"
+              <button (click)="lauchEvent('Info foundation29');openWeb();" class="mt-2 mr-2 ml-2 btn btn-primary btn-raised mb-1"
                     type="button"><strong>{{'land.aboutUs.Who are we' | translate }}</strong>
               </button>
             </div>
@@ -155,7 +155,7 @@
     
   </div>
   <div class="col-12 justify-content-center center-elements offset-md-2 col-md-8">
-    <h4><strong>Instituciones</strong></h4>
+    <h4><strong>{{'preland.Institutions' | translate }}</strong></h4>
     <div class="row center-elements pad-logos">
       <div class="col-6 col-sm-3 mb-3 p-4">
         <img class="img-responsive" src='assets/img/home/logos/header-logo.png'>
@@ -193,7 +193,7 @@
       <div class="col-6 col-sm-3 mb-3 p-4">
         <img class="img-responsive" src='assets/img/home/logos/salud.png'>
       </div>
-      <div class="col-6 col-sm-3 mb-3 p-4">
+      <div class="col-6 col-sm-3 mb-3 p-4 margin-img-sm">
         <img class="img-responsive" src='assets/img/home/logos/ui-idiscc.png'>
       </div>
       <div class="col-6 col-sm-3 mb-3 p-4">
@@ -203,7 +203,7 @@
         <img class="img-responsive" src='assets/img/home/logos/WG-Lab1.png'>
       </div>
     </div>
-    <h4 class="mt-2"><strong>Asociaciones de pacientes</strong></h4>
+    <h4 class="mt-2"><strong>{{'preland.Patient associations' | translate }}</strong></h4>
     <div class="row center-elements pad-logos">
       <div class="col-6 col-sm-4 mb-3 p-4">
         <img class="img-responsive" src='assets/img/home/logos/parent.png'>
@@ -216,7 +216,7 @@
       </div>
       
     </div>
-    <h4 class="mt-2"><strong>Otros aliados</strong></h4>
+    <h4 class="mt-2"><strong>{{'preland.Other partners' | translate }}</strong></h4>
     <div class="row center-elements pad-logos">
       <div class="col-6 col-sm-3 mb-3 p-4">
         <img class="img-responsive" src='assets/img/home/logos/Microsoft-Logo.png'>
@@ -242,7 +242,7 @@
       <div class="col-6 col-sm-3 mb-3 p-4">
         <img class="img-responsive" src='assets/img/home/logos/design.png'>
       </div>
-      <div class="col-6 col-sm-3 mb-3 p-4">
+      <div class="offset-sm-3 col-6 col-sm-3 mb-3 p-4">
         <img class="img-responsive" src='assets/img/home/logos/illumina-logo.png'>
       </div>
       <div class="col-6 col-sm-3 mb-3 p-4">
@@ -269,13 +269,7 @@
   </div>
   <div class="col-12 justify-content-center center-elements">
     <div class="row center-elements pad-logos">
-      <div class="offset-sm-2 col-4 col-sm-4 mb-3 p-2">
-        <a href="https://www.aepd.es/es/prensa-y-comunicacion/notas-de-prensa/aepd-publica-premios-pd-2020" target="_blank"><img class="responsive2" src='assets/img/home/logos/premio-AEPD_transparente.png'></a>
-        <h2 class="mt-2"><strong>AEPD</strong></h2>
-        <h6 class="mb-1"><strong>Agencia Española de Protección de Datos</strong></h6>
-        <p>Protección de Datos Personales 2020</p>
-      </div>
-      <div class="col-4 col-sm-4 mb-3 p-2">
+      <div class="offset-sm-4 col-4 col-sm-4 mb-3 p-2">
         <a href="https://ametic.es/es/prensa/carme-artigas-clausura-el-evento-de-ia-de-ametic-y-senala-la-inteligencia-artificial-como-la" target="_blank"><img class="responsive2" src='assets/img/home/logos/Premio-AMETIC-transparente.png'></a>
         <h2 class="mt-2"><strong>Ametic</strong></h2>
         <h6 class="mb-1"><strong>Artificial Intelligence Summit</strong></h6>

@@ -4,7 +4,7 @@
           <div class="card-body">
             <ngb-alert type="warning" class="mb-2" [dismissible]="false" *ngIf="lang=='es'">
               <div class="center-elements">
-                <span class="white" [innerHTML]="'InfoSystem.Spanishtranslations2' | translate"></span>
+                <span [innerHTML]="'InfoSystem.Spanishtranslations2' | translate"></span>
               </div>
             </ngb-alert>
             <div class="row m-0">
@@ -23,13 +23,13 @@
               <div class="col-md-12 align-items-center text-center">
                 <div class="form-steps-container">
                   <span *ngFor="let step of steps; let i = index;" class="forstep">
-                      <div [ngClass]="{ 'step-complete': step.isComplete, 'step-incomplete': !step.isComplete, 'step-current': (currentStep)?.stepIndex >= step.stepIndex,  'step-bubble-prev': (currentStep)?.stepIndex >= step.stepIndex,  'step-bubble-next': (currentStep)?.stepIndex < step.stepIndex}"
+                      <div [ngClass]="{ 'step-complete': step.isComplete, 'step-incomplete': !step.isComplete, 'step-current': ((currentStep)?.stepIndex >= step.stepIndex && i < (steps)?.length - 1), 'step-final': ((currentStep)?.stepIndex >= step.stepIndex && i == (steps)?.length - 1),  'step-bubble-prev': (currentStep)?.stepIndex >= step.stepIndex,  'step-bubble-next': ((currentStep)?.stepIndex < step.stepIndex && i < (steps)?.length - 1),  'step-bubble-final': ((currentStep)?.stepIndex < step.stepIndex && i == (steps)?.length - 1), 'margin-bubble-final': (step.stepIndex == 4)}"
                           class="step-bubble">
                           <span *ngIf="i < (steps)?.length - 1">{{ step.stepIndex }}</span>
                           <span *ngIf="i == (steps)?.length - 1"><em class="fa fa-check"></em></span>
                         </div>
                       <div *ngIf="i < (steps)?.length - 1" class="step-divider" [ngClass]="((i < (steps)?.length - 1) && step.stepIndex>=currentStep.stepIndex)?'step-divider-prev':'step-divider-next'"></div>
-                      <span class="step-title mt-2">{{step.title}} </span>
+                      <span class="step-title mt-2" [ngClass]="{ 'margin-step-title': (step.stepIndex == 4)}">{{step.title}} </span>
                   </span>
                 </div>
               </div>
@@ -276,11 +276,11 @@
             }}<span *ngIf="numberOfSymtomsChecked!=1">s</span> {{'land.out of' | translate }}
             {{temporalSymptoms.length}}
           </span>-->
-          <span *ngIf="numberOfSymtomsChecked<minSymptoms && temporalSymptoms.length > 1" class="danger d-inline">
+          <span *ngIf="numberOfSymtomsChecked<minSymptoms && temporalSymptoms.length > 1" class="danger" style="width: 70%;display: inline-block;">
             {{'land.You must select at least' | translate }} {{minSymptoms}} {{'land.symptom' | translate }}s
             {{'land.in order to continue' | translate }}
           </span>
-          <span *ngIf="numberOfSymtomsChecked<minSymptoms && temporalSymptoms.length < 2" class="danger d-inline">
+          <span *ngIf="numberOfSymtomsChecked<minSymptoms && temporalSymptoms.length < 2" class="danger" style="width: 70%;display: inline-block;">
             {{'land.addMoreSymp' | translate }}
           </span>
           <button *ngIf="!loadingCalculate" type="button" class="mt-2 mr-2 btn btn-secondary btn-raised float-right" (click)="calculate()" [class.cursor-not-allowed]="currentStep.stepIndex==3" [disabled]="currentStep.stepIndex==3" [ngClass]="(currentStep.stepIndex<3)?'btn btn-primary btn-raised':'btn btn-secondary btn-raised'">{{'generics.Next' | translate }}</button>
@@ -410,12 +410,12 @@
     <div class="p-2 col-md-12 center-elements">
       <div class="mt-4">
         <h3><strong>{{'land.Completed0' | translate }}</strong></h3>
-        <p>{{'land.Completed1' | translate }}</p>
+        <p class="offset-sm-1 col-sm-10">{{'land.Completed1' | translate }}</p>
       </div>
       <hr class="mt-4 hr-custom-secondary">
       <div class="mt-4">
         <h3><strong>{{'land.What now' | translate }}</strong></h3>
-        <p [innerHTML]="'land.msgwhat1' | translate"></p>
+        <p class="offset-sm-1 col-sm-10" [innerHTML]="'land.msgwhat1' | translate"></p>
         <div class="p-2">
           <button type="button" class="btn btn-primary btn-md btn-raised mr-1" (click)="openSaveTimeLine(contentSaveTimeline)">
             <em class="mr-1 ft-save white"

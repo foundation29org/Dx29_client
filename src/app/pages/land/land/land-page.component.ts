@@ -58,4 +58,8 @@ export class LandPageComponent implements OnDestroy {
         window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
     }
 
+    openWeb(){
+        window.open('https://www.foundation29.org', '_blank');
+    }
+
 }

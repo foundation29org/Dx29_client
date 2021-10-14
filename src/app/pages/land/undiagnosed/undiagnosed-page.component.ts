@@ -198,7 +198,6 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
           ];
 
         this.currentStep = this.steps[0];
-        console.log(this.currentStep);
     }
 
     goNext(){
@@ -271,6 +270,9 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     goPrevious(){
+        if(this.currentStep.stepIndex==3){
+            this.symptomsTimeLine = this.getCheckedSymptoms();
+        }
         var foundElementIndex = this.searchService.searchIndex(this.steps, 'stepIndex', this.currentStep.stepIndex);
         this.currentStep= this.steps[foundElementIndex-1];
         document.getElementById('initsteps').scrollIntoView(true);
@@ -950,9 +952,9 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             if(this.topRelatedConditions[this.selectedInfoDiseaseIndex]!=undefined){
                 this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[index2].hasPatient = false;
             }
+            this.getNumberOfSymptomsChecked(false);
             this.reloadDiseases = true;
             this.lauchEvent("Delete symptoms");
-            this.getNumberOfSymptomsChecked(false);
           }
         });
   
@@ -1074,7 +1076,16 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         if (this.numberOfSymtomsChecked >= this.minSymptoms && this.temporalDiseases.length > 0 && recalculate) {
             this.calculate();
         } else if (this.numberOfSymtomsChecked < this.minSymptoms) {
-            this.topRelatedConditions = [];
+            if(this.currentStep.stepIndex!=3){
+                this.topRelatedConditions = [];
+            }else{
+                if (this.modalReference != undefined) {
+                    this.modalReference.close();
+                    this.modalReference = undefined;
+                }
+                Swal.fire(this.translate.instant("land.remembertitle"), this.translate.instant("land.remember"), "error");
+                this.currentStep= this.steps[0];
+            }
         }
     }
 
@@ -1160,17 +1171,22 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                 this.topRelatedConditions = this.temporalDiseases.slice(0, this.indexListRelatedConditions)
                 this.loadingCalculate = false;
                 this.lauchEvent("Diseases");
+                this.isFirstCalculate=false;
+                this.saveSymptomsSession();
+
                 if(this.currentStep.stepIndex==3){
                     if(this.isFirstCalculate){
                         this.toastr.success('', this.translate.instant("land.The list of proposed diseases is now available"));
                     }else{
                         this.toastr.success('', this.translate.instant("land.The list of proposed diseases has been updated"));
                     }
+                }else{
+                    this.goNext();
                 }
                 
-                this.isFirstCalculate=false;
-                this.goNext();
-                this.saveSymptomsSession();
+                
+                
+                
             }, (err) => {
                 console.log(err);
                 this.loadingCalculate = false;
@@ -2003,7 +2019,6 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     getParamsTimeLine(info){
-        console.log(info);
         this.paramsTimeLine = info;
     }
 

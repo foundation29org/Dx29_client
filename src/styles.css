@@ -42,6 +42,12 @@ body {
   color: #f9423a;
 }
 
+.alert-warning {
+  border-color: #ffbfa6 !important;
+  background-color: #ffece4 !important;
+  color: #e65600 !important;
+}
+
 :host /deep/ a{
   color: #f9423a;
 }
