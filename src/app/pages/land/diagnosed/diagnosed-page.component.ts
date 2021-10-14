@@ -659,6 +659,13 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             }));
     }
 
+    clearsearchDiseaseField(){
+        this.searchDiseaseField = "";
+        this.listOfFilteredDiseases = [];
+        this.callListOfDiseases = false;
+    }
+    
+
     onKey(event: KeyboardEvent) {
         if(event.key ==='ArrowLeft' || event.key ==='ArrowUp' || event.key ==='ArrowRight' || event.key ==='ArrowDown'){
 

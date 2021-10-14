@@ -25,9 +25,10 @@
                   <div class="offset-md-3 col-md-6 no-padding">
                     <div class="position-relative">
                       <i class="fas fa-search primary fa-1_7x align-middle" (click)="onKey($event)"></i>
-                      <input type="text" #inputDisease id="searchDiseaseField" class="ml-1 form-control data-hj-allow fielddisease" name="searchDiseaseField" style="width: 88% !important;display: inline !important;border-radius: 25px;height: 45px;"
+                      <input type="text" #inputDisease id="searchDiseaseField" class="ml-1 form-control data-hj-allow fielddisease" name="searchDiseaseField" style="width: 84% !important;display: inline !important;border-radius: 25px;height: 45px;"
                         [(ngModel)]="searchDiseaseField" (keyup)="onKey($event)" (paste)="onKey($event)"
                         placeholder="{{'dashboardpatient.Search condition' | translate }}" (focusout)="focusOutFunctionDiseases()">
+                        <span *ngIf="searchDiseaseField.length>0" (click)="clearsearchDiseaseField();" style="position: relative;left: -44px;"><i class="fa fa-times ml-1" style="color: #70757a;"></i></span>
                     </div>
                     <div>
                       <div class="center-elements" *ngIf="callListOfDiseases">
