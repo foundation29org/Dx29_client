@@ -1,37 +1,281 @@
 <section>
   <div class="row auth-height full-height-vh m-0 grid-hover background-img">
-    <div class="col-12 d-flex align-items-center justify-content-center">
-      <div class="card overflow-hidden">
-        <div class="card-content gradient-custom">
-          <div class="card-body" style="max-width: 600px;">
+    <div class="col-12 d-flex justify-content-center">
+          <div class="mt-4 card-body" style="max-width: 1200px;">
             <div class="row m-0">
               <div class="col-lg-12 justify-content-center align-items-center text-center" style="padding-top: 1.5rem;padding-right: 1.5rem;padding-left: 1.5rem;">
-                <h1 class="card-title" [innerHTML]="'preland.t1' | translate" style="text-transform: none;"></h1>
+                <h1 class="card-title text-bold-500">
+                  {{'preland.t1' | translate }}
+                  <hr class="hr-custom">
+                </h1>
+                
                 <p class="mt-3" [innerHTML]="'preland.t2' | translate"></p>
               </div>
               <div class="col-lg-12 col-md-12 py-2">
                 <h4 class="text-center">{{'preland.t2_q' | translate }}</h4>
-                <div class="col-md-12">
-                  <div class="center-elements">
-                    <div class="row">
-                      <div class="col-12 col-md-6 mb-2 mb-md-0">
-                        <button [routerLink]="['/undiagnosed']" (click)="lauchEvent('Role - Undiagnosed')" class="btn round btn-block mb-1 btn-outline-info h-80"
-                          type="button">{{'preland.p2.1' | translate }}
+                <div class="col-md-12" style="z-index: 2;">
+                  <div class="pt-2 center-elements">
+                    <button [routerLink]="['/undiagnosed']" (click)="lauchEvent('Role - Undiagnosed')" class="mt-2 mr-2 ml-2 btn btn-white btn-raised round mb-1 h-80"
+                          type="button"><strong>{{'preland.p2.1' | translate }}</strong>
                         </button>
-                      </div>
-                      <div class="col-12 col-md-6 mb-2 mb-md-0">
                         <button [routerLink]="['/diagnosed']" (click)="lauchEvent('Role - Diagnosed');" type="button"
-                          class="btn btn-outline-info round btn-block mb-1 h-80">{{'preland.p2.2' | translate }}
+                          class="mt-2 mr-2 ml-2 btn btn-white btn-raised round mb-1 h-80"><strong>{{'preland.p2.2' | translate }}</strong>
                         </button>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
+              <div class="">
+                <img class="img-1 d-none d-sm-block" src="assets/img/land/checks.png" />
+              </div>
+            </div>
+          </div>
+    </div>
+  </div>
+</section>
+<section style="padding-bottom: 70px !important;">
+  <div class="col-12 d-flex justify-content-center">
+    <img class="img-2 " src="assets/img/land/road.png" />
+    <div class="card-body" style="max-width: 1200px;">
+      <div class="row m-0">
+        <div class="col-lg-12 justify-content-center align-items-center text-center" style="padding-top: 1.5rem;padding-right: 1.5rem;padding-left: 1.5rem;">
+          <h1 class="card-title text-bold-500">
+            {{'land.aboutUs.title' | translate }}
+            <hr class="hr-custom">
+          </h1>
+          <span class="row p-2 offset-md-2 col-md-8" style="background: #ffffffe8;">
+            <p>{{'land.aboutUs.p1' | translate }}</p>
+            <p>{{'land.aboutUs.p2' | translate }}</p>
+          </span>
+          
+        </div>
+        <div class="col-lg-12 col-md-12 py-2">
+          <div class="col-md-12">
+            <div class="center-elements">
+              <button (click)="lauchEvent('Info foundation29');openWeb();" class="mt-2 mr-2 ml-2 btn btn-primary btn-raised mb-1"
+                    type="button"><strong>{{'land.aboutUs.Who are we' | translate }}</strong>
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
+</div>
+</section>
+
+<section style="padding-bottom: 70px !important;">
+  <div class="col-12 d-flex justify-content-center">
+    <div class="card-body" style="max-width: 1200px;">
+      <div class="row m-0">
+        <div class="col-lg-12 justify-content-center align-items-center text-center" style="padding-top: 1.5rem;padding-right: 1.5rem;padding-left: 1.5rem;">
+          <h1 class="card-title text-bold-500">
+            {{'preland.t4title' | translate }}
+            <hr class="hr-custom">
+          </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-3 center-elements">
+    <div class="row reg-panel d-block d-sm-none" (click)="registerToDx29()">
+        <div class="row pb-2 pt-2">
+          <div class="offset-1 col-2">
+            <img class="w-reg-img" src='assets/img/home/reg/regref.jpg' />
+          </div>
+          <span class="col-9 text-left">
+            <p class="mb-0"><strong>{{'land.table.t1' | translate }}</strong></p>
+            <p class="d-block">{{'land.table.d1' | translate }}</p>
+          </span>
+        </div>
+        <div class="row pb-2 pt-2">
+          <div class="offset-1 col-2">
+            <img class="w-reg-img" src='assets/img/home/reg/sharedata.jpg' />
+          </div>
+          <span class="col-9 text-left">
+            <p class="mb-0"><strong>{{'land.table.t2' | translate }}</strong></p>
+            <p class="d-block">{{'land.table.d2' | translate }}</p>
+          </span>
+        </div>
+      <div class="row pb-2 pt-2">
+        <div class="offset-1 col-2">
+          <img class="w-reg-img" src='assets/img/home/reg/genetrio.jpg' />
+        </div>
+        <span class="col-9 text-left">
+          <p class="mb-0"><strong>{{'land.table.t3' | translate }}</strong></p>
+          <p class="d-block">{{'land.table.d3' | translate }}</p>
+        </span>
+      </div>
+    </div>
+    <div class="row reg-panel d-none d-sm-flex" (click)="registerToDx29()">
+      <div class="col-sm-4 pb-3 pt-3">
+        <div class="mb-2">
+          <img class="col w-reg-img" src='assets/img/home/reg/regref.jpg' />
+        </div>
+        <span class="w-reg" style="display: inline-block;">
+          <span><strong>{{'land.table.t1' | translate }}</strong></span>
+          <span class="d-block">{{'land.table.d1' | translate }}</span>
+        </span>
+      </div>
+      <div class="col-sm-4 pb-3 pt-3">
+        <div class="mb-2">
+          <img class="col w-reg-img" src='assets/img/home/reg/sharedata.jpg' />
+        </div>
+        <span class="w-reg" style="display: inline-block;">
+          <span><strong>{{'land.table.t2' | translate }}</strong></span>
+          <span class="d-block">{{'land.table.d2' | translate }}</span>
+        </span>
+      </div>
+      <div class="col-sm-4 pb-3 pt-3">
+        <div class="mb-2">
+          <img class="col w-reg-img" src='assets/img/home/reg/genetrio.jpg' />
+        </div>
+        <span class="w-reg" style="display: inline-block;">
+          <span><strong>{{'land.table.t3' | translate }}</strong></span>
+          <span class="d-block">{{'land.table.d3' | translate }}</span>
+        </span>
+      </div>
+    </div>
+    <button class="mb-0 mt-2 btn btn-primary btn-raised btn-navbar" (click)="registerToDx29()">{{'land.swal.button' |
+      translate }}</button>
+  </div>
+</section>
+
+<section style="padding-bottom: 30px !important;" class="d-none d-sm-block">
+  <img class="img-3" src="assets/img/land/last.jpg" />
+  <div class="col-12 d-flex justify-content-center">
+    <div class="card-body" style="max-width: 1200px;">
+      <div class="row m-0">
+        <div class="col-lg-12 justify-content-center align-items-center text-center" style="padding-top: 1.5rem;padding-right: 1.5rem;padding-left: 1.5rem;">
+          <h1 class="card-title text-bold-500">
+            {{'preland.t5' | translate }}
+            <hr class="hr-custom">
+          </h1>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  <div class="col-12 justify-content-center center-elements offset-md-2 col-md-8">
+    <h4><strong>{{'preland.Institutions' | translate }}</strong></h4>
+    <div class="row center-elements pad-logos">
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/header-logo.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/badge.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/paris-call.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/sick.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/monarch.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/nhs.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/nih.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/et.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/1280px-CatSalut.svg_-1024x446.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/osa.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/favpng_university-of-utah-logo-brand-product.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/salud.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4 margin-img-sm">
+        <img class="img-responsive" src='assets/img/home/logos/ui-idiscc.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/ie.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/WG-Lab1.png'>
+      </div>
+    </div>
+    <h4 class="mt-2"><strong>{{'preland.Patient associations' | translate }}</strong></h4>
+    <div class="row center-elements pad-logos">
+      <div class="col-6 col-sm-4 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/parent.png'>
+      </div>
+      <div class="col-6 col-sm-4 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/fede.png'>
+      </div>
+      <div class="col-6 col-sm-4 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/logo_sanfilippo.png'>
+      </div>
+      
+    </div>
+    <h4 class="mt-2"><strong>{{'preland.Other partners' | translate }}</strong></h4>
+    <div class="row center-elements pad-logos">
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/Microsoft-Logo.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/takeda.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/gw.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/ucb.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/garri.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/ilitia-1.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/playconcepts.jpg'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/design.png'>
+      </div>
+      <div class="offset-sm-3 col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/illumina-logo.png'>
+      </div>
+      <div class="col-6 col-sm-3 mb-3 p-4">
+        <img class="img-responsive" src='assets/img/home/logos/barra.png'>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-bottom: 30px !important;" class="d-none d-sm-block">
+  <img class="img-3" src="assets/img/land/last.jpg" />
+  <div class="col-12 d-flex justify-content-center">
+    <div class="card-body" style="max-width: 1200px;">
+      <div class="row m-0">
+        <div class="col-lg-12 justify-content-center align-items-center text-center" style="padding-top: 1.5rem;padding-right: 1.5rem;padding-left: 1.5rem;">
+          <h1 class="card-title text-bold-500">
+            {{'preland.t6' | translate }}
+            <hr class="hr-custom">
+          </h1>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  <div class="col-12 justify-content-center center-elements">
+    <div class="row center-elements pad-logos">
+      <div class="offset-sm-4 col-4 col-sm-4 mb-3 p-2">
+        <a href="https://ametic.es/es/prensa/carme-artigas-clausura-el-evento-de-ia-de-ametic-y-senala-la-inteligencia-artificial-como-la" target="_blank"><img class="responsive2" src='assets/img/home/logos/Premio-AMETIC-transparente.png'></a>
+        <h2 class="mt-2"><strong>Ametic</strong></h2>
+        <h6 class="mb-1"><strong>Artificial Intelligence Summit</strong></h6>
+        <p>R+D+I Ametic IA Award 2021</p>
+      </div>
+    </div>
+
   </div>
 </section>

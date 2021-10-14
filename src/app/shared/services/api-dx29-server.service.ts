@@ -156,8 +156,18 @@ export class ApiDx29ServerService {
         })
     }
 
-    sendEmailResults(info) {
-      return this.http.post(environment.api + '/api/sendEmailResults', info)
+    sendEmailResultsUndiagnosed(info) {
+      return this.http.post(environment.api + '/api/sendEmailResultsUndiagnosed', info)
+        .map((res: any) => {
+          return res;
+        }, (err) => {
+          console.log(err);
+          return err;
+        })
+    }
+
+    sendEmailResultsDiagnosed(info) {
+      return this.http.post(environment.api + '/api/sendEmailResultsDiagnosed', info)
         .map((res: any) => {
           return res;
         }, (err) => {

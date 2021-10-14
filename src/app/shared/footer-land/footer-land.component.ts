@@ -1,6 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
-import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
-import { Component, HostBinding, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { NgForm } from '@angular/forms';
 import { environment } from 'environments/environment';
@@ -20,14 +19,13 @@ export class FooterLandComponent implements OnDestroy{
     //Variables
     currentDate : Date = new Date();
     _startTime: any;
-    modalReference: NgbModalRef;
     @ViewChild('f') mainForm: NgForm;
     sending: boolean = false;
     email: string;
     myuuid: string = uuidv4();
     private subscription: Subscription = new Subscription();
 
-    constructor(private modalService: NgbModal,  private http: HttpClient, public translate: TranslateService, public toastr: ToastrService) {
+    constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService) {
       this._startTime = Date.now();
       sessionStorage.setItem('uuid', this.myuuid);
     }
@@ -42,14 +40,6 @@ export class FooterLandComponent implements OnDestroy{
         var seconds = (endDate - this._startTime) / 1000;
         return seconds;
       };
-
-      showAboutUs(contentAboutUs){
-        let ngbModalOptions: NgbModalOptions = {
-            keyboard: true,
-            windowClass: 'ModalClass-lg'// xl, lg, sm
-        };
-        this.modalReference = this.modalService.open(contentAboutUs, ngbModalOptions);
-      }
 
       ngOnDestroy() {
         this.subscription.unsubscribe();

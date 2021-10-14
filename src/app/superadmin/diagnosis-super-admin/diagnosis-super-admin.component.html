@@ -169,7 +169,7 @@
                         <li class="row symptoms-item">
                           <span style="font-size:1rem;flex-grow: 1;line-height: 1.3em;" class="mt-1 mb-1 text-muted col-md-8">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
                           <span class="col-md-4">
-                            <a class="btn btn-outline-info primary mr-1 mb-0" data-original-title="" title="{{'generics.More information' | translate }}" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
+                            <a class="btn btn-outline-primary primary mr-1 mb-0" data-original-title="" title="{{'generics.More information' | translate }}" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptom)">
                               <i class="fa fa-info"></i>
                             </a>
                             <a class="btn btn-outline-danger danger ml-1 mr-1 mb-0" data-original-title="" title="{{'generics.Delete' | translate }}" (click)="confirmDeletePhenotype(i)">
@@ -186,7 +186,7 @@
                           <li class="row symptoms-item">
                             <span style="font-size:1rem;flex-grow: 1; line-height: 1.3em;" class="mt-1 mb-1 text-muted col-md-8">{{hpo.name}} <span *ngIf="hpo.synonyms==undefined && numDeprecated>0" class="warning"> ({{'phenotype.Deprecated' | translate }})</span></span>
                             <span class="col-md-4">
-                              <a class="btn btn-outline-info primary mr-1 mb-0" data-original-title="" title="{{'generics.More information' | translate }}" (click)="showMoreInfoSymptomPopupGroup(j,i, contentInfoSymptom)">
+                              <a class="btn btn-outline-primary primary mr-1 mb-0" data-original-title="" title="{{'generics.More information' | translate }}" (click)="showMoreInfoSymptomPopupGroup(j,i, contentInfoSymptom)">
                                 <i class="fa fa-info"></i>
                               </a>
                               <a class="btn btn-outline-danger danger  ml-1 mr-1 mb-0" data-original-title="" title="{{'generics.Delete' | translate }}" (click)="confirmDeletePhenotypeGroup(j,i)">

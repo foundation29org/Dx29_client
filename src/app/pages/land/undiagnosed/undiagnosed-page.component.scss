@@ -1,6 +1,107 @@
 @import "../../../../assets/sass/scss/bootstrap/timeline-vertical";
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
+.step-section{
+  margin-bottom: 100px;
+}
+
+.form-steps-container {
+  display: inline-flex;
+  justify-content: space-between;
+  padding: 20px;
+  margin-left: 60px;
+}
+
+.step-bubble-next{
+  padding: 8px;
+  border: 3px solid #a1a09a;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: #a1a09a;
+  font-size: 1em;
+  cursor: pointer;
+  user-select: none;
+} 
+
+.step-bubble-final{
+  padding: 8px;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: #a1a09a;
+  font-size: 1em;
+  cursor: pointer;
+  user-select: none;
+} 
+
+.step-bubble-prev{
+  padding: 8px;
+  border: 3px solid #f9423a;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: #f9423a;
+  font-size: 1em;
+  cursor: pointer;
+  user-select: none;
+} 
+
+.step-divider-prev {
+  height: 2px;
+  background: #a1a09a;
+  width: 100px;
+  margin-top: -10px;
+  margin-left: 35px;
+  padding-left: 1em;
+  margin-right: 15px;
+}
+
+.step-divider-next {
+  height: 2px;
+  background: #f9423a;
+  width: 100px;
+  margin-top: -10px;
+  margin-left: 35px;
+  padding-left: 1em;
+  margin-right: 15px;
+}
+
+.step-current, .step-complete {
+  background: #f9423a;
+  color: white;
+}
+
+.step-final{
+  background: none;
+  color: #41db4a;
+  border: none;
+}
+
+.margin-bubble-final{
+  margin-left: 0.2rem;
+}
+
+.step-incomplete {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.step-title{
+  margin-left: -60px;
+  width: 140px;
+  display: block;
+}
+
 :host /deep/ .nav-pills{
   background: #eee;
 }
@@ -10,11 +111,11 @@
 }
 
 .w-reg{
-  max-width: 150px;
+  max-width: 300px;
 }
 
 .w-reg-img{
-  max-width: 150px;
+  max-width: 125px;
 }
 
 .w-reg-img-sm{
@@ -22,7 +123,8 @@
 }
 
 .footer-symtoms{
-  min-height: 69px;
+  display: block !important;
+  min-height: 75px;
   background-color: #f5f5f5;
 }
 .pointer{
@@ -30,7 +132,7 @@
 }
 
 .articleTitle:hover {
-  color: #33658A;
+  color: #f9423a;
   text-decoration: underline;
 }
 
@@ -66,12 +168,6 @@
   color:#f9423a;
 }
 
-.tableList {
-  display:block;
-  max-height:270px;
-  overflow-y:auto;
-  min-height: auto !important;
-}
 .panelAttentionItem{
   display:block;
   overflow-y:auto;
@@ -101,19 +197,19 @@
 
 /* Provide sufficient contrast against white background */
 a {
-    color: #33658A;
+    color: #f9423a;
 }
 
 .btn-primary {
     color: #fff;
-    background-color: #33658A;
-    border-color: #33658A;
+    background-color: #f9423a;
+    border-color: #f9423a;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
-    background-color: #33658A;
-    border-color: #33658A;
+    background-color: #f9423a;
+    border-color: #f9423a;
 }
 
 /* Sticky footer styles
@@ -183,70 +279,6 @@ body {
     color: blue;
 }
 
-/* Custom
--------------------------------------------------- */
-/*
-.section h1 {
-    font-family: suisse,sans-serif;
-    font-size: 48px;
-    font-weight: 600;
-}
-
-.section h2 {
-    font-family: suisse,sans-serif;
-    font-size: 36px;
-    font-weight: 600;
-}
-
-.section p {
-    font-family: suisse,sans-serif;
-    font-size: 22px;
-    font-weight: normal;
-}
-
-.section1 h1 {
-    font-family: suisse,sans-serif;
-    font-size: 48px;
-    font-weight: 600;
-}
-
-.section1 p {
-    font-family: suisse,sans-serif;
-    font-size: 22px;
-    font-weight: normal;
-}
-
-.section2 {
-    height: 100%;
-    min-height: 100%;
-}
-
-    .section2 h3 {
-        font-family: suisse,sans-serif;
-        font-size: 24px;
-        font-weight: 600;
-    }
-
-    .section2 p {
-        font-family: suisse,sans-serif;
-        font-size: 18px;
-        font-weight: normal;
-    }
-
-    .section2 button {
-        width: 220px;
-        word-wrap: break-word;
-        line-height: 1.25;
-    }
-
-        .section2 button.btn-link {
-            color: black;
-            text-decoration: underline;
-            line-height: 1.25;
-            font-size: 20px;
-            font-weight: 600;
-        }
-*/
 .donate p {
     font-family: suisse,sans-serif;
     font-size: 20px;
@@ -267,15 +299,6 @@ img.logo {
     cursor: not-allowed;
 }
 
-/*.my-custom-scrollbar {
-    position: relative;
-    max-height: 400px;
-    overflow: auto;
-}
-.table-wrapper-scroll-y {
-    display: block;
-}*/
-
 ::placeholder {
     font-size: 22px;
 }
@@ -289,8 +312,8 @@ body {
   }
   tbody {
     display:block;
-    max-height:270px;
-    min-height:270px;
+    max-height:320px;
+    min-height:320px;
     overflow-y:auto;
   }
   thead, tbody tr {
@@ -329,12 +352,6 @@ body {
     background-color: #ededed00 !important;
     min-height: 458px;
   }
-
-  /*.loadingPanel{
-    max-width: 48%;
-    margin-left: 0.375rem !important;
-    margin-right: 0.375rem !important;
-  }*/
 
   .custom-mr-2{
     margin-right: 0.75rem !important;
@@ -386,18 +403,22 @@ body {
   }
 
   ::ng-deep  .swal2-styled.swal2-confirm:focus {
-    box-shadow: 0 0 0 3px #1696ac;
+    box-shadow: 0 0 0 3px #ffb2b2;
+}
+
+::ng-deep  .swal2-styled.swal2-cancel:focus {
+  box-shadow: 0 0 0 3px #ccc;
 }
 
 .form-control:focus{
-  border-color: #33658A !important;
-  box-shadow: 0 0 0 0.2rem #33658A5E;
+  border-color: #a1a09a !important;
+  box-shadow: 0 0 0 0.2rem #a1a09a3b;
 }
 
 :host /deep/ .dropdown-item.active, .dropdown-item:active {
     color: #fff;
     text-decoration: none;
-    background-color: #33658A !important;
+    background-color: #a1a09a !important;
 }
 
 .btn-sm, .btn-group-sm > .btn {
@@ -407,16 +428,13 @@ body {
 ::ng-deep ngb-typeahead-window.dropdown-menu {
   max-height: 300px;
   overflow-y: auto;
+  width:87%;
  }
 
  .nav-tabs .nav-link.active {
-  border-bottom: 2px solid #33658A !important;
+  border-bottom: 2px solid #f9423a !important;
   background-color: transparent !important;
   border-color: transparent !important;
-}
-
-:host /deep/ a{
-  color: #33658A;
 }
 
 :host /deep/ .nav-tabs {
@@ -604,16 +622,19 @@ body {
     }
   }
 }
+
 .inputSearch{
-  width: 91%
+  width: 91%;
+  margin-left: 0rem !important;
 }
 
-@media ( max-width: 1600px ){
+.inputSearch2{
+  width: 91%;
+  margin-left: 0rem !important;
+}
 
-  ::ng-deep ngb-typeahead-window.dropdown-menu {
-   width:88vw;
-  }
-
+ ::ng-deep .dropdown-item {
+  white-space: normal !important;
 }
 
 @media ( max-width: 1199px ){
@@ -640,19 +661,7 @@ body {
 
     .mrbox{
       margin-right: 0rem !important;
-    }
-
-    ::ng-deep .dropdown-item {
-      white-space: normal !important;
-  }
-
-}
-
-@media ( max-width: 960px ){
-
-  ::ng-deep ngb-typeahead-window.dropdown-menu {
-   width:88vw;
-  }
+    } 
 
 }
 
@@ -665,120 +674,168 @@ body {
       }
   }
 
-  @media (max-width: 768px) {
-    /*html {
-        font-size: 16px;
-    }*/
+@media (max-width: 700px) {
+  .card-title{
+    display: inline-block;
+    margin-top: 0.75rem !important;
+  }
+
+  .form-steps-container{
+    margin-left: 2rem;
+  }
 }
 
-  /*@media ( max-width: 578px ){
-    table, thead, tbody, th, td, tr {
-      display: block; 
-    }
+@media (max-width: 670px) {
+  .form-steps-container{
+    margin-left: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .form-steps-container{
+    margin-left: 0rem;
+  }
+}
+
+@media ( max-width: 575px ){
+
+  .form-steps-container{
+    margin-left: -1rem;
+  }
+
+  .step-divider{
+    width: 80px !important;
+  }
+
+  .box-panels{
+    margin-bottom: 2.25rem !important;
+  }
+
+  .box-panels{
+    margin-bottom: 2.25rem !important;
+  }
+
+  .td-flex-sm{
+    display: table-caption !important;
+  }
+
+  .tbody-sm{
+    display: grid !important;
+  }
+
+  .icons-title-symptoms{
+    display: block;
+  }
+
+  .icons-opt-symptoms{
+    float: left !important;
+  }
+
+  .caption-symptoms{
+    padding-top: 0rem !important;
+  }
+
+  .inputSearch{
+    width: 87vw;
+    margin-left: 0rem !important;
+  }
+
+  .inputSearch2{
+    width: 80vw;
+    margin-left: 1rem !important;
+  }
+
+  ::ng-deep ngb-typeahead-window.dropdown-menu {
+    font-size: 0.8rem !important;
+   }
+
+   ::ng-deep .dropdown-item {
+    padding: 0.25rem 0.5rem;
+   }
+
+   .form-control{
+    font-size: 0.8rem !important;
+   }
+   ::placeholder {
+      font-size: 0.8rem;
+   }
+   caption {
+    min-height: auto;
+   }
+
+  .no-line-height{
+    line-height: 0.5rem;
+  }
+
+  ::ng-deep .nav-tabs .nav-link{
+    padding-top: 0rem !important;
+  }
+
+  .w-reg-img{
+    max-width: 75px;
+  }
+  .reg-panel{
+    padding-right: 0px;
+  }
+
+  .w-reg-img-sm{
+    max-width: 4em;
+  }
+}
+
+@media ( max-width: 484px ){
+
+  .form-steps-container{
+    display: inline-block;
+    margin-left: 0rem;
+  }
+
+  .margin-step-title{
+    margin-left: 1.2em !important;
+  }
+  
+  .step-divider{
+    display: none;
+  }
+  .step-title{
+    margin-bottom: 0.75rem !important;
+    margin-top: 0.1rem !important;
+    display: inline;
+    margin-left: 1em;
+    width: auto;
+  }
+
+  .step-bubble{
+    display: inline-flex !important;
+  }
+
+  .forstep{
+    display: flex;
+  }
+}
+
+@media ( max-width: 449px ){
+  :host /deep/ .nav-pills{
+    flex-direction: column !important;
+  }
+
+  .card-body{
+    padding: 0rem;
+  }
+  /*.container-fluid{
+    padding-right: 0px !important;
+    padding-left: 0px !important;
   }*/
 
-  @media ( max-width: 575px ){
-
-    .box-panels{
-      margin-bottom: 2.25rem !important;
-    }
-
-    .td-flex-sm{
-      display: table-caption !important;
-    }
-
-    .tbody-sm{
-      display: grid !important;
-    }
-
-    .icons-title-symptoms{
-      display: block;
-    }
-
-    .icons-opt-symptoms{
-      float: left !important;
-    }
-
-    .caption-symptoms{
-      padding-top: 0rem !important;
-    }
-
-    ::ng-deep ngb-typeahead-window.dropdown-menu {
-      width:93vw;
-    }
-    .inputSearch{
-      width: 93vw;
-      margin-left: 0rem !important;
-    }
-    ::ng-deep ngb-typeahead-window.dropdown-menu {
-      font-size: 0.8rem !important;
-     }
-
-     ::ng-deep .dropdown-item {
-      padding: 0.25rem 0.5rem;
-     }
-
-     .form-control{
-      font-size: 0.8rem !important;
-     }
-     ::placeholder {
-        font-size: 0.8rem;
-     }
-     caption {
-      min-height: auto;
-     }
-
-     .footer-symtoms{
-      min-height: 73px;
-      background-color: #f5f5f5;
-    }
-
-    .no-line-height{
-      line-height: 0.5rem;
-    }
-
-    ::ng-deep .nav-tabs .nav-link{
-      padding-top: 0rem !important;
-    }
-
-    .w-reg-img{
-      max-width: 75px;
-    }
-    .reg-panel{
-      padding-right: 0px;
-    }
-
-    .w-reg-img-sm{
-      max-width: 4em;
-    }
+  .no-padding{
+    padding-right: 0px !important;
+    padding-left: 0px !important;
   }
 
-
-  @media ( max-width: 449px ){
-    :host /deep/ .nav-pills{
-      flex-direction: column !important;
-    }
-
-    .card-body{
-      padding: 0rem;
-    }
-    /*.container-fluid{
-      padding-right: 0px !important;
-      padding-left: 0px !important;
-    }*/
-
-    .no-padding{
-      padding-right: 0px !important;
-      padding-left: 0px !important;
-    }
-
-    .container-custom {
-    
-      h3 {
-        font-size: 12px;
-      }
-    } 
-  }
-
+  .container-custom {
   
-  
+    h3 {
+      font-size: 12px;
+    }
+  } 
+}

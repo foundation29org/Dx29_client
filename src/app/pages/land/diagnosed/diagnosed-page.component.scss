@@ -1,8 +1,125 @@
 
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
-:host /deep/ .nav-pills{
-  background: #eee;
+.step-section{
+  margin-bottom: 100px;
+}
+
+.form-steps-container {
+  display: inline-flex;
+  justify-content: space-between;
+  padding: 20px;
+  margin-left: 60px;
+}
+
+.step-bubble-next{
+  padding: 8px;
+  border: 3px solid #a1a09a;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: #a1a09a;
+  font-size: 1em;
+  cursor: pointer;
+  user-select: none;
+}
+
+.step-bubble-final{
+  padding: 8px;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: #a1a09a;
+  font-size: 1em;
+  cursor: pointer;
+  user-select: none;
+} 
+
+.step-bubble-prev{
+  padding: 8px;
+  border: 3px solid #f9423a;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: #f9423a;
+  font-size: 1em;
+  cursor: pointer;
+  user-select: none;
+} 
+
+.step-divider-prev {
+  height: 2px;
+  background: #a1a09a;
+  width: 100px;
+  margin-top: -10px;
+  margin-left: 35px;
+  padding-left: 1em;
+  margin-right: 15px;
+}
+
+.step-divider-next {
+  height: 2px;
+  background: #f9423a;
+  width: 100px;
+  margin-top: -10px;
+  margin-left: 35px;
+  padding-left: 1em;
+  margin-right: 15px;
+}
+
+.step-current, .step-complete {
+  background: #f9423a;
+  color: white;
+}
+
+.step-final{
+  background: none;
+  color: #41db4a;
+  border: none;
+}
+
+.margin-bubble-final{
+  margin-left: 0.2rem;
+}
+
+.step-incomplete {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.step-title{
+  margin-left: -60px;
+  width: 140px;
+  display: block;
+}
+
+.background-img{
+  margin-top: -7px !important;
+  background-image: url("assets/img/home/background2.jpg");
+  background-position: center center;
+  background-size: auto;
+  display: block;
+  position: absolute;
+  width: 100%;
+  width: -moz-available;          /* For Mozzila */
+  width: -webkit-fill-available;  /* For Chrome */
+  width: stretch;
+  height: 600px;
+}
+
+.nav-item{
+  background-color: grey;
+  padding-right: 0.2em;
+  padding-left: 0.2em;
 }
 
 .dropdown-toggle::after {
@@ -10,11 +127,11 @@
 }
 
 .w-reg{
-  max-width: 150px;
+  max-width: 300px;
 }
 
 .w-reg-img{
-  max-width: 150px;
+  max-width: 125px;
 }
 
 .w-reg-img-sm{
@@ -22,15 +139,17 @@
 }
 
 .footer-symtoms{
-  min-height: 69px;
+  display: block !important;
+  min-height: 75px;
   background-color: #f5f5f5;
 }
+
 .pointer{
   cursor: pointer; 
 }
 
 .articleTitle:hover {
-  color: #33658A;
+  color: #f9423a;
   text-decoration: underline;
 }
 
@@ -53,13 +172,6 @@
 :host /deep/ #exTab1 .tab-content {
   background-color: #f4f4f4;
   padding-bottom: 1rem !important;
-}
-
-.background-img{
-  min-height: 76vh !important;
-  background-image: url("assets/img/home/background.jpg");
-  background-position: center center;
-  background-size: cover;
 }
 
 .titleneon {
@@ -101,20 +213,45 @@
 
 /* Provide sufficient contrast against white background */
 a {
-    color: #33658A;
+    color: #f9423a;
 }
 
 .btn-primary {
     color: #fff;
-    background-color: #33658A;
-    border-color: #33658A;
+    background-color: #f9423a;
+    border-color: #f9423a;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-    color: #fff;
-    background-color: #33658A;
-    border-color: #33658A;
+/*:host /deep/ .nav-pills{
+  background: #eee;
+}*/
+:host /deep/ .tab-content{
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid #dee2e6 !important;
+  border-top-width: 0px !important;
 }
+
+::ng-deep .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #616161 !important;
+  background-color: #fff !important;
+  //border-color: #f9423a !important;
+  border: 1px solid #dfdfdf !important;
+  border-bottom-width: 1px;
+  border-bottom-width: 0px !important;
+}
+
+::ng-deep .nav-pills .nav-link {
+  border-radius: 1rem 1rem 0rem 0rem;
+  margin-right: 0.4em;
+}
+
+::ng-deep .nav-pills .nav-link, .nav-pills .show > .nav-link {
+  color: #fff !important;
+  background-color: #b0b6bb !important;
+  
+  border-color: #b0b6bb !important;
+}
+
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -279,6 +416,11 @@ img.logo {
 ::placeholder {
     font-size: 22px;
 }
+
+.fielddisease::placeholder {  
+  text-align: center; 
+}
+
 .pos-abs{
   position: absolute;
   bottom: 0px;
@@ -297,6 +439,10 @@ body {
     display:table;
     width: 100%;
     table-layout:fixed;
+  }
+
+  .fa-1_7x{
+    font-size: 1.7em;
   }
 
   .tr-auto{
@@ -322,12 +468,12 @@ body {
 
   .light-background{
     background-color: #ffffff !important;
-    min-height: 458px;
+    //min-height: 458px;
   }
 
   .gray-background{
     background-color: #ededed00 !important;
-    min-height: 458px;
+    //min-height: 458px;
   }
 
   /*.loadingPanel{
@@ -386,18 +532,22 @@ body {
   }
 
   ::ng-deep  .swal2-styled.swal2-confirm:focus {
-    box-shadow: 0 0 0 3px #1696ac;
+    box-shadow: 0 0 0 3px #ffb2b2;
+}
+
+::ng-deep  .swal2-styled.swal2-cancel:focus {
+  box-shadow: 0 0 0 3px #ccc;
 }
 
 .form-control:focus{
-  border-color: #33658A !important;
-  box-shadow: 0 0 0 0.2rem #33658A5E;
+  border-color: #a1a09a !important;
+  box-shadow: 0 0 0 0.2rem #a1a09a3b;
 }
 
 :host /deep/ .dropdown-item.active, .dropdown-item:active {
-    color: #fff;
-    text-decoration: none;
-    background-color: #33658A !important;
+  color: #fff;
+  text-decoration: none;
+  background-color: #a1a09a !important;
 }
 
 .btn-sm, .btn-group-sm > .btn {
@@ -407,16 +557,13 @@ body {
 ::ng-deep ngb-typeahead-window.dropdown-menu {
   max-height: 300px;
   overflow-y: auto;
+  width:87%;
  }
 
  .nav-tabs .nav-link.active {
-  border-bottom: 2px solid #33658A !important;
+  border-bottom: 2px solid #f9423a !important;
   background-color: transparent !important;
   border-color: transparent !important;
-}
-
-:host /deep/ a{
-  color: #33658A;
 }
 
 :host /deep/ .nav-tabs {
@@ -605,15 +752,17 @@ body {
   }
 }
 .inputSearch{
-  width: 91%
+  width: 91%;
+  margin-left: 0rem !important;
 }
 
-@media ( max-width: 1600px ){
+.inputSearch2{
+  width: 91%;
+  margin-left: 0rem !important;
+}
 
-  ::ng-deep ngb-typeahead-window.dropdown-menu {
-   width:88vw;
-  }
-
+ ::ng-deep .dropdown-item {
+  white-space: normal !important;
 }
 
 @media ( max-width: 1199px ){
@@ -642,18 +791,6 @@ body {
       margin-right: 0rem !important;
     }
 
-    ::ng-deep .dropdown-item {
-      white-space: normal !important;
-  }
-
-}
-
-@media ( max-width: 960px ){
-
-  ::ng-deep ngb-typeahead-window.dropdown-menu {
-   width:88vw;
-  }
-
 }
 
   @media ( max-width: 899px ){
@@ -677,7 +814,31 @@ body {
     }
   }*/
 
+  @media (max-width: 700px) {
+    .card-title{
+      display: inline-block;
+      margin-top: 0.75rem !important;
+    }
+
+    .form-steps-container{
+      margin-left: 1rem;
+    }
+
+    .step-divider{
+      width: 80px !important;
+    }
+
+    .step-title{
+      font-size: 0.7rem !important;
+    }
+
+  }
+
   @media ( max-width: 575px ){
+
+    .form-steps-container{
+      margin-left: 2rem;
+    }
 
     .box-panels{
       margin-bottom: 2.25rem !important;
@@ -703,13 +864,16 @@ body {
       padding-top: 0rem !important;
     }
 
-    ::ng-deep ngb-typeahead-window.dropdown-menu {
-      width:93vw;
-    }
     .inputSearch{
-      width: 93vw;
+      width: 87vw;
       margin-left: 0rem !important;
     }
+  
+    .inputSearch2{
+      width: 55vw;
+      margin-left: 1rem !important;
+    }
+    
     ::ng-deep ngb-typeahead-window.dropdown-menu {
       font-size: 0.8rem !important;
      }
@@ -751,8 +915,56 @@ body {
     .w-reg-img-sm{
       max-width: 4em;
     }
+
+    .step-section{
+      margin-bottom: 0px;
+    }
   }
 
+  @media ( max-width: 530px ){
+
+    .form-steps-container{
+      margin-left: 1.2rem;
+    }
+  }
+
+  @media ( max-width: 516px ){
+
+    .form-steps-container{
+      margin-left: 0.1rem;
+    }
+  }
+
+  @media ( max-width: 484px ){
+
+    .form-steps-container{
+      display: inline-block;
+      margin-left: 0rem;
+    }
+
+    .margin-step-title{
+      margin-left: 1.2em !important;
+    }
+    
+    .step-divider{
+      display: none;
+    }
+    .step-title{
+      margin-bottom: 0.75rem !important;
+      margin-top: 0.1rem !important;
+      display: inline;
+      margin-left: 1em;
+      width: auto;
+    }
+  
+    .step-bubble{
+      display: inline-flex !important;
+    }
+  
+    .forstep{
+      display: flex;
+    }
+  }
 
   @media ( max-width: 449px ){
     :host /deep/ .nav-pills{

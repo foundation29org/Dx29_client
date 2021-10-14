@@ -1302,7 +1302,8 @@
     "My tribe": "Mi tribu",
     "Do you have a diagnosis?": "¿Tienes un diagnóstico?",
     "Write your condition": "Introduce tu enfermedad",
-    "titleSearchCondition": "¿Qué diagnóstico de enfermedad rara tienes?",
+    "titleSearchCondition": "Cuéntanos tu enfermedad",
+    "subtitleSearchCondition": "Para iniciar este viaje, selecciona tu enfermedad",
     "Search condition": "Escribe el nombre de tu enfermedad",
     "Select condition": "Selecciona condición",
     "Conditions": "Condiciones",
@@ -1982,7 +1983,8 @@
     "SubtitleNewVersion1": "Dx29 estará en mantenimiento entre las",
     "SubtitleNewVersion2": "del",
     "SubtitleNewVersion3": "Por favor, evita usar Dx29. Los cambios no pueden ser guardados durante este período.",
-    "Spanishtranslations": "Las traducciones en español están en pruebas"
+    "Spanishtranslations": "Algunas traducciones en español son automáticas. Si ves algo raro, escribe a support@foundation29.org",
+    "Spanishtranslations2": "Algunas traducciones en español son automáticas. Si ves algo raro, escribe a <a href='mailto:support@foundation29.org'>support@foundation29.org</a>"
   },
   "gtp":{
     "formMsgAlreadyRegistered": "Ya está registrado en el programa con ese email. Escribe a juntoshaciaeldiagnostico@foundation29.org si quiere modificar la solicitud.",
@@ -2182,7 +2184,13 @@
     "Undiagnosed": "Sin diagnosticar",
     "Diagnosed": "Diagnosticado",
     "Physician": "Médico",
-    "title": "¿No encuentras diagnóstico para una enfermedad rara? Vamos a ayudarte",
+    "step1": "Introduce tus síntomas",
+    "step2": "Crea tu cronología",
+    "step3": "Explora enfermedades",
+    "step3descript": "Estas enfermedades coinciden con tus síntomas. Esta es una lista de sugerencias solamente con fines informativos.",
+    "step4": "Completado",
+    "title": "Cuenta tu historia para alcanzar un diagnóstico",
+    "subtitle": "Vamos a ayudarte a recorrer tu camino construyendo una cronología de tus síntomas y buscando enfermedades que encajen con ella. Hay 3 sencillos pasos:",
     "Extract symptom from document": "Extraer síntomas a partir de un informe",
     "msgSaveData": "para guardar tus síntomas",
     "availableLangs": "Pulsa aqui para ver de los idiomas disponibles",
@@ -2197,6 +2205,7 @@
     "placeholderError": "Escribe síntomas, corta y pega texto o usa un infome.",
     "Download symptoms": "Descargar síntomas",
     "Copy symptoms": "Copiar síntomas",
+    "Copy results": "Copiar resultados",
     "Start over": "Volver a empezar",
     "You have selected": "Ha seleccionado",
     "symptom": "síntoma",
@@ -2204,6 +2213,7 @@
     "You must select at least": "Tiene que selecionar al menos",
     "in order to continue": "para poder continuar. Recomendamos entre 5 y 10.",
     "addMoreSymp": "Tienes que tener al menos 2 síntomas para continuar. Añade más desde la barra de búsqueda",
+    "addMoreSympPopup": "Tienes que tener al menos 2 síntomas para continuar.",
     "See suggested diseases": "Ver enfermedades propuestas",
     "You need to select more symptoms": "Necesita selecionar más síntomas",
     "Suggested diseases will be shown here": "Aquí se mostrarán enfermedades propuestas",
@@ -2220,7 +2230,11 @@
     "Load more diseases": "Mostrar más enfermedades en la tabla",
     "There are": "Quedan",
     "remaining not shown in the table": "sin mostrar en la tabla.",
+    "Completed0": "¡Enhorabuena!",
+    "Completed1": "Has terminado tu historia. Conocer la evolución de tus síntomas ayuda a llegar a un diagnóstico porque esa puede ser la diferencia entre dos enfermedades similares.",
+    "Completed2": "Has terminado tu historia. Conocer la evolución de tus síntomas ayuda a gestionar tu enfermedad y compartir esta información ayuda a otros pacientes como tú en su odisea diagnóstica.",
     "What now": "¿Y ahora que?",
+    "msgwhat1": "Lleve esta información a sus médicos descargando un informe. Precaución. Si cierra esta ventana sin <strong>registrarte</strong>, los datos serán eliminados.",
     "This was just an appetizer": "Esto solo ha sido un aperitivo. Regístrate para acceder a la funcionalidad completa, ¡es gratis!",
     "Where did we get this symptom from": "¿De donde hemos extraido este síntoma?",
     "The symptom was added manually": "Añadió el síntoma de forma manual",
@@ -2243,6 +2257,7 @@
     "loseprogress": "Perderá los síntomas añadidos",
     "Do you want to exit": "¿Quieres salir de la aplicación?",
     "Symptoms copied to the clipboard": "Síntomas copiados en el portapapeles",
+    "Results copied to the clipboard": "Resultados copiados en el portapapeles",
     "To be able to copy the symptoms": "Para poder copiar los síntomas, tiene que seleccionar al menos un síntoma.",
     "To generate the chronology": "Para generar la cronología, tiene que seleccionar al menos un síntoma.",
     "Chronology": "Cronología",
@@ -2258,7 +2273,8 @@
     "click here": "ESTÁ AQUÍ",
     "If you want to know how Dx29": "Si quieres saber como funciona Dx29 y la precisión de sus resultados pulsa",
     "you have to select": "¡Estupendo! Ahora tiene que seleccionar los síntomas, para eliminar errores y ser precisos en el diagnóstico, es un paso muy importante para ayudar a tu paciente. Tienes que seleccionar entre 5 y 10 “síntomas guía”. Los síntomas guía son los que consideras que caracterizan a tu paciente y que tu ojo clínico te dice que son importantes.",
-    "remember": "Recuerda, para ser precisos en el diagnóstico, tienes que seleccionar entre 5 y 10 “síntomas guía”. Los síntomas guía son los que consideras que caracterizan a tu paciente y que tu ojo clínico te dice que son importantes.",
+    "remembertitle": "El número mínimo de síntomas es 2",
+    "remember": "Se recomienda añadir al menos 5.",
     "Do not show this message again": "No volver a mostrar este mensaje",
     "When you have selected them": "Cuando los hayas seleccionados tienes que hacer clic en el botón “Ver enfermedades propuestas”.",
     "InfoDx29":{
@@ -2281,17 +2297,18 @@
     "Look for symptoms": "Buscar síntomas",
     "Documents": "Informes",
     "Quick search": "Buscar",
-    "Drag and drop file here": "Arrastre y suelte el archivo aquí",
+    "Drag and drop file here": "Arrastre y suelte un informe aquí",
     "or": "o",
     "Browse for file": "Busque el archivo",
     "Accepted files": "Ficheros aceptados: pdf, docx, imágenes",
+    "descripReports": "Entendemos que estos datos son muy sensibles. Si no te registras todos los datos se borran al cerrar esta ventana.",
     "table":{
-      "t1": "Introducción de texto",
-      "d1": "Pegado, escrito, fotografía o archivo",
-      "t2": "Extracción de síntomas",
-      "d2": "La herramienta reconoce texto en todos los idiomas",
-      "t3": "Validación de síntomas",
-      "d3": "Acepta o rechaza los síntomas extraídos",
+      "t1": "Guarda tus historial médico y reanaliza",
+      "d1": "Ordena, almacena, edita y analiza tus datos con cronología múltiples veces de forma gratuita.",
+      "t2": "Múltiples casos y uso compartido ",
+      "d2": "Comparte tu caso y gestiona más de un caso si eres médico.",
+      "t3": "Utiliza tus datos genéticos",
+      "d3": "Sube, almacena y analiza tus archivos de datos genéticos y mejora tu diagnóstico.",
       "t4": "Enfermedades candidatas",
       "d4": "Lista de posibles enfermedades con lo síntomas validados",
       "t5": "Descarga de resultados",
@@ -2332,10 +2349,11 @@
     "add the symptoms manually": "Añadir manualmente",
     "try again": "Intentarlo de nuevo",
     "aboutUs":{
-      "title": "¿Quiénes somos?",
-      "p2": "Creamos tecnologías que permiten un cambio radical en sus capacidades como usuarios y en todo el ecosistema médico. Dx29 investiga la aplicación de modelos predictivos en la interfaz del paciente y sus médicos para acelerar el diagnóstico de enfermedades raras.",
-      "p1": "Somos una fundación sin ánimo de lucro. Trabajamos por una medicina en la que pacientes empoderados toman el control de su salud a través de sus datos y trabajan con médicos e instituciones para mejorar su bienestar y el de los demás.",
-      "btn1": "Visitar la página web de Foundation 29"
+      "title": "¿Qué es Dx29?",
+      "p2": "Si ya tienes un diagnóstico, podrás generar tu historial médico y además estar al día de ensayos clínicos y grupos de pacientes de tu enfermedad.",
+      "p1": "Software libre y gratuito para análisis y ordenación de tus síntomas, crear y compartir tu historial médico y ayuda para alcanzar un diagnóstico.",
+      "btn1": "Visitar la página web de Foundation 29",
+      "Who are we": "¿Quiénes somos?"
     },
     "diagnosed":{
       "general":{
@@ -2350,12 +2368,13 @@
         "Clinical trials": "Ensayos clínicos",
         "Patient groups": "Grupos de pacientes",
         "Donate your data": "¿Cómo podemos ayudarte?",
+        "Donate your data-xl": "¿Cómo ayudarte?",
         "Seconds": "segundos",
         "We have found": "Hemos encontrado",
         "results for": "resultados para"
       },
       "timeline":{
-        "title":"Cuéntanos la historia de tu enfermedad",
+        "title":"Vamos a ayudarte a construir una línea de tiempo de sus síntomas. Estos datos pueden mejorar la gestión de tu enfermedad y ayudar a otros pacientes como usted en su odisea diagnóstica. Hay dos pasos sencillos:",
         "subtitlea": "En este informe, el usuario de Dx29 describe los síntomas del paciente con el objetivo de mejorar la comunicación médico-paciente.",
         "subtitleb": "Se recomienda llevar el informe a la siguiente visita médica para que tanto el paciente como el médico ayuden a precisar más los",
         "subtitlec": "contenidos.",
@@ -2368,7 +2387,8 @@
         "footer4": "y sus datos.",
         "footer5": "Apúntate ya a la revolución en:",
         "footer6": "Para cualquier duda o consulta contacta con nosotros en",
-        "t0":"Organiza tus síntomas en una cronología. Esto es muy importante para que tú y tu médico podáis tener una visión clara de tu caso. No es necesario que las fechas sean exactas. Si no recuerdas el día en el que un síntoma empezó, anota el primer día del mes o el mes aproximado. Si tienes algún comentario sobre un síntoma, añade una nota en",
+        "titlet0": "Organiza tus síntomas en una cronología",
+        "t0":"Esto es muy importante para tener una visión clara de tu caso. Si no recuerdas el día en que empezó un síntoma, añade una fecha aproximada.",
         "t0-p1": "Estos datos pueden mejorar el tratamiento que recibes y también las bases de datos de tu enfermedad, ayudando otros pacientes como tú en su odisea de diagnóstico.",
         "t0-p2": "No pierdas tu progreso. Recuerda que puedes descargar estos datos para compartirlos con tu médico o compañeros.",
         "Register": "Registrate",
@@ -2420,7 +2440,10 @@
         "Knowing the evolution1": "Conocer la evolución de tus síntomas ayuda a llegar a un diagnóstico preciso porque muchas veces esa es la diferencia entre",
         "Knowing the evolution2": "dos enfermedades similares.",
         "There are undated symptoms1": "Hay síntomas sin fecha",
-        "There are undated symptoms2": "Seleccione las fechas para que aparezcan en tu historia."
+        "There are undated symptoms2": "Seleccione las fechas para que aparezcan en tu historia.",
+        "msValidationChrono1": "Faltan {{value}} síntomas por incluir en tu cronología",
+        "msValidationChrono2": "¿Quieres continuar?",
+        "msValidationChrono3": "No ha introducido los síntomas en su cronología"
       },
       "diseases":{
         "error1":"Lo sentimos, no tenemos información sobre",
@@ -2442,8 +2465,10 @@
         "clicking here": "pulsando aquí",
         "NoOnset":"Fecha de inicio desconocida",
         "GoPrevious":"Completa la información de estos síntomas.",
-        "These are the symptoms of your disease": "Estos son los síntomas que se asocian comúnmente a tu enfermedad. ¿Te sientes identificados con ellos?",
-        "goToChrono": "Cada paciente es distinto y debe tener un tratamiento adaptado a su historia. Empieza a contar tu historia creando tu propia cronología de síntomas"
+        "These are the symptoms of your disease": "Estos son los síntomas que se asocian comúnmente a tu enfermedad.",
+        "Do you identify with them?": "¿Te sientes identificados con ellos?",
+        "I want to create the chronology": "Crear mi cronología de los síntomas",
+        "goToChrono": "Cada paciente es distinto y debe tener un tratamiento adaptado a su historia. Empieza a contar tu historia creando tu propia cronología de síntomas."
       },
       "clinicalTrials":{
         "msgNoTrials": "Lo sentimos, en estos momentos no tenemos datos sobre ensayos clínicos para",
@@ -2487,7 +2512,13 @@
     "p2": "Empezar de nuevo",
     "p2.1": "Quiero un diagnóstico",
     "p2.2": "Quiero saber más sobre mi enfermedad",
-    "p3": "Añadir síntomas"
+    "p3": "Añadir síntomas",
+    "t4title": "Ventajas de registrarse en Dx29",
+    "t5": "Nuestro ecosistema",
+    "t6": "Premios",
+    "Institutions": "Instituciones",
+    "Patient associations": "Asociaciones de pacientes",
+    "Other partners": "Otros aliados"
   },
   "seo":{
     "home":{

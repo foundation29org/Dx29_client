@@ -1,6 +1,14 @@
 @import "../../../../../assets/sass/scss/bootstrap/timeline-vertical";
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
+.timeline-item {
+  padding: 0 0 0rem 3.2rem !important;
+}
+.timeline-group{
+  padding: 0px 0 !important;
+  margin: 0px 0 !important;
+}
+
 :host /deep/ .nav-pills{
   background: #eee;
 }
@@ -10,11 +18,11 @@
 }
 
 .w-reg{
-  max-width: 150px;
+  max-width: 300px;
 }
 
 .w-reg-img{
-  max-width: 150px;
+  max-width: 125px;
 }
 
 .w-reg-img-sm{
@@ -30,7 +38,7 @@
 }
 
 .articleTitle:hover {
-  color: #33658A;
+  color: #f9423a;
   text-decoration: underline;
 }
 
@@ -101,19 +109,19 @@
 
 /* Provide sufficient contrast against white background */
 a {
-    color: #33658A;
+    color: #f9423a;
 }
 
 .btn-primary {
     color: #fff;
-    background-color: #33658A;
-    border-color: #33658A;
+    background-color: #f9423a;
+    border-color: #f9423a;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
-    background-color: #33658A;
-    border-color: #33658A;
+    background-color: #f9423a;
+    border-color: #f9423a;
 }
 
 /* Sticky footer styles
@@ -183,70 +191,6 @@ body {
     color: blue;
 }
 
-/* Custom
--------------------------------------------------- */
-/*
-.section h1 {
-    font-family: suisse,sans-serif;
-    font-size: 48px;
-    font-weight: 600;
-}
-
-.section h2 {
-    font-family: suisse,sans-serif;
-    font-size: 36px;
-    font-weight: 600;
-}
-
-.section p {
-    font-family: suisse,sans-serif;
-    font-size: 22px;
-    font-weight: normal;
-}
-
-.section1 h1 {
-    font-family: suisse,sans-serif;
-    font-size: 48px;
-    font-weight: 600;
-}
-
-.section1 p {
-    font-family: suisse,sans-serif;
-    font-size: 22px;
-    font-weight: normal;
-}
-
-.section2 {
-    height: 100%;
-    min-height: 100%;
-}
-
-    .section2 h3 {
-        font-family: suisse,sans-serif;
-        font-size: 24px;
-        font-weight: 600;
-    }
-
-    .section2 p {
-        font-family: suisse,sans-serif;
-        font-size: 18px;
-        font-weight: normal;
-    }
-
-    .section2 button {
-        width: 220px;
-        word-wrap: break-word;
-        line-height: 1.25;
-    }
-
-        .section2 button.btn-link {
-            color: black;
-            text-decoration: underline;
-            line-height: 1.25;
-            font-size: 20px;
-            font-weight: 600;
-        }
-*/
 .donate p {
     font-family: suisse,sans-serif;
     font-size: 20px;
@@ -287,18 +231,17 @@ img.logo {
 body {
     --table-width: 100%; /* Or any value, this will change dinamically */
   }
-  tbody {
-    display:block;
-    max-height:270px;
-    min-height:270px;
-    overflow-y:auto;
-  }
+  
   thead, tbody tr {
     display:table;
     width: 100%;
     table-layout:fixed;
   }
 
+  hr{
+    border-color: #f9423a;
+  }
+  
   .tr-auto{
     table-layout:auto !important;
   }
@@ -386,18 +329,22 @@ body {
   }
 
   ::ng-deep  .swal2-styled.swal2-confirm:focus {
-    box-shadow: 0 0 0 3px #1696ac;
+    box-shadow: 0 0 0 3px #ffb2b2;
+}
+
+::ng-deep  .swal2-styled.swal2-cancel:focus {
+  box-shadow: 0 0 0 3px #ccc;
 }
 
 .form-control:focus{
-  border-color: #33658A !important;
-  box-shadow: 0 0 0 0.2rem #33658A5E;
+  border-color: #f9423a !important;
+  box-shadow: 0 0 0 0.2rem #f9423a5E;
 }
 
 :host /deep/ .dropdown-item.active, .dropdown-item:active {
     color: #fff;
     text-decoration: none;
-    background-color: #33658A !important;
+    background-color: #f9423a !important;
 }
 
 .btn-sm, .btn-group-sm > .btn {
@@ -407,16 +354,13 @@ body {
 ::ng-deep ngb-typeahead-window.dropdown-menu {
   max-height: 300px;
   overflow-y: auto;
+  width:87%;
  }
 
  .nav-tabs .nav-link.active {
-  border-bottom: 2px solid #33658A !important;
+  border-bottom: 2px solid #f9423a !important;
   background-color: transparent !important;
   border-color: transparent !important;
-}
-
-:host /deep/ a{
-  color: #33658A;
 }
 
 :host /deep/ .nav-tabs {
@@ -608,14 +552,6 @@ body {
   width: 91%
 }
 
-@media ( max-width: 1600px ){
-
-  ::ng-deep ngb-typeahead-window.dropdown-menu {
-   width:88vw;
-  }
-
-}
-
 @media ( max-width: 1199px ){
 
   .offset-xl-1 {
@@ -648,14 +584,6 @@ body {
 
 }
 
-@media ( max-width: 960px ){
-
-  ::ng-deep ngb-typeahead-window.dropdown-menu {
-   width:88vw;
-  }
-
-}
-
   @media ( max-width: 899px ){
     .animate-bottom {
         position: fixed;
@@ -678,6 +606,11 @@ body {
   }*/
 
   @media ( max-width: 575px ){
+
+    .timeline{
+      padding: 0px 0 !important;
+      margin: 0px 0 !important;
+    }
 
     .box-panels{
       margin-bottom: 2.25rem !important;
@@ -703,13 +636,11 @@ body {
       padding-top: 0rem !important;
     }
 
-    ::ng-deep ngb-typeahead-window.dropdown-menu {
-      width:93vw;
-    }
     .inputSearch{
-      width: 93vw;
+      width: 87vw;
       margin-left: 0rem !important;
     }
+
     ::ng-deep ngb-typeahead-window.dropdown-menu {
       font-size: 0.8rem !important;
      }
