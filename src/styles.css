@@ -42,6 +42,16 @@ body {
   color: #f9423a;
 }
 
+.alert-warning {
+  border: 1px solid #dee2e6 !important;
+  background-color: #9FB7FF3D !important;
+  color: #282828 !important;
+}
+
+.mat-expansion-panel-content {
+  font: inherit;
+}
+
 :host /deep/ a{
   color: #f9423a;
 }

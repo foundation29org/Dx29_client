@@ -354,6 +354,7 @@ body {
 ::ng-deep ngb-typeahead-window.dropdown-menu {
   max-height: 300px;
   overflow-y: auto;
+  width:87%;
  }
 
  .nav-tabs .nav-link.active {
@@ -551,14 +552,6 @@ body {
   width: 91%
 }
 
-@media ( max-width: 1600px ){
-
-  ::ng-deep ngb-typeahead-window.dropdown-menu {
-   width:88vw;
-  }
-
-}
-
 @media ( max-width: 1199px ){
 
   .offset-xl-1 {
@@ -587,14 +580,6 @@ body {
 
     ::ng-deep .dropdown-item {
       white-space: normal !important;
-  }
-
-}
-
-@media ( max-width: 960px ){
-
-  ::ng-deep ngb-typeahead-window.dropdown-menu {
-   width:88vw;
   }
 
 }
@@ -651,13 +636,11 @@ body {
       padding-top: 0rem !important;
     }
 
-    ::ng-deep ngb-typeahead-window.dropdown-menu {
-      width:93vw;
-    }
     .inputSearch{
-      width: 93vw;
+      width: 87vw;
       margin-left: 0rem !important;
     }
+
     ::ng-deep ngb-typeahead-window.dropdown-menu {
       font-size: 0.8rem !important;
      }

@@ -2442,8 +2442,8 @@
         "There are undated symptoms1": "Hay síntomas sin fecha",
         "There are undated symptoms2": "Seleccione las fechas para que aparezcan en tu historia.",
         "msValidationChrono1": "Faltan {{value}} síntomas por incluir en tu cronología",
-        "msValidationChrono2": "Do you want to continue?",
-        "msValidationChrono3": "You have not entered symptoms in your chronology"
+        "msValidationChrono2": "¿Quieres continuar?",
+        "msValidationChrono3": "No ha introducido los síntomas en su cronología"
       },
       "diseases":{
         "error1":"Lo sentimos, no tenemos información sobre",
@@ -2515,7 +2515,10 @@
     "p3": "Añadir síntomas",
     "t4title": "Ventajas de registrarse en Dx29",
     "t5": "Nuestro ecosistema",
-    "t6": "Premios"
+    "t6": "Premios",
+    "Institutions": "Instituciones",
+    "Patient associations": "Asociaciones de pacientes",
+    "Other partners": "Otros aliados"
   },
   "seo":{
     "home":{

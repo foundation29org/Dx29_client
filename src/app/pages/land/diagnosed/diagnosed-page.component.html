@@ -5,7 +5,7 @@
           <div class="card-body">
             <ngb-alert type="warning" class="mb-2" [dismissible]="false" *ngIf="lang=='es'">
               <div class="center-elements">
-                <span class="white" [innerHTML]="'InfoSystem.Spanishtranslations2' | translate"></span>
+                <span [innerHTML]="'InfoSystem.Spanishtranslations2' | translate"></span>
               </div>
             </ngb-alert>
             <div class="row m-0">
@@ -84,7 +84,7 @@
     <div class="card-body">
       <ngb-alert type="warning" class="mb-2" [dismissible]="false" *ngIf="lang=='es'">
         <div class="center-elements">
-          <span class="white" [innerHTML]="'InfoSystem.Spanishtranslations2' | translate"></span>
+          <span [innerHTML]="'InfoSystem.Spanishtranslations2' | translate"></span>
         </div>
       </ngb-alert>
       <div class="row m-0">
@@ -126,7 +126,7 @@
                       {{'land.diagnosed.general.Symptoms' | translate }}
                     </mat-panel-title>
                   </mat-expansion-panel-header>
-                  <div class="p-3 m-3 rounded text-center" style="background-color: #9FB7FF3D !important;">
+                  <div class="p-3 m-3 border rounded text-center" style="background-color: #9FB7FF3D !important;">
                     <p class="ml-2 mr-2">{{'land.diagnosed.symptoms.These are the symptoms of your disease' | translate }}</p>
                     <p class="ml-2 mr-2">{{'land.diagnosed.symptoms.goToChrono' | translate }}
                     <div class="col-md-12 center-elements">
@@ -236,13 +236,13 @@
                         <div class="col-md-12 align-items-center text-center">
                           <div class="form-steps-container">
                             <span *ngFor="let step of stepsTimeLine; let i = index;" class="forstep">
-                                <div [ngClass]="{ 'step-complete': step.isComplete, 'step-incomplete': !step.isComplete, 'step-current': (currentStepTimeLine)?.stepIndex >= step.stepIndex,  'step-bubble-prev': (currentStepTimeLine)?.stepIndex >= step.stepIndex,  'step-bubble-next': (currentStepTimeLine)?.stepIndex < step.stepIndex}"
+                                <div [ngClass]="{ 'step-complete': step.isComplete, 'step-incomplete': !step.isComplete, 'step-current': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i < (stepsTimeLine)?.length - 1), 'step-final': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i == (stepsTimeLine)?.length - 1),  'step-bubble-prev': (currentStepTimeLine)?.stepIndex >= step.stepIndex,  'step-bubble-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex && i < (stepsTimeLine)?.length - 1),  'step-bubble-final': ((currentStepTimeLine)?.stepIndex < step.stepIndex && i == (stepsTimeLine)?.length - 1), 'margin-bubble-final': (step.stepIndex == 3)}"
                                     class="step-bubble">
                                     <span *ngIf="i < (stepsTimeLine)?.length - 1">{{ step.stepIndex }}</span>
                                     <span *ngIf="i == (stepsTimeLine)?.length - 1"><em class="fa fa-check"></em></span>
                                   </div>
                                 <div *ngIf="i < (stepsTimeLine)?.length - 1" class="step-divider" [ngClass]="((i < (stepsTimeLine)?.length - 1) && step.stepIndex>=currentStepTimeLine.stepIndex)?'step-divider-prev':'step-divider-next'"></div>
-                                <span class="step-title mt-2">{{step.title}} </span>
+                                <span class="step-title mt-2" [ngClass]="{ 'margin-step-title': (step.stepIndex == 3)}">{{step.title}} </span>
                             </span>
                           </div>
                         </div>
@@ -755,7 +755,7 @@
                 <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined" id="tab0">
                   <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Symptoms');">{{'land.diagnosed.general.Symptoms' | translate }}</strong></ng-template>
                   <ng-template ngbTabContent>
-                    <div class="p-3 m-3 rounded text-center" style="background-color: #9FB7FF3D !important;">
+                    <div class="p-3 m-3 border rounded text-center" style="background-color: #9FB7FF3D !important;">
                       <p class="ml-2 mr-2">{{'land.diagnosed.symptoms.These are the symptoms of your disease' | translate }}</p>
                       <p class="ml-2 mr-2">{{'land.diagnosed.symptoms.goToChrono' | translate }}
                       <div class="col-md-12 center-elements">
@@ -851,13 +851,13 @@
                               <div class="col-md-12 align-items-center text-center">
                                 <div class="form-steps-container">
                                   <span *ngFor="let step of stepsTimeLine; let i = index;" class="forstep">
-                                      <div [ngClass]="{ 'step-complete': step.isComplete, 'step-incomplete': !step.isComplete, 'step-current': (currentStepTimeLine)?.stepIndex >= step.stepIndex,  'step-bubble-prev': (currentStepTimeLine)?.stepIndex >= step.stepIndex,  'step-bubble-next': (currentStepTimeLine)?.stepIndex < step.stepIndex}"
+                                    <div [ngClass]="{ 'step-complete': step.isComplete, 'step-incomplete': !step.isComplete, 'step-current': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i < (stepsTimeLine)?.length - 1), 'step-final': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i == (stepsTimeLine)?.length - 1),  'step-bubble-prev': (currentStepTimeLine)?.stepIndex >= step.stepIndex,  'step-bubble-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex && i < (stepsTimeLine)?.length - 1),  'step-bubble-final': ((currentStepTimeLine)?.stepIndex < step.stepIndex && i == (stepsTimeLine)?.length - 1), 'margin-bubble-final': (step.stepIndex == 3)}"
                                           class="step-bubble">
                                           <span *ngIf="i < (stepsTimeLine)?.length - 1">{{ step.stepIndex }}</span>
                                           <span *ngIf="i == (stepsTimeLine)?.length - 1"><em class="fa fa-check"></em></span>
                                         </div>
                                       <div *ngIf="i < (stepsTimeLine)?.length - 1" class="step-divider" [ngClass]="((i < (stepsTimeLine)?.length - 1) && step.stepIndex>=currentStepTimeLine.stepIndex)?'step-divider-prev':'step-divider-next'"></div>
-                                      <span class="step-title mt-2">{{step.title}} </span>
+                                      <span class="step-title mt-2" [ngClass]="{ 'margin-step-title': (step.stepIndex == 3)}">{{step.title}} </span>
                                   </span>
                                 </div>
                               </div>

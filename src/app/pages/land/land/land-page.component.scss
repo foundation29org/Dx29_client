@@ -95,8 +95,12 @@
   filter: brightness( 100% ) contrast( 100% ) saturate( 100% ) blur( 0px ) hue-rotate( 0deg );
 }
 
+.margin-img-sm{
+  margin-left: 12%;
+}
+
 .responsive2{
-    max-height: 100px;
+    max-height: 150px;
     max-width: 100%;
     max-width: -moz-available;          /* For Mozzila */
     max-width: -webkit-fill-available;  /* For Chrome */
