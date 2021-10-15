@@ -2350,9 +2350,15 @@
     "aboutUs":{
       "title": "What is Dx29?",
       "p2": "If you already have a diagnosis, you will be able to generate your medical history and also keep up to date with clinical trials and patient groups of your disease.",
-      "p1": "Opens source and free software for analysis and management of your symptoms, creation and sharing of your medical history and help to reach a diagnosis.",
+      "p1": "Dx29 is a non-profit project to help patients and physicians understand the patient disease. It is a completely free software for analysis and management of your symptoms, creation and sharing of your medical history and help to reach a diagnosis.",
+      "p3": "The data in Dx29 can only be shared by its owner. Foundation 29 will never share it with anyone. In the future, we will include functionality so that patients can store their own data in their own private data space. If you want to be updated on the progress of this and other projects, sign up here:",
       "btn1": "Visit the Foundation 29 website",
-      "Who are we": "Who are we?"
+      "Who are we": "Visit our website",
+      "titlef29": "What is Foundation 29?",
+      "p1f29": "We are a non-profit foundation. We work for a medicine in which empowered patients take control of their health through their data and work with doctors and institutions to improve their well-being and that of others.",
+      "p2f29": "We create technologies that allow a radical change in your capabilities as users and in the entire medical ecosystem.",
+      "p3f29": "The activism of patients, their families and associations are at our core. We put special focus on rare diseases. They are in our origin and in our name: February 29, world day of rare diseases.",
+      "Sign up": "Sign up"
     },
     "diagnosed":{
       "general":{

@@ -1646,7 +1646,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     allowOutsideClick: false,
                     showConfirmButton: false,
                     didOpen: function () {
-                        this.jsPDFService.generateTimelinePDF(this.paramsTimeLine.lang, this.paramsTimeLine.dictionaryTimeline, this.paramsTimeLine.listTimelineNull, this.paramsTimeLine.disease, this.paramsTimeLine.topRelatedConditions);
+                        this.jsPDFService.generateTimelinePDF(this.paramsTimeLine.lang, this.paramsTimeLine.dictionaryTimeline, this.paramsTimeLine.listTimelineNull, this.paramsTimeLine.disease, this.paramsTimeLine.topRelatedConditions, true);
                         Swal.close();
                         this.loadingPdf = false;
                     }.bind(this)
@@ -2338,7 +2338,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     sendEmail() {
         var infoSymptoms = this.getPlainInfoSymptomsEmail();
         var infoDisease = this.getPlainInfoDiseasesEmail();
-
+        var pdfBase64 = this.jsPDFService.generateTimelinePDF(this.paramsTimeLine.lang, this.paramsTimeLine.dictionaryTimeline, this.paramsTimeLine.listTimelineNull, this.paramsTimeLine.disease, this.paramsTimeLine.topRelatedConditions, false);
         Swal.fire({
             title: this.translate.instant("land.Enter email address"),
             input: 'email',
@@ -2360,7 +2360,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     var actualDate = new Date();
                     var dateHeader = this.getFormatDate(actualDate);
 
-                    var info = { email: email.value, msg: message.value, symptoms: infoSymptoms, disease: infoDisease, lang: this.lang, dateHeader: dateHeader };
+                    var info = { email: email.value, msg: message.value, symptoms: infoSymptoms, disease: infoDisease, lang: this.lang, dateHeader: dateHeader, pdfBase64: pdfBase64 };
                     this.subscription.add(this.apiDx29ServerService.sendEmailResultsDiagnosed(info)
                         .subscribe((res: any) => {
                             Swal.fire({

@@ -1630,7 +1630,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     sendEmail() {
         var infoSymptoms = this.getPlainInfoSymptomsEmail();
         var infoDiseases = this.getPlainInfoDiseasesEmail();
-
+        var pdfBase64 = this.jsPDFService.generateTimelinePDF(this.paramsTimeLine.lang, this.paramsTimeLine.dictionaryTimeline, this.paramsTimeLine.listTimelineNull, this.paramsTimeLine.disease, this.paramsTimeLine.topRelatedConditions, false);
         Swal.fire({
             title: this.translate.instant("land.Enter email address"),
             input: 'email',
@@ -1652,7 +1652,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                     var actualDate = new Date();
                     var dateHeader = this.getFormatDate(actualDate);
 
-                    var info = { email: email.value, msg: message.value, symptoms: infoSymptoms, diseases: infoDiseases, lang: this.lang, dateHeader: dateHeader };
+                    var info = { email: email.value, msg: message.value, symptoms: infoSymptoms, diseases: infoDiseases, lang: this.lang, dateHeader: dateHeader, pdfBase64: pdfBase64 };
                     this.subscription.add(this.apiDx29ServerService.sendEmailResultsUndiagnosed(info)
                         .subscribe((res: any) => {
                             Swal.fire({
@@ -2056,7 +2056,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                 allowOutsideClick: false,
                 showConfirmButton: false,
                 didOpen: function () {
-                    this.jsPDFService.generateTimelinePDF(this.paramsTimeLine.lang, this.paramsTimeLine.dictionaryTimeline, this.paramsTimeLine.listTimelineNull, this.paramsTimeLine.disease, this.paramsTimeLine.topRelatedConditions);
+                    this.jsPDFService.generateTimelinePDF(this.paramsTimeLine.lang, this.paramsTimeLine.dictionaryTimeline, this.paramsTimeLine.listTimelineNull, this.paramsTimeLine.disease, this.paramsTimeLine.topRelatedConditions, true);
                     Swal.close();
                     this.loadingPdf = false;
                 }.bind(this)

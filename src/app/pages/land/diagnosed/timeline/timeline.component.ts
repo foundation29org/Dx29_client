@@ -437,7 +437,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
                     allowOutsideClick: false,
                     showConfirmButton: false,
                     didOpen: function () {
-                        this.jsPDFService.generateTimelinePDF(sessionStorage.getItem('lang'), this.dictionaryTimeline, this.listTimelineNull, this.disease, this.topRelatedConditions);
+                        this.jsPDFService.generateTimelinePDF(sessionStorage.getItem('lang'), this.dictionaryTimeline, this.listTimelineNull, this.disease, this.topRelatedConditions, true);
                         Swal.close();
                         this.loadingPdf = false;
                         this.finishEvent.emit(true);
