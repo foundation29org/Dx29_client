@@ -39,7 +39,7 @@
   </div>
 </section>
 <section *ngIf="currentStep.stepIndex == 1" class="step-section offset-sm-1 col-sm-10 offset-md-2 col-md-8 offset-lg-3 col-lg-6">
-  <div *ngIf="substepExtract=='0'"
+  <div *ngIf="substepExtract=='0' || substepExtract=='4'"
     class="mb-2 shadow rounded-lg light-background border box-panels">
     <div class="row pt-2">
       <div class="col-md-12">
@@ -75,6 +75,22 @@
                 </div>
               </div>
               <div *ngIf="temporalSymptoms.length>0">
+                <thead class="pr-1 pl-1 mt-2">
+                  <tr>
+                    <th id="headerTable" style="border-top-style: none;padding-bottom: 4px;">
+                      <span class="icons-title-symptoms ml-1" style="font-weight: normal;">{{'land.SelectSymptoms' | translate }}</span>
+                      <span class="float-right icons-opt-symptoms">
+                      <em class="mt-1 fa fa-refresh grey ml-2 mr-2" title="{{'land.Start over' | translate }}"
+                        (click)="restartInitVars()" style="cursor: pointer;"></em>
+                        <em class="mt-1 fas fa-copy grey mr-2" title="{{'land.Copy symptoms' | translate }}"
+                        (click)="copySymptoms()" style="cursor: pointer;"></em>
+                        <em class="mt-1 fa fa-download grey mr-2"
+                        title="{{'land.Download symptoms' | translate }}" (click)="downloadSymptoms()"
+                        style="cursor: pointer;"></em>
+                      </span>
+                    </th>
+                  </tr>
+                </thead>
                 <div class="table-cont">
                   <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
                     aria-labelledby="HPO">
@@ -179,113 +195,17 @@
         </ngb-tabset>
       </div>
     </div>
+    
   </div>
-  <div *ngIf="substepExtract!='0'"
-    class="mb-2 shadow rounded-lg light-background border"
-    [ngClass]="(substepExtract!='4')?'d-flex':''">
-    <div *ngIf="substepExtract!='4'" class="mr-2 section w-100  mb-2 align-self-center">
+  <div *ngIf="substepExtract!='0' && substepExtract!='4'" class="mb-2 shadow rounded-lg light-background border d-flex">
+    <div class="mr-2 section w-100  mb-2 align-self-center">
       <span class="d-block pt-2 center-elements font-medium-3">{{'land.The symptoms found will be shown here' |
         translate }}</span>
-      <span *ngIf="substepExtract!='0' && substepExtract!='4'" class="d-block pt-2 center-elements">
+      <span class="d-block pt-2 center-elements">
         <em class="fa fa-spinner fa-spin fa-3x fa-fw secondary"></em>
         <span class="d-block overlay-text col-md-12 font-medium-3 mt-2">{{'land.Calculating' | translate
           }}...</span>
         <span class="d-block font-medium-3 mt-1 pb-2">{{'land.pleaseWait' | translate }}</span>
-      </span>
-    </div>
-    <div *ngIf="substepExtract=='4'" class="section maintxt">
-      <table class="col-md-12 table mb-0" [ngClass]="(temporalSymptoms.length>0)?'border-bottom':''"
-        aria-label="extract HPO">
-        <thead>
-          <tr>
-            <th id="headerTable" style="border-top-style: none;padding-bottom: 4px;">
-              <span class="icons-title-symptoms">{{'land.SelectSymptoms' | translate }}</span>
-              <span class="float-right icons-opt-symptoms">
-              <em class="mt-1 fa fa-refresh grey ml-2 mr-2" title="{{'land.Start over' | translate }}"
-                (click)="restartInitVars()" style="cursor: pointer;"></em>
-                <em class="mt-1 fas fa-copy grey mr-2" title="{{'land.Copy symptoms' | translate }}"
-                (click)="copySymptoms()" style="cursor: pointer;"></em>
-                <em class="mt-1 fa fa-download grey mr-2"
-                title="{{'land.Download symptoms' | translate }}" (click)="downloadSymptoms()"
-                style="cursor: pointer;"></em>
-              </span>
-            </th>
-          </tr>
-        </thead>
-        <caption class="ml-2 text-muted d-block caption-symptoms">
-          <ng-template #rt let-r="result" let-t="term">
-            <strong title="{{r.name}}">{{ r.name}}</strong>
-            <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
-              slice:0:140)+'...':(r.desc) }}</span>
-          </ng-template>
-          <div style="padding-top: 0.5rem !important;">
-            <span class="d-none d-sm-inline ml-2 mr-2"><i class="fas fa-search"></i></span>
-            <input #input type="text"
-            #inputManualSymptoms class="form-control ml-1 inputSearch d-inline data-hj-allow" [(ngModel)]="modelTemp"
-            [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
-            placeholder="{{'symptomssection.manualinput' | translate }}"
-            (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
-            <em *ngIf="callListOfSymptoms" class="fa fa-spinner fa-spin fa-2x fa-fw secondary spinner-absolute"></em>
-            <span *ngIf="nothingFoundSymptoms">
-              <span *ngIf="(modelTemp).trim().length>3">
-                <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
-              </span>
-            </span>
-          </div>
-        </caption>
-      </table>
-      <div class="table-cont">
-        <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white" aria-labelledby="HPO">
-          <tbody>
-            <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
-              <td>
-                <span>
-                  <span class="float-right ml-1">
-                    <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
-                      class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
-                      title="{{'generics.More information' | translate }} ({{hpo.id}})">
-                      <em class="fa fa-info w-13"></em>
-                    </button>
-                    <button (click)="deleteSymptom(hpo, i)"
-                      class="btn btn-sm mr-1 mb-0 btn-fab round btn-outline-danger"
-                      href="javascript:void(0)"
-                      title="{{'generics.Delete' | translate }}">
-                      <em class="fa fa-trash w-13"></em>
-                    </button>
-                  </span>
-                  <span>
-                    <button (click)="changeStateSymptom(i)"
-                      class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                      [ngClass]="(hpo.checked==true)?'btn-success':'btn-secondary'"
-                      href="javascript:void(0)" title="{{'phenotype.Click to check it' | translate }}">
-                      <em class="fa fa-check w-13"></em>
-                    </button>
-                    <span class="ml-1 custom-bold pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">{{hpo.name}}</span>
-                  </span>
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <span class="col-md-12 p-1 border-top footer-symtoms">
-        <span>
-          <!--<span>
-            {{'land.You have selected' | translate }} {{numberOfSymtomsChecked}} {{'land.symptom' | translate
-            }}<span *ngIf="numberOfSymtomsChecked!=1">s</span> {{'land.out of' | translate }}
-            {{temporalSymptoms.length}}
-          </span>-->
-          <span *ngIf="numberOfSymtomsChecked<minSymptoms && temporalSymptoms.length > 1" class="danger" style="width: 70%;display: inline-block;">
-            {{'land.You must select at least' | translate }} {{minSymptoms}} {{'land.symptom' | translate }}s
-            {{'land.in order to continue' | translate }}
-          </span>
-          <span *ngIf="numberOfSymtomsChecked<minSymptoms && temporalSymptoms.length < 2" class="danger" style="width: 70%;display: inline-block;">
-            {{'land.addMoreSymp' | translate }}
-          </span>
-          <button *ngIf="!loadingCalculate" type="button" class="mt-2 mr-2 btn btn-secondary btn-raised float-right" (click)="calculate()" [class.cursor-not-allowed]="currentStep.stepIndex==3" [disabled]="currentStep.stepIndex==3" [ngClass]="(currentStep.stepIndex<3)?'btn btn-primary btn-raised':'btn btn-secondary btn-raised'">{{'generics.Next' | translate }}</button>
-          <em *ngIf="loadingCalculate" class="fa fa-spinner fa-spin fa-3x fa-fw secondary mt-2 mr-2 float-right"></em>
-        </span>
       </span>
     </div>
   </div>

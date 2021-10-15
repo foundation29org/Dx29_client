@@ -2465,7 +2465,8 @@
         "These are the symptoms of your disease": "These are the symptoms that are commonly associated with your disease.",
         "Do you identify with them?": "Do you identify with them?",
         "I want to create the chronology": "Create my symptom timeline",
-        "goToChrono": "Each patient is different and should have a treatment adapted to their story. Start telling yours by creating your own symptom timeline."
+        "goToChrono": "Each patient is different and should have a treatment adapted to their story. Start telling yours by creating your own symptom timeline.",
+        "syptomsDetected": "{{value}} new symptoms have been detected"
       },
       "clinicalTrials":{
         "msgNoTrials": "Sorry, at this time we do not have clinical trial data for",

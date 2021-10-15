@@ -1787,6 +1787,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     Swal.fire(this.translate.instant("generics.Warning"), 'Too many requests for service ncr-gpu (overloaded)', "error");
                 } else {
                     if (infoNcr.length > 0) {
+                        var countAddedSypmtoms = 0;
                         for (var i = 0; i < infoNcr.length; i++) {
                             if (infoNcr[i].phens.length > 0) {
                                 infoNcr[i].phens.sort(this.sortService.GetSortOrderNumberInverse("characters"));
@@ -1805,9 +1806,18 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                                 }
 
                                 var symptomExtractor = { id: infoNcr[i].phens[j].id, name: infoNcr[i].phens[j].concept, new: true, similarity: parseFloat(infoNcr[i].phens[j].probability), positions: positions, text: text };
-                                this.addTemporalSymptom(symptomExtractor, 'ncr');
+                                var isAdded = this.addTemporalSymptom(symptomExtractor, 'ncr');
+                                if (isAdded) {
+                                    countAddedSypmtoms++;
+                                }
                             }
 
+                        }
+                        if (countAddedSypmtoms > 0) {
+                            console.log(countAddedSypmtoms);
+                            Swal.fire('', this.translate.instant("land.diagnosed.symptoms.syptomsDetected", {
+                                value: countAddedSypmtoms
+                            }), "success");
                         }
                         this.resultTextNcr = this.medicalText;
                         this.resultTextNcrCopy = this.medicalText;
@@ -1821,7 +1831,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                             hposStrins.push(element.id);
                         });
 
-                        Swal.close();
+                        //Swal.close();
                         if (hposStrins.length == 0) {
                             //Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
                             //this.medicalText = '';
@@ -1892,6 +1902,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 var infoNcr = res.result;
                 if (infoNcr != undefined) {
                     if (infoNcr.length > 0) {
+                        var countAddedSypmtoms = 0;
                         for (var i = 0; i < infoNcr.length; i++) {
                             var positions = [];
                             infoNcr[i].characters[0] = parseInt(infoNcr[i].characters[0])
@@ -1900,7 +1911,16 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                             var text = [];
                             text = [{ positions: positions[0], text: infoNcr[i].concept }];
                             var symptomExtractor = { id: infoNcr[i].id, name: infoNcr[i].concept, new: true, similarity: parseFloat(infoNcr[i].probability), positions: positions, text: text };
-                            this.addTemporalSymptom(symptomExtractor, 'ncrOld');
+                            var isAdded = this.addTemporalSymptom(symptomExtractor, 'ncrOld');
+                            if (isAdded) {
+                                countAddedSypmtoms++;
+                            }
+                        }
+                        if (countAddedSypmtoms > 0) {
+                            console.log(countAddedSypmtoms);
+                            Swal.fire('', this.translate.instant("land.diagnosed.symptoms.syptomsDetected", {
+                                value: countAddedSypmtoms
+                            }), "success");
                         }
                         this.resultTextNcr = this.medicalText;
                         this.resultTextNcrCopy = this.medicalText;
@@ -1914,7 +1934,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                             hposStrins.push(element.id);
                         });
 
-                        Swal.close();
+                        //Swal.close();
                         if (hposStrins.length == 0) {
                             Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
                             this.medicalText = '';
@@ -1987,6 +2007,9 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         if (!foundElement) {
             this.infoOneDisease.symptoms.push({ id: symptom.id, name: symptom.name, new: true, checked: null, percentile: -1, inputType: inputType, importance: '1', polarity: '0', similarity: symptom.similarity, positions: symptom.positions, text: symptom.text });
             this.infoOneDisease.symptoms.sort(this.sortService.GetSortOrder("name"));
+            return true;
+        }else{
+            return false;
         }
     }
 
