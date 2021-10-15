@@ -32,7 +32,7 @@ export class jsPDFService {
     };
     
 
-    generateTimelinePDF(lang, dictionaryTimeline, listSymptomsNullInfo, disease, topRelatedConditions){
+    generateTimelinePDF(lang, dictionaryTimeline, listSymptomsNullInfo, disease, topRelatedConditions, save){
         this.lang = lang;
         var doc = new jsPDF as jsPDFWithPlugin;
         var positionY = 0;
@@ -164,9 +164,13 @@ export class jsPDFService {
         }
         
         var date = this.getDate();
-        doc.save('Dx29_Timeline_' + date +'.pdf');
-        
-        return;
+        if(save){
+            doc.save('Dx29_Timeline_' + date +'.pdf');
+            return;
+        }else{
+            var pdfBase64 = doc.output('datauristring');
+            return pdfBase64;
+        }
     }
 
     private chunkSubstr(str, size) {
