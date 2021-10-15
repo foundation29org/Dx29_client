@@ -41,6 +41,10 @@
   height: 80px;
 }
 
+.ng-touched.ng-invalid {
+  border-color: #A6A9AE;
+}
+
 .btn-white.btn-raised, .btn-white.btn-fab {
   background-color: #fff !important;
   color: #000 !important;

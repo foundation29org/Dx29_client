@@ -2350,10 +2350,16 @@
     "try again": "Intentarlo de nuevo",
     "aboutUs":{
       "title": "¿Qué es Dx29?",
-      "p2": "Si ya tienes un diagnóstico, podrás generar tu historial médico y además estar al día de ensayos clínicos y grupos de pacientes de tu enfermedad.",
-      "p1": "Software libre y gratuito para análisis y ordenación de tus síntomas, crear y compartir tu historial médico y ayuda para alcanzar un diagnóstico.",
+      "p2": "Si ya tienes un diagnóstico, podrás generar tu historial médico y también estar al día de los ensayos clínicos y grupos de pacientes de tu enfermedad.",
+      "p1": "Dx29 es un proyecto sin ánimo de lucro para ayudar a los pacientes y a los médicos a entender la enfermedad del paciente. Es un software completamente gratuito para el análisis y la gestión de sus síntomas, la creación y el intercambio de su historial médico y la ayuda para llegar a un diagnóstico.",
+      "p3": "Los datos de Dx29 sólo pueden ser compartidos por su propietario. La Fundación 29 nunca los compartirá con nadie. En el futuro, incluiremos una funcionalidad para que los pacientes puedan almacenar sus propios datos en su espacio de datos privado. Si quieres estar al día de los avances de este y otros proyectos, inscríbete aquí:",
       "btn1": "Visitar la página web de Foundation 29",
-      "Who are we": "¿Quiénes somos?"
+      "Who are we": "Visita nuestra web",
+      "titlef29": "¿Qué es Fundación 29?",
+      "p1f29": "Somos una fundación sin ánimo de lucro. Trabajamos por una medicina en la que pacientes empoderados toman el control de su salud a través de sus datos y trabajan con médicos e instituciones para mejorar su bienestar y el de los demás.",
+      "p2f29": "Creamos tecnologías que permiten un cambio radical en sus capacidades como usuarios y en todo el ecosistema médico.",
+      "p3f29": "El activismo de los pacientes, sus familias y las asociaciones están en nuestra esencia. Ponemos especial foco en las enfermedades raras. Están en nuestro origen y en nuestro nombre: 29 de febrero, día mundial de las enfermedades raras.",
+      "Sign up": "Inscribirme"
     },
     "diagnosed":{
       "general":{
