@@ -111,6 +111,12 @@
     max-width: stretch;
 }
 
+@media (max-width: 768px) {
+  .margin-left-0{
+    margin-left: 0px !important;
+  }
+}
+
   @media ( max-width: 575px ){
     .pad-logos{
       padding: 0rem !important;
@@ -127,6 +133,7 @@
     .w-reg-img{
       max-width: 4em;
     }
+    
   }
 
   @media ( max-width: 449px ){
