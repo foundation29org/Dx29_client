@@ -793,6 +793,12 @@ body {
 
 }
 
+@media ( max-width: 991px ){
+  .inputSearch2{
+    margin-left: 1rem !important;
+  }
+}
+
   @media ( max-width: 899px ){
     .animate-bottom {
         position: fixed;
@@ -865,13 +871,7 @@ body {
     }
 
     .inputSearch{
-      width: 87vw;
       margin-left: 0rem !important;
-    }
-  
-    .inputSearch2{
-      width: 55vw;
-      margin-left: 1rem !important;
     }
     
     ::ng-deep ngb-typeahead-window.dropdown-menu {
