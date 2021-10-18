@@ -308,7 +308,7 @@ export class LoginPageComponent implements OnDestroy, OnInit{
                       focusConfirm: false,
                       confirmButtonText:this.translate.instant("login.resendEmail"),
                       cancelButtonText:this.translate.instant("login.contactSupport"),
-                      confirmButtonColor: '#33658A',
+                      confirmButtonColor: '#33658a',
                       cancelButtonColor: '#B0B6BB',
                     }).then((result) => {
                       //console.log(result)

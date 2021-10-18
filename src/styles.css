@@ -39,7 +39,7 @@ body {
 }
 
 .nav-tabs .nav-link.active {
-  color: #33658A;
+  color: #33658a;
 }
 
 .alert-warning {
@@ -53,7 +53,12 @@ body {
 }
 
 :host /deep/ a{
-  color: #33658A !important;
+  color: #33658a !important;
+}
+
+a:hover, a:focus {
+  color: #b0b6bb;
+  text-decoration: none;
 }
 
 .swal2-actions:not(.swal2-loading) .swal2-styled:hover {
@@ -70,7 +75,7 @@ body {
 }
 
 a{
-  color: #33658A;
+  color: #33658a;
 }
 
 .btn-outline-secondary:hover {
@@ -93,7 +98,7 @@ a{
 }
 
 .hr-custom{
-  background-color: #33658A; 
+  background-color: #33658a; 
   height: 3px; 
   border: 0;
   width: 30%;
@@ -144,7 +149,7 @@ a{
 
 .btn-active-info {
   color: #fff;
-  background-color: #33658A;
+  background-color: #33658a;
   border-color: #205883;
   box-shadow: 0 0 0 0.2rem rgba(250, 94, 88, 0.5);
 }

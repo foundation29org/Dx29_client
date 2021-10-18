@@ -86,7 +86,7 @@ export class AuthGuard implements CanActivate {
         html: this.translate.instant("InfoSystem.bodyReload"),
         icon: 'warning',
         showCancelButton: false,
-        confirmButtonColor: '#33658A',
+        confirmButtonColor: '#33658a',
         cancelButtonColor: '#B0B6BB',
         confirmButtonText: 'Ok',
         showLoaderOnConfirm: true,

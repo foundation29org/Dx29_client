@@ -17,7 +17,7 @@ export class DialogService {
         text: text,
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#33658A',
+        confirmButtonColor: '#33658a',
         cancelButtonColor: '#B0B6BB',
         confirmButtonText: this.translate.instant("generics.Yes"),
         cancelButtonText: this.translate.instant("generics.No"),

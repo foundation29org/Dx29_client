@@ -333,7 +333,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
           title: this.translate.instant("generics.Are you sure?"),
           icon: 'warning',
           showCancelButton: true,
-          confirmButtonColor: '#33658A',
+          confirmButtonColor: '#33658a',
           cancelButtonColor: '#B0B6BB',
           confirmButtonText: this.translate.instant("generics.Delete"),
           cancelButtonText: this.translate.instant("generics.No"),

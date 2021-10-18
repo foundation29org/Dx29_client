@@ -128,7 +128,7 @@ export class AdminGTPComponent implements OnInit, OnDestroy{
         text:  this.translate.instant("adminGTP.Delete application to GTP")+': '+ e.data.applicationId,
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#33658A',
+        confirmButtonColor: '#33658a',
         cancelButtonColor: '#B0B6BB',
         confirmButtonText: this.translate.instant("generics.Delete"),
         cancelButtonText: this.translate.instant("generics.No"),
