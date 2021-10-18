@@ -17,12 +17,6 @@
                         <span>{{'homedx.Donate' | translate }}</span>
                       </button>
                   </li>
-                    <li class="nav-item mr-2" *ngIf="!isGTPPage">
-                      <a class="btn btn-danger mr-1 btn-raised mb-0 btn-navbar" (click)="registerToDx29V2()">{{'login.Create User' | translate }}</a>
-                    </li>
-                    <li class="nav-item mr-2" *ngIf="!isGTPPage">
-                      <a class="btn btn-secondary mr-1 btn-raised mb-0 btn-navbar" href="https://app.dx29.ai/Identity/Account/Login">{{'login.Login' | translate }}</a>
-                    </li>
                     <li class="nav-item mr-2" ngbDropdown display="dynamic" placement="bottom-right">
                         <a class="position-relative colorlink" id="dropdownLang" ngbDropdownToggle>
                             <u>{{currentLang}}</u>
@@ -32,6 +26,12 @@
                                 <span>{{lang.name}}</span>
                             </a>
                         </div>
+                    </li>
+                    <li class="nav-item mr-2" *ngIf="!isGTPPage">
+                      <a class="btn btn-info btn-raised mb-0 btn-navbar" href="https://app.dx29.ai/Identity/Account/Login">{{'login.Login' | translate }}</a>
+                    </li>
+                    <li class="nav-item" *ngIf="!isGTPPage">
+                      <a class="btn btn-primary btn-raised mb-0 btn-navbar" (click)="registerToDx29V2()">{{'login.Create User' | translate }}</a>
                     </li>
                 </ul>
             </div>

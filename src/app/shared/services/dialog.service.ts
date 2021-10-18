@@ -17,13 +17,13 @@ export class DialogService {
         text: text,
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#0CC27E',
-        cancelButtonColor: '#f9423a',
+        confirmButtonColor: '#33658a',
+        cancelButtonColor: '#B0B6BB',
         confirmButtonText: this.translate.instant("generics.Yes"),
-        cancelButtonText: this.translate.instant("generics.No, cancel"),
+        cancelButtonText: this.translate.instant("generics.No"),
         showLoaderOnConfirm: true,
         allowOutsideClick: false,
-        reverseButtons: true
+        reverseButtons: false
       }).then(result => {
         if (result.value) {
           resolve(true);

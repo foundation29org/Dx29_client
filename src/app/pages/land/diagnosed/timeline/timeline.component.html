@@ -2,11 +2,31 @@
 <div class="d-none d-sm-block">
   <div class="col-md-12">
     <div class="row">
-      <div class="col-md-12 mt-2" *ngIf="!modifyFormSymtoms">
+      <div class="mt-2" *ngIf="!modifyFormSymtoms">
         <table class="table mb-0 text-center d-none d-sm-block">
           <tbody style="width: 100%;display: inline-table;">
             <tr *ngFor="let symptom of listSymptoms ; let i = index">
               <td class="row text-left">
+                <span class="mt-1 nav-item" ngbDropdown display="dynamic" placement="bottom-right" style="position: absolute; right: 0px; z-index: 1;">
+                  <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt{{j}}"
+                    ngbDropdownToggle title="{{'generics.Options' | translate }}">
+                    <i class="fas fa-ellipsis-v font-medium-3 secondary"></i>
+                  </a>
+                  <div ngbDropdownMenu aria-labelledby="dropdownSympt{{j}}" class="dropdown">
+                    <!--<a class="dropdown-item py-1" href="javascript:;" (click)="deleteSymptomTimeLine(i)">
+                      <i class="fa fa fa-trash danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.Delete symptom' | translate }}</span>
+                    </a>-->
+                    <a *ngIf="!symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="showNotes(i)">
+                      <i class="fas fa-sticky-note success"></i><span class="ml-2 black">{{'land.diagnosed.timeline.showNotes' | translate }}</span>
+                    </a>
+                    <a *ngIf="symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="hideNotes(i)">
+                      <i class="fas fa-sticky-note danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.hideNotes' | translate }}</span>
+                    </a>
+                    <a *ngIf="symptom.onsetdate || symptom.finishdate" class="dropdown-item py-1" href="javascript:;" (click)="clearDates(i)">
+                      <i class="far fa-calendar-times danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.Delete dates' | translate }}</span>
+                    </a>
+                  </div>
+                </span>
                 <div class="col-md-12">
                   <p *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(symptom);"
                   class="d-inline-block" style="cursor: pointer; width: 85%;">{{symptom.name}}</p>
@@ -15,26 +35,6 @@
                       href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
                       <i class="ft-external-link"></i></a>
                   </p>
-                  <span class="mt-1 nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right">
-                    <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt{{j}}"
-                      ngbDropdownToggle title="{{'generics.Options' | translate }}">
-                      <i class="fas fa-ellipsis-v font-medium-3 secondary"></i>
-                    </a>
-                    <div ngbDropdownMenu aria-labelledby="dropdownSympt{{j}}" class="dropdown">
-                      <!--<a class="dropdown-item py-1" href="javascript:;" (click)="deleteSymptomTimeLine(i)">
-                        <i class="fa fa fa-trash danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.Delete symptom' | translate }}</span>
-                      </a>-->
-                      <a *ngIf="!symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="showNotes(i)">
-                        <i class="fas fa-sticky-note success"></i><span class="ml-2 black">{{'land.diagnosed.timeline.showNotes' | translate }}</span>
-                      </a>
-                      <a *ngIf="symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="hideNotes(i)">
-                        <i class="fas fa-sticky-note danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.hideNotes' | translate }}</span>
-                      </a>
-                      <a *ngIf="symptom.onsetdate || symptom.finishdate" class="dropdown-item py-1" href="javascript:;" (click)="clearDates(i)">
-                        <i class="far fa-calendar-times danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.Delete dates' | translate }}</span>
-                      </a>
-                    </div>
-                  </span>
                 </div>
                 <div class="col-md-12" *ngIf="symptom.selectEndOrCurrent">
                   <small class="text-left form-text danger">{{'land.diagnosed.timeline.selectEndOrCurrent' |
@@ -106,8 +106,8 @@
                   <li *ngFor="let item of dateItem.value | keyvalue: valueDateDescOrder" class="timeline-item">
                     <div *ngIf="item.key!=null" class="timeline-badge">
                       <span data-toggle="tooltip" placement="right" [ngbTooltip]="item.key"
-                        class="bg-primary bg-lighten-4">
-                        <i class="ft-calendar primary"></i>
+                        class="bg-info bg-lighten-4">
+                        <i class="ft-calendar info"></i>
                       </span>
                     </div>
                     <div *ngIf="item.key!=null" class="timeline-card card shadow-z-1">
@@ -145,8 +145,8 @@
               <li class="timeline-item">
                 <div class="timeline-badge">
                   <span data-toggle="tooltip" [ngbTooltip]="translate.instant('land.diagnosed.symptoms.GoPrevious')"
-                    placement="right" class="bg-primary bg-lighten-4">
-                    <i class="ft-help-circle primary"></i>
+                    placement="right" class="bg-info bg-lighten-4">
+                    <i class="ft-help-circle info"></i>
                   </span>
                 </div>
                 <div class="timeline-card card shadow-z-1">
@@ -191,7 +191,7 @@
                   <i class="ft-external-link"></i>
                 </a>
               </p>
-              <span class="mt-1 nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right">
+              <span class="nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right">
                 <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt{{j}}"
                   ngbDropdownToggle title="{{'generics.Options' | translate }}">
                   <i class="fas fa-ellipsis-v font-medium-3 secondary"></i>
@@ -252,14 +252,14 @@
             </div>
           </div>
           <div class="card-footer center-elements bt-n">
-            <span *ngIf="(actualTemporalSymptomsIndex>0)" style="cursor: pointer;" class="float-left primary mt-1"
+            <span *ngIf="(actualTemporalSymptomsIndex>0)" style="cursor: pointer;" class="float-left info mt-1"
               (click)="goPrevSymptom();">
-              <em style="font-size: 1.3em;" class="ft-chevron-left primary"></em>
+              <em style="font-size: 1.3em;" class="ft-chevron-left info"></em>
             </span>
-            <span class="primary mt-1">{{actualTemporalSymptomsIndex+1}} / {{listSymptoms.length}}</span>
+            <span class="info mt-1">{{actualTemporalSymptomsIndex+1}} / {{listSymptoms.length}}</span>
             <span *ngIf="actualTemporalSymptomsIndex<listSymptoms.length-1" style="cursor: pointer;"
-              class="float-right primary mt-1" (click)="goNextSymptom();">
-              <em style="font-size: 1.3em;" class="ft-chevron-right primary"></em>
+              class="float-right info mt-1" (click)="goNextSymptom();">
+              <em style="font-size: 1.3em;" class="ft-chevron-right info"></em>
             </span>
           </div>
         </div>
@@ -288,8 +288,8 @@
                   <li *ngFor="let item of dateItem.value | keyvalue: valueDateDescOrder" class="timeline-item">
                     <div *ngIf="item.key!=null" class="timeline-badge">
                       <span data-toggle="tooltip" placement="right" [ngbTooltip]="item.key"
-                        class="bg-primary bg-lighten-4">
-                        <i class="ft-calendar primary"></i>
+                        class="bg-info bg-lighten-4">
+                        <i class="ft-calendar info"></i>
                       </span>
                     </div>
                     <div *ngIf="item.key!=null" class="timeline-card card shadow-z-1">
@@ -327,8 +327,8 @@
               <li class="timeline-item">
                 <div class="timeline-badge">
                   <span data-toggle="tooltip" [ngbTooltip]="translate.instant('land.diagnosed.symptoms.GoPrevious')"
-                    placement="right" class="bg-primary bg-lighten-4">
-                    <i class="ft-help-circle primary"></i>
+                    placement="right" class="bg-info bg-lighten-4">
+                    <i class="ft-help-circle info"></i>
                   </span>
                 </div>
                 <div class="timeline-card card shadow-z-1">

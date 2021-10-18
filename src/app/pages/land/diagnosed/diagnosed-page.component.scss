@@ -14,14 +14,14 @@
 
 .step-bubble-next{
   padding: 8px;
-  border: 3px solid #a1a09a;
+  border: 3px solid #b0b6bb;
   width: 12px;
   height: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  color: #a1a09a;
+  color: #b0b6bb;
   font-size: 1em;
   cursor: pointer;
   user-select: none;
@@ -35,7 +35,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  color: #a1a09a;
+  color: #b0b6bb;
   font-size: 1em;
   cursor: pointer;
   user-select: none;
@@ -43,14 +43,14 @@
 
 .step-bubble-prev{
   padding: 8px;
-  border: 3px solid #f9423a;
+  border: 3px solid #33658a;
   width: 12px;
   height: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  color: #f9423a;
+  color: #33658a;
   font-size: 1em;
   cursor: pointer;
   user-select: none;
@@ -58,7 +58,7 @@
 
 .step-divider-prev {
   height: 2px;
-  background: #a1a09a;
+  background: #b0b6bb;
   width: 100px;
   margin-top: -10px;
   margin-left: 35px;
@@ -68,7 +68,7 @@
 
 .step-divider-next {
   height: 2px;
-  background: #f9423a;
+  background: #33658a;
   width: 100px;
   margin-top: -10px;
   margin-left: 35px;
@@ -77,8 +77,17 @@
 }
 
 .step-current, .step-complete {
-  background: #f9423a;
+  background: #33658a;
   color: white;
+}
+
+.step-title-next{
+  color: #b0b6bb;
+}
+
+.step-title-prev{
+  color: #33658a;
+  font-weight: bold;
 }
 
 .step-final{
@@ -227,8 +236,8 @@ a {
 }*/
 :host /deep/ .tab-content{
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-  border: 1px solid #dee2e6 !important;
-  border-top-width: 0px !important;
+  /*border: 1px solid #dee2e6 !important;
+  border-top-width: 0px !important;*/
 }
 
 ::ng-deep .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -238,6 +247,7 @@ a {
   border: 1px solid #dfdfdf !important;
   border-bottom-width: 1px;
   border-bottom-width: 0px !important;
+  font-weight: bolder;
 }
 
 ::ng-deep .nav-pills .nav-link {
@@ -532,7 +542,7 @@ body {
   }
 
   ::ng-deep  .swal2-styled.swal2-confirm:focus {
-    box-shadow: 0 0 0 3px #ffb2b2;
+    box-shadow: 0 0 0 3px #b0b6bb;
 }
 
 ::ng-deep  .swal2-styled.swal2-cancel:focus {
@@ -540,14 +550,14 @@ body {
 }
 
 .form-control:focus{
-  border-color: #a1a09a !important;
-  box-shadow: 0 0 0 0.2rem #a1a09a3b;
+  border-color: #33658a !important;
+  box-shadow: 0 0 0 0.2rem #33658a;
 }
 
 :host /deep/ .dropdown-item.active, .dropdown-item:active {
   color: #fff;
   text-decoration: none;
-  background-color: #a1a09a !important;
+  background-color: #33658a !important;
 }
 
 .btn-sm, .btn-group-sm > .btn {

@@ -38,7 +38,7 @@
 }
 
 .articleTitle:hover {
-  color: #f9423a;
+  color: #33658a;
   text-decoration: underline;
 }
 
@@ -71,7 +71,7 @@
 }
 
 .titleneon {
-  color:#f9423a;
+  color:#33658a;
 }
 
 .tableList {
@@ -109,7 +109,7 @@
 
 /* Provide sufficient contrast against white background */
 a {
-    color: #f9423a;
+    color: #33658a;
 }
 
 .btn-primary {
@@ -239,7 +239,7 @@ body {
   }
 
   hr{
-    border-color: #f9423a;
+    border-color: #33658a;
   }
   
   .tr-auto{
@@ -329,7 +329,7 @@ body {
   }
 
   ::ng-deep  .swal2-styled.swal2-confirm:focus {
-    box-shadow: 0 0 0 3px #ffb2b2;
+    box-shadow: 0 0 0 3px #b0b6bb;
 }
 
 ::ng-deep  .swal2-styled.swal2-cancel:focus {
@@ -337,14 +337,14 @@ body {
 }
 
 .form-control:focus{
-  border-color: #f9423a !important;
-  box-shadow: 0 0 0 0.2rem #f9423a5E;
+  border-color: #33658a !important;
+  box-shadow: 0 0 0 0.2rem #33658a;
 }
 
 :host /deep/ .dropdown-item.active, .dropdown-item:active {
     color: #fff;
     text-decoration: none;
-    background-color: #f9423a !important;
+    background-color: #33658a !important;
 }
 
 .btn-sm, .btn-group-sm > .btn {
@@ -358,7 +358,7 @@ body {
  }
 
  .nav-tabs .nav-link.active {
-  border-bottom: 2px solid #f9423a !important;
+  border-bottom: 2px solid #33658a !important;
   background-color: transparent !important;
   border-color: transparent !important;
 }
