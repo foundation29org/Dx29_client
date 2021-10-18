@@ -323,7 +323,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
     for (let lang of this.langs) {
       var actualLang = sessionStorage.getItem('lang');
       if (actualLang == lang.code) {
-        this.currentLang = lang.name;
+        this.currentLang = lang.code;
       }
     }
   }

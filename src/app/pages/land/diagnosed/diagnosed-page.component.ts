@@ -737,13 +737,13 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 text: this.translate.instant("land.diagnosed.timeline.ExitDiscard"),
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#0CC27E',
-                cancelButtonColor: '#f9423a',
+                confirmButtonColor: '#33658a',
+                cancelButtonColor: '#B0B6BB',
                 confirmButtonText: this.translate.instant("generics.Yes"),
-                cancelButtonText: this.translate.instant("generics.No, cancel"),
+                cancelButtonText: this.translate.instant("generics.No"),
                 showLoaderOnConfirm: true,
                 allowOutsideClick: false,
-                reverseButtons: true
+                reverseButtons: false
               }).then(result => {
                 if (result.value) {
                     this.loadingOneDisease = true;
@@ -973,8 +973,8 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             title: this.translate.instant("generics.Are you sure delete")+" "+this.infoOneDisease.symptoms[index].name+" ?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#0CC27E',
-            cancelButtonColor: '#f9423a',
+            confirmButtonColor: '#33658a',
+            cancelButtonColor: '#B0B6BB',
             confirmButtonText: this.translate.instant("generics.Accept"),
             cancelButtonText: this.translate.instant("generics.Cancel"),
             showLoaderOnConfirm: true,
@@ -1258,13 +1258,13 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 text: this.translate.instant("land.diagnosed.timeline.ExitDiscard"),
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#0CC27E',
-                cancelButtonColor: '#f9423a',
+                confirmButtonColor: '#33658a',
+                cancelButtonColor: '#B0B6BB',
                 confirmButtonText: this.translate.instant("generics.Yes"),
-                cancelButtonText: this.translate.instant("generics.No, cancel"),
+                cancelButtonText: this.translate.instant("generics.No"),
                 showLoaderOnConfirm: true,
                 allowOutsideClick: false,
-                reverseButtons: true
+                reverseButtons: false
               }).then(result => {
                 if (result.value) {
                     this.showIntro = true;
@@ -1465,13 +1465,13 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 text: this.translate.instant("land.diagnosed.timeline.ExitDiscard"),
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#0CC27E',
-                cancelButtonColor: '#f9423a',
+                confirmButtonColor: '#33658a',
+                cancelButtonColor: '#B0B6BB',
                 confirmButtonText: this.translate.instant("generics.Yes"),
                 cancelButtonText: this.translate.instant("generics.No"),
                 showLoaderOnConfirm: true,
                 allowOutsideClick: false,
-                reverseButtons: true
+                reverseButtons: false
             }).then((result) => {
                 if (result.value) {
                     this.listSymptomsCheckedTimeline=[];
@@ -1576,13 +1576,13 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     text: this.translate.instant("land.diagnosed.timeline.msValidationChrono2"),
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#0CC27E',
-                    cancelButtonColor: '#f9423a',
+                    confirmButtonColor: '#33658a',
+                    cancelButtonColor: '#B0B6BB',
                     confirmButtonText: this.translate.instant("generics.Yes"),
                     cancelButtonText: this.translate.instant("generics.No"),
                     showLoaderOnConfirm: true,
                     allowOutsideClick: false,
-                    reverseButtons: true
+                    reverseButtons: false
                 }).then((result) => {
                     if (result.value) {
                         var foundElementIndex = this.searchService.searchIndex(this.stepsTimeLine, 'stepIndex', this.currentStepTimeLine.stepIndex);
@@ -1598,13 +1598,13 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     text: this.translate.instant("land.diagnosed.timeline.msValidationChrono2"),
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#0CC27E',
-                    cancelButtonColor: '#f9423a',
+                    confirmButtonColor: '#33658a',
+                    cancelButtonColor: '#B0B6BB',
                     confirmButtonText: this.translate.instant("generics.Yes"),
                     cancelButtonText: this.translate.instant("generics.No"),
                     showLoaderOnConfirm: true,
                     allowOutsideClick: false,
-                    reverseButtons: true
+                    reverseButtons: false
                 }).then((result) => {
                     if (result.value) {
                         var foundElementIndex = this.searchService.searchIndex(this.stepsTimeLine, 'stepIndex', this.currentStepTimeLine.stepIndex);
@@ -1841,13 +1841,13 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                                 text: this.translate.instant("land.Do you want to add the symptoms manually"),
                                 icon: 'warning',
                                 showCancelButton: true,
-                                confirmButtonColor: '#0CC27E',
-                                cancelButtonColor: '#f9423a',
+                                confirmButtonColor: '#33658a',
+                                cancelButtonColor: '#B0B6BB',
                                 confirmButtonText: this.translate.instant("land.add the symptoms manually"),
                                 cancelButtonText: this.translate.instant("land.try again"),
                                 showLoaderOnConfirm: true,
                                 allowOutsideClick: false,
-                                reverseButtons: true
+                                reverseButtons: false
                             }).then((result) => {
                                 if (result.value) {
                                     this.substepExtract = '4';
@@ -2167,13 +2167,13 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     text: self.translate.instant("parser.OcrOnlyText"),
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#0CC27E',
-                    cancelButtonColor: '#f9423a',
+                    confirmButtonColor: '#33658a',
+                    cancelButtonColor: '#B0B6BB',
                     confirmButtonText: self.translate.instant("generics.Yes"),
                     cancelButtonText: self.translate.instant("generics.No"),
                     showLoaderOnConfirm: true,
                     allowOutsideClick: false,
-                    reverseButtons: true
+                    reverseButtons: false
                 }).then((result) => {
                     if (result.value) {
                         self.callParser();
@@ -2207,13 +2207,13 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                         text: this.translate.instant("patdiagdashboard.Analyzed as") + '" "' + lang + '", "' + this.translate.instant("patdiagdashboard.detected as") + '" "' + res[0].language + '". "' + this.translate.instant("patdiagdashboard.do you want us to do it"),
                         icon: 'warning',
                         showCancelButton: true,
-                        confirmButtonColor: '#0CC27E',
-                        cancelButtonColor: '#f9423a',
+                        confirmButtonColor: '#33658a',
+                        cancelButtonColor: '#B0B6BB',
                         confirmButtonText: this.translate.instant("generics.Yes"),
                         cancelButtonText: this.translate.instant("generics.No"),
                         showLoaderOnConfirm: true,
                         allowOutsideClick: false,
-                        reverseButtons: true
+                        reverseButtons: false
                     }).then((result) => {
                         if (result.value) {
                             this.langToExtract = this.langDetected
@@ -2345,7 +2345,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             confirmButtonText: this.translate.instant("land.Next"),
             cancelButtonText: this.translate.instant("generics.Cancel"),
             showCancelButton: true,
-            reverseButtons: true
+            reverseButtons: false
         }).then(function (email) {
             if (email.value) {
                 Swal.fire({
@@ -2355,7 +2355,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     confirmButtonText: this.translate.instant("land.Send"),
                     cancelButtonText: this.translate.instant("generics.Cancel"),
                     showCancelButton: true,
-                    reverseButtons: true
+                    reverseButtons: false
                 }).then(function (message) {
                     var actualDate = new Date();
                     var dateHeader = this.getFormatDate(actualDate);

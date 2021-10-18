@@ -24,7 +24,7 @@
                 <div class="align-items-end justify-content-center">
                   <div class="offset-lg-3 col-lg-6 no-padding">
                     <div class="position-relative">
-                      <i class="fas fa-search primary fa-1_7x align-middle" (click)="onKey($event)"></i>
+                      <i class="fas fa-search info fa-1_7x align-middle" (click)="onKey($event)"></i>
                       <input type="text" #inputDisease id="searchDiseaseField" class="ml-1 form-control data-hj-allow fielddisease" name="searchDiseaseField" style="width: 84% !important;display: inline !important;border-radius: 25px;height: 45px;"
                         [(ngModel)]="searchDiseaseField" (keyup)="onKey($event)" (paste)="onKey($event)"
                         placeholder="{{'dashboardpatient.Search condition' | translate }}" (focusout)="focusOutFunctionDiseases()">
@@ -37,7 +37,7 @@
                       <div class="form-group mt-2" *ngIf="!callListOfDiseases">
                         <span *ngIf="listOfFilteredDiseases.length>0">
                           <div class="table-cont">
-                            <table class="table mb-0" aria-labelledby="rare disease" style="background-color: #f5f5f5 !important;">
+                            <table class="table mb-0 border" aria-labelledby="rare disease" style="background-color: #ffffff !important;">
                               <tbody class="tableList">
                                 <tr *ngFor="let disease of listOfFilteredDiseases ; let i = index" class="d-flex">
                                   <td class="col-md-12 dropdown-item" id="{{disease.id}}"
@@ -105,10 +105,10 @@
               </span>
               <span *ngIf="infoOneDisease.xrefs!=undefined" class="ml-1">
                 <span *ngFor="let xref of infoOneDisease.xrefs ; let i = index">
-                  <a *ngIf="xref.name=='Orphanet'" class="primary"
+                  <a *ngIf="xref.name=='Orphanet'" class="info"
                     href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert={{xref.id}}&lng={{lang}}" target="_blank"
                     title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
-                  <a *ngIf="xref.name=='OMIM'" class="primary" href="https://omim.org/entry/{{xref.id}}" target="_blank"
+                  <a *ngIf="xref.name=='OMIM'" class="info" href="https://omim.org/entry/{{xref.id}}" target="_blank"
                     title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
                   <span *ngIf="i<(infoOneDisease.xrefs.length-1)"> </span>
                 </span>
@@ -126,11 +126,11 @@
                       {{'land.diagnosed.general.Symptoms' | translate }}
                     </mat-panel-title>
                   </mat-expansion-panel-header>
-                  <div class="p-3 m-3 border rounded text-center" style="background-color: #9FB7FF3D !important;">
+                  <div class="p-3 m-3 border rounded text-center" style="background-color: #A1CBEA !important;">
                     <p class="ml-2 mr-2">{{'land.diagnosed.symptoms.These are the symptoms of your disease' | translate }}</p>
                     <p class="ml-2 mr-2">{{'land.diagnosed.symptoms.goToChrono' | translate }}
                     <div class="col-md-12 center-elements">
-                      <button type="button" class="btn btn-primary btn-raised mt-2 mr-2" (click)="setStep(2);">{{'land.diagnosed.symptoms.I want to create the chronology' | translate }}</button>
+                      <button type="button" class="btn btn-info btn-raised mt-2 mr-2" (click)="setStep(2);">{{'land.diagnosed.symptoms.I want to create the chronology' | translate }}</button>
                     </div>
                   </div>
                   <div class="card-body">
@@ -215,8 +215,8 @@
                   <div class="center-elements mt-2">
                     <h4>{{'land.diagnosed.symptoms.Do you identify with them?' | translate }}</h4>
                     <div class="col-md-12 center-elements">
-                      <button type="button" class="btn btn-primary btn-raised mt-2 mr-2"  [ngClass]="(identifyValue=='no')?'btn-active-primary':''" (click)="sendIdentifySymptoms('no');">{{'generics.No' | translate }}</button>
-                      <button type="button" class="btn btn-primary btn-raised mt-2 ml-2" [ngClass]="(identifyValue=='yes')?'btn-active-primary':''" (click)="sendIdentifySymptoms('yes');">{{'generics.Yes' | translate }}</button>
+                      <button type="button" class="btn btn-info btn-raised mt-2 mr-2"  [ngClass]="(identifyValue=='no')?'btn-active-info':''" (click)="sendIdentifySymptoms('no');">{{'generics.No' | translate }}</button>
+                      <button type="button" class="btn btn-info btn-raised mt-2 ml-2" [ngClass]="(identifyValue=='yes')?'btn-active-info':''" (click)="sendIdentifySymptoms('yes');">{{'generics.Yes' | translate }}</button>
                     </div>
                   </div>
                 </mat-expansion-panel>
@@ -242,7 +242,7 @@
                                     <span *ngIf="i == (stepsTimeLine)?.length - 1"><em class="fa fa-check"></em></span>
                                   </div>
                                 <div *ngIf="i < (stepsTimeLine)?.length - 1" class="step-divider" [ngClass]="((i < (stepsTimeLine)?.length - 1) && step.stepIndex>=currentStepTimeLine.stepIndex)?'step-divider-prev':'step-divider-next'"></div>
-                                <span class="step-title mt-2" [ngClass]="{ 'margin-step-title': (step.stepIndex == 3)}">{{step.title}} </span>
+                                <span class="step-title mt-2" [ngClass]="{ 'margin-step-title': (step.stepIndex == 3), 'step-title-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex), 'step-title-prev': ((currentStepTimeLine)?.stepIndex >= step.stepIndex)}">{{step.title}} </span>
                             </span>
                           </div>
                         </div>
@@ -664,8 +664,8 @@
                         </div>
                         <div *ngIf="!sending" class="center-elements mt-3">
                           <div *ngIf="f.valid;then formValid else formError"></div>
-                          <ng-template #formValid><button class="btn btn-outline-primary" (click)="onSubmitDonorData();lauchEvent('Diagnosed - Submit Donate your data');"> {{'support.Send' | translate }}</button></ng-template>
-                          <ng-template #formError><button class="btn btn-outline-primary" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
+                          <ng-template #formValid><button class="btn btn-primary btn-raised" (click)="onSubmitDonorData();lauchEvent('Diagnosed - Submit Donate your data');"> {{'support.Send' | translate }}</button></ng-template>
+                          <ng-template #formError><button class="btn btn-primary btn-raised" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
                         </div>
                         <div class="form-actions center-elements" *ngIf="sending">
                             <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
@@ -679,11 +679,11 @@
                 <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined" id="tab0">
                   <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Symptoms');">{{'land.diagnosed.general.Symptoms' | translate }}</strong></ng-template>
                   <ng-template ngbTabContent>
-                    <div class="p-3 m-3 border rounded text-center" style="background-color: #9FB7FF3D !important;">
+                    <div class="p-3 m-3 border rounded text-center" style="background-color: #A1CBEA !important;">
                       <p class="ml-2 mr-2">{{'land.diagnosed.symptoms.These are the symptoms of your disease' | translate }}</p>
                       <p class="ml-2 mr-2">{{'land.diagnosed.symptoms.goToChrono' | translate }}
                       <div class="col-md-12 center-elements">
-                        <button type="button" class="btn btn-primary btn-raised mt-2 mr-2" (click)="switchNgBTab('tab1');">{{'land.diagnosed.symptoms.I want to create the chronology' | translate }}</button>
+                        <button type="button" class="btn btn-info btn-raised mt-2 mr-2" (click)="switchNgBTab('tab1');">{{'land.diagnosed.symptoms.I want to create the chronology' | translate }}</button>
                       </div>
                     </div>
                     <div class="col-md-12 pb-2">
@@ -755,8 +755,8 @@
                       <div class="center-elements mb-2 mt-4">
                         <h4>{{'land.diagnosed.symptoms.Do you identify with them?' | translate }}</h4>
                         <div class="col-md-12 center-elements">
-                          <button type="button" class="btn btn-primary btn-raised mt-2 mr-2"  [ngClass]="(identifyValue=='no')?'btn-active-primary':''" (click)="sendIdentifySymptoms('no');">{{'generics.No' | translate }}</button>
-                          <button type="button" class="btn btn-primary btn-raised mt-2 ml-2" [ngClass]="(identifyValue=='yes')?'btn-active-primary':''" (click)="sendIdentifySymptoms('yes');">{{'generics.Yes' | translate }}</button>
+                          <button type="button" class="btn btn-info btn-raised mt-2 mr-2"  [ngClass]="(identifyValue=='no')?'btn-active-info':''" (click)="sendIdentifySymptoms('no');">{{'generics.No' | translate }}</button>
+                          <button type="button" class="btn btn-info btn-raised mt-2 ml-2" [ngClass]="(identifyValue=='yes')?'btn-active-info':''" (click)="sendIdentifySymptoms('yes');">{{'generics.Yes' | translate }}</button>
                         </div>
                       </div>
                     </div>
@@ -781,7 +781,7 @@
                                           <span *ngIf="i == (stepsTimeLine)?.length - 1"><em class="fa fa-check"></em></span>
                                         </div>
                                       <div *ngIf="i < (stepsTimeLine)?.length - 1" class="step-divider" [ngClass]="((i < (stepsTimeLine)?.length - 1) && step.stepIndex>=currentStepTimeLine.stepIndex)?'step-divider-prev':'step-divider-next'"></div>
-                                      <span class="step-title mt-2" [ngClass]="{ 'margin-step-title': (step.stepIndex == 3)}">{{step.title}} </span>
+                                      <span class="step-title mt-2" [ngClass]="{ 'margin-step-title': (step.stepIndex == 3), 'step-title-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex), 'step-title-prev': ((currentStepTimeLine)?.stepIndex >= step.stepIndex)}">{{step.title}} </span>
                                   </span>
                                 </div>
                               </div>
@@ -1192,8 +1192,8 @@
                         </div>
                         <div *ngIf="!sending" class="center-elements mt-3">
                           <div *ngIf="f.valid;then formValid else formError"></div>
-                          <ng-template #formValid><button class="btn btn-outline-primary" (click)="onSubmitDonorData();lauchEvent('Diagnosed - Submit Donate your data');"> {{'support.Send' | translate }}</button></ng-template>
-                          <ng-template #formError><button class="btn btn-outline-primary" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
+                          <ng-template #formValid><button class="btn btn-primary btn-raised" (click)="onSubmitDonorData();lauchEvent('Diagnosed - Submit Donate your data');"> {{'support.Send' | translate }}</button></ng-template>
+                          <ng-template #formError><button class="btn btn-primary btn-raised" type="button" (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
                         </div>
                         <div class="form-actions center-elements" *ngIf="sending">
                             <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
@@ -1205,7 +1205,7 @@
                 </ngb-tab>
               </ngb-tabset>
               <div class="mt-2" *ngIf="showButtonScroll">
-                <button type="button" class="float-right btn btn-primary btn-raised" (click)="goTopTabs()"><i class="ft-arrow-up fa-2x"></i></button>
+                <button type="button" class="float-right btn btn-info btn-raised" (click)="goTopTabs()"><i class="ft-arrow-up fa-2x"></i></button>
               </div>
             </div>
         </div>
