@@ -221,9 +221,6 @@
 }
 
 /* Provide sufficient contrast against white background */
-a {
-    color: #f9423a;
-}
 
 .btn-primary {
     color: #fff;
@@ -241,7 +238,7 @@ a {
 }
 
 ::ng-deep .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #616161 !important;
+  color: #000000 !important;
   background-color: #fff !important;
   //border-color: #f9423a !important;
   border: 1px solid #dfdfdf !important;
