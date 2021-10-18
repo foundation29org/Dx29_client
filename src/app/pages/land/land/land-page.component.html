@@ -53,8 +53,8 @@
               </div>
               <div *ngIf="!sending" class="mt-2">
                 <div *ngIf="f.valid;then formValid else formError"></div>
-                <ng-template #formValid><button class="btn btn-outline-primary" (click)="onSubmitRevolution();lauchEvent('Home - Submit Revolution');"> {{'land.aboutUs.Sign up' | translate }}</button></ng-template>
-                <ng-template #formError><button class="btn btn-outline-primary" type="button" (click)="submitInvalidForm()"> {{'land.aboutUs.Sign up' | translate }}</button></ng-template>
+                <ng-template #formValid><button class="btn btn-primary btn-raised" (click)="onSubmitRevolution();lauchEvent('Home - Submit Revolution');"><strong>{{'land.aboutUs.Sign up' | translate }}</strong></button></ng-template>
+                <ng-template #formError><button class="btn btn-primary btn-raised" type="button" (click)="submitInvalidForm()"><strong>{{'land.aboutUs.Sign up' | translate }}</strong></button></ng-template>
               </div>
               <div class="form-actions" *ngIf="sending">
                   <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
@@ -139,8 +139,8 @@
         </span>
       </div>
     </div>
-    <button class="mb-0 mt-2 btn btn-primary btn-raised btn-navbar" (click)="registerToDx29()">{{'land.swal.button' |
-      translate }}</button>
+    <button class="mb-0 mt-2 btn btn-primary btn-raised btn-navbar" (click)="registerToDx29()"><strong>{{'land.swal.button' |
+      translate }}</strong></button>
   </div>
 </section>
 <section style="padding-bottom: 70px !important;">

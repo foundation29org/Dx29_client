@@ -151,13 +151,13 @@ export class AppComponent implements OnInit, OnDestroy{
              text:  this.translate.instant("generics.Exit the application without logging off"),
              icon: 'warning',
              showCancelButton: true,
-             confirmButtonColor: '#0CC27E',
-             cancelButtonColor: '#f9423a',
+             confirmButtonColor: '#33658A',
+             cancelButtonColor: '#B0B6BB',
              confirmButtonText: this.translate.instant("generics.Yes"),
-             cancelButtonText: this.translate.instant("generics.No, cancel"),
+             cancelButtonText: this.translate.instant("generics.No"),
              showLoaderOnConfirm: true,
              allowOutsideClick: false,
-             reverseButtons: true
+             reverseButtons: false
          }).then((result) => {
            if (result.value) {
              navigator.app.exitApp();
@@ -222,11 +222,11 @@ export class AppComponent implements OnInit, OnDestroy{
                      text: msg2,
                      icon: 'warning',
                      showCancelButton: false,
-                     confirmButtonColor: '#0CC27E',
+                     confirmButtonColor: '#33658A',
                      confirmButtonText: 'OK',
                      showLoaderOnConfirm: true,
                      allowOutsideClick: false,
-                     reverseButtons: true
+                     reverseButtons: false
                  }).then((result) => {
                    if (result.value) {
                      location.reload();

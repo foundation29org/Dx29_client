@@ -218,13 +218,13 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                     text: this.translate.instant("land.diagnosed.timeline.msValidationChrono2"),
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#0CC27E',
-                    cancelButtonColor: '#f9423a',
+                    confirmButtonColor: '#33658A',
+                    cancelButtonColor: '#B0B6BB',
                     confirmButtonText: this.translate.instant("generics.Yes"),
                     cancelButtonText: this.translate.instant("generics.No"),
                     showLoaderOnConfirm: true,
                     allowOutsideClick: false,
-                    reverseButtons: true
+                    reverseButtons: false
                 }).then((result) => {
                     if (result.value) {
                         var foundElementIndex = this.searchService.searchIndex(this.steps, 'stepIndex', this.currentStep.stepIndex);
@@ -240,13 +240,13 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                     text: this.translate.instant("land.diagnosed.timeline.msValidationChrono2"),
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#0CC27E',
-                    cancelButtonColor: '#f9423a',
+                    confirmButtonColor: '#33658A',
+                    cancelButtonColor: '#B0B6BB',
                     confirmButtonText: this.translate.instant("generics.Yes"),
                     cancelButtonText: this.translate.instant("generics.No"),
                     showLoaderOnConfirm: true,
                     allowOutsideClick: false,
-                    reverseButtons: true
+                    reverseButtons: false
                 }).then((result) => {
                     if (result.value) {
                         var foundElementIndex = this.searchService.searchIndex(this.steps, 'stepIndex', this.currentStep.stepIndex);
@@ -357,13 +357,13 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                     text: this.translate.instant("land.Do you want to start over"),
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#0CC27E',
-                    cancelButtonColor: '#f9423a',
+                    confirmButtonColor: '#33658A',
+                    cancelButtonColor: '#B0B6BB',
                     confirmButtonText: this.translate.instant("generics.Yes"),
                     cancelButtonText: this.translate.instant("generics.No"),
                     showLoaderOnConfirm: true,
                     allowOutsideClick: false,
-                    reverseButtons: true
+                    reverseButtons: false
                 }).then((result) => {
                     if (result.value) {
                         this.originalLang = lang;
@@ -528,13 +528,13 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                     text: self.translate.instant("parser.OcrOnlyText"),
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#0CC27E',
-                    cancelButtonColor: '#f9423a',
+                    confirmButtonColor: '#33658A',
+                    cancelButtonColor: '#B0B6BB',
                     confirmButtonText: self.translate.instant("generics.Yes"),
                     cancelButtonText: self.translate.instant("generics.No"),
                     showLoaderOnConfirm: true,
                     allowOutsideClick: false,
-                    reverseButtons: true
+                    reverseButtons: false
                 }).then((result) => {
                     if (result.value) {
                         self.callParser();
@@ -568,13 +568,13 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                         text: this.translate.instant("patdiagdashboard.Analyzed as") + '" "' + lang + '", "' + this.translate.instant("patdiagdashboard.detected as") + '" "' + res[0].language + '". "' + this.translate.instant("patdiagdashboard.do you want us to do it"),
                         icon: 'warning',
                         showCancelButton: true,
-                        confirmButtonColor: '#0CC27E',
-                        cancelButtonColor: '#f9423a',
+                        confirmButtonColor: '#33658A',
+                        cancelButtonColor: '#B0B6BB',
                         confirmButtonText: this.translate.instant("generics.Yes"),
                         cancelButtonText: this.translate.instant("generics.No"),
                         showLoaderOnConfirm: true,
                         allowOutsideClick: false,
-                        reverseButtons: true
+                        reverseButtons: false
                     }).then((result) => {
                         if (result.value) {
                             this.langToExtract = this.langDetected
@@ -764,13 +764,13 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                                 text: this.translate.instant("land.Do you want to add the symptoms manually"),
                                 icon: 'warning',
                                 showCancelButton: true,
-                                confirmButtonColor: '#0CC27E',
-                                cancelButtonColor: '#f9423a',
+                                confirmButtonColor: '#33658A',
+                                cancelButtonColor: '#B0B6BB',
                                 confirmButtonText: this.translate.instant("land.add the symptoms manually"),
                                 cancelButtonText: this.translate.instant("land.try again"),
                                 showLoaderOnConfirm: true,
                                 allowOutsideClick: false,
-                                reverseButtons: true
+                                reverseButtons: false
                             }).then((result) => {
                                 if (result.value) {
                                     this.substepExtract = '4';
@@ -963,13 +963,13 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             title: this.translate.instant("generics.Are you sure delete") + " " + this.temporalSymptoms[index].name + " ?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#0CC27E',
-            cancelButtonColor: '#f9423a',
+            confirmButtonColor: '#33658A',
+            cancelButtonColor: '#B0B6BB',
             confirmButtonText: this.translate.instant("generics.Accept"),
             cancelButtonText: this.translate.instant("generics.Cancel"),
             showLoaderOnConfirm: true,
             allowOutsideClick: false,
-            reverseButtons: true
+            reverseButtons: false
         }).then((result) => {
             if (result.value) {
                 this.temporalSymptoms.splice(index, 1);
@@ -1391,13 +1391,13 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             title: this.translate.instant("generics.Are you sure delete") + " " + this.topRelatedConditions[index].name + " ?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#0CC27E',
-            cancelButtonColor: '#f9423a',
+            confirmButtonColor: '#33658A',
+            cancelButtonColor: '#B0B6BB',
             confirmButtonText: this.translate.instant("generics.Accept"),
             cancelButtonText: this.translate.instant("generics.Cancel"),
             showLoaderOnConfirm: true,
             allowOutsideClick: false,
-            reverseButtons: true
+            reverseButtons: false
         }).then((result) => {
             if (result.value) {
                 this.topRelatedConditions.splice(index, 1);
@@ -1637,7 +1637,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             confirmButtonText: this.translate.instant("land.Next"),
             cancelButtonText: this.translate.instant("generics.Cancel"),
             showCancelButton: true,
-            reverseButtons: true
+            reverseButtons: false
         }).then(function (email) {
             if (email.value) {
                 Swal.fire({
@@ -1647,7 +1647,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                     confirmButtonText: this.translate.instant("land.Send"),
                     cancelButtonText: this.translate.instant("generics.Cancel"),
                     showCancelButton: true,
-                    reverseButtons: true
+                    reverseButtons: false
                 }).then(function (message) {
                     var actualDate = new Date();
                     var dateHeader = this.getFormatDate(actualDate);

@@ -50,15 +50,19 @@
   color: #000 !important;
   border-color: #fff;
   width: 200px;
-  box-shadow: 0.05rem 0.1rem 0.1rem 0.1rem rgba(166, 166, 166, 0.18);
   border: 1px solid #dee2e6 !important;
   border-radius: 1rem;
 }
 
 .btn-white:hover {
-  color: #212529 !important;
-  background-color: #ededed !important;
-  border-color: #fff !important;
+  color: #ffffff !important;
+  background-color: #33658A !important;
+  border-color: #4a87b6 !important;
+}
+
+.btn-white:focus, .btn-white.focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem #5eb1f0 !important;
 }
 
 .btn-primary.btn-raised{

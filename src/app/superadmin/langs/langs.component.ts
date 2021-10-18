@@ -62,13 +62,13 @@ export class LangsComponent implements OnDestroy{
         text:  this.translate.instant("lang.Language to be deleted")+': '+ this.langs[index].name+' ('+this.langs[index].code+')',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#0CC27E',
-        cancelButtonColor: '#f9423a',
+        confirmButtonColor: '#33658A',
+        cancelButtonColor: '#B0B6BB',
         confirmButtonText: this.translate.instant("generics.Delete"),
-        cancelButtonText: this.translate.instant("generics.No, cancel"),
+        cancelButtonText: this.translate.instant("generics.No"),
         showLoaderOnConfirm: true,
         allowOutsideClick: false,
-        reverseButtons: true
+        reverseButtons: false
     }).then((result) => {
       if (result.value) {
         this.deleteLang(index);
