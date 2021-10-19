@@ -272,7 +272,7 @@
                                     <span *ngIf="i == (stepsTimeLine)?.length - 1" class="white"><em class="fa fa-check"></em></span>
                                   </div>
                                 <div *ngIf="i < (stepsTimeLine)?.length - 1" class="step-divider" [ngClass]="((i < (stepsTimeLine)?.length - 1) && step.stepIndex>=currentStepTimeLine.stepIndex)?'step-divider-prev':'step-divider-next'"></div>
-                                <span class="step-title" [ngClass]="{ 'mt-2': (step.stepIndex != 3), 'margin-step-title mt-025': (step.stepIndex == 3), 'step-title-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex), 'step-title-prev': ((currentStepTimeLine)?.stepIndex >= step.stepIndex), 'success': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i == (stepsTimeLine)?.length - 1)}">{{step.title}} </span>
+                                <span (click)="navigate(step)" class="step-title" [ngClass]="{ 'mt-2': (step.stepIndex != 3), 'margin-step-title mt-025': (step.stepIndex == 3), 'step-title-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex), 'step-title-prev': ((currentStepTimeLine)?.stepIndex >= step.stepIndex), 'success': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i == (stepsTimeLine)?.length - 1), 'pointer': (step.stepIndex != currentStepTimeLine.stepIndex )}">{{step.title}} </span>
                             </span>
                           </div>
                         </div>
@@ -798,7 +798,7 @@
                                           <span *ngIf="i == (stepsTimeLine)?.length - 1" class="white"><em class="fa fa-check"></em></span>
                                         </div>
                                       <div *ngIf="i < (stepsTimeLine)?.length - 1" class="step-divider" [ngClass]="((i < (stepsTimeLine)?.length - 1) && step.stepIndex>=currentStepTimeLine.stepIndex)?'step-divider-prev':'step-divider-next'"></div>
-                                      <span class="step-title" [ngClass]="{ 'mt-2': (step.stepIndex != 3), 'margin-step-title mt-025': (step.stepIndex == 3), 'step-title-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex), 'step-title-prev': ((currentStepTimeLine)?.stepIndex >= step.stepIndex), 'success': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i == (stepsTimeLine)?.length - 1)}">{{step.title}} </span>
+                                      <span (click)="navigate(step)" class="step-title" [ngClass]="{ 'mt-2': (step.stepIndex != 3), 'margin-step-title mt-025': (step.stepIndex == 3), 'step-title-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex), 'step-title-prev': ((currentStepTimeLine)?.stepIndex >= step.stepIndex), 'success': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i == (stepsTimeLine)?.length - 1), 'pointer': (step.stepIndex != currentStepTimeLine.stepIndex )}">{{step.title}} </span>
                                   </span>
                                 </div>
                               </div>

@@ -1631,6 +1631,20 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         document.getElementById('initsteps').scrollIntoView(true);
     }
 
+    navigate(step){
+        if(step.stepIndex<this.currentStepTimeLine.stepIndex){
+            if(step.stepIndex>0){
+                this.currentStepTimeLine = this.stepsTimeLine[step.stepIndex - 1];
+            }
+        }else if(step.stepIndex>this.currentStepTimeLine.stepIndex){
+            if(this.currentStepTimeLine.stepIndex==1){
+                this.directCalculate();
+            }else{
+                this.goNext();
+            }
+        }
+    }
+
     getParamsTimeLine(info){
         console.log(info);
         this.paramsTimeLine = info;

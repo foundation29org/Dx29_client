@@ -278,6 +278,25 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         document.getElementById('initsteps').scrollIntoView(true);
     }
 
+    navigate(step){
+        if(step.stepIndex<this.currentStep.stepIndex){
+            if(step.stepIndex>0){
+                this.currentStep = this.steps[step.stepIndex - 1];
+                if (this.currentStep.stepIndex == 2) {
+                    this.symptomsTimeLine = this.getCheckedSymptoms();
+                }
+                //this.goPrevious();
+            }
+            
+        }else if(step.stepIndex>this.currentStep.stepIndex){
+            if(this.currentStep.stepIndex==1){
+                this.directCalculate();
+            }else{
+                this.goNext();
+            }
+        }
+    }
+
     openModarRegister(type) {
         var titleEvent = "OpenModalRegister - " + type;
         this.lauchEvent(titleEvent);
