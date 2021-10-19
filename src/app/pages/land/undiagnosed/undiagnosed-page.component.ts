@@ -224,7 +224,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                     cancelButtonText: this.translate.instant("generics.No"),
                     showLoaderOnConfirm: true,
                     allowOutsideClick: false,
-                    reverseButtons: false
+                    reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
                         var foundElementIndex = this.searchService.searchIndex(this.steps, 'stepIndex', this.currentStep.stepIndex);
@@ -246,7 +246,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                     cancelButtonText: this.translate.instant("generics.No"),
                     showLoaderOnConfirm: true,
                     allowOutsideClick: false,
-                    reverseButtons: false
+                    reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
                         var foundElementIndex = this.searchService.searchIndex(this.steps, 'stepIndex', this.currentStep.stepIndex);
@@ -363,7 +363,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                     cancelButtonText: this.translate.instant("generics.No"),
                     showLoaderOnConfirm: true,
                     allowOutsideClick: false,
-                    reverseButtons: false
+                    reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
                         this.originalLang = lang;
@@ -534,7 +534,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                     cancelButtonText: self.translate.instant("generics.No"),
                     showLoaderOnConfirm: true,
                     allowOutsideClick: false,
-                    reverseButtons: false
+                    reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
                         self.callParser();
@@ -574,7 +574,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                         cancelButtonText: this.translate.instant("generics.No"),
                         showLoaderOnConfirm: true,
                         allowOutsideClick: false,
-                        reverseButtons: false
+                        reverseButtons: true
                     }).then((result) => {
                         if (result.value) {
                             this.langToExtract = this.langDetected
@@ -770,7 +770,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                                 cancelButtonText: this.translate.instant("land.try again"),
                                 showLoaderOnConfirm: true,
                                 allowOutsideClick: false,
-                                reverseButtons: false
+                                reverseButtons: true
                             }).then((result) => {
                                 if (result.value) {
                                     this.substepExtract = '4';
@@ -969,7 +969,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             cancelButtonText: this.translate.instant("generics.Cancel"),
             showLoaderOnConfirm: true,
             allowOutsideClick: false,
-            reverseButtons: false
+            reverseButtons: true
         }).then((result) => {
             if (result.value) {
                 this.temporalSymptoms.splice(index, 1);
@@ -1397,7 +1397,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             cancelButtonText: this.translate.instant("generics.Cancel"),
             showLoaderOnConfirm: true,
             allowOutsideClick: false,
-            reverseButtons: false
+            reverseButtons: true
         }).then((result) => {
             if (result.value) {
                 this.topRelatedConditions.splice(index, 1);
@@ -1637,7 +1637,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             confirmButtonText: this.translate.instant("land.Next"),
             cancelButtonText: this.translate.instant("generics.Cancel"),
             showCancelButton: true,
-            reverseButtons: false
+            reverseButtons: true
         }).then(function (email) {
             if (email.value) {
                 Swal.fire({
@@ -1647,7 +1647,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                     confirmButtonText: this.translate.instant("land.Send"),
                     cancelButtonText: this.translate.instant("generics.Cancel"),
                     showCancelButton: true,
-                    reverseButtons: false
+                    reverseButtons: true
                 }).then(function (message) {
                     var actualDate = new Date();
                     var dateHeader = this.getFormatDate(actualDate);

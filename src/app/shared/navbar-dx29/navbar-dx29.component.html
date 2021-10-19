@@ -2,12 +2,44 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-faded damemarger custom-navbar">
     <div class="container-fluid">
       <div>
+        <button type="button" class="mt-2 d-lg-none navbar-toggle float-left" data-toggle="collapse" (click)="toggleSidebar()">
+          <span class="sr-only">{{'navbar.Toggle navigation' | translate }}</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+      </button>
           <span class="navbar-header-logos">
             <img *ngIf="isHomePage" class="logo-img" src='assets/img/logo-Dx29.png' (click)="lauchEvent('Logo');"/>
             <img *ngIf="!isHomePage" class="logo-img" src='assets/img/logo-Dx29.png' routerLink="/." (click)="lauchEvent('Logo');" style="cursor: pointer;"/>
             
           </span>
 
+      </div>
+      <div class="d-none d-lg-block">
+        <div class="navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav m-r-0">
+                <li class="nav-item mr-2">
+                    <a class="nav-link" [ngClass]="(!isHomePage)?'black':'black text-bold-500'" routerLink="/.">
+                      <span>{{'menu.Dashboard' | translate }}</span>
+                    </a>
+                </li>
+                <li class="nav-item mr-2">
+                  <a class="nav-link" [ngClass]="(!isAboutPage)?'black':'black text-bold-500'" routerLink="/aboutus">
+                    <span>{{'menu.About us' | translate }}</span>
+                  </a>
+                </li>
+                <li class="nav-item mr-2">
+                    <a class="nav-link" [ngClass]="(!isUndiagnosedPatientPage)?'black':'black text-bold-500'" routerLink="/undiagnosed">
+                      <span>{{'menu.UndiagnosedPatients' | translate }}</span>
+                    </a>
+                </li>
+                <li class="nav-item mr-2">
+                    <a class="nav-link" [ngClass]="(!isPatientPage)?'black':'black text-bold-500'" routerLink="/diagnosed">
+                      <span>{{'menu.DiagnosedPatients' | translate }}</span>
+                    </a>
+                </li>
+              </ul>
+          </div>
       </div>
         <div class="navbar-container pl-0">
             <div  id="navbarSupportedContent">

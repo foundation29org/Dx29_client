@@ -124,6 +124,17 @@ a{
   border-color: #a9b3bb !important;
 }
 
+.btn-info-nohover{
+  background-color: #33658a !important;
+  color: #fff !important;
+  border-color: #33658a;
+}
+
+.btn-info-nohover:focus, .btn-info-nohover.focus {
+  outline: 0;
+  box-shadow: none;
+}
+
 .btn-info:hover {
   background-color: #b0b6bb !important;
   border-color: #a9b3bb !important;

@@ -10,7 +10,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 
 
 import { LandPageComponent } from "./land/land-page.component";
-import { AboutUsComponent } from "./about-us/about-us-page.component";
+import { AboutUsPageComponent } from "./about-us/about-us-page.component";
 import { UndiagnosedPageComponent } from "./undiagnosed/undiagnosed-page.component";
 import { DiagnosedPageComponent } from "./diagnosed/diagnosed-page.component";
 import { ClinicianPageComponent } from "./clinician/clinician-page.component";
@@ -53,7 +53,7 @@ import { TimelineComponent } from './diagnosed/timeline/timeline.component';
     ],
     declarations: [
         LandPageComponent,
-        AboutUsComponent,
+        AboutUsPageComponent,
         UndiagnosedPageComponent,
         DiagnosedPageComponent,
         TimelineComponent,

@@ -36,7 +36,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
   isPatientPage: boolean = false;
   isUndiagnosedPatientPage: boolean = false;
   isEdHubPage: boolean = false;
-  isAttributionsPage: boolean = false;
+  isAboutPage: boolean = false;
   isGTPPage: boolean = false;
   isDonaPage: boolean = false;
   role: string = 'Clinical';
@@ -64,12 +64,13 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
 
       event => {
         var tempUrl = (event.url).toString();
-        if (tempUrl.indexOf('/.') != -1) {
+        console.log(tempUrl);
+        if (tempUrl.indexOf('/.') != -1 || tempUrl == '/') {
           this.isHomePage = true;
           this.isClinicianPage = false;
           this.isPatientPage = false;
           this.isEdHubPage = false;
-          this.isAttributionsPage = false;
+          this.isAboutPage = false;
           this.isGTPPage = false;
           this.isUndiagnosedPatientPage = false;
           this.role = 'Clinical';
@@ -79,27 +80,27 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
           this.isClinicianPage = true;
           this.isPatientPage = false;
           this.isEdHubPage = false;
-          this.isAttributionsPage = false;
+          this.isAboutPage = false;
           this.isGTPPage = false;
           this.isUndiagnosedPatientPage = false;
           this.role = 'Clinical';
           this.subrole = 'null';
-        } else if (tempUrl.indexOf('/diagnosedpatient') != -1) {
+        } else if (tempUrl.indexOf('/diagnosed') != -1) {
           this.isHomePage = false;
           this.isPatientPage = true;
           this.isClinicianPage = false;
           this.isEdHubPage = false;
-          this.isAttributionsPage = false;
+          this.isAboutPage = false;
           this.isGTPPage = false;
           this.isUndiagnosedPatientPage = false;
           this.role = 'User';
           this.subrole = 'HaveDiagnosis';
-        } else if (tempUrl.indexOf('/undiagnosedpatient') != -1) {
+        } else if (tempUrl.indexOf('/undiagnosed') != -1) {
           this.isHomePage = false;
           this.isPatientPage = false;
           this.isClinicianPage = false;
           this.isEdHubPage = false;
-          this.isAttributionsPage = false;
+          this.isAboutPage = false;
           this.isGTPPage = false;
           this.isUndiagnosedPatientPage = true;
           this.role = 'User';
@@ -109,15 +110,15 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
           this.isPatientPage = false;
           this.isClinicianPage = false;
           this.isEdHubPage = true;
-          this.isAttributionsPage = false;
+          this.isAboutPage = false;
           this.isGTPPage = false;
           this.isUndiagnosedPatientPage = false;
-        } else if (tempUrl.indexOf('/attributions') != -1) {
+        } else if (tempUrl.indexOf('/aboutus') != -1) {
           this.isHomePage = false;
           this.isPatientPage = false;
           this.isClinicianPage = false;
           this.isEdHubPage = false;
-          this.isAttributionsPage = true;
+          this.isAboutPage = true;
           this.isGTPPage = false;
           this.isUndiagnosedPatientPage = false;
         } else if (tempUrl.indexOf('/juntoshaciaeldiagnostico') != -1) {
@@ -125,7 +126,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
           this.isPatientPage = false;
           this.isClinicianPage = false;
           this.isEdHubPage = false;
-          this.isAttributionsPage = false;
+          this.isAboutPage = false;
           this.isGTPPage = true;
           this.isUndiagnosedPatientPage = false;
           if (tempUrl.indexOf('/juntoshaciaeldiagnostico/donar') != -1) {
@@ -138,7 +139,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
           this.isClinicianPage = false;
           this.isPatientPage = false;
           this.isEdHubPage = false;
-          this.isAttributionsPage = false;
+          this.isAboutPage = false;
           this.isGTPPage = false;
           this.isUndiagnosedPatientPage = false;
         }
@@ -153,12 +154,14 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     );
+
+    /*console.log(this.router.url);
     if ((this.router.url).indexOf('/.') != -1) {
       this.isHomePage = true;
       this.isClinicianPage = false;
       this.isPatientPage = false;
       this.isEdHubPage = false;
-      this.isAttributionsPage = false;
+      this.isAboutPage = false;
       this.isGTPPage = false;
       this.isUndiagnosedPatientPage = false;
       this.role = 'Clinical';
@@ -168,27 +171,27 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
       this.isClinicianPage = true;
       this.isPatientPage = false;
       this.isEdHubPage = false;
-      this.isAttributionsPage = false;
+      this.isAboutPage = false;
       this.isGTPPage = false;
       this.isUndiagnosedPatientPage = false;
       this.role = 'Clinical';
       this.subrole = 'null';
-    } else if ((this.router.url).indexOf('/diagnosedpatient') != -1) {
+    } else if ((this.router.url).indexOf('/diagnosed') != -1) {
       this.isHomePage = false;
       this.isPatientPage = true;
       this.isClinicianPage = false;
       this.isEdHubPage = false;
-      this.isAttributionsPage = false;
+      this.isAboutPage = false;
       this.isGTPPage = false;
       this.isUndiagnosedPatientPage = false;
       this.role = 'User';
       this.subrole = 'HaveDiagnosis';
-    } else if ((this.router.url).indexOf('/undiagnosedpatient') != -1) {
+    } else if ((this.router.url).indexOf('/undiagnosed') != -1) {
       this.isHomePage = false;
       this.isPatientPage = false;
       this.isClinicianPage = false;
       this.isEdHubPage = false;
-      this.isAttributionsPage = false;
+      this.isAboutPage = false;
       this.isGTPPage = false;
       this.isUndiagnosedPatientPage = true;
       this.role = 'User';
@@ -198,15 +201,15 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
       this.isPatientPage = false;
       this.isClinicianPage = false;
       this.isEdHubPage = true;
-      this.isAttributionsPage = false;
+      this.isAboutPage = false;
       this.isGTPPage = false;
       this.isUndiagnosedPatientPage = false;
-    } else if ((this.router.url).indexOf('/attributions') != -1) {
+    } else if ((this.router.url).indexOf('/aboutus') != -1) {
       this.isHomePage = false;
       this.isPatientPage = false;
       this.isClinicianPage = false;
       this.isEdHubPage = false;
-      this.isAttributionsPage = true;
+      this.isAboutPage = true;
       this.isGTPPage = false;
       this.isUndiagnosedPatientPage = false;
     } else if ((this.router.url).indexOf('/juntoshaciaeldiagnostico') != -1) {
@@ -214,7 +217,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
       this.isPatientPage = false;
       this.isClinicianPage = false;
       this.isEdHubPage = false;
-      this.isAttributionsPage = false;
+      this.isAboutPage = false;
       this.isGTPPage = true;
       this.isUndiagnosedPatientPage = false;
       if ((this.router.url).indexOf('/juntoshaciaeldiagnostico/donar') != -1) {
@@ -227,10 +230,10 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
       this.isClinicianPage = false;
       this.isPatientPage = false;
       this.isEdHubPage = false;
-      this.isAttributionsPage = false;
+      this.isAboutPage = false;
       this.isGTPPage = false;
       this.isUndiagnosedPatientPage = false;
-    }
+    }*/
 
     this.layoutSub = layoutService.changeEmitted$.subscribe(
       direction => {

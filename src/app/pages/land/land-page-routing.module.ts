@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { CanDeactivateGuard } from 'app/shared/auth/can-deactivate-guard.service';
 
 import { LandPageComponent } from "./land/land-page.component";
-import { AboutUsComponent } from "./about-us/about-us-page.component";
+import { AboutUsPageComponent } from "./about-us/about-us-page.component";
 import { UndiagnosedPageComponent } from "./undiagnosed/undiagnosed-page.component";
 import { DiagnosedPageComponent } from "./diagnosed/diagnosed-page.component";
 import { ClinicianPageComponent } from "./clinician/clinician-page.component";
@@ -28,7 +28,7 @@ const routes: Routes = [
       },
       {
         path: 'aboutus',
-        component: AboutUsComponent,
+        component: AboutUsPageComponent,
         data: {
           title: 'menu.About us'
         }

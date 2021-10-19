@@ -140,6 +140,11 @@
                           <tr *ngFor="let symptom of infoOneDisease.symptoms ; let i = index" class="text-left">
                             <td class="row pb-0" style="padding: 0.4rem;">
                               <div class="col-md-12">
+                                <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
+                                    class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                    title="{{'generics.More information' | translate }} ({{symptom.id}})">
+                                    <em class="fa fa-info w-13"></em>
+                                  </button>
                                 <strong>
                                   <span *ngIf="symptom.name" style="cursor: pointer;" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{symptom.name}}</span>
                                   <span *ngIf="!symptom.name">
@@ -155,8 +160,13 @@
                       </table>
                       <span class="d-none d-sm-block d-md-none">
                         <span *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
-                          <ul *ngIf="i % 2 == 0" class="row mb-2">
-                            <li class="col-sm-6 pl-0">
+                          <span *ngIf="i % 2 == 0" class="row mb-2">
+                            <span class="col-sm-6 pl-0">
+                              <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
+                                class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                title="{{'generics.More information' | translate }} ({{symptom.id}})">
+                                <em class="fa fa-info w-13"></em>
+                              </button>
                               <span *ngIf="symptom.name" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{symptom.id}})" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{symptom.name}}</span>
                               <span *ngIf="!symptom.name">
                                 {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
@@ -164,8 +174,13 @@
                                   title="{{symptom.id}}">
                                   <i class="ft-external-link"></i></a>
                               </span>
-                            </li>
-                            <li *ngIf="i + 1 < infoOneDisease.symptoms.length" class="col-sm-6 pl-0">
+                            </span>
+                            <span *ngIf="i + 1 < infoOneDisease.symptoms.length" class="col-sm-6 pl-0">
+                              <button (click)="showMoreInfoSymptomPopup(i+1, contentInfoSymptomOneDisease);"
+                                class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                title="{{'generics.More information' | translate }} ({{infoOneDisease.symptoms[i + 1].id}})">
+                                <em class="fa fa-info w-13"></em>
+                              </button>
                               <span *ngIf="infoOneDisease.symptoms[i + 1].name" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{infoOneDisease.symptoms[i + 1].id}})" (click)="showMoreInfoSymptomPopup(i+1, contentInfoSymptomOneDisease);">{{infoOneDisease.symptoms[i + 1].name}}</span>
                               <span *ngIf="!infoOneDisease.symptoms[i + 1].name">
                                 {{infoOneDisease.symptoms[i + 1].id}} ({{'phenotype.Deprecated' | translate}}) <a
@@ -173,14 +188,19 @@
                                   title="{{infoOneDisease.symptoms[i + 1].id}}">
                                   <i class="ft-external-link"></i></a>
                               </span>
-                            </li>
-                          </ul>
+                            </span>
+                          </span>
                           </span>
                       </span>
                       <span class="d-none d-md-block">
                         <span *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
-                          <ul *ngIf="i % 3 == 0" class="row mb-2">
-                            <li class="col-md-4 pl-0">
+                          <span *ngIf="i % 3 == 0" class="row mb-2">
+                            <span class="col-md-4 pl-0">
+                              <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
+                                class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                title="{{'generics.More information' | translate }} ({{symptom.id}})">
+                                <em class="fa fa-info w-13"></em>
+                              </button>
                               <span *ngIf="symptom.name" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{symptom.id}})" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{symptom.name}}</span>
                               <span *ngIf="!symptom.name">
                                 {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
@@ -188,8 +208,13 @@
                                   title="{{symptom.id}}">
                                   <i class="ft-external-link"></i></a>
                               </span>
-                            </li>
-                            <li *ngIf="i + 1 < infoOneDisease.symptoms.length" class="col-md-4 pl-0">
+                            </span>
+                            <span *ngIf="i + 1 < infoOneDisease.symptoms.length" class="col-md-4 pl-0">
+                              <button (click)="showMoreInfoSymptomPopup(i+1, contentInfoSymptomOneDisease);"
+                                class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                title="{{'generics.More information' | translate }} ({{infoOneDisease.symptoms[i + 1].id}})">
+                                <em class="fa fa-info w-13"></em>
+                              </button>
                               <span *ngIf="infoOneDisease.symptoms[i + 1].name" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{infoOneDisease.symptoms[i + 1].id}})" (click)="showMoreInfoSymptomPopup(i+1, contentInfoSymptomOneDisease);">{{infoOneDisease.symptoms[i + 1].name}}</span>
                               <span *ngIf="!infoOneDisease.symptoms[i + 1].name">
                                 {{infoOneDisease.symptoms[i + 1].id}} ({{'phenotype.Deprecated' | translate}}) <a
@@ -197,8 +222,13 @@
                                   title="{{infoOneDisease.symptoms[i + 1].id}}">
                                   <i class="ft-external-link"></i></a>
                               </span>
-                            </li>
-                            <li *ngIf="i + 2 < infoOneDisease.symptoms.length" class="col-md-4 pl-0">
+                            </span>
+                            <span *ngIf="i + 2 < infoOneDisease.symptoms.length" class="col-md-4 pl-0">
+                              <button (click)="showMoreInfoSymptomPopup(i+2, contentInfoSymptomOneDisease);"
+                                class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                title="{{'generics.More information' | translate }} ({{infoOneDisease.symptoms[i + 2].id}})">
+                                <em class="fa fa-info w-13"></em>
+                              </button>
                               <span *ngIf="infoOneDisease.symptoms[i + 2].name" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{infoOneDisease.symptoms[i + 2].id}})" (click)="showMoreInfoSymptomPopup(i+2, contentInfoSymptomOneDisease);">{{infoOneDisease.symptoms[i + 2].name}}</span>
                               <span *ngIf="!infoOneDisease.symptoms[i + 2].name">
                                 {{infoOneDisease.symptoms[i + 2].id}} ({{'phenotype.Deprecated' | translate}}) <a
@@ -206,8 +236,8 @@
                                   title="{{infoOneDisease.symptoms[i + 2].id}}">
                                   <i class="ft-external-link"></i></a>
                               </span>
-                            </li>
-                          </ul>
+                            </span>
+                          </span>
                         </span>
                       </span>
                     </div>
@@ -226,23 +256,23 @@
                       {{'land.Chronology' | translate }}<span class="ml-1 badge badge-pill badge-success mb-1 mr-2">{{'generics.New' | translate }}</span>
                     </mat-panel-title>
                   </mat-expansion-panel-header>
+                  <a id="initsteps"></a>
                   <div class="card-body">
                     <div>
                       <div class="col-md-12">
                         <p class="text-center">{{'land.diagnosed.timeline.title' | translate}}</p>
                       </div>
                       <div class="row">
-                        <a id="initsteps"></a>
                         <div class="col-md-12 align-items-center text-center">
                           <div class="form-steps-container">
                             <span *ngFor="let step of stepsTimeLine; let i = index;" class="forstep">
-                                <div [ngClass]="{ 'step-complete': step.isComplete, 'step-incomplete': !step.isComplete, 'step-current': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i < (stepsTimeLine)?.length - 1), 'step-final': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i == (stepsTimeLine)?.length - 1),  'step-bubble-prev': (currentStepTimeLine)?.stepIndex >= step.stepIndex,  'step-bubble-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex && i < (stepsTimeLine)?.length - 1),  'step-bubble-final': ((currentStepTimeLine)?.stepIndex < step.stepIndex && i == (stepsTimeLine)?.length - 1), 'margin-bubble-final': (step.stepIndex == 3)}"
+                                <div [ngClass]="{ 'step-complete': step.isComplete, 'step-incomplete': !step.isComplete, 'step-current': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i < (stepsTimeLine)?.length - 1), 'step-final': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i == (stepsTimeLine)?.length - 1),  'step-bubble-prev': (currentStepTimeLine)?.stepIndex >= step.stepIndex,  'step-bubble-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex && i <= (stepsTimeLine)?.length - 1), 'margin-bubble-final': (step.stepIndex == 3)}"
                                     class="step-bubble">
-                                    <span *ngIf="i < (stepsTimeLine)?.length - 1">{{ step.stepIndex }}</span>
-                                    <span *ngIf="i == (stepsTimeLine)?.length - 1"><em class="fa fa-check"></em></span>
+                                    <span *ngIf="i < (stepsTimeLine)?.length - 1" class="white">{{ step.stepIndex }}</span>
+                                    <span *ngIf="i == (stepsTimeLine)?.length - 1" class="white"><em class="fa fa-check"></em></span>
                                   </div>
                                 <div *ngIf="i < (stepsTimeLine)?.length - 1" class="step-divider" [ngClass]="((i < (stepsTimeLine)?.length - 1) && step.stepIndex>=currentStepTimeLine.stepIndex)?'step-divider-prev':'step-divider-next'"></div>
-                                <span class="step-title mt-2" [ngClass]="{ 'margin-step-title': (step.stepIndex == 3), 'step-title-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex), 'step-title-prev': ((currentStepTimeLine)?.stepIndex >= step.stepIndex)}">{{step.title}} </span>
+                                <span class="step-title" [ngClass]="{ 'mt-2': (step.stepIndex != 3), 'margin-step-title mt-025': (step.stepIndex == 3), 'step-title-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex), 'step-title-prev': ((currentStepTimeLine)?.stepIndex >= step.stepIndex), 'success': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i == (stepsTimeLine)?.length - 1)}">{{step.title}} </span>
                             </span>
                           </div>
                         </div>
@@ -323,7 +353,7 @@
                                                   <span>
                                                     <button (click)="changeStateSymptom(i)"
                                                       class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                                                      [ngClass]="(hpo.checked==true)?'btn-info':'btn-secondary'"
+                                                      [ngClass]="(hpo.checked==true)?'btn-info-nohover':'btn-secondary'"
                                                       href="javascript:void(0)" title="{{'phenotype.Click to check it' | translate }}">
                                                       <em class="fa fa-check w-13"></em>
                                                     </button>
@@ -340,7 +370,7 @@
                                       <tbody></tbody>
                                     </div>
                                     <div class="col-md-12 p-1 border-top footer-symtoms">
-                                      <button type="button" class="btn btn-info round float-right mt-2 mr-2 bt-nav" (click)="directCalculate();">{{'generics.Next' | translate }}</button>
+                                      <button type="button" class="btn round float-right mt-2 mr-2 bt-nav" [ngClass]="(numberOfSymtomsChecked < minSymptoms)?'btn-secondary':'btn-info'" (click)="directCalculate();">{{'generics.Next' | translate }}</button>
                                     </div>
 
                                   </ng-template>
@@ -690,65 +720,52 @@
                       <div class="row">
                         <div class="col-md-12 mt-1">
                           <div class="col-md-12">
-                            <span class="d-none d-sm-block d-md-none">
-                              <span *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
-                                <ul *ngIf="i % 2 == 0" class="row mb-2">
-                                  <li class="col-sm-6 pl-0">
-                                    <span *ngIf="symptom.name" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{symptom.id}})" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{symptom.name}}</span>
-                                    <span *ngIf="!symptom.name">
-                                      {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
-                                        href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
-                                        title="{{symptom.id}}">
-                                        <i class="ft-external-link"></i></a>
-                                    </span>
-                                  </li>
-                                  <li *ngIf="i + 1 < infoOneDisease.symptoms.length" class="col-sm-6 pl-0">
-                                    <span *ngIf="infoOneDisease.symptoms[i + 1].name" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{infoOneDisease.symptoms[i + 1].id}})" (click)="showMoreInfoSymptomPopup(i+1, contentInfoSymptomOneDisease);">{{infoOneDisease.symptoms[i + 1].name}}</span>
-                                    <span *ngIf="!infoOneDisease.symptoms[i + 1].name">
-                                      {{infoOneDisease.symptoms[i + 1].id}} ({{'phenotype.Deprecated' | translate}}) <a
-                                        href="https://hpo.jax.org/app/browse/term/{{infoOneDisease.symptoms[i + 1].id}}" target="_blank"
-                                        title="{{infoOneDisease.symptoms[i + 1].id}}">
-                                        <i class="ft-external-link"></i></a>
-                                    </span>
-                                  </li>
-                                </ul>
+                            <span *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
+                              <span *ngIf="i % 3 == 0" class="row mb-2">
+                                <span class="col-md-4 pl-0">
+                                  <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);"
+                                    class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                    title="{{'generics.More information' | translate }} ({{symptom.id}})">
+                                    <em class="fa fa-info w-13"></em>
+                                  </button>
+                                  <span *ngIf="symptom.name" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{symptom.id}})" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{symptom.name}}</span>
+                                  <span *ngIf="!symptom.name">
+                                    {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
+                                      href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
+                                      title="{{symptom.id}}">
+                                      <i class="ft-external-link"></i></a>
+                                  </span>
                                 </span>
-                            </span>
-                            <span class="d-none d-md-block">
-                              <span *ngFor="let symptom of infoOneDisease.symptoms ; let i = index">
-                                <ul *ngIf="i % 3 == 0" class="row mb-2">
-                                  <li class="col-md-4 pl-0">
-                                    <span *ngIf="symptom.name" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{symptom.id}})" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomOneDisease);">{{symptom.name}}</span>
-                                    <span *ngIf="!symptom.name">
-                                      {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
-                                        href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
-                                        title="{{symptom.id}}">
-                                        <i class="ft-external-link"></i></a>
-                                    </span>
-                                  </li>
-                                  <li *ngIf="i + 1 < infoOneDisease.symptoms.length" class="col-md-4 pl-0">
-                                    <span *ngIf="infoOneDisease.symptoms[i + 1].name" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{infoOneDisease.symptoms[i + 1].id}})" (click)="showMoreInfoSymptomPopup(i+1, contentInfoSymptomOneDisease);">{{infoOneDisease.symptoms[i + 1].name}}</span>
-                                    <span *ngIf="!infoOneDisease.symptoms[i + 1].name">
-                                      {{infoOneDisease.symptoms[i + 1].id}} ({{'phenotype.Deprecated' | translate}}) <a
-                                        href="https://hpo.jax.org/app/browse/term/{{infoOneDisease.symptoms[i + 1].id}}" target="_blank"
-                                        title="{{infoOneDisease.symptoms[i + 1].id}}">
-                                        <i class="ft-external-link"></i></a>
-                                    </span>
-                                  </li>
-                                  <li *ngIf="i + 2 < infoOneDisease.symptoms.length" class="col-md-4 pl-0">
-                                    <span *ngIf="infoOneDisease.symptoms[i + 2].name" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{infoOneDisease.symptoms[i + 2].id}})" (click)="showMoreInfoSymptomPopup(i+2, contentInfoSymptomOneDisease);">{{infoOneDisease.symptoms[i + 2].name}}</span>
-                                    <span *ngIf="!infoOneDisease.symptoms[i + 2].name">
-                                      {{infoOneDisease.symptoms[i + 2].id}} ({{'phenotype.Deprecated' | translate}}) <a
-                                        href="https://hpo.jax.org/app/browse/term/{{infoOneDisease.symptoms[i + 2].id}}" target="_blank"
-                                        title="{{infoOneDisease.symptoms[i + 2].id}}">
-                                        <i class="ft-external-link"></i></a>
-                                    </span>
-                                  </li>
-                                </ul>
+                                <span *ngIf="i + 1 < infoOneDisease.symptoms.length" class="col-md-4 pl-0">
+                                  <button (click)="showMoreInfoSymptomPopup(i+1, contentInfoSymptomOneDisease);"
+                                    class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                    title="{{'generics.More information' | translate }} ({{infoOneDisease.symptoms[i + 1].id}})">
+                                    <em class="fa fa-info w-13"></em>
+                                  </button>
+                                  <span *ngIf="infoOneDisease.symptoms[i + 1].name" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{infoOneDisease.symptoms[i + 1].id}})" (click)="showMoreInfoSymptomPopup(i+1, contentInfoSymptomOneDisease);">{{infoOneDisease.symptoms[i + 1].name}}</span>
+                                  <span *ngIf="!infoOneDisease.symptoms[i + 1].name">
+                                    {{infoOneDisease.symptoms[i + 1].id}} ({{'phenotype.Deprecated' | translate}}) <a
+                                      href="https://hpo.jax.org/app/browse/term/{{infoOneDisease.symptoms[i + 1].id}}" target="_blank"
+                                      title="{{infoOneDisease.symptoms[i + 1].id}}">
+                                      <i class="ft-external-link"></i></a>
+                                  </span>
+                                </span>
+                                <span *ngIf="i + 2 < infoOneDisease.symptoms.length" class="col-md-4 pl-0">
+                                  <button (click)="showMoreInfoSymptomPopup(i+2, contentInfoSymptomOneDisease);"
+                                    class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                    title="{{'generics.More information' | translate }} ({{infoOneDisease.symptoms[i + 1].id}})">
+                                    <em class="fa fa-info w-13"></em>
+                                  </button>
+                                  <span *ngIf="infoOneDisease.symptoms[i + 2].name" style="cursor: pointer;" title="{{'generics.More information' | translate }} ({{infoOneDisease.symptoms[i + 2].id}})" (click)="showMoreInfoSymptomPopup(i+2, contentInfoSymptomOneDisease);">{{infoOneDisease.symptoms[i + 2].name}}</span>
+                                  <span *ngIf="!infoOneDisease.symptoms[i + 2].name">
+                                    {{infoOneDisease.symptoms[i + 2].id}} ({{'phenotype.Deprecated' | translate}}) <a
+                                      href="https://hpo.jax.org/app/browse/term/{{infoOneDisease.symptoms[i + 2].id}}" target="_blank"
+                                      title="{{infoOneDisease.symptoms[i + 2].id}}">
+                                      <i class="ft-external-link"></i></a>
+                                  </span>
+                                </span>
                               </span>
                             </span>
-                                
-                            
                           </div>
                         </div>
                       </div>
@@ -765,23 +782,23 @@
                 <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined" id="tab1">
                   <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Chronology');">{{'land.Chronology' | translate }}</strong></ng-template>
                   <ng-template ngbTabContent>
+                    <a id="initsteps"></a>
                     <div class="col-md-12 mb-3 pb-2">
                       <div class="row">
                         <div class="col-md-12 mt-2">
                           <div>
                             <p class="text-center">{{'land.diagnosed.timeline.title' | translate}}</p>
                             <div class="row">
-                              <a id="initsteps"></a>
                               <div class="col-md-12 align-items-center text-center">
                                 <div class="form-steps-container">
                                   <span *ngFor="let step of stepsTimeLine; let i = index;" class="forstep">
-                                    <div [ngClass]="{ 'step-complete': step.isComplete, 'step-incomplete': !step.isComplete, 'step-current': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i < (stepsTimeLine)?.length - 1), 'step-final': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i == (stepsTimeLine)?.length - 1),  'step-bubble-prev': (currentStepTimeLine)?.stepIndex >= step.stepIndex,  'step-bubble-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex && i < (stepsTimeLine)?.length - 1),  'step-bubble-final': ((currentStepTimeLine)?.stepIndex < step.stepIndex && i == (stepsTimeLine)?.length - 1), 'margin-bubble-final': (step.stepIndex == 3)}"
+                                    <div [ngClass]="{ 'step-complete': step.isComplete, 'step-incomplete': !step.isComplete, 'step-current': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i < (stepsTimeLine)?.length - 1), 'step-final': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i == (stepsTimeLine)?.length - 1),  'step-bubble-prev': (currentStepTimeLine)?.stepIndex >= step.stepIndex,  'step-bubble-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex && i <= (stepsTimeLine)?.length - 1), 'margin-bubble-final': (step.stepIndex == 3)}"
                                           class="step-bubble">
-                                          <span *ngIf="i < (stepsTimeLine)?.length - 1">{{ step.stepIndex }}</span>
-                                          <span *ngIf="i == (stepsTimeLine)?.length - 1"><em class="fa fa-check"></em></span>
+                                          <span *ngIf="i < (stepsTimeLine)?.length - 1" class="white">{{ step.stepIndex }}</span>
+                                          <span *ngIf="i == (stepsTimeLine)?.length - 1" class="white"><em class="fa fa-check"></em></span>
                                         </div>
                                       <div *ngIf="i < (stepsTimeLine)?.length - 1" class="step-divider" [ngClass]="((i < (stepsTimeLine)?.length - 1) && step.stepIndex>=currentStepTimeLine.stepIndex)?'step-divider-prev':'step-divider-next'"></div>
-                                      <span class="step-title mt-2" [ngClass]="{ 'margin-step-title': (step.stepIndex == 3), 'step-title-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex), 'step-title-prev': ((currentStepTimeLine)?.stepIndex >= step.stepIndex)}">{{step.title}} </span>
+                                      <span class="step-title" [ngClass]="{ 'mt-2': (step.stepIndex != 3), 'margin-step-title mt-025': (step.stepIndex == 3), 'step-title-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex), 'step-title-prev': ((currentStepTimeLine)?.stepIndex >= step.stepIndex), 'success': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i == (stepsTimeLine)?.length - 1)}">{{step.title}} </span>
                                   </span>
                                 </div>
                               </div>
@@ -862,7 +879,7 @@
                                                         <span>
                                                           <button (click)="changeStateSymptom(i)"
                                                             class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                                                            [ngClass]="(hpo.checked==true)?'btn-info':'btn-secondary'"
+                                                            [ngClass]="(hpo.checked==true)?'btn-info-nohover':'btn-secondary'"
                                                             href="javascript:void(0)" title="{{'phenotype.Click to check it' | translate }}">
                                                             <em class="fa fa-check w-13"></em>
                                                           </button>
@@ -879,7 +896,7 @@
                                             <tbody></tbody>
                                           </div>
                                           <div class="col-md-12 p-1 border-top footer-symtoms">
-                                            <button type="button" class="btn btn-info round float-right mt-2 mr-2 bt-nav" (click)="directCalculate();">{{'generics.Next' | translate }}</button>
+                                            <button type="button" class="btn round float-right mt-2 mr-2 bt-nav" [ngClass]="(numberOfSymtomsChecked < minSymptoms)?'btn-secondary':'btn-info'" (click)="directCalculate();">{{'generics.Next' | translate }}</button>
                                           </div>
 
                                         </ng-template>

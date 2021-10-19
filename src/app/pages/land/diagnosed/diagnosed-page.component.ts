@@ -743,7 +743,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 cancelButtonText: this.translate.instant("generics.No"),
                 showLoaderOnConfirm: true,
                 allowOutsideClick: false,
-                reverseButtons: false
+                reverseButtons: true
               }).then(result => {
                 if (result.value) {
                     this.loadingOneDisease = true;
@@ -1264,7 +1264,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 cancelButtonText: this.translate.instant("generics.No"),
                 showLoaderOnConfirm: true,
                 allowOutsideClick: false,
-                reverseButtons: false
+                reverseButtons: true
               }).then(result => {
                 if (result.value) {
                     this.showIntro = true;
@@ -1471,7 +1471,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 cancelButtonText: this.translate.instant("generics.No"),
                 showLoaderOnConfirm: true,
                 allowOutsideClick: false,
-                reverseButtons: false
+                reverseButtons: true
             }).then((result) => {
                 if (result.value) {
                     this.listSymptomsCheckedTimeline=[];
@@ -1582,7 +1582,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     cancelButtonText: this.translate.instant("generics.No"),
                     showLoaderOnConfirm: true,
                     allowOutsideClick: false,
-                    reverseButtons: false
+                    reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
                         var foundElementIndex = this.searchService.searchIndex(this.stepsTimeLine, 'stepIndex', this.currentStepTimeLine.stepIndex);
@@ -1604,7 +1604,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     cancelButtonText: this.translate.instant("generics.No"),
                     showLoaderOnConfirm: true,
                     allowOutsideClick: false,
-                    reverseButtons: false
+                    reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
                         var foundElementIndex = this.searchService.searchIndex(this.stepsTimeLine, 'stepIndex', this.currentStepTimeLine.stepIndex);
@@ -1847,7 +1847,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                                 cancelButtonText: this.translate.instant("land.try again"),
                                 showLoaderOnConfirm: true,
                                 allowOutsideClick: false,
-                                reverseButtons: false
+                                reverseButtons: true
                             }).then((result) => {
                                 if (result.value) {
                                     this.substepExtract = '4';
@@ -2173,7 +2173,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     cancelButtonText: self.translate.instant("generics.No"),
                     showLoaderOnConfirm: true,
                     allowOutsideClick: false,
-                    reverseButtons: false
+                    reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
                         self.callParser();
@@ -2213,7 +2213,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                         cancelButtonText: this.translate.instant("generics.No"),
                         showLoaderOnConfirm: true,
                         allowOutsideClick: false,
-                        reverseButtons: false
+                        reverseButtons: true
                     }).then((result) => {
                         if (result.value) {
                             this.langToExtract = this.langDetected
@@ -2345,7 +2345,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             confirmButtonText: this.translate.instant("land.Next"),
             cancelButtonText: this.translate.instant("generics.Cancel"),
             showCancelButton: true,
-            reverseButtons: false
+            reverseButtons: true
         }).then(function (email) {
             if (email.value) {
                 Swal.fire({
@@ -2355,7 +2355,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     confirmButtonText: this.translate.instant("land.Send"),
                     cancelButtonText: this.translate.instant("generics.Cancel"),
                     showCancelButton: true,
-                    reverseButtons: false
+                    reverseButtons: true
                 }).then(function (message) {
                     var actualDate = new Date();
                     var dateHeader = this.getFormatDate(actualDate);
