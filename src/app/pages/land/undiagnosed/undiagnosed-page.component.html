@@ -23,13 +23,13 @@
               <div class="col-md-12 align-items-center text-center">
                 <div class="form-steps-container">
                   <span *ngFor="let step of steps; let i = index;" class="forstep">
-                      <div [ngClass]="{ 'step-complete': step.isComplete, 'step-incomplete': !step.isComplete, 'step-current': ((currentStep)?.stepIndex >= step.stepIndex && i < (steps)?.length - 1), 'step-final': ((currentStep)?.stepIndex >= step.stepIndex && i == (steps)?.length - 1),  'step-bubble-prev': (currentStep)?.stepIndex >= step.stepIndex,  'step-bubble-next': ((currentStep)?.stepIndex < step.stepIndex && i < (steps)?.length - 1),  'step-bubble-final': ((currentStep)?.stepIndex < step.stepIndex && i == (steps)?.length - 1), 'margin-bubble-final': (step.stepIndex == 4)}"
+                      <div [ngClass]="{ 'step-complete': step.isComplete, 'step-incomplete': !step.isComplete, 'step-current': ((currentStep)?.stepIndex >= step.stepIndex && i < (steps)?.length - 1), 'step-final': ((currentStep)?.stepIndex >= step.stepIndex && i == (steps)?.length - 1),  'step-bubble-prev': (currentStep)?.stepIndex >= step.stepIndex,  'step-bubble-next': ((currentStep)?.stepIndex < step.stepIndex && i <= (steps)?.length - 1), 'margin-bubble-final': (step.stepIndex == 4)}"
                           class="step-bubble">
-                          <span *ngIf="i < (steps)?.length - 1">{{ step.stepIndex }}</span>
-                          <span *ngIf="i == (steps)?.length - 1"><em class="fa fa-check"></em></span>
+                          <span *ngIf="i < (steps)?.length - 1" class="white">{{ step.stepIndex }}</span>
+                          <span *ngIf="i == (steps)?.length - 1" class="white"><em class="fa fa-check"></em></span>
                         </div>
                       <div *ngIf="i < (steps)?.length - 1" class="step-divider" [ngClass]="((i < (steps)?.length - 1) && step.stepIndex>=currentStep.stepIndex)?'step-divider-prev':'step-divider-next'"></div>
-                      <span class="step-title mt-2" [ngClass]="{ 'margin-step-title': (step.stepIndex == 4), 'step-title-next': ((currentStep)?.stepIndex < step.stepIndex), 'step-title-prev': ((currentStep)?.stepIndex >= step.stepIndex)}">{{step.title}} </span>
+                      <span class="step-title" [ngClass]="{ 'mt-2': (step.stepIndex != 4), 'margin-step-title mt-025': (step.stepIndex == 4), 'step-title-next': ((currentStep)?.stepIndex < step.stepIndex), 'step-title-prev': ((currentStep)?.stepIndex >= step.stepIndex), 'success': ((currentStep)?.stepIndex >= step.stepIndex && i == (steps)?.length - 1)}">{{step.title}} </span>
                   </span>
                 </div>
               </div>
@@ -114,7 +114,7 @@
                             <span>
                               <button (click)="changeStateSymptom(i)"
                                 class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                                [ngClass]="(hpo.checked==true)?'btn-info':'btn-secondary'"
+                                [ngClass]="(hpo.checked==true)?'btn-info-nohover':'btn-secondary'"
                                 href="javascript:void(0)" title="{{'phenotype.Click to check it' | translate }}">
                                 <em class="fa fa-check w-13"></em>
                               </button>
@@ -131,7 +131,7 @@
                 <tbody></tbody>
               </div>
               <div class="col-md-12 p-1 footer-symtoms shadow">
-                <button type="button" class="btn btn-info round float-right mt-2 mr-2 bt-nav" (click)="directCalculate();">{{'generics.Next' | translate }}</button>
+                <button type="button" class="btn round float-right mt-2 mr-2 bt-nav" [ngClass]="(numberOfSymtomsChecked < minSymptoms)?'btn-secondary':'btn-info'" (click)="directCalculate();">{{'generics.Next' | translate }}</button>
               </div>
 
             </ng-template>
@@ -337,18 +337,18 @@
         <h3><strong>{{'land.What now' | translate }}</strong></h3>
         <p class="offset-sm-1 col-sm-10" [innerHTML]="'land.msgwhat1' | translate"></p>
         <div class="p-2">
-          <button type="button" class="btn btn-primary round btn-md mr-1 bt-custom-md" (click)="openSaveTimeLine(contentSaveTimeline)">
+          <button type="button" class="btn btn-primary round mr-1 bt-custom-md" (click)="openSaveTimeLine(contentSaveTimeline)">
             <em class="mr-1 ft-save white"
               title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="openSaveTimeLine(contentSaveTimeline)"
               style="cursor: pointer;"></em>
               <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
           </button>
-          <button type="button" class="btn btn-primary round btn-md ml-1 mr-1 bt-custom-md" (click)="exportTimeline()">
+          <button type="button" class="btn btn-primary round ml-1 mr-1 bt-custom-md" (click)="exportTimeline()">
             <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
               (click)="exportTimeline()" style="cursor: pointer;"></em>
             <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
           </button>
-          <button type="button" class="btn btn-primary round btn-md ml-1 bt-custom-md" (click)="sendEmail()">
+          <button type="button" class="btn btn-primary round ml-1 bt-custom-md" (click)="sendEmail()">
             <em class="mr-1 far fa-envelope" title="{{'land.Send results' | translate }}"
               (click)="sendEmail()" style="cursor: pointer;"></em>
             <span>{{'land.Send results' | translate }}</span>

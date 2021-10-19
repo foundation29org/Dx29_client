@@ -34,6 +34,7 @@
   font-size: 1em;
   cursor: pointer;
   user-select: none;
+  background-color: #b0B6BB;
 } 
 
 .step-bubble-final{
@@ -100,13 +101,9 @@
 }
 
 .step-final{
-  background: none;
-  color: #41db4a;
+  background: #33A48A;
+  border: 3px solid #33A48A !important;
   border: none;
-}
-
-.margin-bubble-final{
-  margin-left: 0.2rem;
 }
 
 .step-incomplete {
@@ -118,6 +115,10 @@
   margin-left: -60px;
   width: 140px;
   display: block;
+}
+
+.mt-025{
+  margin-top: 0.25em !important;
 }
 
 :host /deep/ .nav-pills{
@@ -813,10 +814,6 @@ body {
   .form-steps-container{
     display: inline-block;
     margin-left: 0rem;
-  }
-
-  .margin-step-title{
-    margin-left: 1.2em !important;
   }
   
   .step-divider{

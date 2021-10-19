@@ -68,7 +68,7 @@ export class LangsComponent implements OnDestroy{
         cancelButtonText: this.translate.instant("generics.No"),
         showLoaderOnConfirm: true,
         allowOutsideClick: false,
-        reverseButtons: false
+        reverseButtons: true
     }).then((result) => {
       if (result.value) {
         this.deleteLang(index);

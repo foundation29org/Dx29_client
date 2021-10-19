@@ -23,7 +23,7 @@ export class DialogService {
         cancelButtonText: this.translate.instant("generics.No"),
         showLoaderOnConfirm: true,
         allowOutsideClick: false,
-        reverseButtons: false
+        reverseButtons: true
       }).then(result => {
         if (result.value) {
           resolve(true);

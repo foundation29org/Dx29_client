@@ -18,7 +18,7 @@ declare let gtag: any;
     styleUrls: ['./about-us-page.component.scss'],
 })
 
-export class AboutUsComponent implements OnDestroy {
+export class AboutUsPageComponent implements OnDestroy {
 
     private subscription: Subscription = new Subscription();
     _startTime: any;
