@@ -49,13 +49,12 @@ p {
   border-color: #A6A9AE;
 }
 
-.btn-white.btn-raised, .btn-white.btn-fab {
+.btn-white, .btn-white.btn-fab {
   background-color: #33658a !important;
   color: #fff !important;
   border-color: #fff;
   width: 200px;
   border: 1px solid #dee2e6 !important;
-  border-radius: 1rem;
 }
 
 .btn-white:hover {
@@ -67,11 +66,6 @@ p {
 .btn-white:focus, .btn-white.focus {
   outline: 0;
   box-shadow: 0 0 0 0.2rem #5eb1f0 !important;
-}
-
-.btn-primary.btn-raised{
-  border-radius: 1rem;
-  height: 50px;
 }
 
 .w-reg{

@@ -61,6 +61,10 @@ a:hover, a:focus {
   text-decoration: none;
 }
 
+.swal2-styled {
+  border-radius: 1.5rem !important;
+}
+
 .swal2-actions:not(.swal2-loading) .swal2-styled:hover {
   background-color: #b0b6bb !important;
 }

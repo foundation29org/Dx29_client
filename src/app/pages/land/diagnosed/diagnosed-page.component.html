@@ -265,14 +265,14 @@
                       <div class="row">
                         <div class="col-md-12 align-items-center text-center">
                           <div class="form-steps-container">
-                            <span *ngFor="let step of stepsTimeLine; let i = index;" class="forstep">
+                            <span *ngFor="let step of stepsTimeLine; let i = index;" class="forstep" (click)="navigate(step)" [ngClass]="{ 'pointer': (step.stepIndex != currentStepTimeLine.stepIndex )}">
                                 <div [ngClass]="{ 'step-complete': step.isComplete, 'step-incomplete': !step.isComplete, 'step-current': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i < (stepsTimeLine)?.length - 1), 'step-final': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i == (stepsTimeLine)?.length - 1),  'step-bubble-prev': (currentStepTimeLine)?.stepIndex >= step.stepIndex,  'step-bubble-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex && i <= (stepsTimeLine)?.length - 1), 'margin-bubble-final': (step.stepIndex == 3)}"
                                     class="step-bubble">
                                     <span *ngIf="i < (stepsTimeLine)?.length - 1" class="white">{{ step.stepIndex }}</span>
                                     <span *ngIf="i == (stepsTimeLine)?.length - 1" class="white"><em class="fa fa-check"></em></span>
                                   </div>
                                 <div *ngIf="i < (stepsTimeLine)?.length - 1" class="step-divider" [ngClass]="((i < (stepsTimeLine)?.length - 1) && step.stepIndex>=currentStepTimeLine.stepIndex)?'step-divider-prev':'step-divider-next'"></div>
-                                <span (click)="navigate(step)" class="step-title" [ngClass]="{ 'mt-2': (step.stepIndex != 3), 'margin-step-title mt-025': (step.stepIndex == 3), 'step-title-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex), 'step-title-prev': ((currentStepTimeLine)?.stepIndex >= step.stepIndex), 'success': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i == (stepsTimeLine)?.length - 1), 'pointer': (step.stepIndex != currentStepTimeLine.stepIndex )}">{{step.title}} </span>
+                                <span class="step-title" [ngClass]="{ 'mt-2': (step.stepIndex != 3), 'margin-step-title mt-025': (step.stepIndex == 3), 'step-title-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex), 'step-title-prev': ((currentStepTimeLine)?.stepIndex >= step.stepIndex), 'success': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i == (stepsTimeLine)?.length - 1)}">{{step.title}} </span>
                             </span>
                           </div>
                         </div>
@@ -298,7 +298,7 @@
                                         <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
                                           slice:0:140)+'...':(r.desc) }}</span>
                                       </ng-template>
-                                      <div style="padding-bottom: 1rem !important;">
+                                      <div class="mt-2" style="padding-bottom: 1rem !important;">
                                         <span class="d-none d-lg-inline ml-2 mr-2"><i class="fas fa-search"></i></span>
                                         <input #input type="text"
                                           #inputManualSymptoms class="form-control ml-1 inputSearch2 d-inline data-hj-allow" [(ngModel)]="modelTemp"
@@ -366,7 +366,7 @@
                                         </table>
                                       </div>
                                     </div>
-                                    <div *ngIf="infoOneDisease.symptoms.length==0">
+                                    <div *ngIf="infoOneDisease.symptoms.length==0" class="white-space">
                                       <tbody></tbody>
                                     </div>
                                     <div class="col-md-12 p-1 border-top footer-symtoms">
@@ -385,7 +385,7 @@
                                   </ng-template>
                                   <ng-template ngbTabContent>
                                     <div class="p-2">
-                                      <textarea #inputTextArea class="form-control data-hj-allow" style="height:30vh;" [(ngModel)]="medicalText"
+                                      <textarea #inputTextArea class="form-control data-hj-allow" style="height: 320px;" [(ngModel)]="medicalText"
                                         name="medicalText" placeholder="{{'land.placeholder' | translate }}"></textarea>
                                     </div>
                                     <div class="text-center mt-2">
@@ -404,7 +404,7 @@
                                     </span>
                                     </ng-template>
                                   <ng-template ngbTabContent>
-                                    <div class="container-custom" appDnd (fileDropped)="onFileDropped($event)">
+                                    <div class="container-custom m-2" appDnd (fileDropped)="onFileDropped($event)">
                                       <input type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
                                         accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
                                       <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="arrow-alt-from-bottom"
@@ -459,7 +459,7 @@
                         </span>
                         <span class="col-md-12 p-1 footer-symtoms shadow rounded-lg border">
                           <button type="button" class="mt-2 ml-2 btn round float-left bt-nav" (click)="goPrevious()" [class.cursor-not-allowed]="currentStepTimeLine.stepIndex==1" [disabled]="currentStepTimeLine.stepIndex==1" [ngClass]="(currentStepTimeLine.stepIndex!=1)?'btn-info':'btn-secondary'">{{'generics.Previous' | translate }}</button>
-                          <button type="button" class="mt-2 mr-2 btn round float-right bt-nav" (click)="goNext()" [class.cursor-not-allowed]="currentStepTimeLine.stepIndex==3" [disabled]="currentStepTimeLine.stepIndex==3" [ngClass]="(currentStepTimeLine.stepIndex<3)?'btn-info':'btn-secondary'">{{'generics.Next' | translate }}</button>
+                          <button type="button" class="mt-2 mr-2 btn round float-right bt-nav" (click)="goNext()" [class.cursor-not-allowed]="currentStepTimeLine.stepIndex==3" [disabled]="currentStepTimeLine.stepIndex==3" [ngClass]="(currentStepTimeLine.stepIndex<3)?'btn-info':'btn-secondary'">{{'generics.Finish' | translate }}</button>
                         </span>
                       </div>
                       <div *ngIf="currentStepTimeLine.stepIndex == 3" class="step-section offset-sm-1 col-sm-10 offset-md-2 col-md-8">
@@ -468,28 +468,30 @@
                             <div class="mt-4">
                               <h3><strong>{{'land.Completed0' | translate }}</strong></h3>
                               <p class="offset-sm-1 col-sm-10">{{'land.Completed2' | translate }}</p>
+
+                              <p class="offset-sm-1 col-sm-10 mb-0" [innerHTML]="'land.msgwhat1' | translate"></p>
+                              <p>{{'land.Register now and save your data' | translate }}:</p>
+                              <button type="button" class="btn btn-primary bt-custom-md round mr-1" (click)="openSaveTimeLine(contentSaveTimeline)">
+                                <em class="mr-1 ft-save white"
+                                  title="{{'login.Create User' | translate }}" (click)="openSaveTimeLine(contentSaveTimeline)"
+                                  style="cursor: pointer;"></em>
+                                  <span>{{'login.Create User' | translate }}</span>
+                              </button>
                             </div>
                             <hr class="mt-4 hr-custom-secondary">
                             <div class="mt-4">
-                              <h3><strong>{{'land.What now' | translate }}</strong></h3>
-                              <p class="offset-sm-1 col-sm-10" [innerHTML]="'land.msgwhat1' | translate"></p>
                               <div class="p-2">
-                                <button type="button" class="btn btn-primary bt-custom-md round mr-1" (click)="openSaveTimeLine(contentSaveTimeline)">
-                                  <em class="mr-1 ft-save white"
-                                    title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="openSaveTimeLine(contentSaveTimeline)"
-                                    style="cursor: pointer;"></em>
-                                    <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
+                                <p>{{'land.What now' | translate }}:</p>
+                                <button type="button" class="btn btn-info bt-custom-md round ml-1 mr-1" (click)="exportTimeline()">
+                                  <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
+                                    (click)="exportTimeline()" style="cursor: pointer;"></em>
+                                  <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
                                 </button>
-                              <button type="button" class="btn btn-primary bt-custom-md round ml-1 mr-1" (click)="exportTimeline()">
-                                <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
-                                  (click)="exportTimeline()" style="cursor: pointer;"></em>
-                                <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
-                              </button>
-                              <button type="button" class="btn btn-primary bt-custom-md round ml-1" (click)="sendEmail()">
-                                <em class="mr-1 far fa-envelope" title="{{'land.Send results' | translate }}"
-                                  (click)="sendEmail()" style="cursor: pointer;"></em>
-                                <span>{{'land.Send results' | translate }}</span>
-                              </button>
+                                <button type="button" class="btn btn-info bt-custom-md round ml-1" (click)="sendEmail()">
+                                  <em class="mr-1 far fa-envelope" title="{{'land.Send results' | translate }}"
+                                    (click)="sendEmail()" style="cursor: pointer;"></em>
+                                  <span>{{'land.Send results' | translate }}</span>
+                                </button>
                               </div>
                             </div>
                           </div>
@@ -791,14 +793,14 @@
                             <div class="row">
                               <div class="col-md-12 align-items-center text-center">
                                 <div class="form-steps-container">
-                                  <span *ngFor="let step of stepsTimeLine; let i = index;" class="forstep">
+                                  <span *ngFor="let step of stepsTimeLine; let i = index;" class="forstep" (click)="navigate(step)" [ngClass]="{ 'pointer': (step.stepIndex != currentStepTimeLine.stepIndex )}">
                                     <div [ngClass]="{ 'step-complete': step.isComplete, 'step-incomplete': !step.isComplete, 'step-current': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i < (stepsTimeLine)?.length - 1), 'step-final': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i == (stepsTimeLine)?.length - 1),  'step-bubble-prev': (currentStepTimeLine)?.stepIndex >= step.stepIndex,  'step-bubble-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex && i <= (stepsTimeLine)?.length - 1), 'margin-bubble-final': (step.stepIndex == 3)}"
                                           class="step-bubble">
                                           <span *ngIf="i < (stepsTimeLine)?.length - 1" class="white">{{ step.stepIndex }}</span>
                                           <span *ngIf="i == (stepsTimeLine)?.length - 1" class="white"><em class="fa fa-check"></em></span>
                                         </div>
                                       <div *ngIf="i < (stepsTimeLine)?.length - 1" class="step-divider" [ngClass]="((i < (stepsTimeLine)?.length - 1) && step.stepIndex>=currentStepTimeLine.stepIndex)?'step-divider-prev':'step-divider-next'"></div>
-                                      <span (click)="navigate(step)" class="step-title" [ngClass]="{ 'mt-2': (step.stepIndex != 3), 'margin-step-title mt-025': (step.stepIndex == 3), 'step-title-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex), 'step-title-prev': ((currentStepTimeLine)?.stepIndex >= step.stepIndex), 'success': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i == (stepsTimeLine)?.length - 1), 'pointer': (step.stepIndex != currentStepTimeLine.stepIndex )}">{{step.title}} </span>
+                                      <span class="step-title" [ngClass]="{ 'mt-2': (step.stepIndex != 3), 'margin-step-title mt-025': (step.stepIndex == 3), 'step-title-next': ((currentStepTimeLine)?.stepIndex < step.stepIndex), 'step-title-prev': ((currentStepTimeLine)?.stepIndex >= step.stepIndex), 'success': ((currentStepTimeLine)?.stepIndex >= step.stepIndex && i == (stepsTimeLine)?.length - 1)}">{{step.title}} </span>
                                   </span>
                                 </div>
                               </div>
@@ -824,7 +826,7 @@
                                               <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
                                                 slice:0:140)+'...':(r.desc) }}</span>
                                             </ng-template>
-                                            <div style="padding-bottom: 1rem !important;">
+                                            <div class="mt-2" style="padding-bottom: 1rem !important;">
                                               <span class="d-none d-sm-inline ml-2 mr-2"><i class="fas fa-search"></i></span>
                                               <input #input type="text"
                                                 #inputManualSymptoms class="form-control ml-1 inputSearch2 d-inline data-hj-allow" [(ngModel)]="modelTemp"
@@ -892,7 +894,7 @@
                                               </table>
                                             </div>
                                           </div>
-                                          <div *ngIf="infoOneDisease.symptoms.length==0">
+                                          <div *ngIf="infoOneDisease.symptoms.length==0" class="white-space">
                                             <tbody></tbody>
                                           </div>
                                           <div class="col-md-12 p-1 border-top footer-symtoms">
@@ -911,7 +913,7 @@
                                         </ng-template>
                                         <ng-template ngbTabContent>
                                           <div class="p-2">
-                                            <textarea #inputTextArea class="form-control data-hj-allow" style="height:30vh;" [(ngModel)]="medicalText"
+                                            <textarea #inputTextArea class="form-control data-hj-allow" style="height: 320px;" [(ngModel)]="medicalText"
                                               name="medicalText" placeholder="{{'land.placeholder' | translate }}"></textarea>
                                           </div>
                                           <div class="text-center mt-2">
@@ -930,7 +932,7 @@
                                           </span>
                                           </ng-template>
                                         <ng-template ngbTabContent>
-                                          <div class="container-custom" appDnd (fileDropped)="onFileDropped($event)">
+                                          <div class="container-custom m-2" appDnd (fileDropped)="onFileDropped($event)">
                                             <input type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
                                               accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
                                             <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="arrow-alt-from-bottom"
@@ -985,7 +987,7 @@
                               </span>
                               <span class="col-md-12 p-1 footer-symtoms shadow rounded-lg border">
                                 <button type="button" class="mt-2 ml-2 btn round float-left bt-nav" (click)="goPrevious()" [class.cursor-not-allowed]="currentStepTimeLine.stepIndex==1" [disabled]="currentStepTimeLine.stepIndex==1" [ngClass]="(currentStepTimeLine.stepIndex!=1)?'btn-info':'btn-secondary'">{{'generics.Previous' | translate }}</button>
-                                <button type="button" class="mt-2 mr-2 btn round float-right bt-nav" (click)="goNext()" [class.cursor-not-allowed]="currentStepTimeLine.stepIndex==3" [disabled]="currentStepTimeLine.stepIndex==3" [ngClass]="(currentStepTimeLine.stepIndex<3)?'btn-info':'btn-secondary'">{{'generics.Next' | translate }}</button>
+                                <button type="button" class="mt-2 mr-2 btn round float-right bt-nav" (click)="goNext()" [class.cursor-not-allowed]="currentStepTimeLine.stepIndex==3" [disabled]="currentStepTimeLine.stepIndex==3" [ngClass]="(currentStepTimeLine.stepIndex<3)?'btn-info':'btn-secondary'">{{'generics.Finish' | translate }}</button>
                               </span>
                             </div>
                             <div *ngIf="currentStepTimeLine.stepIndex == 3" class="step-section col-sm-12 offset-lg-2 col-lg-8">
@@ -994,28 +996,30 @@
                                   <div class="mt-4">
                                     <h3><strong>{{'land.Completed0' | translate }}</strong></h3>
                                     <p class="offset-lg-2 col-lg-8">{{'land.Completed2' | translate }}</p>
+
+                                    <p class="offset-sm-1 col-sm-10 mb-0" [innerHTML]="'land.msgwhat1' | translate"></p>
+                                    <p>{{'land.Register now and save your data' | translate }}:</p>
+                                    <button type="button" class="btn btn-primary bt-custom-md round mr-1" (click)="openSaveTimeLine(contentSaveTimeline)">
+                                      <em class="mr-1 ft-save white"
+                                        title="{{'login.Create User' | translate }}" (click)="openSaveTimeLine(contentSaveTimeline)"
+                                        style="cursor: pointer;"></em>
+                                        <span>{{'login.Create User' | translate }}</span>
+                                    </button>
                                   </div>
                                   <hr class="mt-4 hr-custom-secondary">
                                   <div class="mt-4">
-                                    <h3><strong>{{'land.What now' | translate }}</strong></h3>
-                                    <p class="offset-sm-1 col-sm-10" [innerHTML]="'land.msgwhat1' | translate"></p>
                                     <div class="p-2">
-                                      <button type="button" class="btn btn-primary bt-custom-md round mr-1" (click)="openSaveTimeLine(contentSaveTimeline)">
-                                        <em class="mr-1 ft-save white"
-                                          title="{{'land.diagnosed.timeline.SaveTimeline' | translate }}" (click)="openSaveTimeLine(contentSaveTimeline)"
-                                          style="cursor: pointer;"></em>
-                                          <span>{{'land.diagnosed.timeline.SaveTimeline' | translate }}</span>
+                                      <p>{{'land.What now' | translate }}:</p>
+                                      <button type="button" class="btn btn-info bt-custom-md round ml-1 mr-1" (click)="exportTimeline()">
+                                        <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
+                                          (click)="exportTimeline()" style="cursor: pointer;"></em>
+                                        <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
                                       </button>
-                                    <button type="button" class="btn btn-primary bt-custom-md round ml-1 mr-1" (click)="exportTimeline()">
-                                      <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
-                                        (click)="exportTimeline()" style="cursor: pointer;"></em>
-                                      <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
-                                    </button>
-                                    <button type="button" class="btn btn-primary bt-custom-md round ml-1" (click)="sendEmail()">
-                                      <em class="mr-1 far fa-envelope" title="{{'land.Send results' | translate }}"
-                                        (click)="sendEmail()" style="cursor: pointer;"></em>
-                                      <span>{{'land.Send results' | translate }}</span>
-                                    </button>
+                                      <button type="button" class="btn btn-info bt-custom-md round ml-1" (click)="sendEmail()">
+                                        <em class="mr-1 far fa-envelope" title="{{'land.Send results' | translate }}"
+                                          (click)="sendEmail()" style="cursor: pointer;"></em>
+                                        <span>{{'land.Send results' | translate }}</span>
+                                      </button>
                                     </div>
                                   </div>
                                 </div>
