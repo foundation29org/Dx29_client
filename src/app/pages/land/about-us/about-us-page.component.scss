@@ -74,12 +74,8 @@ p {
   height: 50px;
 }
 
-.w-reg{
-  max-width: 340px;
-}
-
 .w-reg-img{
-  max-width: 125px;
+  max-width: 100%;
 }
 
 .img-logos{
@@ -123,6 +119,9 @@ p {
   .margin-left-0{
     margin-left: 0px !important;
   }
+  .w-reg-img{
+    max-width: 4em;
+  }
 }
 
   @media ( max-width: 575px ){
@@ -136,12 +135,7 @@ p {
 
     .reg-panel{
       padding-right: 0px;
-    }
-
-    .w-reg-img{
-      max-width: 4em;
-    }
-    
+    } 
   }
 
   @media ( max-width: 449px ){

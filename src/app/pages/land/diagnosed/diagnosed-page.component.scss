@@ -125,12 +125,8 @@
   display:none;
 }
 
-.w-reg{
-  max-width: 300px;
-}
-
 .w-reg-img{
-  max-width: 125px;
+  max-width: 100%;
 }
 
 .w-reg-img-sm{
@@ -807,6 +803,9 @@ body {
   }
 
   @media (max-width: 768px) {
+    .w-reg-img{
+      max-width: 4em;
+    }
     /*html {
         font-size: 16px;
     }*/
@@ -907,9 +906,6 @@ body {
       padding-top: 0rem !important;
     }
 
-    .w-reg-img{
-      max-width: 75px;
-    }
     .reg-panel{
       padding-right: 0px;
     }
