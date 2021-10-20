@@ -414,7 +414,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     ngAfterViewInit() {
-        //this.focusTextArea();
+        this.focusTextArea();
     }
 
     ngOnDestroy() {

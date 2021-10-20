@@ -44,10 +44,10 @@
                   <div class="col-md-12">
                     <div class="row">
                       <input class="form-control w-75 d-inline" id="dateOnset_{{i}}" name="dateOnset" matInput placeholder="{{'generics.Start Date' | translate }}"
-                        [max]="maxDate" readonly [matDatepicker]="pickerOnset" (click)="pickerOnset.open()" [(ngModel)]="symptom.onsetdate"
+                        [max]="maxDate" [matDatepicker]="pickerOnset" (click)="pickerOnset.open()" [(ngModel)]="symptom.onsetdate"
                         (dateInput)="updateTimeline()">
                       <mat-datepicker-toggle matSuffix [for]="pickerOnset"></mat-datepicker-toggle>
-                      <mat-datepicker touchUi="true" #pickerOnset></mat-datepicker>
+                      <mat-datepicker startView="multi-year" (monthSelected)="closeDatePickerStart($event, i, pickerOnset)" touchUi="true" #pickerOnset></mat-datepicker>
                     </div>
                   </div>
                 </div>
@@ -55,12 +55,12 @@
                   <div class="col-md-12">
                     <div class="row">
                       <input class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish" placeholder="{{'generics.End Date' | translate }}"
-                        [min]="symptom.onsetdate" [max]="maxDate" readonly matInput [matDatepicker]="pickerFinish" (click)="pickerFinish.open()"
+                        [min]="symptom.onsetdate" [max]="maxDate" matInput [matDatepicker]="pickerFinish" (click)="pickerFinish.open()"
                         [(ngModel)]="symptom.finishdate" (dateInput)="updateTimeline();"
                         [disabled]="(!symptom.checked)||(symptom.onsetdate==undefined)"
                         (ngModelChange)="updateIsCurrentSymptom(i, symptom.finishdate);">
                       <mat-datepicker-toggle matSuffix [for]="pickerFinish"></mat-datepicker-toggle>
-                      <mat-datepicker touchUi="(!symptom.checked)||(symptom.onsetdate==undefined)" #pickerFinish>
+                      <mat-datepicker startView="multi-year" (monthSelected)="closeDatePickerEnd($event, i, pickerFinish)" touchUi="(!symptom.checked)||(symptom.onsetdate==undefined)" #pickerFinish>
                       </mat-datepicker>
                       <small class="text-left form-text danger"
                         *ngIf="symptom.invalidFinishdate">{{'land.diagnosed.timeline.errorDates' | translate}}</small>

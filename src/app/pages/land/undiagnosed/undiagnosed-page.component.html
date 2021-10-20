@@ -798,68 +798,95 @@
             <p [innerHTML]="'land.swal.p1' | translate"></p>
           </span>
         </span>
-        <div class="row reg-panel d-block d-sm-none">
-          <button class="mt-2 btn btn-primary round btn-navbar" (click)="registerToDx29V2()">{{'land.swal.button' |
-            translate }}</button>
-            <p>{{'land.swal.p2' | translate }}</p>
+        <div class="row reg-panel d-block d-md-none" (click)="registerToDx29()">
           <div class="row pb-2 pt-2">
             <div class="offset-1 col-2">
-              <img class="w-reg-img-sm" src='assets/img/home/reg/regref.jpg' />
-              </div>
-              <span class="col-9 text-left">
-                <p class="mb-0"><strong>{{'land.table.t1' | translate }}</strong></p>
-                <p class="d-block">{{'land.table.d1' | translate }}</p>
-            </span>
-          </div>
-          <div class="row pb-2 pt-2">
-            <div class="offset-1 col-2">
-              <img class="w-reg-img-sm" src='assets/img/home/reg/sharedata.jpg' />
-              </div>
-              <span class="col-9 text-left">
-                <p class="mb-0"><strong>{{'land.table.t2' | translate }}</strong></p>
-                <p class="d-block">{{'land.table.d2' | translate }}</p>
-            </span>
-          </div>
-          <div class="row pb-2 pt-2">
-            <div class="offset-1 col-2">
-              <img class="w-reg-img-sm" src='assets/img/home/reg/genetrio.jpg' />
+              <img class="w-reg-img" src='assets/img/home/reg/func1.jpg' />
             </div>
-            <span class="col-9 text-left">
-              <p class="mb-0"><strong>{{'land.table.t3' | translate }}</strong></p>
-              <p class="d-block">{{'land.table.d3' | translate }}</p>
+            <span class="col-8 text-left">
+              <p class="mb-0"><strong>{{'land.table.t1' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d1' | translate }}</p>
             </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img" src='assets/img/home/reg/func2.jpg' />
+            </div>
+            <span class="col-8 text-left">
+              <p class="mb-0"><strong>{{'land.table.t2' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d2' | translate }}</p>
+            </span>
+          </div>
+        <div class="row pb-2 pt-2">
+          <div class="offset-1 col-2">
+            <img class="w-reg-img" src='assets/img/home/reg/func3.jpg' />
+          </div>
+          <span class="col-8 text-left">
+            <p class="mb-0"><strong>{{'land.table.t3' | translate }}</strong></p>
+            <p class="d-block">{{'land.table.d3' | translate }}</p>
+          </span>
+        </div>
+        <div class="row pb-2 pt-2">
+          <div class="offset-1 col-2">
+            <img class="w-reg-img" src='assets/img/home/reg/func4.jpg' />
+          </div>
+          <span class="col-8 text-left">
+            <p class="mb-0"><strong>{{'land.table.t4' | translate }}</strong></p>
+            <p class="d-block">{{'land.table.d4' | translate }}</p>
+          </span>
+        </div>
+      </div>
+      <div class="row reg-panel d-none d-md-block" (click)="registerToDx29()">
+        <div class="col-md-12 offset-xl-1 col-xl-10">
+          <div class="row">
+            <div class="col-sm-6 pb-3 pt-3">
+              <div class="row">
+                <div class="col-3 mt-1">
+                  <img class="w-reg-img" src='assets/img/home/reg/func1.jpg' />
+                </div>
+                <span class="col-9 text-left" style="display: inline-block;">
+                  <p class="mb-0"><strong>{{'land.table.t1' | translate }}</strong></p>
+                  <p class="d-block">{{'land.table.d1' | translate }}</p>
+                </span>
+              </div>
+            </div>
+            <div class="col-sm-6 pb-3 pt-3">
+              <div class="row">
+                <div class="col-3 mt-1">
+                  <img class="w-reg-img" src='assets/img/home/reg/func2.jpg' />
+                </div>
+                <span class="col-9 text-left" style="display: inline-block;">
+                  <p class="mb-0"><strong>{{'land.table.t2' | translate }}</strong></p>
+                  <p class="d-block">{{'land.table.d2' | translate }}</p>
+                </span>
+              </div>
+            </div>
+            <div class="col-sm-6 pb-3 pt-3">
+              <div class="row">
+                <div class="col-3 mt-1">
+                  <img class="w-reg-img" src='assets/img/home/reg/func3.jpg' />
+                </div>
+                <span class="col-9 text-left" style="display: inline-block;">
+                  <p class="mb-0"><strong>{{'land.table.t3' | translate }}</strong></p>
+                  <p class="d-block">{{'land.table.d3' | translate }}</p>
+                </span>
+              </div>
+            </div>
+            <div class="col-sm-6 pb-3 pt-3">
+              <div class="row">
+                <div class="col-3 mt-1">
+                  <img class="w-reg-img" src='assets/img/home/reg/func4.jpg' />
+                </div>
+                <span class="col-9 text-left" style="display: inline-block;">
+                  <p class="mb-0"><strong>{{'land.table.t4' | translate }}</strong></p>
+                  <p class="d-block">{{'land.table.d4' | translate }}</p>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="row reg-panel d-none d-sm-flex">
-          <div class="col-sm-4 pb-3 pt-3">
-            <div class="mb-2">
-              <img class="col w-reg-img" src='assets/img/home/reg/regref.jpg' />
-            </div>
-            <span class="w-reg" style="display: inline-block;">
-              <span><strong>{{'land.table.t1' | translate }}</strong></span>
-              <span class="d-block">{{'land.table.d1' | translate }}</span>
-            </span>
-          </div>
-          <div class="col-sm-4 pb-3 pt-3">
-            <div class="mb-2">
-              <img class="col w-reg-img" src='assets/img/home/reg/sharedata.jpg' />
-            </div>
-            <span class="w-reg" style="display: inline-block;">
-              <span><strong>{{'land.table.t2' | translate }}</strong></span>
-              <span class="d-block">{{'land.table.d2' | translate }}</span>
-            </span>
-          </div>
-          <div class="col-sm-4 pb-3 pt-3">
-            <div class="mb-2">
-              <img class="col w-reg-img" src='assets/img/home/reg/genetrio.jpg' />
-            </div>
-            <span class="w-reg" style="display: inline-block;">
-              <span><strong>{{'land.table.t3' | translate }}</strong></span>
-              <span class="d-block">{{'land.table.d3' | translate }}</span>
-            </span>
-          </div>
-        </div>
-        <button class="mb-0 mt-2 btn btn-primary round btn-navbar" (click)="registerToDx29V2()">{{'land.swal.button' |
+      </div>
+        <button class="mb-0 mt-2 btn btn-primary round btn-lg" (click)="registerToDx29V2()">{{'land.swal.button' |
           translate }}</button>
       </div>
     </div>
@@ -884,68 +911,95 @@
         <span>
           <p [innerHTML]="'land.diagnosed.timeline.p3' | translate"></p>
         </span>
-        <div class="row reg-panel d-block d-sm-none">
-          <button class="mt-2 btn btn-primary round btn-navbar" (click)="registerToDx29V2()">{{'land.swal.button' |
-            translate }}</button>
-            <p>{{'land.swal.p2' | translate }}</p>
-            <div class="row pb-2 pt-2">
-              <div class="offset-1 col-2">
-                <img class="w-reg-img-sm" src='assets/img/home/reg/regref.jpg' />
-              </div>
-              <span class="col-9 text-left">
-                <p class="mb-0"><strong>{{'land.table.t1' | translate }}</strong></p>
-                <p class="d-block">{{'land.table.d1' | translate }}</p>
-              </span>
-            </div>
-            <div class="row pb-2 pt-2">
-              <div class="offset-1 col-2">
-                <img class="w-reg-img-sm" src='assets/img/home/reg/sharedata.jpg' />
-              </div>
-              <span class="col-9 text-left">
-                <p class="mb-0"><strong>{{'land.table.t2' | translate }}</strong></p>
-                <p class="d-block">{{'land.table.d2' | translate }}</p>
-              </span>
-            </div>
+        <div class="row reg-panel d-block d-md-none" (click)="registerToDx29()">
           <div class="row pb-2 pt-2">
             <div class="offset-1 col-2">
-              <img class="w-reg-img-sm" src='assets/img/home/reg/genetrio.jpg' />
+              <img class="w-reg-img" src='assets/img/home/reg/func1.jpg' />
             </div>
-            <span class="col-9 text-left">
-              <p class="mb-0"><strong>{{'land.table.t3' | translate }}</strong></p>
-              <p class="d-block">{{'land.table.d3' | translate }}</p>
+            <span class="col-8 text-left">
+              <p class="mb-0"><strong>{{'land.table.t1' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d1' | translate }}</p>
             </span>
+          </div>
+          <div class="row pb-2 pt-2">
+            <div class="offset-1 col-2">
+              <img class="w-reg-img" src='assets/img/home/reg/func2.jpg' />
+            </div>
+            <span class="col-8 text-left">
+              <p class="mb-0"><strong>{{'land.table.t2' | translate }}</strong></p>
+              <p class="d-block">{{'land.table.d2' | translate }}</p>
+            </span>
+          </div>
+        <div class="row pb-2 pt-2">
+          <div class="offset-1 col-2">
+            <img class="w-reg-img" src='assets/img/home/reg/func3.jpg' />
+          </div>
+          <span class="col-8 text-left">
+            <p class="mb-0"><strong>{{'land.table.t3' | translate }}</strong></p>
+            <p class="d-block">{{'land.table.d3' | translate }}</p>
+          </span>
+        </div>
+        <div class="row pb-2 pt-2">
+          <div class="offset-1 col-2">
+            <img class="w-reg-img" src='assets/img/home/reg/func4.jpg' />
+          </div>
+          <span class="col-8 text-left">
+            <p class="mb-0"><strong>{{'land.table.t4' | translate }}</strong></p>
+            <p class="d-block">{{'land.table.d4' | translate }}</p>
+          </span>
+        </div>
+      </div>
+      <div class="row reg-panel d-none d-md-block" (click)="registerToDx29()">
+        <div class="col-md-12 offset-xl-1 col-xl-10">
+          <div class="row">
+            <div class="col-sm-6 pb-3 pt-3">
+              <div class="row">
+                <div class="col-3 mt-1">
+                  <img class="w-reg-img" src='assets/img/home/reg/func1.jpg' />
+                </div>
+                <span class="col-9 text-left" style="display: inline-block;">
+                  <p class="mb-0"><strong>{{'land.table.t1' | translate }}</strong></p>
+                  <p class="d-block">{{'land.table.d1' | translate }}</p>
+                </span>
+              </div>
+            </div>
+            <div class="col-sm-6 pb-3 pt-3">
+              <div class="row">
+                <div class="col-3 mt-1">
+                  <img class="w-reg-img" src='assets/img/home/reg/func2.jpg' />
+                </div>
+                <span class="col-9 text-left" style="display: inline-block;">
+                  <p class="mb-0"><strong>{{'land.table.t2' | translate }}</strong></p>
+                  <p class="d-block">{{'land.table.d2' | translate }}</p>
+                </span>
+              </div>
+            </div>
+            <div class="col-sm-6 pb-3 pt-3">
+              <div class="row">
+                <div class="col-3 mt-1">
+                  <img class="w-reg-img" src='assets/img/home/reg/func3.jpg' />
+                </div>
+                <span class="col-9 text-left" style="display: inline-block;">
+                  <p class="mb-0"><strong>{{'land.table.t3' | translate }}</strong></p>
+                  <p class="d-block">{{'land.table.d3' | translate }}</p>
+                </span>
+              </div>
+            </div>
+            <div class="col-sm-6 pb-3 pt-3">
+              <div class="row">
+                <div class="col-3 mt-1">
+                  <img class="w-reg-img" src='assets/img/home/reg/func4.jpg' />
+                </div>
+                <span class="col-9 text-left" style="display: inline-block;">
+                  <p class="mb-0"><strong>{{'land.table.t4' | translate }}</strong></p>
+                  <p class="d-block">{{'land.table.d4' | translate }}</p>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="row reg-panel d-none d-sm-flex">
-          <div class="col-sm-4 pb-3 pt-3">
-            <div class="mb-2">
-              <img class="col w-reg-img" src='assets/img/home/reg/regref.jpg' />
-            </div>
-            <span class="w-reg" style="display: inline-block;">
-              <span><strong>{{'land.table.t1' | translate }}</strong></span>
-              <span class="d-block">{{'land.table.d1' | translate }}</span>
-            </span>
-          </div>
-          <div class="col-sm-4 pb-3 pt-3">
-            <div class="mb-2">
-              <img class="col w-reg-img" src='assets/img/home/reg/sharedata.jpg' />
-            </div>
-            <span class="w-reg" style="display: inline-block;">
-              <span><strong>{{'land.table.t2' | translate }}</strong></span>
-              <span class="d-block">{{'land.table.d2' | translate }}</span>
-            </span>
-          </div>
-          <div class="col-sm-4 pb-3 pt-3">
-            <div class="mb-2">
-              <img class="col w-reg-img" src='assets/img/home/reg/genetrio.jpg' />
-            </div>
-            <span class="w-reg" style="display: inline-block;">
-              <span><strong>{{'land.table.t3' | translate }}</strong></span>
-              <span class="d-block">{{'land.table.d3' | translate }}</span>
-            </span>
-          </div>
-        </div>
-        <button class="mb-0 mt-2 btn btn-primary round btn-navbar" (click)="registerToDx29V2Timeline()">{{'land.swal.button' |
+      </div>
+        <button class="mb-0 mt-2 btn btn-primary round btn-lg" (click)="registerToDx29V2Timeline()">{{'land.swal.button' |
           translate }}</button>
       </div>
     </div>
