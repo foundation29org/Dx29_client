@@ -22,14 +22,14 @@
               </div>
               <div class="col-md-12 align-items-center text-center">
                 <div class="form-steps-container">
-                  <span *ngFor="let step of steps; let i = index;" class="forstep">
+                  <span *ngFor="let step of steps; let i = index;" class="forstep" (click)="navigate(step)" [ngClass]="{ 'pointer': (step.stepIndex != currentStep.stepIndex )}">
                       <div [ngClass]="{ 'step-complete': step.isComplete, 'step-incomplete': !step.isComplete, 'step-current': ((currentStep)?.stepIndex >= step.stepIndex && i < (steps)?.length - 1), 'step-final': ((currentStep)?.stepIndex >= step.stepIndex && i == (steps)?.length - 1),  'step-bubble-prev': (currentStep)?.stepIndex >= step.stepIndex,  'step-bubble-next': ((currentStep)?.stepIndex < step.stepIndex && i <= (steps)?.length - 1), 'margin-bubble-final': (step.stepIndex == 4)}"
                           class="step-bubble">
                           <span *ngIf="i < (steps)?.length - 1" class="white">{{ step.stepIndex }}</span>
                           <span *ngIf="i == (steps)?.length - 1" class="white"><em class="fa fa-check"></em></span>
                         </div>
                       <div *ngIf="i < (steps)?.length - 1" class="step-divider" [ngClass]="((i < (steps)?.length - 1) && step.stepIndex>=currentStep.stepIndex)?'step-divider-prev':'step-divider-next'"></div>
-                      <span (click)="navigate(step)" class="step-title" [ngClass]="{ 'mt-2': (step.stepIndex != 4), 'margin-step-title mt-025': (step.stepIndex == 4), 'step-title-next': ((currentStep)?.stepIndex < step.stepIndex), 'step-title-prev': ((currentStep)?.stepIndex >= step.stepIndex), 'success': ((currentStep)?.stepIndex >= step.stepIndex && i == (steps)?.length - 1), 'pointer': (step.stepIndex != currentStep.stepIndex )}">{{step.title}} </span>
+                      <span class="step-title" [ngClass]="{ 'mt-2': (step.stepIndex != 4), 'margin-step-title mt-025': (step.stepIndex == 4), 'step-title-next': ((currentStep)?.stepIndex < step.stepIndex), 'step-title-prev': ((currentStep)?.stepIndex >= step.stepIndex), 'success': ((currentStep)?.stepIndex >= step.stepIndex && i == (steps)?.length - 1)}">{{step.title}} </span>
                   </span>
                 </div>
               </div>
