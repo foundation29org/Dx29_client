@@ -49,7 +49,7 @@
                         <span>{{'homedx.Donate' | translate }}</span>
                       </button>
                   </li>
-                    <li class="nav-item mr-2" ngbDropdown display="dynamic" placement="bottom-right">
+                    <li class="nav-item mr-2 d-none d-sm-inline" ngbDropdown display="dynamic" placement="bottom-right">
                         <a class="position-relative colorlink" id="dropdownLang" ngbDropdownToggle>
                             <u>{{currentLang}}</u>
                         </a>
@@ -65,6 +65,16 @@
                     <li class="nav-item" *ngIf="!isGTPPage">
                       <a class="btn btn-primary round mb-0 btn-navbar" (click)="registerToDx29V2()">{{'login.Create User' | translate }}</a>
                     </li>
+                    <li class="nav-item ml-2 d-inline d-sm-none" ngbDropdown display="dynamic" placement="bottom-right">
+                      <a class="position-relative colorlink" id="dropdownLang" ngbDropdownToggle>
+                          <u>{{currentLang}}</u>
+                      </a>
+                      <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
+                          <a *ngFor="let lang of langs" class="dropdown-item py-1 lang" href="javascript:;" (click)="ChangeLanguage(lang.code)">
+                              <span>{{lang.name}}</span>
+                          </a>
+                      </div>
+                  </li>
                 </ul>
             </div>
         </div>
