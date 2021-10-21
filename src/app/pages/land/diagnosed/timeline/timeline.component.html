@@ -43,9 +43,10 @@
                 <div class="col-lg-6 mt-1">
                   <div class="col-md-12">
                     <div class="row">
-                      <input class="form-control w-75 d-inline" id="dateOnset_{{i}}" name="dateOnset" matInput placeholder="{{'generics.Start Date' | translate }}"
+                      <input class="form-control w-75 d-none" id="dateOnset_{{i}}" name="dateOnset" matInput placeholder="{{'generics.Start Date' | translate }}"
                         [max]="maxDate" readonly [matDatepicker]="pickerOnset" (click)="pickerOnset.open()" [(ngModel)]="symptom.onsetdate"
                         (dateInput)="updateTimeline()">
+                        <span class="form-control w-75 d-inline" (click)="pickerOnset.open()" style="background-color: #e9ecef;">{{symptom.onsetdate | date: 'MMM y': '' : translate.currentLang}} </span>
                       <mat-datepicker-toggle matSuffix [for]="pickerOnset"></mat-datepicker-toggle>
                       <mat-datepicker startView="multi-year" (monthSelected)="closeDatePickerStart($event, i, pickerOnset)" touchUi="true" #pickerOnset></mat-datepicker>
                     </div>
@@ -54,11 +55,12 @@
                 <div class="col-lg-6 mt-1">
                   <div class="col-md-12">
                     <div class="row">
-                      <input class="form-control w-75 d-inline" id="dateFinish_{{i}}" name="dateFinish" placeholder="{{'generics.End Date' | translate }}"
+                      <input class="form-control w-75 d-none" id="dateFinish_{{i}}" name="dateFinish" placeholder="{{'generics.End Date' | translate }}"
                         [min]="symptom.onsetdate" [max]="maxDate" readonly matInput [matDatepicker]="pickerFinish" (click)="pickerFinish.open()"
                         [(ngModel)]="symptom.finishdate" (dateInput)="updateTimeline();"
                         [disabled]="(!symptom.checked)||(symptom.onsetdate==undefined)"
                         (ngModelChange)="updateIsCurrentSymptom(i, symptom.finishdate);">
+                        <span class="form-control w-75 d-inline" (click)="pickerFinish.open()" style="background-color: #e9ecef;">{{symptom.finishdate | date: 'MMM y': '' : translate.currentLang}} </span>
                       <mat-datepicker-toggle matSuffix [for]="pickerFinish"></mat-datepicker-toggle>
                       <mat-datepicker startView="multi-year" (monthSelected)="closeDatePickerEnd($event, i, pickerFinish)" touchUi="(!symptom.checked)||(symptom.onsetdate==undefined)" #pickerFinish>
                       </mat-datepicker>
@@ -113,8 +115,8 @@
                     <div *ngIf="item.key!=null" class="timeline-card card shadow-z-1">
                       <div class="card-content">
                         <div class="card-body">
-                          <span class="card-title mb-0">{{item.key}}</span>
-                          <hr class="mt-0 mb-2">
+                          <!--<span class="card-title mb-0">{{item.key}}</span>
+                          <hr class="mt-0 mb-2">-->
                           <div *ngFor="let symptom of item.value;">
                             <span *ngIf="symptom.name" style="cursor: pointer;"
                               title="{{'generics.More information' | translate }} ({{symptom.id}})"

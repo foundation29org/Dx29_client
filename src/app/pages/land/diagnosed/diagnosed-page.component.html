@@ -119,6 +119,7 @@
               <p>{{infoOneDisease.desc}}</p>
             </div>
             <div class="bg-white mt-4">
+              <a id="initcrono"></a>
               <mat-accordion class="d-block d-xl-none text-left">
                 <mat-expansion-panel *ngIf="infoOneDisease.symptoms!=undefined" [expanded]="step === 1" (opened)="setStep(1)">
                   <mat-expansion-panel-header>
@@ -256,7 +257,6 @@
                       {{'land.Chronology' | translate }}<span class="ml-1 badge badge-pill badge-success mb-1 mr-2">{{'generics.New' | translate }}</span>
                     </mat-panel-title>
                   </mat-expansion-panel-header>
-                  <a id="initsteps"></a>
                   <div class="card-body">
                     <div>
                       <div class="col-md-12">
@@ -471,9 +471,9 @@
 
                               <p class="offset-sm-1 col-sm-10 mb-0" [innerHTML]="'land.msgwhat1' | translate"></p>
                               <p>{{'land.Register now and save your data' | translate }}:</p>
-                              <button type="button" class="btn btn-primary bt-custom-md round mr-1" (click)="openSaveTimeLine(contentSaveTimeline)">
+                              <button type="button" class="btn btn-primary bt-custom-md round mr-1" (click)="openSaveTimeLine(contentSaveTimeline);lauchEvent('Registration - Diagnosed - Save Timeline');">
                                 <em class="mr-1 ft-save white"
-                                  title="{{'login.Create User' | translate }}" (click)="openSaveTimeLine(contentSaveTimeline)"
+                                  title="{{'login.Create User' | translate }}" (click)="openSaveTimeLine(contentSaveTimeline);lauchEvent('Registration - Diagnosed - Save Timeline');"
                                   style="cursor: pointer;"></em>
                                   <span>{{'login.Create User' | translate }}</span>
                               </button>
@@ -482,14 +482,14 @@
                             <div class="mt-4">
                               <div class="p-2">
                                 <p>{{'land.What now' | translate }}:</p>
-                                <button type="button" class="btn btn-info bt-custom-md round ml-1 mr-1" (click)="exportTimeline()">
+                                <button type="button" class="btn btn-info bt-custom-md round ml-1 mr-1" (click)="exportTimeline();lauchEvent('Role - Diagnosed - Download');">
                                   <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
-                                    (click)="exportTimeline()" style="cursor: pointer;"></em>
+                                    (click)="exportTimeline();lauchEvent('Role - Diagnosed - Download');" style="cursor: pointer;"></em>
                                   <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
                                 </button>
-                                <button type="button" class="btn btn-info bt-custom-md round ml-1" (click)="sendEmail()">
+                                <button type="button" class="btn btn-info bt-custom-md round ml-1" (click)="sendEmail();lauchEvent('Role - Diagnosed - SendEmail');">
                                   <em class="mr-1 far fa-envelope" title="{{'land.Send results' | translate }}"
-                                    (click)="sendEmail()" style="cursor: pointer;"></em>
+                                    (click)="sendEmail();lauchEvent('Role - Diagnosed - SendEmail');" style="cursor: pointer;"></em>
                                   <span>{{'land.Send results' | translate }}</span>
                                 </button>
                               </div>
@@ -784,7 +784,6 @@
                 <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined" id="tab1">
                   <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Chronology');">{{'land.Chronology' | translate }}</strong></ng-template>
                   <ng-template ngbTabContent>
-                    <a id="initsteps"></a>
                     <div class="col-md-12 mb-3 pb-2">
                       <div class="row">
                         <div class="col-md-12 mt-2">
@@ -999,9 +998,9 @@
 
                                     <p class="offset-sm-1 col-sm-10 mb-0" [innerHTML]="'land.msgwhat1' | translate"></p>
                                     <p>{{'land.Register now and save your data' | translate }}:</p>
-                                    <button type="button" class="btn btn-primary bt-custom-md round mr-1" (click)="openSaveTimeLine(contentSaveTimeline)">
+                                    <button type="button" class="btn btn-primary bt-custom-md round mr-1" (click)="openSaveTimeLine(contentSaveTimeline);lauchEvent('Registration - Diagnosed - Save Timeline');">
                                       <em class="mr-1 ft-save white"
-                                        title="{{'login.Create User' | translate }}" (click)="openSaveTimeLine(contentSaveTimeline)"
+                                        title="{{'login.Create User' | translate }}" (click)="openSaveTimeLine(contentSaveTimeline);lauchEvent('Registration - Diagnosed - Save Timeline');"
                                         style="cursor: pointer;"></em>
                                         <span>{{'login.Create User' | translate }}</span>
                                     </button>
@@ -1010,14 +1009,14 @@
                                   <div class="mt-4">
                                     <div class="p-2">
                                       <p>{{'land.What now' | translate }}:</p>
-                                      <button type="button" class="btn btn-info bt-custom-md round ml-1 mr-1" (click)="exportTimeline()">
+                                      <button type="button" class="btn btn-info bt-custom-md round ml-1 mr-1" (click)="exportTimeline();lauchEvent('Role - Diagnosed - Download');">
                                         <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
-                                          (click)="exportTimeline()" style="cursor: pointer;"></em>
+                                          (click)="exportTimeline();lauchEvent('Role - Diagnosed - Download');" style="cursor: pointer;"></em>
                                         <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
                                       </button>
-                                      <button type="button" class="btn btn-info bt-custom-md round ml-1" (click)="sendEmail()">
+                                      <button type="button" class="btn btn-info bt-custom-md round ml-1" (click)="sendEmail();lauchEvent('Role - Diagnosed - SendEmail');">
                                         <em class="mr-1 far fa-envelope" title="{{'land.Send results' | translate }}"
-                                          (click)="sendEmail()" style="cursor: pointer;"></em>
+                                          (click)="sendEmail();lauchEvent('Role - Diagnosed - SendEmail');" style="cursor: pointer;"></em>
                                         <span>{{'land.Send results' | translate }}</span>
                                       </button>
                                     </div>
