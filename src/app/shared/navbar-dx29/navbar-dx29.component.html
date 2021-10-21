@@ -19,22 +19,22 @@
         <div class="navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav m-r-0">
                 <li class="nav-item mr-2">
-                    <a class="nav-link" [ngClass]="(!isHomePage)?'black':'black text-bold-500'" routerLink="/.">
+                    <a class="nav-link" [ngClass]="(!isHomePage)?'black':'black text-bold-500'" routerLink="/." (click)="lauchEvent('Role - Home')">
                       <span>{{'menu.Dashboard' | translate }}</span>
                     </a>
                 </li>
                 <li class="nav-item mr-2">
-                  <a class="nav-link" [ngClass]="(!isAboutPage)?'black':'black text-bold-500'" routerLink="/aboutus">
+                  <a class="nav-link" [ngClass]="(!isAboutPage)?'black':'black text-bold-500'" routerLink="/aboutus" (click)="lauchEvent('Role - About us')">
                     <span>{{'menu.About us' | translate }}</span>
                   </a>
                 </li>
                 <li class="nav-item mr-2">
-                    <a class="nav-link" [ngClass]="(!isUndiagnosedPatientPage)?'black':'black text-bold-500'" routerLink="/undiagnosed">
+                    <a class="nav-link" [ngClass]="(!isUndiagnosedPatientPage)?'black':'black text-bold-500'" routerLink="/undiagnosed" (click)="lauchEvent('Role - Undiagnosed')">
                       <span>{{'menu.UndiagnosedPatients' | translate }}</span>
                     </a>
                 </li>
                 <li class="nav-item mr-2">
-                    <a class="nav-link" [ngClass]="(!isPatientPage)?'black':'black text-bold-500'" routerLink="/diagnosed">
+                    <a class="nav-link" [ngClass]="(!isPatientPage)?'black':'black text-bold-500'" routerLink="/diagnosed" (click)="lauchEvent('Role - Diagnosed')">
                       <span>{{'menu.DiagnosedPatients' | translate }}</span>
                     </a>
                 </li>

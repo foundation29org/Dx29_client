@@ -502,12 +502,26 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
     closeDatePickerStart(eventData: any, index: any, dp?:any) {
         // get month and year from eventData and close datepicker, thus not allowing user to select date
         this.listSymptoms[index].onsetdate=eventData;
+        this.updateTimeline();
         dp.close();    
       }
 
       closeDatePickerEnd(eventData: any, index: any, dp?:any) {
         // get month and year from eventData and close datepicker, thus not allowing user to select date
-        this.listSymptoms[index].finishdate=eventData;
+        //this.listSymptoms[index].finishdate=eventData;
+        this.listSymptoms[index].finishdate = eventData;
+        if (eventData != null) {
+            this.checkFinishDate(index);
+            if (this.listSymptoms[index].invalidFinishdate) {
+                this.listSymptoms[index].isCurrentSymptom = true;
+                this.listSymptoms[index].finishdate = null;
+            } else {
+                this.listSymptoms[index].isCurrentSymptom = false;
+            }
+        } else {
+            this.listSymptoms[index].isCurrentSymptom = true;
+        }
+        this.updateTimeline();
         dp.close();    
       }
 }

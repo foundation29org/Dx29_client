@@ -334,9 +334,9 @@
         
         <p class="offset-sm-1 col-sm-10 mb-0" [innerHTML]="'land.msgwhat1' | translate"></p>
         <p>{{'land.Register now and save your data' | translate }}:</p>
-        <button type="button" class="btn btn-primary round mr-1 bt-custom-md" (click)="openSaveTimeLine(contentSaveTimeline)">
+        <button type="button" class="btn btn-primary round mr-1 bt-custom-md" (click)="openSaveTimeLine(contentSaveTimeline);lauchEvent('Registration - Undiagnosed - Save Timeline');">
           <em class="mr-1 ft-save white"
-            title="{{'login.Create User' | translate }}" (click)="openSaveTimeLine(contentSaveTimeline)"
+            title="{{'login.Create User' | translate }}" (click)="openSaveTimeLine(contentSaveTimeline);lauchEvent('Registration - Undiagnosed - Save Timeline');"
             style="cursor: pointer;"></em>
             <span>{{'login.Create User' | translate }}</span>
         </button>
@@ -345,14 +345,14 @@
       <div class="mt-4">
         <div class="p-2">
           <p>{{'land.What now' | translate }}:</p>
-          <button type="button" class="btn btn-info round ml-1 mr-1 bt-custom-md" (click)="exportTimeline()">
+          <button type="button" class="btn btn-info round ml-1 mr-1 bt-custom-md" (click)="exportTimeline();lauchEvent('Role - Undiagnosed - Download');">
             <em class="mr-1 fa fa-download white" title="{{'land.diagnosed.timeline.Download' | translate }}"
-              (click)="exportTimeline()" style="cursor: pointer;"></em>
+              (click)="exportTimeline();lauchEvent('Role - Undiagnosed - Download');" style="cursor: pointer;"></em>
             <span>{{'land.diagnosed.timeline.Download' | translate }}</span>
           </button>
-          <button type="button" class="btn btn-info round ml-1 bt-custom-md" (click)="sendEmail()">
+          <button type="button" class="btn btn-info round ml-1 bt-custom-md" (click)="sendEmail();lauchEvent('Role - Undiagnosed - SendEmail');">
             <em class="mr-1 far fa-envelope" title="{{'land.Send results' | translate }}"
-              (click)="sendEmail()" style="cursor: pointer;"></em>
+              (click)="sendEmail();lauchEvent('Role - Undiagnosed - SendEmail');" style="cursor: pointer;"></em>
             <span>{{'land.Send results' | translate }}</span>
           </button>
         </div>

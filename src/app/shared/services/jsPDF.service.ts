@@ -272,9 +272,9 @@ export class jsPDFService {
         doc.setTextColor(0, 0, 0)
         doc.setFont(undefined, 'bold');
         doc.setFontSize(10);
-        doc.text(date, 30, posInit += 10);
-        doc.line(30, posInit+1, 170, posInit+1);
-        posInit= posInit+1;
+        /*doc.text(date, 30, posInit += 10);
+        doc.line(30, posInit+1, 170, posInit+1);*/
+        posInit= posInit+6;
         for (var i=0;i<dateinfo.length;i++){
             posInit = this.checkIfNewPage(doc, posInit);
             if(posInit==20){
@@ -398,11 +398,11 @@ export class jsPDFService {
                             var id = dictionaryTimeline[itemDate][date][i].id
                             var onsetdate = "-"
                             if((dictionaryTimeline[itemDate][date][i].onsetdate!=undefined)&&(dictionaryTimeline[itemDate][date][i].onsetdate!=null)){
-                                onsetdate=this.datePipe.transform(dictionaryTimeline[itemDate][date][i].onsetdate)
+                                onsetdate=this.datePipe.transform(dictionaryTimeline[itemDate][date][i].onsetdate, 'MMM y',this.translate.currentLang)
                             }
                             var finishdate = "-"
                             if((dictionaryTimeline[itemDate][date][i].finishdate!=undefined)&&(dictionaryTimeline[itemDate][date][i].finishdate!=null)){
-                                finishdate=this.datePipe.transform(dictionaryTimeline[itemDate][date][i].finishdate)
+                                finishdate=this.datePipe.transform(dictionaryTimeline[itemDate][date][i].finishdate, 'MMM y',this.translate.currentLang)
                             }
                             var duration="-"
                             if(((onsetdate!="-")&&(finishdate!="-"))){

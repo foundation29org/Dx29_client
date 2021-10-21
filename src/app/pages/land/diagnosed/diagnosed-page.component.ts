@@ -1587,7 +1587,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     if (result.value) {
                         var foundElementIndex = this.searchService.searchIndex(this.stepsTimeLine, 'stepIndex', this.currentStepTimeLine.stepIndex);
                         this.currentStepTimeLine= this.stepsTimeLine[foundElementIndex+1];
-                        document.getElementById('initsteps').scrollIntoView(true);
+                        document.getElementById('initcrono').scrollIntoView(true);
                     }
                 });
             }else if(tamanoWithOutDate>0){
@@ -1609,7 +1609,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     if (result.value) {
                         var foundElementIndex = this.searchService.searchIndex(this.stepsTimeLine, 'stepIndex', this.currentStepTimeLine.stepIndex);
                         this.currentStepTimeLine= this.stepsTimeLine[foundElementIndex+1];
-                        document.getElementById('initsteps').scrollIntoView(true);
+                        document.getElementById('initcrono').scrollIntoView(true);
                     }
                 });
             }else{
@@ -1620,7 +1620,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         if(isNext){
             var foundElementIndex = this.searchService.searchIndex(this.stepsTimeLine, 'stepIndex', this.currentStepTimeLine.stepIndex);
             this.currentStepTimeLine= this.stepsTimeLine[foundElementIndex+1];
-            document.getElementById('initsteps').scrollIntoView(true);
+            document.getElementById('initcrono').scrollIntoView(true);
         }
         
     }
@@ -1628,7 +1628,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     goPrevious(){
         var foundElementIndex = this.searchService.searchIndex(this.stepsTimeLine, 'stepIndex', this.currentStepTimeLine.stepIndex);
         this.currentStepTimeLine= this.stepsTimeLine[foundElementIndex-1];
-        document.getElementById('initsteps').scrollIntoView(true);
+        document.getElementById('initcrono').scrollIntoView(true);
     }
 
     navigate(step){
