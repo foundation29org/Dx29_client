@@ -43,11 +43,14 @@
                                   <td class="col-md-12 dropdown-item" id="{{disease.id}}"
                                     (click)="showMoreInfoDiagnosePopup(i);" style="cursor: pointer;"
                                     title="{{'generics.More information' | translate }} ({{disease.id}})">
-                                    <span *ngIf="disease.source!='synonyms'">{{disease.name}}</span>
-                                    <span *ngIf="disease.source=='synonyms'"> {{disease.itemCompared}} ({{'generics.Synonyms' | translate}}: {{disease.name}})</span>
-                                    <span *ngIf="disease.synonyms.length>0">
-                                      <span *ngFor="let synonym of disease.synonyms | myfilter:searchDiseaseField">
-                                        <span class="d-block font-small-3" style="font-weight: 200;"> - {{synonym}}</span>
+                                    <span>{{disease.name}}</span>
+                                    <!--<span *ngIf="disease.source!='synonyms'">{{disease.name}}</span>
+                                    <span *ngIf="disease.source=='synonyms'"> {{disease.itemCompared}} ({{'generics.Synonyms' | translate}}: {{disease.name}})</span>-->
+                                    <span *ngIf="disease.synonyms">
+                                      <span *ngIf="disease.synonyms.length>0">
+                                        <span *ngFor="let synonym of disease.synonyms | myfilter:searchDiseaseField">
+                                          <span class="d-block font-small-3" style="font-weight: 200;"> - {{synonym}}</span>
+                                        </span>
                                       </span>
                                     </span>
                                   </td>
