@@ -45,14 +45,11 @@
                                     title="{{'generics.More information' | translate }} ({{disease.id}})">
                                     <span *ngIf="disease.source!='synonyms'">{{disease.name}}</span>
                                     <span *ngIf="disease.source=='synonyms'"> {{disease.itemCompared}} ({{'generics.Synonyms' | translate}}: {{disease.name}})</span>
-                                    <!--<span>{{disease.name}}</span>-->
-                                    <!--<span class="custom-bold ml-1"><strong>{{disease.name}}</strong></span>
                                     <span *ngIf="disease.synonyms.length>0">
-                                      <span class="d-block">Synonyms:</span>
-                                      <span *ngFor="let synonym of disease.synonyms ; let j = index" class="d-block">
-                                        {{synonym}}
+                                      <span *ngFor="let synonym of disease.synonyms | myfilter:searchDiseaseField">
+                                        <span class="d-block font-small-3" style="font-weight: 200;"> - {{synonym}}</span>
                                       </span>
-                                    </span>-->
+                                    </span>
                                   </td>
                                 </tr>
                               </tbody>
