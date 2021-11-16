@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild, OnDestroy, ElementRef, Renderer2, AfterViewInit } from "@angular/core";
 
-import { ROUTES, ROUTESHAVEDIAGNOSIS, ROUTESSUPERADMIN, ROUTESCLINICAL, ROUTESHOMEDX, ROUTESADMINGTP} from './sidebar-routes.config';
+import { ROUTESHOMEDX} from './sidebar-routes.config';
 import { RouteInfo } from "./sidebar.metadata";
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { TranslateService } from '@ngx-translate/core';
@@ -105,29 +105,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           this.isHomePage = false;
         }
-        if(this.authService.getRole() == 'SuperAdmin'){
-          //cargar menú del Admin
-          this.menuItems = ROUTESSUPERADMIN.filter(menuItem => menuItem);
-        }else if(this.authService.getRole() == 'Clinical'){
-          //cargar menú del Clinical
-          this.menuItems = ROUTESCLINICAL.filter(menuItem => menuItem);
-        }
-        else if(this.authService.getRole() == 'Admin'){
-          if(this.authService.getSubRole() == 'AdminGTP'){
-            this.menuItems = ROUTESADMINGTP.filter(menuItem => menuItem);
-          }
-        }
-        else if(this.authService.getRole() != undefined){
-          //cargar menú del usuario
-          if(this.authService.getSubRole() != 'HaveDiagnosis'){
-            this.menuItems = ROUTES.filter(menuItem => menuItem);
-          }else{
-            this.menuItems = ROUTESHAVEDIAGNOSIS.filter(menuItem => menuItem);
-          }
-
-        }else if(this.authService.getRole() == undefined){
-          this.menuItems = ROUTESHOMEDX.filter(menuItem => menuItem);
-        }
+        this.menuItems = ROUTESHOMEDX.filter(menuItem => menuItem);
       }
     );
   }
@@ -135,29 +113,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.config = this.configService.templateConf;
-    if(this.authService.getRole() == 'SuperAdmin'){
-      //cargar menú del Admin
-      this.menuItems = ROUTESSUPERADMIN.filter(menuItem => menuItem);
-    }else if(this.authService.getRole() == 'Clinical'){
-      //cargar menú del Clinical
-      this.menuItems = ROUTESCLINICAL.filter(menuItem => menuItem);
-    }
-    else if(this.authService.getRole() == 'Admin'){
-      if(this.authService.getSubRole() == 'AdminGTP'){
-        this.menuItems = ROUTESADMINGTP.filter(menuItem => menuItem);
-      }
-    }
-    else if(this.authService.getRole() != undefined){
-      //cargar menú del usuario
-      if(this.authService.getSubRole() != 'HaveDiagnosis'){
-        this.menuItems = ROUTES.filter(menuItem => menuItem);
-      }else{
-        this.menuItems = ROUTESHAVEDIAGNOSIS.filter(menuItem => menuItem);
-      }
-
-    }else if(this.authService.getRole() == undefined){
-      this.menuItems = ROUTESHOMEDX.filter(menuItem => menuItem);
-    }
+    this.menuItems = ROUTESHOMEDX.filter(menuItem => menuItem);
     if (this.config.layout.sidebar.backgroundColor === 'white') {
       this.logoUrl = 'assets/img/logo-dark.png';
     }
