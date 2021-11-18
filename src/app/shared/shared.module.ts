@@ -13,7 +13,6 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { FooterComponent } from "./footer/footer.component";
 import { Footer2Component } from "./footer2/footer2.component";
 import { FooterLandComponent } from "./footer-land/footer-land.component";
-import { NavbarComponent } from "./navbar/navbar.component";
 import { NavbarComponentNolog } from "./navbar-nolog/navbar-nolog.component";
 import { NavbarD29Component } from "./navbar-dx29/navbar-dx29.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
@@ -36,7 +35,6 @@ import { SidebarToggleDirective } from './directives/sidebartoggle.directive';
         FooterComponent,
         Footer2Component,
         FooterLandComponent,
-        NavbarComponent,
         NavbarComponentNolog,
         NavbarD29Component,
         SidebarComponent,
@@ -61,7 +59,6 @@ import { SidebarToggleDirective } from './directives/sidebartoggle.directive';
         FooterComponent,
         Footer2Component,
         FooterLandComponent,
-        NavbarComponent,
         NavbarComponentNolog,
         NavbarD29Component,
         SidebarComponent,

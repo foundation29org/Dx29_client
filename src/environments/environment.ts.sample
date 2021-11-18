@@ -2,19 +2,10 @@
     export const environment = {
         production: true,
         api: undefined,  //Server URL: 'http://<direction>:<port>'
-        blobAccessToken:undefined, // Blob access information: {sasToken:null,blobAccountUrl: 'https://<blob_name>.blob.core.windows.net/'}
-        settingsAccessToken:undefined, // Settings blob: token and url. sasToken: <token> ,blobAccountUrl: 'https://<apiSettings>.blob.core.windows.net/settings/'}
-        version:undefined, //Version of the client code. {minCodeVersion: <min_code_version>,actualCodeVersion: <actual_code_version>}
-        exomiserUrl: undefined, // Exomiser service URL
-        f29svc: undefined, // f29svc service URL 
-        phenolyzerUrl:undefined, // Phenolyzer service URL 
-        ncrService:undefined, // NCR service URL  
-        ncrVersion:undefined, // ncr version. 
+        ncrService:undefined, // NCR service URL
         f29bio:undefined, // f29Bio sevice URL 
         f29api: undefined, // f29api service URL
-        f29ncr:undefined, // f29ncr service URL 
         hotjarSiteId:undefined, // Horjar ID
-        captcha:undefined, // captcha 
         urlDxv2:undefined // url dx29 v2 
         };
     

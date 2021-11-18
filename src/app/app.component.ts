@@ -20,16 +20,6 @@ import { EventsService} from 'app/shared/services/events.service';
 import { NgxHotjarService } from 'ngx-hotjar';
 
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
-declare var device;
-
-declare global {
-    interface Navigator {
-      app: {
-          exitApp: () => any; // Or whatever is the type of the exitApp function
-      }
-    }
-}
-
 
 @Component({
     selector: 'app-root',
@@ -42,10 +32,7 @@ export class AppComponent implements OnInit, OnDestroy{
   private subscriptionIntervals: Subscription = new Subscription();
   private subscriptionTestForce: Subscription = new Subscription();
   loggerSubscription:Subscription;
-  secondsInactive:number;
-  inactiveSecondsToLogout:number = 86400; // 10 minutoes *2 = 20 minutos  600. 24 horas --> 86.400
   actualPage: string = '';
-  isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
   hasLocalLang: boolean = false;
   actualScenarioHotjar:any = {lang: '', scenario: ''};
   tituloEvent: string = '';
@@ -66,10 +53,6 @@ export class AppComponent implements OnInit, OnDestroy{
 
         this.loadLanguages();
         this.loadCultures();
-
-         if (this.isApp){
-          document.addEventListener("deviceready", this.onDeviceReady.bind(this), false);
-         }
 
     }
 
@@ -125,55 +108,6 @@ export class AppComponent implements OnInit, OnDestroy{
       }
 
     }
-
-     onDeviceReady() {
-       if(device.platform == 'android' || device.platform == 'Android'){
-         document.addEventListener("backbutton", this.onBackKeyDown.bind(this), false);
-       }
-       //Configurar el evento cuando la app pase a background
-       document.addEventListener("pause", onPause, false);
-       document.addEventListener("resume", onResume, false);
-
-       function onPause(){
-         console.log("pause");
-       }
-
-       function onResume(){
-         console.log("resume");
-       }
-     }
-
-     onBackKeyDown(){
-       if(this.actualPage.indexOf('menu.Dashboard')!=-1){
-       //if(this.actualPage == 'menu.Dashboard'){
-         Swal.fire({
-             title: this.translate.instant("generics.Are you sure?"),
-             text:  this.translate.instant("generics.Exit the application without logging off"),
-             icon: 'warning',
-             showCancelButton: true,
-             confirmButtonColor: '#33658a',
-             cancelButtonColor: '#B0B6BB',
-             confirmButtonText: this.translate.instant("generics.Yes"),
-             cancelButtonText: this.translate.instant("generics.No"),
-             showLoaderOnConfirm: true,
-             allowOutsideClick: false,
-             reverseButtons: true
-         }).then((result) => {
-           if (result.value) {
-             navigator.app.exitApp();
-           }
-               //window.history.back();
-               /*this.authService.logout();
-               this.router.navigate([this.authService.getLoginUrl()]);*/
-
-         });
-
-       }else{
-         if(this.authService.isAuthenticated()){
-           window.history.back();
-         }
-       }
-     }
 
      ngOnInit(){
       this.meta.addTags([
@@ -242,20 +176,6 @@ export class AppComponent implements OnInit, OnDestroy{
 
          }.bind(this));
 
-
-      this.secondsInactive=0;
-
-      //every time you change your route
-      //sobraría porque ya está en authguard
-      /*this.router.events.subscribe( (event) =>{
-        if (event instanceof NavigationStart ) {
-          if (this.authService.isAuthenticated()){
-            if(!this.tokenService.isTokenValid()){
-              this.authGuard.inactive()
-            }
-          }
-        }
-      })*/
       this.router.events.subscribe( (event) =>{        
         if (event instanceof NavigationEnd ) {
           var actualUrl = this.activatedRoute.snapshot['_routerState'].url;
@@ -295,8 +215,6 @@ export class AppComponent implements OnInit, OnDestroy{
              var titulo= this.translate.instant(this.tituloEvent);
              this.titleService.setTitle(titulo);
              if(event.title =='homedx.Donate'){
-               //this.meta.updateTag({name: 'keywords', content: 'DONA a Juntos hacia el diagnóstico'});
-               //this.meta.updateTag({name: 'description', content: this.translate.instant("donate.descriptionSeo")});
                this.meta.updateTag({name: 'description', content: this.translate.instant("donate.descriptionSeo")});
              }else{
                this.changeMeta();
@@ -304,34 +222,12 @@ export class AppComponent implements OnInit, OnDestroy{
 
          })();
 
-        this.secondsInactive=0;
         //para los anchor de la misma páginano hacer scroll hasta arriba
         if(this.actualPage != event['title']){
           window.scrollTo(0, 0)
         }
         this.actualPage = event['title'];
       });
-
-      if (!this.isApp){
-        //we check the time it takes without changing the route
-        this.loggerSubscription =  Observable.interval(1000 * this.inactiveSecondsToLogout).subscribe(() => {
-          this.secondsInactive+=this.inactiveSecondsToLogout;
-          if(this.authService.getToken()){
-            var role = this.authService.getRole();
-            if(role){
-              if(role == 'Admmin'){
-                this.inactiveSecondsToLogout = 1800;
-              }else{
-                this.inactiveSecondsToLogout = 86400;
-              }
-              if(this.secondsInactive>=this.inactiveSecondsToLogout){
-                //this.authGuard.testtoken()
-                this.authGuard.inactive()
-              }
-            }
-          }
-        });
-      }
 
       this.eventsService.on('changelang', function(lang) {
         this.launchHotjarTrigger(lang);
@@ -340,9 +236,6 @@ export class AppComponent implements OnInit, OnDestroy{
              var titulo= this.translate.instant(this.tituloEvent);
              this.titleService.setTitle(titulo);
              sessionStorage.setItem('lang', lang);
-             /*if(lang=='es'){
-              this.toastr.warning('', this.translate.instant("InfoSystem.Spanishtranslations"));
-             }*/
              this.changeMeta();
          })();
 

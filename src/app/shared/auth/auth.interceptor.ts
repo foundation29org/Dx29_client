@@ -38,13 +38,6 @@ export class AuthInterceptor implements HttpInterceptor {
 
         var authReq = req.clone({});
         if(req.url.indexOf(environment.api)!==-1){
-          /*const headers = new HttpHeaders({
-            'authorization': `${type} ${token}`,
-            'Cache-Control':  'no-cache, no-store, must-revalidate, post-check=0, pre-check=0',
-            'Pragma': 'no-cache',
-            'Expires': '0'
-          });
-          authReq = req.clone({ headers});*/
           authReq = req.clone({ headers: req.headers.set('authorization',  `${type} ${token}`) });
           let tokenService = this.inj.get(TokenService);
           if(!tokenService.isTokenValid()){
@@ -53,68 +46,20 @@ export class AuthInterceptor implements HttpInterceptor {
           }
         }
 
-        if(req.url.indexOf('h29patientmap')!==-1){
-          authReq = req.clone({});
-        }
-
-        if(req.url.indexOf('https://api.microsofttranslator.com')!==-1){
-          isExternalReq = true;
-          authReq = req.clone({ responseType: 'text' });
-        }
-
-        //use exomizer service
-        if(req.url.indexOf('https://genomicservices.azurewebsites.net/api/exomize')!==-1){
-          isExternalReq = true;
-          const headers = new HttpHeaders({
-            'Access-Control-Allow-Origin':'*'
-          });
-          authReq = req.clone({ headers});//'Content-Type',  'application/json'
-          //authReq = authReq.clone({ headers: req.headers.set('Content-Type',  'application/json' )});
-        }
-
-        if(req.url.indexOf('https://api.monarchinitiative.org/api/')!==-1){
-          isExternalReq = true;
-        }
         if(req.url.indexOf(environment.f29bio)!==-1 || req.url.indexOf(environment.f29api)!==-1){
           isExternalReq = true;
-        }
-        if(req.url.indexOf(environment.f29svc+'/api/exomiser/')!=-1){
-          isExternalReq = true;
-          authReq = req.clone({})
-          return next.handle(req).pipe(takeUntil(this.exomiserHttpService.onCancelPendingRequests()))
         }
 
         if(req.url.indexOf('/api/Document/Parse')!==-1){
           isExternalReq = true;
-          console.log('entra');
           const headers = new HttpHeaders({
             'Content-Type': 'application/octet-stream'
           });
-          authReq = req.clone({ headers});//'Content-Type',  'application/json'
-          //authReq = authReq.clone({ headers: req.headers.set('Content-Type',  'application/json' )});
+          authReq = req.clone({ headers});
         }
 
-        if(req.url.indexOf('://h29patientmap')!==-1){
+        if(req.url.indexOf('https://clinicaltrials')!==-1 || req.url.indexOf('logic.azure.com')!==-1){
           isExternalReq = true;
-          authReq = req.clone({})
-        /*  const headers = new HttpHeaders({
-            'Access-Control-Allow-Origin':'*'
-          });
-          authReq = req.clone({ headers});//'Content-Type',  'application/json'*/
-          //authReq = authReq.clone({ headers: req.headers.set('Content-Type',  'application/json' )});
-        }
-        if(req.url.indexOf('dx29settings')!==-1){
-          isExternalReq = true;
-          const headers = new HttpHeaders({
-            'Access-Control-Allow-Origin':'*',
-          });
-          authReq = req.clone({ headers});//'Content-Type',  'application/json'
-          //authReq = authReq.clone({ headers: req.headers.set('Content-Type',  'application/json' )});
-        }
-
-        if(req.url.indexOf('https://clinicaltrials')!==-1){
-          isExternalReq = true;
-          //authReq = authReq.clone({ headers: req.headers.set('Content-Type',  'application/json' )});
         }
 
         // se podría controlar antes sin realizar la petición por si no hay conexión a internet con esto: navigator.onLine
@@ -149,11 +94,6 @@ export class AuthInterceptor implements HttpInterceptor {
                 }
 
                 if (error.status === 419) {
-
-                  /*  return authService.refreshToken().flatMap(t => {
-                      const authReq = req.clone({ headers: req.headers.set('authorization', t) });
-                      return next.handle(authReq);
-                  });*/
                   if(!isExternalReq){
                     authService.logout();
                     this.router.navigate(['/login']);
