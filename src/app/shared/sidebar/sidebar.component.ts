@@ -8,7 +8,6 @@ import { customAnimations } from "../animations/custom-animations";
 import { ConfigService } from '../services/config.service';
 import { LayoutService } from '../services/layout.service';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'app/shared/auth/auth.service';
 import { EventsService} from 'app/shared/services/events.service';
 import { Data } from 'app/shared/services/data.service';
 import Swal from 'sweetalert2';
@@ -49,7 +48,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     public translate: TranslateService,
     private configService: ConfigService,
     private layoutService: LayoutService,
-    private authService: AuthService,
     private eventsService: EventsService,
      private dataservice: Data,
   ) {
@@ -83,9 +81,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
         }
       });
-
-
-    this.redirectUrl = this.authService.getRedirectUrl();
 
 
     this.router.events.filter((event: any) => event instanceof NavigationEnd).subscribe(
