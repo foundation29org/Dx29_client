@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from 'environments/environment';
-import { AuthService } from 'app/shared/auth/auth.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
@@ -11,7 +10,7 @@ import { OVERLAY_KEYBOARD_DISPATCHER_PROVIDER } from '@angular/cdk/overlay/keybo
 @Injectable()
 export class Apif29BioService {
 
-    constructor(private authService: AuthService, private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
     getSymptomsOfDisease(lang,listIds,depth){
         if(depth==null){

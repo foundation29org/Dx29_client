@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from "@angular/common/http";
 import { environment } from 'environments/environment';
-import { AuthService } from 'app/shared/auth/auth.service';
 import { SortService} from 'app/shared/services/sort.service';
 
 @Injectable()
@@ -10,7 +9,7 @@ export class LangService {
 
     langs: any = [];
 
-    constructor(public translate : TranslateService, private http: HttpClient, private authService: AuthService, private sortService: SortService) {}
+    constructor(public translate : TranslateService, private http: HttpClient, private sortService: SortService) {}
 
 
     getLangs(){
