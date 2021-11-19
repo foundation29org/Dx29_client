@@ -14,6 +14,9 @@ import { AboutUsPageComponent } from "./about-us/about-us-page.component";
 import { UndiagnosedPageComponent } from "./undiagnosed/undiagnosed-page.component";
 import { DiagnosedPageComponent } from "./diagnosed/diagnosed-page.component";
 
+import { GtpPageComponent } from "./gtp/gtp-page.component";
+import { GtpDonatePageComponent } from "./gtp-donate/gtp-donate-page.component";
+
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSelectModule} from '@angular/material/select';
@@ -49,6 +52,8 @@ import { MyFilterPipe } from 'app/shared/services/my-filter.pipe';
         AboutUsPageComponent,
         UndiagnosedPageComponent,
         DiagnosedPageComponent,
+        GtpPageComponent,
+        GtpDonatePageComponent,
         TimelineComponent,
         DndDirective,
         MyFilterPipe

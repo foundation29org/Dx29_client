@@ -7,6 +7,9 @@ import { AboutUsPageComponent } from "./about-us/about-us-page.component";
 import { UndiagnosedPageComponent } from "./undiagnosed/undiagnosed-page.component";
 import { DiagnosedPageComponent } from "./diagnosed/diagnosed-page.component";
 
+import { GtpPageComponent } from "./gtp/gtp-page.component";
+import { GtpDonatePageComponent } from "./gtp-donate/gtp-donate-page.component";
+
 const routes: Routes = [
   {
     path: '',
@@ -40,6 +43,20 @@ const routes: Routes = [
           title: 'land.Diagnosed'
         },
         canDeactivate: [CanDeactivateGuard]
+      },
+      {
+        path: 'juntoshaciaeldiagnostico',
+        component: GtpPageComponent,
+        data: {
+          title: 'menu.Genetic testing program'
+        }
+      },
+      {
+        path: 'juntoshaciaeldiagnostico/donar',
+        component: GtpDonatePageComponent,
+        data: {
+          title: 'homedx.Donate'
+        }
       }
     ]
   }
