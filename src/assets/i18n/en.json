@@ -2527,7 +2527,9 @@
     "t6": "Awards",
     "Institutions": "Institutions",
     "Patient associations": "Patient associations",
-    "Other partners": "Other partners"
+    "Other partners": "Other partners",
+    "Acknowledgements": "Acknowledgements",
+    "This site would not be possible": "This site would not be possible without the resources developed by"
   },
   "seo":{
     "home":{

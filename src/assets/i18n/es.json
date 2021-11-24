@@ -2530,7 +2530,9 @@
     "t6": "Premios",
     "Institutions": "Instituciones",
     "Patient associations": "Asociaciones de pacientes",
-    "Other partners": "Otros aliados"
+    "Other partners": "Otros aliados",
+    "Acknowledgements": "Agradecimientos",
+    "This site would not be possible": "Este sitio no sería posible sin los recursos desarrollados por"
   },
   "seo":{
     "home":{
