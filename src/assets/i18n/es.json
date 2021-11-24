@@ -2477,7 +2477,7 @@
         "NoOnset":"Fecha de inicio desconocida",
         "GoPrevious":"Completa la información de estos síntomas.",
         "These are the symptoms of your disease": "Estos son los síntomas que se asocian comúnmente a tu enfermedad.",
-        "Do you identify with them?": "¿Te sientes identificados con ellos?",
+        "Do you identify with them?": "¿Te sientes identificado con ellos?",
         "I want to create the chronology": "Crear mi cronología de los síntomas",
         "goToChrono": "Cada paciente es distinto y debe tener un tratamiento adaptado a su historia. Empieza a contar tu historia creando tu propia cronología de síntomas.",
         "syptomsDetected": "Se han detectado {{value}} nuevos síntomas"

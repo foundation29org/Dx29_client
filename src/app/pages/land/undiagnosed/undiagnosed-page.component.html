@@ -334,9 +334,9 @@
         
         <p class="offset-sm-1 col-sm-10 mb-0" [innerHTML]="'land.msgwhat1' | translate"></p>
         <p>{{'land.Register now and save your data' | translate }}:</p>
-        <button type="button" class="btn btn-primary round mr-1 bt-custom-md" (click)="openSaveTimeLine(contentSaveTimeline);lauchEvent('Registration - Undiagnosed - Save Timeline');">
+        <button type="button" class="btn btn-primary round mr-1 bt-custom-md" (click)="registerToDx29V2Timeline();lauchEvent('Registration - Undiagnosed - Save Timeline');">
           <em class="mr-1 ft-save white"
-            title="{{'login.Create User' | translate }}" (click)="openSaveTimeLine(contentSaveTimeline);lauchEvent('Registration - Undiagnosed - Save Timeline');"
+            title="{{'login.Create User' | translate }}" (click)="registerToDx29V2Timeline();lauchEvent('Registration - Undiagnosed - Save Timeline');"
             style="cursor: pointer;"></em>
             <span>{{'login.Create User' | translate }}</span>
         </button>
@@ -798,7 +798,7 @@
             <p [innerHTML]="'land.swal.p1' | translate"></p>
           </span>
         </span>
-        <div class="row reg-panel d-block d-md-none" (click)="registerToDx29()">
+        <div class="row reg-panel d-block d-md-none" (click)="registerToDx29V2()">
           <div class="row pb-2 pt-2">
             <div class="offset-1 col-2">
               <img class="w-reg-img" src='assets/img/home/reg/func1.jpg' />
@@ -836,7 +836,7 @@
           </span>
         </div>
       </div>
-      <div class="row reg-panel d-none d-md-block" (click)="registerToDx29()">
+      <div class="row reg-panel d-none d-md-block" (click)="registerToDx29V2()">
         <div class="col-md-12 offset-xl-1 col-xl-10">
           <div class="row">
             <div class="col-sm-6 pb-3 pt-3">
@@ -911,7 +911,7 @@
         <span>
           <p [innerHTML]="'land.diagnosed.timeline.p3' | translate"></p>
         </span>
-        <div class="row reg-panel d-block d-md-none" (click)="registerToDx29()">
+        <div class="row reg-panel d-block d-md-none" (click)="registerToDx29V2Timeline()">
           <div class="row pb-2 pt-2">
             <div class="offset-1 col-2">
               <img class="w-reg-img" src='assets/img/home/reg/func1.jpg' />
@@ -949,7 +949,7 @@
           </span>
         </div>
       </div>
-      <div class="row reg-panel d-none d-md-block" (click)="registerToDx29()">
+      <div class="row reg-panel d-none d-md-block" (click)="registerToDx29V2Timeline()">
         <div class="col-md-12 offset-xl-1 col-xl-10">
           <div class="row">
             <div class="col-sm-6 pb-3 pt-3">
