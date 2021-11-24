@@ -194,8 +194,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     actualArticle: any = {};
     secondToResponse: string = '';
     reloadDiseases: boolean = false;
-    secondsInactive:number;
-    inactiveSecondsToLogout:number = 900;
     openDiseases:number = 0;
     timeoutWait: number = 2000;
 
@@ -247,13 +245,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         //this.googleAnalyticsService.eventEmitter("OpenDx - init: "+result, "general", this.myuuid);
         //this.googleAnalyticsService.eventEmitter("OpenDx - init", "general", this.myuuid, 'init', 5);
         this._startTime = Date.now();
-        this.secondsInactive=0;
-        this.timeSubscription =  Observable.interval(1000 * this.inactiveSecondsToLogout).subscribe(() => {
-            this.secondsInactive+=this.inactiveSecondsToLogout;
-            if(this.secondsInactive>=this.inactiveSecondsToLogout){
-                this.openModarRegister('Time out');
-              }
-          });
           
         if(sessionStorage.getItem('uuid')!=null){
             this.myuuid = sessionStorage.getItem('uuid');
@@ -273,18 +264,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         setTimeout(function () {
             this.inputTextAreaElement.nativeElement.focus();
         }.bind(this), 200);
-    }
-
-    openModarRegister(type){
-        var titleEvent = "OpenModalRegister - " + type;
-        this.lauchEvent(titleEvent);
-        if (this.modalReference3 != undefined) {
-            this.modalReference3.close();
-            this.modalReference3 = undefined;
-            document.getElementById("openModalRegister").click();
-        }else{
-            document.getElementById("openModalRegister").click();
-        }
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
@@ -311,14 +290,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             return false;
         }
         else{
-            if((this.startTimeline)&&(this.listSymptomsCheckedTimeline.length>0)){
-                var obser =this.dialogService.confirm(this.translate.instant("land.Do you want to exit"), this.translate.instant("land.loseprogress"));
-                return obser;
-            }
-            else{
-                return true;
-            }   
-            
+            return true;
         }
         //return true;
     }
@@ -542,15 +514,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
     getLiteral(literal) {
         return this.translate.instant(literal);
-    }
-
-    registerToDx29Swal(contentToDx29V2) {
-        let ngbModalOptions: NgbModalOptions = {
-            backdrop: 'static',
-            keyboard: false,
-            windowClass: 'ModalClass-lg'// xl, lg, sm
-        };
-        this.modalReference3 = this.modalService.open(contentToDx29V2, ngbModalOptions);
     }
 
     registerToDx29V2() {
@@ -1568,54 +1531,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 Swal.fire('', this.translate.instant("land.diagnosed.symptoms.error1"), "error");
             }
         }else if(this.currentStepTimeLine.stepIndex==2){
-            var tamanoWithDate= Object.keys(this.paramsTimeLine.dictionaryTimeline).length;
-            var tamanoWithOutDate= this.paramsTimeLine.listTimelineNull.length;
-            if(tamanoWithDate==0){
-                Swal.fire({
-                    title: this.translate.instant("land.diagnosed.timeline.msValidationChrono3"),
-                    text: this.translate.instant("land.diagnosed.timeline.msValidationChrono2"),
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#33658a',
-                    cancelButtonColor: '#B0B6BB',
-                    confirmButtonText: this.translate.instant("generics.Yes"),
-                    cancelButtonText: this.translate.instant("generics.No"),
-                    showLoaderOnConfirm: true,
-                    allowOutsideClick: false,
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.value) {
-                        var foundElementIndex = this.searchService.searchIndex(this.stepsTimeLine, 'stepIndex', this.currentStepTimeLine.stepIndex);
-                        this.currentStepTimeLine= this.stepsTimeLine[foundElementIndex+1];
-                        document.getElementById('initcrono').scrollIntoView(true);
-                    }
-                });
-            }else if(tamanoWithOutDate>0){
-                Swal.fire({
-                    title: this.translate.instant("land.diagnosed.timeline.msValidationChrono1",{
-                        value: tamanoWithOutDate
-                      }),
-                    text: this.translate.instant("land.diagnosed.timeline.msValidationChrono2"),
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#33658a',
-                    cancelButtonColor: '#B0B6BB',
-                    confirmButtonText: this.translate.instant("generics.Yes"),
-                    cancelButtonText: this.translate.instant("generics.No"),
-                    showLoaderOnConfirm: true,
-                    allowOutsideClick: false,
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.value) {
-                        var foundElementIndex = this.searchService.searchIndex(this.stepsTimeLine, 'stepIndex', this.currentStepTimeLine.stepIndex);
-                        this.currentStepTimeLine= this.stepsTimeLine[foundElementIndex+1];
-                        document.getElementById('initcrono').scrollIntoView(true);
-                    }
-                });
-            }else{
-                isNext=true;
-            }
-            
+            isNext=true;
         }
         if(isNext){
             var foundElementIndex = this.searchService.searchIndex(this.stepsTimeLine, 'stepIndex', this.currentStepTimeLine.stepIndex);

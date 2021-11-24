@@ -471,9 +471,9 @@
 
                               <p class="offset-sm-1 col-sm-10 mb-0" [innerHTML]="'land.msgwhat1' | translate"></p>
                               <p>{{'land.Register now and save your data' | translate }}:</p>
-                              <button type="button" class="btn btn-primary bt-custom-md round mr-1" (click)="openSaveTimeLine(contentSaveTimeline);lauchEvent('Registration - Diagnosed - Save Timeline');">
+                              <button type="button" class="btn btn-primary bt-custom-md round mr-1" (click)="registerToDx29V2Timeline();lauchEvent('Registration - Diagnosed - Save Timeline');">
                                 <em class="mr-1 ft-save white"
-                                  title="{{'login.Create User' | translate }}" (click)="openSaveTimeLine(contentSaveTimeline);lauchEvent('Registration - Diagnosed - Save Timeline');"
+                                  title="{{'login.Create User' | translate }}" (click)="registerToDx29V2Timeline();lauchEvent('Registration - Diagnosed - Save Timeline');"
                                   style="cursor: pointer;"></em>
                                   <span>{{'login.Create User' | translate }}</span>
                               </button>
@@ -998,9 +998,9 @@
 
                                     <p class="offset-sm-1 col-sm-10 mb-0" [innerHTML]="'land.msgwhat1' | translate"></p>
                                     <p>{{'land.Register now and save your data' | translate }}:</p>
-                                    <button type="button" class="btn btn-primary bt-custom-md round mr-1" (click)="openSaveTimeLine(contentSaveTimeline);lauchEvent('Registration - Diagnosed - Save Timeline');">
+                                    <button type="button" class="btn btn-primary bt-custom-md round mr-1" (click)="registerToDx29V2Timeline();lauchEvent('Registration - Diagnosed - Save Timeline');">
                                       <em class="mr-1 ft-save white"
-                                        title="{{'login.Create User' | translate }}" (click)="openSaveTimeLine(contentSaveTimeline);lauchEvent('Registration - Diagnosed - Save Timeline');"
+                                        title="{{'login.Create User' | translate }}" (click)="registerToDx29V2Timeline();lauchEvent('Registration - Diagnosed - Save Timeline');"
                                         style="cursor: pointer;"></em>
                                         <span>{{'login.Create User' | translate }}</span>
                                     </button>
@@ -1293,116 +1293,6 @@
   </div>
 </ng-template>
 
-<ng-template #contentToDx29V2 let-c="close" let-d="dismiss" appendTo="body">
-  <div class="modal-body content-wrapper p-2 center-elements mb-3">
-    <div class="p-2">
-      <button type="button" class="close" aria-label="Close" (click)="closeRegisterPanel();">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <h4 class="align-self-center"><strong>{{'land.swal.title' | translate }}</strong><span class="d-block"><strong>{{'land.swal.title2' | translate }}</strong></span></h4>
-    </div>
-    <div>
-      <div class="align-self-center">
-        <span>
-          <span *ngIf="infoOneDisease.symptoms.length>0">
-            <p [innerHTML]="'land.swal.p1' | translate"></p>
-          </span>
-        </span>
-        <div class="row reg-panel d-block d-md-none" (click)="registerToDx29()">
-          <div class="row pb-2 pt-2">
-            <div class="offset-1 col-2">
-              <img class="w-reg-img" src='assets/img/home/reg/func1.jpg' />
-            </div>
-            <span class="col-8 text-left">
-              <p class="mb-0"><strong>{{'land.table.t1' | translate }}</strong></p>
-              <p class="d-block">{{'land.table.d1' | translate }}</p>
-            </span>
-          </div>
-          <div class="row pb-2 pt-2">
-            <div class="offset-1 col-2">
-              <img class="w-reg-img" src='assets/img/home/reg/func2.jpg' />
-            </div>
-            <span class="col-8 text-left">
-              <p class="mb-0"><strong>{{'land.table.t2' | translate }}</strong></p>
-              <p class="d-block">{{'land.table.d2' | translate }}</p>
-            </span>
-          </div>
-        <div class="row pb-2 pt-2">
-          <div class="offset-1 col-2">
-            <img class="w-reg-img" src='assets/img/home/reg/func3.jpg' />
-          </div>
-          <span class="col-8 text-left">
-            <p class="mb-0"><strong>{{'land.table.t3' | translate }}</strong></p>
-            <p class="d-block">{{'land.table.d3' | translate }}</p>
-          </span>
-        </div>
-        <div class="row pb-2 pt-2">
-          <div class="offset-1 col-2">
-            <img class="w-reg-img" src='assets/img/home/reg/func4.jpg' />
-          </div>
-          <span class="col-8 text-left">
-            <p class="mb-0"><strong>{{'land.table.t4' | translate }}</strong></p>
-            <p class="d-block">{{'land.table.d4' | translate }}</p>
-          </span>
-        </div>
-      </div>
-      <div class="row reg-panel d-none d-md-block" (click)="registerToDx29()">
-        <div class="col-md-12 offset-xl-1 col-xl-10">
-          <div class="row">
-            <div class="col-sm-6 pb-3 pt-3">
-              <div class="row">
-                <div class="col-3 mt-1">
-                  <img class="w-reg-img" src='assets/img/home/reg/func1.jpg' />
-                </div>
-                <span class="col-9 text-left" style="display: inline-block;">
-                  <p class="mb-0"><strong>{{'land.table.t1' | translate }}</strong></p>
-                  <p class="d-block">{{'land.table.d1' | translate }}</p>
-                </span>
-              </div>
-            </div>
-            <div class="col-sm-6 pb-3 pt-3">
-              <div class="row">
-                <div class="col-3 mt-1">
-                  <img class="w-reg-img" src='assets/img/home/reg/func2.jpg' />
-                </div>
-                <span class="col-9 text-left" style="display: inline-block;">
-                  <p class="mb-0"><strong>{{'land.table.t2' | translate }}</strong></p>
-                  <p class="d-block">{{'land.table.d2' | translate }}</p>
-                </span>
-              </div>
-            </div>
-            <div class="col-sm-6 pb-3 pt-3">
-              <div class="row">
-                <div class="col-3 mt-1">
-                  <img class="w-reg-img" src='assets/img/home/reg/func3.jpg' />
-                </div>
-                <span class="col-9 text-left" style="display: inline-block;">
-                  <p class="mb-0"><strong>{{'land.table.t3' | translate }}</strong></p>
-                  <p class="d-block">{{'land.table.d3' | translate }}</p>
-                </span>
-              </div>
-            </div>
-            <div class="col-sm-6 pb-3 pt-3">
-              <div class="row">
-                <div class="col-3 mt-1">
-                  <img class="w-reg-img" src='assets/img/home/reg/func4.jpg' />
-                </div>
-                <span class="col-9 text-left" style="display: inline-block;">
-                  <p class="mb-0"><strong>{{'land.table.t4' | translate }}</strong></p>
-                  <p class="d-block">{{'land.table.d4' | translate }}</p>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-        <button class="mb-0 mt-2 btn btn-primary round btn-lg" (click)="registerToDx29V2()">{{'land.swal.button' |
-          translate }}</button>
-      </div>
-    </div>
-  </div>
-</ng-template>
-
 <ng-template #contentInfoSymptomOneDisease let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-body content-wrapper p-2 border">
     <div class="p-2">
@@ -1657,7 +1547,7 @@
         <span>
           <p [innerHTML]="'land.diagnosed.timeline.p3' | translate"></p>
         </span>
-        <div class="row reg-panel d-block d-md-none" (click)="registerToDx29()">
+        <div class="row reg-panel d-block d-md-none" (click)="registerToDx29V2Timeline()">
           <div class="row pb-2 pt-2">
             <div class="offset-1 col-2">
               <img class="w-reg-img" src='assets/img/home/reg/func1.jpg' />
@@ -1695,7 +1585,7 @@
           </span>
         </div>
       </div>
-      <div class="row reg-panel d-none d-md-block" (click)="registerToDx29()">
+      <div class="row reg-panel d-none d-md-block" (click)="registerToDx29V2Timeline()">
         <div class="col-md-12 offset-xl-1 col-xl-10">
           <div class="row">
             <div class="col-sm-6 pb-3 pt-3">
@@ -1751,5 +1641,3 @@
     </div>
   </div>
 </ng-template>
-    
-<button id="openModalRegister" [hidden]="true" (click)="registerToDx29Swal(contentToDx29V2)">.</button>

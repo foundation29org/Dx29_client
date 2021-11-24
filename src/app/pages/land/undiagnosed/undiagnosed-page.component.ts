@@ -143,9 +143,6 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     eventList: any = [];
     secondToResponse: string = '';
     reloadDiseases: boolean = false;
-    secondsInactive: number;
-    inactiveSecondsToLogout: number = 900;
-    openDiseases: number = 0;
     timeoutWait: number = 2000;
 
     formatter1 = (x: { name: string }) => x.name;
@@ -175,13 +172,6 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         //this.googleAnalyticsService.eventEmitter("OpenDx - init: "+result, "general", this.myuuid);
         //this.googleAnalyticsService.eventEmitter("OpenDx - init", "general", this.myuuid, 'init', 5);
         this._startTime = Date.now();
-        this.secondsInactive = 0;
-        this.timeSubscription = Observable.interval(1000 * this.inactiveSecondsToLogout).subscribe(() => {
-            this.secondsInactive += this.inactiveSecondsToLogout;
-            if (this.secondsInactive >= this.inactiveSecondsToLogout) {
-                this.openModarRegister('Time out');
-            }
-        });
 
         if (sessionStorage.getItem('uuid') != null) {
             this.myuuid = sessionStorage.getItem('uuid');
@@ -210,54 +200,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                 isNext = true;
             }
         } else if (this.currentStep.stepIndex == 2) {
-            var tamanoWithDate = Object.keys(this.paramsTimeLine.dictionaryTimeline).length;
-            var tamanoWithOutDate = this.paramsTimeLine.listTimelineNull.length;
-            if (tamanoWithDate == 0) {
-                Swal.fire({
-                    title: this.translate.instant("land.diagnosed.timeline.msValidationChrono3"),
-                    text: this.translate.instant("land.diagnosed.timeline.msValidationChrono2"),
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#33658a',
-                    cancelButtonColor: '#B0B6BB',
-                    confirmButtonText: this.translate.instant("generics.Yes"),
-                    cancelButtonText: this.translate.instant("generics.No"),
-                    showLoaderOnConfirm: true,
-                    allowOutsideClick: false,
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.value) {
-                        var foundElementIndex = this.searchService.searchIndex(this.steps, 'stepIndex', this.currentStep.stepIndex);
-                        this.currentStep = this.steps[foundElementIndex + 1];
-                        document.getElementById('initsteps').scrollIntoView(true);
-                    }
-                });
-            } else if (tamanoWithOutDate > 0) {
-                Swal.fire({
-                    title: this.translate.instant("land.diagnosed.timeline.msValidationChrono1", {
-                        value: tamanoWithOutDate
-                    }),
-                    text: this.translate.instant("land.diagnosed.timeline.msValidationChrono2"),
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#33658a',
-                    cancelButtonColor: '#B0B6BB',
-                    confirmButtonText: this.translate.instant("generics.Yes"),
-                    cancelButtonText: this.translate.instant("generics.No"),
-                    showLoaderOnConfirm: true,
-                    allowOutsideClick: false,
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.value) {
-                        var foundElementIndex = this.searchService.searchIndex(this.steps, 'stepIndex', this.currentStep.stepIndex);
-                        this.currentStep = this.steps[foundElementIndex + 1];
-                        document.getElementById('initsteps').scrollIntoView(true);
-                    }
-                });
-            } else {
-                isNext = true;
-            }
-
+            isNext = true;
         } else if (this.currentStep.stepIndex == 3) {
             isNext = true;
         }
@@ -327,16 +270,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             this.modalReference = undefined;
             return false;
         } else {
-            if (this.temporalSymptoms.length > 0) {
-                if (this.topRelatedConditions.length > 0) {
-                    this.openModarRegister('Back');
-                }
-                var obser = this.dialogService.confirm(this.translate.instant("land.Do you want to exit"), this.translate.instant("land.loseprogress"));
-                return obser;
-
-            } else {
-                return true;
-            }
+            return true;
         }
         //return true;
     }
@@ -1284,9 +1218,9 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             this.topRelatedConditions.push(temp[i]);
         }
 
-        if (this.topRelatedConditions.length > 16) {
+        /*if (this.topRelatedConditions.length > 16) {
             this.openModarRegister('Load More');
-        }
+        }*/
         this.totalDiseasesLeft = this.temporalDiseases.length - this.topRelatedConditions.length;
     }
 
@@ -1365,11 +1299,6 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     showMoreInfoDiseasePopup(diseaseIndex, contentInfoDisease) {
-        this.openDiseases++;
-        if (this.openDiseases >= 3) {
-            this.openModarRegister('Click disease');
-        }
-
         this.selectedInfoDiseaseIndex = diseaseIndex;
         if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded) {
             let ngbModalOptions: NgbModalOptions = {
