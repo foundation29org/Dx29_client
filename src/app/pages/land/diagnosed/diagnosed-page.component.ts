@@ -377,8 +377,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
         this.stepsTimeLine = [
             { stepIndex: 1, isComplete: false, title: this.translate.instant("land.step1")},
-            { stepIndex: 2, isComplete: false, title: this.translate.instant("land.step2")},
-            { stepIndex: 3, isComplete: false , title: this.translate.instant("land.step4")}
+            { stepIndex: 2, isComplete: false, title: this.translate.instant("land.step2")}
           ];
 
         this.currentStepTimeLine = this.stepsTimeLine[0];

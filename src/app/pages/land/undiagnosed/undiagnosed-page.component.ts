@@ -183,8 +183,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         this.steps = [
             { stepIndex: 1, isComplete: false, title: this.translate.instant("land.step1") },
             { stepIndex: 2, isComplete: false, title: this.translate.instant("land.step2") },
-            { stepIndex: 3, isComplete: false, title: this.translate.instant("land.step3") },
-            { stepIndex: 4, isComplete: false, title: this.translate.instant("land.step4") }
+            { stepIndex: 3, isComplete: false, title: this.translate.instant("land.step3") }
         ];
 
         this.currentStep = this.steps[0];

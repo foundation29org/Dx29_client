@@ -7,30 +7,10 @@
           <tbody style="width: 100%;display: inline-table;">
             <tr *ngFor="let symptom of listSymptoms ; let i = index">
               <td class="row text-left">
-                <span class="mt-1 nav-item" ngbDropdown display="dynamic" placement="bottom-right" style="position: absolute; right: 0px; z-index: 1;">
-                  <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt{{j}}"
-                    ngbDropdownToggle title="{{'generics.Options' | translate }}">
-                    <i class="fas fa-ellipsis-v font-medium-3 secondary"></i>
-                  </a>
-                  <div ngbDropdownMenu aria-labelledby="dropdownSympt{{j}}" class="dropdown">
-                    <!--<a class="dropdown-item py-1" href="javascript:;" (click)="deleteSymptomTimeLine(i)">
-                      <i class="fa fa fa-trash danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.Delete symptom' | translate }}</span>
-                    </a>-->
-                    <a *ngIf="!symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="showNotes(i)">
-                      <i class="fas fa-sticky-note success"></i><span class="ml-2 black">{{'land.diagnosed.timeline.showNotes' | translate }}</span>
-                    </a>
-                    <a *ngIf="symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="hideNotes(i)">
-                      <i class="fas fa-sticky-note danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.hideNotes' | translate }}</span>
-                    </a>
-                    <a *ngIf="symptom.onsetdate || symptom.finishdate" class="dropdown-item py-1" href="javascript:;" (click)="clearDates(i)">
-                      <i class="far fa-calendar-times danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.Delete dates' | translate }}</span>
-                    </a>
-                  </div>
-                </span>
                 <div class="col-md-12">
                   <p *ngIf="symptom.name" (click)="showMoreInfoSymptomPopup(symptom);"
-                  class="d-inline-block" style="cursor: pointer; width: 85%;">{{symptom.name}}</p>
-                  <p *ngIf="!symptom.name" class="d-inline">
+                  class="d-inline-block mb-0" style="cursor: pointer; width: 85%;">{{symptom.name}}</p>
+                  <p *ngIf="!symptom.name" class="d-inline mb-0">
                     {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                       href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
                       <i class="ft-external-link"></i></a>
@@ -53,24 +33,7 @@
                   </div>
                 </div>
                 <div class="col-lg-6 mt-1">
-                  <div class="col-md-12">
-                    <div class="row">
-                      <input class="form-control w-75 d-none" id="dateFinish_{{i}}" name="dateFinish" placeholder="{{'generics.End Date' | translate }}"
-                        [min]="symptom.onsetdate" [max]="maxDate" readonly matInput [matDatepicker]="pickerFinish" (click)="pickerFinish.open()"
-                        [(ngModel)]="symptom.finishdate" (dateInput)="updateTimeline();"
-                        [disabled]="(!symptom.checked)||(symptom.onsetdate==undefined)"
-                        (ngModelChange)="updateIsCurrentSymptom(i, symptom.finishdate);">
-                        <span class="form-control w-75 d-inline" (click)="pickerFinish.open()" style="background-color: #e9ecef;">{{symptom.finishdate | date: 'MMM y': '' : translate.currentLang}} </span>
-                      <mat-datepicker-toggle matSuffix [for]="pickerFinish"></mat-datepicker-toggle>
-                      <mat-datepicker startView="multi-year" (monthSelected)="closeDatePickerEnd($event, i, pickerFinish)" touchUi="(!symptom.checked)||(symptom.onsetdate==undefined)" #pickerFinish>
-                      </mat-datepicker>
-                      <small class="text-left form-text danger"
-                        *ngIf="symptom.invalidFinishdate">{{'land.diagnosed.timeline.errorDates' | translate}}</small>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-12 mb-2 mt-1" *ngIf="symptom.showNotes">
-                  <input type="text" id="basicInput_{{i}}" style="display: inline;width: 88%;" maxlength=250 placeholder="{{'generics.notes' | translate }}"
+                    <input type="text" id="basicInput_{{i}}" style="display: inline;width: 88%;" maxlength=250 placeholder="{{'generics.notes' | translate }}"
                     class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)"
                     (change)="updateTimeline()">
                 </div>
@@ -183,39 +146,19 @@
     <div class="mt-1" *ngIf="!modifyFormSymtoms">
       <div class="w-100" *ngFor="let symptom of listSymptoms ; let i = index">
         <div class="card bg-grey bg-lighten-3 box border mb-3" *ngIf="actualTemporalSymptomsIndex ==i">
-          <div class="card-header">
+          <div class="ml-2 mt-2">
             <strong>
-              <p *ngIf="symptom.name" class="d-inline-block" style="cursor: pointer; width: 80%;"
+              <p *ngIf="symptom.name" class="d-inline-block mb-0" style="cursor: pointer; width: 80%;"
                 (click)="showMoreInfoSymptomPopup(symptom);">{{symptom.name}}</p>
-              <p *ngIf="!symptom.name" class="d-inline-block">
+              <p *ngIf="!symptom.name" class="d-inline-block mb-0">
                 {{symptom.id}} ({{'phenotype.Deprecated' | translate}})
                 <a href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
                   <i class="ft-external-link"></i>
                 </a>
               </p>
-              <span class="nav-item float-right" ngbDropdown display="dynamic" placement="bottom-right">
-                <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt{{j}}"
-                  ngbDropdownToggle title="{{'generics.Options' | translate }}">
-                  <i class="fas fa-ellipsis-v font-medium-3 secondary"></i>
-                </a>
-                <div ngbDropdownMenu aria-labelledby="dropdownSympt{{j}}" class="dropdown">
-                  <!--<a class="dropdown-item py-1" href="javascript:;" (click)="deleteSymptomTimeLine(i)">
-                    <i class="fa fa fa-trash danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.Delete symptom' | translate }}</span>
-                  </a>-->
-                  <a *ngIf="!symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="showNotes(i)">
-                    <i class="fas fa-sticky-note success"></i><span class="ml-2 black">{{'land.diagnosed.timeline.showNotes' | translate }}</span>
-                  </a>
-                  <a *ngIf="symptom.showNotes" class="dropdown-item py-1" href="javascript:;" (click)="hideNotes(i)">
-                    <i class="fas fa-sticky-note danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.hideNotes' | translate }}</span>
-                  </a>
-                  <a *ngIf="symptom.onsetdate || symptom.finishdate" class="dropdown-item py-1" href="javascript:;" (click)="clearDates(i)">
-                    <i class="far fa-calendar-times danger"></i><span class="ml-2 black">{{'land.diagnosed.timeline.Delete dates' | translate }}</span>
-                  </a>
-                </div>
-              </span>
             </strong>
           </div>
-          <div class="center-elements mt-1">
+          <div class="ml-2 mt-1">
             <div class="" *ngIf="symptom.selectEndOrCurrent">
               <small class="text-left form-text danger">{{'land.diagnosed.timeline.selectEndOrCurrent' |
                 translate}}</small>
@@ -233,23 +176,6 @@
               </div>
             </div>
             <div class="mt-1">
-              <div class="">
-                <div class="">
-                  <input class="form-control w-75 d-none" id="dateFinish_{{i}}" name="dateFinish" placeholder="{{'generics.End Date' | translate }}"
-                        [min]="symptom.onsetdate" [max]="maxDate" readonly matInput [matDatepicker]="pickerFinish" (click)="pickerFinish.open()"
-                        [(ngModel)]="symptom.finishdate" (dateInput)="updateTimeline();"
-                        [disabled]="(!symptom.checked)||(symptom.onsetdate==undefined)"
-                        (ngModelChange)="updateIsCurrentSymptom(i, symptom.finishdate);">
-                        <input readonly class="form-control w-75 d-inline" (click)="pickerFinish.open()" style="background-color: #e9ecef;" placeholder="{{symptom.finishdate | date: 'MMM y': '' : translate.currentLang}}">
-                      <mat-datepicker-toggle matSuffix [for]="pickerFinish"></mat-datepicker-toggle>
-                      <mat-datepicker startView="multi-year" (monthSelected)="closeDatePickerEnd($event, i, pickerFinish)" touchUi="(!symptom.checked)||(symptom.onsetdate==undefined)" #pickerFinish>
-                      </mat-datepicker>
-                      <small class="text-left form-text danger"
-                        *ngIf="symptom.invalidFinishdate">{{'land.diagnosed.timeline.errorDates' | translate}}</small>
-                </div>
-              </div>
-            </div>
-            <div class="p-1 mt-1" *ngIf="symptom.showNotes">
               <input type="text" style="display: inline;width: 88%;" id="basicInput_{{i}}" maxlength=250 placeholder="{{'generics.notes' | translate }}"
                 class="form-control" [(ngModel)]="symptom.notes" [disabled]="(!symptom.checked)"
                 (change)="updateTimeline()">
