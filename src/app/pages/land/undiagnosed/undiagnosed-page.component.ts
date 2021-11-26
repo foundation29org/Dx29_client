@@ -341,9 +341,6 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         this.translate.get('land.step3').subscribe((res: string) => {
             this.steps[2].title = res;
         });
-        this.translate.get('land.step4').subscribe((res: string) => {
-            this.steps[3].title = res;
-        });
     }
 
     ngAfterViewInit() {

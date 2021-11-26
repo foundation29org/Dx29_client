@@ -364,7 +364,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
         this.eventSubscription = Observable.fromEvent(window, "scroll").subscribe(e => {
             if($('#tabspills')){
-                console.log($('#tabspills').height())
                 if($('#tabspills').height()>720){
                     this.showButtonScroll = true;
                 }else{
@@ -392,9 +391,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         });
         this.translate.get('land.step2').subscribe((res: string) => {
             this.stepsTimeLine[1].title=res;
-        });
-        this.translate.get('land.step4').subscribe((res: string) => {
-            this.stepsTimeLine[2].title=res;
         });
       }
 
@@ -1561,7 +1557,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     getParamsTimeLine(info){
-        console.log(info);
         this.paramsTimeLine = info;
     }
 
