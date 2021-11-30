@@ -489,13 +489,13 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         var res = [];
         var count = 0;
         for (var i = 0; i < xrefs.length; i++) {
-            if (xrefs[i].indexOf('ORPHA') != -1 || xrefs[i].indexOf('ORPHANET') != -1 || xrefs[i].indexOf('OMIM') != -1) {
-                if (xrefs[i].indexOf('ORPHA') != -1 || xrefs[i].indexOf('ORPHANET') != -1) {
+            if (xrefs[i].indexOf('ORPHA') != -1 || xrefs[i].indexOf('ORPHANET') != -1 || xrefs[i].indexOf('OMIM') != -1 || xrefs[i].indexOf('Orphanet') != -1) {
+                if (xrefs[i].indexOf('ORPHA') != -1 || xrefs[i].indexOf('ORPHANET') != -1 || xrefs[i].indexOf('Orphanet') != -1) {
                     count++;
                 }
                 if (count <= 1) {
                     var value = xrefs[i].split(':');
-                    if (xrefs[i].indexOf('ORPHA') != -1 || xrefs[i].indexOf('ORPHANET') != -1) {
+                    if (xrefs[i].indexOf('ORPHA') != -1 || xrefs[i].indexOf('ORPHANET') != -1 || xrefs[i].indexOf('Orphanet') != -1) {
                         res.push({ name: 'Orphanet', id: value[1] });
                     } else if (xrefs[i].indexOf('OMIM') != -1) {
                         res.push({ name: 'OMIM', id: value[1] });
