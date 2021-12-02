@@ -31,4 +31,14 @@ export class ApiExternalServices {
             return err;
         })
     }
+
+    getInfoLocation(){
+        return this.http.get('http://ipinfo.io?token=77f94ec6489670')
+        .map( (res : any) => {
+            return res;
+        }, (err) => {
+            console.log(err);
+            return err;
+        })
+    }
 }

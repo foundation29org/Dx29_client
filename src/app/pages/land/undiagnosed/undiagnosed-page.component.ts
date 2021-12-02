@@ -188,6 +188,17 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         ];
 
         this.currentStep = this.steps[0];
+
+        //this.getLocationInfo();
+    }
+
+    getLocationInfo(){
+        this.subscription.add(this.apiExternalServices.getInfoLocation()
+            .subscribe((res: any) => {
+                console.log(res);
+            }, (err) => {
+                console.log(err);
+            }));
     }
 
     goNext() {

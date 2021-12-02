@@ -255,6 +255,17 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         }
         this.currentStep = this.steps[0];
         this.focusInputDisease();
+
+        //this.getLocationInfo();
+    }
+
+    getLocationInfo(){
+        this.subscription.add(this.apiExternalServices.getInfoLocation()
+            .subscribe((res: any) => {
+                console.log(res);
+            }, (err) => {
+                console.log(err);
+            }));
     }
 
     setStep(index: number) {
