@@ -447,11 +447,17 @@
       </span>
       <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].inputType=='textAnalytics'">
         <span *ngFor="let text of temporalSymptoms[selectedInfoSymptomIndex].text ; let j = index">
-          <span *ngIf="(text.source && j== 0) && langToExtract==lang" class="mb-0">"{{text.source}}"</span>
-          <span *ngIf="!text.source && j== 0 || langToExtract!=lang" class="mb-0">"{{text.text |
+          <span *ngIf="(text.source && j== 0) && text.language!=lang" class="mb-0">"{{text.source | 
+            slice:(text.positions[0]-40):(text.positions[0]-1)}} {{text.source |
+              slice:(text.positions[0]):(text.positions[1])}} {{text.source |
+            slice:(text.positions[1]+1):(text.positions[1]+40)}}"
+
+          </span>
+          <span *ngIf="!text.source && j== 0 || text.language==lang" class="mb-0">"{{text.text |
             slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text |
               slice:(text.positions[0]):(text.positions[1])}}</b> {{text.text |
-            slice:(text.positions[1]+1):(text.positions[1]+40)}}"</span>
+            slice:(text.positions[1]+1):(text.positions[1]+40)}}"
+          </span>
         </span>
         <div class="mt-2">
           <button *ngIf="!ncrResultView" type="button" class="btn btn-info round mb-0"

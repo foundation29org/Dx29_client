@@ -659,6 +659,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                         
                     }
                 }
+                console.log(this.temporalSymptoms);
                 
                 if (countAddedSypmtoms > 0) {
                     console.log(countAddedSypmtoms);
@@ -1787,7 +1788,20 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         var text = symptom.text[0].text;
         if (this.langToExtract != 'en' || this.langDetected != 'en') {
             text = symptom.text[0].source;
-            this.resultTextNcrCopy = this.highlightSearch.transform(this.resultTextNcr, text);
+            /*text = symptom.text[0].source;
+            this.resultTextNcrCopy = this.highlightSearch.transform(this.resultTextNcr, text);*/
+            var hpo = symptom;
+            var words = [];
+            console.log(hpo);
+            for (var j = 0; j < hpo.text.length; j++) {
+                if(hpo.text[j].positions!=undefined){
+                    var value = text.substring(hpo.text[j].positions[0], hpo.text[j].positions[1]);
+                    console.log(value);
+                    words.push({ args: value })
+                }
+                
+            }
+            this.resultTextNcrCopy = this.highlightSearch.transformAll(this.resultTextNcr, words);
         } else {
             var hpo = symptom;
             var words = [];
