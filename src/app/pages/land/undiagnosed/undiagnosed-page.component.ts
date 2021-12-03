@@ -153,6 +153,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
 
     paramsTimeLine: any = {};
     loadingPdf: boolean = false;
+    resTextAnalyticsSegments = [];
 
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
 
@@ -187,6 +188,17 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         ];
 
         this.currentStep = this.steps[0];
+
+        //this.getLocationInfo();
+    }
+
+    getLocationInfo(){
+        this.subscription.add(this.apiExternalServices.getInfoLocation()
+            .subscribe((res: any) => {
+                console.log(res);
+            }, (err) => {
+                console.log(err);
+            }));
     }
 
     goNext() {
@@ -580,7 +592,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         }
     }
 
-    onSubmitToExtractor() {
+    onSubmitToExtractor2() {
         this.restartAllVars();
         this.failSegmentation = false;
         this.loadingHpoExtractor = true;
@@ -602,6 +614,105 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                 console.log(err);
                 this.failSegmentation = true;
                 this.callNoSegmentation();
+            }));
+    }
+
+    onSubmitToExtractor() {
+        this.restartAllVars();
+        this.failSegmentation = false;
+        this.loadingHpoExtractor = true;
+        this.substepExtract = '1';
+        var lang = this.lang;
+        if (this.langToExtract != '') {
+            lang = this.langToExtract;
+        }
+
+        /*var invalid = /[°"§%()\[\]{}=\\?´`'#<>|,;.’–—:+_-]+/g;
+        this.medicalText = this.medicalText.replace(invalid, " ");*/
+        var jsontestLangText = { "text": this.medicalText };
+        this.subscription.add(this.apif29BioService.callTextAnalytics(jsontestLangText)
+            .subscribe((res: any) => {
+                console.log(res);
+                this.resTextAnalyticsSegments = res[1].segments;
+                var countAddedSypmtoms = 0;
+                for (let i = 0; i < this.resTextAnalyticsSegments.length; i++) {
+                    for (let j = 0; j < this.resTextAnalyticsSegments[i].annotations.length; j++) {
+                        var foundHPO = false;
+                        if(this.resTextAnalyticsSegments[i].annotations[j].links!=null){
+                            for (let k = 0; k < this.resTextAnalyticsSegments[i].annotations[j].links.length && !foundHPO; k++) {
+                                if(this.resTextAnalyticsSegments[i].annotations[j].links[k].dataSource=='HPO'){
+                                    var text = [];
+                                    if (this.resTextAnalyticsSegments[i].source) {
+                                        text = [{ positions: [this.resTextAnalyticsSegments[i].annotations[j].offset,this.resTextAnalyticsSegments[i].annotations[j].offset+this.resTextAnalyticsSegments[i].annotations[j].length], text: this.resTextAnalyticsSegments[i].text, source: this.resTextAnalyticsSegments[i].source.text }];
+                                    } else {
+                                        text = [{ positions: [this.resTextAnalyticsSegments[i].annotations[j].offset,this.resTextAnalyticsSegments[i].annotations[j].offset+this.resTextAnalyticsSegments[i].annotations[j].length], text: this.resTextAnalyticsSegments[i].text }];
+                                    }
+                                    var symptomExtractor = { id: this.resTextAnalyticsSegments[i].annotations[j].links[k].id, name: this.resTextAnalyticsSegments[i].annotations[j].text, new: true, positions: null, text: text };
+                                    var isAdded = this.addTemporalSymptom(symptomExtractor, 'textAnalytics');
+                                    if (isAdded) {
+                                        countAddedSypmtoms++;
+                                    }
+                                    foundHPO = true;
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+                console.log(this.temporalSymptoms);
+                
+                if (countAddedSypmtoms > 0) {
+                    console.log(countAddedSypmtoms);
+                    Swal.fire('', this.translate.instant("land.diagnosed.symptoms.syptomsDetected", {
+                        value: countAddedSypmtoms
+                    }), "success");
+                }
+
+                this.resultTextNcr = this.medicalText;
+                this.resultTextNcrCopy = this.medicalText;
+                //this.sortBySimilarity();
+
+                this.medicalText = '';
+
+                //getInfo symptoms
+                var hposStrins = [];
+                this.temporalSymptoms.forEach(function (element) {
+                    hposStrins.push(element.id);
+                });
+
+                //Swal.close();
+                if (hposStrins.length == 0) {
+                    //Swal.fire(this.translate.instant("phenotype.No symptoms found"), '', "warning");
+                    //this.medicalText = '';
+                    this.substepExtract = '0';
+                    Swal.fire({
+                        title: this.translate.instant("phenotype.No symptoms found"),
+                        text: this.translate.instant("land.Do you want to add the symptoms manually"),
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#33658a',
+                        cancelButtonColor: '#B0B6BB',
+                        confirmButtonText: this.translate.instant("land.add the symptoms manually"),
+                        cancelButtonText: this.translate.instant("land.try again"),
+                        showLoaderOnConfirm: true,
+                        allowOutsideClick: false,
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            this.substepExtract = '4';
+                            this.lauchEvent("Symptoms");
+                            this.focusManualSymptoms();
+                        } else {
+                            this.focusTextArea();
+                        }
+                    });
+                } else {
+                    this.callGetInfoTempSymptomsJSON(hposStrins);
+                }
+                
+            }, (err) => {
+                console.log(err);
+                this.failSegmentation = true;
             }));
     }
 
@@ -852,10 +963,15 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             var enc = false;
             for (var z = 0; z < this.temporalSymptoms.length && !enc; z++) {
                 if (this.temporalSymptoms[z].id == symptom.id && this.temporalSymptoms[z].inputType != "manual") {
-                    if (this.temporalSymptoms[z].similarity < symptom.similarity) {
-                        this.temporalSymptoms[z].similarity = symptom.similarity;
+                    if(this.temporalSymptoms[z].inputType == "textAnalytics"){
+                        this.temporalSymptoms[z].text.push(symptom.text);
+                    }else{
+                        if (this.temporalSymptoms[z].similarity < symptom.similarity) {
+                            this.temporalSymptoms[z].similarity = symptom.similarity;
+                        }
+                        this.temporalSymptoms[z].positions.push(symptom.positions[0]);
                     }
-                    this.temporalSymptoms[z].positions.push(symptom.positions[0]);
+                    
                     enc = true;
                 }
             }
@@ -1623,10 +1739,15 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         return this.translate.instant(literal);
     }
 
-    showCompleteNcrResultView(symptom) {
+    showCompleteNcrResultView(symptom, method) {
         this.ncrResultView = !this.ncrResultView;
         if (symptom != null) {
-            this.markAllText(symptom)
+            if(method=='ncr'){
+                this.markAllText(symptom)
+            }else if(method=='textAnalytics'){
+                this.markAllTextAnalytics(symptom)
+            }
+            
         }
     }
 
@@ -1656,6 +1777,42 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             for (var j = 0; j < hpo.positions.length; j++) {
                 var value = text.substring(hpo.positions[j][0], hpo.positions[j][1]);
                 words.push({ args: value })
+            }
+            this.resultTextNcrCopy = this.highlightSearch.transformAll(this.resultTextNcr, words);
+        }
+        this.showScrollButton();
+    }
+
+    markAllTextAnalytics(symptom) {
+        this.resultTextNcrCopy = this.medicalText;
+        var text = symptom.text[0].text;
+        if (this.langToExtract != 'en' || this.langDetected != 'en') {
+            text = symptom.text[0].source;
+            /*text = symptom.text[0].source;
+            this.resultTextNcrCopy = this.highlightSearch.transform(this.resultTextNcr, text);*/
+            var hpo = symptom;
+            var words = [];
+            console.log(hpo);
+            for (var j = 0; j < hpo.text.length; j++) {
+                if(hpo.text[j].positions!=undefined){
+                    var value = text.substring(hpo.text[j].positions[0], hpo.text[j].positions[1]);
+                    console.log(value);
+                    words.push({ args: value })
+                }
+                
+            }
+            this.resultTextNcrCopy = this.highlightSearch.transformAll(this.resultTextNcr, words);
+        } else {
+            var hpo = symptom;
+            var words = [];
+            console.log(hpo);
+            for (var j = 0; j < hpo.text.length; j++) {
+                if(hpo.text[j].positions!=undefined){
+                    var value = text.substring(hpo.text[j].positions[0], hpo.text[j].positions[1]);
+                    console.log(value);
+                    words.push({ args: value })
+                }
+                
             }
             this.resultTextNcrCopy = this.highlightSearch.transformAll(this.resultTextNcr, words);
         }
