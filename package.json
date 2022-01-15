@@ -65,7 +65,7 @@
     "jspdf-autotable": "^3.5.20",
     "jwt-decode": "^2.2.0",
     "karma-coverage": "^2.0.2",
-    "marked": "^0.8.2",
+    "marked": "^4.0.10",
     "ng-apexcharts": "^1.5.12",
     "ng2-smart-table": "^1.6.0",
     "ngx-chips": "^2.1.0",
