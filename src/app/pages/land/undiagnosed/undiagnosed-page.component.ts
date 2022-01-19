@@ -154,6 +154,8 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     paramsTimeLine: any = {};
     loadingPdf: boolean = false;
     resTextAnalyticsSegments = [];
+    country: string = '';
+    sponsors = [];
 
     constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
 
@@ -189,13 +191,23 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
 
         this.currentStep = this.steps[0];
 
-        //this.getLocationInfo();
+        this.getLocationInfo();
+        this.loadSponsors();
     }
 
     getLocationInfo(){
         this.subscription.add(this.apiExternalServices.getInfoLocation()
             .subscribe((res: any) => {
-                console.log(res);
+                this.country = res.country;
+            }, (err) => {
+                console.log(err);
+            }));
+    }
+
+    loadSponsors(){
+        this.subscription.add(this.http.get('assets/jsons/sponsors.json')
+            .subscribe((res: any) => {
+                this.sponsors = res;
             }, (err) => {
                 console.log(err);
             }));
