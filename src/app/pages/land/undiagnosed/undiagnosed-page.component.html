@@ -503,6 +503,17 @@
         </span>
       </h4>
       <span class="content-sub-header text-muted">{{ topRelatedConditions[selectedInfoDiseaseIndex].id }}</span>
+      <div *ngFor="let sponsor of sponsors ; let i = index">
+        <div *ngIf="(topRelatedConditions[selectedInfoDiseaseIndex].id==sponsor.MONDO || topRelatedConditions[selectedInfoDiseaseIndex].id==sponsor.OMIM || topRelatedConditions[selectedInfoDiseaseIndex].id==sponsor.ORPHA) && country==sponsor.country" class="mt-2">
+          <span>
+            <a class="btn btn-primary round mb-1" href="{{sponsor.url}}" target="_blank" title="{{'land.Learn more about the disease here' | translate
+          }}">
+              {{'land.Learn more about the disease here' | translate
+              }} <i class="mr-2 ft-external-link"></i></a>
+              </span>
+              <span class="d-block">* {{'land.Sponsored link' | translate}}</span>
+        </div>
+      </div>
     </div>
     <button type="button" class="close" aria-label="Close" (click)="closeDiseaseUndiagnosed()">
       <span aria-hidden="true">&times;</span>
@@ -511,7 +522,6 @@
   <div class="modal-body content-wrapper p-2">
     <p *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].desc!=null">{{
       topRelatedConditions[selectedInfoDiseaseIndex].desc }}</p>
-
     <span *ngIf="topRelatedConditions[selectedInfoDiseaseIndex].id == 'MONDO:0009688'">
       <button (click)="showInfoSponsored(contentInfoSponsored);" title="MYASTHENIA GRAVIS"
         class="btn btn-info round">{{'land.Sponsor' | translate}} Miastenia Gravis (MG)</button>
