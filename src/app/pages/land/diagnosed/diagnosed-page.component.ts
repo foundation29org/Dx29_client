@@ -1695,6 +1695,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         /*var invalid = /[°"§%()\[\]{}=\\?´`'#<>|,;.’–—:+_-]+/g;
         this.medicalText = this.medicalText.replace(invalid, " ");*/
         var jsontestLangText = { "text": this.medicalText };
+        this.lauchEvent("TextAnalitycs");
         this.subscription.add(this.apif29BioService.callTextAnalytics(jsontestLangText)
             .subscribe((res: any) => {
                 this.resTextAnalyticsSegments = res[1].segments;
