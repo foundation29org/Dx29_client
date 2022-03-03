@@ -128,7 +128,7 @@
             <p>{{infoOneDisease.desc}}</p>
           </div>
           <div *ngFor="let sponsor of sponsors ; let i = index">
-            <div *ngIf="(infoOneDisease.id==sponsor.MONDO || infoOneDisease.id==sponsor.OMIM || infoOneDisease.id==sponsor.ORPHA) && country==sponsor.country">
+            <div *ngIf="(infoOneDisease.id==sponsor.MONDO || infoOneDisease.id==sponsor.OMIM || infoOneDisease.id==sponsor.ORPHA) && (country==sponsor.country || 'default' == sponsor.country)">
               <span>
                 <a class="btn btn-primary round mb-1" href="{{sponsor.url}}" target="_blank" title="{{'land.Learn more about the disease here' | translate
               }}">
