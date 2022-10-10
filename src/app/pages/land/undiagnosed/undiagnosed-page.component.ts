@@ -315,6 +315,10 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                 this.eventList.push({ name: subCategory });
                 gtag('event', this.myuuid, { "event_category": subCategory, "event_label": secs });
             }
+        }else if(category == "Sponsor"){
+            var subcate = 'Undiagnosed - Sponsor - '+this.topRelatedConditions[this.selectedInfoDiseaseIndex].id;
+            this.eventList.push({ name: subcate });
+            gtag('event', this.myuuid, { "event_category": subcate, "event_label": secs });
         }
         if (!savedEvent) {
             this.eventList.push({ name: category });
@@ -1424,7 +1428,10 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     showMoreInfoDiseasePopup(diseaseIndex, contentInfoDisease) {
+        
         this.selectedInfoDiseaseIndex = diseaseIndex;
+        var nameEvent = 'Undiagnosed - Select Disease - '+this.topRelatedConditions[this.selectedInfoDiseaseIndex].id;
+        this.lauchEvent(nameEvent);
         if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].loaded) {
             let ngbModalOptions: NgbModalOptions = {
                 backdrop: 'static',
