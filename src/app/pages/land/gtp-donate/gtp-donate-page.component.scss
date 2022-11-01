@@ -233,26 +233,26 @@
   margin-top: 5px;
 }
 
-:host /deep/ .mat-checkbox-layout{
+:host ::ng-deep .mat-checkbox-layout{
   white-space: normal;
 }
 
-:host /deep/ form label{
+:host ::ng-deep form label{
   font-size: 1rem !important;
   text-transform: none !important;
   letter-spacing: 0.3px !important;
   //color: inherit !important;
 }
 
-:host /deep/ .mat-radio-label-content{
+:host ::ng-deep .mat-radio-label-content{
   font-weight: normal !important;
 }
 
-:host /deep/ .example-radio-group > .mat-radio-button{
+:host ::ng-deep .example-radio-group > .mat-radio-button{
   font-family: "Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-:host /deep/ .mat-radio-label {
+:host ::ng-deep .mat-radio-label {
     white-space: pre-wrap;
 }
 
