@@ -336,6 +336,10 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 this.eventList.push({ name: subCategory });
                 gtag('event', this.myuuid, { "event_category": subCategory, "event_label": secs });
             }
+        }else if(category == "Sponsor"){
+            var subcate = 'Diagnosed - Sponsor - '+this.actualInfoOneDisease.id;
+            this.eventList.push({ name: subcate });
+            gtag('event', this.myuuid, { "event_category": subcate, "event_label": secs });
         }
         if (!savedEvent) {
             this.eventList.push({ name: category });
