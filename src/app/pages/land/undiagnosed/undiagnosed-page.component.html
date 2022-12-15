@@ -3,11 +3,17 @@
   <div class="mt-2 row m-0">
     <div class="col-12">
           <div class="card-body">
-            <ngb-alert type="warning" class="mb-2" [dismissible]="false" *ngIf="lang=='es'">
+            <ngb-alert type="warning" class="mb-2" [dismissible]="false">
+              <div class="center-elements">
+                <span>{{'login.dxgpttitle' | translate }}</span>
+                <a href="https://dxgpt.app/" target="_blank" class="ml-2 btn btn-info mb-0">{{'login.dxgptbuttom' | translate }}</a>
+              </div>
+            </ngb-alert>
+            <!--<ngb-alert type="warning" class="mb-2" [dismissible]="false" *ngIf="lang=='es'">
               <div class="center-elements">
                 <span [innerHTML]="'InfoSystem.Spanishtranslations2' | translate"></span>
               </div>
-            </ngb-alert>
+            </ngb-alert>-->
             <div class="row m-0">
               <div class="col-lg-12 justify-content-center align-items-center text-center">
                 <span class="d-block text-left">
