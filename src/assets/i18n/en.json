@@ -60,7 +60,7 @@
     "The account is not activated": "The account is not activated. Click on 'Activate account' in the verification email.",
     "The account is blocked by an administrator": "The account is blocked by an administrator.",
     "Go to the new version": "Go to the new version",
-    "dxgpttitle": "Try our latest research experiment using artificial intelligence",
+    "dxgpttitle": "Try our latest experiment based on OpenAI's GPT-3 model",
     "dxgptbuttom": "Go to DxGPT for diagnosis",
     "This version is deprecated and will stop working": "This version is deprecated and will stop working"
   },
