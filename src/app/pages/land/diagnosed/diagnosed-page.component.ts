@@ -334,16 +334,16 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             var savedSubEvent = this.searchService.search(this.eventList, 'name', subCategory);
             if (!savedSubEvent) {
                 this.eventList.push({ name: subCategory });
-                gtag('event', this.myuuid, { "event_category": subCategory, "event_label": secs });
+                gtag('event', subCategory, { 'myuuid': sessionStorage.getItem('uuid'), 'event_label': secs });
             }
         }else if(category == "Sponsor"){
             var subcate = 'Diagnosed - Sponsor - '+this.actualInfoOneDisease.id;
             this.eventList.push({ name: subcate });
-            gtag('event', this.myuuid, { "event_category": subcate, "event_label": secs });
+            gtag('event', subcate, { 'myuuid': sessionStorage.getItem('uuid'), 'event_label': secs });
         }
         if (!savedEvent) {
             this.eventList.push({ name: category });
-            gtag('event', this.myuuid, { "event_category": category, "event_label": secs });
+            gtag('event', category, { 'myuuid': sessionStorage.getItem('uuid'), 'event_label': secs });
         }
     }
 
