@@ -14,6 +14,8 @@ import { ConfigService } from "app/shared/services/config.service";
 import { DOCUMENT } from "@angular/common";
 import { LayoutService } from "app/shared/services/layout.service";
 import { Subscription } from "rxjs";
+import { v4 as uuidv4 } from 'uuid';
+declare let gtag: any;
 
 var fireRefreshEventOnWindow = function() {
   var evt = document.createEvent("HTMLEvents");
@@ -45,10 +47,12 @@ export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy
   bgImage = "assets/img/sidebar-bg/01.jpg";
   isGTPPage: boolean = false;
   isHomePage: boolean = false;
+  _startTime: any;
 
   public config: any = {};
 
   isIeOrEdge = (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) || /Edge/.test(navigator.userAgent);
+  myuuid: string = uuidv4();
 
   constructor(
     private elementRef: ElementRef,
@@ -291,5 +295,17 @@ export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy
       this.hideSidebar = $event;
     }, 0);
   }
+
+  lauchEvent(category) {
+    //traquear
+    var secs = this.getElapsedSeconds();
+    gtag('event', category, { 'myuuid': this.myuuid, 'event_label': secs });
+  }
+
+  getElapsedSeconds() {
+    var endDate = Date.now();
+    var seconds = (endDate - this._startTime) / 1000;
+    return seconds;
+  };
 
 }
