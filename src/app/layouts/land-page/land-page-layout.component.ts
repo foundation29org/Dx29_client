@@ -62,6 +62,7 @@ export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy
     private renderer: Renderer2,
     private router: Router
   ) {
+    sessionStorage.setItem('uuid', this.myuuid);
     if ((this.router.url).indexOf('/.') != -1 || (this.router.url)== '/') {
       this.isHomePage = true;
       this.isGTPPage = false;
