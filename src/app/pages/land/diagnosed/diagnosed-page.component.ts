@@ -831,6 +831,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                         }));
                 } else {
                     this.infoOneDisease = info;
+                    this.actualInfoOneDisease.name = this.infoOneDisease.name.split('.')[0];
                     this.cleanxrefs();
                     this.infoOneDisease.symptoms = [];
                     var tamano = Object.keys(info.phenotypes).length;
