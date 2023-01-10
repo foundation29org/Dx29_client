@@ -89,11 +89,11 @@
   </div>
   <div class="col-12 none-laterals-m" *ngIf="!loadingOneDisease">
     <div class="card-body">
-      <ngb-alert type="warning" class="mb-2" [dismissible]="false" *ngIf="lang=='es'">
+      <!--<ngb-alert type="warning" class="mb-2" [dismissible]="false" *ngIf="lang=='es'">
         <div class="center-elements">
           <span [innerHTML]="'InfoSystem.Spanishtranslations2' | translate"></span>
         </div>
-      </ngb-alert>
+      </ngb-alert>-->
       <div class="row m-0">
         <div class="mt-2 col-lg-12 justify-content-center align-items-center text-center">
           <span class="d-block text-left">
@@ -101,7 +101,7 @@
               <ins class="ml-1">{{'generics.Back' | translate }}</ins></a>
           </span>
           <h1 class="card-title mb-0 text-bold-500 d-block">
-            <span>{{actualInfoOneDisease.name}}</span>
+            <span>{{actualInfoOneDisease.name}}</span> <em class="ml-2 info fas fa-share font-medium-3 pointer" (click)="shareUrl()"></em>
             <hr class="hr-custom">
           </h1>
           <span class="content-sub-header text-muted" *ngIf="infoOneDisease.xrefs==undefined">{{ infoOneDisease.id

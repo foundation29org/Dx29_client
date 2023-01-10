@@ -260,6 +260,26 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
         this.getLocationInfo();
         this.loadSponsors();
+
+        this.testParams();
+    }
+
+    testParams(){
+
+        var param = this.router.parseUrl(this.router.url).queryParams;
+        if (param.id && param.name) {
+            this.actualInfoOneDisease.id = param.id;
+            this.actualInfoOneDisease.name = param.name;
+            this.loadingOneDisease = true;
+            this.getInfoOneDisease();
+        }
+
+        
+    }
+
+    shareUrl(){
+        this.clipboard.copy(environment.api+this.router.url.split('?')[0] +'?id='+this.actualInfoOneDisease.id+'&name='+this.actualInfoOneDisease.name);
+        this.toastr.success(this.translate.instant('land.URL copied to clipboard'));
     }
 
     getLocationInfo(){
@@ -386,6 +406,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 this.currentStep = this.steps[0];
                 this.focusInputDisease();
                 this.currentStepTimeLine = this.stepsTimeLine[0];
+                this.testParams();
             }
             
         }.bind(this));
