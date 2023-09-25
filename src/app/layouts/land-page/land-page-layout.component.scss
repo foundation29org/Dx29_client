@@ -17,7 +17,15 @@
   display: flow-root;
 }
 
-@media ( max-width: 545px ){
+.images-tools{
+  max-width: 90px;
+  float: right;
+}
+
+@media ( max-width: 576px ){
+  .images-tools{
+    float: left;
+  }
 
   .container-fluid{
     padding-right: 0px !important;

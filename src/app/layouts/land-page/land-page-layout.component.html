@@ -30,10 +30,42 @@
           <div class="">
             <div class="">
               <ngb-alert type="warning" class="mb-0" [dismissible]="false">
-                <div class="center-elements" (click)="lauchEvent('dxgpt');">
-                  <span>{{'login.dxgpttitle' | translate }}</span>
-                  <a href="https://dxgpt.app/" target="_blank" class="ml-2 btn btn-info mb-0">{{'login.dxgptbuttom' | translate }}</a>
+
+                <div class="row pt-3 pb-3">
+                  <div class="col-md-12">
+                    <div class="center-elements" >
+                      <h1 class="card-title text-bold-500">{{'login.Test our new tools' | translate }}</h1>
+                      <hr class="hr-custom" style="background-color: #f9423a !important;">
+                    </div>
+                    
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <div class="row">
+                      <div class="col-sm-3 pr-0 mt-2 center-elements">
+                        <img src="assets/img/home/logo-Dx29.png" class="images-tools">
+                      </div>
+                      <div class="col-sm-9">
+                        <h4 class="mt-2 text-bold-500">{{'login.dxgpttitle' | translate }}</h4>
+                        <p>{{'login.dxgpttext' | translate }}</p>
+                        <a href="https://dxgpt.app" target="_blank" title="{{'login.dxgptbuttom' | translate }}" class="btn btn-primary mb-0" (click)="lauchEvent('dxgpt');">{{'login.dxgptbuttom' | translate }}</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <div class="row">
+                      <div class="col-sm-3 pr-0 mt-2 center-elements">
+                        <img src="assets/img/home/logo-lg-white.png" class="images-tools">
+                      </div>
+                      <div class="col-sm-9">
+                        <h4 class="mt-2 text-bold-500">{{'login.nav29title' | translate }}</h4>
+                        <p>{{'login.nav29text' | translate }}</p>
+                        <a href="https://nav29.org" target="_blank" title="{{'login.nav29buttom' | translate }}" class="btn btn-primary mb-0" (click)="lauchEvent('nav29');">{{'login.nav29buttom' | translate }}</a>
+                      </div>
+                    </div>
+                    
+                  </div>
                 </div>
+                
               </ngb-alert>
             </div>
               <!--<ngb-alert type="warning" class="mt-4" [dismissible]="false" *ngIf="isIeOrEdge">
