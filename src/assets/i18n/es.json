@@ -60,8 +60,12 @@
     "The account is not activated": "La cuenta no está activada. Haga clic en 'Activar cuenta' en el correo electrónico de verificación.",
     "The account is blocked by an administrator": "La cuenta está bloqueada por un administrador.",
     "Go to the new version": "Ir a la nueva versión",
-    "dxgpttitle": "Prueba nuestro último experimento basado en el modelo GPT-3 de OpenAI",
+    "Test our new tools": "Prueba nuestras nuevas herramientas",
+    "dxgpttitle": "Ayuda al diagnóstico based on artificial intelligence",
+    "dxgpttext": "Introduce una breve descripción del paciente y DxGPT te proporcionará una lista de posibles diagnósticos.",
     "dxgptbuttom": "Ir a DxGPT para diagnóstico",
+    "nav29title": "Si los sistemas de salud fueran buenos no necesitarías esto",
+    "nav29text": "Pruebe el asistente médico mas avanzado hasta ahora!",
     "nav29buttom": "Ir a nav29",
     "This version is deprecated and will stop working": "Esta versión está obsoleta y dejará de funcionar"
   },
