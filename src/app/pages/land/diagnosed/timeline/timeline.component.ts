@@ -3,7 +3,6 @@ import Swal from 'sweetalert2';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { DateAdapter } from '@angular/material/core';
-import { DatePipe } from '@angular/common';
 
 import { LocalizedDatePipe } from 'app/shared/services/localizedDatePipe.service';
 import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.service';
@@ -14,15 +13,6 @@ import { HostListener } from "@angular/core";
 
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
-
-var $primary = "#975AFF",
-    $success = "#40C057",
-    $info = "#2F8BE6",
-    $warning = "#F77E17",
-    $danger = "#F55252",
-    $label_color_light = "#E6EAEE";
-
-var themeColors = [$primary, $warning, $success, $danger, $info];
 
 export function getCulture() {
     return sessionStorage.getItem('culture');
@@ -74,7 +64,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
         "diciembre": "December"
     };
 
-    constructor(public translate: TranslateService, public toastr: ToastrService, public googleAnalyticsService: GoogleAnalyticsService, public jsPDFService: jsPDFService, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe, private localizedDatePipe: LocalizedDatePipe, private searchService: SearchService) {
+    constructor(public translate: TranslateService, public toastr: ToastrService, public googleAnalyticsService: GoogleAnalyticsService, public jsPDFService: jsPDFService, private dateAdapter: DateAdapter<Date>, private localizedDatePipe: LocalizedDatePipe, private searchService: SearchService) {
         this.modifyFormSymtoms = false;
         this.showTimeLine = false;
         this.actualTemporalSymptomsIndex = 0;
@@ -248,7 +238,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
         this.listTimelineNull = []
         this.symptomsWithoutDates = 0;
         for (var i = 0; i < this.listSymptoms.length; i++) {
-            if ((this.listSymptoms[i].onsetdate == NaN) || (this.listSymptoms[i].onsetdate == undefined)) {
+            if (this.listSymptoms[i].onsetdate == undefined) {
                 this.listSymptoms[i].onsetdate = null;
                 this.symptomsWithoutDates++
             }
@@ -256,7 +246,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
                 this.listSymptoms[i].onsetdate = null
                 this.symptomsWithoutDates++
             }
-            if ((this.listSymptoms[i].finishdate == NaN) || (this.listSymptoms[i].finishdate == undefined)) {
+            if (this.listSymptoms[i].finishdate == undefined) {
                 this.listSymptoms[i].finishdate = null;
                 this.listSymptoms[i].isCurrentSymptom == true;
             }

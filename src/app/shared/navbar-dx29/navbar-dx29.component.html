@@ -9,8 +9,8 @@
           <span class="icon-bar"></span>
       </button>
           <span class="ml-2 navbar-header-logos">
-            <img *ngIf="isHomePage" class="logo-img" src='assets/img/logo-Dx29.png' (click)="lauchEvent('Logo');"/>
-            <img *ngIf="!isHomePage" class="logo-img" src='assets/img/logo-Dx29.png' routerLink="/." (click)="lauchEvent('Logo');" style="cursor: pointer;"/>
+            <img *ngIf="isHomePage" class="logo-img" alt="logo dx" src='assets/img/logo-Dx29.png' (click)="lauchEvent('Logo');"/>
+            <img *ngIf="!isHomePage" class="logo-img" alt="logo dx" src='assets/img/logo-Dx29.png' routerLink="/." (click)="lauchEvent('Logo');" style="cursor: pointer;"/>
             
           </span>
 
@@ -45,12 +45,12 @@
             <div  id="navbarSupportedContent">
                 <ul class="navbar-nav m-r-0">
                   <li class="nav-item mr-2" *ngIf="isGTPPage && !isDonaPage">
-                      <button class="btn btn-primary mr-1 round mb-0 btn-navbar" routerLink="/juntoshaciaeldiagnostico/donar">
+                      <button class="btn btn-primary mr-1 round mb-0 btn-navbar" alt="juntoshaciaeldiagnostico" routerLink="/juntoshaciaeldiagnostico/donar">
                         <span>{{'homedx.Donate' | translate }}</span>
                       </button>
                   </li>
                     <li class="nav-item mr-2 d-none d-sm-inline" ngbDropdown display="dynamic" placement="bottom-right">
-                        <a class="position-relative colorlink" id="dropdownLang" ngbDropdownToggle>
+                        <a class="position-relative colorlink" id="dropdownLang" ngbDropdownToggle role="button">
                             <u>{{currentLang}}</u>
                         </a>
                         <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
@@ -60,16 +60,16 @@
                         </div>
                     </li>
                     <li class="nav-item mr-2" *ngIf="!isGTPPage">
-                      <a class="btn btn-info round mb-0 btn-navbar" href="https://app.dx29.ai/Identity/Account/Login">{{'login.Login' | translate }}</a>
+                      <a class="btn btn-info round mb-0 btn-navbar" alt="login dx" href="https://app.dx29.ai/Identity/Account/Login">{{'login.Login' | translate }}</a>
                     </li>
                     <li class="nav-item" *ngIf="!isGTPPage">
-                      <a class="btn btn-primary round mb-0 btn-navbar" (click)="registerToDx29V2()">{{'login.Create User' | translate }}</a>
+                      <a class="btn btn-primary round mb-0 btn-navbar" alt="register dx" href="javascript:;" (click)="registerToDx29V2()">{{'login.Create User' | translate }}</a>
                     </li>
                     <li class="nav-item ml-2 d-inline d-sm-none" ngbDropdown display="dynamic" placement="bottom-right">
-                      <a class="position-relative colorlink" id="dropdownLang" ngbDropdownToggle>
+                      <a class="position-relative colorlink" id="dropdownLang2" ngbDropdownToggle role="button">
                           <u>{{currentLang}}</u>
                       </a>
-                      <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
+                      <div ngbDropdownMenu aria-labelledby="dropdownLang2" class="dropdownLang2">
                           <a *ngFor="let lang of langs" class="dropdown-item py-1 lang" href="javascript:;" (click)="ChangeLanguage(lang.code)">
                               <span>{{lang.name}}</span>
                           </a>

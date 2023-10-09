@@ -36,9 +36,6 @@ import { EventsService } from 'app/shared/services/events.service';
 import { DialogService } from 'app/shared/services/dialog.service';
 import { Data } from 'app/shared/services/data.service';
 import { environment } from 'environments/environment';
-
-import { Angulartics2Module } from 'angulartics2';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { NgxHotjarModule } from 'ngx-hotjar';
 import {GoogleAnalyticsService} from './shared/services/google-analytics.service';
 
@@ -69,7 +66,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
           deps: [HttpClient]
         }
       }),
-      Angulartics2Module.forRoot(),
       PerfectScrollbarModule,
       NgxHotjarModule.forRoot(environment.hotjarSiteId)
     ],

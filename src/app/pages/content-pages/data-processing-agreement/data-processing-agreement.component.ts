@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-data-processing-agreement',
@@ -9,16 +8,13 @@ import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
     styleUrls: ['./data-processing-agreement.component.scss']
 })
 
-export class DataProcessingAgreementComponent implements OnInit{
+export class DataProcessingAgreementComponent{
   showSecurity: boolean = false;
-  constructor(public activeModal: NgbActiveModal, public translate: TranslateService, private modalService: NgbModal) {
+  constructor(public activeModal: NgbActiveModal, public translate: TranslateService) {
     setTimeout(function () {
         this.goTo('initpos');
     }.bind(this), 500);
 
-  }
-
-  ngOnInit() {
   }
 
   goTo(url){

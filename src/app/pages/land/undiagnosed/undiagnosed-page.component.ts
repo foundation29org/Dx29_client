@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, Injectable } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 import { environment } from 'environments/environment';
 import { Subscription } from 'rxjs/Subscription';
 import { EventsService } from 'app/shared/services/events.service';
@@ -24,22 +23,10 @@ import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.ser
 import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
 import { DialogService } from 'app/shared/services/dialog.service';
 import { jsPDFService } from 'app/shared/services/jsPDF.service'
-
-//import { Observable } from 'rxjs/Observable';
 import { Observable, of, OperatorFunction } from 'rxjs';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
-import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
-import { KeyValue } from '@angular/common';
-
-
-var $primary = "#975AFF",
-    $success = "#40C057",
-    $info = "#2F8BE6",
-    $warning = "#F77E17",
-    $danger = "#F55252",
-    $label_color_light = "#E6EAEE";
-var themeColors = [$primary, $warning, $success, $danger, $info];
+import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap } from 'rxjs/operators'
 
 declare var JSZipUtils: any;
 declare var Docxgen: any;
@@ -157,7 +144,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     country: string = '';
     sponsors = [];
 
-    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
+    constructor(private router: Router, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
 
 
         this.lang = sessionStorage.getItem('lang');
@@ -638,10 +625,6 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         this.failSegmentation = false;
         this.loadingHpoExtractor = true;
         this.substepExtract = '1';
-        var lang = this.lang;
-        if (this.langToExtract != '') {
-            lang = this.langToExtract;
-        }
 
         /*var invalid = /[°"§%()\[\]{}=\\?´`'#<>|,;.’–—:+_-]+/g;
         this.medicalText = this.medicalText.replace(invalid, " ");*/
@@ -1030,11 +1013,9 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
 
     deleteSymptom(symptom, index2) {
         var index = -1;
-        var found = false;
         for (var i = 0; i < this.temporalSymptoms.length; i++) {
             if (symptom.id == this.temporalSymptoms[i].id) {
                 index = i;
-                found = true;
                 this.confirmDeletePhenotype2(index, index2);
             }
         }
@@ -1456,11 +1437,9 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
 
     deleteDisease(disease, index2) {
         var index = -1;
-        var found = false;
         for (var i = 0; i < this.topRelatedConditions.length; i++) {
             if (disease.id == this.topRelatedConditions[i].id) {
                 index = i;
-                found = true;
                 this.confirmDeleteDisease(index, index2);
             }
         }
@@ -1550,7 +1529,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
                                     // Search realted Symptom
                                     for (var z = 0; z < this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms.length; z++) {
                                         if (this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[z].id == this.topRelatedConditions[this.selectedInfoDiseaseIndex].Symptoms[j].RelatedId) {
-                                            var Name = this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[z].name;
+                                            var name = this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[z].name;
                                             this.topRelatedConditions[this.selectedInfoDiseaseIndex].symptoms[j].relatedName = name;
                                         }
                                     }
