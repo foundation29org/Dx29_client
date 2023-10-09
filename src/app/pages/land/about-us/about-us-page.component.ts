@@ -8,7 +8,6 @@ import { SearchService } from 'app/shared/services/search.service';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
-import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.service';
 
 declare let gtag: any;
 
@@ -30,7 +29,7 @@ export class AboutUsPageComponent implements OnDestroy {
     sending: boolean = false;
     @ViewChild('f') donorDataForm: NgForm;
 
-    constructor( public googleAnalyticsService: GoogleAnalyticsService, private searchService: SearchService, public translate: TranslateService, private http: HttpClient, public toastr: ToastrService) {
+    constructor( private searchService: SearchService, public translate: TranslateService, private http: HttpClient, public toastr: ToastrService) {
         this._startTime = Date.now();
         if(sessionStorage.getItem('uuid')!=null){
             this.myuuid = sessionStorage.getItem('uuid');

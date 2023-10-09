@@ -19,7 +19,6 @@ import { SortService } from 'app/shared/services/sort.service';
 import { SearchService } from 'app/shared/services/search.service';
 import { Clipboard } from "@angular/cdk/clipboard"
 import { v4 as uuidv4 } from 'uuid';
-import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.service';
 import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
 import { DialogService  } from 'app/shared/services/dialog.service';
 import {jsPDFService} from 'app/shared/services/jsPDF.service';
@@ -28,28 +27,6 @@ import {Observable, of, OperatorFunction} from 'rxjs';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap} from 'rxjs/operators'
-import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexYAxis, ApexGrid, ApexDataLabels, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexLegend, ApexPlotOptions, ApexFill, ApexMarkers, ApexTheme, ApexNonAxisChartSeries, ApexResponsive } from "ng-apexcharts";
-
-
-export type ChartOptions = {
-    series: ApexAxisChartSeries | ApexNonAxisChartSeries;
-    colors: string[],
-    chart: ApexChart;
-    xaxis: ApexXAxis;
-    yaxis: ApexYAxis | ApexYAxis[],
-    title: ApexTitleSubtitle;
-    dataLabels: ApexDataLabels,
-    stroke: ApexStroke,
-    grid: ApexGrid,
-    legend?: ApexLegend,
-    tooltip?: ApexTooltip,
-    plotOptions?: ApexPlotOptions,
-    labels?: string[],
-    fill: ApexFill,
-    markers?: ApexMarkers,
-    theme: ApexTheme,
-    responsive: ApexResponsive[]
-};
 
 declare var JSZipUtils: any;
 declare var Docxgen: any;
@@ -129,8 +106,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     showButtonScroll: boolean = false;
     failAnnotate_batch: boolean = false;
     failSegmentation: boolean = false;
-    lineChartIdealOptions: Partial<ChartOptions>;
-    lineChartRuidoOptions: Partial<ChartOptions>;
     lucky: boolean = false;
     showErrorMsg: boolean = false;
     modelTemp: any;
@@ -214,7 +189,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     country: string = '';
     sponsors = [];
 
-    constructor(private router: Router, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
+    constructor(private router: Router, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
         
         this.lang = sessionStorage.getItem('lang');
 
@@ -232,9 +207,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         this.donnorSet = false;
 
         this.loadFilesLang();
-
-        //this.googleAnalyticsService.eventEmitter("OpenDx - init: "+result, "general", this.myuuid);
-        //this.googleAnalyticsService.eventEmitter("OpenDx - init", "general", this.myuuid, 'init', 5);
         this._startTime = Date.now();
           
         if(sessionStorage.getItem('uuid')!=null){

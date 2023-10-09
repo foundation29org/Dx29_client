@@ -6,6 +6,9 @@ import { LandPageLayoutComponent } from "./layouts/land-page/land-page-layout.co
 
 import { CONTENT_ROUTES } from "./shared/routes/content-layout.routes";
 
+
+import { Home_Pages_ROUTES } from "./shared/routes/home-page-layout.routes"
+
 import { Land_Pages_ROUTES } from "./shared/routes/land-page-layout.routes"
 
 import { CanDeactivateGuard } from './shared/auth/can-deactivate-guard.service';
@@ -16,6 +19,7 @@ const appRoutes: Routes = [
     redirectTo: '.',
     pathMatch: 'full',
   },
+  { path: '', component: LandPageLayoutComponent, data: { title: 'Home Page' }, children: Home_Pages_ROUTES },
   { path: '', component: LandPageLayoutComponent, data: { title: 'Land Page' }, children: Land_Pages_ROUTES },
   { path: '', component: ContentLayoutComponent, data: { title: 'content Views' }, children: CONTENT_ROUTES },
   { path: '**', redirectTo: '.'}

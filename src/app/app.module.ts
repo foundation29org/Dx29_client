@@ -37,7 +37,6 @@ import { DialogService } from 'app/shared/services/dialog.service';
 import { Data } from 'app/shared/services/data.service';
 import { environment } from 'environments/environment';
 import { NgxHotjarModule } from 'ngx-hotjar';
-import {GoogleAnalyticsService} from './shared/services/google-analytics.service';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true,
@@ -91,8 +90,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         provide: PERFECT_SCROLLBAR_CONFIG,
         useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
       },
-      { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
-      GoogleAnalyticsService
+      { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG }
     ],
     bootstrap: [AppComponent]
   })

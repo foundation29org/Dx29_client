@@ -19,7 +19,6 @@ import { SearchService } from 'app/shared/services/search.service';
 import { HighlightSearch } from 'app/shared/services/search-filter-highlight.service';
 import { Clipboard } from "@angular/cdk/clipboard"
 import { v4 as uuidv4 } from 'uuid';
-import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.service';
 import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
 import { DialogService } from 'app/shared/services/dialog.service';
 import { jsPDFService } from 'app/shared/services/jsPDF.service'
@@ -144,7 +143,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     country: string = '';
     sponsors = [];
 
-    constructor(private router: Router, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
+    constructor(private router: Router, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
 
 
         this.lang = sessionStorage.getItem('lang');
@@ -158,9 +157,6 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         $.getScript("./assets/js/docs/docxtemplater.v2.1.5.js").done(function (script, textStatus) {
             //console.log("finished loading and running docxtemplater.js. with a status of" + textStatus);
         });
-
-        //this.googleAnalyticsService.eventEmitter("OpenDx - init: "+result, "general", this.myuuid);
-        //this.googleAnalyticsService.eventEmitter("OpenDx - init", "general", this.myuuid, 'init', 5);
         this._startTime = Date.now();
 
         if (sessionStorage.getItem('uuid') != null) {
@@ -1875,16 +1871,6 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             windowClass: 'ModalClass-lg'// xl, lg, sm
         };
         this.modalReference = this.modalService.open(contentInfoSponsored, ngbModalOptions);
-    }
-
-    showInfoDx29(contentInfoDx29) {
-        this.lauchEvent("ShowInfoDx29");
-        let ngbModalOptions: NgbModalOptions = {
-            backdrop: 'static',
-            keyboard: false,
-            windowClass: 'ModalClass-sm'// xl, lg, sm
-        };
-        this.modalReference = this.modalService.open(contentInfoDx29, ngbModalOptions);
     }
 
     onFileDropped(event) {
