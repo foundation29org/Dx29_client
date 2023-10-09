@@ -761,63 +761,6 @@
   </div>
 </ng-template>
 
-<ng-template #contentInfoDx29 let-c="close" let-d="dismiss" appendTo="body">
-  <div class="modal-header" id="idHeader">
-    <div class="content-header text-left">
-      <h4>{{'land.InfoDx29.title' | translate }}</h4>
-    </div>
-    <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body content-wrapper p-2">
-    <p>
-      {{'land.InfoDx29.p1' | translate }}
-    </p>
-    <p>
-      {{'land.InfoDx29.p3' | translate }}
-    </p>
-    <ol>
-      <li [innerHTML]="'land.InfoDx29.p5' | translate"></li>
-      <li>{{'land.InfoDx29.p8' | translate }}</li>
-      <li>{{'land.InfoDx29.p9' | translate }}</li>
-    </ol>
-    <p><strong>{{'land.InfoDx29.Ideal patients' | translate }}</strong></p>
-    <p>
-      {{'land.InfoDx29.p11' | translate }}
-    </p>
-    <div class="mb-4">
-      <apx-chart [series]="lineChartIdealOptions.series" [colors]="lineChartIdealOptions.colors"
-        [chart]="lineChartIdealOptions.chart" [xaxis]="lineChartIdealOptions.xaxis"
-        [yaxis]="lineChartIdealOptions.yaxis" [title]="lineChartIdealOptions.title"
-        [dataLabels]="lineChartIdealOptions.dataLabels" [stroke]="lineChartIdealOptions.stroke"
-        [grid]="lineChartIdealOptions.grid" [tooltip]="lineChartIdealOptions.tooltip"
-        [plotOptions]="lineChartIdealOptions.plotOptions" [fill]="lineChartIdealOptions.fill"
-        [legend]="lineChartIdealOptions.legend" [labels]="lineChartIdealOptions.labels"
-        [markers]="lineChartIdealOptions.markers" [theme]="lineChartIdealOptions.theme"
-        [responsive]="lineChartIdealOptions.responsive"></apx-chart>
-    </div>
-    <p><strong>{{'land.InfoDx29.Inaccurate patients' | translate }}</strong></p>
-    <p>
-      {{'land.InfoDx29.p12' | translate }}
-    </p>
-    <div class="mb-4">
-      <apx-chart [series]="lineChartRuidoOptions.series" [colors]="lineChartRuidoOptions.colors"
-        [chart]="lineChartRuidoOptions.chart" [xaxis]="lineChartRuidoOptions.xaxis"
-        [yaxis]="lineChartRuidoOptions.yaxis" [title]="lineChartRuidoOptions.title"
-        [dataLabels]="lineChartRuidoOptions.dataLabels" [stroke]="lineChartRuidoOptions.stroke"
-        [grid]="lineChartRuidoOptions.grid" [tooltip]="lineChartRuidoOptions.tooltip"
-        [plotOptions]="lineChartRuidoOptions.plotOptions" [fill]="lineChartRuidoOptions.fill"
-        [legend]="lineChartRuidoOptions.legend" [labels]="lineChartRuidoOptions.labels"
-        [markers]="lineChartRuidoOptions.markers" [theme]="lineChartRuidoOptions.theme"
-        [responsive]="lineChartRuidoOptions.responsive"></apx-chart>
-    </div>
-    <p>
-      {{'land.InfoDx29.p13' | translate }}
-    </p>
-  </div>
-</ng-template>
-
 <ng-template #contentToDx29V2 let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-body content-wrapper p-2 center-elements mb-3">
     <div class="p-2">

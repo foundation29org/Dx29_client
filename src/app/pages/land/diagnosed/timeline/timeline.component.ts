@@ -5,7 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { DateAdapter } from '@angular/material/core';
 
 import { LocalizedDatePipe } from 'app/shared/services/localizedDatePipe.service';
-import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.service';
 import { SearchService } from 'app/shared/services/search.service';
 
 import { jsPDFService } from 'app/shared/services/jsPDF.service';
@@ -64,7 +63,7 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterContentChecked
         "diciembre": "December"
     };
 
-    constructor(public translate: TranslateService, public toastr: ToastrService, public googleAnalyticsService: GoogleAnalyticsService, public jsPDFService: jsPDFService, private dateAdapter: DateAdapter<Date>, private localizedDatePipe: LocalizedDatePipe, private searchService: SearchService) {
+    constructor(public translate: TranslateService, public toastr: ToastrService, public jsPDFService: jsPDFService, private dateAdapter: DateAdapter<Date>, private localizedDatePipe: LocalizedDatePipe, private searchService: SearchService) {
         this.modifyFormSymtoms = false;
         this.showTimeLine = false;
         this.actualTemporalSymptomsIndex = 0;
