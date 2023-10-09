@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, Injectable  } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 import { environment } from 'environments/environment';
 import { Subscription } from 'rxjs/Subscription';
 import { EventsService } from 'app/shared/services/events.service';
@@ -17,7 +17,6 @@ import { ApiExternalServices } from 'app/shared/services/api-external.service';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import { SortService } from 'app/shared/services/sort.service';
 import { SearchService } from 'app/shared/services/search.service';
-import { HighlightSearch } from 'app/shared/services/search-filter-highlight.service';
 import { Clipboard } from "@angular/cdk/clipboard"
 import { v4 as uuidv4 } from 'uuid';
 import { GoogleAnalyticsService } from 'app/shared/services/google-analytics.service';
@@ -25,14 +24,11 @@ import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
 import { DialogService  } from 'app/shared/services/dialog.service';
 import {jsPDFService} from 'app/shared/services/jsPDF.service';
 import {NgbTabset} from "@ng-bootstrap/ng-bootstrap";
-
-//import { Observable } from 'rxjs/Observable';
 import {Observable, of, OperatorFunction} from 'rxjs';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
-import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
+import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap} from 'rxjs/operators'
 import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexYAxis, ApexGrid, ApexDataLabels, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexLegend, ApexPlotOptions, ApexFill, ApexMarkers, ApexTheme, ApexNonAxisChartSeries, ApexResponsive } from "ng-apexcharts";
-import { KeyValue } from '@angular/common';
 
 
 export type ChartOptions = {
@@ -54,14 +50,6 @@ export type ChartOptions = {
     theme: ApexTheme,
     responsive: ApexResponsive[]
 };
-
-var $primary = "#975AFF",
-    $success = "#40C057",
-    $info = "#2F8BE6",
-    $warning = "#F77E17",
-    $danger = "#F55252",
-    $label_color_light = "#E6EAEE";
-var themeColors = [$primary, $warning, $success, $danger, $info];
 
 declare var JSZipUtils: any;
 declare var Docxgen: any;
@@ -180,7 +168,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     email: string = '';
     nothingFoundDisease: boolean = false;
     nothingFoundSymptoms: boolean = false;
-    private activeRoute: string;
+    activeRoute: string;
 
     @ViewChild("inputDisease") inputTextAreaElement: ElementRef;
     @ViewChild("inputManualSymptoms") inputManualSymptomsElement: ElementRef;
@@ -226,7 +214,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     country: string = '';
     sponsors = [];
 
-    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, private highlightSearch: HighlightSearch, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
+    constructor(private router: Router, private http: HttpClient, private apif29BioService: Apif29BioService, private apif29NcrService: Apif29NcrService, public translate: TranslateService, private sortService: SortService, private searchService: SearchService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private clipboard: Clipboard, private textTransform: TextTransform, private eventsService: EventsService, public googleAnalyticsService: GoogleAnalyticsService, public searchFilterPipe: SearchFilterPipe, private apiExternalServices: ApiExternalServices, public dialogService: DialogService, public searchTermService: SearchTermService, public jsPDFService: jsPDFService) {
         
         this.lang = sessionStorage.getItem('lang');
 
@@ -965,12 +953,10 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
     deleteSymptom(symptom){
         var index = -1;
-        var found = false;
         for(var i=0;i<this.infoOneDisease.symptoms.length;i++)
           {
             if(symptom.id==this.infoOneDisease.symptoms[i].id){
               index= i;
-              found = true;
               this.confirmDeletePhenotype2(index);
             }
           }
@@ -1505,11 +1491,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
     checkDonnorState(contentInfoAttention){
         if(!this.donnorSet){
-            let ngbModalOptions: NgbModalOptions = {
-                backdrop: 'static',
-                keyboard: false,
-                windowClass: 'ModalClass-sm'// xl, lg, sm
-            };
             //this.modalReference2 = this.modalService.open(contentInfoAttention, ngbModalOptions);
         }
         else{
@@ -1713,10 +1694,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         this.failSegmentation = false;
         this.loadingHpoExtractor = true;
         this.substepExtract = '1';
-        var lang = this.lang;
-        if (this.langToExtract != '') {
-            lang = this.langToExtract;
-        }
 
         /*var invalid = /[°"§%()\[\]{}=\\?´`'#<>|,;.’–—:+_-]+/g;
         this.medicalText = this.medicalText.replace(invalid, " ");*/

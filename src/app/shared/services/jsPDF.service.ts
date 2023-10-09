@@ -5,7 +5,6 @@ import { DatePipe } from '@angular/common';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
-import { axisBottom } from 'd3-axis';
 
 interface jsPDFWithPlugin extends jsPDF {
   autoTable: (options: UserOptions) => jsPDF;
@@ -36,10 +35,6 @@ export class jsPDFService {
         this.lang = lang;
         var doc = new jsPDF as jsPDFWithPlugin;
         var positionY = 0;
-        const marginX = 5;
-        
-        const pdfPageWidth = doc.internal.pageSize.getWidth() - 2 * marginX;
-        const pdfPageHeight = doc.internal.pageSize.getHeight()
 
         // Cabecera inicial
         var img_logo = new Image();
@@ -733,16 +728,6 @@ export class jsPDFService {
             return lineText;
         }
     }
-
-    private writeTitleSection(doc, pos, lineText, text) {
-        lineText = this.checkIfNewPage(doc, lineText);
-        doc.setTextColor(117, 120, 125)
-        doc.setFont(undefined, 'bold');
-        doc.setFontSize(12);
-        doc.text(text, pos, lineText);
-        return lineText;
-    }
-    
     
     private writeHeaderText(doc, pos, lineText, text) {
         lineText = this.checkIfNewPage(doc, lineText);
@@ -863,10 +848,6 @@ export class jsPDFService {
         this.lang = lang;
         const doc = new jsPDF();
         var lineText = 0;
-        const marginX = 5;
-        
-        const pdfPageWidth = doc.internal.pageSize.getWidth() - 2 * marginX;
-        const pdfPageHeight = doc.internal.pageSize.getHeight()
 
         // Cabecera inicial
         var img_logo = new Image();

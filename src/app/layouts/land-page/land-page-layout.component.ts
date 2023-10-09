@@ -9,7 +9,6 @@ import {
   ViewChild
 } from "@angular/core";
 import { Router, NavigationStart } from '@angular/router';
-import { TranslateService } from "@ngx-translate/core";
 import { ConfigService } from "app/shared/services/config.service";
 import { DOCUMENT } from "@angular/common";
 import { LayoutService } from "app/shared/services/layout.service";
@@ -55,7 +54,6 @@ export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy
   myuuid: string = uuidv4();
 
   constructor(
-    private elementRef: ElementRef,
     private layoutService: LayoutService,
     private configService: ConfigService,
     @Inject(DOCUMENT) private document: Document,
