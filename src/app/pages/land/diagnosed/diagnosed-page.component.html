@@ -116,9 +116,9 @@
               <span *ngFor="let xref of infoOneDisease.xrefs ; let i = index">
                 <a *ngIf="xref.name=='Orphanet'" class="info"
                   href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert={{xref.id}}&lng={{lang}}" target="_blank"
-                  title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
+                  title="{{'generics.More Info' | translate }}"><i class="fa fa-external-link"></i></a>
                 <a *ngIf="xref.name=='OMIM'" class="info" href="https://omim.org/entry/{{xref.id}}" target="_blank"
-                  title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
+                  title="{{'generics.More Info' | translate }}"><i class="fa fa-external-link"></i></a>
                 <span *ngIf="i<(infoOneDisease.xrefs.length-1)"> </span>
               </span>
             </span>
@@ -133,7 +133,7 @@
                 <a class="btn btn-primary round mb-1" (click)="lauchEvent('Sponsor');" href="{{sponsor.url}}" target="_blank" title="{{'land.Learn more about the disease here' | translate
               }}">
                   {{'land.Learn more about the disease here' | translate
-                  }} <i class="mr-2 ft-external-link"></i></a>
+                  }} <i class="mr-2 fa fa-external-link"></i></a>
                   </span>
                   <span class="d-block">* {{'land.Sponsored link' | translate}}</span>
             </div>
@@ -177,7 +177,7 @@
                                   {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                                     href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
                                     title="{{symptom.id}}">
-                                    <i class="ft-external-link"></i></a></span>
+                                    <i class="fa fa-external-link"></i></a></span>
                               </strong>
                             </div>
                           </td>
@@ -200,7 +200,7 @@
                               {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                                 href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
                                 title="{{symptom.id}}">
-                                <i class="ft-external-link"></i></a>
+                                <i class="fa fa-external-link"></i></a>
                             </span>
                           </span>
                           <span *ngIf="i + 1 < infoOneDisease.symptoms.length" class="col-sm-6 pl-0">
@@ -217,7 +217,7 @@
                               {{infoOneDisease.symptoms[i + 1].id}} ({{'phenotype.Deprecated' | translate}}) <a
                                 href="https://hpo.jax.org/app/browse/term/{{infoOneDisease.symptoms[i + 1].id}}"
                                 target="_blank" title="{{infoOneDisease.symptoms[i + 1].id}}">
-                                <i class="ft-external-link"></i></a>
+                                <i class="fa fa-external-link"></i></a>
                             </span>
                           </span>
                         </span>
@@ -239,7 +239,7 @@
                               {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                                 href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
                                 title="{{symptom.id}}">
-                                <i class="ft-external-link"></i></a>
+                                <i class="fa fa-external-link"></i></a>
                             </span>
                           </span>
                           <span *ngIf="i + 1 < infoOneDisease.symptoms.length" class="col-md-4 pl-0">
@@ -256,7 +256,7 @@
                               {{infoOneDisease.symptoms[i + 1].id}} ({{'phenotype.Deprecated' | translate}}) <a
                                 href="https://hpo.jax.org/app/browse/term/{{infoOneDisease.symptoms[i + 1].id}}"
                                 target="_blank" title="{{infoOneDisease.symptoms[i + 1].id}}">
-                                <i class="ft-external-link"></i></a>
+                                <i class="fa fa-external-link"></i></a>
                             </span>
                           </span>
                           <span *ngIf="i + 2 < infoOneDisease.symptoms.length" class="col-md-4 pl-0">
@@ -273,7 +273,7 @@
                               {{infoOneDisease.symptoms[i + 2].id}} ({{'phenotype.Deprecated' | translate}}) <a
                                 href="https://hpo.jax.org/app/browse/term/{{infoOneDisease.symptoms[i + 2].id}}"
                                 target="_blank" title="{{infoOneDisease.symptoms[i + 2].id}}">
-                                <i class="ft-external-link"></i></a>
+                                <i class="fa fa-external-link"></i></a>
                             </span>
                           </span>
                         </span>
@@ -662,7 +662,7 @@
                         <a class="ml-1"
                           href="https://clinicaltrials.gov/ct2/show/{{studie.Study.ProtocolSection.IdentificationModule.NCTId}}"
                           target="_blank" title="{{studie.Study.ProtocolSection.IdentificationModule.NCTId}}">
-                          <i class="ft-external-link"></i></a>
+                          <i class="fa fa-external-link"></i></a>
                       </p>
                       <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.OrgFullName' | translate
                           }}</strong></span>
@@ -747,7 +747,7 @@
                           <p class="d-block mb-0">
                             <a href="{{patientGroup.Url}}" target="_blank"
                               title="{{patientGroup.Name}}">{{patientGroup.Url}}
-                              <i class="ft-external-link"></i></a>
+                              <i class="fa fa-external-link"></i></a>
                           </p>
 
                           <hr *ngIf="i<patientGroups.length-1" width="100%" size="20" color="#b0b6bb">
@@ -861,7 +861,7 @@
                                   {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                                     href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank"
                                     title="{{symptom.id}}">
-                                    <i class="ft-external-link"></i></a>
+                                    <i class="fa fa-external-link"></i></a>
                                 </span>
                               </span>
                               <span *ngIf="i + 1 < infoOneDisease.symptoms.length" class="col-md-4 pl-0">
@@ -878,7 +878,7 @@
                                   {{infoOneDisease.symptoms[i + 1].id}} ({{'phenotype.Deprecated' | translate}}) <a
                                     href="https://hpo.jax.org/app/browse/term/{{infoOneDisease.symptoms[i + 1].id}}"
                                     target="_blank" title="{{infoOneDisease.symptoms[i + 1].id}}">
-                                    <i class="ft-external-link"></i></a>
+                                    <i class="fa fa-external-link"></i></a>
                                 </span>
                               </span>
                               <span *ngIf="i + 2 < infoOneDisease.symptoms.length" class="col-md-4 pl-0">
@@ -895,7 +895,7 @@
                                   {{infoOneDisease.symptoms[i + 2].id}} ({{'phenotype.Deprecated' | translate}}) <a
                                     href="https://hpo.jax.org/app/browse/term/{{infoOneDisease.symptoms[i + 2].id}}"
                                     target="_blank" title="{{infoOneDisease.symptoms[i + 2].id}}">
-                                    <i class="ft-external-link"></i></a>
+                                    <i class="fa fa-external-link"></i></a>
                                 </span>
                               </span>
                             </span>
@@ -1289,7 +1289,7 @@
                         <a class="ml-1"
                           href="https://clinicaltrials.gov/ct2/show/{{studie.Study.ProtocolSection.IdentificationModule.NCTId}}"
                           target="_blank" title="{{studie.Study.ProtocolSection.IdentificationModule.NCTId}}">
-                          <i class="ft-external-link"></i></a>
+                          <i class="fa fa-external-link"></i></a>
                       </p>
                       <span class="d-block mt-1"><strong>{{'land.diagnosed.clinicalTrials.OrgFullName' | translate
                           }}</strong></span>
@@ -1373,7 +1373,7 @@
                           <p class="d-block mb-0">
                             <a href="{{patientGroup.Url}}" target="_blank"
                               title="{{patientGroup.Name}}">{{patientGroup.Url}}
-                              <i class="ft-external-link"></i></a>
+                              <i class="fa fa-external-link"></i></a>
                           </p>
 
                           <hr *ngIf="i<patientGroups.length-1" width="100%" size="20" color="#b0b6bb">
@@ -1473,7 +1473,7 @@
           href="https://hpo.jax.org/app/browse/term/{{infoOneDisease.symptoms[selectedInfoSymptomIndex].id}}"
           target="_blank"
           title=" {{infoOneDisease.symptoms[selectedInfoSymptomIndex].name}} ({{infoOneDisease.symptoms[selectedInfoSymptomIndex].id}}):">
-          <i class="ft-external-link"></i></a></span>
+          <i class="fa fa-external-link"></i></a></span>
     </div>
     <div class="row col-md-12" class="p-2">
       <span *ngIf="infoOneDisease.symptoms[selectedInfoSymptomIndex].desc!=null">
@@ -1625,13 +1625,13 @@
       <span class="content-sub-header text-muted">{{selectedNoteSymptom.id}}<a class="ml-1"
           href="https://hpo.jax.org/app/browse/term/{{selectedNoteSymptom.id}}" target="_blank"
           title=" {{selectedNoteSymptom.name}} ({{selectedNoteSymptom.id}}):">
-          <i class="ft-external-link"></i></a>
+          <i class="fa fa-external-link"></i></a>
       </span>
       <h4 *ngIf="!selectedNoteSymptom.name" class="align-self-center mb-0"><strong>{{symptom.id}}
           ({{'phenotype.Deprecated' | translate}}) </strong>
         <a class="ml-1" href="https://hpo.jax.org/app/browse/term/{{selectedNoteSymptom.id}}" target="_blank"
           title=" {{selectedNoteSymptom.name}} ({{selectedNoteSymptom.id}}):">
-          <i class="ft-external-link"></i></a>
+          <i class="fa fa-external-link"></i></a>
       </h4>
     </div>
     <div class="row col-md-12" class="p-2" *ngIf="selectedNoteSymptom.onsetdate!=null">
