@@ -483,7 +483,7 @@
         href="https://hpo.jax.org/app/browse/term/{{temporalSymptoms[selectedInfoSymptomIndex].id}}" target="_blank"
         title=" {{temporalSymptoms[selectedInfoSymptomIndex].name}} ({{temporalSymptoms[selectedInfoSymptomIndex].id}}):">{{'land.here'
         | translate }}
-        <i class="ft-external-link"></i></a></span>
+        <i class="fa fa-external-link"></i></a></span>
   </div>
 </ng-template>
 
@@ -495,9 +495,9 @@
           <span *ngFor="let xref of topRelatedConditions[selectedInfoDiseaseIndex].xRefs ; let i = index">
             <a *ngIf="xref.name=='Orphanet'" class="info"
               href="https://www.orpha.net/consor/cgi-bin/OC_Exp.php?Expert={{xref.id}}&lng={{lang}}" target="_blank"
-              title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
+              title="{{'generics.More Info' | translate }}"><i class="fa fa-external-link"></i></a>
             <a *ngIf="xref.name=='OMIM'" class="info" href="https://omim.org/entry/{{xref.id}}" target="_blank"
-              title="{{'generics.More Info' | translate }}"><i class="ft-external-link"></i></a>
+              title="{{'generics.More Info' | translate }}"><i class="fa fa-external-link"></i></a>
             <span *ngIf="i<(topRelatedConditions[selectedInfoDiseaseIndex].xRefs.length-1)"> </span>
           </span>
         </span>
@@ -509,7 +509,7 @@
             <a class="btn btn-primary round mb-1" (click)="lauchEvent('Sponsor');" href="{{sponsor.url}}" target="_blank" title="{{'land.Learn more about the disease here' | translate
           }}">
               {{'land.Learn more about the disease here' | translate
-              }} <i class="mr-2 ft-external-link"></i></a>
+              }} <i class="mr-2 fa fa-external-link"></i></a>
               </span>
               <span class="d-block">* {{'land.Sponsored link' | translate}}</span>
         </div>
@@ -554,7 +554,7 @@
                 <span *ngIf="!symptom.name" style="margin-left: 2.7rem !important;">
                   {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                     href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
-                    <i class="ft-external-link"></i></a></span>
+                    <i class="fa fa-external-link"></i></a></span>
               </td>
               <!--<td class="col-md-2">
                 <span *ngIf="symptom.frequency.name!=''"
@@ -591,7 +591,7 @@
                   <span *ngIf="!symptom.name">
                     {{symptom.id}} ({{'phenotype.Deprecated' | translate}}) <a
                       href="https://hpo.jax.org/app/browse/term/{{symptom.id}}" target="_blank" title="{{symptom.id}}">
-                      <i class="ft-external-link"></i></a></span>
+                      <i class="fa fa-external-link"></i></a></span>
                 </strong>
               </td>
               <td class="col-md-12 border-top-0 pt-0 pb-2" style="padding: 0.4rem;">
@@ -670,7 +670,7 @@
         href="https://hpo.jax.org/app/browse/term/{{topRelatedConditions[selectedInfoDiseaseIndex].symptoms[selectedInfoSymptomIndex].id}}"
         target="_blank"
         title=" {{topRelatedConditions[selectedInfoDiseaseIndex].symptoms[selectedInfoSymptomIndex].name}} ({{topRelatedConditions[selectedInfoDiseaseIndex].symptoms[selectedInfoSymptomIndex].id}}):">
-        <i class="ft-external-link"></i></a></span>
+        <i class="fa fa-external-link"></i></a></span>
   </div>
 </ng-template>
 
@@ -735,7 +735,7 @@
     </p>
     <p>
       Ese es uno de los caballos de batalla de la <strong>Asociación de Miastenia de España</strong> (<a
-        href="https://miastenia.ong/" target="_blank" title="AMES">AMES <i class="ft-external-link"></i></a>), una
+        href="https://miastenia.ong/" target="_blank" title="AMES">AMES <i class="fa fa-external-link"></i></a>), una
       entidad creada en 2009 con la misión de dar respuesta a las necesidades de las personas afectadas y sus
       familiares, ofreciendo ayuda e información para convivir con la enfermedad.
     </p>
@@ -748,7 +748,7 @@
     <p>
       Además, ha publicado un cuento sobre esta enfermedad, enfocado a acercar la enfermedad a los niños: <a
         href="https://cocoypipamiastenia.wordpress.com/" target="_blank" title="La historia de Coco y Pipa">La historia
-        de Coco y Pipa <i class="ft-external-link"></i></a> que se ha convertido, también, en un blog en el que van
+        de Coco y Pipa <i class="fa fa-external-link"></i></a> que se ha convertido, también, en un blog en el que van
       publicando todas las iniciativas que desarrollan con este colegio.
     </p>
     <h5 class="mt-4">
@@ -756,7 +756,7 @@
     </h5>
     <p>
       <a href="https://www.facebook.com/groups/MyastheniaGravisFriends" target="_blank"
-        title="MyastheniaGravisFriends">Myasthenia Gravis Friends <i class="ft-external-link"></i></a>
+        title="MyastheniaGravisFriends">Myasthenia Gravis Friends <i class="fa fa-external-link"></i></a>
     </p>
   </div>
 </ng-template>
@@ -995,14 +995,14 @@
         href="https://hpo.jax.org/app/browse/term/{{selectedNoteSymptom.id}}"
         target="_blank"
         title=" {{selectedNoteSymptom.name}} ({{selectedNoteSymptom.id}}):">
-        <i class="ft-external-link"></i></a>
+        <i class="fa fa-external-link"></i></a>
       </span>
       <h4 *ngIf="!selectedNoteSymptom.name"class="align-self-center mb-0"><strong>{{symptom.id}} ({{'phenotype.Deprecated' | translate}}) </strong>
         <a class="ml-1"
         href="https://hpo.jax.org/app/browse/term/{{selectedNoteSymptom.id}}"
         target="_blank"
         title=" {{selectedNoteSymptom.name}} ({{selectedNoteSymptom.id}}):">
-        <i class="ft-external-link"></i></a>
+        <i class="fa fa-external-link"></i></a>
       </h4>
     </div>
     <div class="row col-md-12" class="p-2" *ngIf="selectedNoteSymptom.onsetdate!=null">

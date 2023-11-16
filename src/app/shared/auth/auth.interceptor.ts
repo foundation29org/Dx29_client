@@ -20,9 +20,15 @@ export class AuthInterceptor implements HttpInterceptor {
     var isExternalReq = false;
     var authReq = req.clone({});
 
-    if (req.url.indexOf(environment.f29bio) !== -1 || req.url.indexOf(environment.f29api) !== -1 || req.url.indexOf('https://clinicaltrials') !== -1 || req.url.indexOf('logic.azure.com') !== -1 || req.url.indexOf(environment.urlDxv2) !== -1 || req.url.indexOf('ipinfo.io') !== -1) {
+    if (req.url.indexOf(environment.f29bio) !== -1 || req.url.indexOf(environment.f29api) !== -1 || req.url.indexOf('logic.azure.com') !== -1 || req.url.indexOf(environment.urlDxv2) !== -1 || req.url.indexOf('ipinfo.io') !== -1) {
       isExternalReq = true;
     }
+
+    if (req.url.indexOf('https://classic.clinicaltrials') !== -1 ) {
+      isExternalReq = true;
+      return next.handle(authReq)
+    }
+    
 
     if (req.url.indexOf('/api/Document/Parse') !== -1) {
       isExternalReq = true;
