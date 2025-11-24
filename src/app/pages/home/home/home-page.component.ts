@@ -82,7 +82,7 @@ export class HomePageComponent implements OnDestroy {
         var d = new Date(Date.now());
         var a = d.toString();
         params.Date = a;
-        this.subscription.add(this.http.post('https://prod-59.westeurope.logic.azure.com:443/workflows/2d7a82d83b4c4b92a8270a84540b0213/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=fnADjHH0yXxYxonVtre2_yrUFyQ0LR4cX2PJSnPwmrM', params)
+        this.subscription.add(this.http.post('https://default163d001a45914200a300b9062d2e31.ec.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/2d7a82d83b4c4b92a8270a84540b0213/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Lx4pWct3FrUvsh36OLIWzXlGV6RT9n3moDFoDk_mKvA', params)
             .subscribe((res: any) => {
                 this.sending = false;
                 //Swal.fire('', this.translate.instant("land.diagnosed.general.msgSend"), "success");

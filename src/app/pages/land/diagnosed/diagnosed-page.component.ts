@@ -677,7 +677,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                                 var d = new Date(Date.now());
                                 var a = d.toString();
                                 params.Date = a;
-                                this.subscription.add(this.http.post('https://prod-112.westeurope.logic.azure.com:443/workflows/95df9b0148cf409f9a8f2b0853820beb/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OZyXnirC5JTHpc_MQ5IwqBugUqI853qek4o8qjNy7AA', params)
+                                this.subscription.add(this.http.post('https://default163d001a45914200a300b9062d2e31.ec.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/95df9b0148cf409f9a8f2b0853820beb/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PQFhuMOgHuksXt62y0lbCPQyCm0kugj9FOcghvXizfg', params)
                                     .subscribe((res: any) => {
                                     }, (err) => {
                                     }));
@@ -1139,7 +1139,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         var d = new Date(Date.now());
         var a = d.toString();
         params.Date = a;
-        this.subscription.add(this.http.post('https://prod-12.westeurope.logic.azure.com:443/workflows/183bc21bfa054c77ac44c297e1f3bd04/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=rYHWLbMjZrv_q3yN8EezS5zA2Jmvyxc16-zKtn4zQz0', params)
+        this.subscription.add(this.http.post('https://default163d001a45914200a300b9062d2e31.ec.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/183bc21bfa054c77ac44c297e1f3bd04/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=qonvQeu4CttcBMJDaX5B4QfvO6lT7GaN9vk4NJdcgVU', params)
             .subscribe((res: any) => {
                 this.sending = false;
                 Swal.fire('', this.translate.instant("land.diagnosed.DonorData.msgform"), "success");
@@ -1189,7 +1189,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         var d = new Date(Date.now());
         var a = d.toString();
         params.Date = a;
-        this.subscription.add(this.http.post('https://prod-59.westeurope.logic.azure.com:443/workflows/2d7a82d83b4c4b92a8270a84540b0213/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=fnADjHH0yXxYxonVtre2_yrUFyQ0LR4cX2PJSnPwmrM', params)
+        this.subscription.add(this.http.post('https://default163d001a45914200a300b9062d2e31.ec.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/2d7a82d83b4c4b92a8270a84540b0213/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Lx4pWct3FrUvsh36OLIWzXlGV6RT9n3moDFoDk_mKvA', params)
             .subscribe((res: any) => {
                 this.sending = false;
                 //Swal.fire('', this.translate.instant("land.diagnosed.general.msgSend"), "success");
@@ -1270,7 +1270,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             var d = new Date(Date.now());
             var a = d.toString();
             params.Date = a;
-            this.subscription.add(this.http.post('https://prod-246.westeurope.logic.azure.com:443/workflows/5af138b9f41f400f89ecebc580d7668f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PiYef1JHGPRDGhYWI0s1IS5a_9Dpz7HLjwfEN_M7TKY', params)
+            this.subscription.add(this.http.post('https://default163d001a45914200a300b9062d2e31.ec.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/5af138b9f41f400f89ecebc580d7668f/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=v0VAnuKXpQjW_0o4XcPesTwy4AU62wTko1xBwZAWAiE', params)
                 .subscribe((res: any) => {
                 }, (err) => {
                 }));
@@ -1591,7 +1591,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                 var d = new Date(Date.now());
                 var a = d.toString();
                 params.Date = a;
-                this.subscription.add(this.http.post('https://prod-112.westeurope.logic.azure.com:443/workflows/95df9b0148cf409f9a8f2b0853820beb/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OZyXnirC5JTHpc_MQ5IwqBugUqI853qek4o8qjNy7AA', params)
+                this.subscription.add(this.http.post('https://default163d001a45914200a300b9062d2e31.ec.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/95df9b0148cf409f9a8f2b0853820beb/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PQFhuMOgHuksXt62y0lbCPQyCm0kugj9FOcghvXizfg', params)
                     .subscribe((res: any) => {
                     }, (err) => {
                     }));
@@ -2342,7 +2342,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         var a = d.toString();
         params.Date = a;
         console.log(params);
-        this.subscription.add(this.http.post('https://prod-172.westeurope.logic.azure.com:443/workflows/e180fab9f19b438292832f43ada1c878/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=aXlHmQmCwQEolQ4dTSx1NLOfqsIoSis0cMLgphLJPu8', params)
+        this.subscription.add(this.http.post('https://default163d001a45914200a300b9062d2e31.ec.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/e180fab9f19b438292832f43ada1c878/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=RcW8zdVPcsjMYpeJp3IdlDQmHhxEU51jJKUdsnK8vjg', params)
             .subscribe((res: any) => {
                 this.sending = false;
                 Swal.fire('', this.translate.instant("dashboardpatient.You have completed all the steps"), "success");
