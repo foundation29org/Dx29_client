@@ -2025,7 +2025,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
             var d = new Date(Date.now());
             var a = d.toString();
             params.Date = a;
-            this.subscription.add(this.http.post('https://prod-112.westeurope.logic.azure.com:443/workflows/95df9b0148cf409f9a8f2b0853820beb/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OZyXnirC5JTHpc_MQ5IwqBugUqI853qek4o8qjNy7AA', params)
+            this.subscription.add(this.http.post('https://default163d001a45914200a300b9062d2e31.ec.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/95df9b0148cf409f9a8f2b0853820beb/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PQFhuMOgHuksXt62y0lbCPQyCm0kugj9FOcghvXizfg', params)
                 .subscribe((res: any) => {
                 }, (err) => {
                 }));
