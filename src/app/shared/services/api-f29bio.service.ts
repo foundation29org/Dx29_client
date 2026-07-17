@@ -11,7 +11,7 @@ export class Apif29BioService {
     constructor(private http: HttpClient) {}
 
     getSymptomsOfDisease(lang,listIds,depth){
-        return this.http.post(environment.urlDxv2+'/api/v1/F29Bio/disease/phenotypes/'+lang, listIds)
+        return this.http.post(environment.api+'/api/dx29web/F29Bio/disease/phenotypes/'+lang, listIds)
             .map( (res : any) => {
                 return res;
             }, (err) => {
@@ -36,7 +36,7 @@ export class Apif29BioService {
 
     getInfoOfSymptoms(lang,listIds){
         //var startTime = new Date().getTime();
-        return this.http.post(environment.urlDxv2+'/api/v1/F29Bio/phenotypes/'+lang, listIds)
+        return this.http.post(environment.api+'/api/dx29web/F29Bio/phenotypes/'+lang, listIds)
         .map( (res : any) => {
             return res;
         }, (err) => {
@@ -46,7 +46,7 @@ export class Apif29BioService {
     }
 
     getInfoOfDiseasesLang(listOfDiseases, lang){
-        return this.http.post(environment.urlDxv2+'/api/v1/F29Bio/diseases/'+lang, listOfDiseases)
+        return this.http.post(environment.api+'/api/dx29web/F29Bio/diseases/'+lang, listOfDiseases)
         .map( (res : any) => {
             return res;
         }, (err) => {
