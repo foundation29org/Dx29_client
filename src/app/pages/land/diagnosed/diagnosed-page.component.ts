@@ -794,18 +794,19 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                     this.actualInfoOneDisease.name = this.infoOneDisease.name.split('.')[0];
                     this.cleanxrefs();
                     this.infoOneDisease.symptoms = [];
-                    var tamano = Object.keys(info.phenotypes).length;
+                    var phenotypes = info.phenotypes || {};
+                    var tamano = Object.keys(phenotypes).length;
                     if (tamano > 0) {
                         var hposStrins = [];
-                        for (var i in info.phenotypes) {
-                            var frequency = info.phenotypes[i].frequency;
+                        for (var i in phenotypes) {
+                            var frequency = phenotypes[i].frequency;
                             if (frequency != undefined) {
                                 hposStrins.push(frequency);
                             } else {
-                                info.phenotypes[i].Frequency = { name: this.translate.instant("land.Unknown"), id: 'HP:9999999' };
+                                phenotypes[i].Frequency = { name: this.translate.instant("land.Unknown"), id: 'HP:9999999' };
                             }
-                            info.phenotypes[i].id = i;
-                            this.infoOneDisease.symptoms.push(info.phenotypes[i]);
+                            phenotypes[i].id = i;
+                            this.infoOneDisease.symptoms.push(phenotypes[i]);
                         }
                         this.getfrequenciesSelectedDisease(hposStrins);
                     }
