@@ -2157,7 +2157,7 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             lang = this.langToExtract;
         }
 
-        oReq.open("PUT", environment.f29api + '/api/Document/Parse?Timeout=5000&language=' + lang + '&Strategy=' + this.parserObject.parserStrategy, true);
+        oReq.open("PUT", environment.api + '/api/dx29web/Document/Parse?Timeout=5000&language=' + lang + '&Strategy=' + this.parserObject.parserStrategy, true);
 
         var self = this;
         oReq.onload = function (oEvent) {
