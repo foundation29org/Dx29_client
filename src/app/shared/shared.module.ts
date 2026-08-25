@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { FormsModule } from '@angular/forms';
-import { CustomFormsModule } from 'ngx-custom-validators';
 import { RouterModule } from "@angular/router";
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
 //COMPONENTS
@@ -43,12 +41,10 @@ import { SidebarToggleDirective } from './directives/sidebartoggle.directive';
     ],
     imports: [
       FormsModule,
-      CustomFormsModule,
         RouterModule,
         CommonModule,
         NgbModule,
         TranslateModule,
-        PerfectScrollbarModule,
         MatCheckboxModule
     ],
     declarations: [

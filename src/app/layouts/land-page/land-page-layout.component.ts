@@ -13,6 +13,7 @@ import { ConfigService } from "app/shared/services/config.service";
 import { DOCUMENT } from "@angular/common";
 import { LayoutService } from "app/shared/services/layout.service";
 import { Subscription } from "rxjs";
+import { filter } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
 declare let gtag: any;
 
@@ -23,6 +24,7 @@ var fireRefreshEventOnWindow = function() {
 };
 
 @Component({
+    standalone: false,
     selector: 'app-land-page-layout',
     templateUrl: './land-page-layout.component.html',
     styleUrls: ['./land-page-layout.component.scss']
@@ -230,7 +232,7 @@ export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   ngAfterViewInit() {
-    this.router.events.filter((event: any) => event instanceof NavigationStart).subscribe(
+    this.router.events.pipe(filter((event: any) => event instanceof NavigationStart)).subscribe(
 
       event => {
         var tempUrl = (event.url).toString();

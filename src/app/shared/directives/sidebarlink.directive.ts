@@ -11,7 +11,7 @@ import {
 import { SidebarListDirective } from "./sidebarlist.directive";
 import { SidebarDirective } from "./sidebar.directive";
 
-@Directive({ selector: "[appSidebarlink]" })
+@Directive({ standalone: false, selector: "[appSidebarlink]" })
 export class SidebarLinkDirective implements OnInit {
   @Input()
   public level: number;

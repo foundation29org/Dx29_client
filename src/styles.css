@@ -295,6 +295,26 @@ mark{
     height: 60vh !important;
   }
 
+/* ng-bootstrap 21 puts z-index: 1055 on the backdrop (Bootstrap 5 scale).
+   Bootstrap 4 keeps .modal at 1050, so the overlay covers the dialog. */
+ngb-modal-backdrop.modal-backdrop {
+  z-index: 1040 !important;
+}
+
+/* ng-bootstrap 21 uses Bootstrap 5's .visually-hidden; Bootstrap 4 only has .sr-only. */
+.visually-hidden,
+.visually-hidden-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
   .ModalClass-xl .modal-dialog {
     max-width: 98% !important;
   }

@@ -1,28 +1,35 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "importHelpers": true,
-    "module": "commonjs",
-    "outDir": "./dist/out-tsc",
     "baseUrl": "src",
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
+    "outDir": "./dist/out-tsc",
+    "strict": false,
+    "noImplicitOverride": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": false,
+    "skipLibCheck": true,
+    "isolatedModules": true,
     "experimentalDecorators": true,
-    "downlevelIteration": true,
-    "target": "ES5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve",
+    "moduleResolution": "bundler",
     "lib": [
-      "es2018",
+      "ES2022",
       "dom"
     ],
+    "useDefineForClassFields": false,
     "resolveJsonModule": true,
-    //"noUnusedLocals": true
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "declaration": false,
+    "ignoreDeprecations": "6.0"
   },
   "angularCompilerOptions": {
-    "preserveWhitespaces": false
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": false,
+    "strictInputAccessModifiers": false,
+    "strictTemplates": false
   }
 }

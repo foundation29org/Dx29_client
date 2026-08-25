@@ -4,6 +4,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../services/layout.service';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { ConfigService } from '../services/config.service';
 import { LangService } from 'app/shared/services/lang.service';
 import { EventsService } from 'app/shared/services/events.service';
@@ -13,6 +14,7 @@ import { Injectable, Injector } from '@angular/core';
 declare let gtag: any;
 
 @Component({
+  standalone: false,
   selector: 'app-navbar-dx29',
   templateUrl: './navbar-dx29.component.html',
   styleUrls: ['./navbar-dx29.component.scss'],
@@ -60,7 +62,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
     }));*/
 
 
-    this.router.events.filter((event: any) => event instanceof NavigationEnd).subscribe(
+    this.router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(
 
       event => {
         var tempUrl = (event.url).toString();
@@ -313,7 +315,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
             }
           }
           if (!foundlang) {
-            sessionStorage.setItem('lang', this.translate.store.currentLang);
+            sessionStorage.setItem('lang', this.translate.currentLang);
           }
         }
 

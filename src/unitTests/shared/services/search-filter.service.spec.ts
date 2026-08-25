@@ -26,7 +26,7 @@ import { DateService } from 'app/shared/services/date.service';
 import { Data} from 'app/shared/services/data.service';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
-import { NgxHotjarService } from 'ngx-hotjar';
+import { NgxHotjarService } from 'app/shared/services/ngx-hotjar.service';
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
 import { Apif29NcrService } from 'app/shared/services/api-f29ncr.service';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';

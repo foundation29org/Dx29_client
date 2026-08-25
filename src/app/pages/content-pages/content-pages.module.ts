@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { FormsModule } from '@angular/forms';
-import { CustomFormsModule } from 'ngx-custom-validators';
 import { ContentPagesRoutingModule } from "./content-pages-routing.module";
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -21,7 +20,6 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         ContentPagesRoutingModule,
         FormsModule,
         TranslateModule,
-        CustomFormsModule,
         NgbModule,
         MatCheckboxModule
     ],
@@ -30,7 +28,6 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         TermsConditionsPageComponent,
         DataProcessingAgreementComponent,
         PrivacyPolicyPageComponent
-    ],
-    entryComponents:[TermsConditionsPageComponent, DataProcessingAgreementComponent]
+    ]
 })
 export class ContentPagesModule { }

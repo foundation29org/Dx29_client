@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as Rx from 'rxjs/Rx';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class EventsService {
@@ -8,9 +8,9 @@ export class EventsService {
   events: any;
     constructor() {
         this.listeners = {};
-        this.eventsSubject = new Rx.Subject();
+        this.eventsSubject = new Subject();
 
-        this.events = Rx.Observable.from(this.eventsSubject);
+        this.events = this.eventsSubject.asObservable();
 
         this.events.subscribe(
             ({name, msg}) => {

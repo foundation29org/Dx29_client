@@ -1,5 +1,4 @@
 @import "../../../../../assets/sass/scss/bootstrap/timeline-vertical";
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 .timeline-item {
   padding: 0 0 0rem 3.2rem !important;
@@ -42,20 +41,20 @@
   text-decoration: underline;
 }
 
-.nav-link.active, .nav-pills .show > .nav-link {
-  background-color: #CD853F !important;
-  color: white !important;
-  border-radius: 0;
-  border: 3px solid #CD853F;
-  padding-bottom: 2px;      
-}
-.nav-link {
-  margin-bottom: 25px !important;
-  color: #CD853F !important;
-  border: 3px solid #CD853F !important;      
-}
 .nav-tabs{
   border-bottom: 0 !important;
+}
+.nav-tabs .nav-link {
+  color: #b0b6bb !important;
+  border: none !important;
+  margin-bottom: 0 !important;
+  background-color: transparent !important;
+}
+.nav-tabs .nav-link.active {
+  color: #33658a !important;
+  border: 0 !important;
+  border-bottom: 2px solid #33658a !important;
+  background-color: transparent !important;
 }
 
 :host ::ng-deep #exTab1 .tab-content {
@@ -65,7 +64,7 @@
 
 .background-img{
   min-height: 76vh !important;
-  background-image: url("assets/img/home/background.jpg");
+  background-image: url("/assets/img/home/background.jpg");
   background-position: center center;
   background-size: cover;
 }
