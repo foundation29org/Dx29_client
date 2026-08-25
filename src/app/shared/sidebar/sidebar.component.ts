@@ -7,10 +7,12 @@ import { customAnimations } from "../animations/custom-animations";
 import { ConfigService } from '../services/config.service';
 import { LayoutService } from '../services/layout.service';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { EventsService} from 'app/shared/services/events.service';
 import Swal from 'sweetalert2';
 
 @Component({
+  standalone: false,
   selector: "app-sidebar",
   templateUrl: "./sidebar.component.html",
   animations: customAnimations
@@ -78,7 +80,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
 
-    this.router.events.filter((event: any) => event instanceof NavigationEnd).subscribe(
+    this.router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(
 
       event => {
         var tempUrl= (event.url).toString().split('?');

@@ -3,6 +3,7 @@ import { ConfigService } from 'app/shared/services/config.service';
 import { DOCUMENT } from '@angular/common';
 
 @Component({
+    standalone: false,
     selector: 'app-content-layout',
     templateUrl: './content-layout.component.html',
     styleUrls: ['./content-layout.component.scss']

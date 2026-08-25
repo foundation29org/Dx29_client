@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { FormsModule } from '@angular/forms';
-import { CustomFormsModule } from 'ngx-custom-validators';
 import { LandPageRoutingModule } from "./land-page-routing.module";
 import { TranslateModule } from '@ngx-translate/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -34,7 +33,6 @@ import { MyFilterPipe } from 'app/shared/services/my-filter.pipe';
         LandPageRoutingModule,
         FormsModule,
         TranslateModule,
-        CustomFormsModule,
         NgbModule,
         MatCheckboxModule,
         MatExpansionModule,

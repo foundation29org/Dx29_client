@@ -10,14 +10,13 @@ import { SearchService } from 'app/shared/services/search.service';
 import { jsPDFService } from 'app/shared/services/jsPDF.service';
 import { HostListener } from "@angular/core";
 
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/toPromise';
 
 export function getCulture() {
     return sessionStorage.getItem('culture');
 }
 
 @Component({
+    standalone: false,
     selector: 'timeline',
     templateUrl: './timeline.component.html',
     styleUrls: ['./timeline.component.scss'],

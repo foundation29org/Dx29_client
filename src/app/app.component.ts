@@ -1,19 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap'
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
+import { filter, map, mergeMap } from 'rxjs/operators';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { LangService } from 'app/shared/services/lang.service';
 import Swal from 'sweetalert2';
 import { EventsService } from 'app/shared/services/events.service';
-import { NgxHotjarService } from 'ngx-hotjar';
+import { NgxHotjarService } from 'app/shared/services/ngx-hotjar.service';
 
 @Component({
+  standalone: false,
   selector: 'app-root',
   templateUrl: './app.component.html',
   providers: [LangService]
@@ -156,7 +154,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        var actualUrl = this.activatedRoute.snapshot['_routerState'].url;
+        var actualUrl = this.router.url;
         if (actualUrl.indexOf("undiagnosed;role=") != -1) {
           this.role = actualUrl.split("undiagnosed;role=")[1];
         } else if (actualUrl.indexOf("undiagnosed") != -1) {
@@ -176,14 +174,16 @@ export class AppComponent implements OnInit, OnDestroy {
     })
 
     this.subscription = this.router.events
-      .filter((event) => event instanceof NavigationEnd)
-      .map(() => this.activatedRoute)
-      .map((route) => {
+      .pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map(() => this.activatedRoute),
+      map((route) => {
         while (route.firstChild) route = route.firstChild;
         return route;
-      })
-      .filter((route) => route.outlet === 'primary')
-      .mergeMap((route) => route.data)
+      }),
+      filter((route) => route.outlet === 'primary'),
+      mergeMap((route) => route.data)
+      )
       .subscribe((event) => {
         (async () => {
           await this.delay(500);

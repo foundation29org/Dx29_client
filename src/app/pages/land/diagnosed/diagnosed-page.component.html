@@ -331,21 +331,21 @@
                     </div>
                     <div *ngIf="currentStepTimeLine.stepIndex == 1"
                       class="step-section offset-sm-1 col-sm-10 offset-md-2 col-md-8">
-                      <div *ngIf="substepExtract=='0' || substepExtract=='4'"
+                      <div *ngIf="substepExtract()=='0' || substepExtract()=='4'"
                         class="mb-2 shadow rounded-lg light-background border box-panels">
                         <div class="row">
                           <div class="col-md-12">
-                            <ngb-tabset justify="justified">
-                              <ngb-tab>
-                                <ng-template ngbTabTitle>
+                            <ul ngbNav #navTabs1="ngbNav" [activeId]="symptomsNavId()" (activeIdChange)="symptomsNavId.set($event)" class="nav-tabs nav-justified">
+              <li [ngbNavItem]="1">
+                <a ngbNavLink>
                                   <span>
                                     <i class="fas fa-search" aria-hidden="true"></i>
                                     <span class="d-none d-sm-inline ml-1">{{'land.Quick search' | translate }}</span>
                                     <span class="d-block d-sm-none no-line-height">{{'land.Quick search' | translate
                                       }}</span>
                                   </span>
-                                </ng-template>
-                                <ng-template ngbTabContent>
+                                </a>
+                <ng-template ngbNavContent>
                                   <div>
                                     <ng-template #rt let-r="result" let-t="term">
                                       <strong title="{{r.name}}">{{ r.name}}</strong>
@@ -440,16 +440,16 @@
                                   </div>
 
                                 </ng-template>
-                              </ngb-tab>
-                              <ngb-tab>
-                                <ng-template ngbTabTitle>
+              </li>
+<li [ngbNavItem]="2">
+                <a ngbNavLink>
                                   <span>
                                     <i class="fa fa-language" aria-hidden="true"></i>
                                     <span class="d-none d-sm-inline ml-1">{{'land.Text' | translate }}</span>
                                     <span class="d-block d-sm-none no-line-height">{{'land.Text' | translate }}</span>
                                   </span>
-                                </ng-template>
-                                <ng-template ngbTabContent>
+                                </a>
+                <ng-template ngbNavContent>
                                   <div class="p-2">
                                     <textarea #inputTextArea class="form-control data-hj-allow" style="height: 320px;"
                                       [(ngModel)]="medicalText" name="medicalText"
@@ -461,17 +461,17 @@
                                       (click)="startExtractor();">{{'land.Look for symptoms' | translate }}</button>
                                   </div>
                                 </ng-template>
-                              </ngb-tab>
-                              <ngb-tab>
-                                <ng-template ngbTabTitle>
+              </li>
+<li [ngbNavItem]="3">
+                <a ngbNavLink>
                                   <span>
                                     <i class="fas fa-file"></i>
                                     <span class="d-none d-sm-inline ml-1">{{'land.Documents' | translate}}</span>
                                     <span class="d-block d-sm-none no-line-height">{{'land.Documents' |
                                       translate}}</span>
                                   </span>
-                                </ng-template>
-                                <ng-template ngbTabContent>
+                                </a>
+                <ng-template ngbNavContent>
                                   <div class="container-custom m-2" appDnd (fileDropped)="onFileDropped($event)">
                                     <input type="file" #fileDropRef id="fileDropRef" multiple
                                       (change)="onFileChangePDF($event);"
@@ -494,12 +494,13 @@
                                       }}</span>
                                   </div>
                                 </ng-template>
-                              </ngb-tab>
-                            </ngb-tabset>
+              </li>
+            </ul>
+            <div [ngbNavOutlet]="navTabs1"></div>
                           </div>
                         </div>
                       </div>
-                      <div *ngIf="substepExtract!='0' && substepExtract!='4'"
+                      <div *ngIf="substepExtract()!='0' && substepExtract()!='4'"
                         class="mb-2 shadow rounded-lg light-background border d-flex">
                         <div class="mr-2 section w-100  mb-2 align-self-center">
                           <span class="d-block pt-2 center-elements font-medium-3">{{'land.The symptoms found will be
@@ -825,13 +826,13 @@
                 </div>
               </mat-expansion-panel>
             </mat-accordion>
-            <ngb-tabset type="pills" id="tabspills" #tabRef="ngbTabset"
-              class="d-none offset-xl-1 col-xl-10 d-xl-block text-left">
-              <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined" id="tab0">
-                <ng-template ngbTabTitle><strong
+            <div class="d-none offset-xl-1 col-xl-10 d-xl-block text-left" id="tabspills">
+            <ul ngbNav #tabRef="ngbNav" [(activeId)]="activeDiseaseTab" class="nav-pills">
+              <li [ngbNavItem]="'tab0'" *ngIf="infoOneDisease.symptoms!=undefined">
+                <a ngbNavLink><strong
                     (click)="lauchEvent('Diagnosed - Symptoms');">{{'land.diagnosed.general.Symptoms' | translate
-                    }}</strong></ng-template>
-                <ng-template ngbTabContent>
+                    }}</strong></a>
+                <ng-template ngbNavContent>
                   <div class="p-3 m-3 border rounded text-center" style="background-color: #A1CBEA !important;">
                     <p class="ml-2 mr-2">{{'land.diagnosed.symptoms.These are the symptoms of your disease' | translate
                       }}</p>
@@ -916,11 +917,11 @@
                     </div>
                   </div>
                 </ng-template>
-              </ngb-tab>
-              <ngb-tab *ngIf="infoOneDisease.symptoms!=undefined" id="tab1">
-                <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - Chronology');">{{'land.Chronology' |
-                    translate }}</strong></ng-template>
-                <ng-template ngbTabContent>
+              </li>
+<li [ngbNavItem]="'tab1'" *ngIf="infoOneDisease.symptoms!=undefined">
+                <a ngbNavLink><strong (click)="lauchEvent('Diagnosed - Chronology');">{{'land.Chronology' |
+                    translate }}</strong></a>
+                <ng-template ngbNavContent>
                   <div class="col-md-12 mb-3 pb-2">
                     <div class="row">
                       <div class="col-md-12 mt-2">
@@ -952,13 +953,13 @@
                           </div>
                           <div *ngIf="currentStepTimeLine.stepIndex == 1"
                             class="step-section col-sm-12 offset-lg-2 col-lg-8">
-                            <div *ngIf="substepExtract=='0' || substepExtract=='4'"
+                            <div *ngIf="substepExtract()=='0' || substepExtract()=='4'"
                               class="mb-2 shadow rounded-lg light-background border box-panels">
                               <div class="row">
                                 <div class="col-md-12">
-                                  <ngb-tabset justify="justified">
-                                    <ngb-tab>
-                                      <ng-template ngbTabTitle>
+                                  <ul ngbNav #navTabs0="ngbNav" [activeId]="symptomsNavId()" (activeIdChange)="symptomsNavId.set($event)" class="nav-tabs nav-justified">
+              <li [ngbNavItem]="1">
+                <a ngbNavLink>
                                         <span>
                                           <i class="fas fa-search" aria-hidden="true"></i>
                                           <span class="d-none d-sm-inline ml-1">{{'land.Quick search' | translate
@@ -966,8 +967,8 @@
                                           <span class="d-block d-sm-none no-line-height">{{'land.Quick search' |
                                             translate }}</span>
                                         </span>
-                                      </ng-template>
-                                      <ng-template ngbTabContent>
+                                      </a>
+                <ng-template ngbNavContent>
                                         <div>
                                           <ng-template #rt let-r="result" let-t="term">
                                             <strong title="{{r.name}}">{{ r.name}}</strong>
@@ -1066,17 +1067,17 @@
                                         </div>
 
                                       </ng-template>
-                                    </ngb-tab>
-                                    <ngb-tab>
-                                      <ng-template ngbTabTitle>
+              </li>
+<li [ngbNavItem]="2">
+                <a ngbNavLink>
                                         <span>
                                           <i class="fa fa-language" aria-hidden="true"></i>
                                           <span class="d-none d-sm-inline ml-1">{{'land.Text' | translate }}</span>
                                           <span class="d-block d-sm-none no-line-height">{{'land.Text' | translate
                                             }}</span>
                                         </span>
-                                      </ng-template>
-                                      <ng-template ngbTabContent>
+                                      </a>
+                <ng-template ngbNavContent>
                                         <div class="p-2">
                                           <textarea #inputTextArea class="form-control data-hj-allow"
                                             style="height: 320px;" [(ngModel)]="medicalText" name="medicalText"
@@ -1089,17 +1090,17 @@
                                             }}</button>
                                         </div>
                                       </ng-template>
-                                    </ngb-tab>
-                                    <ngb-tab>
-                                      <ng-template ngbTabTitle>
+              </li>
+<li [ngbNavItem]="3">
+                <a ngbNavLink>
                                         <span>
                                           <i class="fas fa-file"></i>
                                           <span class="d-none d-sm-inline ml-1">{{'land.Documents' | translate}}</span>
                                           <span class="d-block d-sm-none no-line-height">{{'land.Documents' |
                                             translate}}</span>
                                         </span>
-                                      </ng-template>
-                                      <ng-template ngbTabContent>
+                                      </a>
+                <ng-template ngbNavContent>
                                         <div class="container-custom m-2" appDnd (fileDropped)="onFileDropped($event)">
                                           <input type="file" #fileDropRef id="fileDropRef" multiple
                                             (change)="onFileChangePDF($event);"
@@ -1122,12 +1123,13 @@
                                             translate }}</span>
                                         </div>
                                       </ng-template>
-                                    </ngb-tab>
-                                  </ngb-tabset>
+              </li>
+            </ul>
+            <div [ngbNavOutlet]="navTabs0"></div>
                                 </div>
                               </div>
                             </div>
-                            <div *ngIf="substepExtract!='0' && substepExtract!='4'"
+                            <div *ngIf="substepExtract()!='0' && substepExtract()!='4'"
                               class="mb-2 shadow rounded-lg light-background border d-flex">
                               <div class="mr-2 section w-100  mb-2 align-self-center">
                                 <span class="d-block pt-2 center-elements font-medium-3">{{'land.The symptoms found will
@@ -1219,11 +1221,11 @@
                     </div>
                   </div>
                 </ng-template>
-              </ngb-tab>
-              <ngb-tab *ngIf="infoWiki.length>0 || infoWikiGeneral.length>0" id="tab2">
-                <ng-template ngbTabTitle><strong (click)="lauchEvent('Diagnosed - General');backToList();">
-                    {{'land.diagnosed.general.title' | translate }}</strong></ng-template>
-                <ng-template ngbTabContent>
+              </li>
+<li [ngbNavItem]="3">
+                <a ngbNavLink><strong (click)="lauchEvent('Diagnosed - General');backToList();">
+                    {{'land.diagnosed.general.title' | translate }}</strong></a>
+                <ng-template ngbNavContent>
                   <div *ngIf="!loadingArticle" class="pb-2">
                     <div class="col-md-12" *ngIf="viewArticle">
                       <button type="button" class="pull-right btn btn-info round"
@@ -1276,12 +1278,12 @@
                     <span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
                   </div>
                 </ng-template>
-              </ngb-tab>
-              <ngb-tab *ngIf="clinicalTrials.length>0" id="tab3">
-                <ng-template ngbTabTitle><strong
+              </li>
+<li [ngbNavItem]="4">
+                <a ngbNavLink><strong
                     (click)="lauchEvent('Diagnosed - Clinical Trials');">{{'land.diagnosed.general.Clinical trials' |
-                    translate }}</strong></ng-template>
-                <ng-template ngbTabContent>
+                    translate }}</strong></a>
+                <ng-template ngbNavContent>
                   <div *ngIf="clinicalTrials.length>0" class="col-md-12 pb-2">
                     <div *ngFor="let studie of clinicalTrials ; let i = index">
                       <span class="d-block"><strong>Id</strong></span>
@@ -1342,12 +1344,12 @@
                   </div>
 
                 </ng-template>
-              </ngb-tab>
-              <ngb-tab id="tab4">
-                <ng-template ngbTabTitle><strong
+              </li>
+<li [ngbNavItem]="'tab4'">
+                <a ngbNavLink><strong
                     (click)="lauchEvent('Diagnosed - Patient Groups');">{{'land.diagnosed.general.Patient groups' |
-                    translate }}</strong></ng-template>
-                <ng-template ngbTabContent>
+                    translate }}</strong></a>
+                <ng-template ngbNavContent>
                   <div class="col-md-12 pb-2">
                     <div *ngIf="loadingPatientGroups" class="center-elements">
                       <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
@@ -1382,12 +1384,12 @@
                     </span>
                   </div>
                 </ng-template>
-              </ngb-tab>
-              <ngb-tab id="tab5">
-                <ng-template ngbTabTitle><strong
+              </li>
+<li [ngbNavItem]="'tab5'">
+                <a ngbNavLink><strong
                     (click)="lauchEvent('Diagnosed - Donate your data');">{{'land.diagnosed.general.Donate your data-xl'
-                    | translate }}</strong></ng-template>
-                <ng-template ngbTabContent>
+                    | translate }}</strong></a>
+                <ng-template ngbNavContent>
                   <div class="col-md-12 pb-2">
                     <form class="form" #f="ngForm">
                       <div class="form-body row">
@@ -1448,8 +1450,10 @@
                   </div>
 
                 </ng-template>
-              </ngb-tab>
-            </ngb-tabset>
+              </li>
+            </ul>
+            <div [ngbNavOutlet]="tabRef"></div>
+            </div>
             <div class="mt-2" *ngIf="showButtonScroll">
               <button type="button" class="float-right btn btn-info round" (click)="goTopTabs()"><i
                   class="ft-arrow-up fa-2x"></i></button>

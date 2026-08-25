@@ -10,7 +10,7 @@ import { AuthService } from 'app/shared/auth/auth.service';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PatientService } from 'app/shared/services/patient.service';
-import { NgxHotjarService } from 'ngx-hotjar';
+import { NgxHotjarService } from 'app/shared/services/ngx-hotjar.service';
 
 describe('Testing of Exomiser', () => {
   let page: DiagnosisComponentPage;

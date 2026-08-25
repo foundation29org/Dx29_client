@@ -1,5 +1,4 @@
 
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 .white-space{
   padding-top: 20px;
@@ -103,7 +102,7 @@
 
 .background-img{
   margin-top: -7px !important;
-  background-image: url("assets/img/home/background2.jpg");
+  background-image: url("/assets/img/home/background2.jpg");
   background-position: center center;
   background-size: auto;
   display: block;
@@ -148,20 +147,20 @@
   text-decoration: underline;
 }
 
-.nav-link.active, .nav-pills .show > .nav-link {
-  background-color: #CD853F !important;
-  color: white !important;
-  border-radius: 0;
-  border: 3px solid #CD853F;
-  padding-bottom: 2px;      
-}
-.nav-link {
-  margin-bottom: 25px !important;
-  color: #CD853F !important;
-  border: 3px solid #CD853F !important;      
-}
 .nav-tabs{
   border-bottom: 0 !important;
+}
+.nav-tabs .nav-link {
+  color: #b0b6bb !important;
+  border: none !important;
+  margin-bottom: 0 !important;
+  background-color: transparent !important;
+}
+.nav-tabs .nav-link.active {
+  color: #33658a !important;
+  border: 0 !important;
+  border-bottom: 2px solid #33658a !important;
+  background-color: transparent !important;
 }
 
 :host ::ng-deep #exTab1 .tab-content {
@@ -549,11 +548,6 @@ body {
   width:87%;
  }
 
- .nav-tabs .nav-link.active {
-  border-bottom: 2px solid #f9423a !important;
-  background-color: transparent !important;
-  border-color: transparent !important;
-}
 
 :host ::ng-deep .nav-tabs {
   border-color: transparent !important;

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
+    standalone: false,
     selector: 'app-footer2',
     templateUrl: './footer2.component.html',
     styleUrls: ['./footer2.component.scss']
