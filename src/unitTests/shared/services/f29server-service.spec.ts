@@ -34,7 +34,7 @@ import {ExomiserHttpService} from 'app/shared/services/exomiserHttp.service';
 import { Apif29SrvControlErrors } from 'app/shared/services/api-f29srv-errors';
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
 import { Apif29NcrService } from 'app/shared/services/api-f29ncr.service';
-import { NgxHotjarService } from 'ngx-hotjar';
+import { NgxHotjarService } from 'app/shared/services/ngx-hotjar.service';
 import { TextTransform } from 'app/shared/services/transform-text.service';
 import { TokenService } from 'app/shared/auth/token.service';
 

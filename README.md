@@ -66,6 +66,7 @@ Angular requires a [current, active LTS, or maintenance LTS](https://nodejs.org/
 #### 4. Deployment
 
 Run `ng serve` or `ng serve -aot`. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+volta run --node 12.22.12 --npm 6.14.16 npm start
 
 It is mandatory to run the [Dx29 server](https://github.com/foundation29org/Dx29_server) before.
 

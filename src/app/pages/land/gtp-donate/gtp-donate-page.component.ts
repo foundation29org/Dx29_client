@@ -2,13 +2,12 @@ import { Component, ViewChild, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/toPromise';
 
 import { EventsService} from 'app/shared/services/events.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+    standalone: false,
     selector: 'app-gtp-donate-page',
     templateUrl: './gtp-donate-page.component.html',
     styleUrls: ['./gtp-donate-page.component.scss'],

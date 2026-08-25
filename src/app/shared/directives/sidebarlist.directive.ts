@@ -1,7 +1,7 @@
 import { Directive } from "@angular/core";
 import { SidebarLinkDirective } from "./sidebarlink.directive";
 
-@Directive({ selector: "[appSidebarList]" })
+@Directive({ standalone: false, selector: "[appSidebarList]" })
 export class SidebarListDirective {
   protected navlinks: Array<SidebarLinkDirective> = [];
   public activeLinks: string[] = [];

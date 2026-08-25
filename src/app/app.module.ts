@@ -1,4 +1,3 @@
-import * as $ from 'jquery';
 import { NgModule ,LOCALE_ID  } from '@angular/core';
 import es from '@angular/common/locales/es'
 import { registerLocaleData } from '@angular/common';
@@ -12,12 +11,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HTTP_INTERCEPTORS, HttpClientModule, HttpClient } from "@angular/common/http";
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-
-import {
-    PerfectScrollbarModule,
-    PERFECT_SCROLLBAR_CONFIG,
-    PerfectScrollbarConfigInterface
-  } from 'ngx-perfect-scrollbar';
 
 import { AppComponent } from './app.component';
 import { ContentLayoutComponent } from "./layouts/content/content-layout.component";
@@ -35,13 +28,6 @@ import { SearchService } from 'app/shared/services/search.service';
 import { EventsService } from 'app/shared/services/events.service';
 import { DialogService } from 'app/shared/services/dialog.service';
 import { Data } from 'app/shared/services/data.service';
-import { environment } from 'environments/environment';
-import { NgxHotjarModule } from 'ngx-hotjar';
-
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-    suppressScrollX: true,
-    wheelPropagation: false
-  };
 
   export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -64,9 +50,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
           useFactory: createTranslateLoader,
           deps: [HttpClient]
         }
-      }),
-      PerfectScrollbarModule,
-      NgxHotjarModule.forRoot(environment.hotjarSiteId)
+      })
     ],
     providers: [
       {
@@ -85,12 +69,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       SearchService,
       EventsService,
       DialogService,
-      Data,
-      {
-        provide: PERFECT_SCROLLBAR_CONFIG,
-        useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-      },
-      { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG }
+      Data
     ],
     bootstrap: [AppComponent]
   })

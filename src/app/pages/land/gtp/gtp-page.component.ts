@@ -5,14 +5,13 @@ import { HttpClient } from "@angular/common/http";
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { SortService} from 'app/shared/services/sort.service';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/toPromise';
 
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { EventsService} from 'app/shared/services/events.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+    standalone: false,
     selector: 'app-gtp-page',
     templateUrl: './gtp-page.component.html',
     styleUrls: ['./gtp-page.component.scss'],

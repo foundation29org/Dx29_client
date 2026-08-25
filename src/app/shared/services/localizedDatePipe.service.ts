@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Injectable, Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
+    standalone: false,
     name: 'localizedDate',
     pure: false
 })

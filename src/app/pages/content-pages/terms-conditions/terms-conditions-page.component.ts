@@ -3,6 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
+    standalone: false,
     selector: 'app-terms-conditions-page',
     templateUrl: './terms-conditions-page.component.html',
     styleUrls: ['./terms-conditions-page.component.scss']

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
+    standalone: false,
     selector: 'app-privacy-policy',
     templateUrl: './privacy-policy.component.html',
     styleUrls: ['./privacy-policy.component.scss']

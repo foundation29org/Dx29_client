@@ -3,12 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
 
 import { jsPDF } from "jspdf";
-import 'jspdf-autotable';
-import { UserOptions } from 'jspdf-autotable';
-
-interface jsPDFWithPlugin extends jsPDF {
-  autoTable: (options: UserOptions) => jsPDF;
-}
+import { autoTable, CellHookData } from 'jspdf-autotable';
 
 @Injectable()
 export class jsPDFService {
@@ -33,7 +28,7 @@ export class jsPDFService {
 
     generateTimelinePDF(lang, dictionaryTimeline, listSymptomsNullInfo, disease, topRelatedConditions, save){
         this.lang = lang;
-        var doc = new jsPDF as jsPDFWithPlugin;
+        var doc = new jsPDF();
         var positionY = 0;
 
         // Cabecera inicial
@@ -439,7 +434,7 @@ export class jsPDFService {
                 }
     
                 let tableInfo  = null; 
-                doc.autoTable({
+                autoTable(doc, {
                     columnStyles: {
                         0: {cellWidth: 90},
                         1: {cellWidth: 20},
@@ -457,11 +452,7 @@ export class jsPDFService {
                     },
                     willDrawCell:(data)=>{
                         if (data.cell.section === 'body' && data.column.index === 4) {
-                            var text = data.cell.text.toString()
-                            data.cell.text = ""
-                            doc.setTextColor(51, 101, 138)
-                            var url = "https://hpo.jax.org/app/browse/term/" + text;
-                            doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
+                            this.drawHpoIdLink(doc, data);
                         }
                     },
                     didParseCell: (data)=>{
@@ -529,7 +520,7 @@ export class jsPDFService {
             if(dictionaryTimeline!=undefined){
                 var listItemDateKeys = Object.keys(dictionaryTimeline).sort((a,b)=>{return this.keyDescOrder(a,b)})
                 if(listItemDateKeys.length>0){
-                    doc.autoTable({
+                    autoTable(doc, {
                         columnStyles: {
                             0: {cellWidth: 90},
                             1: {cellWidth: 20},
@@ -546,11 +537,7 @@ export class jsPDFService {
                         },
                         willDrawCell:(data)=>{
                             if (data.cell.section === 'body' && data.column.index === 4) {
-                                var text = data.cell.text.toString()
-                                data.cell.text = ""
-                                doc.setTextColor(51, 101, 138)
-                                var url = "https://hpo.jax.org/app/browse/term/" + text;
-                                doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
+                                this.drawHpoIdLink(doc, data);
                             }
                         },
                         didParseCell: (data)=>{
@@ -561,7 +548,7 @@ export class jsPDFService {
                         
                     });
                 }else{
-                    doc.autoTable({
+                    autoTable(doc, {
                         head: [[this.translate.instant("generics.Name"),"ID"]],
                         body: bodyTable2,
                         startY: positionY,
@@ -571,11 +558,7 @@ export class jsPDFService {
                         },
                         willDrawCell:(data)=>{
                             if (data.cell.section === 'body' && data.column.index === 1) {
-                                var text = data.cell.text.toString()
-                                data.cell.text = ""
-                                doc.setTextColor(51, 101, 138)
-                                var url = "https://hpo.jax.org/app/browse/term/" + text;
-                                doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
+                                this.drawHpoIdLink(doc, data);
                             }
                         },
                         didParseCell: (data)=>{
@@ -587,7 +570,7 @@ export class jsPDFService {
                     });
                 }
             }else{
-                doc.autoTable({
+                autoTable(doc, {
                     head: [[this.translate.instant("generics.Name"),"ID"]],
                     body: bodyTable2,
                     startY: positionY,
@@ -597,11 +580,7 @@ export class jsPDFService {
                     },
                     willDrawCell:(data)=>{
                         if (data.cell.section === 'body' && data.column.index === 1) {
-                            var text = data.cell.text.toString()
-                            data.cell.text = ""
-                            doc.setTextColor(51, 101, 138)
-                            var url = "https://hpo.jax.org/app/browse/term/" + text;
-                            doc.textWithLink(text, (data.cell.x+data.cell.styles.cellPadding), (data.cell.y+3*+data.cell.styles.cellPadding), { url: url });
+                            this.drawHpoIdLink(doc, data);
                         }
                     },
                     didParseCell: (data)=>{
@@ -973,6 +952,15 @@ export class jsPDFService {
             return date;
         }
 
+    }
+
+    private drawHpoIdLink(doc: jsPDF, data: CellHookData) {
+        const text = data.cell.text.toString();
+        data.cell.text = [];
+        doc.setTextColor(51, 101, 138);
+        doc.textWithLink(text, data.cell.x + data.cell.padding('left'), data.cell.y + 3 * data.cell.padding('top'), {
+            url: 'https://hpo.jax.org/app/browse/term/' + text
+        });
     }
 
     // Order by descending value
