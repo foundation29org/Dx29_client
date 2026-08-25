@@ -66,8 +66,8 @@
                     [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
                     placeholder="{{'symptomssection.manualinput' | translate }}"
                     (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
-                    <em *ngIf="callListOfSymptoms" class="fa fa-spinner fa-spin fa-2x fa-fw secondary spinner-absolute"></em>
-                    <span *ngIf="nothingFoundSymptoms">
+                    <em *ngIf="callListOfSymptoms()" class="fa fa-spinner fa-spin fa-2x fa-fw secondary spinner-absolute"></em>
+                    <span *ngIf="nothingFoundSymptoms()">
                       <span *ngIf="(modelTemp).trim().length>3">
                         <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
                       </span>

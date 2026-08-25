@@ -113,12 +113,12 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
     role: string = '';
     sendSympTerms: boolean = false;
 
-    callListOfSymptoms: boolean = false;
+    callListOfSymptoms = signal(false);
     modalReference3: NgbModalRef;
     modalReference4: NgbModalRef;
     modalReference6: NgbModalRef;
     email: string = '';
-    nothingFoundSymptoms: boolean = false;
+    nothingFoundSymptoms = signal(false);
     selectedNoteSymptom = null;
 
     //@ViewChild("inputTextArea") inputTextAreaElement: ElementRef;
@@ -2013,16 +2013,16 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
         text$.pipe(
             debounceTime(300),
             distinctUntilChanged(),
-            tap(() => this.callListOfSymptoms = true),
+            tap(() => this.callListOfSymptoms.set(true)),
             switchMap(term =>
                 this.searchTermService.search(term).pipe(
-                    tap(() => this.nothingFoundSymptoms = false),
+                    tap((res) => this.nothingFoundSymptoms.set(Array.isArray(res) && res.length === 0)),
                     catchError(() => {
-                        this.nothingFoundSymptoms = true;
+                        this.nothingFoundSymptoms.set(true);
                         return of([]);
                     }))
             ),
-            tap(() => this.callListOfSymptoms = false)
+            tap(() => this.callListOfSymptoms.set(false))
         )
 
     closeSymptom() {
@@ -2049,7 +2049,7 @@ export class UndiagnosedPageComponent implements OnInit, OnDestroy, AfterViewIni
 
         }
         this.modelTemp = '';
-        this.callListOfSymptoms = false;
+        this.callListOfSymptoms.set(false);
     }
 
     openSaveTimeLine(contentSaveTimeline) {

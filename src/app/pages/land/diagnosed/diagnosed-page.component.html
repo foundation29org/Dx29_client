@@ -37,16 +37,16 @@
                       style="color: #70757a;"></i></span>
                 </div>
                 <div>
-                  <div class="center-elements" *ngIf="callListOfDiseases">
+                  <div class="center-elements" *ngIf="callListOfDiseases()">
                     <em class="mt-2 fa fa-spinner fa-spin fa-3x fa-fw secondary"></em>
                   </div>
-                  <div class="form-group mt-2" *ngIf="!callListOfDiseases">
-                    <span *ngIf="listOfFilteredDiseases.length>0">
+                  <div class="form-group mt-2" *ngIf="!callListOfDiseases()">
+                    <span *ngIf="listOfFilteredDiseases().length>0">
                       <div class="table-cont">
                         <table class="table mb-0 border" aria-labelledby="rare disease"
                           style="background-color: #ffffff !important;">
                           <tbody class="tableList">
-                            <tr *ngFor="let disease of listOfFilteredDiseases ; let i = index" class="d-flex">
+                            <tr *ngFor="let disease of listOfFilteredDiseases() ; let i = index" class="d-flex">
                               <td class="col-md-12 dropdown-item" id="{{disease.id}}"
                                 (click)="showMoreInfoDiagnosePopup(i);" style="cursor: pointer;"
                                 title="{{'generics.More information' | translate }} ({{disease.id}})">
@@ -66,7 +66,7 @@
                         </table>
                       </div>
                     </span>
-                    <span *ngIf="nothingFoundDisease">
+                    <span *ngIf="nothingFoundDisease()">
                       <span *ngIf="(searchDiseaseField).trim().length>3">
                         <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
                       </span>
@@ -82,12 +82,12 @@
   </div>
 </section>
 <section *ngIf="currentStep.stepIndex == 2" class="step-section mt-2">
-  <div *ngIf="loadingOneDisease" class="col-md-12">
+  <div *ngIf="loadingOneDisease()" class="col-md-12">
     <div class="form-actions center-elements mt-2">
       <span><i class="fa fa-spinner fa-spin fa-3x fa-fw secondary"></i></span>
     </div>
   </div>
-  <div class="col-12 none-laterals-m" *ngIf="!loadingOneDisease">
+  <div class="col-12 none-laterals-m" *ngIf="!loadingOneDisease()">
     <div class="card-body">
       <!--<ngb-alert type="warning" class="mb-2" [dismissible]="false" *ngIf="lang=='es'">
         <div class="center-elements">
@@ -361,9 +361,9 @@
                                         [inputFormatter]="formatter1" (paste)="searchSymptoms"
                                         placeholder="{{'symptomssection.manualinput' | translate }}"
                                         (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()" />
-                                      <em *ngIf="callListOfSymptoms"
+                                      <em *ngIf="callListOfSymptoms()"
                                         class="fa fa-spinner fa-spin fa-2x fa-fw secondary spinner-absolute"></em>
-                                      <span *ngIf="nothingFoundSymptoms">
+                                      <span *ngIf="nothingFoundSymptoms()">
                                         <span *ngIf="(modelTemp).trim().length>3">
                                           <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' |
                                             translate }}</span>
@@ -986,9 +986,9 @@
                                               (paste)="searchSymptoms"
                                               placeholder="{{'symptomssection.manualinput' | translate }}"
                                               (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()" />
-                                            <em *ngIf="callListOfSymptoms"
+                                            <em *ngIf="callListOfSymptoms()"
                                               class="fa fa-spinner fa-spin fa-2x fa-fw secondary spinner-absolute"></em>
-                                            <span *ngIf="nothingFoundSymptoms">
+                                            <span *ngIf="nothingFoundSymptoms()">
                                               <span *ngIf="(modelTemp).trim().length>3">
                                                 <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' |
                                                   translate }}</span>
