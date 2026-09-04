@@ -2364,8 +2364,9 @@
     "try again": "Try again",
     "aboutUs":{
       "title": "What is Dx29?",
-      "p2": "If you already have a diagnosis, you will be able to generate your medical history and also keep up to date with clinical trials and patient groups of your disease.",
-      "p1": "Dx29 is a non-profit project to help patients and physicians understand the patient disease. It is a completely free software for analysis and management of your symptoms, creation and sharing of your medical history and help to reach a diagnosis.",
+      "p1": "Dx29 is a non-profit project by Foundation 29 to help patients, families, and professionals better understand a complex clinical case or a rare disease.",
+      "p2": "It is free software to analyze and organize symptoms, create and share medical history, and support the path toward a diagnosis. If you have genetic information, you can include it to enrich the analysis. This capability remains available in Dx29 while we incorporate it into other tools in the ecosystem.",
+      "p2b": "To explore possible diagnoses from a clinical description, you can also use <a href='https://dxgpt.app' target='_blank' rel='noopener noreferrer'>DxGPT.app</a>. To organize documents and follow the case longitudinally, <a href='https://nav29.org' target='_blank' rel='noopener noreferrer'>Nav29.org</a> (experimental tool). To search for potentially relevant clinical trials, <a href='https://trialgpt.app' target='_blank' rel='noopener noreferrer'>TrialGPT.app</a>. Both DxGPT and TrialGPT are also available within Nav29.",
       "p3": "The data in Dx29 can only be shared by its owner. Foundation 29 will never share it with anyone. In the future, we will include functionality so that patients can store their own data in their own private data space. If you want to be updated on the progress of this and other projects, sign up here:",
       "btn1": "Visit the Foundation 29 website",
       "Who are we": "Visit our website",

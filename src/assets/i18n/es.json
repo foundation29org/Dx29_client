@@ -2365,8 +2365,9 @@
     "try again": "Intentarlo de nuevo",
     "aboutUs":{
       "title": "¿Qué es Dx29?",
-      "p2": "Si ya tienes un diagnóstico, podrás generar tu historial médico y también estar al día de los ensayos clínicos y grupos de pacientes de tu enfermedad.",
-      "p1": "Dx29 es un proyecto sin ánimo de lucro para ayudar a los pacientes y a los médicos a entender la enfermedad del paciente. Es un software completamente gratuito para el análisis y la gestión de sus síntomas, la creación y el intercambio de su historial médico y la ayuda para llegar a un diagnóstico.",
+      "p1": "Dx29 es un proyecto sin ánimo de lucro de Fundación 29 para ayudar a pacientes, familias y profesionales a entender mejor un caso clínico complejo o una enfermedad rara.",
+      "p2": "Es un software gratuito para analizar y organizar síntomas, crear e intercambiar historial médico y apoyar el camino hacia un diagnóstico. Si dispones de información genética, puedes incorporarla para enriquecer el análisis. Esta capacidad sigue disponible en Dx29 mientras la incorporamos a otras herramientas del ecosistema.",
+      "p2b": "Para explorar posibles diagnósticos a partir de una descripción clínica, puedes usar también <a href='https://dxgpt.app' target='_blank' rel='noopener noreferrer'>DxGPT.app</a>. Para organizar documentos y el seguimiento longitudinal del caso, <a href='https://nav29.org' target='_blank' rel='noopener noreferrer'>Nav29.org</a> (herramienta experimental). Para buscar ensayos clínicos potencialmente relevantes, <a href='https://trialgpt.app' target='_blank' rel='noopener noreferrer'>TrialGPT.app</a>. Tanto DxGPT como TrialGPT también están disponibles dentro de Nav29.",
       "p3": "Los datos de Dx29 sólo pueden ser compartidos por su propietario. La Fundación 29 nunca los compartirá con nadie. En el futuro, incluiremos una funcionalidad para que los pacientes puedan almacenar sus propios datos en su espacio de datos privado. Si quieres estar al día de los avances de este y otros proyectos, inscríbete aquí:",
       "btn1": "Visitar la página web de Foundation 29",
       "Who are we": "Visita nuestra web",
