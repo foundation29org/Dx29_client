@@ -110,13 +110,11 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     modelTemp: any;
     _startTime: any;
     role: string = '';
-    sendSympTerms: boolean = false;
 
     searchDiseaseField: string = '';
     actualInfoOneDisease: any = {};
     listOfFilteredDiseases = signal<any[]>([]);
     listOfFilteredSymptoms: any = [];
-    sendTerms: boolean = false;
     listOfDiseases: any = [];
     callListOfDiseases = signal(false);
     callListOfSymptoms = signal(false);
@@ -131,7 +129,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
     @ViewChild('f') donorDataForm: NgForm;
     sending: boolean = false;
-    formOpen: any = { Answers: [], Free: '', Email: '', terms2: false };
     showErrorForm: boolean = false;
     showIntro: boolean = true;
     curatedLists: any = [];
@@ -183,7 +180,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     paramsTimeLine: any = {};
     loadingPdf: boolean = false;
     symptomsCopy: any = [];
-    identifyValue: string = '';
     resTextAnalyticsSegments = [];
     country: string = '';
     sponsors = [];
@@ -329,7 +325,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     loadFilesLang() {
         this.searchDiseaseField = '';
         this.listOfFilteredDiseases.set([]);
-        this.sendTerms = false;
         /*this.subscription.add(this.http.get('assets/jsons/phenotypes_' + this.lang + '.json')
             .subscribe((res: any) => {
                 phenotypesinfo = res;
@@ -666,21 +661,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
                             if(this.listOfFilteredDiseases().length == 0){
                                 this.nothingFoundDisease.set(true);
                             }
-                            if (this.listOfFilteredDiseases().length == 0 && !this.sendTerms) {
-                                //send text
-                                this.sendSympTerms = true;
-                                var params: any = {}
-                                params.uuid = this.myuuid;
-                                params.Term = tempModelTimp;
-                                params.Lang = sessionStorage.getItem('lang');
-                                var d = new Date(Date.now());
-                                var a = d.toString();
-                                params.Date = a;
-                                this.subscription.add(this.http.post('https://default163d001a45914200a300b9062d2e31.ec.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/95df9b0148cf409f9a8f2b0853820beb/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PQFhuMOgHuksXt62y0lbCPQyCm0kugj9FOcghvXizfg', params)
-                                    .subscribe((res: any) => {
-                                    }, (err) => {
-                                    }));
-                            }
                         }
                         
                     }, (err) => {
@@ -691,7 +671,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             } else {
                 this.callListOfDiseases.set(false);
                 this.listOfFilteredDiseases.set([]);
-                this.sendTerms = false;
             }
         }
     }
@@ -736,13 +715,11 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
     getInfoOneDisease() {
         var nameEvent = 'Diagnosed - Select Disease - '+ this.actualInfoOneDisease.id;
-        this.focusOutFunctionDiseases();
         this.lauchEvent(nameEvent);
         this.currentStepTimeLine = this.stepsTimeLine[0];
         this.symptomsCopy = [];
         this.goToStep(1);
         this.listOfFilteredDiseases.set([]);
-        this.identifyValue = '';
         this.searchDiseaseField = '';
         this.infoOneDisease = {};
         this.getPatientGroups();
@@ -1126,34 +1103,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
         }
     }
 
-    onSubmitDonorData() {
-        this.showErrorForm = false;
-        this.sending = true;
-        this.formOpen.Email = (this.formOpen.Email).toLowerCase();
-        var params: any = {}
-        params.form = this.formOpen;
-        var params: any = {}
-        params.Email = this.formOpen.Email;
-        params.Answers = this.formOpen.Answers.toString();
-        params.Disease = this.actualInfoOneDisease.id + ", " +this.actualInfoOneDisease.name;
-        params.Free = this.formOpen.Free;
-        params.Lang = sessionStorage.getItem('lang');
-        var d = new Date(Date.now());
-        var a = d.toString();
-        params.Date = a;
-        this.subscription.add(this.http.post('https://default163d001a45914200a300b9062d2e31.ec.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/183bc21bfa054c77ac44c297e1f3bd04/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=qonvQeu4CttcBMJDaX5B4QfvO6lT7GaN9vk4NJdcgVU', params)
-            .subscribe((res: any) => {
-                this.sending = false;
-                Swal.fire('', this.translate.instant("land.diagnosed.DonorData.msgform"), "success");
-                this.formOpen = { Answers: [], Free: '', Email: '', terms2: false };
-            }, (err) => {
-                console.log(err);
-                this.sending = false;
-                this.toastr.error('', this.translate.instant("generics.error try again"));
-            }));
-
-    }
-
     showAllDesc() {
         this.showAllDescrip = true;
     }
@@ -1180,43 +1129,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             this.modalReference2 = undefined;
         }
         this.showIntro = false;
-    }
-
-    onSubmitRevolution() {
-        this.showErrorForm = false;
-        this.sending = true;
-        var params: any = {}
-        params.Email = (this.email).toLowerCase();
-        params.Lang = sessionStorage.getItem('lang');
-        var d = new Date(Date.now());
-        var a = d.toString();
-        params.Date = a;
-        this.subscription.add(this.http.post('https://default163d001a45914200a300b9062d2e31.ec.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/2d7a82d83b4c4b92a8270a84540b0213/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Lx4pWct3FrUvsh36OLIWzXlGV6RT9n3moDFoDk_mKvA', params)
-            .subscribe((res: any) => {
-                this.sending = false;
-                //Swal.fire('', this.translate.instant("land.diagnosed.general.msgSend"), "success");
-                Swal.fire({
-                    icon: 'success',
-                    html: this.translate.instant("land.diagnosed.DonorData.msgform"),
-                    showCancelButton: false,
-                    showConfirmButton: false,
-                    allowOutsideClick: false
-                })
-                setTimeout(function () {
-                    Swal.close();
-                    //window.location.href = 'https://foundation29.org/';
-                }, 2000);
-                this.email = '';
-                if (this.modalReference2 != undefined) {
-                    this.modalReference2.close();
-                    this.modalReference2 = undefined;
-                }
-            }, (err) => {
-                console.log(err);
-                this.sending = false;
-                this.toastr.error('', this.translate.instant("generics.error try again"));
-            }));
-
     }
 
     closeDisease() {
@@ -1252,35 +1164,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             this.searchDiseaseField = '';
             this.focusInputDisease();
         }
-    }
-
-    focusOutFunctionDiseases(){
-        //if (this.searchDiseaseField.trim().length > 3 && this.listOfFilteredDiseases().length==0 && !this.callListOfDiseases) {
-        if (this.searchDiseaseField.trim().length > 3 && !this.callListOfDiseases()) {
-            //send text
-            var tempModelTimp = this.searchDiseaseField.trim();
-            this.sendTerms = true;
-            var params: any = {}
-            params.uuid = this.myuuid;
-            params.Term = tempModelTimp;
-            params.Lang = sessionStorage.getItem('lang');
-            params.Found = "No";
-            if(this.listOfFilteredDiseases().length>0){
-                params.Found = "Yes";
-            }
-
-            var d = new Date(Date.now());
-            var a = d.toString();
-            params.Date = a;
-            this.subscription.add(this.http.post('https://default163d001a45914200a300b9062d2e31.ec.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/5af138b9f41f400f89ecebc580d7668f/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=v0VAnuKXpQjW_0o4XcPesTwy4AU62wTko1xBwZAWAiE', params)
-                .subscribe((res: any) => {
-                }, (err) => {
-                }));
-        }
-    }
-
-    checkConsent(){
-        this.formOpen.terms2 = !this.formOpen.terms2;
     }
 
     getFromWiki(name) {
@@ -1582,21 +1465,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     focusOutFunctionSymptom(){
-        if(this.showErrorMsg && this.modelTemp.length > 2){
-                this.sendSympTerms = true;
-                var params: any = {}
-                params.uuid = this.myuuid;
-                params.Term = this.modelTemp;
-                params.Lang = sessionStorage.getItem('lang');
-                var d = new Date(Date.now());
-                var a = d.toString();
-                params.Date = a;
-                this.subscription.add(this.http.post('https://default163d001a45914200a300b9062d2e31.ec.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/95df9b0148cf409f9a8f2b0853820beb/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PQFhuMOgHuksXt62y0lbCPQyCm0kugj9FOcghvXizfg', params)
-                    .subscribe((res: any) => {
-                    }, (err) => {
-                    }));
-            
-        }
         this.modelTemp = '';
         this.callListOfSymptoms.set(false);
     }
@@ -2337,31 +2205,6 @@ export class DiagnosedPageComponent implements OnInit, OnDestroy, AfterViewInit 
             }
         }
         return resCopy;
-    }
-
-    sendIdentifySymptoms(para){
-        this.identifyValue = para;
-        console.log(para);
-        this.sending = true;
-        this.formOpen.Email = (this.formOpen.Email).toLowerCase();
-        var params: any = {};
-        params.Answer = para;
-        params.Disease = this.actualInfoOneDisease.id + ", " +this.actualInfoOneDisease.name;
-        params.uuid = this.myuuid;
-        params.Lang = sessionStorage.getItem('lang');
-        var d = new Date(Date.now());
-        var a = d.toString();
-        params.Date = a;
-        console.log(params);
-        this.subscription.add(this.http.post('https://default163d001a45914200a300b9062d2e31.ec.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/e180fab9f19b438292832f43ada1c878/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=RcW8zdVPcsjMYpeJp3IdlDQmHhxEU51jJKUdsnK8vjg', params)
-            .subscribe((res: any) => {
-                this.sending = false;
-                Swal.fire('', this.translate.instant("dashboardpatient.You have completed all the steps"), "success");
-            }, (err) => {
-                console.log(err);
-                this.sending = false;
-                this.toastr.error('', this.translate.instant("generics.error try again"));
-            }));
     }
 
     sendEmail() {

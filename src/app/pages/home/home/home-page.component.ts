@@ -74,39 +74,6 @@ export class HomePageComponent implements OnDestroy {
         }
     }
 
-    onSubmitRevolution() {
-        this.showErrorForm = false;
-        this.sending = true;
-        var params: any = {}
-        params.Email = (this.email).toLowerCase();
-        params.Lang = sessionStorage.getItem('lang');
-        var d = new Date(Date.now());
-        var a = d.toString();
-        params.Date = a;
-        this.subscription.add(this.http.post('https://default163d001a45914200a300b9062d2e31.ec.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/2d7a82d83b4c4b92a8270a84540b0213/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Lx4pWct3FrUvsh36OLIWzXlGV6RT9n3moDFoDk_mKvA', params)
-            .subscribe((res: any) => {
-                this.sending = false;
-                //Swal.fire('', this.translate.instant("land.diagnosed.general.msgSend"), "success");
-                Swal.fire({
-                    icon: 'success',
-                    html: this.translate.instant("land.diagnosed.DonorData.msgform"),
-                    showCancelButton: false,
-                    showConfirmButton: false,
-                    allowOutsideClick: false
-                })
-                setTimeout(function () {
-                    Swal.close();
-                    //window.location.href = 'https://foundation29.org/';
-                }, 2000);
-                this.email = '';
-            }, (err) => {
-                console.log(err);
-                this.sending = false;
-                this.toastr.error('', this.translate.instant("generics.error try again"));
-            }));
-
-    }
-
     submitInvalidForm() {
         this.showErrorForm = true;
         if (!this.donorDataForm) { return; }
