@@ -2363,6 +2363,7 @@
     "Do you want to add the symptoms manually": "¿Quiere añadir los síntomas manualmente, o intentarlo de nuevo?",
     "add the symptoms manually": "Añadir manualmente",
     "try again": "Intentarlo de nuevo",
+    "contactSupportMsg": "Si tienes alguna duda, escríbenos a <a href='mailto:support@foundation29.org'>support@foundation29.org</a>.",
     "aboutUs":{
       "title": "¿Qué es Dx29?",
       "p1": "Dx29 es un proyecto sin ánimo de lucro de Fundación 29 para ayudar a pacientes, familias y profesionales a entender mejor un caso clínico complejo o una enfermedad rara.",

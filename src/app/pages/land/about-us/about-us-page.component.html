@@ -13,20 +13,7 @@
             <p>{{'land.aboutUs.p2' | translate }}</p>
             <p [innerHTML]="'land.aboutUs.p2b' | translate"></p>
             <p>{{'land.aboutUs.p3' | translate }}</p>
-            <form class="form offset-md-2 col-md-8" #f="ngForm">
-              <div class="">
-                <input class="form-control" type="email" id="Email" name="Email" placeholder="{{'generics.Email' | translate }}" ngModel required #Email="ngModel" email name="Email" [(ngModel)]="email">
-                <small class="danger" *ngIf="!Email.valid && showErrorForm">{{'generics.entervalidemail' | translate }}</small>
-              </div>
-              <div *ngIf="!sending()" class="mt-2">
-                <div *ngIf="f.valid;then formValid else formError"></div>
-                <ng-template #formValid><button class="btn btn-primary btn-lg round" (click)="onSubmitRevolution();lauchEvent('Home - Submit Revolution');"><strong>{{'land.aboutUs.Sign up' | translate }}</strong></button></ng-template>
-                <ng-template #formError><button class="btn btn-primary btn-lg round" type="button" (click)="submitInvalidForm()"><strong>{{'land.aboutUs.Sign up' | translate }}</strong></button></ng-template>
-              </div>
-              <div class="form-actions" *ngIf="sending()">
-                  <span ><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
-              </div>
-            </form>
+            <p [innerHTML]="'land.contactSupportMsg' | translate"></p>
           </span>
         </div>
       </div>
